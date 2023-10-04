@@ -1,0 +1,79 @@
+{
+    "header": {
+        "title": "Motobike Rental Services",
+        "register": "Register",
+        "login": "Login",
+        "logout": "Logout"
+    },
+    "form": {
+        "login": "Login",
+        "login_hint": "Do not have an account ?",
+        "login_with_account": "Login with account",
+        "register": "Register",
+        "register_hint": "Have an account?",
+        "userName": "Full Name",
+        "email": "Email",
+        "phone": "Phone number",
+        "password": "Password",
+        "confirmpassword": "Confirm password",
+        "required": "Required input!",
+        "validateEmail": "Invalid email format",
+        "validatePassword": "Minimum {{min}} characters",
+        "saveAccount": "Save account",
+        "forgotPassword": "Forgot password?",
+        "validatePhone": "Invalid phone number format",
+        "passwordsMustMatch": "Passwords do not match!",
+        "resetpassword": "Recovery password",
+        "resetpassword_hint": "If you forgot your password, you can use the following form to reset your password. You will receive an email or SMS with password reset instructions.",
+        "sendLink": "Send link"
+    },
+    "toast": {
+        "login": {
+            "success": "Login successfully",
+            "warning": "Login failed",
+            "error": "Login error"
+        },
+        "register": {
+            "success": "Register successfully",
+            "warning": "Register failed",
+            "error": "Register error"
+        },
+        "logout": {
+            "success": "Logout successfully"
+        }
+    },
+    "footer": {},
+    "userProfile": {
+        "Title": "User Profile",
+        "ChangePassword": "Change Password",
+        "Name": "Name",
+        "Email": "Email",
+        "DOB": "Date of birth",
+        "Address": "Address",
+        "PhoneNumber": "Phone",
+        "Gender": "Gender",
+        "Male": "Male",
+        "Female": "Female",
+        "BtnDelete": "Delete",
+        "BtnUpload": "Upload Image",
+        "ChangeProfile":"Change Profile"
+    },
+    "changePassword": {
+        "Title": "Change Password",
+        "Back": "Back",
+        "OldPassword": "Old Password",
+        "NewPassword": "New Password",
+        "RePassword": "Re-enter password",
+        "BtnChange": "Complete"
+    },
+    "licenseInfo" : {
+        "Title":"License Information",
+        "NumberLicense":"Number License",
+        "Name":"Name",
+        "Date":"Expiration Date",
+        "BtnEdit":"Edit",
+        "BtnCancel": "Cancel",
+        "BtnSave": "Save",
+        "Image":"Image License"
+    }    
+}

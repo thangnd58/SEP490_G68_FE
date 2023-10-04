@@ -1,0 +1,79 @@
+{
+    "header": {
+        "title": "Dịch vụ thuê xe máy",
+        "register": "Đăng ký",
+        "login": "Đăng nhập",
+        "logout": "Đăng xuất"
+    },
+    "form": {
+        "login": "Đăng nhập",
+        "login_hint": "Bạn chưa có tài khoản ?",
+        "login_with_account": "Đăng nhập với tài khoản",
+        "register": "Đăng ký",
+        "register_hint": "Bạn đã có tài khoản ?",
+        "userName": "Tên của bạn",
+        "email": "Email",
+        "phone": "Số điện thoại",
+        "password": "Mật khẩu",
+        "confirmpassword": "Nhập lại mật khẩu",
+        "required": "Bắt buộc nhập!",
+        "validateEmail" : "Nhập sai định dạng email",
+        "validatePassword" : "Tối thiểu {{min}} ký tự",
+        "saveAccount": "Lưu tài khoản",
+        "forgotPassword": "Quên mật khẩu?",
+        "validatePhone": "Nhập sai định dạng số điện thoại",
+        "passwordsMustMatch": "Mật khẩu nhập lại không khớp!",
+        "resetpassword": "Khôi phục mật khẩu",
+        "resetpassword_hint": "Nếu bạn quên mật khẩu, bạn có thể dùng mẫu sau để thiết lập lại mật khẩu. Bạn sẽ nhận được một email hoặc SMS với nội dung hướng dẫn đặt lại mật khẩu.",
+        "sendLink": "Gửi đường dẫn"
+    },
+    "toast": {
+        "login": {
+            "success": "Đăng nhập thành công",
+            "warning": "Đăng nhập thất bại",
+            "error": "Lỗi đăng nhập"
+        },
+        "register": {
+            "success": "Đăng ký thành công",
+            "warning": "Đăng ký thất bại",
+            "error": "Lỗi đăng ký"
+        },
+        "logout" : {
+            "success" : "Đăng xuất thành công"
+        }
+    },
+    "footer": {},
+    "userProfile": {
+        "Title":"Thông tin người dùng",
+        "ChangePassword":"Đổi mật khẩu",
+        "Name":"Họ và tên",
+        "Email":"Địa chỉ Email",
+        "DOB":"Ngày sinh",
+        "Address":"Địa chỉ",
+        "PhoneNumber":"Số điện Thoại",
+        "Gender":"Giới tính",
+        "Male":"Nam",
+        "Female":"Nữ",
+        "BtnDelete": "Xóa",
+        "BtnUpload": "Tải lên ảnh",
+        "ChangeProfile":"Chỉnh sửa hồ sơ"
+    },
+    "changePassword" : {
+        "Title":"Đổi mật khẩu",
+        "Back":"Quay lại",
+        "OldPassword":"Mật khẩu cũ",
+        "NewPassword":"Mật khẩu mới",
+        "RePassword":"Nhập lại mật khẩu",
+        "BtnChange" : "Đồng Ý"
+    },
+    "licenseInfo" : {
+        "Title":"Giấy phép lái xe",
+        "NumberLicense":"Số GPLX",
+        "Name":"Họ Tên",
+        "Date":"Ngày hết hạn",
+        "BtnEdit":"Chỉnh sửa",
+        "BtnCancel": "Hủy",
+        "BtnSave": "Lưu",
+        "Image":"Hình ảnh giấy phép lái xe"
+    }    
+}
