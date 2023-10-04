@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import ToastComponent from '../components/toast/ToastComponent';
 import usei18next from '../hooks/usei18next';
 import { ROUTES } from '../utils/Constant';
-import { User } from '../utils/type';
+import { User, Lisence } from '../utils/type';
 
 interface AuthContext {
     isLogin: boolean;
@@ -13,6 +13,7 @@ interface AuthContext {
     logout: () => void;
     register: (user: any) => void;
     user: User | undefined;
+    lisence: Lisence | undefined;
 }
 
 export const AuthContext = React.createContext<AuthContext>({
@@ -22,6 +23,7 @@ export const AuthContext = React.createContext<AuthContext>({
     logout: () => { },
     register: (user: any) => { },
     user: undefined,
+    lisence :undefined,
 });
 
 const AuthProvider = (props : {children: JSX.Element}) => {
@@ -30,6 +32,7 @@ const AuthProvider = (props : {children: JSX.Element}) => {
     const navigate = useNavigate();
     const { t } = usei18next();
     const [user, setUser] = useState<User>();
+    const [lisence, setLisence] = useState<Lisence>();
 
     useEffect(() => {
         setIslogin(UserService.isLoggedIn());
@@ -37,13 +40,25 @@ const AuthProvider = (props : {children: JSX.Element}) => {
 
     useEffect(() => {
         getUser();
-    }, [])
+        getLisence();
+    }, [isLogin])
 
     const getUser = async () => {
         try {
             const res: any = await UserService.getUserInfo();
             if (res.status === 200) {
                 setUser(res.data);
+            } else {
+            }
+        } catch (error) {
+        }
+    }
+
+    const getLisence = async () => {
+        try {
+            const res: any = await UserService.getLisenceInfo();
+            if (res.status === 200) {
+                setLisence(res.data);
             } else {
             }
         } catch (error) {
@@ -81,6 +96,7 @@ const AuthProvider = (props : {children: JSX.Element}) => {
                 }
                 ToastComponent(t("toast.login.success"), "success");
                 navigate(ROUTES.user.userprofile);
+                window.location.reload();
             } else {
                 ToastComponent(t("toast.login.warning"), "warning");
             }
@@ -114,6 +130,7 @@ const AuthProvider = (props : {children: JSX.Element}) => {
     const valueContext = {
         isLogin,
         user,
+        lisence,
         externalLogin,
         login,
         logout,

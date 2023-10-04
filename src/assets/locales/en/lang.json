@@ -74,6 +74,7 @@
         "BtnEdit":"Edit",
         "BtnCancel": "Cancel",
         "BtnSave": "Save",
-        "Image":"Image License"
+        "Image":"Image License",
+        "BtnchooseLicense":"Upload Image"
     }    
 }

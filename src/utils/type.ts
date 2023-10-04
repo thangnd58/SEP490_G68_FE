@@ -1,3 +1,5 @@
+import { boolean } from "yup"
+
 export interface User {
     userId: number,
     name: string,
@@ -5,7 +7,7 @@ export interface User {
     email: string,
     phone: string,
     gender: string,
-    dob: number,
+    dob: string,
     address: string,
     avatar: string,
     role: Role
@@ -19,4 +21,15 @@ export interface Role {
     updateDatetime: string,
     createUserId: number,
     updateUserId: number
+}
+
+
+export interface Lisence  {
+    licenceId: number,
+    userId: number,
+    licenceNumber: string,
+    fullName: string,
+    dob: string,
+    licenceImage: string,
+    status: boolean
 }

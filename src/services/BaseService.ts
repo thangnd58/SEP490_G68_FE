@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../utils/Constant';
+import UserService from './UserService';
 
 const api = axios.create();
 
@@ -16,10 +17,10 @@ api.interceptors.request.use(
                 'Co ntent-Type': 'multipart/form-data'
             };
         };
-        // const tokenObject = UserService.getToken();
-        // if (tokenObject) {
-        //     config.headers.Authorization = `Bearer ${tokenObject.token}`;
-        // }
+        const tokenObject = UserService.getToken();
+        if (tokenObject) {
+            config.headers.Authorization = `Bearer ${tokenObject.token}`;
+        }
         return { ...newConfig };
     }
 );
