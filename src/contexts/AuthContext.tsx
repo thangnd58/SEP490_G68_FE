@@ -50,9 +50,9 @@ const AuthProvider = (props : {children: JSX.Element}) => {
         }
     }
 
-    const externalLogin = async (googleToken: string) => {
+    const externalLogin = async (googleToken: any) => {
         try {
-            const response = await UserService.externalLogin(googleToken);
+            const response = await UserService.externalLogin({ accessToken: googleToken });
 
             if (response.status === 200) {
                 ToastComponent(t("toast.login.success"), "success");

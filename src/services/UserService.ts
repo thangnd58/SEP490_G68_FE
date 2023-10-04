@@ -25,7 +25,7 @@ const UserService = {
         return await api.post(apiRegister, user);
     },
 
-    externalLogin: async (accessToken: string) => {
+    externalLogin: async (accessToken: any) => {
         return await api.post(apiUserLoginExternal, accessToken).then((response) => {
             if (response && response.data) {
                 localStorage.setItem("token", JSON.stringify(response.data.token));
@@ -34,7 +34,7 @@ const UserService = {
         });
     },
 
-    getToken: () : string => JSON.parse(localStorage.getItem('token')!),
+    getToken: () => JSON.parse(localStorage.getItem('token')!),
 
     isLoggedIn: () : boolean => {
         const accessToken = JSON.parse(localStorage.getItem('token')!);
