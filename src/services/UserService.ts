@@ -6,6 +6,7 @@ const apiUserLogin = '/login'
 const apiUserLoginExternal = '/external-login'
 const apiRegister = '/register'
 const apiUser = '/user'
+const apiVerify = '/user-verification'
 const apiLisence = '/licence'
 
 const UserService = {
@@ -26,7 +27,7 @@ const UserService = {
         return await api.post(apiRegister, user);
     },
 
-    externalLogin: async (accessToken: string) => {
+    externalLogin: async (accessToken: any) => {
         return await api.post(apiUserLoginExternal, accessToken).then((response) => {
             if (response && response.data) {
                 localStorage.setItem("token", JSON.stringify(response.data.token));
@@ -37,7 +38,7 @@ const UserService = {
 
     getToken: () : any => JSON.parse(localStorage.getItem('token')!),
 
-    isLoggedIn: () : boolean => {
+    isLoggedIn: (): boolean => {
         const accessToken = JSON.parse(localStorage.getItem('token')!);
         if (accessToken) {
             const isExpiredToken = isExpired(accessToken);
@@ -45,7 +46,7 @@ const UserService = {
         }
         return false;
     },
-    getUserInfo: async () : Promise<User | undefined> => {
+    getUserInfo: async (): Promise<User | undefined> => {
         const accessToken = JSON.parse(localStorage.getItem('token')!);
         if (accessToken) {
             const decode: any = decodeToken(accessToken);
@@ -53,7 +54,9 @@ const UserService = {
         }
         return undefined;
     },
-
+    verifyUser: async (ticket: string) => {
+        return await api.post(`${apiVerify}?Ticket=${ticket}`);
+    },
     getLisenceInfo: async () : Promise<Lisence | undefined> => {
         const accessToken = JSON.parse(localStorage.getItem('token')!);
         if (accessToken) {

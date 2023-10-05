@@ -25,7 +25,10 @@
         "passwordsMustMatch": "Mật khẩu nhập lại không khớp!",
         "resetpassword": "Khôi phục mật khẩu",
         "resetpassword_hint": "Nếu bạn quên mật khẩu, bạn có thể dùng mẫu sau để thiết lập lại mật khẩu. Bạn sẽ nhận được một email hoặc SMS với nội dung hướng dẫn đặt lại mật khẩu.",
-        "sendLink": "Gửi đường dẫn"
+        "sendLink": "Gửi đường dẫn",
+        "verifySuccess": "Xác thực thành công",
+        "verifyError": "Xác thực thất bại",
+        "resubmit": "Gửi lại email"
     },
     "toast": {
         "login": {

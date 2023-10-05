@@ -25,7 +25,10 @@
         "passwordsMustMatch": "Passwords do not match!",
         "resetpassword": "Recovery password",
         "resetpassword_hint": "If you forgot your password, you can use the following form to reset your password. You will receive an email or SMS with password reset instructions.",
-        "sendLink": "Send link"
+        "sendLink": "Send link",
+        "verifySuccess": "Authentication successful",
+        "verifyError": "Authentication failed",
+        "resubmit": "Re-send email"
     },
     "toast": {
         "login": {

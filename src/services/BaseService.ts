@@ -14,7 +14,7 @@ api.interceptors.request.use(
         if (urlConfig.includes('image')) {
             newConfig.headers = {
                 ...config.headers,
-                'Co ntent-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data'
             };
         };
         const tokenObject = UserService.getToken();

@@ -80,6 +80,7 @@ const LoginForm = () => {
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly', marginBottom: '1.5rem', gap: '2px' }}>
         <GoogleOAuthProvider clientId="1088937198611-lpsokcekdcethdobpeghbm43nf4fglcl.apps.googleusercontent.com">
           <GoogleLogin
+            size='medium'
             onSuccess={credentialResponse => {
               handleGoogleLogin(credentialResponse)
             }}
@@ -90,6 +91,7 @@ const LoginForm = () => {
         </GoogleOAuthProvider>
         <GoogleOAuthProvider clientId="1088937198611-lpsokcekdcethdobpeghbm43nf4fglcl.apps.googleusercontent.com">
           <GoogleLogin
+            size='medium'
             onSuccess={credentialResponse => {
               handleGoogleLogin(credentialResponse)
             }}
