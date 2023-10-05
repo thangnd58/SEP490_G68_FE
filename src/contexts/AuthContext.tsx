@@ -80,6 +80,7 @@ const AuthProvider = (props : {children: JSX.Element}) => {
                     localStorage.removeItem("acccount");
                 }
                 ToastComponent(t("toast.login.success"), "success");
+                setIslogin(true);
                 navigate(ROUTES.user.userprofile);
             } else {
                 ToastComponent(t("toast.login.warning"), "warning");
@@ -87,7 +88,7 @@ const AuthProvider = (props : {children: JSX.Element}) => {
         } catch (error) {
             ToastComponent(t("toast.login.error"), "error")
         }
-        setIslogin(true);
+        
     };
     const logout = () => {
         setIslogin(false)
@@ -102,8 +103,8 @@ const AuthProvider = (props : {children: JSX.Element}) => {
                 password: user.password
             });
             if (response.status === 200) {
-                ToastComponent(t("toast.register.success"), "success");
-                navigate(ROUTES.account.login);
+                // ToastComponent(t("toast.register.success"), "success");
+                navigate(ROUTES.account.verifyrequired);
             } else {
                 ToastComponent(t("toast.register.warning"), "warning");
             }

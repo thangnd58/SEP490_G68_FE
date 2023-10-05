@@ -6,6 +6,7 @@ const apiUserLogin = '/login'
 const apiUserLoginExternal = '/external-login'
 const apiRegister = '/register'
 const apiUser = '/user'
+const apiVerify = '/user-verification'
 
 const UserService = {
     login: async (user: any) => {
@@ -36,7 +37,7 @@ const UserService = {
 
     getToken: () => JSON.parse(localStorage.getItem('token')!),
 
-    isLoggedIn: () : boolean => {
+    isLoggedIn: (): boolean => {
         const accessToken = JSON.parse(localStorage.getItem('token')!);
         if (accessToken) {
             const isExpiredToken = isExpired(accessToken);
@@ -44,13 +45,16 @@ const UserService = {
         }
         return false;
     },
-    getUserInfo: async () : Promise<User | undefined> => {
+    getUserInfo: async (): Promise<User | undefined> => {
         const accessToken = JSON.parse(localStorage.getItem('token')!);
         if (accessToken) {
             const decode: any = decodeToken(accessToken);
             return await api.get(`${apiUser}/${decode.UserId}`);
         }
         return undefined;
+    },
+    verifyUser: async (ticket: string) => {
+        return await api.post(`${apiVerify}?Ticket=${ticket}`);
     }
 }
 

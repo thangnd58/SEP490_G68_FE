@@ -4,7 +4,9 @@ export const ROUTES = {
     account: {
         login: "login",
         register: "register",
-        resetpassword: "reset-password"
+        resetpassword: "reset-password",
+        verifyrequired: "verify-required",
+        userverification: "user-verification"
     },
     user: {
         userprofile: "user-profile",
