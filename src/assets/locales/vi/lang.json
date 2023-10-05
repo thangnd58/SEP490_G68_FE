@@ -74,6 +74,7 @@
         "BtnEdit":"Chỉnh sửa",
         "BtnCancel": "Hủy",
         "BtnSave": "Lưu",
-        "Image":"Hình ảnh giấy phép lái xe"
+        "Image":"Hình ảnh giấy phép lái xe",
+        "BtnchooseLicense":"Tải lên ảnh"
     }    
 }

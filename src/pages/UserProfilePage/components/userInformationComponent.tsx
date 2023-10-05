@@ -6,6 +6,7 @@ import { AuthContext } from '../../../contexts/AuthContext';
 const UserInformationComponent = () => {
   const { t } = usei18next();
   const { user } = useContext(AuthContext);
+  const { lisence } = useContext(AuthContext);
   const [isEditLisence, setIsEditLisence] = useState<boolean>(false);
 
   return (
@@ -40,64 +41,85 @@ const UserInformationComponent = () => {
             {
               isEditLisence ?
                 (<>
-                  <Button variant="outlined" sx={{ marginRight: 2,marginLeft: 4 }}>{t("licenseInfo.BtnSave")}</Button>
-                  <Button variant="contained" onClick={() => setIsEditLisence(false)}>{t("licenseInfo.BtnCancel")}</Button>
+                  <Button variant="outlined" sx={{ marginRight: 2,marginLeft: 4 ,height : '90%'}}>{t("licenseInfo.BtnSave")}</Button>
+                  <Button variant="contained" sx={{height : '90%'}} onClick={() => setIsEditLisence(false)}>{t("licenseInfo.BtnCancel")}</Button>
                 </>)
                 :
                 (
-                  <Button variant="outlined" key={'info'} sx={{ marginLeft: 10 }} onClick={() => setIsEditLisence(true)}>
+                  <Button variant="outlined" key={'info'} sx={{ marginLeft: 10 ,height : '90%'}} onClick={() => setIsEditLisence(true)}>
                     {t("licenseInfo.BtnEdit")}
                   </Button>
                 )
             }
           </Grid>
-
-
-          <Grid container xs={5} sx={{ marginLeft: 2, marginTop: 4 }}>
+         
+          <Grid container xs={5} sx={{ marginLeft: 2, marginTop: 6 }}>
             <TextField
               disabled={!isEditLisence}
-              name="email"
+              name="licenseNumber"
               label={t("licenseInfo.NumberLicense")}
               placeholder={t("licenseInfo.NumberLicense")}
               variant="outlined"
               fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
               margin='normal'
-              sx={{ width: '80%', marginBottom: '20px' }}
+              value={lisence ? lisence.licenceNumber : null}
+              sx={{ width: '80%' }}
             />
 
             <TextField
               disabled={!isEditLisence}
-              name="email"
+              name="licenseName"
               label={t("licenseInfo.Name")}
               placeholder={t("licenseInfo.Name")}
               variant="outlined"
               fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
+              value={lisence ? lisence.fullName : null}
               margin='normal'
-              sx={{ width: '80%', marginBottom: '20px' }}
+              sx={{ width: '80%' }}
             />
 
             <TextField
               disabled={!isEditLisence}
-              name="email"
+              name="licenseDate"
               type='date'
-              label={t("licenseInfo.Date")}
+              label={t("userProfile.DOB")}
               InputLabelProps={{
                 shrink: true,
               }}
               variant="outlined"
               fullWidth
+              value={lisence ? lisence.dob : null}
               margin='normal'
-              sx={{ width: '80%', marginBottom: '20px' }}
+              sx={{ width: '80%'}}
             />
           </Grid>
-          <Grid container xs={6} sx={{ width: '90%', height: '70%', border: '2px solid #cfcecc', p: 2, borderRadius: 2, marginTop: '50px' }}>
-            {
-              user.avatar ?
-                <Typography fontWeight="500" sx={{ width: '100%', marginTop: '20%' }} align="center">{t("licenseInfo.Image")}</Typography>
-                :
-                <Avatar sx={{ width: '100%', height: '100%' }} src={user.avatar} alt={user.name} />
-            }
-          </Grid>
+            <Grid container xs={6} sx={{ width: '90%', height: '70%', border: '2px solid #cfcecc', p: 2, borderRadius: 2, marginTop: '50px' , minHeight : '270px'}}>
+              {
+                  !lisence ?
+                  <Typography fontWeight="500" sx={{ width: '100%', marginTop: '20%' }} align="center">{t("licenseInfo.Image")}</Typography>
+                  :
+                  <img width="100%" height="100%" src={lisence.licenceImage} alt={user.name} />
+              }
+            </Grid>
+            <>{isEditLisence ?
+              <Grid item xs={12} sx={{marginTop: '1%'}}>
+                <Button variant="contained" sx={{marginLeft: '62%'}} >
+                          {t("licenseInfo.BtnchooseLicense")}
+                        </Button>
+              </Grid>
+              :
+              <Grid item xs={12} sx={{marginTop: '1%'}}>
+                <Button variant="contained" disabled sx={{marginLeft: '62%'}} >
+                          {t("licenseInfo.BtnchooseLicense")}
+                        </Button>
+              </Grid>
+              }</>
         </Grid>
       </Grid>
     </Grid>
