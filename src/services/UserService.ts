@@ -54,8 +54,8 @@ const UserService = {
         }
         return undefined;
     },
-    verifyUser: async (ticket: string) => {
-        return await api.post(`${apiVerify}?Ticket=${ticket}`);
+    verifyUser: async (ticketValue: string) => {
+        return await api.post(`${apiVerify}`, {ticket: ticketValue});
     },
     getLisenceInfo: async () : Promise<Lisence | undefined> => {
         const accessToken = JSON.parse(localStorage.getItem('token')!);
