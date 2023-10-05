@@ -1,4 +1,4 @@
-import { User } from "../utils/type";
+import { User, Lisence } from "../utils/type";
 import api from "./BaseService";
 import { isExpired, decodeToken } from "react-jwt";
 
@@ -7,6 +7,7 @@ const apiUserLoginExternal = '/external-login'
 const apiRegister = '/register'
 const apiUser = '/user'
 const apiVerify = '/user-verification'
+const apiLisence = '/licence'
 
 const UserService = {
     login: async (user: any) => {
@@ -35,7 +36,7 @@ const UserService = {
         });
     },
 
-    getToken: () => JSON.parse(localStorage.getItem('token')!),
+    getToken: () : any => JSON.parse(localStorage.getItem('token')!),
 
     isLoggedIn: (): boolean => {
         const accessToken = JSON.parse(localStorage.getItem('token')!);
@@ -55,6 +56,14 @@ const UserService = {
     },
     verifyUser: async (ticket: string) => {
         return await api.post(`${apiVerify}?Ticket=${ticket}`);
+    },
+    getLisenceInfo: async () : Promise<Lisence | undefined> => {
+        const accessToken = JSON.parse(localStorage.getItem('token')!);
+        if (accessToken) {
+            const decode: any = decodeToken(accessToken);
+            return await api.get(`${apiLisence}/${decode.UserId}`);
+        }
+        return undefined;
     }
 }
 
