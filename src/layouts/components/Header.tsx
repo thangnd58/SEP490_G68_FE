@@ -52,7 +52,7 @@ function Header() {
                 position="static"
                 color="default"
                 elevation={0}
-                sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}`, background: '#FFF', py: '0.5%' }}
+                sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}`, background: '#FFF' }}
             >
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
                     <ListItem>

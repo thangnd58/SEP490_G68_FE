@@ -13,7 +13,7 @@ const theme = createTheme({
         }
     },
     typography: {
-        fontFamily: 'Arial, sans-serif',
+        fontFamily: 'Inter, sans-serif',
     },
     shape: {
         borderRadius: 8
