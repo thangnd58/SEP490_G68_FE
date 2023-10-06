@@ -19,7 +19,7 @@ root.render(
         <>
           <ToastContainer style={{ marginTop: '7vh' }} />
           <Layout>
-            <div style={{ marginTop: '5vh' }}>
+            <div style={{ marginTop: '10vh' }}>
               <AppRoute />
             </div>
           </Layout>
