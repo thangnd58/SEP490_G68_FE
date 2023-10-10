@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { RadioGroup, Typography, Grid, Button ,TextField , FormControlLabel, Radio} from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
+import { AuthContext } from '../../../contexts/AuthContext';
+
 
 function changeUserProfileomponent() {
+    const { user } = useContext(AuthContext);
     
     const { t } = usei18next();
-    const user = {
+    const users = {
         name: 'John Doe',
         email: 'john.doe@example.com',
         phoneNumber: '0999888777',
@@ -21,15 +24,15 @@ function changeUserProfileomponent() {
         alignItems: 'center',
       };
     
-    const [gender, setGender] = useState(user.gender);
+    const [gender, setGender] = useState(user ? user.gender : '');
     const handleChange = (event : any) => {
         setGender(event.target.value);
     };
     console.log(gender);
    
-    const [name, setName] = useState(user.name);
-    const [address, setAddress] = useState(user.address);
-    const [dob, setDob] = useState(user.dob);
+    const [name, setName] = useState(user ? user.name : '');
+    const [address, setAddress] = useState(user ? user.address : '');
+    const [dob, setDob] = useState(user ? user.dob : '');
 
    return (
     <Grid item xs container  spacing={2} sx={{marginTop : 5 , marginLeft : '25%'}}>
@@ -51,12 +54,12 @@ function changeUserProfileomponent() {
         onChange={handleChange} row
         >
             <FormControlLabel
-            value='1'
+            value='Male'
             control={<Radio />}
             label={t("userProfile.Male")}
           />
           <FormControlLabel
-            value='2'
+            value='Female'
             control={<Radio />}
             label={t("userProfile.Female")}
         />

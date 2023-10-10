@@ -9,6 +9,7 @@ const apiUser = '/user'
 const apiVerify = '/user-verification'
 const apiLisence = '/licence'
 
+
 const UserService = {
     login: async (user: any) => {
         return await api.post(apiUserLogin, user).then((response) => {
@@ -25,6 +26,12 @@ const UserService = {
 
     register: async (user: any) => {
         return await api.post(apiRegister, user);
+    },
+    changePass: async (oldPassword: string,newPassword: string,confirmPassword: string) => {
+        const accessToken = JSON.parse(localStorage.getItem('token')!);
+        const decode: any = decodeToken(accessToken);
+        const params = {oldPassword,newPassword,confirmPassword}
+        return await api.put(`/user/${decode.UserId}/password`, params );
     },
 
     externalLogin: async (accessToken: any) => {

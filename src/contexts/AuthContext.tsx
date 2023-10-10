@@ -12,6 +12,7 @@ interface AuthContext {
     login: (user: any, saveAccount: boolean) => void;
     logout: () => void;
     register: (user: any) => void;
+    changePass: (oldPassword: string,newPassword: string,rePassword: string) => void;
     user: User | undefined;
     lisence: Lisence | undefined;
 }
@@ -22,6 +23,7 @@ export const AuthContext = React.createContext<AuthContext>({
     login: (user: any, saveAccount: boolean) => { },
     logout: () => { },
     register: (user: any) => { },
+    changePass: (oldPassword: string,newPassword: string,rePassword: string) => { },
     user: undefined,
     lisence :undefined,
 });
@@ -106,6 +108,25 @@ const AuthProvider = (props : {children: JSX.Element}) => {
         }
         
     };
+
+    const changePass = async (oldPassword: string,newPassword: string,confirmPassword: string) => {
+        try {
+            const response = await UserService.changePass(
+                oldPassword,
+                newPassword,
+                confirmPassword
+            );
+            if (response.status === 200) {
+                ToastComponent(t("toast.register.success"), "success");
+                //navigate(ROUTES.account.verifyrequired);
+            } else {
+                ToastComponent(t("toast.register.warning"), "warning");
+            }
+        } catch (error) {
+            ToastComponent(t("toast.register.error"), "error")
+        }
+    };
+
     const logout = () => {
         setIslogin(false)
         ToastComponent(t("toast.logout.success"), "success");
@@ -136,6 +157,7 @@ const AuthProvider = (props : {children: JSX.Element}) => {
         login,
         logout,
         register,
+        changePass,
     };
     return (
         <AuthContext.Provider value={valueContext}>{children}</AuthContext.Provider>
