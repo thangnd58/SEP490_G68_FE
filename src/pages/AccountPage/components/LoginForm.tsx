@@ -78,7 +78,7 @@ const LoginForm = () => {
         </Button>
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly', marginBottom: '1.5rem', gap: '2px' }}>
-        <GoogleOAuthProvider clientId="1088937198611-lpsokcekdcethdobpeghbm43nf4fglcl.apps.googleusercontent.com">
+        {/* <GoogleOAuthProvider clientId="1088937198611-lpsokcekdcethdobpeghbm43nf4fglcl.apps.googleusercontent.com">
           <GoogleLogin
             size='medium'
             onSuccess={credentialResponse => {
@@ -88,7 +88,7 @@ const LoginForm = () => {
               console.log('Login Failed');
             }}
           />
-        </GoogleOAuthProvider>
+        </GoogleOAuthProvider> */}
         <GoogleOAuthProvider clientId="1088937198611-lpsokcekdcethdobpeghbm43nf4fglcl.apps.googleusercontent.com">
           <GoogleLogin
             size='medium'

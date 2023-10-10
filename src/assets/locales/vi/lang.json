@@ -28,7 +28,9 @@
         "sendLink": "Gửi đường dẫn",
         "verifySuccess": "Xác thực thành công",
         "verifyError": "Xác thực thất bại",
-        "resubmit": "Gửi lại email"
+        "resubmit": "Gửi lại email",
+        "message_verify_register": "Email đã được gửi đến hòm thư của bạn. Vui lòng kiểm tra hòm thư để hoàn thành đăng ký",
+        "message_verify_change_password": "Email đã được gửi đến hòm thư của bạn. Vui lòng kiểm tra hòm thư để tiến hành thay đổi mật khẩu."
     },
     "toast": {
         "login": {
@@ -43,6 +45,14 @@
         },
         "logout" : {
             "success" : "Đăng xuất thành công"
+        },
+        "resetpassword": {
+            "error": "Gửi yêu cầu khôi phục mật khẩu thất bại, vui lòng thử lại sau"
+        },
+        "changepassword": {
+            "success": "Đổi mật khẩu thành công",
+            "warning": "Đổi mật khẩu thất bại",
+            "error": "Lỗi đổi mật khẩu"
         }
     },
     "footer": {},
@@ -79,5 +89,5 @@
         "BtnSave": "Lưu",
         "Image":"Hình ảnh giấy phép lái xe",
         "BtnchooseLicense":"Tải lên ảnh"
-    }    
+    }  
 }

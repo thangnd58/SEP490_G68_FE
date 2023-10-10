@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import ToastComponent from '../components/toast/ToastComponent';
 import usei18next from '../hooks/usei18next';
 import { ROUTES } from '../utils/Constant';
-import { User, Lisence } from '../utils/type';
+import { User, Lisence, ResetPassword } from '../utils/type';
 
 interface AuthContext {
     isLogin: boolean;
@@ -12,9 +12,10 @@ interface AuthContext {
     login: (user: any, saveAccount: boolean) => void;
     logout: () => void;
     register: (user: any) => void;
-    changePass: (oldPassword: string,newPassword: string,rePassword: string) => void;
+    changePass: (oldPassword: string, newPassword: string, rePassword: string) => void;
     user: User | undefined;
     lisence: Lisence | undefined;
+    forgotPassword: (email: string) => void;
 }
 
 export const AuthContext = React.createContext<AuthContext>({
@@ -23,12 +24,13 @@ export const AuthContext = React.createContext<AuthContext>({
     login: (user: any, saveAccount: boolean) => { },
     logout: () => { },
     register: (user: any) => { },
-    changePass: (oldPassword: string,newPassword: string,rePassword: string) => { },
+    changePass: (oldPassword: string, newPassword: string, rePassword: string) => { },
     user: undefined,
-    lisence :undefined,
+    lisence: undefined,
+    forgotPassword: (email: string) => {}
 });
 
-const AuthProvider = (props : {children: JSX.Element}) => {
+const AuthProvider = (props: { children: JSX.Element }) => {
     const { children } = props;
     const [isLogin, setIslogin] = useState<boolean>(false);
     const navigate = useNavigate();
@@ -106,10 +108,9 @@ const AuthProvider = (props : {children: JSX.Element}) => {
         } catch (error) {
             ToastComponent(t("toast.login.error"), "error")
         }
-        
     };
 
-    const changePass = async (oldPassword: string,newPassword: string,confirmPassword: string) => {
+    const changePass = async (oldPassword: string, newPassword: string, confirmPassword: string) => {
         try {
             const response = await UserService.changePass(
                 oldPassword,
@@ -117,13 +118,13 @@ const AuthProvider = (props : {children: JSX.Element}) => {
                 confirmPassword
             );
             if (response.status === 200) {
-                ToastComponent(t("toast.register.success"), "success");
+                ToastComponent(t("toast.changepassword.success"), "success");
                 //navigate(ROUTES.account.verifyrequired);
             } else {
-                ToastComponent(t("toast.register.warning"), "warning");
+                ToastComponent(t("toast.changepassword.warning"), "warning");
             }
         } catch (error) {
-            ToastComponent(t("toast.register.error"), "error")
+            ToastComponent(t("toast.changepassword.error"), "error")
         }
     };
 
@@ -140,8 +141,7 @@ const AuthProvider = (props : {children: JSX.Element}) => {
                 password: user.password
             });
             if (response.status === 200) {
-                // ToastComponent(t("toast.register.success"), "success");
-                navigate(ROUTES.account.verifyrequired);
+                navigate(`${ROUTES.account.verifyrequired}/register`);
             } else {
                 ToastComponent(t("toast.register.warning"), "warning");
             }
@@ -149,6 +149,20 @@ const AuthProvider = (props : {children: JSX.Element}) => {
             ToastComponent(t("toast.register.error"), "error")
         }
     };
+
+    const forgotPassword = async (email: string) => {
+        try {
+            const response = await UserService.forgotPassword(email);
+            if (response.status === 200) {
+                navigate(`${ROUTES.account.verifyrequired}/reset-password`);
+            }
+        } catch (error) {
+            ToastComponent(t("toast.resetpassword.error"), "error") 
+        }
+    };
+
+
+
     const valueContext = {
         isLogin,
         user,
@@ -158,6 +172,7 @@ const AuthProvider = (props : {children: JSX.Element}) => {
         logout,
         register,
         changePass,
+        forgotPassword
     };
     return (
         <AuthContext.Provider value={valueContext}>{children}</AuthContext.Provider>

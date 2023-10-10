@@ -1,4 +1,4 @@
-import { User, Lisence } from "../utils/type";
+import { User, Lisence, ResetPassword } from "../utils/type";
 import api from "./BaseService";
 import { isExpired, decodeToken } from "react-jwt";
 
@@ -8,6 +8,8 @@ const apiRegister = '/register'
 const apiUser = '/user'
 const apiVerify = '/user-verification'
 const apiLisence = '/licence'
+const apiForgotPassword = '/forgot-password'
+const apiSetPassword = '/set-password'
 
 
 const UserService = {
@@ -27,11 +29,11 @@ const UserService = {
     register: async (user: any) => {
         return await api.post(apiRegister, user);
     },
-    changePass: async (oldPassword: string,newPassword: string,confirmPassword: string) => {
+    changePass: async (oldPassword: string, newPassword: string, confirmPassword: string) => {
         const accessToken = JSON.parse(localStorage.getItem('token')!);
         const decode: any = decodeToken(accessToken);
-        const params = {oldPassword,newPassword,confirmPassword}
-        return await api.put(`/user/${decode.UserId}/password`, params );
+        const params = { oldPassword, newPassword, confirmPassword }
+        return await api.put(`/user/${decode.UserId}/password`, params);
     },
 
     externalLogin: async (accessToken: any) => {
@@ -43,7 +45,7 @@ const UserService = {
         });
     },
 
-    getToken: () : any => JSON.parse(localStorage.getItem('token')!),
+    getToken: (): any => JSON.parse(localStorage.getItem('token')!),
 
     isLoggedIn: (): boolean => {
         const accessToken = JSON.parse(localStorage.getItem('token')!);
@@ -61,16 +63,22 @@ const UserService = {
         }
         return undefined;
     },
-    verifyUser: async (ticketValue: string) => {
-        return await api.post(`${apiVerify}`, {ticket: ticketValue});
+    verifyUserRegister: async (ticketValue: string) => {
+        return await api.post(`${apiVerify}`, { ticket: ticketValue });
     },
-    getLisenceInfo: async () : Promise<Lisence | undefined> => {
+    getLisenceInfo: async (): Promise<Lisence | undefined> => {
         const accessToken = JSON.parse(localStorage.getItem('token')!);
         if (accessToken) {
             const decode: any = decodeToken(accessToken);
             return await api.get(`${apiLisence}/${decode.UserId}`);
         }
         return undefined;
+    },
+    forgotPassword: async (email: string) => {
+        return api.post(`${apiForgotPassword}`, { email: email });
+    },
+    setForgotPassword: async (resetObject: ResetPassword) => {
+        return api.post(`${apiSetPassword}`, resetObject)
     }
 }
 

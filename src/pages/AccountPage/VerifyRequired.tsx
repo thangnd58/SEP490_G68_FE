@@ -2,23 +2,27 @@ import { Paper, Typography } from "@mui/material"
 import useThemePage from "../../hooks/useThemePage";
 import { EmailIcon } from "../../assets/images";
 import usei18next from "../../hooks/usei18next";
-import { useState } from "react";
+import { useParams } from "react-router-dom";
+import React from "react";
 
-
-
-
-const VerifyRegister = () => {
+const VerifyRequired = () => {
     const { isMobile } = useThemePage();
+    const { type } = useParams();
     const { t } = usei18next();
-    const [ticket, setTicket] = useState();
-    
+
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Paper elevation={3} style={{ padding: '20px', width: isMobile ? "80%" : "30%", margin: '0 auto', borderRadius: '20px' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '2rem', flexDirection: 'column' }}>
                     <img src={EmailIcon} />
                     <Typography color='secondary.main' marginBottom='1.5rem' width='80%' textAlign='center' alignContent='center'>
-                        Email đã được gửi đến hòm thư của bạn. Vui lòng kiểm tra hòm thư để hoàn thành đăng ký
+                        {
+                            type === "register" ? <>
+                                {t("form.message_verify_register")}
+                            </> : <>
+                                {t("form.message_verify_change_password")}
+                            </>
+                        }
                     </Typography>
                 </div>
             </Paper>
@@ -26,4 +30,4 @@ const VerifyRegister = () => {
     )
 }
 
-export default VerifyRegister
+export default VerifyRequired
