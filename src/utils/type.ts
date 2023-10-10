@@ -1,5 +1,3 @@
-import { boolean } from "yup"
-
 export interface User {
     userId: number,
     name: string,
@@ -32,4 +30,10 @@ export interface Lisence  {
     dob: string,
     licenceImage: string,
     status: boolean
+}
+
+export interface ResetPassword {
+    ticket: string,
+    password: string,
+    confirmPassword: string
 }

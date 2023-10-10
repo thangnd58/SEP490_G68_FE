@@ -6,7 +6,8 @@ export const ROUTES = {
         register: "register",
         resetpassword: "reset-password",
         verifyrequired: "verify-required",
-        userverification: "user-verification"
+        userverification: "user-verification",
+        setpassword: "set-password"
     },
     user: {
         userprofile: "user-profile",

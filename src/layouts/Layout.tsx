@@ -7,7 +7,7 @@ const Layout = ({ children }: { children: JSX.Element }) => {
     return (
         <div>
             <Header />
-            <Box sx={{ minHeight: '100vh' }}>{children}</Box>
+            <Box sx={{minHeight: '80vh'}} >{children}</Box>
             <Footer />
         </div>
     )

@@ -28,7 +28,9 @@
         "sendLink": "Send link",
         "verifySuccess": "Authentication successful",
         "verifyError": "Authentication failed",
-        "resubmit": "Re-send email"
+        "resubmit": "Re-send email",
+        "message_verify_register": "Email has been sent to your inbox. Please check your email to complete your registration",
+        "message_verify_change_password": "Email has been sent to your inbox. Please check your email to change your password."
     },
     "toast": {
         "login": {
@@ -43,6 +45,14 @@
         },
         "logout": {
             "success": "Logout successfully"
+        },
+        "resetpassword": {
+            "error": "Password recovery request failed, please try again later"
+        },
+        "changepassword": {
+            "success": "Change password successfully",
+            "warning": "Change password failed",
+            "error": "Error when change password"
         }
     },
     "footer": {},

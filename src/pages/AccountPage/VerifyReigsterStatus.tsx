@@ -1,13 +1,13 @@
 import { Button, Paper, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { EmailIcon, ErrorIcon, SuccessIcon } from "../../assets/images";
+import { ErrorIcon, SuccessIcon } from "../../assets/images";
 import usei18next from "../../hooks/usei18next";
 import { useNavigate, useParams } from "react-router-dom";
 import UserService from "../../services/UserService";
 import useThemePage from "../../hooks/useThemePage";
 import { ROUTES } from "../../utils/Constant";
 
-const VerifyStatus = () => {
+const VerifyReigsterStatus = () => {
     const { isMobile } = useThemePage();
     const { t } = usei18next();
     const { ticket } = useParams();
@@ -20,7 +20,7 @@ const VerifyStatus = () => {
 
     const verify = async () => {
         try {
-            const res = await UserService.verifyUser(ticket || "");
+            const res = await UserService.verifyUserRegister(ticket || "");
             if (res.status === 200) {
                 setIsSuccess(true);
             } else {
@@ -54,4 +54,4 @@ const VerifyStatus = () => {
     );
 };
 
-export default VerifyStatus;
+export default VerifyReigsterStatus;

@@ -5,10 +5,12 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import useThemePage from '../../../hooks/useThemePage';
 import { EmailIcon } from '../../../assets/images';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 const ResetPasswordForm = () => {
     const { t } = usei18next();
     const { isMobile } = useThemePage();
+    const { forgotPassword } = useContext(AuthContext);
     const formik = useFormik({
         initialValues: {
             email: ""
@@ -19,6 +21,7 @@ const ResetPasswordForm = () => {
                 .required(t("form.required"))
         }),
         onSubmit: values => {
+            forgotPassword(values.email);
         }
     });
 
