@@ -37,7 +37,7 @@ function userProfileComponent() {
             :
               <Grid item xs={12} sm container>
                     <Typography variant="h5" fontWeight="bold" sx={{width: 300, marginLeft : '40%'}}>{t("userProfile.ChangeProfile")}</Typography>
-                    <ChangeUserProfile />
+                    <ChangeUserProfile setType={setType}/>
                   <Grid item>
                     <Button variant="contained" key={'changePass'} onClick={() => setType('info')}>{t("changePassword.Back")}</Button>
                   </Grid>
