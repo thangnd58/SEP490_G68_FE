@@ -66,13 +66,8 @@ const UserService = {
     verifyUserRegister: async (ticketValue: string) => {
         return await api.post(`${apiVerify}`, { ticket: ticketValue });
     },
-    getLisenceInfo: async (): Promise<Lisence | undefined> => {
-        const accessToken = JSON.parse(localStorage.getItem('token')!);
-        if (accessToken) {
-            const decode: any = decodeToken(accessToken);
-            return await api.get(`${apiLisence}/${decode.UserId}`);
-        }
-        return undefined;
+    getLisenceInfo: async (id?: number) => {
+        return await api.get(`${apiLisence}/${id}`);
     },
     forgotPassword: async (email: string) => {
         return api.post(`${apiForgotPassword}`, { email: email });
