@@ -10,10 +10,14 @@ const theme = createTheme({
         },
         warning: {
             main: '#ff0000'
+        },
+        success: {
+            
         }
+
     },
     typography: {
-        fontFamily: 'Inter, sans-serif',
+        fontFamily: 'Arial, sans-serif',
     },
     shape: {
         borderRadius: 8

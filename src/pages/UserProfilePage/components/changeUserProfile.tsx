@@ -44,22 +44,8 @@ interface ChildComponentProps {
       };
     
     const { t } = usei18next();
-    const users = {
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        phoneNumber: '0999888777',
-        gender : '2',
-        dob : '2000-01-01',
-        address: '159 P. Thái Hà, Láng Hạ, Đống Đa, Hà Nội, Vietnam',
-        avatar: 'https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg', // URL hình ảnh avatar
-      };
 
-      const centerTextStyle = {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      };
-   
+
     
 
     const {
