@@ -1,5 +1,5 @@
-import { Button, Paper, TextField, Typography } from '@mui/material';
-import React from 'react';
+import { Button, IconButton, InputAdornment, Paper, TextField, Typography } from '@mui/material';
+import React, { useState } from 'react';
 import usei18next from '../../hooks/usei18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import useThemePage from '../../hooks/useThemePage';
@@ -9,13 +9,20 @@ import { ResetPassword } from '../../utils/type';
 import UserService from '../../services/UserService';
 import ToastComponent from '../../components/toast/ToastComponent';
 import { ROUTES } from '../../utils/Constant';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const SetNewPassword = () => {
     const { isMobile } = useThemePage();
     const { t } = usei18next();
     const navigate = useNavigate();
     const { ticket } = useParams();
-
+    const [showNewPassword, setShowNewPassword] = useState<boolean>(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+    const handleClickShowNewPassword = () => setShowNewPassword(!showNewPassword);
+    const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+    const handleMouseDownPassword = (event: React.MouseEvent<any>) => {
+        event.preventDefault();
+    };
     const formik = useFormik({
         initialValues: {
             ticket: ticket || "",
@@ -66,16 +73,30 @@ const SetNewPassword = () => {
     return (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
             <Paper elevation={3} style={{ padding: "20px", width: isMobile ? "80%" : "30%", margin: "0 auto", borderRadius: "20px" }}>
-                <form onSubmit={handleSubmit}  style={{ display: "flex", justifyContent: "center", flexWrap: 'wrap'}}>
+                <form onSubmit={handleSubmit} style={{ display: "flex", justifyContent: "center", flexWrap: 'wrap' }}>
                     <TextField
                         name="newPassword"
                         label={t("changePassword.NewPassword")}
                         variant="outlined"
-                        type="password"
+                        type={showNewPassword ? 'text' : 'password'}
                         fullWidth
                         margin="normal"
                         value={values.newPassword}
                         onChange={handleChange}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowNewPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        edge="end"
+                                    >
+                                        {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
                     />
                     {errors.newPassword && touched.newPassword && (
                         <Typography color='warning.main'>{errors.newPassword}</Typography>
@@ -84,16 +105,30 @@ const SetNewPassword = () => {
                         name="confirmPassword"
                         label={t("changePassword.RePassword")}
                         variant="outlined"
-                        type="password"
+                        type={showConfirmPassword ? 'text' : 'password'}
                         fullWidth
                         margin="normal"
                         value={values.confirmPassword}
                         onChange={handleChange}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    <IconButton
+                                        aria-label="toggle confirm password visibility"
+                                        onClick={handleClickShowConfirmPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        edge="end"
+                                    >
+                                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
                     />
                     {errors.confirmPassword && touched.confirmPassword && (
                         <Typography color='warning.main'>{errors.confirmPassword}</Typography>
                     )}
-                    <Button variant="outlined" type='submit' sx={{marginTop: 2}}>{t("changePassword.BtnChange")}</Button>
+                    <Button variant="outlined" type='submit' sx={{ marginTop: 2 }}>{t("changePassword.BtnChange")}</Button>
                 </form>
             </Paper>
         </div>
