@@ -1,17 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Avatar, Typography, Grid, Button, TextField, Box, ListItem, colors } from '@mui/material';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Avatar, Typography, Grid, Button, TextField, Box, ListItem } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
 import { AuthContext } from '../../../contexts/AuthContext';
-import { Lisence } from '../../../utils/type';
+import { ImageUpload, Lisence } from '../../../utils/type';
 import UserService from '../../../services/UserService';
 import { useFormik } from 'formik';
 import ToastComponent from '../../../components/toast/ToastComponent';
+import UploadImageService from '../../../services/UploadImageService';
 
 const UserInformationComponent = () => {
   const { t } = usei18next();
   const { user, getUser } = useContext(AuthContext);
   const [lisence, setLisence] = useState<Lisence>();
   const [isEditLisence, setIsEditLisence] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   
   useEffect(() => {
@@ -50,7 +52,6 @@ const UserInformationComponent = () => {
     }
   });
 
-  console.log(lisence);
   const {
     values,
     setFieldValue,
@@ -79,12 +80,69 @@ const UserInformationComponent = () => {
   };
 
   console.log(lisence?.status);
+  const onClickRef = (e: any) => {
+    if (inputRef.current) {
+      inputRef.current.click();
+    }
+  };
+
+  const handleUploadAvatar = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const file = event.target.files && event.target.files[0];
+      if (inputRef.current) {
+        if (!file) {
+          inputRef.current.value = "";
+          return;
+        }
+        const params: ImageUpload = {
+          tableName: "user",
+          columnName: "avatar",
+          code: user!.userId.toString(),
+          fileName: file.name,
+        };
+
+        const responseUrl = await UploadImageService.generateUrlUpload(params);
+        if (responseUrl.status !== 200) {
+          return;
+        }
+
+        const urlUpload = responseUrl.data.uploadUrl;
+        const responseUpload = await UploadImageService.uploadImage(urlUpload, file)
+
+        if (responseUpload.status !== 200) {
+          return
+        }
+
+        const resultUpdateAvatar = await UserService.updateAvatarUser(user!.userId, file.name);
+        if (resultUpdateAvatar.status !== 200) {
+          return;
+        }
+
+        getUser();
+      }
+    } catch (error) {
+
+    } finally {
+      if (inputRef.current) {
+        inputRef.current.value = "";
+      }
+    }
+  };
+
   return (
     user ? <Grid item xs container direction="row" spacing={2} sx={{ marginTop: 7, marginLeft: 3 }}>
       <Grid item xs={5} container sx={{ width: '90%', height: '250px', border: '2px solid #cfcecc', p: 2, borderRadius: 2 }}>
         <Avatar sx={{ width: 200, height: 200 }} src={user.avatar} alt={user.name} />
         <Grid item xs>
-          <Button variant="contained" sx={{ display: 'block', marginTop: 5, marginLeft: 4, marginRight: 2 }} >{t("userProfile.BtnUpload")}</Button>
+          <input
+            ref={inputRef}
+            type="file"
+            style={{ display: 'none' }}
+            multiple={false}
+            accept={"image/jpeg, image/png"}
+            onChange={handleUploadAvatar}
+          />
+          <Button variant="contained" sx={{ display: 'block', marginTop: 5, marginLeft: 4, marginRight: 2 }} onClick={onClickRef}>{t("userProfile.BtnUpload")}</Button>
           <Button variant="outlined" color="error" sx={{ display: 'block', marginTop: 3, marginLeft: 4 }} >{t("userProfile.BtnDelete")}</Button>
         </Grid>
       </Grid>
