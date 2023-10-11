@@ -14,7 +14,6 @@ interface AuthContext {
     register: (user: any) => void;
     changePass: (oldPassword: string, newPassword: string, rePassword: string) => void;
     user: User | undefined;
-    lisence: Lisence | undefined;
     forgotPassword: (email: string) => void;
 }
 
@@ -26,7 +25,6 @@ export const AuthContext = React.createContext<AuthContext>({
     register: (user: any) => { },
     changePass: (oldPassword: string, newPassword: string, rePassword: string) => { },
     user: undefined,
-    lisence: undefined,
     forgotPassword: (email: string) => {}
 });
 
@@ -36,7 +34,6 @@ const AuthProvider = (props: { children: JSX.Element }) => {
     const navigate = useNavigate();
     const { t } = usei18next();
     const [user, setUser] = useState<User>();
-    const [lisence, setLisence] = useState<Lisence>();
 
     useEffect(() => {
         setIslogin(UserService.isLoggedIn());
@@ -44,7 +41,6 @@ const AuthProvider = (props: { children: JSX.Element }) => {
 
     useEffect(() => {
         getUser();
-        getLisence();
     }, [isLogin])
 
     const getUser = async () => {
@@ -58,16 +54,6 @@ const AuthProvider = (props: { children: JSX.Element }) => {
         }
     }
 
-    const getLisence = async () => {
-        try {
-            const res: any = await UserService.getLisenceInfo();
-            if (res.status === 200) {
-                setLisence(res.data);
-            } else {
-            }
-        } catch (error) {
-        }
-    }
 
     const externalLogin = async (googleToken: any) => {
         try {
@@ -100,8 +86,8 @@ const AuthProvider = (props: { children: JSX.Element }) => {
                 }
                 ToastComponent(t("toast.login.success"), "success");
                 setIslogin(true);
-                navigate(ROUTES.user.userprofile);
-                window.location.reload();
+                navigate(ROUTES.homepage);
+               
             } else {
                 ToastComponent(t("toast.login.warning"), "warning");
             }
@@ -119,7 +105,7 @@ const AuthProvider = (props: { children: JSX.Element }) => {
             );
             if (response.status === 200) {
                 ToastComponent(t("toast.changepassword.success"), "success");
-                //navigate(ROUTES.account.verifyrequired);
+                window.location.reload();
             } else {
                 ToastComponent(t("toast.changepassword.warning"), "warning");
             }
@@ -166,7 +152,6 @@ const AuthProvider = (props: { children: JSX.Element }) => {
     const valueContext = {
         isLogin,
         user,
-        lisence,
         externalLogin,
         login,
         logout,

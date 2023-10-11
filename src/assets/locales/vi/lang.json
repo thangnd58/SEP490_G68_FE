@@ -3,7 +3,8 @@
         "title": "Dịch vụ thuê xe máy",
         "register": "Đăng ký",
         "login": "Đăng nhập",
-        "logout": "Đăng xuất"
+        "logout": "Đăng xuất",
+        "userprofile" : "Tài khoản"
     },
     "form": {
         "login": "Đăng nhập",

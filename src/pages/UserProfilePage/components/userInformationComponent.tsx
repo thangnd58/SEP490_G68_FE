@@ -2,12 +2,40 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Avatar, Typography, Grid, Button, TextField, Box, ListItem } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
 import { AuthContext } from '../../../contexts/AuthContext';
+import { Lisence, User } from '../../../utils/type';
+import UserService from '../../../services/UserService';
 
 const UserInformationComponent = () => {
   const { t } = usei18next();
-  const { user } = useContext(AuthContext);
-  const { lisence } = useContext(AuthContext);
+  const [user, setUser] = useState<User>();
+  const [lisence, setLisence] = useState<Lisence>();
   const [isEditLisence, setIsEditLisence] = useState<boolean>(false);
+
+  useEffect(() =>{
+    getLisence();
+    getUser();
+  }, []);
+
+  const getLisence = async () => {
+        try {
+            const res: any = await UserService.getLisenceInfo();
+            if (res.status === 200) {
+                setLisence(res.data);
+            } else {
+            }
+        } catch (error) {
+        }
+    }
+    const getUser = async () => {
+      try {
+          const res: any = await UserService.getUserInfo();
+          if (res.status === 200) {
+              setUser(res.data);
+          } else {
+          }
+      } catch (error) {
+      }
+  }
 
   return (
     user ? <Grid item xs container direction="row" spacing={2} sx={{ marginTop: 7, marginLeft: 3 }}>
