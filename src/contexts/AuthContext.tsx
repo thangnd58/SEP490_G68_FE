@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import ToastComponent from '../components/toast/ToastComponent';
 import usei18next from '../hooks/usei18next';
 import { ROUTES } from '../utils/Constant';
-import { User, Lisence, ResetPassword, Role } from '../utils/type';
+import { User, Role } from '../utils/type';
 
 interface AuthContext {
     isLogin: boolean;
@@ -12,8 +12,9 @@ interface AuthContext {
     login: (user: any, saveAccount: boolean) => void;
     logout: () => void;
     register: (user: any) => void;
-    user: User | null;
+    user: User | undefined;
     forgotPassword: (email: string) => void;
+    getUser: () => void;
 }
 
 export const AuthContext = React.createContext<AuthContext>({
@@ -22,8 +23,9 @@ export const AuthContext = React.createContext<AuthContext>({
     login: (user: any, saveAccount: boolean) => { },
     logout: () => { },
     register: (user: any) => { },
-    user: null,
-    forgotPassword: (email: string) => {},
+    user: undefined,
+    forgotPassword: (email: string) => { },
+    getUser: () => { }
 });
 
 const AuthProvider = (props: { children: JSX.Element }) => {
@@ -31,14 +33,10 @@ const AuthProvider = (props: { children: JSX.Element }) => {
     const [isLogin, setIslogin] = useState<boolean>(false);
     const navigate = useNavigate();
     const { t } = usei18next();
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<User>();
 
     useEffect(() => {
         setIslogin(UserService.isLoggedIn());
-    }, [])
-
-    useEffect(() => {
-        getUser();
     }, [isLogin])
 
     const getUser = async () => {
@@ -46,7 +44,7 @@ const AuthProvider = (props: { children: JSX.Element }) => {
             const res: any = await UserService.getUserInfo();
             if (res.status === 200) {
                 const data = res.data;
-                const userRole : Role = {
+                const userRole: Role = {
                     createUserId: data.role.createUserId,
                     createDatetime: data.role.createDatetime,
                     deleted: data.role.deleted,
@@ -157,7 +155,8 @@ const AuthProvider = (props: { children: JSX.Element }) => {
         login,
         logout,
         register,
-        forgotPassword
+        forgotPassword,
+        getUser
     };
     return (
         <AuthContext.Provider value={valueContext}>{children}</AuthContext.Provider>

@@ -10,11 +10,7 @@ const theme = createTheme({
         },
         warning: {
             main: '#ff0000'
-        },
-        success: {
-            
         }
-
     },
     typography: {
         fontFamily: 'Arial, sans-serif',

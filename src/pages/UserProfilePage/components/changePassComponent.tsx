@@ -3,7 +3,6 @@ import { Avatar, Typography, Grid, Button, TextField, InputAdornment, IconButton
 import usei18next from '../../../hooks/usei18next';
 import { useFormik } from 'formik';
 import * as Yup from "yup";
-import { AuthContext } from '../../../contexts/AuthContext';
 import UserService from '../../../services/UserService';
 import ToastComponent from '../../../components/toast/ToastComponent';
 import { Visibility, VisibilityOff } from '@mui/icons-material';

@@ -7,13 +7,17 @@ import UserService from '../../../services/UserService';
 
 const UserInformationComponent = () => {
   const { t } = usei18next();
-  const { user } = useContext(AuthContext);
+  const { user, getUser } = useContext(AuthContext);
   const [lisence, setLisence] = useState<Lisence>();
   const [isEditLisence, setIsEditLisence] = useState<boolean>(false);
 
   useEffect(() => {
     getLisence();
   }, [user]);
+
+  useEffect(() => {
+    getUser();
+  }, [])
 
   const getLisence = async () => {
     try {
