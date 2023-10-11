@@ -3,7 +3,8 @@
         "title": "Motobike Rental Services",
         "register": "Register",
         "login": "Login",
-        "logout": "Logout"
+        "logout": "Logout",
+        "userprofile" : "User Profile"
     },
     "form": {
         "login": "Login",

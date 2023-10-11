@@ -94,7 +94,16 @@ function Header() {
                                     }}
                                 >
                                     {
-                                        isLogin ? <MenuItem onClick={() => {
+                                        isLogin ? <>
+                                        <MenuItem onClick={() => {
+                                            setAnchorEl(null)
+                                            navigate(ROUTES.user.userprofile)
+                                        }}
+                                            sx={{ textAlign: 'center', textTransform: 'uppercase' }}
+                                        >
+                                            {t("header.userprofile")}
+                                        </MenuItem>
+                                        <MenuItem onClick={() => {
                                             setAnchorEl(null);
                                             UserService.logout();
                                             logout();
@@ -102,7 +111,9 @@ function Header() {
                                             sx={{ textAlign: 'center', textTransform: 'uppercase' }}
                                         >
                                             {t("header.logout")}
-                                        </MenuItem> : (
+                                        </MenuItem>
+                                        </>
+                                         : (
                                             <>
                                                 <MenuItem onClick={() => {
                                                     setAnchorEl(null)
@@ -143,6 +154,9 @@ function Header() {
                     <List>
                         {
                             isLogin ? <>
+                                <ListItem onClick={() => navigate(ROUTES.user.userprofile)} sx={{ borderBottom: '1px solid gray' }}>
+                                    <ListItemText primary={t("header.userprofile")} />
+                                </ListItem>
                                 <ListItem onClick={() => {
                                     UserService.logout();
                                     logout();

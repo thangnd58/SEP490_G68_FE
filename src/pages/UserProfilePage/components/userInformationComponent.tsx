@@ -2,12 +2,29 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Avatar, Typography, Grid, Button, TextField, Box, ListItem } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
 import { AuthContext } from '../../../contexts/AuthContext';
+import { Lisence } from '../../../utils/type';
+import UserService from '../../../services/UserService';
 
 const UserInformationComponent = () => {
   const { t } = usei18next();
   const { user } = useContext(AuthContext);
-  const { lisence } = useContext(AuthContext);
+  const [lisence, setLisence] = useState<Lisence>();
   const [isEditLisence, setIsEditLisence] = useState<boolean>(false);
+
+  useEffect(() => {
+    getLisence();
+  }, [user]);
+
+  const getLisence = async () => {
+    try {
+      const res = await UserService.getLisenceInfo(user?.userId);
+      if (res.status === 200) {
+        setLisence(res.data);
+      }
+    } catch (error) {
+
+    }
+  }
 
   return (
     user ? <Grid item xs container direction="row" spacing={2} sx={{ marginTop: 7, marginLeft: 3 }}>
@@ -41,18 +58,18 @@ const UserInformationComponent = () => {
             {
               isEditLisence ?
                 (<>
-                  <Button variant="outlined" sx={{ marginRight: 2,marginLeft: 4 ,height : '90%'}}>{t("licenseInfo.BtnSave")}</Button>
-                  <Button variant="contained" sx={{height : '90%'}} onClick={() => setIsEditLisence(false)}>{t("licenseInfo.BtnCancel")}</Button>
+                  <Button variant="outlined" sx={{ marginRight: 2, marginLeft: 4, height: '90%' }}>{t("licenseInfo.BtnSave")}</Button>
+                  <Button variant="contained" sx={{ height: '90%' }} onClick={() => setIsEditLisence(false)}>{t("licenseInfo.BtnCancel")}</Button>
                 </>)
                 :
                 (
-                  <Button variant="outlined" key={'info'} sx={{ marginLeft: 10 ,height : '90%'}} onClick={() => setIsEditLisence(true)}>
+                  <Button variant="outlined" key={'info'} sx={{ marginLeft: 10, height: '90%' }} onClick={() => setIsEditLisence(true)}>
                     {t("licenseInfo.BtnEdit")}
                   </Button>
                 )
             }
           </Grid>
-         
+
           <Grid container xs={5} sx={{ marginLeft: 2, marginTop: 6 }}>
             <TextField
               disabled={!isEditLisence}
@@ -96,35 +113,35 @@ const UserInformationComponent = () => {
               fullWidth
               value={lisence ? lisence.dob : null}
               margin='normal'
-              sx={{ width: '80%'}}
+              sx={{ width: '80%' }}
             />
           </Grid>
-            <Grid container xs={6} sx={{ width: '90%', height: '70%', border: '2px solid #cfcecc', p: 2, borderRadius: 2, marginTop: '50px' , minHeight : '270px'}}>
-              {
-                  !lisence ?
-                  <Typography fontWeight="500" sx={{ width: '100%', marginTop: '20%' }} align="center">{t("licenseInfo.Image")}</Typography>
-                  :
-                  <img width="100%" height="100%" src={lisence.licenceImage} alt={user.name} />
-              }
+          <Grid container xs={6} sx={{ width: '90%', height: '70%', border: '2px solid #cfcecc', p: 2, borderRadius: 2, marginTop: '50px', minHeight: '270px' }}>
+            {
+              !lisence ?
+                <Typography fontWeight="500" sx={{ width: '100%', marginTop: '20%' }} align="center">{t("licenseInfo.Image")}</Typography>
+                :
+                <img width="100%" height="100%" src={lisence.licenceImage} alt={user.name} />
+            }
+          </Grid>
+          <>{isEditLisence ?
+            <Grid item xs={12} sx={{ marginTop: '1%' }}>
+              <Button variant="contained" sx={{ marginLeft: '62%' }} >
+                {t("licenseInfo.BtnchooseLicense")}
+              </Button>
             </Grid>
-            <>{isEditLisence ?
-              <Grid item xs={12} sx={{marginTop: '1%'}}>
-                <Button variant="contained" sx={{marginLeft: '62%'}} >
-                          {t("licenseInfo.BtnchooseLicense")}
-                        </Button>
-              </Grid>
-              :
-              <Grid item xs={12} sx={{marginTop: '1%'}}>
-                <Button variant="contained" disabled sx={{marginLeft: '62%'}} >
-                          {t("licenseInfo.BtnchooseLicense")}
-                        </Button>
-              </Grid>
-              }</>
+            :
+            <Grid item xs={12} sx={{ marginTop: '1%' }}>
+              <Button variant="contained" disabled sx={{ marginLeft: '62%' }} >
+                {t("licenseInfo.BtnchooseLicense")}
+              </Button>
+            </Grid>
+          }</>
         </Grid>
       </Grid>
     </Grid>
-    :
-    <></>
+      :
+      <></>
   )
 }
 export default UserInformationComponent

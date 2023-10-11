@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import ToastComponent from '../components/toast/ToastComponent';
 import usei18next from '../hooks/usei18next';
 import { ROUTES } from '../utils/Constant';
-import { User, Lisence, ResetPassword } from '../utils/type';
+import { User, Lisence, ResetPassword, Role } from '../utils/type';
 
 interface AuthContext {
     isLogin: boolean;
@@ -13,9 +13,9 @@ interface AuthContext {
     logout: () => void;
     register: (user: any) => void;
     changePass: (oldPassword: string, newPassword: string, rePassword: string) => void;
-    user: User | undefined;
-    lisence: Lisence | undefined;
+    user: User | null;
     forgotPassword: (email: string) => void;
+    isChangepass: boolean;
 }
 
 export const AuthContext = React.createContext<AuthContext>({
@@ -25,18 +25,18 @@ export const AuthContext = React.createContext<AuthContext>({
     logout: () => { },
     register: (user: any) => { },
     changePass: (oldPassword: string, newPassword: string, rePassword: string) => { },
-    user: undefined,
-    lisence: undefined,
-    forgotPassword: (email: string) => {}
+    user: null,
+    forgotPassword: (email: string) => {},
+    isChangepass: false
 });
 
 const AuthProvider = (props: { children: JSX.Element }) => {
     const { children } = props;
     const [isLogin, setIslogin] = useState<boolean>(false);
+    const [isChangepass, setIsChangepass] = useState<boolean>(false);
     const navigate = useNavigate();
     const { t } = usei18next();
-    const [user, setUser] = useState<User>();
-    const [lisence, setLisence] = useState<Lisence>();
+    const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
         setIslogin(UserService.isLoggedIn());
@@ -44,28 +44,38 @@ const AuthProvider = (props: { children: JSX.Element }) => {
 
     useEffect(() => {
         getUser();
-        getLisence();
     }, [isLogin])
 
     const getUser = async () => {
         try {
             const res: any = await UserService.getUserInfo();
             if (res.status === 200) {
-                setUser(res.data);
-            } else {
+                const data = res.data;
+                const userRole : Role = {
+                    createUserId: data.role.createUserId,
+                    createDatetime: data.role.createDatetime,
+                    deleted: data.role.deleted,
+                    roleId: data.role.roleId,
+                    roleName: data.role.roleName,
+                    updateDatetime: data.role.updateDatetime,
+                    updateUserId: data.role.updateUserId,
+                }
+                const userResponse: User = {
+                    address: data.address,
+                    avatar: data.avatar,
+                    dob: data.dob,
+                    email: data.email,
+                    gender: data.gender,
+                    name: data.name,
+                    phone: data.phone,
+                    role: userRole,
+                    userId: data.userId,
+                    password: ""
+                }
+                setUser(userResponse);
             }
         } catch (error) {
-        }
-    }
 
-    const getLisence = async () => {
-        try {
-            const res: any = await UserService.getLisenceInfo();
-            if (res.status === 200) {
-                setLisence(res.data);
-            } else {
-            }
-        } catch (error) {
         }
     }
 
@@ -100,8 +110,8 @@ const AuthProvider = (props: { children: JSX.Element }) => {
                 }
                 ToastComponent(t("toast.login.success"), "success");
                 setIslogin(true);
-                navigate(ROUTES.user.userprofile);
-                window.location.reload();
+                navigate(ROUTES.homepage);
+
             } else {
                 ToastComponent(t("toast.login.warning"), "warning");
             }
@@ -119,7 +129,7 @@ const AuthProvider = (props: { children: JSX.Element }) => {
             );
             if (response.status === 200) {
                 ToastComponent(t("toast.changepassword.success"), "success");
-                //navigate(ROUTES.account.verifyrequired);
+                setIsChangepass(true);
             } else {
                 ToastComponent(t("toast.changepassword.warning"), "warning");
             }
@@ -157,7 +167,7 @@ const AuthProvider = (props: { children: JSX.Element }) => {
                 navigate(`${ROUTES.account.verifyrequired}/reset-password`);
             }
         } catch (error) {
-            ToastComponent(t("toast.resetpassword.error"), "error") 
+            ToastComponent(t("toast.resetpassword.error"), "error")
         }
     };
 
@@ -166,13 +176,13 @@ const AuthProvider = (props: { children: JSX.Element }) => {
     const valueContext = {
         isLogin,
         user,
-        lisence,
         externalLogin,
         login,
         logout,
         register,
         changePass,
-        forgotPassword
+        forgotPassword,
+        isChangepass
     };
     return (
         <AuthContext.Provider value={valueContext}>{children}</AuthContext.Provider>

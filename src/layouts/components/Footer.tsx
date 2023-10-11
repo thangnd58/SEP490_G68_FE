@@ -46,13 +46,13 @@ function Footer() {
             <ArrowBack sx={{ backgroundColor: 'primary.main', borderRadius: '20px', padding: '2px', fill: '#FFF', rotate: '180deg' }} />
           </div>
         </Box>
-        {footers.map((footer) => (
-          <Grid item xs={6} sm={3} key={footer.title}>
+        {footers.map((footer, idx) => (
+          <Grid item xs={6} sm={3} key={idx}>
             <Typography variant="h6" color="text.primary" gutterBottom>
               {footer.title}
             </Typography>
-            {footer.description.map((item) => (
-              <Typography color="text.secondary" marginTop={'10px'}>
+            {footer.description.map((item, index) => (
+              <Typography key={index} color="text.secondary" marginTop={'10px'}>
                 {item}
               </Typography>
             ))}
