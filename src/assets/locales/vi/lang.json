@@ -70,7 +70,8 @@
         "Female":"Nữ",
         "BtnDelete": "Xóa",
         "BtnUpload": "Tải lên ảnh",
-        "ChangeProfile":"Chỉnh sửa hồ sơ"
+        "ChangeProfile":"Chỉnh sửa hồ sơ",
+        "InputProfile":"Vui lòng điền thông tin"
     },
     "changePassword" : {
         "Title":"Đổi mật khẩu",
@@ -89,6 +90,9 @@
         "BtnCancel": "Hủy",
         "BtnSave": "Lưu",
         "Image":"Hình ảnh giấy phép lái xe",
-        "BtnchooseLicense":"Tải lên ảnh"
+        "BtnchooseLicense":"Tải lên ảnh",
+        "Processing" : "Đang xử lý",
+        "Approve":"Đã xác minh",
+        "Reject":"Từ Chối"
     }  
 }

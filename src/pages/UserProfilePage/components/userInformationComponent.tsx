@@ -1,31 +1,84 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Avatar, Typography, Grid, Button, TextField, Box, ListItem } from '@mui/material';
+import { Avatar, Typography, Grid, Button, TextField, Box, ListItem, colors } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
 import { AuthContext } from '../../../contexts/AuthContext';
 import { Lisence } from '../../../utils/type';
 import UserService from '../../../services/UserService';
+import { useFormik } from 'formik';
+import ToastComponent from '../../../components/toast/ToastComponent';
 
 const UserInformationComponent = () => {
   const { t } = usei18next();
-  const { user } = useContext(AuthContext);
+  const { user, getUser } = useContext(AuthContext);
   const [lisence, setLisence] = useState<Lisence>();
   const [isEditLisence, setIsEditLisence] = useState<boolean>(false);
 
+  
   useEffect(() => {
     getLisence();
   }, [user]);
 
+  useEffect(() => {
+    getUser();
+  }, [])
+  
+
+  
   const getLisence = async () => {
     try {
       const res = await UserService.getLisenceInfo(user?.userId);
       if (res.status === 200) {
         setLisence(res.data);
+        setFieldValue('licenceNumber',res.data.licenceNumber)
+        setFieldValue('fullName',res.data.fullName)
+        setFieldValue('dob',res.data.dob)
+        setFieldValue('licenceImage',res.data.licenceImage)
       }
     } catch (error) {
 
     }
   }
+  const formik = useFormik({
+    initialValues: {
+        licenceNumber:'',
+        fullName: '',
+        dob: '',
+        licenceImage:''
+    },
+    onSubmit: values => {
+        changeLisence(values.licenceNumber, values.fullName, values.dob, "null");
+    }
+  });
 
+  console.log(lisence);
+  const {
+    values,
+    setFieldValue,
+    handleChange,
+    handleSubmit
+  } = formik;
+
+  const changeLisence = async (licenceNumber: string, fullName: string, dob: string, licenceImage: string) => {
+    try {
+        const response = await UserService.changeLicense(
+            licenceNumber,
+            fullName,
+            dob,
+            licenceImage
+        );
+        if (response.status === 200) {
+            ToastComponent(t("toast.changepassword.success"), "success");
+            setIsEditLisence(false);
+            getLisence();
+        } else {
+            ToastComponent(t("toast.changepassword.warning"), "warning");
+        }
+    } catch (error) {
+        ToastComponent(t("toast.changepassword.error"), "error")
+    }
+  };
+
+  console.log(lisence?.status);
   return (
     user ? <Grid item xs container direction="row" spacing={2} sx={{ marginTop: 7, marginLeft: 3 }}>
       <Grid item xs={5} container sx={{ width: '90%', height: '250px', border: '2px solid #cfcecc', p: 2, borderRadius: 2 }}>
@@ -45,25 +98,47 @@ const UserInformationComponent = () => {
       </Grid>
       <Grid item xs={4} sx={{ marginLeft: 1 }}>
         <Typography variant="h5" >{user.name}</Typography>
-        <Typography variant="h5" sx={{ marginTop: 3 }} align="left"> {user.email}</Typography>
-        <Typography variant="h5" sx={{ marginTop: 3 }} align="left"> {user.phone}</Typography>
-        <Typography variant="h5" sx={{ marginTop: 3 }} align="left"> {user.gender === 'Male' ? t("userProfile.Male") : t("userProfile.Female")}</Typography>
-        <Typography variant="h5" sx={{ marginTop: 3 }} align="left"> {user.dob}</Typography>
-        <Typography variant="h5" sx={{ marginTop: 3 }} align="left"> {user.address}</Typography>
+        <Typography variant="h5" sx={{ marginTop: 3 }} align="left"> {user.email?user.email : t("userProfile.InputProfile")}</Typography>
+        <Typography variant="h5" sx={{ marginTop: 3 }} align="left"> {user.phone?user.phone : t("userProfile.InputProfile")}</Typography>
+        <Typography variant="h5" sx={{ marginTop: 3 }} align="left"> {user.gender? (user.gender=== 'Male' ? t("userProfile.Male") : t("userProfile.Female")):t("userProfile.InputProfile")}</Typography>
+        <Typography variant="h5" sx={{ marginTop: 3 }} align="left"> {user.dob?user.dob : t("userProfile.InputProfile")}</Typography>
+        <Typography variant="h5" sx={{ marginTop: 3 }} align="left"> {user.address?user.address : t("userProfile.InputProfile")}</Typography>
       </Grid>
+      <form onSubmit={handleSubmit} style={{ width: '100%' }}>
       <Grid item xs={11} container sx={{ border: '2px solid #cfcecc', p: 2, borderRadius: 2, marginTop: 8 }}>
         <Grid item xs={12} sm container>
+          <Grid container xs={4}>
           <Typography variant="h6" fontWeight="bold" sx={{ width: '70%', marginLeft: 2 }} >{t("licenseInfo.Title")}</Typography>
+          </Grid>
+          <Grid container xs={4}>
+          {
+            lisence?.status === 0 ?
+            <div  style={{color : '#e3be05' ,border : '1px #e3be05 solid',paddingLeft : '10px',paddingRight : '10px', borderRadius : '10px',paddingTop :'5px',marginLeft:'-70px'}} >
+                  {t("licenseInfo.Processing")}
+                  </div>
+            : lisence?.status === 1 ?
+            <div  style={{color : '#23c211' ,border : '1px #23c211 solid',paddingLeft : '10px',paddingRight : '10px', borderRadius : '10px',paddingTop :'5px',marginLeft:'-70px'}} >
+                  {t("licenseInfo.Approve")}
+                  </div>
+            :lisence?.status === 2 ?
+            <div  style={{color : 'red' ,border : '1px red solid',paddingLeft : '10px',paddingRight : '10px', borderRadius : '10px',paddingTop :'5px',marginLeft:'-70px'}} >
+                  {t("licenseInfo.Reject")}
+                  </div>
+            :
+            <></>
+          }  
+          
+          </Grid>
           <Grid container xs={3}>
             {
               isEditLisence ?
                 (<>
-                  <Button variant="outlined" sx={{ marginRight: 2, marginLeft: 4, height: '90%' }}>{t("licenseInfo.BtnSave")}</Button>
+                  <Button variant="outlined" type='submit' sx={{ marginRight: 2, marginLeft: 8, height: '90%' }}>{t("licenseInfo.BtnSave")}</Button>
                   <Button variant="contained" sx={{ height: '90%' }} onClick={() => setIsEditLisence(false)}>{t("licenseInfo.BtnCancel")}</Button>
                 </>)
                 :
                 (
-                  <Button variant="outlined" key={'info'} sx={{ marginLeft: 10, height: '90%' }} onClick={() => setIsEditLisence(true)}>
+                  <Button variant="outlined" key={'info'} sx={{ marginLeft: 17, height: '90%' }} onClick={() => setIsEditLisence(true)}>
                     {t("licenseInfo.BtnEdit")}
                   </Button>
                 )
@@ -73,7 +148,7 @@ const UserInformationComponent = () => {
           <Grid container xs={5} sx={{ marginLeft: 2, marginTop: 6 }}>
             <TextField
               disabled={!isEditLisence}
-              name="licenseNumber"
+              name="licenceNumber"
               label={t("licenseInfo.NumberLicense")}
               placeholder={t("licenseInfo.NumberLicense")}
               variant="outlined"
@@ -82,13 +157,14 @@ const UserInformationComponent = () => {
                 shrink: true,
               }}
               margin='normal'
-              value={lisence ? lisence.licenceNumber : null}
+              value={values.licenceNumber}
               sx={{ width: '80%' }}
+              onChange={handleChange}
             />
 
             <TextField
               disabled={!isEditLisence}
-              name="licenseName"
+              name="fullName"
               label={t("licenseInfo.Name")}
               placeholder={t("licenseInfo.Name")}
               variant="outlined"
@@ -96,14 +172,16 @@ const UserInformationComponent = () => {
               InputLabelProps={{
                 shrink: true,
               }}
-              value={lisence ? lisence.fullName : null}
+              value={values.fullName}
               margin='normal'
               sx={{ width: '80%' }}
+              onChange={handleChange}
             />
 
             <TextField
+              onChange={handleChange}
               disabled={!isEditLisence}
-              name="licenseDate"
+              name="dob"
               type='date'
               label={t("userProfile.DOB")}
               InputLabelProps={{
@@ -111,7 +189,7 @@ const UserInformationComponent = () => {
               }}
               variant="outlined"
               fullWidth
-              value={lisence ? lisence.dob : null}
+              value={values.dob}
               margin='normal'
               sx={{ width: '80%' }}
             />
@@ -137,8 +215,10 @@ const UserInformationComponent = () => {
               </Button>
             </Grid>
           }</>
+          
         </Grid>
       </Grid>
+      </form>
     </Grid>
       :
       <></>
