@@ -19,7 +19,7 @@ api.interceptors.request.use(
         };
         const tokenObject = UserService.getToken();
         if (tokenObject) {
-            config.headers.Authorization = `Bearer ${tokenObject.token}`;
+            config.headers.Authorization = `Bearer ${tokenObject}`;
         }
         return { ...newConfig };
     }
