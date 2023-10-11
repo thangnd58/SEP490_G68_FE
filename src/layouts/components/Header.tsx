@@ -78,7 +78,7 @@ function Header() {
                                 onMouseEnter={handlePopoverOpen}
                                 onMouseLeave={() => setAnchorEl(null)}
                             >
-                                <Avatar src={user && user.avatar ? user.avatar : ""} />
+                                <Avatar src={isLogin ? (user && user.avatar ? user.avatar : "") : ("")} />
                                 <Popover
                                     id="hover-menu"
                                     open={open}

@@ -37,3 +37,10 @@ export interface ResetPassword {
     password: string,
     confirmPassword: string
 }
+
+export interface ImageUpload {
+    tableName: string,
+    columnName: string,
+    code:  string,
+    fileName: string
+}

@@ -38,7 +38,7 @@ const UserService = {
     changeUserProfile: async (name: string, gender: string, dob: string, address: string) => {
         const accessToken = JSON.parse(localStorage.getItem('token')!);
         const decode: any = decodeToken(accessToken);
-        const params = { name, gender, dob, address}
+        const params = { name, gender, dob, address }
         return await api.put(`/user/${decode.UserId}`, params);
     },
     changeLicense: async (licenceNumber: string, fullName: string, dob: string, licenceImage: string) => {
@@ -87,6 +87,9 @@ const UserService = {
     },
     setForgotPassword: async (resetObject: ResetPassword) => {
         return api.post(`${apiSetPassword}`, resetObject)
+    },
+    updateAvatarUser: async (userId: number, avatarName: string) => {
+        return await api.put(`/user/${userId}/avatar`, { avatar: avatarName });
     }
 }
 
