@@ -36,10 +36,10 @@ function userProfileComponent() {
               </Grid>
             :
               <Grid item xs={12} sm container>
-                    <Typography variant="h5" fontWeight="bold" sx={{width: 300, marginLeft : '40%'}}>{t("userProfile.ChangeProfile")}</Typography>
+                    <Typography variant="h5" fontWeight="bold" sx={{width: 300}}>{t("userProfile.ChangeProfile")}</Typography>
                     <ChangeUserProfile setType={setType}/>
                   <Grid item>
-                    <Button variant="contained" key={'changePass'} onClick={() => setType('info')}>{t("changePassword.Back")}</Button>
+                    <Button variant="contained" key={'changePass'} sx={{marginTop: -7}} onClick={() => setType('info')}>{t("changePassword.Back")}</Button>
                   </Grid>
                 </Grid>
         }

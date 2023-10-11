@@ -41,6 +41,10 @@ const UserService = {
         const params = { name, gender, dob, address}
         return await api.put(`/user/${decode.UserId}`, params);
     },
+    changeLicense: async (licenceNumber: string, fullName: string, dob: string, licenceImage: string) => {
+        const params = { licenceNumber, fullName, dob, licenceImage}
+        return await api.put('/licence', params);
+    },
 
     externalLogin: async (accessToken: any) => {
         return await api.post(apiUserLoginExternal, accessToken).then((response) => {
@@ -73,7 +77,10 @@ const UserService = {
         return await api.post(`${apiVerify}`, { ticket: ticketValue });
     },
     getLisenceInfo: async (id?: number) => {
-        return await api.get(`${apiLisence}/${id}`);
+        const accessToken = JSON.parse(localStorage.getItem('token')!);
+        const decode: any = decodeToken(accessToken);
+        return await api.get(`${apiLisence}/${decode.UserId}`);
+        
     },
     forgotPassword: async (email: string) => {
         return api.post(`${apiForgotPassword}`, { email: email });

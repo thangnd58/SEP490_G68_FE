@@ -70,7 +70,8 @@
         "Female": "Female",
         "BtnDelete": "Delete",
         "BtnUpload": "Upload Image",
-        "ChangeProfile":"Change Profile"
+        "ChangeProfile":"Change Profile",
+        "InputProfile":"Please input Information"
     },
     "changePassword": {
         "Title": "Change Password",
@@ -89,6 +90,9 @@
         "BtnCancel": "Cancel",
         "BtnSave": "Save",
         "Image":"Image License",
-        "BtnchooseLicense":"Upload Image"
+        "BtnchooseLicense":"Upload Image",
+        "Processing" : "Processing",
+        "Approve":"Approved",
+        "Reject":"Rejected"
     }    
 }

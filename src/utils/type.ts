@@ -29,7 +29,7 @@ export interface Lisence  {
     fullName: string,
     dob: string,
     licenceImage: string,
-    status: boolean
+    status: number
 }
 
 export interface ResetPassword {
