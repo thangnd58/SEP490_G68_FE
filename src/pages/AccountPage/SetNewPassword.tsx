@@ -92,7 +92,7 @@ const SetNewPassword = () => {
                                         onMouseDown={handleMouseDownPassword}
                                         edge="end"
                                     >
-                                        {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                                        {!showNewPassword ? <VisibilityOff /> : <Visibility />}
                                     </IconButton>
                                 </InputAdornment>
                             ),
@@ -105,7 +105,7 @@ const SetNewPassword = () => {
                         name="confirmPassword"
                         label={t("changePassword.RePassword")}
                         variant="outlined"
-                        type={showConfirmPassword ? 'text' : 'password'}
+                            type={showConfirmPassword ? 'text' : 'password'}
                         fullWidth
                         margin="normal"
                         value={values.confirmPassword}
@@ -119,7 +119,7 @@ const SetNewPassword = () => {
                                         onMouseDown={handleMouseDownPassword}
                                         edge="end"
                                     >
-                                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                        {!showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                                     </IconButton>
                                 </InputAdornment>
                             ),

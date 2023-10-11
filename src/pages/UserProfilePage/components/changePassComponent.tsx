@@ -101,7 +101,7 @@ const changePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
                     onMouseDown={handleMouseDownPassword}
                     edge="end"
                   >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                    {!showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -129,7 +129,7 @@ const changePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
                     onMouseDown={handleMouseDownPassword}
                     edge="end"
                   >
-                    {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                    {!showNewPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -157,7 +157,7 @@ const changePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
                     onMouseDown={handleMouseDownPassword}
                     edge="end"
                   >
-                    {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                    {!showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
               ),
