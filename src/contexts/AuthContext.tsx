@@ -15,6 +15,7 @@ interface AuthContext {
     changePass: (oldPassword: string, newPassword: string, rePassword: string) => void;
     user: User | null;
     forgotPassword: (email: string) => void;
+    isChangepass: boolean;
 }
 
 export const AuthContext = React.createContext<AuthContext>({
@@ -25,12 +26,14 @@ export const AuthContext = React.createContext<AuthContext>({
     register: (user: any) => { },
     changePass: (oldPassword: string, newPassword: string, rePassword: string) => { },
     user: null,
-    forgotPassword: (email: string) => { }
+    forgotPassword: (email: string) => {},
+    isChangepass: false
 });
 
 const AuthProvider = (props: { children: JSX.Element }) => {
     const { children } = props;
     const [isLogin, setIslogin] = useState<boolean>(false);
+    const [isChangepass, setIsChangepass] = useState<boolean>(false);
     const navigate = useNavigate();
     const { t } = usei18next();
     const [user, setUser] = useState<User | null>(null);
@@ -126,7 +129,7 @@ const AuthProvider = (props: { children: JSX.Element }) => {
             );
             if (response.status === 200) {
                 ToastComponent(t("toast.changepassword.success"), "success");
-                window.location.reload();
+                setIsChangepass(true);
             } else {
                 ToastComponent(t("toast.changepassword.warning"), "warning");
             }
@@ -178,7 +181,8 @@ const AuthProvider = (props: { children: JSX.Element }) => {
         logout,
         register,
         changePass,
-        forgotPassword
+        forgotPassword,
+        isChangepass
     };
     return (
         <AuthContext.Provider value={valueContext}>{children}</AuthContext.Provider>

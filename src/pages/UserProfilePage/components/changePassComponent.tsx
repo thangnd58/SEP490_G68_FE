@@ -1,13 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, FunctionComponent  } from 'react';
 import { Avatar, Typography, Grid, Button ,TextField } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 import { AuthContext } from '../../../contexts/AuthContext';
+import UserService from '../../../services/UserService';
+import ToastComponent from '../../../components/toast/ToastComponent';
 
-function changePassComponent() {
+interface ChildComponentProps {
+  setType: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const changePassComponent : FunctionComponent<ChildComponentProps> = ({ setType }) => {
     const [email, setEmail] = useState('');
-    const { changePass } = useContext(AuthContext);
     const { t } = usei18next();
     const user = {
         name: 'John Doe',
@@ -35,7 +40,26 @@ function changePassComponent() {
           changePass(values.oldPassword,values.newPassword,values.confirmPassword)
         }
       });
+    
+    const changePass = async (oldPassword: string, newPassword: string, confirmPassword: string) => {
+      try {
+          const response = await UserService.changePass(
+              oldPassword,
+              newPassword,
+              confirmPassword
+          );
+          if (response.status === 200) {
+              ToastComponent(t("toast.changepassword.success"), "success");
+              setType('info');
+          } else {
+              ToastComponent(t("toast.changepassword.warning"), "warning");
+          }
+      } catch (error) {
+          ToastComponent(t("toast.changepassword.error"), "error")
+      }
+    };
 
+    
     const {
         values,
         handleChange,

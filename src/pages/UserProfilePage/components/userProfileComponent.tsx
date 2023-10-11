@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Avatar, Typography, Grid, Button  } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
 import ChangePassComponent from './changePassComponent';
 import ChangeUserProfile from './changeUserProfile';
 import UserInformationComponent from './userInformationComponent';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 function userProfileComponent() {
-    useEffect( ()=> {
-    })
-    const [type, setType] = useState<string>('info');
-    const { t } = usei18next();
-
     
+    const [type, setType] = useState<string>('info');
+    const { t } = usei18next();    
   
     return (
       <Grid container spacing={2}>
@@ -31,7 +29,7 @@ function userProfileComponent() {
             type === 'changePass' ?
               <Grid item xs={12} sm container>
                   <Typography variant="h5" fontWeight="bold" sx={{width: 300}}>{t("changePassword.Title")}</Typography>
-                  <ChangePassComponent />
+                  <ChangePassComponent setType={setType}/>
                 <Grid item>
                   <Button variant="contained" key={'changePass'} onClick={() => setType('info')}>{t("changePassword.Back")}</Button>
                 </Grid>
