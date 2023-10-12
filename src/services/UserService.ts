@@ -35,10 +35,10 @@ const UserService = {
         const params = { oldPassword, newPassword, confirmPassword }
         return await api.put(`/user/${decode.UserId}/password`, params);
     },
-    changeUserProfile: async (name: string, gender: string, dob: string, address: string) => {
+    changeUserProfile: async (name: string,phone: string, gender: string, dob: string, address: string) => {
         const accessToken = JSON.parse(localStorage.getItem('token')!);
         const decode: any = decodeToken(accessToken);
-        const params = { name, gender, dob, address }
+        const params = { name,phone, gender, dob, address }
         return await api.put(`/user/${decode.UserId}`, params);
     },
     changeLicense: async (licenceNumber: string, fullName: string, dob: string, licenceImage: string) => {
