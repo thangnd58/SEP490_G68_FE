@@ -54,6 +54,17 @@
             "success": "Đổi mật khẩu thành công",
             "warning": "Đổi mật khẩu thất bại",
             "error": "Lỗi đổi mật khẩu"
+        },
+        "changeUserProfile": {
+            "success": "Cập nhật thông tin thành công",
+            "warning": "Cập nhật thông tin thất bại",
+            "error": "Lỗi cập nhật thông tin"
+        }
+        ,
+        "changeLicense": {
+            "success": "Cập nhật bằng lái xe thành công",
+            "warning": "Cập nhật bằng lái xe thất bại",
+            "error": "Lỗi cập nhật bằng lái xe"
         }
     },
     "footer": {},
