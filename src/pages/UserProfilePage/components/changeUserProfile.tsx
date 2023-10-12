@@ -36,13 +36,13 @@ const changeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
                 address
             );
             if (response.status === 200) {
-                ToastComponent(t("toast.changepassword.success"), "success");
+                ToastComponent(t("toast.changeUserProfile.success"), "success");
                 setType('info');
             } else {
-                ToastComponent(t("toast.changepassword.warning"), "warning");
+                ToastComponent(t("toast.changeUserProfile.warning"), "warning");
             }
         } catch (error) {
-            ToastComponent(t("toast.changepassword.error"), "error")
+            ToastComponent(t("toast.changeUserProfile.error"), "error")
         }
     };
 

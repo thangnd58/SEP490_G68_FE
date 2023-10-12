@@ -54,6 +54,17 @@
             "success": "Change password successfully",
             "warning": "Change password failed",
             "error": "Error when change password"
+        },
+        "changeUserProfile": {
+            "success": "Change user profile successfully",
+            "warning": "Change user profile failed",
+            "error": "Error when change user profile"
+        }
+        ,
+        "changeLicense": {
+            "success": "Change License successfully",
+            "warning": "Change License failed",
+            "error": "Error when change License"
         }
     },
     "footer": {},

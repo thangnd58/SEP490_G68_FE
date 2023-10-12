@@ -72,14 +72,14 @@ const UserInformationComponent = () => {
             licenceImage
         );
         if (response.status === 200) {
-            ToastComponent(t("toast.changepassword.success"), "success");
+            ToastComponent(t("toast.changeLicense.success"), "success");
             setIsEditLisence(false);
             getLisence();
         } else {
-            ToastComponent(t("toast.changepassword.warning"), "warning");
+            ToastComponent(t("toast.changeLicense.warning"), "warning");
         }
     } catch (error) {
-        ToastComponent(t("toast.changepassword.error"), "error")
+        ToastComponent(t("toast.changeLicense.error"), "error")
     }
   };
 
