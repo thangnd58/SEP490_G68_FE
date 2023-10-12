@@ -4,7 +4,7 @@
         "register": "Đăng ký",
         "login": "Đăng nhập",
         "logout": "Đăng xuất",
-        "userprofile" : "Tài khoản"
+        "userprofile" : "Tài khoản của tôi"
     },
     "form": {
         "login": "Đăng nhập",
