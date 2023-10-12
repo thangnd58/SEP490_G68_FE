@@ -17,18 +17,20 @@ const changeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
         initialValues: {
             name: user ? user.name : '',
             gender: user ? user.gender : 'Male',
+            phone: user ? user.phone :'',
             dob: user ? user.dob : '',
             address: user ? user.address : ''
         },
         onSubmit: values => {
-            changeUserProfile(values.name, values.gender, values.dob, values.address);
+            changeUserProfile(values.name,values.phone ,values.gender, values.dob, values.address);
         }
     });
 
-    const changeUserProfile = async (name: string, gender: string, dob: string, address: string) => {
+    const changeUserProfile = async (name: string,phone: string, gender: string, dob: string, address: string) => {
         try {
             const response = await UserService.changeUserProfile(
                 name,
+                phone,
                 gender,
                 dob,
                 address
@@ -83,7 +85,21 @@ const changeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
                             label={t("userProfile.Female")}
                         />
                     </RadioGroup>
+                    <TextField
+                        name='phone'
+                        sx={{ width: 500 }}
+                        label={t("userProfile.PhoneNumber")}
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        value={values.phone}
+                        onChange={handleChange}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        placeholder=""
 
+                    />
                     <TextField
                         name='dob'
                         sx={{ width: 500 }}
