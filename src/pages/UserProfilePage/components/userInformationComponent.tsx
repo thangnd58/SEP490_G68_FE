@@ -14,6 +14,9 @@ const UserInformationComponent = () => {
   const [lisence, setLisence] = useState<Lisence>();
   const [isEditLisence, setIsEditLisence] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const inputRefLicense = useRef<HTMLInputElement>(null);
+  const [licenseImageName, setLicenseImageName] = useState<string>("");
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("");
 
   
   useEffect(() => {
@@ -31,10 +34,11 @@ const UserInformationComponent = () => {
       const res = await UserService.getLisenceInfo(user?.userId);
       if (res.status === 200) {
         setLisence(res.data);
-        setFieldValue('licenceNumber',res.data.licenceNumber)
-        setFieldValue('fullName',res.data.fullName)
-        setFieldValue('dob',res.data.dob)
-        setFieldValue('licenceImage',res.data.licenceImage)
+        setFieldValue('licenceNumber', res.data.licenceNumber)
+        setFieldValue('fullName', res.data.fullName)
+        setFieldValue('dob', res.data.dob)
+        setFieldValue('licenceImage', res.data.licenceImage)
+        setImagePreviewUrl(res.data.licenceImage)
       }
     } catch (error) {
 
@@ -48,7 +52,7 @@ const UserInformationComponent = () => {
         licenceImage:''
     },
     onSubmit: values => {
-        changeLisence(values.licenceNumber, values.fullName, values.dob, "null");
+        changeLisence(values.licenceNumber, values.fullName, values.dob, licenseImageName);
     }
   });
 
@@ -79,10 +83,15 @@ const UserInformationComponent = () => {
     }
   };
 
-  console.log(lisence?.status);
   const onClickRef = (e: any) => {
     if (inputRef.current) {
       inputRef.current.click();
+    }
+  };
+
+  const onClickRefLicense = (e: any) => {
+    if (inputRefLicense.current) {
+      inputRefLicense.current.click();
     }
   };
 
@@ -125,6 +134,47 @@ const UserInformationComponent = () => {
     } finally {
       if (inputRef.current) {
         inputRef.current.value = "";
+      }
+    }
+  };
+
+
+  const handleUploadLicenseImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const file = event.target.files && event.target.files[0];
+      if (inputRefLicense.current) {
+        if (!file) {
+          inputRefLicense.current.value = "";
+          return;
+        }
+        
+        const params: ImageUpload = {
+          tableName: "licence",
+          columnName: "licenceImage",
+          code: lisence!.licenceId.toString(),
+          fileName: file.name,
+        };
+
+        const responseUrl = await UploadImageService.generateUrlUpload(params);
+        if (responseUrl.status !== 200) {
+          return;
+        }
+
+        const urlUpload = responseUrl.data.uploadUrl;
+        const responseUpload = await UploadImageService.uploadImage(urlUpload, file)
+
+        if (responseUpload.status !== 200) {
+          return
+        }
+        setLicenseImageName(file.name);
+        const newPreview = URL.createObjectURL(file)
+        setImagePreviewUrl(newPreview)
+      }
+    } catch (error) {
+
+    } finally {
+      if (inputRefLicense.current) {
+        inputRefLicense.current.value = "";
       }
     }
   };
@@ -257,18 +307,26 @@ const UserInformationComponent = () => {
               !lisence ?
                 <Typography fontWeight="500" sx={{ width: '100%', marginTop: '20%' }} align="center">{t("licenseInfo.Image")}</Typography>
                 :
-                <img width="100%" height="100%" src={lisence.licenceImage} alt={user.name} />
+                <img width="100%" height="100%" src={imagePreviewUrl} alt={user.name} />
             }
           </Grid>
+          <input
+            ref={inputRefLicense}
+            type="file"
+            style={{ display: 'none' }}
+            multiple={false}
+            accept={"image/jpeg, image/png"}
+            onChange={handleUploadLicenseImage}
+          />
           <>{isEditLisence ?
             <Grid item xs={12} sx={{ marginTop: '1%' }}>
-              <Button variant="contained" sx={{ marginLeft: '62%' }} >
-                {t("licenseInfo.BtnchooseLicense")}
+              <Button variant="contained" sx={{ marginLeft: '62%' }} onClick={onClickRefLicense}>
+                {t("licenseInfo.BtnchooseLicense")} 
               </Button>
             </Grid>
             :
             <Grid item xs={12} sx={{ marginTop: '1%' }}>
-              <Button variant="contained" disabled sx={{ marginLeft: '62%' }} >
+              <Button variant="contained" disabled sx={{ marginLeft: '62%' }} onClick={onClickRefLicense}>
                 {t("licenseInfo.BtnchooseLicense")}
               </Button>
             </Grid>
