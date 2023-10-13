@@ -18,7 +18,7 @@ const LanguageBox = memo(() => {
             style={{ cursor: 'pointer', }}
             height={32}
             width={32}
-            src={isVn ? UnitedKingDomFlag : VietNamFlag}
+            src={isVn ? VietNamFlag : UnitedKingDomFlag}
             onClick={() => changeLang(isVn ? 'en' : 'vi')}
         />
     );
@@ -86,13 +86,10 @@ function Header() {
                             <MenuIcon />
                         </IconButton>
                     ) : (
-                        <ListItem sx={{ padding:"16px 32px 16px 0px",display: 'flex', justifyContent: 'end' }}>
+                        <ListItem sx={{ padding:"16px 32px 16px 0px",display: 'flex', justifyContent: 'end', gap : "16px"}}>
                             <LanguageBox />
-                            <div style={{ marginLeft: '16px' }} />
                             <IconBox image={NotificationIcon} width={24} height={28.23} onClick={() => navigate(ROUTES.homepage)} />
-                            <div style={{ marginLeft: '16px' }} />
                             <Divider sx={{ borderLeft: '1px solid #B1B5C3', height: 32 }} />
-                            <div style={{ marginLeft: '16px' }} />
                             <div
                                 aria-owns={open ? 'hover-menu' : undefined}
                                 aria-haspopup="true"

@@ -66,7 +66,7 @@ const LoginForm = () => {
 
   return (
     <Paper elevation={3} style={{ padding: '20px', width: isMobile ? "80%" : "30%", margin: '0 auto', borderRadius: '20px' }}>
-      <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', fontWeight: 'bold', marginBottom: '1.5rem', textTransform: 'uppercase' }}>
+      <Typography gutterBottom sx={{ fontSize:'30px', textAlign: 'center', fontWeight: '600', marginBottom: '1.5rem' }}>
         {t("form.login")}
       </Typography>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '1.5rem' }}>
@@ -78,17 +78,6 @@ const LoginForm = () => {
         </Button>
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly', marginBottom: '1.5rem', gap: '2px' }}>
-        {/* <GoogleOAuthProvider clientId="1088937198611-lpsokcekdcethdobpeghbm43nf4fglcl.apps.googleusercontent.com">
-          <GoogleLogin
-            size='medium'
-            onSuccess={credentialResponse => {
-              handleGoogleLogin(credentialResponse)
-            }}
-            onError={() => {
-              console.log('Login Failed');
-            }}
-          />
-        </GoogleOAuthProvider> */}
         <GoogleOAuthProvider clientId="1088937198611-lpsokcekdcethdobpeghbm43nf4fglcl.apps.googleusercontent.com">
           <GoogleLogin
             size='medium'
