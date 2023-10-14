@@ -3,7 +3,7 @@ import RegisterForm from './components/RegisterForm'
 
 function Register() {
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <RegisterForm />
     </div>
   )

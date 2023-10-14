@@ -63,7 +63,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <Paper elevation={3} style={{ padding: '20px', width: isMobile ? "80%" : "30%", margin: '0 auto', borderRadius: '20px' }}>
+    <Paper elevation={3} style={{ padding: '20px', width: isMobile ? "80%" : "30%", margin: '32px auto', borderRadius: '20px' }}>
       <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', fontWeight: 'bold', marginBottom: '1.5rem', textTransform: 'uppercase'  }}>
         {t("form.register")}
       </Typography>

@@ -13,7 +13,7 @@ const ToastComponent = (message : string, type : string) => {
             toast.error(message);
             break;
         default:
-            toast(message); // Default to a simple toast
+            toast(message); 
     }
 };
 
