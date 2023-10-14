@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import useThemePage from '../../../hooks/useThemePage';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Height, Visibility, VisibilityOff } from '@mui/icons-material';
 
 const LoginForm = () => {
   const { login, externalLogin } = useContext(AuthContext);
@@ -65,8 +65,8 @@ const LoginForm = () => {
   }, [localStorage])
 
   return (
-    <Paper elevation={3} style={{ padding: '20px', width: isMobile ? "80%" : "30%", margin: '0 auto', borderRadius: '20px' }}>
-      <Typography gutterBottom sx={{ fontSize:'30px', textAlign: 'center', fontWeight: '600', marginBottom: '1.5rem' }}>
+    <Paper elevation={3} style={{ padding: '20px', width: isMobile ? "80%" : "30%", margin: '32px auto', borderRadius: '20px' }}>
+      <Typography gutterBottom sx={{ fontSize: '30px', textAlign: 'center', fontWeight: '600', marginBottom: '1.5rem' }}>
         {t("form.login")}
       </Typography>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '1.5rem' }}>
@@ -90,6 +90,7 @@ const LoginForm = () => {
           />
         </GoogleOAuthProvider>
       </div>
+
       <Typography color='secondary.main' textAlign='center' marginBottom={'1.5rem'} >{t("form.login_with_account")}</Typography>
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
         <form onSubmit={handleSubmit} style={{ width: '80%' }}>
@@ -98,19 +99,23 @@ const LoginForm = () => {
             label={t("form.email")}
             placeholder={t("form.email")}
             variant="outlined"
+            size='medium'
             fullWidth
             margin='normal'
             value={values.email}
             onChange={handleChange}
+            className="centered-placeholder"
           />
           {errors.email && touched.email && (
             <Typography color='warning.main'>{errors.email}</Typography>
           )}
           <TextField
+
             name="password"
             label={t("form.password")}
             placeholder={t("form.password")}
             variant="outlined"
+            size='medium'
             type={showPassword ? 'text' : 'password'}
             fullWidth
             margin='normal'

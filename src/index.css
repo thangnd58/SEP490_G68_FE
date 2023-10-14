@@ -1,3 +1,17 @@
+:root {
+  --primary-color: #264659;
+  --second-color: #1d3c5c;
+
+
+
+
+
+  --text-color: #fff;
+
+  --bg-color: #fff;
+}
+
+
 html {
   font-family: 'Inter', sans-serif;
 }
@@ -7,6 +21,7 @@ body {
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: var(--primary-color);
 }
 
 ::-webkit-scrollbar {

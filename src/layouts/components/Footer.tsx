@@ -6,17 +6,17 @@ import {
   Link,
   Box,
   TextField,
+  IconButton,
 } from '@mui/material';
-import { ArrowBack } from '@mui/icons-material';
+import { ArrowBack, Bolt } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../utils/Constant';
 import {
   FacebookIcon,
   InstagramIcon,
   LinkedinIcon,
   TwitterIcon,
 } from '../../assets/images';
-import { LogoHeader } from '../../assets/images';
+import { LogoFull } from './Header';
 
 function Footer() {
   const footers = [
@@ -32,31 +32,21 @@ function Footer() {
     {
       title: 'Tìm hiểu thêm',
       description: ['Hướng dẫn chung', 'Hướng dẫn đặt xe', 'Hướng dẫn thanh toán', 'Hỏi và trả lời'],
-    },
-  ];
+    }];
 
   const navigate = useNavigate();
 
   return (
-    <Container maxWidth="lg" component="footer" sx={{marginTop:'0px'}}>
+    <Container fixed component="footer">
       <Grid
         container
-        spacing={4}
-        justifyContent="space-evenly"
+        justifyContent="space-between"
         sx={{
           borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-          mt: 3,
-          py: [3, 3],
         }}
       >
-        <Box>
-          <img
-            style={{ cursor: 'pointer' }}
-            src={LogoHeader}
-            width={200}
-            alt=""
-            onClick={() => navigate(ROUTES.homepage)}
-          />
+        <div className='logo-full' style={{ margin: '16px 0' }}>
+          <LogoFull size={200} />
           <div
             style={{
               display: 'flex',
@@ -70,7 +60,7 @@ function Footer() {
           >
             <input
               type="email"
-              style={{ border: 'none', outlineStyle: 'none',color:'9A9EA5' }}
+              style={{ fontSize: '16px', border: 'none', outlineStyle: 'none', color: '9A9EA5' }}
               placeholder="Nhập địa chỉ email"
             />
             <ArrowBack
@@ -83,15 +73,15 @@ function Footer() {
               }}
             />
           </div>
-        </Box>
+        </div>
         {footers.map((footer, idx) => (
-          <Grid item xs={6} sm={3} key={idx}>
-            <Typography variant="h6" color="text.primary" gutterBottom>
-              {footer.title}
+          <Grid item xs={12} md={3} key={idx} style={{ margin: '16px 0' }}>
+            <Typography component="div" variant="h5" color="text.primary" gutterBottom>
+              <Box sx={{ fontWeight: 'bold' }}>{footer.title}</Box>
             </Typography>
             {footer.description.map((item, index) => (
-              <Typography key={index} color="text.secondary" marginTop={'16px'}>
-                {item}
+              <Typography component="div" key={index} color="text.secondary" marginTop={'16px'}>
+                <Box sx={{ fontWeight: 'regular' }}>{item}</Box>
               </Typography>
             ))}
           </Grid>
@@ -103,18 +93,25 @@ function Footer() {
         flexWrap={'wrap'}
         sx={{
           borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-          mt: 3,
           py: [3, 3],
         }}
       >
-        <Typography fontSize={14} color="secondary.main" gutterBottom>
-          Copyright© Đai Học FPT Hà Nội
+        <Typography style={{ margin: '8px 0px 0px 8px' }} gutterBottom color="text.secondary">
+          <Box>Copyright© Đại Học FPT Hà Nội</Box>
         </Typography>
-        <Box display={'flex'} justifyContent={'space-between'} gap={'10px'}>
-          <FacebookIcon />
-          <LinkedinIcon />
-          <TwitterIcon />
-          <InstagramIcon />
+        <Box display={'flex'} justifyContent={'end'}>
+          <IconButton>
+            <FacebookIcon />
+          </IconButton>
+          <IconButton>
+            <LinkedinIcon />
+          </IconButton>
+          <IconButton>
+            <TwitterIcon />
+          </IconButton>
+          <IconButton>
+            <InstagramIcon />
+          </IconButton>
         </Box>
       </Box>
     </Container>

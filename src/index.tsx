@@ -6,7 +6,6 @@ import { ThemeProvider } from '@emotion/react';
 import { BrowserRouter } from 'react-router-dom';
 import AuthProvider from './contexts/AuthContext';
 import { ToastContainer } from 'react-toastify';
-import Layout from './layouts/Layout';
 import AppRoute from './routes/AppRoute';
 import theme from './utils/CreateTheme';
 
@@ -18,11 +17,8 @@ root.render(
       <AuthProvider>
         <>
           <ToastContainer style={{ marginTop: '7vh' }} />
-          <Layout>
-            <div style={{ marginTop: '10vh' }}>
-              <AppRoute />
-            </div>
-          </Layout>
+
+          <AppRoute />
         </>
       </AuthProvider>
     </BrowserRouter>

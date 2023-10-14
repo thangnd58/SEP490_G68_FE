@@ -1,5 +1,5 @@
 import React, { memo, useContext, useState } from 'react';
-import { AppBar, Avatar, Box, Button, Divider, Drawer, IconButton, InputAdornment, InputLabel, List, ListItem, ListItemText, Menu, MenuItem, OutlinedInput, Popover, Typography, } from '@mui/material';
+import { AppBar, Avatar, Badge, Box, Button, Divider, Drawer, IconButton, InputAdornment, InputLabel, List, ListItem, ListItemText, Menu, MenuItem, OutlinedInput, Popover, Typography, } from '@mui/material';
 import UserService from '../../services/UserService';
 import { AuthContext } from '../../contexts/AuthContext';
 import usei18next from '../../hooks/usei18next';
@@ -73,7 +73,7 @@ function Header() {
             >
                 <Box
                     sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                    <ListItem sx={{padding:"16px 0px 16px 32px"}}>
+                    <ListItem sx={{ padding: "16px 0px 16px 32px" }}>
                         <LogoFull size={200} />
                     </ListItem>
                     {isMobile ? (
@@ -86,9 +86,16 @@ function Header() {
                             <MenuIcon />
                         </IconButton>
                     ) : (
-                        <ListItem sx={{ padding:"16px 32px 16px 0px",display: 'flex', justifyContent: 'end', gap : "16px"}}>
-                            <LanguageBox />
-                            <IconBox image={NotificationIcon} width={24} height={28.23} onClick={() => navigate(ROUTES.homepage)} />
+                        <ListItem sx={{ padding: "16px 32px 16px 0px", display: 'flex', justifyContent: 'end', gap: "16px" }}>
+                            <IconButton >
+                                <LanguageBox />
+                            </IconButton>
+
+                            <IconButton >
+                                <Badge badgeContent={100} color="primary">
+                                    <IconBox image={NotificationIcon} width={24} height={28.23} onClick={() => navigate(ROUTES.homepage)} />
+                                </Badge>
+                            </IconButton>
                             <Divider sx={{ borderLeft: '1px solid #B1B5C3', height: 32 }} />
                             <div
                                 aria-owns={open ? 'hover-menu' : undefined}
@@ -120,6 +127,7 @@ function Header() {
                                                     setAnchorEl(null);
                                                     navigate(ROUTES.user.userprofile);
                                                 }}
+                                                //hover to change background color
                                                 sx={{ textAlign: 'center' }}
                                             >
                                                 {t('header.userprofile')}
