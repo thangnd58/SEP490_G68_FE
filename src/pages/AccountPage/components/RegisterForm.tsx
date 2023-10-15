@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { TextField, Button, Typography, Paper, InputAdornment, IconButton } from '@mui/material';
-import { AuthContext } from '../../../contexts/AuthContext';
+import { AuthContext, useAuth } from '../../../contexts/AuthContext';
 import usei18next from '../../../hooks/usei18next';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -9,7 +9,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
-  const {register} = useContext(AuthContext);
+  const {register} = useAuth();
   const { t } = usei18next();
   const { isMobile } = useThemePage();
   const navigate = useNavigate();

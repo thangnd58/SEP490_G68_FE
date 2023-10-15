@@ -1,16 +1,16 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { TextField, Button, Paper, Typography, InputAdornment } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 import useThemePage from '../../../hooks/useThemePage';
 import { EmailIcon } from '../../../assets/images';
-import { AuthContext } from '../../../contexts/AuthContext';
+import { AuthContext, useAuth } from '../../../contexts/AuthContext';
 
 const ResetPasswordForm = () => {
     const { t } = usei18next();
     const { isMobile } = useThemePage();
-    const { forgotPassword } = useContext(AuthContext);
+    const { forgotPassword } = useAuth();
     const formik = useFormik({
         initialValues: {
             email: ""

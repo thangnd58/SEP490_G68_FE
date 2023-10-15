@@ -1,7 +1,7 @@
-import React, { memo, useContext, useState } from 'react';
+import React, { memo, useState } from 'react';
 import { AppBar, Avatar, Badge, Box, Button, Divider, Drawer, IconButton, InputAdornment, InputLabel, List, ListItem, ListItemText, Menu, MenuItem, OutlinedInput, Popover, Typography, } from '@mui/material';
 import UserService from '../../services/UserService';
-import { AuthContext } from '../../contexts/AuthContext';
+import { AuthContext, useAuth } from '../../contexts/AuthContext';
 import usei18next from '../../hooks/usei18next';
 import { useNavigate } from 'react-router';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -46,7 +46,7 @@ export const LogoFull = memo(({ size }: { size: number }) => {
 });
 
 function Header() {
-    const { isLogin, logout, user } = useContext(AuthContext);
+    const { isLogin, logout, user } = useAuth();
     const { t } = usei18next();
     const navigate = useNavigate();
     const { isMobile } = useThemePage();

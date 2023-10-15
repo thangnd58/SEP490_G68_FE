@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import UserService from '../services/UserService';
 import { useNavigate } from 'react-router-dom';
 import ToastComponent from '../components/toast/ToastComponent';
@@ -71,6 +71,10 @@ const AuthProvider = (props: { children: JSX.Element }) => {
 
         }
     }
+
+    useEffect(() => {
+        getUser();
+    }, [])
 
     const externalLogin = async (googleToken: any) => {
         try {
@@ -146,8 +150,6 @@ const AuthProvider = (props: { children: JSX.Element }) => {
         }
     };
 
-
-
     const valueContext = {
         isLogin,
         user,
@@ -164,3 +166,5 @@ const AuthProvider = (props: { children: JSX.Element }) => {
 };
 
 export default AuthProvider
+
+export const useAuth = () => useContext(AuthContext);

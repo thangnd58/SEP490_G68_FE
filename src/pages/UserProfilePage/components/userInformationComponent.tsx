@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Avatar, Typography, Grid, Button, TextField, Box, ListItem } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
-import { AuthContext } from '../../../contexts/AuthContext';
+import { AuthContext, useAuth } from '../../../contexts/AuthContext';
 import { ImageUpload, Lisence } from '../../../utils/type';
 import UserService from '../../../services/UserService';
 import { useFormik } from 'formik';
@@ -10,7 +10,7 @@ import UploadImageService from '../../../services/UploadImageService';
 
 const UserInformationComponent = () => {
   const { t } = usei18next();
-  const { user, getUser } = useContext(AuthContext);
+  const { user, getUser } = useAuth();
   const [lisence, setLisence] = useState<Lisence>();
   const [isEditLisence, setIsEditLisence] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
