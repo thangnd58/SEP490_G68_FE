@@ -22,9 +22,9 @@ export type Route = {
 export const routes: Route[] = [
     { path: ROUTES.homepage, component: Home },
     { path: ROUTES.user.userprofile, component: UserProfilePage, role: ["Admin", "Customer"] },
-    { path: ROUTES.account.login, component: Login, layout: LayoutWithoutFooter},
-    { path: ROUTES.account.register, component: Register, layout: LayoutWithoutFooter },
-    { path: ROUTES.account.resetpassword, component: ResetPassword, layout: LayoutWithoutFooter},
+    { path: ROUTES.account.login, component: Login, layout: LayoutWithoutFooter, role: ["Guest"]},
+    { path: ROUTES.account.register, component: Register, layout: LayoutWithoutFooter, role: ["Guest"] },
+    { path: ROUTES.account.resetpassword, component: ResetPassword, layout: LayoutWithoutFooter, role: ["Guest"]},
     { path: `${ROUTES.account.verifyrequired}/:type`, component: VerifyRequired, layout: LayoutWithoutFooter },
     { path: `${ROUTES.account.userverification}/:ticket`, component: VerifyReigsterStatus, layout: LayoutWithoutFooter },
     { path: `${ROUTES.account.setpassword}/:ticket`, component: SetNewPassword, layout: LayoutWithoutFooter },
