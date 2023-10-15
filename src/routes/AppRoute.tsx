@@ -1,38 +1,45 @@
-import { Route as Router, Routes } from "react-router-dom";
-// import Login from '../pages/AccountPage/Login';
-// import Register from '../pages/AccountPage/Register';
-// import { ROUTES } from '../utils/Constant';
-// import UserProfilePage from '../pages/UserProfilePage/UserProfilePage';
-// import VerifyRequired from "../pages/AccountPage/VerifyRequired";
-// import ResetPassword from "../pages/AccountPage/ResetPassword";
-// import VerifyReigsterStatus from "../pages/AccountPage/VerifyReigsterStatus";
-// import SetNewPassword from "../pages/AccountPage/SetNewPassword";
-
-import LayoutWithoutFooter from '../layouts/LayoutWithoutFooter';
-import { Route, routes } from "./routes";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import { routes } from "./routes";
 import Layout from "../layouts/Layout";
-
+import { useAuth } from "../contexts/AuthContext";
+import { useEffect, useState } from "react";
+import { ROUTES } from "../utils/Constant";
+import { Home } from "@mui/icons-material";
 
 const AppRoute = () => {
-    // const {isLogined, } = useAuth();
+    const { user, getUser } = useAuth();
+    const [roleName, setRoleName] = useState<string>("Guest");
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        getUser();
+    }, [getUser]);
+
+    useEffect(() => {
+        if (user && user.role) {
+            setRoleName(user.role.roleName);
+        }
+    }, [user]);
 
     return (
         <Routes>
-            {
-                routes.map((route: Route, index: number) => {
-                    const PageLayout = route.layout || Layout;
-
-                    const PageComponent = route.component;
-                    return <Router key={index} path={route.path} element={
-                        <PageLayout>
-                            <PageComponent />
-                        </PageLayout>
-                    } />
-                })
-            }
-
+            {routes.map((route, index) => {
+                const PageLayout = route.layout || Layout;
+                const PageComponent = route.role ? (route.role.includes(roleName) ? route.component : Home) : route.component
+                return (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        element={
+                            <PageLayout>
+                                <PageComponent />
+                            </PageLayout>
+                        }
+                    />
+                );
+            })}
         </Routes>
-    )
-}
+    );
+};
 
-export default AppRoute
+export default AppRoute;

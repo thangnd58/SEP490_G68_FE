@@ -1,7 +1,7 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { RadioGroup, Typography, Grid, Button, TextField, FormControlLabel, Radio } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
-import { AuthContext } from '../../../contexts/AuthContext';
+import { useAuth } from '../../../contexts/AuthContext';
 import { useFormik } from 'formik';
 import ToastComponent from '../../../components/toast/ToastComponent';
 import UserService from '../../../services/UserService';
@@ -11,7 +11,7 @@ interface ChildComponentProps {
 }
 
 const changeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ setType }) => {
-    const { user } = useContext(AuthContext);
+    const { user } = useAuth();
 
     const formik = useFormik({
         initialValues: {
