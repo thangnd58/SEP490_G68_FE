@@ -21,11 +21,11 @@ const UserInformationComponent = () => {
   
   useEffect(() => {
     getLisence();
-  }, [user]);
+  }, []);
 
-  useEffect(() => {
-    getUser();
-  }, [])
+  // useEffect(() => {
+  //   getUser();
+  // }, [])
   
 
   

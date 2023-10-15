@@ -15,6 +15,7 @@ interface AuthContext {
     user: User | undefined;
     forgotPassword: (email: string) => void;
     getUser: () => void;
+    roleName: string
 }
 
 export const AuthContext = React.createContext<AuthContext>({
@@ -25,7 +26,8 @@ export const AuthContext = React.createContext<AuthContext>({
     register: (user: any) => { },
     user: undefined,
     forgotPassword: (email: string) => { },
-    getUser: () => { }
+    getUser: () => { },
+    roleName: "Guest"
 });
 
 const AuthProvider = (props: { children: JSX.Element }) => {
@@ -34,10 +36,46 @@ const AuthProvider = (props: { children: JSX.Element }) => {
     const navigate = useNavigate();
     const { t } = usei18next();
     const [user, setUser] = useState<User>();
+    const [roleName, setRoleName] = useState<string>("Guest")
 
     useEffect(() => {
         setIslogin(UserService.isLoggedIn());
     }, [isLogin])
+
+    useEffect(() => {
+        UserService.getUserInfo()
+            .then((res: any) => {
+                if (res.status === 200) {
+                    const data = res.data;
+                    const userRole: Role = {
+                        createUserId: data.role.createUserId,
+                        createDatetime: data.role.createDatetime,
+                        deleted: data.role.deleted,
+                        roleId: data.role.roleId,
+                        roleName: data.role.roleName,
+                        updateDatetime: data.role.updateDatetime,
+                        updateUserId: data.role.updateUserId,
+                    }
+                    const userResponse: User = {
+                        address: data.address,
+                        avatar: data.avatar,
+                        dob: data.dob,
+                        email: data.email,
+                        gender: data.gender,
+                        name: data.name,
+                        phone: data.phone,
+                        role: userRole,
+                        userId: data.userId,
+                        password: ""
+                    }
+                    setUser(userResponse);
+                    setRoleName(userRole.roleName)
+                }
+            })
+            .catch((error) => {
+            });
+    }, []);
+
 
     const getUser = async () => {
         try {
@@ -72,9 +110,6 @@ const AuthProvider = (props: { children: JSX.Element }) => {
         }
     }
 
-    useEffect(() => {
-        getUser();
-    }, [])
 
     const externalLogin = async (googleToken: any) => {
         try {
@@ -121,6 +156,8 @@ const AuthProvider = (props: { children: JSX.Element }) => {
         setIslogin(false)
         ToastComponent(t("toast.logout.success"), "success");
         navigate(ROUTES.homepage);
+        setUser(undefined);
+        setRoleName("Guest");
     };
     const register = async (user: any) => {
         try {
@@ -158,7 +195,8 @@ const AuthProvider = (props: { children: JSX.Element }) => {
         logout,
         register,
         forgotPassword,
-        getUser
+        getUser,
+        roleName
     };
     return (
         <AuthContext.Provider value={valueContext}>{children}</AuthContext.Provider>

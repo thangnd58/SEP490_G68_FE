@@ -11,7 +11,7 @@ interface ChildComponentProps {
 }
 
 const changeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ setType }) => {
-    const { user } = useAuth();
+    const { user, getUser } = useAuth();
 
     const formik = useFormik({
         initialValues: {
@@ -37,6 +37,7 @@ const changeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
             );
             if (response.status === 200) {
                 ToastComponent(t("toast.changeUserProfile.success"), "success");
+                getUser();
                 setType('info');
             } else {
                 ToastComponent(t("toast.changeUserProfile.warning"), "warning");
@@ -53,7 +54,6 @@ const changeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
         handleChange,
         handleSubmit
     } = formik;
-    console.log(values.name);
     return (
         <Grid item xs container spacing={2} sx={{ marginTop: 5, marginLeft: '25%' }}>
             <Grid item xs sx={{ marginLeft: 4, marginTop: 3 }} direction="column">
