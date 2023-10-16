@@ -8,6 +8,7 @@ export interface User {
     dob: string,
     address: string,
     avatar: string,
+    avatarUrl: string,
     role: Role
 }
 
@@ -29,6 +30,7 @@ export interface Lisence  {
     fullName: string,
     dob: string,
     licenceImage: string,
+    licenceImageUrl: string,
     status: number
 }
 

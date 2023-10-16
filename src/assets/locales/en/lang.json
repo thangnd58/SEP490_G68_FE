@@ -9,7 +9,7 @@
     "form": {
         "login": "Login",
         "login_hint": "Do not have an account ?",
-        "login_with_account": "Login with account",
+        "login_with_google": "Or login with",
         "register": "Register",
         "register_hint": "Have an account?",
         "userName": "Full Name",
@@ -20,6 +20,8 @@
         "required": "Required input!",
         "validateEmail": "Invalid email format",
         "validatePassword": "Minimum {{min}} characters",
+        "validatePasswordMax": "Maximum {{max}} characters",
+        "validateCharacter": "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character",
         "saveAccount": "Save account",
         "forgotPassword": "Forgot password?",
         "validatePhone": "Invalid phone number format",
@@ -27,12 +29,17 @@
         "resetpassword": "Recovery password",
         "resetpassword_hint": "If you forgot your password, you can use the following form to reset your password. You will receive an email or SMS with password reset instructions.",
         "sendLink": "Send link",
-        "verifySuccess": "Authentication successful",
-        "verifyError": "Authentication failed",
+        "verifySuccess": "Your account has been successfully verified!",
+        "verifyError": "Your account has not been verified!",
         "resubmit": "Re-send email",
         "message_verify_register": "Email has been sent to your inbox. Please check your email to complete your registration",
         "message_verify_change_password": "Email has been sent to your inbox. Please check your email to change your password.",
-        "go_to_email_page": "Go to Email page"
+        "go_to_email_page": "Go to Email page",
+        "check_your_email": "Please check your email",
+        "input_new_password": "Set new password",
+        "back_to_home_page": "Back to home page",
+        "verifySuceessLabel": "Congratulations",
+        "verifyErrorLabel": "Sorry"
     },
     "toast": {
         "login": {

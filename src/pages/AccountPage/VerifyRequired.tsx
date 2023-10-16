@@ -15,6 +15,13 @@ const VerifyRequiredStyle = styled("form")(({ theme }) => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        '& .typo-head': {
+            fontSize: '30px',
+            textAlign: 'center',
+            fontWeight: '600',
+            marginBottom: '1.5rem',
+            textTransform: 'uppercase'
+        },
         '& .MuiPaper-root': {
             padding: theme.spacing(4),
             margin: '32px auto',
@@ -25,7 +32,7 @@ const VerifyRequiredStyle = styled("form")(({ theme }) => ({
                 alignItems: 'center',
                 marginBottom: '1.5rem',
                 flexDirection: 'column',
-                '& .submit-button': 
+                '& .submit-button':
                 {
                     width: '100%',
                     marginTop: '0.5rem',
@@ -50,6 +57,9 @@ const VerifyRequired = () => {
             <Box className="form-content">
                 <Paper elevation={3} style={{ width: isMobile ? "80%" : "50%" }}>
                     <Box className="heading">
+                        <Typography className='typo-head'>
+                            {t("form.check_your_email")}
+                        </Typography>
                         <img alt="email-icon" src={EmailIcon} />
                         <Typography color='text.secondary' width='80%' textAlign='center' alignContent='center'>
                             {

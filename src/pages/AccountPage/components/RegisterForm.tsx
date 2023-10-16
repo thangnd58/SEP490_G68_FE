@@ -8,6 +8,7 @@ import { useAuth } from '../../../contexts/AuthContext';
 import usei18next from '../../../hooks/usei18next';
 import useThemePage from '../../../hooks/useThemePage';
 import MyCustomButton from '../../../components/common/MyButton';
+import ErrorMessage from '../../../components/common/ErrorMessage';
 
 const FormStyle = styled('form')(({ theme }) => ({
   width: '100%',
@@ -33,16 +34,16 @@ const FormStyle = styled('form')(({ theme }) => ({
     borderRadius: '20px',
   },
   '& .MuiTypography-root.heading': {
+    fontSize: '30px',
     textAlign: 'center',
-    fontWeight: 'bold',
+    fontWeight: '600',
     marginBottom: '1.5rem',
-    textTransform: 'uppercase',
+    textTransform: 'uppercase'
   },
   '& .MuiBox-root.hint': {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: '1.5rem',
     '& .MuiTypography-root': {
       color: theme.palette.text.secondary,
     },
@@ -85,8 +86,20 @@ const RegisterForm = () => {
       username: Yup.string().required(t('form.required')),
       email: Yup.string().email(t('form.validateEmail')).required(t('form.required')),
       phone: Yup.string().required(t('form.required')).matches(/^[0-9]{10}$/, t('form.validatePhone')),
-      password: Yup.string().min(6, t('form.validatePassword', { min: 6 })).required(t('form.required')),
-      confirmpassword: Yup.string().min(6, t('form.validatePassword', { min: 6 }))
+      password: Yup.string()
+        .min(8, t("form.validatePassword", { min: 8 }))
+        .max(32, t("form.validatePasswordMax", { max: 32 }))
+        .matches(
+          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+          t("form.validateCharacter")
+        ).required(t('form.required')),
+      confirmpassword: Yup.string()
+        .min(8, t("form.validatePassword", { min: 8 }))
+        .max(32, t("form.validatePasswordMax", { max: 32 }))
+        .matches(
+          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+          t("form.validateCharacter")
+        )
         .oneOf([Yup.ref('password')], t('form.passwordsMustMatch')).required(t('form.required')),
     }),
     onSubmit: values => {
@@ -116,17 +129,9 @@ const RegisterForm = () => {
   return (
     <FormStyle className='form' onSubmit={handleSubmit}>
       <Paper elevation={3} sx={{ width: isMobile ? '80%' : '30%', }}>
-        <Typography className='heading' variant="h5" gutterBottom>
-          {t('form.register')}
+        <Typography className='heading'>
+          {t("form.register")}
         </Typography>
-        <Box className='hint'>
-          <Typography>
-            {t('form.register_hint')}
-          </Typography>
-          <Button className='login-button' onClick={() => navigate('/login')}>
-            {t('form.login')}
-          </Button>
-        </Box>
         <Box className='register-form'>
           <Box className='register-form-content'>
             <TextField
@@ -140,7 +145,7 @@ const RegisterForm = () => {
               onChange={handleChange}
             />
             {errors.username && touched.username && (
-              <Typography className='error-text'>{errors.username}</Typography>
+              <ErrorMessage message={errors.username} />
             )}
             <TextField
               name='email'
@@ -153,7 +158,7 @@ const RegisterForm = () => {
               onChange={handleChange}
             />
             {errors.email && touched.email && (
-              <Typography className='error-text'>{errors.email}</Typography>
+              <ErrorMessage message={errors.email} />
             )}
             <TextField
               name='phone'
@@ -166,7 +171,7 @@ const RegisterForm = () => {
               onChange={handleChange}
             />
             {errors.phone && touched.phone && (
-              <Typography className='error-text'>{errors.phone}</Typography>
+              <ErrorMessage message={errors.phone} />
             )}
             <TextField
               name='password'
@@ -194,7 +199,7 @@ const RegisterForm = () => {
               }}
             />
             {errors.password && touched.password && (
-              <Typography className='error-text'>{errors.password}</Typography>
+              <ErrorMessage message={errors.password} />
             )}
             <TextField
               name='confirmpassword'
@@ -222,13 +227,18 @@ const RegisterForm = () => {
               }}
             />
             {errors.confirmpassword && touched.confirmpassword && (
-              <Typography className='error-text'>{errors.confirmpassword}</Typography>
+              <ErrorMessage message={errors.confirmpassword} />
             )}
+            <Box className='hint'>
+              <Typography>
+                {t('form.register_hint')}
+              </Typography>
+              <Button className='login-button' onClick={() => navigate('/login')}>
+                {t('form.login')}
+              </Button>
+            </Box>
             <Box className='submit-button'>
-              {/* <Button className='submit-button' variant='contained' color='primary' size='large' fullWidth type='submit'>
-                {t('form.register')}
-              </Button> */}
-            <MyCustomButton className='submit-button' content={t('form.register')} onClick={handleSubmit} width="100%" height="80%" fontSize={16} fontWeight={500} uppercase borderRadius={8} />
+              <MyCustomButton className='submit-button' content={t('form.register')} onClick={handleSubmit} width="100%" height="80%" fontSize={16} fontWeight={500} uppercase borderRadius={8} />
             </Box>
           </Box>
         </Box>
