@@ -5,7 +5,7 @@ import { AuthContext, useAuth } from '../../../contexts/AuthContext';
 import { ImageUpload, Lisence } from '../../../utils/type';
 import UserService from '../../../services/UserService';
 import { useFormik } from 'formik';
-import ToastComponent from '../../../components/toast/ToastComponent';
+import ToastComponent from '../../../components/ToastComponent';
 import UploadImageService from '../../../services/UploadImageService';
 
 const UserInformationComponent = () => {

@@ -31,7 +31,8 @@
         "verifyError": "Authentication failed",
         "resubmit": "Re-send email",
         "message_verify_register": "Email has been sent to your inbox. Please check your email to complete your registration",
-        "message_verify_change_password": "Email has been sent to your inbox. Please check your email to change your password."
+        "message_verify_change_password": "Email has been sent to your inbox. Please check your email to change your password.",
+        "go_to_email_page": "Go to Email page"
     },
     "toast": {
         "login": {

@@ -7,7 +7,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { ResetPassword } from '../../utils/type';
 import UserService from '../../services/UserService';
-import ToastComponent from '../../components/toast/ToastComponent';
+import ToastComponent from '../../components/ToastComponent';
 import { ROUTES } from '../../utils/Constant';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 

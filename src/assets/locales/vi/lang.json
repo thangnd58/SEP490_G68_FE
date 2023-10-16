@@ -31,7 +31,8 @@
         "verifyError": "Xác thực thất bại",
         "resubmit": "Gửi lại email",
         "message_verify_register": "Email đã được gửi đến hòm thư của bạn. Vui lòng kiểm tra hòm thư để hoàn thành đăng ký",
-        "message_verify_change_password": "Email đã được gửi đến hòm thư của bạn. Vui lòng kiểm tra hòm thư để tiến hành thay đổi mật khẩu."
+        "message_verify_change_password": "Email đã được gửi đến hòm thư của bạn. Vui lòng kiểm tra hòm thư để tiến hành thay đổi mật khẩu.",
+        "go_to_email_page": "Đi đến hòm thư"
     },
     "toast": {
         "login": {
