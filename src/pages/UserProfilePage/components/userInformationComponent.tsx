@@ -63,6 +63,11 @@ const UserInformationComponent = () => {
     handleSubmit
   } = formik;
 
+  const cancelEditLisence = () =>{
+    getLisence();
+    setLicenseImageName('null');
+    setIsEditLisence(false);
+  } 
   const changeLisence = async (licenceNumber: string, fullName: string, dob: string, licenceImage: string) => {
     try {
         const response = await UserService.changeLicense(
@@ -237,16 +242,16 @@ const UserInformationComponent = () => {
           }  
           
           </Grid>
-          <Grid container xs={3}>
+          <Grid container xs={4}>
             {
               isEditLisence ?
                 (<>
-                  <Button variant="outlined" type='submit' sx={{ marginRight: 2, marginLeft: 8, height: '90%' }}>{t("licenseInfo.BtnSave")}</Button>
-                  <Button variant="contained" sx={{ height: '90%' }} onClick={() => setIsEditLisence(false)}>{t("licenseInfo.BtnCancel")}</Button>
+                  <Button variant="outlined" type='submit' sx={{ marginRight: 2, marginLeft: 8, height: '90%' ,width:'auto'}}>{t("licenseInfo.BtnSave")}</Button>
+                  <Button variant="contained" sx={{ height: '90%',width:'auto' }} onClick={() => cancelEditLisence()}>{t("licenseInfo.BtnCancel")}</Button>
                 </>)
                 :
                 (
-                  <Button variant="outlined" key={'info'} sx={{ marginLeft: 17, height: '90%' }} onClick={() => setIsEditLisence(true)}>
+                  <Button variant="outlined" key={'info'} sx={{ marginLeft: 17, height: '90%',width:'auto'}} onClick={() => setIsEditLisence(true)}>
                     {t("licenseInfo.BtnEdit")}
                   </Button>
                 )
