@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import UserService from '../services/UserService';
 import { useNavigate } from 'react-router-dom';
-import ToastComponent from '../components/toast/ToastComponent';
+import ToastComponent from '../components/ToastComponent';
 import usei18next from '../hooks/usei18next';
 import { ROUTES } from '../utils/Constant';
 import { User, Role } from '../utils/type';
@@ -154,10 +154,11 @@ const AuthProvider = (props: { children: JSX.Element }) => {
 
     const logout = () => {
         setIslogin(false)
-        ToastComponent(t("toast.logout.success"), "success");
-        navigate(ROUTES.homepage);
         setUser(undefined);
         setRoleName("Guest");
+        localStorage.setItem("token", JSON.stringify(""));
+        ToastComponent(t("toast.logout.success"), "success");
+        navigate(ROUTES.homepage);
     };
     const register = async (user: any) => {
         try {

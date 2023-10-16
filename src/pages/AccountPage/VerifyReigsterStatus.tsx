@@ -34,16 +34,16 @@ const VerifyReigsterStatus = () => {
             <Paper elevation={3} style={{ padding: "20px", width: isMobile ? "80%" : "30%", margin: "0 auto", borderRadius: "20px" }}>
                 {isSuccess ? (
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginBottom: "2rem", flexDirection: "column" }}>
-                        <img src={SuccessIcon} />
-                        <Typography color="secondary.main" marginBottom="1.5rem" width="80%" textAlign="center" alignContent="center">
+                        <img alt="success-icon" src={SuccessIcon} />
+                        <Typography color="text.secondary" marginBottom="1.5rem" width="80%" textAlign="center" alignContent="center">
                             {t("form.verifySuccess")}
                         </Typography>
                         <Button variant="contained" onClick={() => navigate(`/${ROUTES.account.login}`)}>{t("form.login")}</Button>
                     </div>
                 ) : (
                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginBottom: "2rem", flexDirection: "column" }}>
-                        <img src={ErrorIcon} />
-                        <Typography color="secondary.main" marginBottom="1.5rem" width="80%" textAlign="center" alignContent="center">
+                        <img alt="error-icon" src={ErrorIcon} />
+                        <Typography color="text.secondary" marginBottom="1.5rem" width="80%" textAlign="center" alignContent="center">
                             {t("form.verifyError")}
                         </Typography>
                         <Button variant="contained">{t("form.resubmit")}</Button>
