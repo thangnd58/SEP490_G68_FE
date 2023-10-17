@@ -25,6 +25,7 @@
         "saveAccount": "Save account",
         "forgotPassword": "Forgot password?",
         "validatePhone": "Invalid phone number format",
+        "validLicenseNumber":"Invalid license number format",
         "passwordsMustMatch": "Passwords do not match!",
         "resetpassword": "Recovery password",
         "resetpassword_hint": "If you forgot your password, you can use the following form to reset your password. You will receive an email or SMS with password reset instructions.",

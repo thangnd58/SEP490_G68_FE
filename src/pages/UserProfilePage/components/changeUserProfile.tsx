@@ -5,6 +5,10 @@ import { useAuth } from '../../../contexts/AuthContext';
 import { useFormik } from 'formik';
 import ToastComponent from '../../../components/ToastComponent';
 import UserService from '../../../services/UserService';
+import * as Yup from 'yup';
+import ErrorMessage from '../../../components/common/ErrorMessage';
+
+
 
 interface ChildComponentProps {
     setType: React.Dispatch<React.SetStateAction<string>>;
@@ -12,6 +16,7 @@ interface ChildComponentProps {
 
 const changeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ setType }) => {
     const { user, getUser } = useAuth();
+    const { t } = usei18next();
 
     const formik = useFormik({
         initialValues: {
@@ -21,6 +26,12 @@ const changeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
             dob: user ? user.dob : '',
             address: user ? user.address : ''
         },
+        validationSchema: Yup.object({
+          name: Yup.string().required(t('form.required')),
+          phone : Yup.string().required(t('form.required')).matches(/^[0-9]{10}$/, t('form.validatePhone')),
+          dob : Yup.string().required(t('form.required')),
+          address : Yup.string().required(t('form.required')),
+        }),
         onSubmit: values => {
             changeUserProfile(values.name,values.phone ,values.gender, values.dob, values.address);
         }
@@ -47,10 +58,10 @@ const changeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
         }
     };
 
-    const { t } = usei18next();
-
     const {
         values,
+        errors,
+        touched,
         handleChange,
         handleSubmit
     } = formik;
@@ -68,6 +79,9 @@ const changeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
                         value={values.name}
                         onChange={handleChange}
                     />
+                    {errors.name && touched.name && (
+                    <ErrorMessage message={errors.name} />
+                    )}
                     <Typography fontWeight="700" sx={{ width: '65%', marginTop: 2, display: 'Block' }} >{t("userProfile.Gender")}</Typography>
                     <RadioGroup
                         name="gender"
@@ -100,6 +114,9 @@ const changeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
                         placeholder=""
 
                     />
+                    {errors.phone && touched.phone && (
+                    <ErrorMessage message={errors.phone} />
+                    )}
                     <TextField
                         name='dob'
                         sx={{ width: 500 }}
@@ -114,8 +131,10 @@ const changeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
                             shrink: true,
                         }}
                         placeholder=""
-
                     />
+                    {errors.dob && touched.dob && (
+                    <ErrorMessage message={errors.dob} />
+                    )}
                     <TextField
                         name='address'
                         sx={{ width: 500 }}
@@ -126,6 +145,9 @@ const changeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
                         value={values.address}
                         onChange={handleChange}
                     />
+                    {errors.address && touched.address && (
+                    <ErrorMessage message={errors.address} />
+                    )}
                     <div >
                         <Button variant="outlined" type='submit' sx={{ width: 150, marginLeft: '25%', marginTop: 3, paddingTop: 1, paddingBottom: 1 }}>{t("changePassword.BtnChange")}</Button>
                     </div>

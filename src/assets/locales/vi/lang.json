@@ -25,6 +25,7 @@
         "saveAccount": "Ghi nhớ đăng nhập",
         "forgotPassword": "Quên mật khẩu?",
         "validatePhone": "Nhập sai định dạng số điện thoại",
+        "validLicenseNumber":"Nhập sai định dạng bằng lái xe",
         "passwordsMustMatch": "Mật khẩu nhập lại không khớp!",
         "resetpassword": "Quên mật khẩu",
         "resetpassword_hint": "Nếu bạn quên mật khẩu, bạn có thể dùng mẫu sau để thiết lập lại mật khẩu. Bạn sẽ nhận được một email hoặc SMS với nội dung hướng dẫn đặt lại mật khẩu.",
