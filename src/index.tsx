@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import AuthProvider from './contexts/AuthContext';
 import { ToastContainer } from 'react-toastify';
 import AppRoute from './routes/AppRoute';
-import theme from './utils/CreateTheme';
+import theme from './utils/theme';
 
 const rootElement = document.getElementById('root') as HTMLElement;
 const root = ReactDOM.createRoot(rootElement);

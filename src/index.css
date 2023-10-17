@@ -1,14 +1,6 @@
 :root {
-  --primary-color: #264659;
-  --second-color: #1d3c5c;
-
-
-
-
-
-  --text-color: #fff;
-
-  --bg-color: #fff;
+  --primary-color: #8B4513;
+  --second-color: #A26A42;
 }
 
 
@@ -29,12 +21,18 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #264659;
+  background-color: #A26A42;
   border-radius: 6px;
   border: 4px solid transparent;
   -webkit-background-clip: content-box;
 }
+
+
+
+
+
+

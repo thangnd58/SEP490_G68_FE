@@ -15,6 +15,7 @@ const LanguageBox = memo(() => {
 
     return (
         <img
+            alt='language'
             style={{ cursor: 'pointer', }}
             height={32}
             width={32}
@@ -72,8 +73,11 @@ function Header() {
                 sx={{ background: 'none' }}
             >
                 <Box
-                    sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                    <ListItem sx={{ padding: "16px 0px 16px 32px" }}>
+                    sx={{
+                        display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%',
+                        borderBottom: (theme) => `1px solid ${theme.palette.action.disabledBackground}`,
+                    }}>
+                    <ListItem sx={{ padding: "24px 0px 24px 32px" }}>
                         <LogoFull size={200} />
                     </ListItem>
                     {isMobile ? (
@@ -86,7 +90,7 @@ function Header() {
                             <MenuIcon />
                         </IconButton>
                     ) : (
-                        <ListItem sx={{ padding: "16px 32px 16px 0px", display: 'flex', justifyContent: 'end', gap: "16px" }}>
+                        <ListItem sx={{ padding: "18px 32px 18px 0px", display: 'flex', justifyContent: 'end', gap: "16px" }}>
                             <IconButton >
                                 <LanguageBox />
                             </IconButton>
