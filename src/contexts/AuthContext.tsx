@@ -5,6 +5,7 @@ import ToastComponent from '../components/ToastComponent';
 import usei18next from '../hooks/usei18next';
 import { ROUTES } from '../utils/Constant';
 import { User, Role } from '../utils/type';
+import { decodeToken } from 'react-jwt';
 
 interface AuthContext {
     isLogin: boolean;
@@ -41,6 +42,14 @@ const AuthProvider = (props: { children: JSX.Element }) => {
     useEffect(() => {
         setIslogin(UserService.isLoggedIn());
     }, [isLogin])
+
+    useEffect(() => {
+        const token = UserService.getToken();
+        if (token) {
+            setIslogin(true);
+            navigate(ROUTES.homepage)
+        }
+    }, [])
 
     useEffect(() => {
         UserService.getUserInfo()

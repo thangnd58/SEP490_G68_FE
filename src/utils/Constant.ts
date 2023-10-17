@@ -14,5 +14,4 @@ export const ROUTES = {
         registermotorbike: "/register-motorbike",
     },
     
-
 }
