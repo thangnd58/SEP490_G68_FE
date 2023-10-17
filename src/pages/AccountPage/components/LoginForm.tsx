@@ -8,6 +8,8 @@ import useThemePage from '../../../hooks/useThemePage';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router';
 import { Height, Visibility, VisibilityOff } from '@mui/icons-material';
+import ErrorMessage from '../../../components/common/ErrorMessage';
+import MyCustomButton from '../../../components/common/MyButton';
 
 const FormStyle = styled('form')(({ theme }) => ({
   width: '100%',
@@ -38,12 +40,12 @@ const FormStyle = styled('form')(({ theme }) => ({
     textAlign: 'center',
     fontWeight: '600',
     marginBottom: '1.5rem',
+    textTransform: 'uppercase'
   },
   '& .login-hint': {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: '1.5rem',
     '& .MuiTypography-root': {
       color: theme.palette.text.secondary,
     },
@@ -62,6 +64,7 @@ const FormStyle = styled('form')(({ theme }) => ({
     color: theme.palette.text.secondary,
     textAlign: 'center',
     marginBottom: '1.5rem',
+    marginTop: '1.5rem'
   },
   '& .MuiBox-root.login-form': {
     display: 'flex',
@@ -113,7 +116,12 @@ const LoginForm = () => {
         .email(t("form.validateEmail"))
         .required(t("form.required")),
       password: Yup.string()
-        .min(6, t("form.validatePassword", { min: 6 }))
+        .min(8, t("form.validatePassword", { min: 8 }))
+        .max(32, t("form.validatePasswordMax", { max: 32 }))
+        .matches(
+          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+          t("form.validateCharacter")
+        )
         .required(t("form.required")),
     }),
     onSubmit: values => {
@@ -159,30 +167,6 @@ const LoginForm = () => {
         <Typography className='login'>
           {t("form.login")}
         </Typography>
-        <Box className='login-hint'>
-          <Typography>
-            {t("form.login_hint")}
-          </Typography>
-          <Button className='register-button' onClick={() => navigate("/register")}>
-            {t("form.register")}
-          </Button>
-        </Box>
-        <Box className='google-buttons'>
-          <GoogleOAuthProvider clientId="1088937198611-lpsokcekdcethdobpeghbm43nf4fglcl.apps.googleusercontent.com">
-            <GoogleLogin
-              size='medium'
-              onSuccess={credentialResponse => {
-                handleGoogleLogin(credentialResponse)
-              }}
-              onError={() => {
-                console.log('Login Failed');
-              }}
-            />
-          </GoogleOAuthProvider>
-        </Box>
-        <Typography className='login-with-account'>
-          {t("form.login_with_account")}
-        </Typography>
         <Box className='login-form'>
           <Box className="login-form-content">
             <TextField
@@ -198,7 +182,7 @@ const LoginForm = () => {
               className='centered-placeholder'
             />
             {errors.email && touched.email && (
-              <Typography className='error-text'>{errors.email}</Typography>
+              <ErrorMessage message={errors.email} />
             )}
             <TextField
               name='password'
@@ -227,7 +211,7 @@ const LoginForm = () => {
               }}
             />
             {errors.password && touched.password && (
-              <Typography className='error-text'>{errors.password}</Typography>
+              <ErrorMessage message={errors.password} />
             )}
             <Box className='save-account-forgot-password'>
               <Box className='save-account'>
@@ -236,13 +220,51 @@ const LoginForm = () => {
               </Box>
               <Typography className='forgot-password' onClick={() => navigate("/reset-password")}>{t("form.forgotPassword")}</Typography>
             </Box>
-            <Button className='submit-button' variant='contained' color='primary' size='large' type='submit'>
-              {t("form.login")}
-            </Button>
+            <Box sx={{my: '1.5rem'}}>
+              <Box
+                style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+              >
+                <Box sx={{ flex: 1, height: '1px', backgroundColor: 'action.disabledBackground' }} />
+
+                <Box style={{ margin: '0px 2px 0px 2px', }}>
+                  <Typography sx={{ textAlign: 'center', color: 'text.secondary', fontSize: '14px' }}>{t("form.login_with_google")}</Typography>
+                </Box>
+
+                <Box sx={{ flex: 1, height: '1px', backgroundColor: 'action.disabledBackground' }} />
+              </Box>
+            </Box>
+            <Box className='google-buttons'>
+              <GoogleOAuthProvider clientId="1088937198611-lpsokcekdcethdobpeghbm43nf4fglcl.apps.googleusercontent.com">
+                <GoogleLogin
+                  size='medium'
+                  onSuccess={credentialResponse => {
+                    handleGoogleLogin(credentialResponse)
+                  }}
+                  onError={() => {
+                    console.log('Login Failed');
+                  }}
+                />
+              </GoogleOAuthProvider>
+            </Box>
+            <Box className='login-hint'>
+              <Typography>
+                {t("form.login_hint")}
+              </Typography>
+              <Button className='register-button' onClick={() => navigate("/register")}>
+                {t("form.register")}
+              </Button>
+            </Box>
+            <Box className='submit-button'>
+              <MyCustomButton className='submit-button' content={t("form.login")} onClick={handleSubmit} width="100%" height="80%" fontSize={16} fontWeight={500} uppercase borderRadius={8} />
+            </Box>
           </Box>
         </Box>
+
+
+
+
       </Paper>
-    </FormStyle>
+    </FormStyle >
   );
 };
 

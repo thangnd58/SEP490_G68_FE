@@ -22,13 +22,28 @@ const changePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
     },
     validationSchema: Yup.object({
       oldPassword: Yup.string()
-        .min(6, t("form.validatePassword", { min: 6 }))
+        .min(8, t("form.validatePassword", { min: 8 }))
+        .max(32, t("form.validatePasswordMax", { max: 32 }))
+        .matches(
+          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+          t("form.validateCharacter")
+        )
         .required(t("form.required")),
       newPassword: Yup.string()
-        .min(6, t("form.validatePassword", { min: 6 }))
+        .min(8, t("form.validatePassword", { min: 8 }))
+        .max(32, t("form.validatePasswordMax", { max: 32 }))
+        .matches(
+          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+          t("form.validateCharacter")
+        )
         .required(t("form.required")),
       confirmPassword: Yup.string()
-        .min(6, t("form.validatePassword", { min: 6 }))
+        .min(8, t("form.validatePassword", { min: 8 }))
+        .max(32, t("form.validatePasswordMax", { max: 32 }))
+        .matches(
+          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+          t("form.validateCharacter")
+        )
         .oneOf([Yup.ref('newPassword')], t("form.passwordsMustMatch"))
         .required(t("form.required")),
     }),
@@ -64,7 +79,7 @@ const changePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
   const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
 
 
-  const handleMouseDownPassword = (event : React.MouseEvent<any>) => {
+  const handleMouseDownPassword = (event: React.MouseEvent<any>) => {
     event.preventDefault();
   };
 

@@ -6,6 +6,8 @@ import * as Yup from "yup";
 import useThemePage from '../../../hooks/useThemePage';
 import { EmailIcon } from '../../../assets/images';
 import { AuthContext, useAuth } from '../../../contexts/AuthContext';
+import ErrorMessage from '../../../components/common/ErrorMessage';
+import MyCustomButton from '../../../components/common/MyButton';
 
 const ResetPassworStyle = styled('form')(({ theme }) => ({
     width: '100%',
@@ -31,21 +33,22 @@ const ResetPassworStyle = styled('form')(({ theme }) => ({
         margin: '32px auto',
         borderRadius: '20px',
         '& .reset-password-text': {
+            fontSize: '30px',
             textAlign: 'center',
-            fontWeight: 'bold',
+            fontWeight: '600',
             marginBottom: '1.5rem',
+            textTransform: 'uppercase'
         },
         '& .box-hint': {
-            display: 'flex', 
-            justifyContent: 'center', 
-            alignItems: 'center', 
-            marginBottom: '2rem', 
-            flexDirection: 'column' 
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column'
         },
         '& .box-input-email': {
-            display: 'flex', 
-            justifyContent: 'center', 
-            marginBottom: '1.5rem', 
+            display: 'flex',
+            justifyContent: 'center',
+            marginBottom: '1.5rem',
             '& .box-input-email-content': {
                 width: '80%',
                 '& .warning-content': {
@@ -89,7 +92,7 @@ const ResetPasswordForm = () => {
     return (
         <ResetPassworStyle onSubmit={handleSubmit}>
             <Paper elevation={3} style={{ width: isMobile ? "80%" : "30%" }}>
-                <Typography className='reset-password-text' variant="h5" gutterBottom>
+                <Typography className='reset-password-text' gutterBottom>
                     {t("form.resetpassword")}
                 </Typography>
                 <Box className={"box-hint"}>
@@ -99,7 +102,7 @@ const ResetPasswordForm = () => {
                     <img alt='ic-icon' src={EmailIcon} />
                 </Box>
                 <Box className="box-input-email">
-                    <Box className ="box-input-email-content" >
+                    <Box className="box-input-email-content" >
                         <TextField
                             name="email"
                             label={t("form.email")}
@@ -111,11 +114,11 @@ const ResetPasswordForm = () => {
                             onChange={handleChange}
                         />
                         {errors.email && touched.email && (
-                            <Typography className='warning-content'>{errors.email}</Typography>
+                            <ErrorMessage message={errors.email} />
                         )}
-                        <Button className='btn_sendlink' variant="contained" color="primary" size='large' fullWidth type='submit'>
-                            {t("form.sendLink")}
-                        </Button>
+                        <Box className='submit-button'>
+                            <MyCustomButton className='submit-button' content={t("form.sendLink")} onClick={handleSubmit} width="100%" height="80%" fontSize={16} fontWeight={500} uppercase borderRadius={8} />
+                        </Box>
                     </Box>
                 </Box>
             </Paper>

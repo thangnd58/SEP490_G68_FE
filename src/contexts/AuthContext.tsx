@@ -58,6 +58,7 @@ const AuthProvider = (props: { children: JSX.Element }) => {
                     }
                     const userResponse: User = {
                         address: data.address,
+                        avatarUrl: data.avatarUrl,
                         avatar: data.avatar,
                         dob: data.dob,
                         email: data.email,
@@ -74,7 +75,7 @@ const AuthProvider = (props: { children: JSX.Element }) => {
             })
             .catch((error) => {
             });
-    }, []);
+    }, [isLogin, roleName]);
 
 
     const getUser = async () => {
@@ -93,6 +94,7 @@ const AuthProvider = (props: { children: JSX.Element }) => {
                 }
                 const userResponse: User = {
                     address: data.address,
+                    avatarUrl: data.avatarUrl,
                     avatar: data.avatar,
                     dob: data.dob,
                     email: data.email,
@@ -117,14 +119,15 @@ const AuthProvider = (props: { children: JSX.Element }) => {
 
             if (response.status === 200) {
                 ToastComponent(t("toast.login.success"), "success");
-                navigate(ROUTES.user.userprofile);
+                setRoleName(response.data.userInfo.role.roleName);
+                navigate(ROUTES.homepage);
+                setIslogin(true);
             } else {
                 ToastComponent(t("toast.login.warning"), "warning");
             }
         } catch (error) {
             ToastComponent(t("toast.login.error"), "error")
         }
-        setIslogin(true);
     };
 
     const login = async (user: any, saveAccount: boolean) => {
@@ -141,9 +144,9 @@ const AuthProvider = (props: { children: JSX.Element }) => {
                     localStorage.removeItem("acccount");
                 }
                 ToastComponent(t("toast.login.success"), "success");
+                setRoleName(response.data.userInfo.role.roleName);
                 setIslogin(true);
                 navigate(ROUTES.homepage);
-
             } else {
                 ToastComponent(t("toast.login.warning"), "warning");
             }
