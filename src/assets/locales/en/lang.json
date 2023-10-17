@@ -45,12 +45,13 @@
     "toast": {
         "login": {
             "success": "Login successfully",
-            "warning": "Login failed",
+            "warning": "Invalid email or password",
+            "warning_external": "Login with Google failed",
             "error": "Login error"
         },
         "register": {
             "success": "Register successfully",
-            "warning": "Register failed",
+            "warning": "Email already exists",
             "error": "Register error"
         },
         "logout": {

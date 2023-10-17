@@ -16,8 +16,14 @@ root.render(
     <BrowserRouter>
       <AuthProvider>
         <>
-          <ToastContainer style={{ marginTop: '7vh' }} />
-
+          <ToastContainer
+            position="bottom-left"
+            autoClose={3000}
+            style={{ 
+              marginBottom: '10vh',
+              fontSize: '14px'
+            }}
+          />
           <AppRoute />
         </>
       </AuthProvider>

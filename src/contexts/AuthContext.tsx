@@ -125,17 +125,14 @@ const AuthProvider = (props: { children: JSX.Element }) => {
     const externalLogin = async (googleToken: any) => {
         try {
             const response = await UserService.externalLogin({ accessToken: googleToken });
-
             if (response.status === 200) {
                 ToastComponent(t("toast.login.success"), "success");
                 setRoleName(response.data.userInfo.role.roleName);
                 navigate(ROUTES.homepage);
                 setIslogin(true);
-            } else {
-                ToastComponent(t("toast.login.warning"), "warning");
             }
         } catch (error) {
-            ToastComponent(t("toast.login.error"), "error")
+            ToastComponent(t("toast.login.warning_external"), "warning");
         }
     };
 
@@ -156,11 +153,9 @@ const AuthProvider = (props: { children: JSX.Element }) => {
                 setRoleName(response.data.userInfo.role.roleName);
                 setIslogin(true);
                 navigate(ROUTES.homepage);
-            } else {
-                ToastComponent(t("toast.login.warning"), "warning");
             }
         } catch (error) {
-            ToastComponent(t("toast.login.error"), "error")
+            ToastComponent(t("toast.login.warning"), "warning");
         }
     };
 
@@ -172,6 +167,7 @@ const AuthProvider = (props: { children: JSX.Element }) => {
         ToastComponent(t("toast.logout.success"), "success");
         navigate(ROUTES.homepage);
     };
+
     const register = async (user: any) => {
         try {
             const response = await UserService.register({
@@ -181,11 +177,9 @@ const AuthProvider = (props: { children: JSX.Element }) => {
             });
             if (response.status === 200) {
                 navigate(`${ROUTES.account.verifyrequired}/register`);
-            } else {
-                ToastComponent(t("toast.register.warning"), "warning");
             }
         } catch (error) {
-            ToastComponent(t("toast.register.error"), "error")
+            ToastComponent(t("toast.register.warning"), "warning");
         }
     };
 

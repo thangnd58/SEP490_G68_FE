@@ -45,12 +45,13 @@
     "toast": {
         "login": {
             "success": "Đăng nhập thành công",
-            "warning": "Đăng nhập thất bại",
+            "warning": "Email hoặc mật khẩu không hợp lệ",
+            "warning_external": "Đăng nhập Google  thất bại",
             "error": "Lỗi đăng nhập"
         },
         "register": {
             "success": "Đăng ký thành công",
-            "warning": "Đăng ký thất bại",
+            "warning": "Email đã tồn tại",
             "error": "Lỗi đăng ký"
         },
         "logout" : {
