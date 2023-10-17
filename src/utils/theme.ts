@@ -25,7 +25,7 @@ const theme = createTheme({
             hover: '#A26A42', // hover color
             selected: '#9A9EA5', // placeholder color
             disabled: '#777E90', // icon color
-            disabledBackground: '#B1B5C3', // border color
+            disabledBackground: '#E0E0E0', // border color
         },
         common: {
             black: '#000000', // black color

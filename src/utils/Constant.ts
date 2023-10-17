@@ -11,5 +11,8 @@ export const ROUTES = {
     },
     user: {
         userprofile: "/user-profile",
-    }
+        registermotorbike: "/register-motorbike",
+    },
+    
+
 }
