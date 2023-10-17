@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Avatar, Typography, Grid, Button, TextField, Box, ListItem } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
 import { AuthContext, useAuth } from '../../../contexts/AuthContext';
+import * as Yup from 'yup';
 import { ImageUpload, Lisence } from '../../../utils/type';
 import UserService from '../../../services/UserService';
 import { useFormik } from 'formik';
+import ErrorMessage from '../../../components/common/ErrorMessage';
 import ToastComponent from '../../../components/ToastComponent';
 import UploadImageService from '../../../services/UploadImageService';
 
@@ -50,6 +52,11 @@ const UserInformationComponent = () => {
       dob: '',
       licenceImage: ''
     },
+    validationSchema: Yup.object({
+      licenceNumber: Yup.string().required(t('form.required')).matches(/^[0-9]{12}$/, t('form.validLicenseNumber')),
+      fullName: Yup.string().required(t('form.required')),
+      dob : Yup.string().required(t('form.required'))
+    }),
     onSubmit: values => {
       changeLisence(values.licenceNumber, values.fullName, values.dob, values.licenceImage);
     }
@@ -57,6 +64,8 @@ const UserInformationComponent = () => {
 
   const {
     values,
+    errors,
+    touched,
     setFieldValue,
     handleChange,
     handleSubmit
@@ -223,7 +232,7 @@ const UserInformationComponent = () => {
             <Grid container xs={4}>
               <Typography variant="h6" fontWeight="bold" sx={{ width: '70%', marginLeft: 2 }} >{t("licenseInfo.Title")}</Typography>
             </Grid>
-            <Grid container xs={4}>
+            <Grid container xs={3}>
               {
                 lisence?.status === 0 ?
                   <div style={{ color: '#e3be05', border: '1px #e3be05 solid', paddingLeft: '10px', paddingRight: '10px', borderRadius: '10px', paddingTop: '5px', marginLeft: '-70px' }} >
@@ -242,16 +251,16 @@ const UserInformationComponent = () => {
               }
 
             </Grid>
-            <Grid container xs={3}>
+            <Grid container xs={4}>
               {
                 isEditLisence ?
                   (<>
-                    <Button variant="outlined" type='submit' sx={{ marginRight: 2, marginLeft: 8, height: '90%' }}>{t("licenseInfo.BtnSave")}</Button>
+                    <Button variant="outlined" type='submit' sx={{ marginRight: 2, marginLeft: '50%', height: '90%' }}>{t("licenseInfo.BtnSave")}</Button>
                     <Button variant="contained" sx={{ height: '90%' }} onClick={() => cancelEditLisence()}>{t("licenseInfo.BtnCancel")}</Button>
                   </>)
                   :
                   (
-                    <Button variant="outlined" key={'info'} sx={{ marginLeft: 17, height: '90%' }} onClick={() => setIsEditLisence(true)}>
+                    <Button variant="outlined" key={'info'} sx={{ marginLeft: '60%', height: 'auto' }} onClick={() => setIsEditLisence(true)}>
                       {t("licenseInfo.BtnEdit")}
                     </Button>
                   )
@@ -274,7 +283,9 @@ const UserInformationComponent = () => {
                 sx={{ width: '80%' }}
                 onChange={handleChange}
               />
-
+              {errors.licenceNumber && touched.licenceNumber && (
+              <ErrorMessage message={errors.licenceNumber} />
+             )}
               <TextField
                 disabled={!isEditLisence}
                 name="fullName"
@@ -290,7 +301,9 @@ const UserInformationComponent = () => {
                 sx={{ width: '80%' }}
                 onChange={handleChange}
               />
-
+              {errors.fullName && touched.fullName && (
+              <ErrorMessage message={errors.fullName} />
+              )}
               <TextField
                 onChange={handleChange}
                 disabled={!isEditLisence}
@@ -306,6 +319,9 @@ const UserInformationComponent = () => {
                 margin='normal'
                 sx={{ width: '80%' }}
               />
+              {errors.dob && touched.dob && (
+              <ErrorMessage message={errors.dob} />
+              )}
             </Grid>
             <Grid container xs={6} sx={{ width: '90%', height: '70%', border: '2px solid #cfcecc', p: 2, borderRadius: 2, marginTop: '50px', minHeight: '270px' }}>
               {
