@@ -13,5 +13,9 @@ export const ROUTES = {
         userprofile: "/user-profile",
         registermotorbike: "/register-motorbike",
     },
+    admin: {
+        managemotorbikes: "/manage-motorbikes",
+        managelicences: "/manage-licences"
+    }
     
 }
