@@ -31,7 +31,8 @@ export interface Lisence {
     dob: string,
     licenceImage: string,
     licenceImageUrl: string,
-    status: number
+    status: number,
+    createDateTime: string
 }
 
 export interface ResetPassword {
