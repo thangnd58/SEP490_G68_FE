@@ -5,5 +5,6 @@ import LogoHeader from "./logo.png";
 import EmailIcon from '../icons/email-icon.svg';
 import SuccessIcon from './success.png';
 import ErrorIcon from './error.png';
+export { ReactComponent as ManagementIcon } from "./management-icon.svg";
 
 export { VietNamFlag, UnitedKingDomFlag, LogoHeader, EmailIcon, SuccessIcon, ErrorIcon, NotificationIcon };

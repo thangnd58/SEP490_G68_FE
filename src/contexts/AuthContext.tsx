@@ -33,21 +33,18 @@ export const AuthContext = React.createContext<AuthContext>({
 
 const AuthProvider = (props: { children: JSX.Element }) => {
     const { children } = props;
-    const [isLogin, setIslogin] = useState<boolean>(false);
+    const [isLogin, setIslogin] = useState<boolean>(UserService.isLoggedIn());
     const navigate = useNavigate();
     const { t } = usei18next();
     const [user, setUser] = useState<User>();
     const [roleName, setRoleName] = useState<string>("Guest")
 
-    useEffect(() => {
-        setIslogin(UserService.isLoggedIn());
-    }, [isLogin])
 
     useEffect(() => {
         const token = UserService.getToken();
         if (token) {
             setIslogin(true);
-            navigate(ROUTES.homepage)
+            // navigate(ROUTES.homepage)
         }
     }, [])
 
@@ -115,6 +112,7 @@ const AuthProvider = (props: { children: JSX.Element }) => {
                     password: ""
                 }
                 setUser(userResponse);
+                setRoleName(userRole.roleName)
             }
         } catch (error) {
 

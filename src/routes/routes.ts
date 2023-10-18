@@ -12,6 +12,9 @@ export type UserRole = 'Admin' | 'Customer' | 'Cuest';
 import LayoutWithoutFooter from '../layouts/LayoutWithoutFooter';
 import Home from '../pages/HomePage/HomePage';
 import RegisterMotorbike from '../pages/PostMotorbike/RegisterMotorbike';
+import MotorbikeManagement from '../pages/DashBoardPage/MotorbikeManagement/MotorbikeManagement';
+import LayoutAdmin from '../layouts/LayoutAdmin';
+import LicenceManagement from '../pages/DashBoardPage/LicenceManagement/LicenceManagement';
 // import { MyMapArea } from '../components/common/MyMapArea';
 import MyMapArea from '../components/common/MyMapArea';
 import ListMotorbike from '../pages/PostMotorbike/ListMotorbike';
@@ -28,11 +31,13 @@ export const routes: Route[] = [
     { path: ROUTES.component.mymaparea, component: MyMapArea},
     { path: ROUTES.user.userprofile, component: UserProfilePage, role: ["Admin", "Customer"] },
     { path: ROUTES.user.registermotorbike, component: RegisterMotorbike, role: ["Admin","Customer"]},
-    { path: ROUTES.user.listmotorbike, component: ListMotorbike, role: ["Customer"]},
+    { path: ROUTES.user.listmotorbike, component: ListMotorbike, role: ["Admin", "Customer"]},
     { path: ROUTES.account.login, component: Login, layout: LayoutWithoutFooter, role: ["Guest"]},
     { path: ROUTES.account.register, component: Register, layout: LayoutWithoutFooter, role: ["Guest"] },
     { path: ROUTES.account.resetpassword, component: ResetPassword, layout: LayoutWithoutFooter, role: ["Guest"]},
     { path: `${ROUTES.account.verifyrequired}/:type`, component: VerifyRequired, layout: LayoutWithoutFooter },
     { path: `${ROUTES.account.userverification}/:ticket`, component: VerifyReigsterStatus, layout: LayoutWithoutFooter },
     { path: `${ROUTES.account.setpassword}/:ticket`, component: SetNewPassword, layout: LayoutWithoutFooter },
+    { path: `${ROUTES.admin.managemotorbikes}`, component: MotorbikeManagement, layout: LayoutAdmin, role: ["Admin"] },
+    { path: `${ROUTES.admin.managelicences}`, component: LicenceManagement, layout: LayoutAdmin, role: ["Admin"] },
 ];
