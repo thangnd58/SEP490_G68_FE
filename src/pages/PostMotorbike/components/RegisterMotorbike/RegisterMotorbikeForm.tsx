@@ -1,14 +1,15 @@
-import { Box, Grid, IconButton, ImageList, ImageListItem, ImageListItemBar, Modal, TextField, Typography, styled } from '@mui/material';
+import { Box, Grid, IconButton, ImageList, ImageListItem, Modal, Typography } from '@mui/material';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import RegisterMotorbikeItem from './RegisterMotorbikeItem';
-import MyCustomTextField from '../../../components/common/MyTextField';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import MyCustomTextField from '../../../../components/common/MyTextField';
 import { CloseOutlined, Map } from '@mui/icons-material';
-import MyCustomButton from '../../../components/common/MyButton';
-import theme from '../../../utils/theme';
-import { PostMotorbikeService } from '../../../services/PostMotorbikeService';
-import { Brand, District, Model, Province } from '../../../utils/type';
-import { ProvincesService } from '../../../services/ProvincesService';
+import MyCustomButton from '../../../../components/common/MyButton';
+import theme from '../../../../utils/theme';
+import { PostMotorbikeService } from '../../../../services/PostMotorbikeService';
+import { Brand, District, Model, Province } from '../../../../utils/type';
+import { ProvincesService } from '../../../../services/ProvincesService';
+import { CartIcon, HelmetIcon, ProtectClothesIcon, RainCoatIcon, RepairIcon, TelephoneIcon } from '../../../../assets/icons';
+import EquipmentItem from './EquipmentItem';
 
 const RegisterMotorbikeForm = () => {
 
@@ -18,10 +19,33 @@ const RegisterMotorbikeForm = () => {
     const [listBrand, setListBrand] = useState<Brand[]>([]);
     const [listModel, setListModel] = useState<Model[]>([]);
     const [selectedBrand, setSelectedBrand] = useState<number>(0);
+    const [selectedProvince, setSelectedProvince] = useState<number>();
+    const [selectedDistrict, setSelectedDistrict] = useState<number>();
     const [selectedImages, setSelectedImages] = useState<File[]>([]);
     const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
     const [isMapModalOpen, setMapModalOpen] = useState(false);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+    const [licensePlate, setLicensePlate] = useState('');
+    const [description, setDescription] = useState('');
+    const [fuelConsumption, setFuelConsumption] = useState('');
+    const [defaultPrice, setDefaultPrice] = useState('');
+    const [selectedProvinceValue, setSelectedProvinceValue] = useState('');
+    const [selectedDistrictValue, setSelectedDistrictValue] = useState('');
+    const [selectedWardValue, setSelectedWardValue] = useState('');
+
+    const handleSubmit = () => {
+        // Log giá trị của các trường TextField
+        console.log('Biển số xe:', licensePlate);
+        // console.log('Mô tả:', description);
+        // console.log('Mức tiêu thụ nhiên liệu:', fuelConsumption);
+        // console.log('Giá thuê mặc định:', defaultPrice);
+        // console.log('Tỉnh/Thành phố:', selectedProvinceValue);
+        // console.log('Quận/Huyện:', selectedDistrictValue);
+        // console.log('Phường/Xã:', selectedWardValue);
+
+        // Thực hiện các thao tác cần thiết khi bấm nút submit
+    };
 
 
     useEffect(() => {
@@ -35,17 +59,6 @@ const RegisterMotorbikeForm = () => {
                 setListProvince(res);
             }
         });
-        ProvincesService.getDistrictsByProvince(1).then((res) => {
-            if (res !== null) {
-                setListDistrict(res);
-            }
-        });
-        ProvincesService.getWardsByDistrict(1).then((res) => {
-            if (res !== null) {
-                setListWard(res);
-            }
-        });
-
     }, []);
 
     useEffect(() => {
@@ -57,6 +70,28 @@ const RegisterMotorbikeForm = () => {
             });
         }
     }, [selectedBrand]);
+
+    // useEffect(() => {
+    //     if (selectedProvince !== 0) {
+    //         ProvincesService.getDistrictsByProvince(Number(selectedProvince)).then((res) => {
+    //             if (res !== null) {
+    //                 setListDistrict(res);
+    //             }
+    //         });
+    //     }
+    // }, [selectedProvince]);
+
+    // useEffect(() => {
+    //     if (selectedDistrict !== 0) {
+    //         ProvincesService.getWardsByDistrict(Number(selectedDistrict)).then((res) => {
+    //             if (res !== null) {
+    //                 setListWard(res);
+    //             }
+    //         });
+    //     }
+    // }, [selectedDistrict]);
+
+
 
     const handleAddImages = () => {
         if (fileInputRef.current) {
@@ -89,6 +124,10 @@ const RegisterMotorbikeForm = () => {
         setSelectedImages(updatedImages);
     };
 
+    const handleLicensePlateChange = (value: string) => {
+        setLicensePlate(value); // Update the licensePlate state
+    };
+
 
     const openModal = (index: number) => {
         setSelectedImageIndex(index);
@@ -119,6 +158,7 @@ const RegisterMotorbikeForm = () => {
                             borderRadius={8}
                             width='100%'
                             placeholder={'Vui lòng nhập biển sổ xe'}
+                            onValueChange={handleLicensePlateChange}
                         />
                     }
                 />
@@ -219,8 +259,8 @@ const RegisterMotorbikeForm = () => {
                                                 borderRadius={8}
                                                 placeholder='Vui lòng chọn hãng xe'
                                                 listItems={listBrand.map((brand) => ({ key: brand.id.toString(), value: brand.brandName }))}
-                                                // Lưu trạng thái hãng xe đã chọn
-                                                // setSelectedBrand={setSelectedBrand}
+                                            // Lưu trạng thái hãng xe đã chọn
+                                            // setSelectedBrand={setSelectedBrand}
                                             />
                                         }
                                     />
@@ -236,9 +276,9 @@ const RegisterMotorbikeForm = () => {
                                                 borderRadius={8}
                                                 placeholder='Vui lòng chọn hãng xe trước'
                                                 listItems={listModel.map((model) => ({ key: model.id.toString(), value: model.modelName }))}
-                                                // Vô hiệu hóa trường nhập liệu nếu chưa chọn hãng xe
-                                                // disabled={selectedBrand === 0}
-                                                // selectedBrand={selectedBrand}
+                                            // Vô hiệu hóa trường nhập liệu nếu chưa chọn hãng xe
+                                            // disabled={selectedBrand === 0}
+                                            // selectedBrand={selectedBrand}
                                             />
                                         }
                                     />
@@ -268,7 +308,7 @@ const RegisterMotorbikeForm = () => {
                                             <MyCustomTextField
                                                 borderRadius={8}
                                                 placeholder='Vui lòng chọn loại nhiên liệu'
-                                                listItems={[{ key: '1', value: 'Xăng' }, { key: '2', value: 'Điện' }]}
+                                                listItems={[{ key: 'Xăng', value: 'Xăng' }, { key: 'Điện', value: 'Điện' }]}
                                             />
                                         }
                                     />
@@ -308,6 +348,36 @@ const RegisterMotorbikeForm = () => {
                         />
                     }
                 />
+
+                <RegisterMotorbikeItem
+                    title={'Trang bị'}
+                    isRequired={false}
+                    item={
+                        <Box sx={{ width: '100%' }}>
+                            <Grid container spacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                                <Grid item xs={4}>
+                                    <EquipmentItem icon={<RainCoatIcon />} label='Áo mưa' />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <EquipmentItem icon={<HelmetIcon />} label='Mũ bảo hiểm 3/4' />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <EquipmentItem icon={<ProtectClothesIcon />} label='Dây đeo phản quang' />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <EquipmentItem icon={<CartIcon />} label='Baga sau' />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <EquipmentItem icon={<RepairIcon />} label='Bộ dụng cụ vá xe' />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <EquipmentItem icon={< TelephoneIcon/>} label='Giá đỡ điện thoại' />
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    }
+                />
+
                 <RegisterMotorbikeItem
                     title={'Giá thuê mặc định '}
                     isRequired={true}
@@ -427,7 +497,7 @@ const RegisterMotorbikeForm = () => {
                             item={<MyCustomTextField borderRadius={8} width='100%' placeholder={'Nhập địa chỉ'} />}
                             myButton={
                                 <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"center"} margin={"24px 0px 0px 0px"}>
-                                    <MyCustomButton width='30%' borderRadius={8} fontSize={16} fontWeight={600} content='Xác nhận' onClick={() => { }} />
+                                    <MyCustomButton width='30%' borderRadius={8} fontSize={16} fontWeight={600} content='Xác nhận' onClick={handleSubmit} />
                                 </Box>
                             }
                         />

@@ -12,10 +12,12 @@ export const ROUTES = {
     user: {
         userprofile: "/user-profile",
         registermotorbike: "/register-motorbike",
+        listmotorbike: "/list-motorbike",
     },
 
     component: {
         mymaparea: "/map-area",
+        equipment: "/equipment",
     }
 
 }

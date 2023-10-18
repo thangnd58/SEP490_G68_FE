@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
-import theme from '../../../utils/theme';
+import theme from '../../../../utils/theme';
 
 interface CustomItemProps {
     className?: string,

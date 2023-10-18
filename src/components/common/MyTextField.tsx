@@ -12,9 +12,6 @@ const CustomTextFieldStyle = (
     '& .MuiTextField-root': {
         width: width ? width : '100%',
         // change color of icon of inputProps
-        '& .MuiInputAdornment-root': {
-            color: theme.palette.action.disabled,
-        },
         '& .MuiInputBase-root': {
             alignItems: multiline ? 'flex-start' : 'center',
             minHeight: multiline ? '200px' : height ? height : 'auto',
@@ -51,9 +48,7 @@ interface CustomTextFieldProps {
     placeholder?: string;
     multiline?: boolean;
     listItems?: ListItemProps[];
-    // selectedBrand?: number;
-    // setSelectedBrand?: (value: React.SetStateAction<number>) => void;
-    // disabled?: boolean;
+    onValueChange?: (value: string) => void;
 };
 
 interface ListItemProps {
@@ -61,25 +56,17 @@ interface ListItemProps {
     value: string
 };
 
-const MyCustomTextField: React.FC<CustomTextFieldProps> = ({ type, content, className, width, height, fontSize, fontWeight, borderRadius, icon, iconPosition, label, placeholder, multiline, listItems, 
-    // setSelectedBrand, 
-    // disabled,
-    //  selectedBrand 
-    }) => {
+const MyCustomTextField: React.FC<CustomTextFieldProps> = ({ type, content, className, width, height, fontSize, fontWeight, borderRadius, icon, iconPosition, label, placeholder, multiline, listItems,
+
+    onValueChange
+}) => {
     const StyledTextField = CustomTextFieldStyle(width, borderRadius, height, fontSize, fontWeight, multiline);
 
     const [selectedValue, setSelectedValue] = useState("default");
 
     const handleSelectChange = (event: React.ChangeEvent<{ value: string }>) => {
         setSelectedValue(event.target.value);
-        // setSelectedBrand(Number(event.target.value));
     };
-
-    // useEffect(() => {
-    //     if (selectedBrand === 0) {
-    //         setSelectedValue("default");
-    //     }
-    // }, [selectedBrand]);
 
     return (
         listItems ?
@@ -89,7 +76,6 @@ const MyCustomTextField: React.FC<CustomTextFieldProps> = ({ type, content, clas
                         type={type}
                         className={className}
                         label={label}
-                        placeholder={placeholder}
                         InputProps={{
                             startAdornment: iconPosition === 'start' ? <InputAdornment position="start">{icon}</InputAdornment> : null,
                             endAdornment: iconPosition === 'end' ? <InputAdornment position="end">{icon}</InputAdornment> : null,
@@ -101,9 +87,8 @@ const MyCustomTextField: React.FC<CustomTextFieldProps> = ({ type, content, clas
                         }}
                         value={selectedValue}
                         onChange={handleSelectChange}
-                        // disabled={disabled}
                     >
-                        <option key="default" value={0}>
+                        <option key="default" value={"default"}>
                             {placeholder}
                         </option>
                         {listItems && listItems.map((item) => (

@@ -11,7 +11,8 @@ const AppRoute = () => {
         <Routes>
             {routes.map((route, index) => {
                 const PageLayout = route.layout || Layout;
-                const PageComponent = route.role ? (route.role.includes(roleName) ? route.component : Home) : route.component
+                // const PageComponent = route.role ? (route.role.includes(roleName) ? route.component : Home) : route.component
+                const PageComponent = route.component
                 return (
                     <Route
                         key={index}

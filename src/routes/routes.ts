@@ -12,7 +12,9 @@ export type UserRole = 'Admin' | 'Customer' | 'Cuest';
 import LayoutWithoutFooter from '../layouts/LayoutWithoutFooter';
 import Home from '../pages/HomePage/HomePage';
 import RegisterMotorbike from '../pages/PostMotorbike/RegisterMotorbike';
+// import { MyMapArea } from '../components/common/MyMapArea';
 import MyMapArea from '../components/common/MyMapArea';
+import ListMotorbike from '../pages/PostMotorbike/ListMotorbike';
 
 export type Route = {
     path: string;
@@ -25,7 +27,8 @@ export const routes: Route[] = [
     { path: ROUTES.homepage, component: Home },
     { path: ROUTES.component.mymaparea, component: MyMapArea},
     { path: ROUTES.user.userprofile, component: UserProfilePage, role: ["Admin", "Customer"] },
-    { path: ROUTES.user.registermotorbike, component: RegisterMotorbike, role: ["Customer"]},
+    { path: ROUTES.user.registermotorbike, component: RegisterMotorbike, role: ["Admin","Customer"]},
+    { path: ROUTES.user.listmotorbike, component: ListMotorbike, role: ["Customer"]},
     { path: ROUTES.account.login, component: Login, layout: LayoutWithoutFooter, role: ["Guest"]},
     { path: ROUTES.account.register, component: Register, layout: LayoutWithoutFooter, role: ["Guest"] },
     { path: ROUTES.account.resetpassword, component: ResetPassword, layout: LayoutWithoutFooter, role: ["Guest"]},
