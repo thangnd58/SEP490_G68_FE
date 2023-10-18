@@ -46,3 +46,22 @@ export interface ImageUpload {
     code:  string,
     fileName: string
 }
+
+export interface Motorbike {
+    id?: number,
+    motorbikeName: string,
+    licensePlate: string,
+    type: string,
+    priceRent: number,
+    equipments: string,
+    fuelConsumption: number,
+    provinceId: number,
+    districtId: number,
+    wardId: number,
+    image: string,
+    address:string,
+    location: string,
+    modelId: number,
+    status: number,
+    createDatetime: string
+}
