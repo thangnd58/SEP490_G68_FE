@@ -17,7 +17,7 @@ interface CustomItemProps {
     buttonPosition?: 'start' | 'end',
 }
 
-const RegisterMotorbikeItem: React.FC<CustomItemProps> = ({className, title, marginBottomTitle, fontSizeTitle, fontWeightTitle, secondTitle, fontSizeSecondTitle, fontWeightSecondTitle, isRequired, item, myButton,buttonPosition }) => {
+const RegisterMotorbikeItem: React.FC<CustomItemProps> = ({ className, title, marginBottomTitle, fontSizeTitle, fontWeightTitle, secondTitle, fontSizeSecondTitle, fontWeightSecondTitle, isRequired, item, myButton, buttonPosition }) => {
     return (
         <Box className={className} width={"100%"} display={"flex"} flexDirection={"column"} gap={"8px"} margin={"16px 0px"}>
             <Typography
@@ -44,9 +44,10 @@ const RegisterMotorbikeItem: React.FC<CustomItemProps> = ({className, title, mar
             </Typography>}
             <Box width={"100%"}>{item}</Box>
             {myButton &&
-                <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={buttonPosition ? buttonPosition : "start"}>   
+                <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={buttonPosition ? buttonPosition : "start"}>
                     {myButton}
-                </Box>}
+                </Box>
+            }
         </Box>
     );
 };

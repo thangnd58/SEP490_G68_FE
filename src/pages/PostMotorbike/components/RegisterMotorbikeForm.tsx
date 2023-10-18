@@ -1,19 +1,62 @@
 import { Box, Grid, IconButton, ImageList, ImageListItem, ImageListItemBar, Modal, TextField, Typography, styled } from '@mui/material';
-import React, { ChangeEvent, useRef, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import RegisterMotorbikeItem from './RegisterMotorbikeItem';
 import MyCustomTextField from '../../../components/common/MyTextField';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { CloseOutlined, Map } from '@mui/icons-material';
 import MyCustomButton from '../../../components/common/MyButton';
 import theme from '../../../utils/theme';
+import { PostMotorbikeService } from '../../../services/PostMotorbikeService';
+import { Brand, District, Model, Province } from '../../../utils/type';
+import { ProvincesService } from '../../../services/ProvincesService';
 
 const RegisterMotorbikeForm = () => {
 
-    const [selectedBrand, setSelectedBrand] = useState<string | undefined>();
+    const [listProvince, setListProvince] = useState<Province[]>([]);
+    const [listDistrict, setListDistrict] = useState<Province>();
+    const [listWard, setListWard] = useState<District>();
+    const [listBrand, setListBrand] = useState<Brand[]>([]);
+    const [listModel, setListModel] = useState<Model[]>([]);
+    const [selectedBrand, setSelectedBrand] = useState<number>(0);
     const [selectedImages, setSelectedImages] = useState<File[]>([]);
     const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
     const [isMapModalOpen, setMapModalOpen] = useState(false);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+
+    useEffect(() => {
+        PostMotorbikeService.getAllBrand().then((res) => {
+            if (res.length > 0) {
+                setListBrand(res);
+            }
+        });
+        ProvincesService.getAllProvinces().then((res) => {
+            if (res.length > 0) {
+                setListProvince(res);
+            }
+        });
+        ProvincesService.getDistrictsByProvince(1).then((res) => {
+            if (res !== null) {
+                setListDistrict(res);
+            }
+        });
+        ProvincesService.getWardsByDistrict(1).then((res) => {
+            if (res !== null) {
+                setListWard(res);
+            }
+        });
+
+    }, []);
+
+    useEffect(() => {
+        if (selectedBrand !== 0) {
+            PostMotorbikeService.getAllModel(Number(selectedBrand)).then((res) => {
+                if (res.length > 0) {
+                    setListModel(res);
+                }
+            });
+        }
+    }, [selectedBrand]);
 
     const handleAddImages = () => {
         if (fileInputRef.current) {
@@ -21,11 +64,23 @@ const RegisterMotorbikeForm = () => {
         }
     };
 
+    const MAX_IMAGES = 12;
+    const MAX_IMAGE_SIZE_MB = 10;
+
     const handleImageSelection = (e: ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
         if (files) {
             const imageFiles: File[] = Array.from(files);
-            setSelectedImages((prevImages) => [...prevImages, ...imageFiles]);
+            if (selectedImages.length + imageFiles.length <= MAX_IMAGES) {
+                const isValidSize = imageFiles.every((file) => file.size / (1024 * 1024) <= MAX_IMAGE_SIZE_MB);
+                if (isValidSize) {
+                    setSelectedImages((prevImages) => [...prevImages, ...imageFiles]);
+                } else {
+                    alert('Image size exceeds the limit.');
+                }
+            } else {
+                alert('You can only upload up to 12 images.');
+            }
         }
     };
 
@@ -83,9 +138,9 @@ const RegisterMotorbikeForm = () => {
                                     key={index}
                                     cols={1}
                                     rows={1}
-                                    onClick={() => openModal(index)}
                                 >
                                     <img
+                                        onClick={() => openModal(index)}
                                         style={{ borderRadius: '4px', border: '1px solid #E0E0E0' }}
                                         src={URL.createObjectURL(image)}
                                         alt={`Selected Image ${index + 1}`}
@@ -163,12 +218,9 @@ const RegisterMotorbikeForm = () => {
                                             <MyCustomTextField
                                                 borderRadius={8}
                                                 placeholder='Vui lòng chọn hãng xe'
-                                                listItems={[
-                                                    { key: '1', value: 'Honda' },
-                                                    { key: '2', value: 'Yamaha' },
-                                                ]}
+                                                listItems={listBrand.map((brand) => ({ key: brand.id.toString(), value: brand.brandName }))}
                                                 // Lưu trạng thái hãng xe đã chọn
-                                                onChange={(e) => setSelectedBrand(e.target.value)}
+                                                // setSelectedBrand={setSelectedBrand}
                                             />
                                         }
                                     />
@@ -183,9 +235,10 @@ const RegisterMotorbikeForm = () => {
                                             <MyCustomTextField
                                                 borderRadius={8}
                                                 placeholder='Vui lòng chọn hãng xe trước'
-                                                listItems={[{ key: '1', value: 'Honda' }, { key: '2', value: 'Yamaha' }]}
+                                                listItems={listModel.map((model) => ({ key: model.id.toString(), value: model.modelName }))}
                                                 // Vô hiệu hóa trường nhập liệu nếu chưa chọn hãng xe
-                                                disabled={!selectedBrand}
+                                                // disabled={selectedBrand === 0}
+                                                // selectedBrand={selectedBrand}
                                             />
                                         }
                                     />
@@ -294,7 +347,7 @@ const RegisterMotorbikeForm = () => {
                         <MyCustomTextField
                             borderRadius={8}
                             width='100%'
-                            disabled={true}
+                            // disabled={true}
                             placeholder={'Địa chỉ mặc định giao nhận xe'}
                             icon={
                                 <Map
@@ -324,7 +377,63 @@ const RegisterMotorbikeForm = () => {
                 </Box>
             </Box>
             <ImageModal selectedImages={selectedImages} selectedImageIndex={selectedImageIndex} closeModal={closeModal} />
-            <MapModal isMapModalOpen={isMapModalOpen} closeMapModal={closeMapModal} />
+            <Modal open={isMapModalOpen} onClose={closeMapModal} aria-labelledby="map-modal-title" aria-describedby="map-modal-description" sx={{
+                display: 'flex',
+                alignItems: 'start',
+                justifyContent: 'center',
+                margin: '32px 0px',
+                overflowY: 'auto',
+            }}>
+                <Box width={"30%"} height={"auto"} sx={{
+                    padding: "16px 32px",
+                    backgroundColor: 'white',
+                    borderRadius: '8px',
+                }}>
+                    <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"start"} alignItems={"center"}>
+                        <Typography width={"100%"} variant='h2' color={theme.palette.text.primary} fontSize={"24px"} fontWeight={600} textAlign={"start"}>
+                            Chọn địa chỉ xe
+                        </Typography>
+                        <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
+                            <IconButton onClick={closeMapModal}>
+                                <CloseOutlined />
+                            </IconButton>
+                        </Box>
+                    </Box>
+                    <Box width={"100%"} height={"80%"} display={"flex"} flexDirection={"column"} justifyContent={"start"} alignItems={"center"}>
+                        <RegisterMotorbikeItem title={'Tỉnh/Thành phố '} fontSizeTitle='16px' isRequired={true} item={<MyCustomTextField borderRadius={8} fontSize={16} height='48px' width='100%' placeholder={'Chọn Tỉnh/ Thành phố'}
+                            listItems={listProvince.map((province) => ({ key: province.code.toString(), value: province.name }))}
+                        />} />
+
+                        <RegisterMotorbikeItem title={'Quận/Huyện '} fontSizeTitle='16px' isRequired={true} item={<MyCustomTextField borderRadius={8} width='100%' placeholder={'Chọn Quận/Huyện'}
+                            listItems={listProvince.map((province) => ({ key: province.code.toString(), value: province.name }))}
+                        />} />
+
+                        <RegisterMotorbikeItem fontSizeTitle='16px' title={'Phường/Xã '} isRequired={true} item={<MyCustomTextField borderRadius={8} width='100%' placeholder={'Chọn Phường/Xã'} listItems={[{
+                            key: '1',
+                            value: 'Phường Hoàng Văn Thụ'
+                        }, {
+                            key: '2',
+                            value: 'Phường Thanh Xuân Trung'
+                        }, {
+                            key: '3',
+                            value: 'Phường Thanh Xuân Bắc'
+                        }]} />} />
+
+
+                        <RegisterMotorbikeItem
+                            fontSizeTitle='16px'
+                            title={'Địa chỉ '}
+                            isRequired={true}
+                            item={<MyCustomTextField borderRadius={8} width='100%' placeholder={'Nhập địa chỉ'} />}
+                            myButton={
+                                <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"center"} margin={"24px 0px 0px 0px"}>
+                                    <MyCustomButton width='30%' borderRadius={8} fontSize={16} fontWeight={600} content='Xác nhận' onClick={() => { }} />
+                                </Box>
+                            }
+                        />
+                    </Box>
+                </Box>
+            </Modal>
 
         </Box>
     );
@@ -336,84 +445,16 @@ interface MapModalProps {
 }
 
 interface ImageModalProps {
-    selectedImages : File[];
+    selectedImages: File[];
     selectedImageIndex: number | null;
     closeModal: () => void;
 }
 
-function MapModal({ isMapModalOpen, closeMapModal }: MapModalProps) {
-    return (<Modal open={isMapModalOpen} onClose={closeMapModal} aria-labelledby="map-modal-title" aria-describedby="map-modal-description" sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-    }}>
-        <Box width={"30%"} height={"auto"} sx={{
-            padding: "16px 32px",
-            backgroundColor: 'white',
-            borderRadius: '8px'
-        }}>
+// function MapModal({ isMapModalOpen, closeMapModal }: MapModalProps) {
+//     return ();
+// }
 
-            <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"start"} alignItems={"center"}>
-                <Typography width={"100%"} variant='h2' color={theme.palette.text.primary} fontSize={"24px"} fontWeight={600} textAlign={"start"}>
-                    Chọn địa chỉ xe
-                </Typography>
-                <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
-                    <IconButton onClick={closeMapModal}>
-                        <CloseOutlined />
-                    </IconButton>
-                </Box>
-            </Box>
-            <Box width={"100%"} height={"80%"} display={"flex"} flexDirection={"column"} justifyContent={"start"} alignItems={"center"}>
-                <RegisterMotorbikeItem title={'Tỉnh/Thành phố '} fontSizeTitle='16px' isRequired={true} item={<MyCustomTextField borderRadius={8} fontSize={16} height='48px' width='100%' placeholder={'Chọn Tỉnh/ Thành phố'} listItems={[{
-                    key: '1',
-                    value: 'Hà Nội'
-                }, {
-                    key: '2',
-                    value: 'Hồ Chí Minh'
-                }, {
-                    key: '3',
-                    value: 'Đà Nẵng'
-                }]} />} />
-
-                <RegisterMotorbikeItem title={'Quận/Huyện '} fontSizeTitle='16px' isRequired={true} item={<MyCustomTextField borderRadius={8} width='100%' placeholder={'Chọn Quận/Huyện'} listItems={[{
-                    key: '1',
-                    value: 'Quận Hoàng Mai'
-                }, {
-                    key: '2',
-                    value: 'Quận Đống Đa'
-                }, {
-                    key: '3',
-                    value: 'Quận Ba Đình'
-                }]} />} />
-
-                <RegisterMotorbikeItem fontSizeTitle='16px' title={'Phường/Xã '} isRequired={true} item={<MyCustomTextField borderRadius={8} width='100%' placeholder={'Chọn Phường/Xã'} listItems={[{
-                    key: '1',
-                    value: 'Phường Hoàng Văn Thụ'
-                }, {
-                    key: '2',
-                    value: 'Phường Thanh Xuân Trung'
-                }, {
-                    key: '3',
-                    value: 'Phường Thanh Xuân Bắc'
-                }]} />} />
-
-                <RegisterMotorbikeItem
-                    fontSizeTitle='16px'
-                    title={'Địa chỉ '}
-                    isRequired={true}
-                    item={<MyCustomTextField borderRadius={8} width='100%' placeholder={'Nhập địa chỉ'} />}
-                    myButton={
-                        <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"center"} margin={"24px 0px 0px 0px"}>
-                            <MyCustomButton width='30%' borderRadius={8} fontSize={16} fontWeight={600} content='Xác nhận' onClick={() => { }} />
-                        </Box>
-                    }
-                />
-            </Box>
-        </Box>
-    </Modal>);
-}
-
-function ImageModal({ selectedImages,selectedImageIndex, closeModal }: ImageModalProps) {
+function ImageModal({ selectedImages, selectedImageIndex, closeModal }: ImageModalProps) {
     return (<Modal open={selectedImageIndex !== null} onClose={closeModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description" sx={{
         display: 'flex',
         alignItems: 'center',
