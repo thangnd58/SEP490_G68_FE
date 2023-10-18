@@ -2,7 +2,7 @@
 const LicenceManagement = () => {
     return (
         <>
-            Licence
+            Licence 1
         </>
     )
 }
