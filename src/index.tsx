@@ -22,8 +22,7 @@ root.render(
             position="bottom-left"
             autoClose={3000}
             style={{ 
-              marginBottom: '10vh',
-              fontSize: '14px'
+              fontSize: '16px'
             }}
           />
           <AppRoute />

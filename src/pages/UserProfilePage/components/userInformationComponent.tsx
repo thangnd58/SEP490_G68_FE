@@ -7,7 +7,7 @@ import { ImageUpload, Lisence } from '../../../utils/type';
 import UserService from '../../../services/UserService';
 import { useFormik } from 'formik';
 import ErrorMessage from '../../../components/common/ErrorMessage';
-import ToastComponent from '../../../components/ToastComponent';
+import ToastComponent from '../../../components/toast/ToastComponent';
 import UploadImageService from '../../../services/UploadImageService';
 
 const UserInformationComponent = () => {

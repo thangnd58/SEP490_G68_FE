@@ -3,7 +3,7 @@ import { RadioGroup, Typography, Grid, Button, TextField, FormControlLabel, Radi
 import usei18next from '../../../hooks/usei18next';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useFormik } from 'formik';
-import ToastComponent from '../../../components/ToastComponent';
+import ToastComponent from '../../../components/toast/ToastComponent';
 import UserService from '../../../services/UserService';
 import * as Yup from 'yup';
 import ErrorMessage from '../../../components/common/ErrorMessage';

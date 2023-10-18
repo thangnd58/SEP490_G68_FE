@@ -10,6 +10,8 @@ import { Brand, District, Model, Province } from '../../../../utils/type';
 import { ProvincesService } from '../../../../services/ProvincesService';
 import { CartIcon, HelmetIcon, ProtectClothesIcon, RainCoatIcon, RepairIcon, TelephoneIcon } from '../../../../assets/icons';
 import EquipmentItem from './EquipmentItem';
+import ToastComponent from '../../../../components/toast/ToastComponent';
+import CustomizedSnackbars from '../../../../components/common/MySnackbar';
 
 const RegisterMotorbikeForm = () => {
 
@@ -111,10 +113,10 @@ const RegisterMotorbikeForm = () => {
                 if (isValidSize) {
                     setSelectedImages((prevImages) => [...prevImages, ...imageFiles]);
                 } else {
-                    alert('Image size exceeds the limit.');
+                    <CustomizedSnackbars autoHideDuration={1000} severity="error" message="Vui lòng chọn ảnh có kích thước nhỏ hơn 10MB" />
                 }
             } else {
-                alert('You can only upload up to 12 images.');
+                <CustomizedSnackbars autoHideDuration={1000} severity="error" message="Vui lòng chọn tối đa 12 ảnh" />
             }
         }
     };
@@ -371,7 +373,7 @@ const RegisterMotorbikeForm = () => {
                                     <EquipmentItem icon={<RepairIcon />} label='Bộ dụng cụ vá xe' />
                                 </Grid>
                                 <Grid item xs={4}>
-                                    <EquipmentItem icon={< TelephoneIcon/>} label='Giá đỡ điện thoại' />
+                                    <EquipmentItem icon={< TelephoneIcon />} label='Giá đỡ điện thoại' />
                                 </Grid>
                             </Grid>
                         </Box>

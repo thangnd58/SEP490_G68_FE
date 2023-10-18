@@ -19,9 +19,10 @@ export const ROUTES = {
         mymaparea: "/map-area",
         equipment: "/equipment",
     },
+
     admin: {
         managemotorbikes: "/manage-motorbikes",
         managelicences: "/manage-licences"
     }
-
+    
 }

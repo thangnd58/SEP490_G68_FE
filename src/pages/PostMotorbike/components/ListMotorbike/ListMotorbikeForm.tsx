@@ -1,59 +1,63 @@
-import { Checkbox, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, NativeSelect, Paper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, TextField, Toolbar, Tooltip, Typography } from '@mui/material'
-import { alpha } from '@mui/material/styles';
+import { Checkbox, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, NativeSelect, Paper, Switch, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, TableSortLabel, TextField, Toolbar, Tooltip, Typography } from '@mui/material'
+import { alpha, useTheme } from '@mui/material/styles';
 import { Box } from '@mui/system'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import LastPageIcon from '@mui/icons-material/LastPage';
 
 
 import React from 'react'
+import theme from '../../../../utils/theme';
+import { Edit, EditOutlined } from '@mui/icons-material';
 
 export default function ListMotorbikeForm() {
 
 
   interface Data {
     id: number;
-    calories: number;
-    carbs: number;
-    fat: number;
-    name: string;
-    protein: number;
+    image: string;
+    model: string;
+    licensePlate: string;
+    registrationDate: string;
+    status: string;
+    action: string;
   }
 
   function createData(
     id: number,
-    name: string,
-    calories: number,
-    fat: number,
-    carbs: number,
-    protein: number,
+    image: string,
+    model: string,
+    licensePlate: string,
+    registrationDate: string,
+    status: string,
+    action: string
   ): Data {
     return {
       id,
-      name,
-      calories,
-      fat,
-      carbs,
-      protein,
+      image,
+      model,
+      licensePlate,
+      registrationDate,
+      status,
+      action
     };
   }
 
   const rows = [
-    createData(1, 'Cupcake', 305, 3.7, 67, 4.3),
-    createData(2, 'Donut', 452, 25.0, 51, 4.9),
-    createData(3, 'Eclair', 262, 16.0, 24, 6.0),
-    createData(4, 'Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData(5, 'Gingerbread', 356, 16.0, 49, 3.9),
-    createData(6, 'Honeycomb', 408, 3.2, 87, 6.5),
-    createData(7, 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData(8, 'Jelly Bean', 375, 0.0, 94, 0.0),
-    createData(9, 'KitKat', 518, 26.0, 65, 7.0),
-    createData(10, 'Lollipop', 392, 0.2, 98, 0.0),
-    createData(11, 'Marshmallow', 318, 0, 81, 2.0),
-    createData(12, 'Nougat', 360, 19.0, 9, 37.0),
-    createData(13, 'Oreo', 437, 18.0, 63, 4.0),
+    createData(1, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Honda", "29F1-12345", "21/10/2021", "Đang cho thuê", "Xóa"),
+    createData(2, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Yamaha", "29F1-12346", "16/10/2021", "Đang cho thuê", "Xóa"),
+    createData(3, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Piaggio", "29F1-12347", "18/10/2021", "Đang cho thuê", "Xóa"),
+    createData(4, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "SYM", "29F1-12348", "10/10/2021", "Đang cho thuê", "Xóa"),
+    createData(5, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Suzuki", "29F1-12349", "01/10/2021", "Đang cho thuê", "Xóa"),
+    createData(6, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Triumph", "29F1-12341", "02/10/2021", "Đang cho thuê", "Xóa"),
+    createData(7, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Ducati", "29F1-12342", "03/10/2021", "Đang cho thuê", "Xóa"),
+    createData(8, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Vinfast", "29F1-12335", "04/10/2021", "Đang cho thuê", "Xóa"),
+    createData(9, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Honda", "29F1-123454", "05/10/2021", "Đã cho thuê", "Xóa"),
+    createData(10, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Honda", "29F1-12344", "06/10/2021", "Đang chờ phê duyệt", "Xóa"),
   ];
 
   function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -100,39 +104,43 @@ export default function ListMotorbikeForm() {
     disablePadding: boolean;
     id: keyof Data;
     label: string;
-    numeric: boolean;
   }
 
   const headCells: readonly HeadCell[] = [
     {
-      id: 'name',
-      numeric: false,
+      id: 'id',
       disablePadding: true,
-      label: 'Dessert (100g serving)',
+      label: '#',
     },
     {
-      id: 'calories',
-      numeric: true,
+      id: 'image',
       disablePadding: false,
-      label: 'Calories',
+      label: 'Hình Ảnh',
     },
     {
-      id: 'fat',
-      numeric: true,
+      id: 'model',
       disablePadding: false,
-      label: 'Fat (g)',
+      label: 'Mẫu xe',
     },
     {
-      id: 'carbs',
-      numeric: true,
+      id: 'licensePlate',
       disablePadding: false,
-      label: 'Carbs (g)',
+      label: 'Biển số xe',
     },
     {
-      id: 'protein',
-      numeric: true,
+      id: 'registrationDate',
       disablePadding: false,
-      label: 'Protein (g)',
+      label: 'Ngày đăng ký',
+    },
+    {
+      id: 'status',
+      disablePadding: false,
+      label: 'Trạng thái',
+    },
+    {
+      id: 'action',
+      disablePadding: false,
+      label: 'Chính sửa',
     },
   ];
 
@@ -154,23 +162,12 @@ export default function ListMotorbikeForm() {
       };
 
     return (
-      <TableHead>
+      <TableHead sx={{ backgroundColor: "#8B4513" }}>
         <TableRow>
-          <TableCell padding="checkbox">
-            <Checkbox
-              color="primary"
-              indeterminate={numSelected > 0 && numSelected < rowCount}
-              checked={rowCount > 0 && numSelected === rowCount}
-              onChange={onSelectAllClick}
-              inputProps={{
-                'aria-label': 'select all desserts',
-              }}
-            />
-          </TableCell>
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
-              align={headCell.numeric ? 'right' : 'left'}
+              align={headCell.id === 'id' ? 'center' : 'left'}
               padding={headCell.disablePadding ? 'none' : 'normal'}
               sortDirection={orderBy === headCell.id ? order : false}
             >
@@ -179,8 +176,8 @@ export default function ListMotorbikeForm() {
                 direction={orderBy === headCell.id ? order : 'asc'}
                 onClick={createSortHandler(headCell.id)}
               >
-                {headCell.label}
-                {orderBy === headCell.id ? (
+                <Typography color={theme.palette.common.white} fontWeight={"600"} fontSize={"16px"}>{headCell.label}</Typography>
+                {(headCell.id != 'image' && orderBy === headCell.id) ? (
                   <Box component="span" sx={visuallyHidden}>
                     {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                   </Box>
@@ -227,7 +224,7 @@ export default function ListMotorbikeForm() {
             id="tableTitle"
             component="div"
           >
-            Nutrition
+            Danh sách xe cho thuê của bạn
           </Typography>
         )}
         {numSelected > 0 ? (
@@ -237,18 +234,81 @@ export default function ListMotorbikeForm() {
             </IconButton>
           </Tooltip>
         ) : (
-          <Tooltip title="Filter list">
-            <IconButton>
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
+          <div></div>
         )}
       </Toolbar>
     );
   }
+
+  interface TablePaginationActionsProps {
+    count: number;
+    page: number;
+    rowsPerPage: number;
+    onPageChange: (
+      event: React.MouseEvent<HTMLButtonElement>,
+      newPage: number,
+    ) => void;
+  }
+
+  function TablePaginationActions(props: TablePaginationActionsProps) {
+    const theme = useTheme();
+    const { count, page, rowsPerPage, onPageChange } = props;
+
+    const handleFirstPageButtonClick = (
+      event: React.MouseEvent<HTMLButtonElement>,
+    ) => {
+      onPageChange(event, 0);
+    };
+
+    const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      onPageChange(event, page - 1);
+    };
+
+    const handleNextButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      onPageChange(event, page + 1);
+    };
+
+    const handleLastPageButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    };
+
+    return (
+      <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+        <IconButton
+          onClick={handleFirstPageButtonClick}
+          disabled={page === 0}
+          aria-label="first page"
+        >
+          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+        </IconButton>
+        <IconButton
+          onClick={handleBackButtonClick}
+          disabled={page === 0}
+          aria-label="previous page"
+        >
+          {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+        </IconButton>
+        <IconButton
+          onClick={handleNextButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="next page"
+        >
+          {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+        </IconButton>
+        <IconButton
+          onClick={handleLastPageButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="last page"
+        >
+          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+        </IconButton>
+      </Box>
+    );
+  }
+
   function EnhancedTable() {
     const [order, setOrder] = React.useState<Order>('asc');
-    const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
+    const [orderBy, setOrderBy] = React.useState<keyof Data>('id');
     const [selected, setSelected] = React.useState<readonly number[]>([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
@@ -291,19 +351,24 @@ export default function ListMotorbikeForm() {
       setSelected(newSelected);
     };
 
-    const handleChangePage = (event: unknown, newPage: number) => {
+    const handleChangePage = (
+      event: React.MouseEvent<HTMLButtonElement> | null,
+      newPage: number,
+    ) => {
       setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setRowsPerPage(parseInt(event.target.value, 10));
+    const handleChangeRowsPerPage = (
+      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+      const newRowsPerPage = parseInt(event.target.value, 10);
+      setRowsPerPage(newRowsPerPage);
       setPage(0);
-    };
 
-    
-    // const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //   setDense(event.target.checked);
-    // };
+      if (newRowsPerPage === -1) {
+        setPage(0);
+      }
+    };
 
     const isSelected = (id: number) => selected.indexOf(id) !== -1;
 
@@ -322,8 +387,7 @@ export default function ListMotorbikeForm() {
 
     return (
       <Box sx={{ width: '100%' }}>
-        <Box margin={"0px auto"} width={"100%"} border={"2px solid #8B4513"} borderRadius={"8px"}>
-          <EnhancedTableToolbar numSelected={selected.length} />
+        <Box margin={"0px auto"} width={"100%"} border={"3px solid #8B4513"} borderRadius={"8px"}>
           <TableContainer>
             <Table
               aria-labelledby="tableTitle"
@@ -345,7 +409,6 @@ export default function ListMotorbikeForm() {
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -353,27 +416,21 @@ export default function ListMotorbikeForm() {
                       selected={isItemSelected}
                       sx={{ cursor: 'pointer' }}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </TableCell>
                       <TableCell
                         component="th"
                         id={labelId}
                         scope="row"
                         padding="none"
+                        align="center"
                       >
-                        {row.name}
+                        <Typography fontWeight={600}>{row.id}</Typography>
                       </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="left" sx={{ padding: "auto" }}><img src={row.image} alt="" width={"100px"} style={{ borderRadius: "8px" }} /></TableCell>
+                      <TableCell align="left">{row.model}</TableCell>
+                      <TableCell align="left">{row.licensePlate}</TableCell>
+                      <TableCell align="left">{row.registrationDate}</TableCell>
+                      <TableCell align="left">{row.status}</TableCell>
+                      <TableCell align="left"><IconButton><EditOutlined /></IconButton></TableCell>
                     </TableRow>
                   );
                 })}
@@ -387,54 +444,73 @@ export default function ListMotorbikeForm() {
                   </TableRow>
                 )}
               </TableBody>
+
             </Table>
           </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-          {/* <FormControlLabel
-            control={<Switch checked={dense} onChange={handleChangeDense} />}
-            label="Dense padding"
-          /> */}
+          <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"}>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10]}
+                  colSpan={3}
+                  count={rows.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    inputProps: {
+                      'aria-label': 'rows per page',
+                    },
+                    native: true,
+                  }}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActions}
+                />
+              </TableRow>
+            </TableFooter>
+          </Box>
         </Box>
       </Box>
     );
   }
 
+  const allStatus = rows.map((row) => row.status); // get all status
+  const uniqueStatus = Array.from(new Set(allStatus)); // remove duplicate status
+  const [selectedStatus, setSelectedStatus] = React.useState(''); // state for selected status
+  const [filteredRows, setFilteredRows] = React.useState(rows); // state for filtered rows
+  const handleChangeStatus = (event: SelectChangeEvent) => {
+    const selected = event.target.value;
+    setSelectedStatus(selected);
 
-
-
-  const [age, setAge] = React.useState('');
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
-  };
+    // Filter the rows based on the selected status
+    if (selected === '') {
+      setFilteredRows(rows); // No filter, show all rows
+    } else {
+      const filtered = rows.filter((row) => row.status === selected);
+      setFilteredRows(filtered);
+    }
+  }; // handle change status
   return (
     <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignContent={"center"}>
-
-      <Box display={"flex"} flexDirection={"row"} justifyContent={"end"} alignContent={"center"}>
+      <Box display={"flex"} flexDirection={"row"} justifyContent={"end"} alignContent={"center"} marginBottom={"8px"}>
         <Typography fontSize={"18px"} fontWeight={"400"}
-          margin={"auto 0px"}>Trạng thái :</Typography>
-        <FormControl sx={{ m: 1, minWidth: 120, borderRadius: "100px" }} size="small">
+          margin={"auto 8px"}>Trạng thái :</Typography>
+        <FormControl sx={{ minWidth: 120 }} size="small">
           <Select
             labelId="demo-select-small-label"
             id="demo-select-small"
-            value={age}
+            value={selectedStatus}
             native
-            onChange={handleChange}
+            onChange={handleChangeStatus}
           >
             <option value="">
-              <em>None</em>
+              <em>Tất cả</em>
             </option>
-            <option value={10}>Ten</option>
-            <option value={20}>Twenty</option>
-            <option value={30}>Thirty</option>
+            {uniqueStatus.map((status) => (
+              <option value={status}>
+                {status}
+              </option>
+            ))}
           </Select>
         </FormControl>
       </Box>
