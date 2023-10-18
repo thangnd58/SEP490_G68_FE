@@ -1,9 +1,9 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, useParams } from "react-router-dom";
 import { routes } from "./routes";
-import Layout from "../layouts/Layout";
 import { useAuth } from "../contexts/AuthContext";
-import { useEffect, useState } from "react";
 import Home from "../pages/HomePage/HomePage";
+import LayoutAdmin from "../layouts/LayoutAdmin";
+import Layout from "../layouts/Layout";
 
 const AppRoute = () => {
     const { roleName } = useAuth();
@@ -11,6 +11,7 @@ const AppRoute = () => {
         <Routes>
             {routes.map((route, index) => {
                 const PageLayout = route.layout || Layout;
+
                 const PageComponent = route.role ? (route.role.includes(roleName) ? route.component : Home) : route.component
                 return (
                     <Route
