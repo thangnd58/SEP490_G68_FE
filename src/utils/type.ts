@@ -31,7 +31,8 @@ export interface Lisence  {
     dob: string,
     licenceImage: string,
     licenceImageUrl: string,
-    status: number
+    status: number,
+    createDateTime: string
 }
 
 export interface ResetPassword {
@@ -45,4 +46,23 @@ export interface ImageUpload {
     columnName: string,
     code:  string,
     fileName: string
+}
+
+export interface Motorbike {
+    id?: number,
+    motorbikeName: string,
+    licensePlate: string,
+    type: string,
+    priceRent: number,
+    equipments: string,
+    fuelConsumption: number,
+    provinceId: number,
+    districtId: number,
+    wardId: number,
+    image: string,
+    address:string,
+    location: string,
+    modelId: number,
+    status: number,
+    createDatetime: string
 }
