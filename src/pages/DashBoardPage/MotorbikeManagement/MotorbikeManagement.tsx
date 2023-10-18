@@ -3,8 +3,8 @@ import { DataGridPro } from '@mui/x-data-grid-pro';
 import { Motorbike } from '../../../utils/type';
 import React, { useState, useEffect } from 'react';
 import MotorbikeManagementService from '../../../services/MotorbikeManagementService';
-import { Button } from '@mui/material';
-import { Visibility, VisibilityOutlined, VisibilitySharp } from '@mui/icons-material';
+import { VisibilityOutlined } from '@mui/icons-material';
+import { GridPrintGetRowsToExportParams, GridRowId, GridToolbar, gridFilteredSortedRowIdsSelector, selectedGridRowsSelector } from '@mui/x-data-grid';
 
 const MotorbikeManagement = () => {
 
@@ -12,7 +12,6 @@ const MotorbikeManagement = () => {
 
     useEffect(() => {
         getAllMotorbikes();
-        console.log(listMotorbike)
     }, [])
 
     const getAllMotorbikes = async () => {
@@ -27,8 +26,8 @@ const MotorbikeManagement = () => {
     }
 
     const columns = [
-        { field: 'motorbikeName', headerName: 'Tên xe', width: 200 },
-        { field: 'type', headerName: 'Loại xe', width: 150 },
+        { field: 'motorbikeName', headerName: 'Tên xe', width: 150 },
+        { field: 'type', headerName: 'Loại xe', width: 200 },
         { field: 'address', headerName: 'Địa chỉ', width: 150 },
         { field: 'licensePlate', headerName: 'Biển số', width: 150 },
         {
@@ -61,6 +60,17 @@ const MotorbikeManagement = () => {
         },
     ];
 
+    const getSelectedRowsToExport = ({
+        apiRef,
+    }: GridPrintGetRowsToExportParams): GridRowId[] => {
+        const selectedRowIds = selectedGridRowsSelector(apiRef);
+        if (selectedRowIds.size > 0) {
+            return Array.from(selectedRowIds.keys());
+        }
+
+        return gridFilteredSortedRowIdsSelector(apiRef);
+    };
+
     return (
         <Box sx={{ height: '660px', width: '100%' }}>
             <DataGridPro
@@ -71,6 +81,10 @@ const MotorbikeManagement = () => {
                 checkboxSelection
                 disableRowSelectionOnClick
                 pagination
+                slots={{ toolbar: GridToolbar }}
+                slotProps={{
+                    toolbar: { printOptions: { getRowsToExport: getSelectedRowsToExport } },
+                }}
             />
         </Box>
     )
