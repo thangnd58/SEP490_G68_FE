@@ -255,7 +255,7 @@ const UserInformationComponent = () => {
               {
                 isEditLisence ?
                   (<>
-                    <Button variant="outlined" type='submit' sx={{ marginRight: 2, marginLeft: '50%', height: '90%' }}>{t("licenseInfo.BtnSave")}</Button>
+                    <Button variant="outlined" type='submit' sx={{ marginRight: 2, marginLeft: '40%', height: '90%' }}>{t("licenseInfo.BtnSave")}</Button>
                     <Button variant="contained" sx={{ height: '90%' }} onClick={() => cancelEditLisence()}>{t("licenseInfo.BtnCancel")}</Button>
                   </>)
                   :

@@ -76,6 +76,32 @@
             "success": "Change License successfully",
             "warning": "Change License failed",
             "error": "Error when change License"
+        },
+        "dashboardLicense":{
+            "Arrprove" : {
+                "success": "Arrprove License successfully",
+                "warning": "Arrprove License failed",
+                "error": "Error when arrprove license"
+            },
+            "Reject" : {
+                "success": "Reject License successfully",
+                "warning": "Reject License failed",
+                "error": "Error when reject license"
+            }
+            
+        },
+        "dashboardMotorbike":{
+            "Arrprove" : {
+                "success": "Arrprove Motorbike successfully",
+                "warning": "Arrprove Motorbike failed",
+                "error": "Error when arrprove motorbike"
+            },
+            "Reject" : {
+                "success": "Reject Motorbike successfully",
+                "warning": "Reject Motorbike failed",
+                "error": "Error when reject motorbike"
+            }
+            
         }
     },
     "footer": {},
@@ -115,6 +141,19 @@
         "BtnchooseLicense":"Upload Image",
         "Processing" : "Processing",
         "Approve":"Approved",
-        "Reject":"Rejected"
-    }    
+        "Reject":"Rejected",
+        "BtnApprove":"Approve",
+        "BtnReject":"Reject"
+    },
+    "dashBoardManager" : {
+        "License": "License",
+        "Motobike": {
+            "Title":"Motobike",
+            "Name" :"Motobike name",
+            "Plate" : "Plate",
+            "Fuel": "Fuel",
+            "Location" : "Location",
+            "PriceForRent": "Price for rent"
+        }
+    }
 }

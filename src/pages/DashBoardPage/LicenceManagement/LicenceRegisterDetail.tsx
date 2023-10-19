@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import LicenceManagementService from "../../../services/LicenceManagementService";
 import { Lisence } from "../../../utils/type";
 import MyCustomButton from "../../../components/common/MyButton";
+import ToastComponent from "../../../components/toast/ToastComponent";
 
 const LicenceRegisterDetail = () => {
     const { t } = usei18next()
@@ -25,11 +26,38 @@ const LicenceRegisterDetail = () => {
 
         }
     }
+    const changeStatus = async (status: number) => {
+        try {
+            const response = await LicenceManagementService.changeStatus(Number(id),Number(status),"")
+            if (response.status === 200) {
+                if(status == 1){
+                    ToastComponent(t("toast.dashboardLicense.Arrprove.success"), "success");
+                }else {
+                    ToastComponent(t("toast.dashboardLicense.Reject.success"), "success");
+                }
+                
+            } else {
+                if(status == 1){
+                    ToastComponent(t("toast.dashboardLicense.Arrprove.warning"), "warning");
+                }else {
+                    ToastComponent(t("toast.dashboardLicense.Reject.success"), "success");
+                }
+            }
+        } catch (error) {
+            if(status == 1){
+                ToastComponent(t("toast.dashboardLicense.Arrprove.error"), "error");
+            }else{
+                ToastComponent(t("toast.dashboardLicense.Reject.error"), "error");
+            }
+            
+        }
+        
+      };
 
     return (
         <Box sx={{ display: 'flex', height: '88vh', marginTop: '2rem' }}>
             <Box flex={1} width={'50%'} marginLeft={2} borderRadius={5} sx={{ background: 'linear-gradient(#8B4513, White)' }} display={'grid'} gridTemplateColumns={'1fr'}>
-                <Typography color={'white'} marginTop={3} marginLeft={3} fontSize={29} fontWeight={'bold'}>Licence</Typography>
+                <Typography color={'white'} marginTop={3} marginLeft={3} fontSize={29} fontWeight={'bold'}>{t("dashBoardManager.License")}</Typography>
                 <Box display={'flex'} justifyContent={'center'} >
                     <Box height="260px" width="510px" display={'flex'} sx={{ backgroundColor: 'White' }} justifyContent={'center'} alignItems={'center'}>
                         <img height="250px" width="500px" src={licence?.licenceImageUrl} alt={'licence'} />
@@ -50,8 +78,8 @@ const LicenceRegisterDetail = () => {
                     <Typography variant="h5" sx={{ marginTop: 3 }} align="left">{licence?.dob}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Button key={'changePass'} variant="contained" onClick={() => {}}>{t("licenseInfo.Approve")}</Button>
-                    <Button key={'changePass'} variant="outlined" onClick={() => {}}>{t("licenseInfo.Reject")}</Button>
+                    <Button key={'changePass'} variant="contained" onClick={() => changeStatus(1)}>{t("licenseInfo.BtnApprove")}</Button>
+                    <Button key={'changePass'} variant="outlined" onClick={() => changeStatus(2)}>{t("licenseInfo.BtnReject")}</Button>
                 </Box>
                 <MyCustomButton key={'changePass'} height="auto" onClick={() => navigate(-1)} content={t("changePassword.Back")} />
             </Box>

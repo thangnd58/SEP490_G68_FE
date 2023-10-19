@@ -76,6 +76,32 @@
             "success": "Cập nhật bằng lái xe thành công",
             "warning": "Cập nhật bằng lái xe thất bại",
             "error": "Lỗi cập nhật bằng lái xe"
+        },
+        "dashboardLicense":{
+            "Arrprove" : {
+                "success": "Phê duyệt bằng lái xe thành công",
+                "warning": "Phê duyệt bằng lái xe thất bại",
+                "error": "Lỗi phê duyệt bằng lái xe"
+            },
+            "Reject" : {
+                "success": "Hủy đăng ký bằng lái xe thành công",
+                "warning": "Hủy đăng ký bằng lái xe thất bại",
+                "error": "Lỗi hủy đăng ký bằng lái xe"
+            }
+            
+        },
+        "dashboardMotorbike":{
+            "Arrprove" : {
+                "success": "Phê duyệt xe máy thành công",
+                "warning": "Phê duyệt xe máy thất bại",
+                "error": "Lỗi phê duyệt xe máy"
+            },
+            "Reject" : {
+                "success": "Hủy đăng ký xe máy thành công",
+                "warning": "Hủy đăng ký xe máy thất bại",
+                "error": "Lỗi hủy đăng ký xe máy"
+            }
+            
         }
     },
     "footer": {},
@@ -115,6 +141,19 @@
         "BtnchooseLicense":"Tải lên ảnh",
         "Processing" : "Đang xử lý",
         "Approve":"Đã xác minh",
-        "Reject":"Từ Chối"
-    }  
+        "Reject":"Từ chối",
+        "BtnApprove":"Chấp nhận",
+        "BtnReject":"Từ chối"
+    },
+    "dashBoardManager" : {
+        "License": "Bằng lái xe",
+        "Motobike": {
+            "Title":"Xe Máy",
+            "Name" :"Mã Xe",
+            "Plate" : "Biển Số",
+            "Fuel": "Nhiên liệu",
+            "Location" : "Vị trí xe",
+            "PriceForRent": "Giá cho thuê"
+        }
+    }
 }
