@@ -19,6 +19,8 @@ import MotorbikeManagement from '../pages/DashBoardPage/MotorbikeManagement/Moto
 import LayoutAdmin from '../layouts/LayoutAdmin';
 import LicenceManagement from '../pages/DashBoardPage/LicenceManagement/LicenceManagement';
 import LicenceRegisterDetail from '../pages/DashBoardPage/LicenceManagement/LicenceRegisterDetail';
+import MotorbikeRegisterDetail from '../pages/DashBoardPage/MotorbikeManagement/MotorbikeRegisterDetail';
+
 
 
 export type Route = {
@@ -44,4 +46,5 @@ export const routes: Route[] = [
     { path: `${ROUTES.admin.managemotorbikes}`, component: MotorbikeManagement, layout: LayoutAdmin, role: ["Admin"] },
     { path: `${ROUTES.admin.managelicences}`, component: LicenceManagement, layout: LayoutAdmin, role: ["Admin"] },
     { path: `${ROUTES.admin.licenceRegister}/:id`, component: LicenceRegisterDetail, layout: LayoutAdmin, role: ["Admin"] },
+    { path: `${ROUTES.admin.MotorbikeRegister}/:id`, component: MotorbikeRegisterDetail, layout: LayoutAdmin, role: ["Admin"] },
 ];

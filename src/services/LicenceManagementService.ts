@@ -10,6 +10,10 @@ const LicenceManagementService = {
     },
     getLicenceById:async (id: number): Promise<Lisence> => {
         return (await api.get(`${urlLicences}/${id}`)).data
+    },
+    changeStatus: async (id: number,status: number, statusComment: string) => {
+        const params = { status, statusComment}
+        return await api.put(`${urlLicence}/${id}/status`, params);
     }
 }
 export default LicenceManagementService

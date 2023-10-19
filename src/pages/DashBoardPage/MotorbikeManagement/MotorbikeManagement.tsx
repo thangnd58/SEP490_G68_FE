@@ -6,11 +6,13 @@ import React, { useState, useEffect } from 'react';
 import MotorbikeManagementService from '../../../services/MotorbikeManagementService';
 import { VisibilityOutlined } from '@mui/icons-material';
 import { GridPrintGetRowsToExportParams, GridRowId, GridToolbar, gridFilteredSortedRowIdsSelector, selectedGridRowsSelector } from '@mui/x-data-grid';
+import { ROUTES } from '../../../utils/Constant';
+import { useNavigate } from 'react-router-dom';
 
 const MotorbikeManagement = () => {
 
     const [listMotorbike, setListMotorbike] = useState<Motorbike[]>([]);
-
+    const navigate = useNavigate();
     useEffect(() => {
         getAllMotorbikes();
     }, [])
@@ -55,7 +57,7 @@ const MotorbikeManagement = () => {
             field: 'id', headerName: 'Hành động', width: 150,
             renderCell: (params: any) => (
                 <Box sx={{ cursor: 'pointer' }}>
-                    <VisibilityOutlined />
+                    <VisibilityOutlined onClick={() => navigate(`${ROUTES.admin.MotorbikeRegister}/${params.value}`)}/>
                 </Box>
             )
         },
