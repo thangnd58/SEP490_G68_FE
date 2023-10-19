@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import UserService from '../services/UserService';
 import { useNavigate } from 'react-router-dom';
-import ToastComponent from '../components/ToastComponent';
+import ToastComponent from '../components/toast/ToastComponent';
 import usei18next from '../hooks/usei18next';
 import { ROUTES } from '../utils/Constant';
 import { User, Role } from '../utils/type';

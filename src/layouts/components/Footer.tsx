@@ -15,7 +15,7 @@ import {
   InstagramIcon,
   LinkedinIcon,
   TwitterIcon,
-} from '../../assets/images';
+} from '../../assets/icons';
 import { LogoFull } from './Header';
 
 function Footer() {

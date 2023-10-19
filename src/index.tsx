@@ -8,6 +8,8 @@ import AuthProvider from './contexts/AuthContext';
 import { ToastContainer } from 'react-toastify';
 import AppRoute from './routes/AppRoute';
 import theme from './utils/theme';
+// Load environment variables
+// require('dotenv').config();
 
 const rootElement = document.getElementById('root') as HTMLElement;
 const root = ReactDOM.createRoot(rootElement);
@@ -20,8 +22,7 @@ root.render(
             position="bottom-left"
             autoClose={3000}
             style={{ 
-              marginBottom: '10vh',
-              fontSize: '14px'
+              fontSize: '16px'
             }}
           />
           <AppRoute />

@@ -23,7 +23,7 @@ export interface Role {
 }
 
 
-export interface Lisence  {
+export interface Lisence {
     licenceId: number,
     userId: number,
     licenceNumber: string,
@@ -44,25 +44,45 @@ export interface ResetPassword {
 export interface ImageUpload {
     tableName: string,
     columnName: string,
-    code:  string,
+    code: string,
     fileName: string
 }
 
-export interface Motorbike {
-    id?: number,
-    motorbikeName: string,
-    licensePlate: string,
-    type: string,
-    priceRent: number,
-    equipments: string,
-    fuelConsumption: number,
-    provinceId: number,
-    districtId: number,
-    wardId: number,
-    image: string,
-    address:string,
-    location: string,
-    modelId: number,
-    status: number,
-    createDatetime: string
+export interface Model {
+    id: number,
+    modelName: string,
+    modelImage: string
 }
+
+export interface Brand {
+    id: number,
+    brandName: string,
+    brandImage: string
+}
+
+export interface Province {
+    name: string,
+    code: number,
+    division_type: string,
+    codename: string,
+    phone_code: number,
+    districts: District[]
+}
+
+export interface District {
+    name: string,
+    code: number,
+    division_type: string,
+    codename: string,
+    province_code: number,
+    wards: Ward[]
+}
+
+export interface Ward {
+    name: string,
+    code: number,
+    division_type: string,
+    codename: string,
+    district_code: number
+}
+

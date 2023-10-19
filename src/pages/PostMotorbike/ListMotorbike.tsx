@@ -1,11 +1,11 @@
 import { Box, FormControl, Paper, Typography, styled } from '@mui/material'
 import React from 'react'
 import theme from '../../utils/theme'
-import RegisterMotorbikeForm from './components/RegisterMotorbike/RegisterMotorbikeForm';
+import ListMotorbikeForm from './components/ListMotorbike/ListMotorbikeForm';
 
 const RegisterMotorbikeStyle = styled("form")(({ theme }) => ({
     '& .MuiPaper-root': {
-        width: '60%',
+        width: '80%',
         display: 'flex',
         flexDirection: 'column',
         margin: '32px auto',
@@ -15,7 +15,7 @@ const RegisterMotorbikeStyle = styled("form")(({ theme }) => ({
 }));
 
 
-export default function RegisterMotorbike() {
+export default function ListMotorbike() {
     return (
         <RegisterMotorbikeStyle className='form'>
             <Paper elevation={2}>
@@ -32,9 +32,9 @@ export default function RegisterMotorbike() {
                         lineHeight={"60px"}
                         fontWeight={"600"}
                         sx={{ textAlign: 'center' }}>
-                        Đăng ký cho thuê xe máy
+                        Xe của bạn
                     </Typography>
-                    <RegisterMotorbikeForm />
+                    <ListMotorbikeForm />
                 </Box>
             </Paper>
         </RegisterMotorbikeStyle>
