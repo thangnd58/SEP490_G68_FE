@@ -13,6 +13,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import React from 'react'
 import theme from '../../../../utils/theme';
 import { Edit, EditOutlined } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 export default function ListMotorbikeForm() {
 
@@ -313,6 +314,7 @@ export default function ListMotorbikeForm() {
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const navigate = useNavigate();
 
     const handleRequestSort = (
       event: React.MouseEvent<unknown>,
@@ -369,6 +371,10 @@ export default function ListMotorbikeForm() {
         setPage(0);
       }
     };
+
+    const handleChangeToUpdateForm = () => {
+      navigate("/update-register-motorbike")
+    }
 
     const isSelected = (id: number) => selected.indexOf(id) !== -1;
 
@@ -430,7 +436,11 @@ export default function ListMotorbikeForm() {
                       <TableCell align="left">{row.licensePlate}</TableCell>
                       <TableCell align="left">{row.registrationDate}</TableCell>
                       <TableCell align="left">{row.status}</TableCell>
-                      <TableCell align="left"><IconButton><EditOutlined /></IconButton></TableCell>
+                      <TableCell align="left">
+                        <IconButton onClick={handleChangeToUpdateForm}>
+                          <EditOutlined />
+                        </IconButton>
+                      </TableCell>
                     </TableRow>
                   );
                 })}

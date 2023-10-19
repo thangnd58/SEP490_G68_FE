@@ -86,9 +86,8 @@ export interface Ward {
     district_code: number
 }
 
-
 export interface Motorbike {
-    id: number,
+    id?: number,
     motorbikeName: string,
     licensePlate: string,
     type: string,
