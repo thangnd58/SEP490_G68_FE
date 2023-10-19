@@ -43,5 +43,5 @@ export const routes: Route[] = [
     { path: `${ROUTES.account.setpassword}/:ticket`, component: SetNewPassword, layout: LayoutWithoutFooter },
     { path: `${ROUTES.admin.managemotorbikes}`, component: MotorbikeManagement, layout: LayoutAdmin, role: ["Admin"] },
     { path: `${ROUTES.admin.managelicences}`, component: LicenceManagement, layout: LayoutAdmin, role: ["Admin"] },
-    { path: `${ROUTES.admin.licenceRegister}`, component: LicenceRegisterDetail, layout: LayoutAdmin, role: ["Admin"] },
+    { path: `${ROUTES.admin.licenceRegister}/:id`, component: LicenceRegisterDetail, layout: LayoutAdmin, role: ["Admin"] },
 ];

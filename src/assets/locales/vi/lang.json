@@ -4,7 +4,8 @@
         "register": "Đăng ký",
         "login": "Đăng nhập",
         "logout": "Đăng xuất",
-        "userprofile" : "Tài khoản của tôi"
+        "userprofile" : "Tài khoản của tôi",
+        "dashboard": "Dash Board"
     },
     "form": {
         "login": "Đăng nhập",

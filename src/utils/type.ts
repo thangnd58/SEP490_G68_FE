@@ -86,3 +86,24 @@ export interface Ward {
     district_code: number
 }
 
+
+export interface Motorbike {
+    id: number,
+    motorbikeName: string,
+    licensePlate: string,
+    type: string,
+    priceRent: number,
+    equipments: string,
+    fuelConsumption: number,
+    provinceId: number,
+    districtId: number,
+    wardId: number,
+    image: string,
+    address: string,
+    location: string,
+    status: number,
+    statusComment: string,
+    userId: number,
+    createDatetime: string,
+    modelId: number
+}

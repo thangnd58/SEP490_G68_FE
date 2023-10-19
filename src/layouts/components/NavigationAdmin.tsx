@@ -9,11 +9,13 @@ import ListItemText from '@mui/material/ListItemText';
 import { RouterManage } from '../../routes/RoutesManagement';
 import { ManagementIcon } from '../../assets/images';
 import { Typography } from '@mui/material';
-import { useMatch, useNavigate, useResolvedPath } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 
 export default function NavigationAdmin() {
     const navigate = useNavigate();
-    
+    const location = useLocation()
+
+    console.log(location)
     return (
         <React.Fragment>
             <Box role="presentation">
@@ -25,7 +27,7 @@ export default function NavigationAdmin() {
                     <Divider />
                     {RouterManage.map((item, index) => (
                         <ListItem key={index} disablePadding>
-                            <ListItemButton onClick={() => navigate(item.path)}>
+                            <ListItemButton sx={{ backgroundColor: location.pathname.includes(item.path) ? "primary.main" : "common.white", color: location.pathname.includes(item.path) ? "common.white" : "primary.main" }} onClick={() => navigate(item.path)}>
                                 <ListItemIcon>
                                     <item.icon />
                                 </ListItemIcon>
