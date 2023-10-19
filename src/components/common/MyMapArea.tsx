@@ -43,6 +43,8 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 function CustomizedSnackbars() {
     const [open, setOpen] = React.useState(true);
+    const [inputValue, setInputValue] = React.useState('');
+
 
     const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
@@ -51,9 +53,17 @@ function CustomizedSnackbars() {
         setOpen(false);
     };
 
-    React.useEffect(() => {
-        console.log("open", open)
-    }, []);
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setInputValue(value);
+
+        // Check if the input value contains '0' and display the Snackbar
+        if (value.includes('0')) {
+            setOpen(true);
+        } else {
+            setOpen(false);
+        }
+    };
 
     const action = (
         <>
@@ -70,6 +80,11 @@ function CustomizedSnackbars() {
 
     return (
         <div>
+            <TextField
+                label="Enter a sequence of numbers"
+                value={inputValue}
+                onChange={handleInputChange}
+            />
             <Snackbar
                 open={open}
                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}

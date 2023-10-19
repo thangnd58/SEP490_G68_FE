@@ -20,7 +20,7 @@ import LayoutAdmin from '../layouts/LayoutAdmin';
 import LicenceManagement from '../pages/DashBoardPage/LicenceManagement/LicenceManagement';
 import LicenceRegisterDetail from '../pages/DashBoardPage/LicenceManagement/LicenceRegisterDetail';
 import MotorbikeRegisterDetail from '../pages/DashBoardPage/MotorbikeManagement/MotorbikeRegisterDetail';
-
+import UpdateRegisterMotorbike from '../pages/PostMotorbike/UpdateRegisterMotorbike';
 
 
 export type Route = {
@@ -34,8 +34,9 @@ export const routes: Route[] = [
     { path: ROUTES.homepage, component: Home },
     { path: ROUTES.component.mymaparea, component: MyMapArea},
     { path: ROUTES.user.userprofile, component: UserProfilePage, role: ["Admin", "Customer"] },
-    { path: ROUTES.user.registermotorbike, component: RegisterMotorbike, role: ["Admin","Customer"]},
+    { path: ROUTES.user.registermotorbike, component: RegisterMotorbike, role: ["Customer"]},
     { path: ROUTES.user.listmotorbike, component: ListMotorbike, role: ["Customer"]},
+    {path: ROUTES.user.updateregistermotorbike, component: UpdateRegisterMotorbike, role: ["Customer"]},
     { path: ROUTES.user.registermotorbike, component: RegisterMotorbike, role: ["Admin", "Customer"]},
     { path: ROUTES.account.login, component: Login, layout: LayoutWithoutFooter, role: ["Guest"]},
     { path: ROUTES.account.register, component: Register, layout: LayoutWithoutFooter, role: ["Guest"] },

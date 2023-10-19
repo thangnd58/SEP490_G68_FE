@@ -13,6 +13,7 @@ export const ROUTES = {
         userprofile: "/user-profile",
         registermotorbike: "/register-motorbike",
         listmotorbike: "/list-motorbike",
+        updateregistermotorbike: "/update-register-motorbike",
     },
 
     component: {
