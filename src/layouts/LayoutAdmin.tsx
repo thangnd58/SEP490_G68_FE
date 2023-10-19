@@ -18,7 +18,7 @@ const LayoutAdmin = ({ children }: LayoutAdminProps) => {
                     <Grid item xs={2} borderRight={'1px solid'}>
                         <NavigationAdmin />
                     </Grid>
-                    <Grid item xs={10}>
+                    <Grid item xs={10} sx={{ height: '88vh', width: '100%' }}>
                         {children}
                     </Grid>
                 </Grid>

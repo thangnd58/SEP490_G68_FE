@@ -74,7 +74,7 @@ const LicenceManagement = () => {
     ];
 
     return (
-        <Box sx={{ height: '88vh', width: '100%' }}>
+        <Box>
             <DataGrid
                 rows={listLicences}
                 initialState={{
