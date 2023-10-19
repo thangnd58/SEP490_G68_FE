@@ -63,6 +63,8 @@ function Header() {
     };
 
     const open = Boolean(anchorEl);
+    const { roleName } = useAuth();
+
 
     return (
         <>
@@ -136,16 +138,18 @@ function Header() {
                                             >
                                                 {t('header.userprofile')}
                                             </MenuItem>
-                                            <MenuItem
-                                                onClick={() => {
-                                                    setAnchorEl(null);
-                                                    navigate(ROUTES.admin.managemotorbikes);
-                                                }}
-                                                //hover to change background color
-                                                sx={{ textAlign: 'center' }}
-                                            >
-                                                {t('header.dashboard')}
-                                            </MenuItem>
+                                            {roleName === 'Admin' ? (
+                                                <MenuItem
+                                                    onClick={() => {
+                                                        setAnchorEl(null);
+                                                        navigate(ROUTES.admin.managemotorbikes);
+                                                    }}
+                                                    //hover to change background color
+                                                    sx={{ textAlign: 'center' }}
+                                                >
+                                                    {t('header.dashboard')}
+                                                </MenuItem>) : null
+                                            }
                                             <MenuItem
                                                 onClick={() => {
                                                     setAnchorEl(null);
