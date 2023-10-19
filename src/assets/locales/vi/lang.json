@@ -5,7 +5,9 @@
         "login": "Đăng nhập",
         "logout": "Đăng xuất",
         "userprofile" : "Tài khoản của tôi",
-        "dashboard": "Dash Board"
+        "dashboard": "Quản lý",
+        "mylistmotorbike": "Danh sách xe của tôi",
+        "registermotorbike" : "Trở thành chủ xe"
     },
     "form": {
         "login": "Đăng nhập",

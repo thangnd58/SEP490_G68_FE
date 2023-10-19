@@ -20,7 +20,7 @@ interface CustomizedSnackbarsProps {
     message: string;
 };
 
-export default function CustomizedSnackbars({ autoHideDuration, severity, message }: CustomizedSnackbarsProps) {
+function CustomizedSnackbars({ autoHideDuration, severity, message }: CustomizedSnackbarsProps) {
     const [open, setOpen] = React.useState(false);
 
     const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
@@ -43,7 +43,6 @@ export default function CustomizedSnackbars({ autoHideDuration, severity, messag
         </>
     );
     return (
-        console.log(autoHideDuration),
         <div>
             <Snackbar
                 open={open}

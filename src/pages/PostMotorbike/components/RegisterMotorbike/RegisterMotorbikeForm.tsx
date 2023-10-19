@@ -11,7 +11,7 @@ import { ProvincesService } from '../../../../services/ProvincesService';
 import { CartIcon, HelmetIcon, ProtectClothesIcon, RainCoatIcon, RepairIcon, TelephoneIcon } from '../../../../assets/icons';
 import EquipmentItem from './EquipmentItem';
 import ToastComponent from '../../../../components/toast/ToastComponent';
-import CustomizedSnackbars from '../../../../components/common/MySnackbar';
+import MyMapWithSearchBox from '../../../../components/common/MyMapWithSearchBox';
 
 const RegisterMotorbikeForm = () => {
 
@@ -113,10 +113,10 @@ const RegisterMotorbikeForm = () => {
                 if (isValidSize) {
                     setSelectedImages((prevImages) => [...prevImages, ...imageFiles]);
                 } else {
-                    <CustomizedSnackbars autoHideDuration={1000} severity="error" message="Vui lòng chọn ảnh có kích thước nhỏ hơn 10MB" />
+                    ToastComponent(`Kích thước ảnh không được vượt quá ${MAX_IMAGE_SIZE_MB}MB`, "error",);
                 }
             } else {
-                <CustomizedSnackbars autoHideDuration={1000} severity="error" message="Vui lòng chọn tối đa 12 ảnh" />
+                ToastComponent(`Bạn chỉ có thể chọn tối đa ${MAX_IMAGES} ảnh`, "error",);
             }
         }
     };
@@ -127,7 +127,7 @@ const RegisterMotorbikeForm = () => {
     };
 
     const handleLicensePlateChange = (value: string) => {
-        setLicensePlate(value); // Update the licensePlate state
+        setLicensePlate(value);
     };
 
 
@@ -150,6 +150,7 @@ const RegisterMotorbikeForm = () => {
 
 
     return (
+
         <Box width={"100%"}>
             <Box>
                 <RegisterMotorbikeItem
@@ -496,7 +497,7 @@ const RegisterMotorbikeForm = () => {
                             fontSizeTitle='16px'
                             title={'Địa chỉ '}
                             isRequired={true}
-                            item={<MyCustomTextField borderRadius={8} width='100%' placeholder={'Nhập địa chỉ'} />}
+                            item={<MyMapWithSearchBox />}
                             myButton={
                                 <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"center"} margin={"24px 0px 0px 0px"}>
                                     <MyCustomButton width='30%' borderRadius={8} fontSize={16} fontWeight={600} content='Xác nhận' onClick={handleSubmit} />
@@ -531,7 +532,7 @@ function ImageModal({ selectedImages, selectedImageIndex, closeModal }: ImageMod
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        margin: '32px 0px'
+        margin: '32px 32px'
     }}>
         <img style={{
             maxWidth: '100%',

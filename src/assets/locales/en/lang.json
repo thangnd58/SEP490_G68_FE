@@ -5,7 +5,9 @@
         "login": "Login",
         "logout": "Logout",
         "userprofile" : "User Profile",
-        "dashboard": "Dash Board"
+        "dashboard": "Dash Board",
+        "mylistmotorbike": "My List Motorbike",
+        "registermotorbike" : "Register Motorbike"
     },
     "form": {
         "login": "Login",

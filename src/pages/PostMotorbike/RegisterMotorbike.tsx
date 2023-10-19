@@ -17,6 +17,7 @@ const RegisterMotorbikeStyle = styled("form")(({ theme }) => ({
 
 export default function RegisterMotorbike() {
     return (
+        
         <RegisterMotorbikeStyle className='form'>
             <Paper elevation={2}>
                 <Box

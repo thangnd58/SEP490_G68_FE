@@ -9,6 +9,7 @@ import useThemePage from '../../hooks/useThemePage';
 import { Notifications, Search } from '@mui/icons-material';
 import { LogoHeader, NotificationIcon, UnitedKingDomFlag, VietNamFlag } from '../../assets/images';
 import { ROUTES } from '../../utils/Constant';
+import MyIcon from '../../components/common/MyIcon';
 
 const LanguageBox = memo(() => {
     const { isVn, changeLang } = usei18next();
@@ -48,7 +49,7 @@ export const LogoFull = memo(({ size }: { size: number }) => {
 
 function Header() {
     const { isLogin, logout, user } = useAuth();
-    const { t } = usei18next();
+    const { isVn, t } = usei18next();
     const navigate = useNavigate();
     const { isMobile } = useThemePage();
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -93,15 +94,15 @@ function Header() {
                         </IconButton>
                     ) : (
                         <ListItem sx={{ padding: "18px 32px 18px 0px", display: 'flex', justifyContent: 'end', gap: "16px" }}>
-                            <IconButton >
-                                <LanguageBox />
-                            </IconButton>
-
+                            
+                            <MyIcon icon={<LanguageBox />} hasTooltip tooltipText={isVn ? 'Tiếng Việt' : 'English'} position='left' />
+                            {/* <MyIcon icon={<NotificationIcon />} hasTooltip tooltipText={isVn ? 'Tiếng Việt' : 'English'} position='left' /> */}
                             <IconButton >
                                 <Badge badgeContent={100} color="primary">
                                     <IconBox image={NotificationIcon} width={24} height={28.23} onClick={() => navigate(ROUTES.homepage)} />
                                 </Badge>
                             </IconButton>
+
                             <Divider sx={{ borderLeft: '1px solid #B1B5C3', height: 32 }} />
                             <div
                                 aria-owns={open ? 'hover-menu' : undefined}
@@ -148,6 +149,31 @@ function Header() {
                                                     sx={{ textAlign: 'center' }}
                                                 >
                                                     {t('header.dashboard')}
+                                                </MenuItem>) :
+                                                (
+                                                    <MenuItem
+                                                        onClick={() => {
+                                                            setAnchorEl(null);
+                                                            navigate(ROUTES.user.listmotorbike);
+                                                        }}
+                                                        //hover to change background color
+                                                        sx={{ textAlign: 'center' }}
+                                                    >
+                                                        {t('header.mylistmotorbike')}
+                                                    </MenuItem>
+                                                )
+                                            }
+
+                                            {roleName === 'Customer' ? (
+                                                <MenuItem
+                                                    onClick={() => {
+                                                        setAnchorEl(null);
+                                                        navigate(ROUTES.user.registermotorbike);
+                                                    }}
+                                                    //hover to change background color
+                                                    sx={{ textAlign: 'center' }}
+                                                >
+                                                    {t('header.registermotorbike')}
                                                 </MenuItem>) : null
                                             }
                                             <MenuItem

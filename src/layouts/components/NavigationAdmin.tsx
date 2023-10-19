@@ -7,9 +7,9 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { RouterManage } from '../../routes/RoutesManagement';
-import { ManagementIcon } from '../../assets/images';
 import { Typography } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router';
+import { ManagementIcon } from '../../assets/icons';
 
 export default function NavigationAdmin() {
     const navigate = useNavigate();

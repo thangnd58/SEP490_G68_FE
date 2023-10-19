@@ -14,6 +14,7 @@ import React from 'react'
 import theme from '../../../../utils/theme';
 import { Edit, EditOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import MyIcon from '../../../../components/common/MyIcon';
 
 export default function ListMotorbikeForm() {
 
@@ -437,9 +438,7 @@ export default function ListMotorbikeForm() {
                       <TableCell align="left">{row.registrationDate}</TableCell>
                       <TableCell align="left">{row.status}</TableCell>
                       <TableCell align="left">
-                        <IconButton onClick={handleChangeToUpdateForm}>
-                          <EditOutlined />
-                        </IconButton>
+                        <MyIcon icon={<EditOutlined />} hasTooltip tooltipText="Chỉnh sửa" onClick={handleChangeToUpdateForm} position='right' />
                       </TableCell>
                     </TableRow>
                   );

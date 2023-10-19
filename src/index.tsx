@@ -5,7 +5,7 @@ import React from 'react';
 import { ThemeProvider } from '@emotion/react';
 import { BrowserRouter } from 'react-router-dom';
 import AuthProvider from './contexts/AuthContext';
-import { ToastContainer } from 'react-toastify';
+import { Slide, ToastContainer } from 'react-toastify';
 import AppRoute from './routes/AppRoute';
 import theme from './utils/theme';
 // Load environment variables
@@ -19,10 +19,18 @@ root.render(
       <AuthProvider>
         <>
           <ToastContainer
+
+            bodyStyle={{ color: theme.palette.text.primary }}
             position="bottom-left"
-            autoClose={3000}
-            style={{ 
-              fontSize: '16px'
+            transition={Slide}
+            pauseOnHover={false}
+            autoClose={2000}
+            toastStyle={{
+              border: "3px solid " + theme.palette.action.disabledBackground, borderRadius: '8px', width: '350px'
+            }}
+            style={{
+              fontSize: '16px',
+              fontWeight: '500',
             }}
           />
           <AppRoute />

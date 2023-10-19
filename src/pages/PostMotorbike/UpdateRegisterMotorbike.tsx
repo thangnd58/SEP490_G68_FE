@@ -4,6 +4,7 @@ import theme from '../../utils/theme'
 import RegisterMotorbikeForm from './components/RegisterMotorbike/RegisterMotorbikeForm';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
+import MyIcon from '../../components/common/MyIcon';
 
 
 const UpdateRegisterMotorbikeStyle = styled("form")(({ theme }) => ({
@@ -23,9 +24,8 @@ const UpdateRegisterMotorbikeStyle = styled("form")(({ theme }) => ({
 
 export default function UpdateRegisterMotorbike() {
 
-    const history = useNavigate(); // Get the history object from react-router-dom
+    const history = useNavigate();
 
-    // Function to handle the back button click
     const handleGoBack = () => {
         history(-1); // Go back to the previous route
     };
@@ -41,9 +41,7 @@ export default function UpdateRegisterMotorbike() {
                     flexDirection={"column"}>
 
                     <Box display="flex" alignItems="center">
-                        <IconButton onClick={handleGoBack}>
-                            <ArrowBackIcon />
-                        </IconButton>
+                        <MyIcon icon={<ArrowBackIcon />} hasTooltip tooltipText="Quay lại" onClick={handleGoBack} position='right'/>
                         <Typography
                             variant='h1'
                             color={theme.palette.text.primary}

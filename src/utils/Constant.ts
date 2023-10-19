@@ -19,6 +19,7 @@ export const ROUTES = {
     component: {
         mymaparea: "/map-area",
         equipment: "/equipment",
+        mymapwithsearch: "/map-with-search",
     },
 
     admin: {
@@ -26,6 +27,9 @@ export const ROUTES = {
         managelicences: "/manage-licences",
         licenceRegister: "/manage-licences/licence-detail",
         MotorbikeRegister: "/manage-motorbikes/motorbike-detail"
+    },
+    other:{
+        pagenotfound: "/page-not-found",
     }
     
 }
