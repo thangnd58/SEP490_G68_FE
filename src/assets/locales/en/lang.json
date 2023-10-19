@@ -4,7 +4,8 @@
         "register": "Register",
         "login": "Login",
         "logout": "Logout",
-        "userprofile" : "User Profile"
+        "userprofile" : "User Profile",
+        "dashboard": "Dash Board"
     },
     "form": {
         "login": "Login",

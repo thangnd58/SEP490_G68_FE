@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import UserService from '../../../services/UserService';
 import ToastComponent from '../../../components/toast/ToastComponent';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import ErrorMessage from '../../../components/common/ErrorMessage';
 
 interface ChildComponentProps {
   setType: React.Dispatch<React.SetStateAction<string>>;
@@ -122,7 +123,7 @@ const changePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
             }}
           />
           {errors.oldPassword && touched.oldPassword && (
-            <Typography color='warning.main'>{errors.oldPassword}</Typography>
+            <ErrorMessage message={errors.oldPassword} />
           )}
           <TextField
             name="newPassword"
@@ -150,7 +151,7 @@ const changePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
             }}
           />
           {errors.newPassword && touched.newPassword && (
-            <Typography color='warning.main'>{errors.newPassword}</Typography>
+            <ErrorMessage message={errors.newPassword} />
           )}
           <TextField
             name="confirmPassword"
@@ -178,7 +179,7 @@ const changePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
             }}
           />
           {errors.confirmPassword && touched.confirmPassword && (
-            <Typography color='warning.main'>{errors.confirmPassword}</Typography>
+            <ErrorMessage message={errors.confirmPassword} />
           )}
           <div >
             <Button variant="outlined" type='submit' sx={{ fontWeight: '500', width: 150, marginTop: 3, paddingTop: 1, paddingBottom: 1, marginLeft: '31%' }}>{t("changePassword.BtnChange")}</Button>

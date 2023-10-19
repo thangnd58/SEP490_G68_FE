@@ -1,5 +1,6 @@
 import { Box } from '@mui/system';
 import { DataGridPro } from '@mui/x-data-grid-pro';
+import { DataGrid } from '@mui/x-data-grid';
 import { Motorbike } from '../../../utils/type';
 import React, { useState, useEffect } from 'react';
 import MotorbikeManagementService from '../../../services/MotorbikeManagementService';
@@ -53,7 +54,7 @@ const MotorbikeManagement = () => {
         {
             field: 'id', headerName: 'Hành động', width: 150,
             renderCell: (params: any) => (
-                <Box sx={{cursor: 'pointer'}}>
+                <Box sx={{ cursor: 'pointer' }}>
                     <VisibilityOutlined />
                 </Box>
             )
@@ -72,9 +73,13 @@ const MotorbikeManagement = () => {
     };
 
     return (
-        <Box sx={{ height: '660px', width: '100%' }}>
-            <DataGridPro
+        <Box sx={{ height: '88vh', width: '100%' }}>
+            <DataGrid
                 rows={listMotorbike}
+                initialState={{
+                    pagination: { paginationModel: { pageSize: 10 } },
+                }}
+                pageSizeOptions={[5, 10, 25]}
                 columns={columns}
                 loading={listMotorbike.length === 0}
                 rowHeight={38}

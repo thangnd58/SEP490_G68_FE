@@ -139,6 +139,16 @@ function Header() {
                                             <MenuItem
                                                 onClick={() => {
                                                     setAnchorEl(null);
+                                                    navigate(ROUTES.admin.managemotorbikes);
+                                                }}
+                                                //hover to change background color
+                                                sx={{ textAlign: 'center' }}
+                                            >
+                                                {t('header.dashboard')}
+                                            </MenuItem>
+                                            <MenuItem
+                                                onClick={() => {
+                                                    setAnchorEl(null);
                                                     UserService.logout();
                                                     logout();
                                                 }}
@@ -190,6 +200,9 @@ function Header() {
                             <>
                                 <ListItem onClick={() => navigate(ROUTES.user.userprofile)} sx={{ borderBottom: '1px solid gray' }}>
                                     <ListItemText primary={t('header.userprofile')} />
+                                </ListItem>
+                                <ListItem onClick={() => navigate(ROUTES.admin.managemotorbikes)} sx={{ borderBottom: '1px solid gray' }}>
+                                    <ListItemText primary={t('header.dashboard')} />
                                 </ListItem>
                                 <ListItem onClick={() => {
                                     UserService.logout();
