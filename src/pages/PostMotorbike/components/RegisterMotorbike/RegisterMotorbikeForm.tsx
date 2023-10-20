@@ -11,7 +11,9 @@ import { ProvincesService } from '../../../../services/ProvincesService';
 import { CartIcon, HelmetIcon, ProtectClothesIcon, RainCoatIcon, RepairIcon, TelephoneIcon } from '../../../../assets/icons';
 import EquipmentItem from './EquipmentItem';
 import ToastComponent from '../../../../components/toast/ToastComponent';
-import CustomizedSnackbars from '../../../../components/common/MySnackbar';
+import MyMapWithSearchBox from '../../../../components/common/MyMapWithSearchBox';
+import { t } from 'i18next';
+import MyIcon from '../../../../components/common/MyIcon';
 
 const RegisterMotorbikeForm = () => {
 
@@ -113,10 +115,10 @@ const RegisterMotorbikeForm = () => {
                 if (isValidSize) {
                     setSelectedImages((prevImages) => [...prevImages, ...imageFiles]);
                 } else {
-                    <CustomizedSnackbars autoHideDuration={1000} severity="error" message="Vui lòng chọn ảnh có kích thước nhỏ hơn 10MB" />
+                    ToastComponent(`Kích thước ảnh không được vượt quá ${MAX_IMAGE_SIZE_MB}MB`, "error",);
                 }
             } else {
-                <CustomizedSnackbars autoHideDuration={1000} severity="error" message="Vui lòng chọn tối đa 12 ảnh" />
+                ToastComponent(`Bạn chỉ có thể chọn tối đa ${MAX_IMAGES} ảnh`, "error",);
             }
         }
     };
@@ -127,7 +129,7 @@ const RegisterMotorbikeForm = () => {
     };
 
     const handleLicensePlateChange = (value: string) => {
-        setLicensePlate(value); // Update the licensePlate state
+        setLicensePlate(value);
     };
 
 
@@ -150,24 +152,25 @@ const RegisterMotorbikeForm = () => {
 
 
     return (
+
         <Box width={"100%"}>
             <Box>
                 <RegisterMotorbikeItem
-                    title={'Biển số xe '}
+                    title={t("postMotorbike.registedForm.licensePlate")}
                     isRequired={true}
                     item={
                         <MyCustomTextField
                             borderRadius={8}
                             width='100%'
-                            placeholder={'Vui lòng nhập biển sổ xe'}
+                            placeholder={t("postMotorbike.registedForm.licensePlatePlaceHolder")}
                             onValueChange={handleLicensePlateChange}
                         />
                     }
                 />
                 <RegisterMotorbikeItem
-                    title={'Hình ảnh xe'}
+                    title={t("postMotorbike.registedForm.image")}
                     isRequired={true}
-                    secondTitle="Thêm nhiều ảnh ở các góc độ khác nhau của xe để tăng tính xác thực cho xe"
+                    secondTitle={t("postMotorbike.registedForm.imageSecondTitle")}
                     item={
                         <ImageList
                             sx={{ borderRadius: '8px', border: '3px solid #E0E0E0', width: '100%', height: 300 }}
@@ -229,7 +232,7 @@ const RegisterMotorbikeForm = () => {
                                 borderRadius={8}
                                 fontSize={16}
                                 fontWeight={600}
-                                content="Thêm ảnh"
+                                content={t("postMotorbike.registedForm.imageButton")}
                                 onClick={handleAddImages}
                             />
                             <input
@@ -244,7 +247,7 @@ const RegisterMotorbikeForm = () => {
                     }
                 />
                 <RegisterMotorbikeItem
-                    title={'Thông tin cơ bản '}
+                    title={t("postMotorbike.registedForm.basicInfo")}
                     marginBottomTitle='0px'
                     isRequired={true}
                     item={
@@ -252,14 +255,14 @@ const RegisterMotorbikeForm = () => {
                             <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                                 <Grid item xs={6}>
                                     <RegisterMotorbikeItem
-                                        title={'Hãng xe'}
+                                        title={t("postMotorbike.registedForm.brand")}
                                         fontSizeTitle='20px'
                                         fontWeightTitle={500}
                                         isRequired={false}
                                         item={
                                             <MyCustomTextField
                                                 borderRadius={8}
-                                                placeholder='Vui lòng chọn hãng xe'
+                                                placeholder={t("postMotorbike.registedForm.brandPlaceHolder")}
                                                 listItems={listBrand.map((brand) => ({ key: brand.id.toString(), value: brand.brandName }))}
                                             // Lưu trạng thái hãng xe đã chọn
                                             // setSelectedBrand={setSelectedBrand}
@@ -269,14 +272,14 @@ const RegisterMotorbikeForm = () => {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <RegisterMotorbikeItem
-                                        title={'Mẫu xe'}
+                                        title={t("postMotorbike.registedForm.model")}
                                         fontSizeTitle='20px'
                                         fontWeightTitle={500}
                                         isRequired={false}
                                         item={
                                             <MyCustomTextField
                                                 borderRadius={8}
-                                                placeholder='Vui lòng chọn hãng xe trước'
+                                                placeholder={t("postMotorbike.registedForm.modelPlaceHolder")}
                                                 listItems={listModel.map((model) => ({ key: model.id.toString(), value: model.modelName }))}
                                             // Vô hiệu hóa trường nhập liệu nếu chưa chọn hãng xe
                                             // disabled={selectedBrand === 0}
@@ -287,14 +290,14 @@ const RegisterMotorbikeForm = () => {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <RegisterMotorbikeItem
-                                        title={'Năm sản xuất'}
+                                        title={t("postMotorbike.registedForm.year")}
                                         fontSizeTitle='20px'
                                         fontWeightTitle={500}
                                         isRequired={false}
                                         item={
                                             <MyCustomTextField
                                                 borderRadius={8}
-                                                placeholder='Vui lòng chọn năm sản xuất'
+                                                placeholder={t("postMotorbike.registedForm.yearPlaceHolder")}
                                                 listItems={[{ key: '2023', value: '2023' }, { key: '2022', value: '2022' }]}
                                             />
                                         }
@@ -302,14 +305,14 @@ const RegisterMotorbikeForm = () => {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <RegisterMotorbikeItem
-                                        title={'Loại nhiên liệu'}
+                                        title={t("postMotorbike.registedForm.fuel")}
                                         fontSizeTitle='20px'
                                         fontWeightTitle={500}
                                         isRequired={false}
                                         item={
                                             <MyCustomTextField
                                                 borderRadius={8}
-                                                placeholder='Vui lòng chọn loại nhiên liệu'
+                                                placeholder={t("postMotorbike.registedForm.fuelPlaceHolder")}
                                                 listItems={[{ key: 'Xăng', value: 'Xăng' }, { key: 'Điện', value: 'Điện' }]}
                                             />
                                         }
@@ -317,19 +320,19 @@ const RegisterMotorbikeForm = () => {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <RegisterMotorbikeItem
-                                        title={'Mức tiêu thụ nhiên liệu '}
+                                        title={t("postMotorbike.registedForm.fuelConsumption")}
                                         fontSizeTitle='20px'
                                         fontWeightTitle={500}
                                         marginBottomTitle='8px'
                                         isRequired={true}
-                                        secondTitle='Ví dụ: 3 lít/100km'
+                                        secondTitle={t("postMotorbike.registedForm.fuelConsumptionSecondTitle")}
                                         fontSizeSecondTitle='16px'
                                         fontWeightSecondTitle={400}
                                         item={
                                             <MyCustomTextField
                                                 type='number'
                                                 borderRadius={8}
-                                                placeholder='3'
+                                                placeholder={t("postMotorbike.registedForm.fuelConsumptionPlaceHolder")}
                                             />
                                         }
                                     />
@@ -339,41 +342,41 @@ const RegisterMotorbikeForm = () => {
                     }
                 />
                 <RegisterMotorbikeItem
-                    title={'Mô tả'}
+                    title={t("postMotorbike.registedForm.description")}
                     isRequired={false}
                     item={
                         <MyCustomTextField
                             borderRadius={8}
                             width='100%'
                             multiline={true}
-                            placeholder={'Nhập mô tả cho xe của bạn'}
+                            placeholder={t("postMotorbike.registedForm.descriptionPlaceHolder")}
                         />
                     }
                 />
 
                 <RegisterMotorbikeItem
-                    title={'Trang bị'}
+                    title={t("postMotorbike.registedForm.Equipment")}
                     isRequired={false}
                     item={
                         <Box sx={{ width: '100%' }}>
                             <Grid container spacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                                 <Grid item xs={4}>
-                                    <EquipmentItem icon={<RainCoatIcon />} label='Áo mưa' />
+                                    <EquipmentItem icon={<RainCoatIcon />} label={t("postMotorbike.registedForm.raincoat")} />
                                 </Grid>
                                 <Grid item xs={4}>
-                                    <EquipmentItem icon={<HelmetIcon />} label='Mũ bảo hiểm 3/4' />
+                                    <EquipmentItem icon={<HelmetIcon />} label={t("postMotorbike.registedForm.helmet")} />
                                 </Grid>
                                 <Grid item xs={4}>
-                                    <EquipmentItem icon={<ProtectClothesIcon />} label='Dây đeo phản quang' />
+                                    <EquipmentItem icon={<ProtectClothesIcon />} label={t("postMotorbike.registedForm.reflectiveClothes")} />
                                 </Grid>
                                 <Grid item xs={4}>
-                                    <EquipmentItem icon={<CartIcon />} label='Baga sau' />
+                                    <EquipmentItem icon={<CartIcon />} label={t("postMotorbike.registedForm.bagage")} />
                                 </Grid>
                                 <Grid item xs={4}>
-                                    <EquipmentItem icon={<RepairIcon />} label='Bộ dụng cụ vá xe' />
+                                    <EquipmentItem icon={<RepairIcon />} label={t("postMotorbike.registedForm.repairKit")} />
                                 </Grid>
                                 <Grid item xs={4}>
-                                    <EquipmentItem icon={< TelephoneIcon />} label='Giá đỡ điện thoại' />
+                                    <EquipmentItem icon={< TelephoneIcon />} label={t("postMotorbike.registedForm.caseTelephone")} />
                                 </Grid>
                             </Grid>
                         </Box>
@@ -381,7 +384,7 @@ const RegisterMotorbikeForm = () => {
                 />
 
                 <RegisterMotorbikeItem
-                    title={'Giá thuê mặc định '}
+                    title={t("postMotorbike.registedForm.defaultRentPrice")}
                     isRequired={true}
                     item={
                         <Box sx={{ width: '100%' }}>
@@ -390,7 +393,7 @@ const RegisterMotorbikeForm = () => {
                                     <MyCustomTextField
                                         type='number'
                                         borderRadius={8}
-                                        placeholder='120'
+                                        placeholder={t("postMotorbike.registedForm.defaultRentPricePlaceHolder")}
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
@@ -405,7 +408,7 @@ const RegisterMotorbikeForm = () => {
                                         marginTop={"16px"}
                                         marginBottom={"16px"}
                                     >
-                                        Nghìn VND/ngày
+                                        {t("postMotorbike.registedForm.defaultRentPriceSecondTitle")}
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -413,14 +416,14 @@ const RegisterMotorbikeForm = () => {
                     }
                 />
                 <RegisterMotorbikeItem
-                    title={'Địa chỉ xe '}
+                    title={t("postMotorbike.registedForm.location")}
                     isRequired={true}
                     item={
                         <MyCustomTextField
                             borderRadius={8}
                             width='100%'
                             // disabled={true}
-                            placeholder={'Địa chỉ mặc định giao nhận xe'}
+                            placeholder={t("postMotorbike.registedForm.locationPlaceHolder")}
                             icon={
                                 <Map
                                     onClick={openMapModal}
@@ -432,20 +435,20 @@ const RegisterMotorbikeForm = () => {
                     }
                 />
                 <RegisterMotorbikeItem
-                    title={'Các điều khoản khác'}
+                    title={t("postMotorbike.registedForm.miscellaneous")}
                     isRequired={false}
-                    secondTitle='Ghi rõ các yêu cầu để khách hàng có thể thuê xe'
+                    secondTitle={t("postMotorbike.registedForm.miscellaneousSecondTitle")}
                     item={
                         <MyCustomTextField
                             borderRadius={8}
                             width='100%'
                             multiline={true}
-                            placeholder={'Vui lòng nhập các điều khoản cho thuê xe khác của bạn'}
+                            placeholder={t("postMotorbike.registedForm.miscellaneousPlaceHolder")}
                         />
                     }
                 />
                 <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"center"} margin={"32px 0px 0px 0px"}>
-                    <MyCustomButton width='30%' borderRadius={8} fontSize={16} fontWeight={600} content='Đăng ký xe' onClick={() => { }} />
+                    <MyCustomButton width='30%' borderRadius={8} fontSize={16} fontWeight={600} content={t("postMotorbike.registedForm.btnSubmit")} onClick={() => { }} />
                 </Box>
             </Box>
             <ImageModal selectedImages={selectedImages} selectedImageIndex={selectedImageIndex} closeModal={closeModal} />
@@ -463,24 +466,24 @@ const RegisterMotorbikeForm = () => {
                 }}>
                     <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"start"} alignItems={"center"}>
                         <Typography width={"100%"} variant='h2' color={theme.palette.text.primary} fontSize={"24px"} fontWeight={600} textAlign={"start"}>
-                            Chọn địa chỉ xe
+                        {t("postMotorbike.registedForm.selectAddress")}
                         </Typography>
                         <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
-                            <IconButton onClick={closeMapModal}>
-                                <CloseOutlined />
-                            </IconButton>
+            
+                            <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeMapModal} position='bottom'/>
+
                         </Box>
                     </Box>
                     <Box width={"100%"} height={"80%"} display={"flex"} flexDirection={"column"} justifyContent={"start"} alignItems={"center"}>
-                        <RegisterMotorbikeItem title={'Tỉnh/Thành phố '} fontSizeTitle='16px' isRequired={true} item={<MyCustomTextField borderRadius={8} fontSize={16} height='48px' width='100%' placeholder={'Chọn Tỉnh/ Thành phố'}
+                        <RegisterMotorbikeItem title={t("postMotorbike.registedForm.selectProvince")} fontSizeTitle='16px' isRequired={true} item={<MyCustomTextField borderRadius={8} fontSize={16} height='48px' width='100%' placeholder={t("postMotorbike.registedForm.selectProvincePlaceHolder")}
                             listItems={listProvince.map((province) => ({ key: province.code.toString(), value: province.name }))}
                         />} />
 
-                        <RegisterMotorbikeItem title={'Quận/Huyện '} fontSizeTitle='16px' isRequired={true} item={<MyCustomTextField borderRadius={8} width='100%' placeholder={'Chọn Quận/Huyện'}
+                        <RegisterMotorbikeItem title={t("postMotorbike.registedForm.selectDistrict")} fontSizeTitle='16px' isRequired={true} item={<MyCustomTextField borderRadius={8} width='100%' placeholder={t("postMotorbike.registedForm.selectDistrictPlaceHolder")}
                             listItems={listProvince.map((province) => ({ key: province.code.toString(), value: province.name }))}
                         />} />
 
-                        <RegisterMotorbikeItem fontSizeTitle='16px' title={'Phường/Xã '} isRequired={true} item={<MyCustomTextField borderRadius={8} width='100%' placeholder={'Chọn Phường/Xã'} listItems={[{
+                        <RegisterMotorbikeItem fontSizeTitle='16px' title={t("postMotorbike.registedForm.selectWard")} isRequired={true} item={<MyCustomTextField borderRadius={8} width='100%' placeholder={t("postMotorbike.registedForm.selectWardPlaceHolder")} listItems={[{
                             key: '1',
                             value: 'Phường Hoàng Văn Thụ'
                         }, {
@@ -494,12 +497,12 @@ const RegisterMotorbikeForm = () => {
 
                         <RegisterMotorbikeItem
                             fontSizeTitle='16px'
-                            title={'Địa chỉ '}
+                            title={t("postMotorbike.registedForm.address")}
                             isRequired={true}
-                            item={<MyCustomTextField borderRadius={8} width='100%' placeholder={'Nhập địa chỉ'} />}
+                            item={<MyMapWithSearchBox />}
                             myButton={
                                 <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"center"} margin={"24px 0px 0px 0px"}>
-                                    <MyCustomButton width='30%' borderRadius={8} fontSize={16} fontWeight={600} content='Xác nhận' onClick={handleSubmit} />
+                                    <MyCustomButton width='30%' borderRadius={8} fontSize={16} fontWeight={600} content={t("postMotorbike.registedForm.btnConfirm")} onClick={handleSubmit} />
                                 </Box>
                             }
                         />
@@ -531,7 +534,7 @@ function ImageModal({ selectedImages, selectedImageIndex, closeModal }: ImageMod
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        margin: '32px 0px'
+        margin: '32px 32px'
     }}>
         <img style={{
             maxWidth: '100%',

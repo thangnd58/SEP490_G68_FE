@@ -22,7 +22,7 @@ const theme = createTheme({
             main: '#F9503D' // error color
         },
         action: {
-            hover: '#A26A42', // hover color
+            hover: '#E0E0E0', // hover color
             selected: '#9A9EA5', // placeholder color
             disabled: '#777E90', // icon color
             disabledBackground: '#E0E0E0', // border color

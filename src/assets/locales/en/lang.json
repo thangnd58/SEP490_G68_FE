@@ -1,159 +1,281 @@
 {
-    "header": {
-        "title": "Motobike Rental Services",
-        "register": "Register",
-        "login": "Login",
-        "logout": "Logout",
-        "userprofile" : "User Profile",
-        "dashboard": "Dash Board"
+  "header": {
+    "title": "Motobike Rental Services",
+    "register": "Register",
+    "login": "Login",
+    "logout": "Logout",
+    "userprofile": "User Profile",
+    "dashboard": "Dash Board",
+    "mylistmotorbike": "My List Motorbike",
+    "registermotorbike": "Register Motorbike"
+  },
+  "form": {
+    "login": "Login",
+    "login_hint": "Do not have an account ?",
+    "login_with_google": "Or login with",
+    "register": "Register",
+    "register_hint": "Have an account?",
+    "userName": "Full Name",
+    "email": "Email",
+    "phone": "Phone number",
+    "password": "Password",
+    "confirmpassword": "Confirm password",
+    "required": "Required input!",
+    "validateEmail": "Invalid email format",
+    "validatePassword": "Minimum {{min}} characters",
+    "validatePasswordMax": "Maximum {{max}} characters",
+    "validateCharacter": "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character",
+    "saveAccount": "Save account",
+    "forgotPassword": "Forgot password?",
+    "validatePhone": "Invalid phone number format",
+    "validLicenseNumber": "Invalid license number format",
+    "passwordsMustMatch": "Passwords do not match!",
+    "resetpassword": "Recovery password",
+    "resetpassword_hint": "If you forgot your password, you can use the following form to reset your password. You will receive an email or SMS with password reset instructions.",
+    "sendLink": "Send link",
+    "verifySuccess": "Your account has been successfully verified!",
+    "verifyError": "Your account has not been verified!",
+    "resubmit": "Re-send email",
+    "message_verify_register": "Email has been sent to your inbox. Please check your email to complete your registration",
+    "message_verify_change_password": "Email has been sent to your inbox. Please check your email to change your password.",
+    "go_to_email_page": "Go to Email page",
+    "check_your_email": "Please check your email",
+    "input_new_password": "Set new password",
+    "back_to_home_page": "Back to home page",
+    "verifySuceessLabel": "Congratulations",
+    "verifyErrorLabel": "Sorry"
+  },
+  "toast": {
+    "login": {
+      "success": "Login successfully",
+      "warning": "Invalid email or password",
+      "warning_external": "Login with Google failed",
+      "error": "Login error"
     },
-    "form": {
-        "login": "Login",
-        "login_hint": "Do not have an account ?",
-        "login_with_google": "Or login with",
-        "register": "Register",
-        "register_hint": "Have an account?",
-        "userName": "Full Name",
-        "email": "Email",
-        "phone": "Phone number",
-        "password": "Password",
-        "confirmpassword": "Confirm password",
-        "required": "Required input!",
-        "validateEmail": "Invalid email format",
-        "validatePassword": "Minimum {{min}} characters",
-        "validatePasswordMax": "Maximum {{max}} characters",
-        "validateCharacter": "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character",
-        "saveAccount": "Save account",
-        "forgotPassword": "Forgot password?",
-        "validatePhone": "Invalid phone number format",
-        "validLicenseNumber":"Invalid license number format",
-        "passwordsMustMatch": "Passwords do not match!",
-        "resetpassword": "Recovery password",
-        "resetpassword_hint": "If you forgot your password, you can use the following form to reset your password. You will receive an email or SMS with password reset instructions.",
-        "sendLink": "Send link",
-        "verifySuccess": "Your account has been successfully verified!",
-        "verifyError": "Your account has not been verified!",
-        "resubmit": "Re-send email",
-        "message_verify_register": "Email has been sent to your inbox. Please check your email to complete your registration",
-        "message_verify_change_password": "Email has been sent to your inbox. Please check your email to change your password.",
-        "go_to_email_page": "Go to Email page",
-        "check_your_email": "Please check your email",
-        "input_new_password": "Set new password",
-        "back_to_home_page": "Back to home page",
-        "verifySuceessLabel": "Congratulations",
-        "verifyErrorLabel": "Sorry"
+    "register": {
+      "success": "Register successfully",
+      "warning": "Email already exists",
+      "error": "Register error"
     },
-    "toast": {
-        "login": {
-            "success": "Login successfully",
-            "warning": "Invalid email or password",
-            "warning_external": "Login with Google failed",
-            "error": "Login error"
-        },
-        "register": {
-            "success": "Register successfully",
-            "warning": "Email already exists",
-            "error": "Register error"
-        },
-        "logout": {
-            "success": "Logout successfully"
-        },
-        "resetpassword": {
-            "error": "Password recovery request failed, please try again later"
-        },
-        "changepassword": {
-            "success": "Change password successfully",
-            "warning": "Change password failed",
-            "error": "Error when change password"
-        },
-        "changeUserProfile": {
-            "success": "Change user profile successfully",
-            "warning": "Change user profile failed",
-            "error": "Error when change user profile"
-        }
-        ,
-        "changeLicense": {
-            "success": "Change License successfully",
-            "warning": "Change License failed",
-            "error": "Error when change License"
-        },
-        "dashboardLicense":{
-            "Arrprove" : {
-                "success": "Arrprove License successfully",
-                "warning": "Arrprove License failed",
-                "error": "Error when arrprove license"
-            },
-            "Reject" : {
-                "success": "Reject License successfully",
-                "warning": "Reject License failed",
-                "error": "Error when reject license"
-            }
-            
-        },
-        "dashboardMotorbike":{
-            "Arrprove" : {
-                "success": "Arrprove Motorbike successfully",
-                "warning": "Arrprove Motorbike failed",
-                "error": "Error when arrprove motorbike"
-            },
-            "Reject" : {
-                "success": "Reject Motorbike successfully",
-                "warning": "Reject Motorbike failed",
-                "error": "Error when reject motorbike"
-            }
-            
-        }
+    "logout": {
+      "success": "Logout successfully"
     },
-    "footer": {},
-    "userProfile": {
-        "Title": "User Profile",
-        "ChangePassword": "Change Password",
-        "Name": "Name",
-        "Email": "Email",
-        "DOB": "Date of birth",
-        "Address": "Address",
-        "PhoneNumber": "Phone",
-        "Gender": "Gender",
-        "Male": "Male",
-        "Female": "Female",
-        "BtnDelete": "Delete",
-        "BtnUpload": "Upload Image",
-        "ChangeProfile":"Change Profile",
-        "InputProfile":"Please input Information"
+    "resetpassword": {
+      "error": "Password recovery request failed, please try again later"
     },
-    "changePassword": {
-        "Title": "Change Password",
-        "Back": "Back",
-        "OldPassword": "Old Password",
-        "NewPassword": "New Password",
-        "RePassword": "Re-enter password",
-        "BtnChange": "Complete"
+    "changepassword": {
+      "success": "Change password successfully",
+      "warning": "Change password failed",
+      "error": "Error when change password"
     },
-    "licenseInfo" : {
-        "Title":"License Information",
-        "NumberLicense":"Number License",
-        "Name":"Name",
-        "Date":"Expiration Date",
-        "BtnEdit":"Edit",
-        "BtnCancel": "Cancel",
-        "BtnSave": "Save",
-        "Image":"Image License",
-        "BtnchooseLicense":"Upload Image",
-        "Processing" : "Processing",
-        "Approve":"Approved",
-        "Reject":"Rejected",
-        "BtnApprove":"Approve",
-        "BtnReject":"Reject"
+    "changeUserProfile": {
+      "success": "Change user profile successfully",
+      "warning": "Change user profile failed",
+      "error": "Error when change user profile"
     },
-    "dashBoardManager" : {
-        "License": "License",
-        "Motobike": {
-            "Title":"Motobike",
-            "Name" :"Motobike name",
-            "Plate" : "Plate",
-            "Fuel": "Fuel",
-            "Location" : "Location",
-            "PriceForRent": "Price for rent"
-        }
+    "changeLicense": {
+      "success": "Change License successfully",
+      "warning": "Change License failed",
+      "error": "Error when change License"
+    },
+    "dashboardLicense": {
+      "Arrprove": {
+        "success": "Arrprove License successfully",
+        "warning": "Arrprove License failed",
+        "error": "Error when arrprove license"
+      },
+      "Reject": {
+        "success": "Reject License successfully",
+        "warning": "Reject License failed",
+        "error": "Error when reject license"
+      }
+    },
+    "dashboardMotorbike": {
+      "Arrprove": {
+        "success": "Arrprove Motorbike successfully",
+        "warning": "Arrprove Motorbike failed",
+        "error": "Error when arrprove motorbike"
+      },
+      "Reject": {
+        "success": "Reject Motorbike successfully",
+        "warning": "Reject Motorbike failed",
+        "error": "Error when reject motorbike"
+      }
     }
+  },
+  "footer": {
+    "policyTitle": "Policies",
+    "learnMoreTitle": "Learn More",
+    "footerEmailPlaceholder": "Enter your email address",
+    "policyAndRegulations": "Policies and Regulations",
+    "operatingRegulations": "Operating Regulations",
+    "footerCopyright": "Copyright© FPT University Hanoi",
+    "informationSecurity": "Information Security",
+    "disputeResolution": "Dispute Resolution",
+    "generalInstructions": "General Instructions",
+    "bookingInstructions": "Booking Instructions",
+    "paymentInstructions": "Payment Instructions",
+    "qAndA": "Q&A"
+  },
+  "userProfile": {
+    "Title": "User Profile",
+    "ChangePassword": "Change Password",
+    "Name": "Name",
+    "Email": "Email",
+    "DOB": "Date of birth",
+    "Address": "Address",
+    "PhoneNumber": "Phone",
+    "Gender": "Gender",
+    "Male": "Male",
+    "Female": "Female",
+    "BtnDelete": "Delete",
+    "BtnUpload": "Upload Image",
+    "ChangeProfile": "Change Profile",
+    "InputProfile": "Please input Information"
+  },
+  "changePassword": {
+    "Title": "Change Password",
+    "Back": "Back",
+    "OldPassword": "Old Password",
+    "NewPassword": "New Password",
+    "RePassword": "Re-enter password",
+    "BtnChange": "Complete"
+  },
+  "licenseInfo": {
+    "Title": "License Information",
+    "NumberLicense": "Number License",
+    "Name": "Name",
+    "Date": "Expiration Date",
+    "BtnEdit": "Edit",
+    "BtnCancel": "Cancel",
+    "BtnSave": "Save",
+    "Image": "Image License",
+    "BtnchooseLicense": "Upload Image",
+    "Processing": "Processing",
+    "Approve": "Approved",
+    "Reject": "Rejected",
+    "BtnApprove": "Approve",
+    "BtnReject": "Reject"
+  },
+  "dashBoardManager": {
+    "Navigation": {
+      "manager": "Manager",
+      "licenseManager": "License Manager",
+      "motorbikeRentalManager": "Motorbike Rental Manager"
+    },
+    "License": "License",
+    "Motobike": {
+      "Title": "Motobike",
+      "Name": "Motobike name",
+      "Plate": "Plate",
+      "Fuel": "Fuel",
+      "Location": "Location",
+      "PriceForRent": "Price for rent"
+    },
+    "licenseManager": {
+      "columnLicenseNumber": "License Number",
+      "columnFullName": "Full Name",
+      "columnDateOfBirth": "Date of Birth",
+      "columnCreateDate": "Date Created",
+      "columnStatus": "Status",
+      "columnAction": "Action",
+      "statusPending": "Pending Approval",
+      "statusVerified": "Verified",
+      "statusCancelled": "Cancelled"
+    },
+
+    "motorbikeRentalManager": {
+      "columnMotorbikeName": "Motorbike Name",
+      "columnAddress": "Address",
+      "columnType": "Motorbike Type",
+      "columnLicensePlate": "License Plate",
+      "columnCreateDate": "Creation Date",
+      "columnStatus": "Status",
+      "statusPending": "Pending Approval",
+      "statusVerified": "Verified",
+      "statusCancelled": "Cancelled",
+      "columnAction": "Action"
+    }
+  },
+  "component": {
+    "MyMapWithSearchBox": {
+      "searchPlaceholder": "Search your address",
+      "getLocationButtonLabel": "Get your location"
+    }
+  },
+  "404": {
+    "message": "Sorry, we were unable to find that page.",
+    "back": "Back to Home"
+  },
+  "postMotorbike": {
+    "listform": {
+      "title": "List Motorbike",
+      "status": "Status :",
+      "all": "All",
+      "table-cell-#": "#",
+      "table-cell-image": "Image",
+      "table-cell-model": "Model",
+      "table-cell-plate": "License Plate",
+      "table-cell-registerdate": "Register Date",
+      "table-cell-status": "Status",
+      "table-cell-action": "Action",
+      "badge-edit": "Edit",
+      "status-approved": "Approved",
+      "status-pendingApproval": "Pending Approval",
+      "status-inOporation": "In Oporation",
+      "status-rejected": "Rejected",
+      "status-onHiatus": "On Hiatus"
+    },
+    "registedForm": {
+      "updateTitle": "Update Information",
+      "title": "Registed Motorbike",
+      "badge-back": "Back",
+      "badge-close": "Close",
+      "licensePlate": "License Plate",
+      "licensePlatePlaceHolder": "Enter License Plate",
+      "image": "Image",
+      "imageSecondTitle": "Add more image to show your motorbike",
+      "imageButton": "Upload Image",
+      "basicInfo": "Basic Information",
+      "brand": "Brand",
+      "brandPlaceHolder": "Choose Brand",
+      "model": "Model",
+      "modelPlaceHolder": "Choose Brand First",
+      "year": "Year",
+      "yearPlaceHolder": "Choose Year Release",
+      "fuel": "Fuel",
+      "fuelPlaceHolder": "Choose Fuel",
+      "fuelConsumption": "Fuel Consumption",
+      "fuelConsumptionSecondTitle": "Example: 3L/100km",
+      "fuelConsumptionPlaceHolder": "3",
+      "description": "Description",
+      "descriptionPlaceHolder": "Enter Description of your motorbike",
+      "Equipment": "Equipment",
+      "helmet": "Helmet",
+      "raincoat": "Raincoat",
+      "reflectiveClothes": "Reflective Clothes",
+      "bagage": "Bagage",
+      "caseTelephone": "Case Telephone",
+      "repairKit": "Repair Kit",
+      "defaultRentPrice": "Default Rent Price",
+      "defaultRentPriceSecondTitle": "Thousand VND/day",
+      "defaultRentPricePlaceHolder": "120",
+      "location": "Location",
+      "locationPlaceHolder": "Default vehicle delivery location",
+      "selectAddress": "Select Address",
+      "selectProvince": "Select Province/City",
+      "selectProvincePlaceHolder": "Choose Province/City",
+      "selectDistrict": "Select District",
+      "selectDistrictPlaceHolder": "Choose Province/City First",
+      "selectWard": "Select Ward/Commune",
+      "selectWardPlaceHolder": "Choose District First",
+      "address": "Address",
+      "addressPlaceHolder": "Enter Address",
+      "btnConfirm" : "Confirm",
+      "miscellaneous": "Miscellaneous",
+      "miscellaneousSecondTitle": "Specify the requirements for customers to rent a motorbike",
+      "miscellaneousPlaceHolder": "Enter your requirements",
+      "btnSubmit": "Submit"
+    }
+  }
 }

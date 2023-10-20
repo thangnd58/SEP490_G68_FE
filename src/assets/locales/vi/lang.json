@@ -1,159 +1,280 @@
 {
-    "header": {
-        "title": "Dịch vụ thuê xe máy",
-        "register": "Đăng ký",
-        "login": "Đăng nhập",
-        "logout": "Đăng xuất",
-        "userprofile" : "Tài khoản của tôi",
-        "dashboard": "Dash Board"
+  "header": {
+    "title": "Dịch vụ thuê xe máy",
+    "register": "Đăng ký",
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "userprofile": "Tài khoản của tôi",
+    "dashboard": "Quản lý",
+    "mylistmotorbike": "Danh sách xe của tôi",
+    "registermotorbike": "Trở thành chủ xe"
+  },
+  "form": {
+    "login": "Đăng nhập",
+    "login_hint": "Bạn chưa có tài khoản ?",
+    "login_with_google": "Hoặc đăng nhập với",
+    "register": "Đăng ký",
+    "register_hint": "Bạn đã có tài khoản ?",
+    "userName": "Tên của bạn",
+    "email": "Tài khoản",
+    "phone": "Số điện thoại",
+    "password": "Mật khẩu",
+    "confirmpassword": "Nhập lại mật khẩu",
+    "required": "Bắt buộc nhập!",
+    "validateEmail": "Nhập sai định dạng email",
+    "validatePassword": "Tối thiểu {{min}} ký tự",
+    "validatePasswordMax": "Tối đa {{max}} ký tự",
+    "validateCharacter": "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 chữ số, 1 ký tự đặc biệt",
+    "saveAccount": "Ghi nhớ đăng nhập",
+    "forgotPassword": "Quên mật khẩu?",
+    "validatePhone": "Nhập sai định dạng số điện thoại",
+    "validLicenseNumber": "Nhập sai định dạng bằng lái xe",
+    "passwordsMustMatch": "Mật khẩu nhập lại không khớp!",
+    "resetpassword": "Quên mật khẩu",
+    "resetpassword_hint": "Nếu bạn quên mật khẩu, bạn có thể dùng mẫu sau để thiết lập lại mật khẩu. Bạn sẽ nhận được một email hoặc SMS với nội dung hướng dẫn đặt lại mật khẩu.",
+    "sendLink": "Gửi đường dẫn",
+    "verifySuccess": "Tài khoản của bạn đã được xác thực thành công !",
+    "verifyError": "Tài khoản của bạn đã không được xác thực !",
+    "resubmit": "Gửi lại email",
+    "message_verify_register": "Email đã được gửi đến hòm thư của bạn. Vui lòng kiểm tra hòm thư để hoàn thành đăng ký",
+    "message_verify_change_password": "Email đã được gửi đến hòm thư của bạn. Vui lòng kiểm tra hòm thư để tiến hành thay đổi mật khẩu.",
+    "go_to_email_page": "Đi đến hòm thư",
+    "check_your_email": "Hãy kiểm tra hòm thư của bạn",
+    "input_new_password": "Nhập mật khẩu mới",
+    "back_to_home_page": "Trở về trang chủ",
+    "verifySuceessLabel": "Chúc mừng",
+    "verifyErrorLabel": "Rất tiếc"
+  },
+  "toast": {
+    "login": {
+      "success": "Đăng nhập thành công",
+      "warning": "Email hoặc mật khẩu không hợp lệ",
+      "warning_external": "Đăng nhập Google  thất bại",
+      "error": "Lỗi đăng nhập"
     },
-    "form": {
-        "login": "Đăng nhập",
-        "login_hint": "Bạn chưa có tài khoản ?",
-        "login_with_google": "Hoặc đăng nhập với",
-        "register": "Đăng ký",
-        "register_hint": "Bạn đã có tài khoản ?",
-        "userName": "Tên của bạn",
-        "email": "Email",
-        "phone": "Số điện thoại",
-        "password": "Mật khẩu",
-        "confirmpassword": "Nhập lại mật khẩu",
-        "required": "Bắt buộc nhập!",
-        "validateEmail" : "Nhập sai định dạng email",
-        "validatePassword" : "Tối thiểu {{min}} ký tự",
-        "validatePasswordMax" : "Tối đa {{max}} ký tự",
-        "validateCharacter": "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 chữ số, 1 ký tự đặc biệt",
-        "saveAccount": "Ghi nhớ đăng nhập",
-        "forgotPassword": "Quên mật khẩu?",
-        "validatePhone": "Nhập sai định dạng số điện thoại",
-        "validLicenseNumber":"Nhập sai định dạng bằng lái xe",
-        "passwordsMustMatch": "Mật khẩu nhập lại không khớp!",
-        "resetpassword": "Quên mật khẩu",
-        "resetpassword_hint": "Nếu bạn quên mật khẩu, bạn có thể dùng mẫu sau để thiết lập lại mật khẩu. Bạn sẽ nhận được một email hoặc SMS với nội dung hướng dẫn đặt lại mật khẩu.",
-        "sendLink": "Gửi đường dẫn",
-        "verifySuccess": "Tài khoản của bạn đã được xác thực thành công !",
-        "verifyError": "Tài khoản của bạn đã không được xác thực !",
-        "resubmit": "Gửi lại email",
-        "message_verify_register": "Email đã được gửi đến hòm thư của bạn. Vui lòng kiểm tra hòm thư để hoàn thành đăng ký",
-        "message_verify_change_password": "Email đã được gửi đến hòm thư của bạn. Vui lòng kiểm tra hòm thư để tiến hành thay đổi mật khẩu.",
-        "go_to_email_page": "Đi đến hòm thư",
-        "check_your_email": "Hãy kiểm tra hòm thư của bạn",
-        "input_new_password": "Nhập mật khẩu mới",
-        "back_to_home_page": "Trở về trang chủ",
-        "verifySuceessLabel": "Chúc mừng",
-        "verifyErrorLabel": "Rất tiếc"
+    "register": {
+      "success": "Đăng ký thành công",
+      "warning": "Email đã tồn tại",
+      "error": "Lỗi đăng ký"
     },
-    "toast": {
-        "login": {
-            "success": "Đăng nhập thành công",
-            "warning": "Email hoặc mật khẩu không hợp lệ",
-            "warning_external": "Đăng nhập Google  thất bại",
-            "error": "Lỗi đăng nhập"
-        },
-        "register": {
-            "success": "Đăng ký thành công",
-            "warning": "Email đã tồn tại",
-            "error": "Lỗi đăng ký"
-        },
-        "logout" : {
-            "success" : "Đăng xuất thành công"
-        },
-        "resetpassword": {
-            "error": "Gửi yêu cầu khôi phục mật khẩu thất bại, vui lòng thử lại sau"
-        },
-        "changepassword": {
-            "success": "Đổi mật khẩu thành công",
-            "warning": "Đổi mật khẩu thất bại",
-            "error": "Lỗi đổi mật khẩu"
-        },
-        "changeUserProfile": {
-            "success": "Cập nhật thông tin thành công",
-            "warning": "Cập nhật thông tin thất bại",
-            "error": "Lỗi cập nhật thông tin"
-        }
-        ,
-        "changeLicense": {
-            "success": "Cập nhật bằng lái xe thành công",
-            "warning": "Cập nhật bằng lái xe thất bại",
-            "error": "Lỗi cập nhật bằng lái xe"
-        },
-        "dashboardLicense":{
-            "Arrprove" : {
-                "success": "Phê duyệt bằng lái xe thành công",
-                "warning": "Phê duyệt bằng lái xe thất bại",
-                "error": "Lỗi phê duyệt bằng lái xe"
-            },
-            "Reject" : {
-                "success": "Hủy đăng ký bằng lái xe thành công",
-                "warning": "Hủy đăng ký bằng lái xe thất bại",
-                "error": "Lỗi hủy đăng ký bằng lái xe"
-            }
-            
-        },
-        "dashboardMotorbike":{
-            "Arrprove" : {
-                "success": "Phê duyệt xe máy thành công",
-                "warning": "Phê duyệt xe máy thất bại",
-                "error": "Lỗi phê duyệt xe máy"
-            },
-            "Reject" : {
-                "success": "Hủy đăng ký xe máy thành công",
-                "warning": "Hủy đăng ký xe máy thất bại",
-                "error": "Lỗi hủy đăng ký xe máy"
-            }
-            
-        }
+    "logout": {
+      "success": "Đăng xuất thành công"
     },
-    "footer": {},
-    "userProfile": {
-        "Title":"Thông tin người dùng",
-        "ChangePassword":"Đổi mật khẩu",
-        "Name":"Họ và tên",
-        "Email":"Địa chỉ Email",
-        "DOB":"Ngày sinh",
-        "Address":"Địa chỉ",
-        "PhoneNumber":"Số điện Thoại",
-        "Gender":"Giới tính",
-        "Male":"Nam",
-        "Female":"Nữ",
-        "BtnDelete": "Xóa",
-        "BtnUpload": "Tải lên ảnh",
-        "ChangeProfile":"Chỉnh sửa hồ sơ",
-        "InputProfile":"Vui lòng điền thông tin"
+    "resetpassword": {
+      "error": "Gửi yêu cầu khôi phục mật khẩu thất bại, vui lòng thử lại sau"
     },
-    "changePassword" : {
-        "Title":"Đổi mật khẩu",
-        "Back":"Quay lại",
-        "OldPassword":"Mật khẩu cũ",
-        "NewPassword":"Mật khẩu mới",
-        "RePassword":"Nhập lại mật khẩu",
-        "BtnChange" : "Đồng Ý"
+    "changepassword": {
+      "success": "Đổi mật khẩu thành công",
+      "warning": "Đổi mật khẩu thất bại",
+      "error": "Lỗi đổi mật khẩu"
     },
-    "licenseInfo" : {
-        "Title":"Giấy phép lái xe",
-        "NumberLicense":"Số GPLX",
-        "Name":"Họ Tên",
-        "Date":"Ngày hết hạn",
-        "BtnEdit":"Chỉnh sửa",
-        "BtnCancel": "Hủy",
-        "BtnSave": "Lưu",
-        "Image":"Hình ảnh giấy phép lái xe",
-        "BtnchooseLicense":"Tải lên ảnh",
-        "Processing" : "Đang xử lý",
-        "Approve":"Đã xác minh",
-        "Reject":"Từ chối",
-        "BtnApprove":"Chấp nhận",
-        "BtnReject":"Từ chối"
+    "changeUserProfile": {
+      "success": "Cập nhật thông tin thành công",
+      "warning": "Cập nhật thông tin thất bại",
+      "error": "Lỗi cập nhật thông tin"
     },
-    "dashBoardManager" : {
-        "License": "Bằng lái xe",
-        "Motobike": {
-            "Title":"Xe Máy",
-            "Name" :"Mã Xe",
-            "Plate" : "Biển Số",
-            "Fuel": "Nhiên liệu",
-            "Location" : "Vị trí xe",
-            "PriceForRent": "Giá cho thuê"
-        }
+    "changeLicense": {
+      "success": "Cập nhật bằng lái xe thành công",
+      "warning": "Cập nhật bằng lái xe thất bại",
+      "error": "Lỗi cập nhật bằng lái xe"
+    },
+    "dashboardLicense": {
+      "Arrprove": {
+        "success": "Phê duyệt bằng lái xe thành công",
+        "warning": "Phê duyệt bằng lái xe thất bại",
+        "error": "Lỗi phê duyệt bằng lái xe"
+      },
+      "Reject": {
+        "success": "Hủy đăng ký bằng lái xe thành công",
+        "warning": "Hủy đăng ký bằng lái xe thất bại",
+        "error": "Lỗi hủy đăng ký bằng lái xe"
+      }
+    },
+    "dashboardMotorbike": {
+      "Arrprove": {
+        "success": "Phê duyệt xe máy thành công",
+        "warning": "Phê duyệt xe máy thất bại",
+        "error": "Lỗi phê duyệt xe máy"
+      },
+      "Reject": {
+        "success": "Hủy đăng ký xe máy thành công",
+        "warning": "Hủy đăng ký xe máy thất bại",
+        "error": "Lỗi hủy đăng ký xe máy"
+      }
     }
+  },
+  "footer": {
+    "policyTitle": "Chính sách",
+    "learnMoreTitle": "Tìm hiểu thêm",
+    "footerEmailPlaceholder": "Nhập địa chỉ email",
+    "policyAndRegulations": "Chính sách và quy định",
+    "operatingRegulations": "Quy chế hoạt động",
+    "informationSecurity": "Bảo mật thông tin",
+    "disputeResolution": "Giải quyết tranh chấp",
+    "footerCopyright": "Copyright© Đại Học FPT Hà Nội",
+    "generalInstructions": "Hướng dẫn chung",
+    "bookingInstructions": "Hướng dẫn đặt xe",
+    "paymentInstructions": "Hướng dẫn thanh toán",
+    "qAndA": "Hỏi và trả lời"
+  },
+  "userProfile": {
+    "Title": "Thông tin người dùng",
+    "ChangePassword": "Đổi mật khẩu",
+    "Name": "Họ và tên",
+    "Email": "Địa chỉ Email",
+    "DOB": "Ngày sinh",
+    "Address": "Địa chỉ",
+    "PhoneNumber": "Số điện Thoại",
+    "Gender": "Giới tính",
+    "Male": "Nam",
+    "Female": "Nữ",
+    "BtnDelete": "Xóa",
+    "BtnUpload": "Tải lên ảnh",
+    "ChangeProfile": "Chỉnh sửa hồ sơ",
+    "InputProfile": "Vui lòng điền thông tin"
+  },
+  "changePassword": {
+    "Title": "Đổi mật khẩu",
+    "Back": "Quay lại",
+    "OldPassword": "Mật khẩu cũ",
+    "NewPassword": "Mật khẩu mới",
+    "RePassword": "Nhập lại mật khẩu",
+    "BtnChange": "Đồng Ý"
+  },
+  "licenseInfo": {
+    "Title": "Giấy phép lái xe",
+    "NumberLicense": "Số GPLX",
+    "Name": "Họ Tên",
+    "Date": "Ngày hết hạn",
+    "BtnEdit": "Chỉnh sửa",
+    "BtnCancel": "Hủy",
+    "BtnSave": "Lưu",
+    "Image": "Hình ảnh giấy phép lái xe",
+    "BtnchooseLicense": "Tải lên ảnh",
+    "Processing": "Đang xử lý",
+    "Approve": "Đã xác minh",
+    "Reject": "Từ chối",
+    "BtnApprove": "Chấp nhận",
+    "BtnReject": "Từ chối"
+  },
+  "dashBoardManager": {
+    "Navigation": {
+      "manager": "Quản lý",
+      "licenseManager": "Quản lý bằng lái xe",
+      "motorbikeRentalManager": "Quản lý xe máy cho thuê"
+    },
+    "License": "Bằng lái xe",
+    "Motobike": {
+      "Title": "Xe Máy",
+      "Name": "Mã Xe",
+      "Plate": "Biển Số",
+      "Fuel": "Nhiên liệu",
+      "Location": "Vị trí xe",
+      "PriceForRent": "Giá cho thuê"
+    },
+    "licenseManager": {
+      "columnLicenseNumber": "Số bằng lái",
+      "columnFullName": "Họ và tên",
+      "columnDateOfBirth": "Ngày sinh",
+      "columnCreateDate": "Ngày tạo",
+      "columnStatus": "Trạng thái",
+      "columnAction": "Chỉnh sửa",
+      "statusPending": "Chờ phê duyệt",
+      "statusVerified": "Đã xác thực",
+      "statusCancelled": "Đã hủy"
+    },
+    "motorbikeRentalManager": {
+      "columnMotorbikeName": "Tên xe",
+      "columnType": "Loại xe",
+      "columnAddress": "Địa chỉ",
+      "columnLicensePlate": "Biển số",
+      "columnCreateDate": "Ngày tạo",
+      "columnStatus": "Trạng thái",
+      "statusPending": "Chờ phê duyệt",
+      "statusVerified": "Đã xác thực",
+      "statusCancelled": "Đã hủy",
+      "columnAction": "Hành động"
+    }
+  },
+  "component": {
+    "MyMapWithSearchBox": {
+      "searchPlaceholder": "Tìm kiếm địa chỉ của bạn",
+      "getLocationButtonLabel": "Lấy vị trí của bạn"
+    }
+  },
+  "404": {
+    "message": "Xin lỗi, trang bạn đang tìm kiếm không tồn tại.",
+    "back": "Trở về trang chủ"
+  },
+  "postMotorbike": {
+    "listform": {
+      "title": "Danh sách xe của tôi",
+      "status": "Trạng thái :",
+      "all": "Tất cả",
+      "table-cell-#" : "#",
+      "table-cell-image" : "Hình ảnh",
+      "table-cell-model" : "Mẫu xe",
+      "table-cell-plate" : "Biển số xe",
+      "table-cell-registerdate" : "Ngày đăng ký",
+      "table-cell-status" : "Trạng thái",
+      "table-cell-action" : "Chỉnh sửa",
+      "badge-edit" : "Chỉnh sửa",
+      "status-approved" : "Đã phê duyệt",
+      "status-pendingApproval" : "Chờ phê duyệt",
+      "status-inOporation" : "Đang hoạt động",
+      "status-rejected" : "Đã từ chối",
+      "status-onHiatus" : "Tạm ngưng"
+    },
+    "registedForm": {
+      "updateTitle": "Cập nhật thông tin xe",
+      "title": "Đăng ký cho thuê xe máy",
+      "badge-back" : "Quay lại",
+      "badge-close": "Đóng",
+      "licensePlate": "Biển số xe",
+      "licensePlatePlaceHolder": "Nhập biển số xe",
+      "image": "Hình ảnh",
+      "imageSecondTitle": "Hình ảnh xe máy của bạn",
+      "imageButton": "Thêm ảnh",
+      "basicInfo": "Thông tin cơ bản",
+      "brand": "Hãng xe",
+      "brandPlaceHolder": "Chọn hãng xe",
+      "model": "Mẫu xe",
+      "modelPlaceHolder": "Chọn hãng xe trước",
+      "year": "Năm sản xuất",
+      "yearPlaceHolder": "Chọn năm sản xuất",
+      "fuel": "Loại nhiên liệu",
+      "fuelPlaceHolder": "Chọn loại nhiên liệu",
+      "fuelConsumption": "Mức tiêu thụ nhiên liệu",
+      "fuelConsumptionSecondTitle": "Ví dụ: 3 lít/100km",
+      "fuelConsumptionPlaceHolder": "3",
+      "description": "Mô tả",
+      "descriptionPlaceHolder": "Nhập mô tả về xe của bạn",
+      "Equipment": "Trang bị",
+      "helmet": "Mũ bảo hiểm 3/4",
+      "raincoat": "Áo mưa",
+      "reflectiveClothes": "Áo phản quang",
+      "bagage": "Baga sau",
+      "caseTelephone": "Giá đỡ điện thoại",
+      "repairKit": "Bộ đồ sửa xe",
+      "defaultRentPrice": "Giá thuê mặc định",
+      "defaultRentPriceSecondTitle": "Nghìn đồng/ngày",
+      "defaultRentPricePlaceHolder": "120",
+      "location": "Vị trí xe",
+      "locationPlaceHolder": "Đây là vị trí mặc định giao nhận xe",
+      "selectAddress": "Chọn địa chỉ",
+      "selectProvince": "Chọn Tỉnh/Thành phố",
+      "selectProvincePlaceHolder": "Chọn Tỉnh/Thành phố",
+      "selectDistrict": "Chọn Quận/Huyện",
+      "selectDistrictPlaceHolder": "Chọn Tỉnh/Thành phố trước",
+      "selectWard": "Chọn Phường/Xã",
+      "selectWardPlaceHolder": "Chọn Quận/Huyện trước",
+      "address": "Địa chỉ",
+      "addressPlaceHolder": "Nhập địa chỉ",
+      "btnConfirm" : "Xác nhận",
+      "miscellaneous": "Thông tin khác",
+      "miscellaneousSecondTitle": "Nhập các yêu cầu khác cho khách hàng của bạn",
+      "miscellaneousPlaceHolder": "Ví dụ: Không cho thuê cho người dưới 18 tuổi",
+      "btnSubmit": "Đăng ký"
+    }
+  }
 }

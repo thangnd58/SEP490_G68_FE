@@ -1,8 +1,8 @@
-import { toast } from 'react-toastify';
+import { styled } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-export const ToastComponent = (message : string, type : string) => {
+export const ToastComponent = (message: string, type: string) => {
     switch (type) {
         case 'success':
             toast.success(message);
@@ -14,7 +14,7 @@ export const ToastComponent = (message : string, type : string) => {
             toast.error(message);
             break;
         default:
-            toast(message); 
+            toast(message);
     }
 };
 

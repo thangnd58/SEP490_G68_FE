@@ -21,6 +21,9 @@ import LicenceManagement from '../pages/DashBoardPage/LicenceManagement/LicenceM
 import LicenceRegisterDetail from '../pages/DashBoardPage/LicenceManagement/LicenceRegisterDetail';
 import MotorbikeRegisterDetail from '../pages/DashBoardPage/MotorbikeManagement/MotorbikeRegisterDetail';
 import UpdateRegisterMotorbike from '../pages/PostMotorbike/UpdateRegisterMotorbike';
+import MyMapWithSearchBox from '../components/common/MyMapWithSearchBox';
+import PageNotFound from '../pages/OrtherPage/PageNotFound';
+import LayoutEmpty from '../layouts/LayoutEmpty';
 
 
 export type Route = {
@@ -31,19 +34,31 @@ export type Route = {
 }
 
 export const routes: Route[] = [
+    // Home Page
     { path: ROUTES.homepage, component: Home },
-    { path: ROUTES.component.mymaparea, component: MyMapArea},
+
+    // Components Page
+    { path: ROUTES.component.mymaparea, component: MyMapArea },
+    { path: ROUTES.component.mymapwithsearch, component: MyMapWithSearchBox },
+    { path: ROUTES.other.pagenotfound, component: PageNotFound, layout: LayoutEmpty },
+
+    // User Page
     { path: ROUTES.user.userprofile, component: UserProfilePage, role: ["Admin", "Customer"] },
-    { path: ROUTES.user.registermotorbike, component: RegisterMotorbike, role: ["Customer"]},
-    { path: ROUTES.user.listmotorbike, component: ListMotorbike, role: ["Customer"]},
-    {path: ROUTES.user.updateregistermotorbike, component: UpdateRegisterMotorbike, role: ["Customer"]},
-    { path: ROUTES.user.registermotorbike, component: RegisterMotorbike, role: ["Admin", "Customer"]},
-    { path: ROUTES.account.login, component: Login, layout: LayoutWithoutFooter, role: ["Guest"]},
+    { path: ROUTES.user.registermotorbike, component: RegisterMotorbike, role: ["Customer"] },
+    { path: ROUTES.user.listmotorbike, component: ListMotorbike, role: ["Customer"] },
+    { path: ROUTES.user.updateregistermotorbike, component: UpdateRegisterMotorbike, role: ["Customer"] },
+
+    // Auth Page
+    { path: ROUTES.account.login, component: Login, layout: LayoutWithoutFooter, role: ["Guest"] },
     { path: ROUTES.account.register, component: Register, layout: LayoutWithoutFooter, role: ["Guest"] },
-    { path: ROUTES.account.resetpassword, component: ResetPassword, layout: LayoutWithoutFooter, role: ["Guest"]},
+    { path: ROUTES.account.resetpassword, component: ResetPassword, layout: LayoutWithoutFooter, role: ["Guest"] },
+    { path: `${ROUTES.account.setpassword}/:ticket`, component: SetNewPassword, layout: LayoutWithoutFooter },
+
+    // Verify Page
     { path: `${ROUTES.account.verifyrequired}/:type`, component: VerifyRequired, layout: LayoutWithoutFooter },
     { path: `${ROUTES.account.userverification}/:ticket`, component: VerifyReigsterStatus, layout: LayoutWithoutFooter },
-    { path: `${ROUTES.account.setpassword}/:ticket`, component: SetNewPassword, layout: LayoutWithoutFooter },
+    
+    // Admin Page
     { path: `${ROUTES.admin.managemotorbikes}`, component: MotorbikeManagement, layout: LayoutAdmin, role: ["Admin"] },
     { path: `${ROUTES.admin.managelicences}`, component: LicenceManagement, layout: LayoutAdmin, role: ["Admin"] },
     { path: `${ROUTES.admin.licenceRegister}/:id`, component: LicenceRegisterDetail, layout: LayoutAdmin, role: ["Admin"] },

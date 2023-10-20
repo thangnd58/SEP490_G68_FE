@@ -216,11 +216,11 @@ const LoginForm = () => {
             <Box className='save-account-forgot-password'>
               <Box className='save-account'>
                 <Checkbox checked={saveAccount} onClick={() => setSaveAccount(!saveAccount)} />
-                <Typography className='save-account-text'>{t("form.saveAccount")}</Typography>
+                <Typography fontSize={"14px"} className='save-account-text'>{t("form.saveAccount")}</Typography>
               </Box>
-              <Typography className='forgot-password' onClick={() => navigate("/reset-password")}>{t("form.forgotPassword")}</Typography>
+              <Typography fontSize={"14px"} className='forgot-password' onClick={() => navigate("/reset-password")}>{t("form.forgotPassword")}</Typography>
             </Box>
-            <Box sx={{my: '1.5rem'}}>
+            <Box sx={{ my: '1.5rem' }}>
               <Box
                 style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
               >
@@ -236,7 +236,13 @@ const LoginForm = () => {
             <Box className='google-buttons'>
               <GoogleOAuthProvider clientId="1088937198611-lpsokcekdcethdobpeghbm43nf4fglcl.apps.googleusercontent.com">
                 <GoogleLogin
-                  size='medium'
+                  size='large'
+                  type='standard'
+                  logo_alignment='center'
+                  shape='circle'
+                  width={100}
+                  useOneTap={true}
+                  text='continue_with'
                   onSuccess={credentialResponse => {
                     handleGoogleLogin(credentialResponse)
                   }}
