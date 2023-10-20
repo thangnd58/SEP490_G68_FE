@@ -8,11 +8,13 @@ import { GridPrintGetRowsToExportParams, GridRowId } from '@mui/x-data-grid';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../utils/Constant';
-
+import usei18next from '../../../hooks/usei18next';
 
 const LicenceManagement = () => {
     const [listLicences, setListLicences] = useState<Lisence[]>([]);
     const navigate = useNavigate();
+    const {t} = usei18next();
+
     useEffect(() => {
         getAllLicences();
     }, [])
@@ -40,11 +42,13 @@ const LicenceManagement = () => {
     };
 
     const columns = [
-        { field: 'licenceNumber', headerName: 'Số bằng lái', width: 200 },
-        { field: 'fullName', headerName: 'Họ và tên', width: 200 },
-        { field: 'dob', headerName: 'Ngày sinh', width: 200 },
+        { field: 'licenceNumber', headerName: t("dashBoardManager.licenseManager.columnLicenseNumber"), width: 200 },
+        { field: 'fullName', headerName: t("dashBoardManager.licenseManager.columnFullName"), width: 200 },
+        { field: 'dob', headerName: t("dashBoardManager.licenseManager.columnDateOfBirth"), width: 200 },
         {
-            field: 'createDatetime', headerName: 'Ngày tạo', width: 200,
+            field: 'createDatetime',
+            headerName: t("dashBoardManager.licenseManager.columnCreateDate"),
+            width: 200,
             renderCell: (params: any) => (
                 <Box>
                     {new Date(params.value).toLocaleString()}
@@ -53,18 +57,20 @@ const LicenceManagement = () => {
         },
         {
             field: 'status',
-            headerName: 'Trạng thái',
+            headerName: t("dashBoardManager.licenseManager.columnStatus"),
             width: 200,
             renderCell: (params: any) => (
                 <Box sx={{ backgroundColor: '#ECFFEE', cursor: 'pointer', width: '100%', fontWeight: '600', textTransform: 'uppercase', textAlign: 'center', color: params.value === 0 ? "warning.main" : params.value === 1 ? "success.main" : "error.main" }}>
                     {
-                        params.value === 0 ? "Chờ phê duyệt" : params.value === 1 ? "Đã xác thực" : "Đã hủy"
+                        params.value === 0 ? t("dashBoardManager.licenseManager.statusPending") : params.value === 1 ? t("dashBoardManager.licenseManager.statusVerified") : t("dashBoardManager.licenseManager.statusCancelled")
                     }
                 </Box>
             ),
         },
         {
-            field: 'licenceId', headerName: 'Hành động', width: 200,
+            field: 'licenceId',
+            headerName: t("dashBoardManager.licenseManager.columnAction"),
+            width: 200,
             renderCell: (params: any) => (
                 <Box  sx={{ cursor: 'pointer' }}>
                     <VisibilityOutlined onClick={() => navigate(`${ROUTES.admin.licenceRegister}/${params.value}`)}/>

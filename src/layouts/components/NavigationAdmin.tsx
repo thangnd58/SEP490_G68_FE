@@ -10,10 +10,12 @@ import { RouterManage } from '../../routes/RoutesManagement';
 import { Typography } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router';
 import { ManagementIcon } from '../../assets/icons';
+import usei18next from '../../hooks/usei18next';
 
 export default function NavigationAdmin() {
     const navigate = useNavigate();
-    const location = useLocation()
+    const location = useLocation();
+    const { t } = usei18next();
 
     console.log(location)
     return (
@@ -21,7 +23,7 @@ export default function NavigationAdmin() {
             <Box role="presentation">
                 <Box sx={{ display: 'flex', gap: '10px', my: 1, mx: 2 }}>
                     <ManagementIcon />
-                    <Typography fontSize={18}>Quản lý</Typography>
+                    <Typography fontSize={18}>{t("dashBoardManager.Navigation.manager")}</Typography>
                 </Box>
                 <List>
                     <Divider />

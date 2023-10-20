@@ -15,9 +15,10 @@ import theme from '../../../../utils/theme';
 import { Edit, EditOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import MyIcon from '../../../../components/common/MyIcon';
+import usei18next from '../../../../hooks/usei18next';
 
 export default function ListMotorbikeForm() {
-
+  const {t} = usei18next();
 
   interface Data {
     id: number;
@@ -49,17 +50,35 @@ export default function ListMotorbikeForm() {
     };
   }
 
+  // using i18next for status
+  function checkStatus(status: string) {
+    switch (status) {
+      case 'Đã phê duyệt':
+        return t("postMotorbike.listform.status-approved");
+      case 'Chờ phê duyệt':
+        return t("postMotorbike.listform.status-pendingApproval");
+      case 'Đang hoạt động':
+        return t("postMotorbike.listform.status-inOporation");
+      case 'Đã từ chối':
+        return t("postMotorbike.listform.status-rejected");
+      case 'Tạm ngưng':
+        return t("postMotorbike.listform.status-onHiatus");
+      default:
+        return '';
+    }
+  }
+
   const rows = [
-    createData(1, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Honda", "29F1-12345", "21/10/2021", "Đang cho thuê", "Xóa"),
-    createData(2, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Yamaha", "29F1-12346", "16/10/2021", "Đang cho thuê", "Xóa"),
-    createData(3, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Piaggio", "29F1-12347", "18/10/2021", "Đang cho thuê", "Xóa"),
-    createData(4, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "SYM", "29F1-12348", "10/10/2021", "Đang cho thuê", "Xóa"),
-    createData(5, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Suzuki", "29F1-12349", "01/10/2021", "Đang cho thuê", "Xóa"),
-    createData(6, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Triumph", "29F1-12341", "02/10/2021", "Đang cho thuê", "Xóa"),
-    createData(7, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Ducati", "29F1-12342", "03/10/2021", "Đang cho thuê", "Xóa"),
-    createData(8, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Vinfast", "29F1-12335", "04/10/2021", "Đang cho thuê", "Xóa"),
-    createData(9, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Honda", "29F1-123454", "05/10/2021", "Đã cho thuê", "Xóa"),
-    createData(10, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Honda", "29F1-12344", "06/10/2021", "Đang chờ phê duyệt", "Xóa"),
+    createData(1, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Honda", "29F1-12345", "21/10/2021", checkStatus("Đã phê duyệt"), "Xóa"),
+    createData(2, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Yamaha", "29F1-12346", "16/10/2021", checkStatus("Đang hoạt động"), "Xóa"),
+    createData(3, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Piaggio", "29F1-12347", "18/10/2021", checkStatus("Đang hoạt động"), "Xóa"),
+    createData(4, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "SYM", "29F1-12348", "10/10/2021", checkStatus("Đã phê duyệt"), "Xóa"),
+    createData(5, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Suzuki", "29F1-12349", "01/10/2021", checkStatus("Tạm ngưng"), "Xóa"),
+    createData(6, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Triumph", "29F1-12341", "02/10/2021", checkStatus("Đang hoạt động"), "Xóa"),
+    createData(7, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Ducati", "29F1-12342", "03/10/2021", checkStatus("Đã phê duyệt"), "Xóa"),
+    createData(8, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Vinfast", "29F1-12335", "04/10/2021", checkStatus("Chờ phê duyệt"), "Xóa"),
+    createData(9, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Honda", "29F1-123454", "05/10/2021", checkStatus("Chờ phê duyệt"), "Xóa"),
+    createData(10, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Honda", "29F1-12344", "06/10/2021", checkStatus("Tạm ngưng"), "Xóa"),
   ];
 
   function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -112,37 +131,37 @@ export default function ListMotorbikeForm() {
     {
       id: 'id',
       disablePadding: true,
-      label: '#',
+      label: t("postMotorbike.listform.table-cell-#"),
     },
     {
       id: 'image',
       disablePadding: false,
-      label: 'Hình Ảnh',
+      label: t("postMotorbike.listform.table-cell-image"),
     },
     {
       id: 'model',
       disablePadding: false,
-      label: 'Mẫu xe',
+      label: t("postMotorbike.listform.table-cell-model"),
     },
     {
       id: 'licensePlate',
       disablePadding: false,
-      label: 'Biển số xe',
+      label: t("postMotorbike.listform.table-cell-plate"),
     },
     {
       id: 'registrationDate',
       disablePadding: false,
-      label: 'Ngày đăng ký',
+      label: t("postMotorbike.listform.table-cell-registerdate"),
     },
     {
       id: 'status',
       disablePadding: false,
-      label: 'Trạng thái',
+      label: t("postMotorbike.listform.table-cell-status"),
     },
     {
       id: 'action',
       disablePadding: false,
-      label: 'Chính sửa',
+      label: t("postMotorbike.listform.table-cell-action"),
     },
   ];
 
@@ -438,7 +457,7 @@ export default function ListMotorbikeForm() {
                       <TableCell align="left">{row.registrationDate}</TableCell>
                       <TableCell align="left">{row.status}</TableCell>
                       <TableCell align="left">
-                        <MyIcon icon={<EditOutlined />} hasTooltip tooltipText="Chỉnh sửa" onClick={handleChangeToUpdateForm} position='right' />
+                        <MyIcon icon={<EditOutlined />} hasTooltip tooltipText={t("postMotorbike.listform.badge-edit")} onClick={handleChangeToUpdateForm} position='right' />
                       </TableCell>
                     </TableRow>
                   );
@@ -503,7 +522,7 @@ export default function ListMotorbikeForm() {
     <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignContent={"center"}>
       <Box display={"flex"} flexDirection={"row"} justifyContent={"end"} alignContent={"center"} marginBottom={"8px"}>
         <Typography fontSize={"18px"} fontWeight={"400"}
-          margin={"auto 8px"}>Trạng thái :</Typography>
+          margin={"auto 8px"}>{t("postMotorbike.listform.status")}</Typography>
         <FormControl sx={{ minWidth: 120 }} size="small">
           <Select
             labelId="demo-select-small-label"
@@ -513,7 +532,7 @@ export default function ListMotorbikeForm() {
             onChange={handleChangeStatus}
           >
             <option value="">
-              <em>Tất cả</em>
+              <em>{t("postMotorbike.listform.all")}</em>
             </option>
             {uniqueStatus.map((status) => (
               <option value={status}>

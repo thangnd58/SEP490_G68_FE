@@ -17,22 +17,30 @@ import {
   TwitterIcon,
 } from '../../assets/icons';
 import { LogoFull } from './Header';
+import usei18next from '../../hooks/usei18next';
 
 function Footer() {
+  const { t } = usei18next();
   const footers = [
     {
-      title: 'Chính sách',
+      title: t("footer.policyTitle"),
       description: [
-        'Chính sách và quy định',
-        'Quy chế hoạt động',
-        'Bảo mật thông tin',
-        'Giải quyết tranh chấp',
+        t("footer.policyAndRegulations"),
+        t("footer.operatingRegulations"),
+        t("footer.informationSecurity"),
+        t("footer.disputeResolution"),
       ],
     },
     {
-      title: 'Tìm hiểu thêm',
-      description: ['Hướng dẫn chung', 'Hướng dẫn đặt xe', 'Hướng dẫn thanh toán', 'Hỏi và trả lời'],
-    }];
+      title: t("footer.learnMoreTitle"),
+      description: [
+        t("footer.generalInstructions"),
+        t("footer.bookingInstructions"),
+        t("footer.paymentInstructions"),
+        t("footer.qAndA"),
+      ],
+    }
+  ];
 
   const navigate = useNavigate();
 
@@ -61,7 +69,7 @@ function Footer() {
             <input
               type="email"
               style={{ fontSize: '16px', border: 'none', outlineStyle: 'none', color: '9A9EA5' }}
-              placeholder="Nhập địa chỉ email"
+              placeholder={t("footer.footerEmailPlaceholder")}
             />
             <ArrowBack
               sx={{
@@ -97,7 +105,7 @@ function Footer() {
         }}
       >
         <Typography style={{ margin: '8px 0px 0px 8px' }} gutterBottom color="text.secondary">
-          <Box>Copyright© Đại Học FPT Hà Nội</Box>
+          <Box>{t("footer.footerCopyright")}</Box>
         </Typography>
         <Box display={'flex'} justifyContent={'end'}>
           <IconButton>

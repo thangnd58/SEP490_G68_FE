@@ -4,9 +4,11 @@ import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { PageNoteFoundImage } from '../../assets/images';
 import { ROUTES } from '../../utils/Constant';
+import usei18next from '../../hooks/usei18next';
 
 export default function PageNotFound() {
   const theme = useTheme();
+  const {t} = usei18next();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();
 
@@ -18,10 +20,10 @@ export default function PageNotFound() {
             404
           </Typography>
           <Typography variant="h6" color="textSecondary" textAlign="center" mt={2} mb={2} fontWeight={500} flexWrap={'wrap'} sx={{ fontSize: isMobile ? '16px' : '20px' }}>
-            Sorry, we were unable to find that page.
+            {t("404.message")}
           </Typography>
           <Button variant="contained" color="primary" onClick={() => navigate(ROUTES.homepage)} sx={{ fontSize: isMobile ? '16px' : '20px' }}>
-            Back to Home
+          {t("404.back")}
           </Button>
         </Box>
       </Grid>

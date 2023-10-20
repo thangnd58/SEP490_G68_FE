@@ -8,11 +8,13 @@ import { VisibilityOutlined } from '@mui/icons-material';
 import { GridPrintGetRowsToExportParams, GridRowId, GridToolbar, gridFilteredSortedRowIdsSelector, selectedGridRowsSelector } from '@mui/x-data-grid';
 import { ROUTES } from '../../../utils/Constant';
 import { useNavigate } from 'react-router-dom';
+import usei18next from '../../../hooks/usei18next';
 
 const MotorbikeManagement = () => {
 
     const [listMotorbike, setListMotorbike] = useState<Motorbike[]>([]);
     const navigate = useNavigate();
+    const { t } = usei18next();
     useEffect(() => {
         getAllMotorbikes();
     }, [])
@@ -29,12 +31,12 @@ const MotorbikeManagement = () => {
     }
 
     const columns = [
-        { field: 'motorbikeName', headerName: 'Tên xe', width: 150 },
-        { field: 'type', headerName: 'Loại xe', width: 200 },
-        { field: 'address', headerName: 'Địa chỉ', width: 150 },
-        { field: 'licensePlate', headerName: 'Biển số', width: 150 },
+        { field: 'motorbikeName', headerName: t("dashBoardManager.motorbikeRentalManager.columnMotorbikeName"), width: 150 },
+        { field: 'type', headerName: t("dashBoardManager.motorbikeRentalManager.columnType"), width: 200 },
+        { field: 'address', headerName: t("dashBoardManager.motorbikeRentalManager.columnAddress"), width: 150 },
+        { field: 'licensePlate', headerName: t("dashBoardManager.motorbikeRentalManager.columnLicensePlate"), width: 150 },
         {
-            field: 'createDatetime', headerName: 'Ngày tạo', width: 200,
+            field: 'createDatetime', headerName: t("dashBoardManager.motorbikeRentalManager.columnCreateDate"), width: 200,
             renderCell: (params: any) => (
                 <Box>
                     {new Date(params.value).toLocaleString()}
@@ -43,18 +45,18 @@ const MotorbikeManagement = () => {
         },
         {
             field: 'status',
-            headerName: 'Trạng thái',
+            headerName: t("dashBoardManager.motorbikeRentalManager.columnStatus"),
             width: 150,
             renderCell: (params: any) => (
                 <Box sx={{ backgroundColor: '#ECFFEE', cursor: 'pointer', width: '100%', fontWeight: '600', textTransform: 'uppercase', textAlign: 'center', color: params.value === 0 ? "warning.main" : params.value === 1 ? "success.main" : "error.main" }}>
                     {
-                        params.value === 0 ? "Chờ phê duyệt" : params.value === 1 ? "Đã xác thực" : "Đã hủy"
+                        params.value === 0 ? t("dashBoardManager.motorbikeRentalManager.statusPending") : params.value === 1 ? t("dashBoardManager.motorbikeRentalManager.statusVerified") : t("dashBoardManager.motorbikeRentalManager.statusCancelled")
                     }
                 </Box>
             ),
         },
         {
-            field: 'id', headerName: 'Hành động', width: 150,
+            field: 'id', headerName: t("dashBoardManager.motorbikeRentalManager.columnAction"), width: 150,
             renderCell: (params: any) => (
                 <Box sx={{ cursor: 'pointer' }}>
                     <VisibilityOutlined onClick={() => navigate(`${ROUTES.admin.MotorbikeRegister}/${params.value}`)}/>

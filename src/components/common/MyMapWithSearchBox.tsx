@@ -15,6 +15,7 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import { CustomizedSnackbars } from "./MyMapArea";
+import usei18next from "../../hooks/usei18next";
 
 
 interface Location {
@@ -42,6 +43,7 @@ function MyMap() {
     const center = useMemo(() => ({ lat: 21.011265863657588, lng: 105.78563526376422 }), []);
     const [selected, setSelected] = useState<Location>(center);
     const [showMenu, setShowMenu] = useState(false);
+    const { t } = usei18next();
 
 
     const handleGetLocationClick = () => {
@@ -101,7 +103,7 @@ function MyMap() {
                             borderColor: theme.palette.primary.main,
                         }
                     }}
-                    placeholder={"Tìm kiếm địa chỉ của bạn"}
+                    placeholder={t("component.MyMapWithSearchBox.searchPlaceholder")}
                     fullWidth
                     value={value}
                     SelectProps={{
@@ -165,7 +167,7 @@ function MyMap() {
                 >
                     <MyLocation />
                 </IconButton>
-                <Typography variant="caption" fontSize={"12px"} color={theme.palette.text.secondary}>Lấy vị trí của bạn</Typography>
+                <Typography variant="caption" fontSize={"12px"} color={theme.palette.text.secondary}>{t("component.MyMapWithSearchBox.getLocationButtonLabel")}</Typography>
             </Box>
             <Box
                 borderRadius={"8px"}
@@ -197,3 +199,4 @@ function MyMap() {
         </>
     );
 }
+  

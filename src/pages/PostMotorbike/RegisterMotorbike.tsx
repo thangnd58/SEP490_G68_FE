@@ -2,6 +2,7 @@ import { Box, FormControl, Paper, Typography, styled } from '@mui/material'
 import React from 'react'
 import theme from '../../utils/theme'
 import RegisterMotorbikeForm from './components/RegisterMotorbike/RegisterMotorbikeForm';
+import { t } from 'i18next';
 
 const RegisterMotorbikeStyle = styled("form")(({ theme }) => ({
     '& .MuiPaper-root': {
@@ -33,7 +34,7 @@ export default function RegisterMotorbike() {
                         lineHeight={"60px"}
                         fontWeight={"600"}
                         sx={{ textAlign: 'center' }}>
-                        Đăng ký cho thuê xe máy
+                        {t("postMotorbike.registedForm.title")}
                     </Typography>
                     <RegisterMotorbikeForm />
                 </Box>

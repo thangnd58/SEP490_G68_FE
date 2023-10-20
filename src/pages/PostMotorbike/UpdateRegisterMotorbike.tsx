@@ -5,6 +5,7 @@ import RegisterMotorbikeForm from './components/RegisterMotorbike/RegisterMotorb
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
 import MyIcon from '../../components/common/MyIcon';
+import { t } from 'i18next';
 
 
 const UpdateRegisterMotorbikeStyle = styled("form")(({ theme }) => ({
@@ -41,7 +42,7 @@ export default function UpdateRegisterMotorbike() {
                     flexDirection={"column"}>
 
                     <Box display="flex" alignItems="center">
-                        <MyIcon icon={<ArrowBackIcon />} hasTooltip tooltipText="Quay lại" onClick={handleGoBack} position='right'/>
+                        <MyIcon icon={<ArrowBackIcon />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-back")} onClick={handleGoBack} position='right'/>
                         <Typography
                             variant='h1'
                             color={theme.palette.text.primary}
@@ -50,7 +51,7 @@ export default function UpdateRegisterMotorbike() {
                             fontWeight={"600"}
                             margin={"auto"}
                             sx={{ textAlign: 'center' }}>
-                            Cập nhật thông tin xe
+                            {t("postMotorbike.registedForm.updateTitle")}
                         </Typography>
                     </Box>
 

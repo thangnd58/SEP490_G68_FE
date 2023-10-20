@@ -24,7 +24,8 @@ root.render(
             position="bottom-left"
             transition={Slide}
             pauseOnHover={false}
-            autoClose={2000}
+            autoClose={1000}
+            pauseOnFocusLoss={false}
             toastStyle={{
               border: "3px solid " + theme.palette.action.disabledBackground, borderRadius: '8px', width: '350px'
             }}
