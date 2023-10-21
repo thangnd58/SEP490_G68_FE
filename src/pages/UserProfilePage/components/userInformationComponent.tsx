@@ -12,15 +12,19 @@ import UploadImageService from '../../../services/UploadImageService';
 import MyCustomButton from '../../../components/common/MyButton';
 import { CheckCircle, CheckCircleOutline, Error, ErrorOutline, Warning, WarningAmber } from '@mui/icons-material';
 import theme from '../../../utils/theme';
+import { useAppSelector } from '../../../hooks/useAction';
+import { getUserInfo } from '../../../redux/reducers/authReducer';
+import { useDispatch } from 'react-redux';
 
 const UserInformationComponent = () => {
   const { t } = usei18next();
-  const { user, getUser } = useAuth();
+  const { user } = useAppSelector((state) => state.userInfo);
   const [lisence, setLisence] = useState<Lisence>();
   const [isEditLisence, setIsEditLisence] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const inputRefLicense = useRef<HTMLInputElement>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getLisence();
@@ -134,8 +138,7 @@ const UserInformationComponent = () => {
         if (resultUpdateAvatar.status !== 200) {
           return;
         }
-
-        getUser();
+        dispatch(getUserInfo());
       }
     } catch (error) {
     } finally {
@@ -152,7 +155,7 @@ const UserInformationComponent = () => {
       if (response.status === 200) {
         // Avatar deletion is successful
         ToastComponent(t('userProfile.AvatarDeleted'), 'success');
-        getUser();
+        dispatch(getUserInfo());
       } else {
         // Handle error here if the deletion was not successful
         ToastComponent(t('userProfile.AvatarDeleteError'), 'error');

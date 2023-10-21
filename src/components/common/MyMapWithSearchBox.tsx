@@ -7,14 +7,6 @@ import usePlacesAutocomplete, {
 import { Box, Button, CircularProgress, IconButton, MenuItem, Select, TextField, Typography } from "@mui/material";
 import theme from "../../utils/theme";
 import { LocationCity, MyLocation } from "@mui/icons-material";
-
-
-
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import CloseIcon from "@mui/icons-material/Close";
-import Slide from "@mui/material/Slide";
-import { CustomizedSnackbars } from "./MyMapArea";
 import usei18next from "../../hooks/usei18next";
 
 
@@ -25,7 +17,8 @@ interface Location {
 
 export default function MyMapWithSearchBox() {
     const { isLoaded } = useLoadScript({
-        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
+        // googleMapsApiKey: '',
+        googleMapsApiKey: 'AIzaSyCBbV93_1xl3BUQM99xEtfw-h8vWLRUUcw',
         libraries: ["places"],
     });
 
@@ -34,9 +27,9 @@ export default function MyMapWithSearchBox() {
         alignItems: "center",
         flexDirection: "row"
     }}>
-        <CircularProgress />
-    </Box>;
-    return <MyMap />;
+    <CircularProgress />
+    </Box>
+    return <MyMap />
 }
 
 function MyMap() {
@@ -65,7 +58,6 @@ function MyMap() {
             });
         }
     };
-
 
     const {
         value,
@@ -109,8 +101,7 @@ function MyMap() {
                     SelectProps={{
                         native: true,
                     }}
-                    onChange={(e) => {
-                        ;
+                    onChange={(e: any) => {
                         setValue(e.target.value);
                         setShowMenu(true);
                     }}
@@ -199,4 +190,3 @@ function MyMap() {
         </>
     );
 }
-  

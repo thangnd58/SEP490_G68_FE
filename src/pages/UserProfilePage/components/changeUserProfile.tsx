@@ -16,15 +16,18 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import theme from '../../../utils/theme';
+import { useAppSelector } from '../../../hooks/useAction';
+import { useDispatch } from 'react-redux';
+import { getUserInfo } from '../../../redux/reducers/authReducer';
 
 interface ChildComponentProps {
     setType: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const ChangeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ setType }) => {
-    const { user, getUser } = useAuth();
     const { t } = usei18next();
-
+    const { user } = useAppSelector((state) => state.userInfo);
+    const dispatch = useDispatch();
     const formik = useFormik({
         initialValues: {
             name: user ? user.name : '',
@@ -55,7 +58,7 @@ const ChangeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
             );
             if (response.status === 200) {
                 ToastComponent(t('toast.changeUserProfile.success'), 'success');
-                getUser();
+                dispatch(getUserInfo());
                 setType('info');
             } else {
                 ToastComponent(t('toast.changeUserProfile.warning'), 'warning');

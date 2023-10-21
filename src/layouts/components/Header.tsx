@@ -10,6 +10,7 @@ import { Notifications, Search } from '@mui/icons-material';
 import { LogoHeader, NotificationIcon, UnitedKingDomFlag, VietNamFlag } from '../../assets/images';
 import { ROUTES } from '../../utils/Constant';
 import MyIcon from '../../components/common/MyIcon';
+import { useAppSelector } from '../../hooks/useAction';
 
 const LanguageBox = memo(() => {
     const { isVn, changeLang } = usei18next();
@@ -48,7 +49,8 @@ export const LogoFull = memo(({ size }: { size: number }) => {
 });
 
 function Header() {
-    const { isLogin, logout, user } = useAuth();
+    const { isLogin, logout} = useAuth();
+    const { user } = useAppSelector((state) => state.userInfo);
     const { isVn, t } = usei18next();
     const navigate = useNavigate();
     const { isMobile } = useThemePage();
@@ -64,7 +66,6 @@ function Header() {
     };
 
     const open = Boolean(anchorEl);
-    const { roleName } = useAuth();
 
 
     return (
@@ -78,7 +79,7 @@ function Header() {
                 <Box
                     sx={{
                         display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%',
-                        borderBottom: (theme) => `1px solid ${theme.palette.action.disabledBackground}`,
+                        borderBottom: (theme:any) => `1px solid ${theme.palette.action.disabledBackground}`,
                     }}>
                     <ListItem sx={{ padding: "24px 0px 24px 32px" }}>
                         <LogoFull size={200} />
@@ -139,7 +140,7 @@ function Header() {
                                             >
                                                 {t('header.userprofile')}
                                             </MenuItem>
-                                            {roleName === 'Admin' ? (
+                                            {user?.role.roleName === 'Admin' ? (
                                                 <MenuItem
                                                     onClick={() => {
                                                         setAnchorEl(null);
@@ -164,7 +165,7 @@ function Header() {
                                                 )
                                             }
 
-                                            {roleName === 'Customer' ? (
+                                            {user?.role.roleName === 'Customer' ? (
                                                 <MenuItem
                                                     onClick={() => {
                                                         setAnchorEl(null);
