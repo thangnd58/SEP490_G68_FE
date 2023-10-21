@@ -49,9 +49,9 @@ export const routes: Route[] = [
     { path: ROUTES.user.updateregistermotorbike, component: UpdateRegisterMotorbike, role: ["Customer"] },
 
     // Auth Page
-    { path: ROUTES.account.login, component: Login, layout: LayoutWithoutFooter, role: ["Guest"] },
-    { path: ROUTES.account.register, component: Register, layout: LayoutWithoutFooter, role: ["Guest"] },
-    { path: ROUTES.account.resetpassword, component: ResetPassword, layout: LayoutWithoutFooter, role: ["Guest"] },
+    { path: ROUTES.account.login, component: Login, layout: LayoutWithoutFooter },
+    { path: ROUTES.account.register, component: Register, layout: LayoutWithoutFooter},
+    { path: ROUTES.account.resetpassword, component: ResetPassword, layout: LayoutWithoutFooter},
     { path: `${ROUTES.account.setpassword}/:ticket`, component: SetNewPassword, layout: LayoutWithoutFooter },
 
     // Verify Page

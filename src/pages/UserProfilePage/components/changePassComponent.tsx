@@ -1,5 +1,5 @@
 import React, { useState, FunctionComponent } from 'react';
-import { Avatar, Typography, Grid, Button, TextField, InputAdornment, IconButton } from '@mui/material';
+import { Typography, TextField, InputAdornment, IconButton, Box } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
 import { useFormik } from 'formik';
 import * as Yup from "yup";
@@ -7,12 +7,14 @@ import UserService from '../../../services/UserService';
 import ToastComponent from '../../../components/toast/ToastComponent';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ErrorMessage from '../../../components/common/ErrorMessage';
+import MyCustomButton from '../../../components/common/MyButton';
+import { MyCustomeTextField } from './userInformationComponent';
 
 interface ChildComponentProps {
   setType: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const changePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }) => {
+const ChangePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }) => {
   const { t } = usei18next();
 
   const formik = useFormik({
@@ -49,7 +51,7 @@ const changePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
         .required(t("form.required")),
     }),
     onSubmit: values => {
-      changePass(values.oldPassword, values.newPassword, values.confirmPassword)
+      changePass(values.oldPassword, values.newPassword, values.confirmPassword);
     }
   });
 
@@ -67,7 +69,7 @@ const changePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
         ToastComponent(t("toast.changepassword.warning"), "warning");
       }
     } catch (error) {
-      ToastComponent(t("toast.changepassword.error"), "error")
+      ToastComponent(t("toast.changepassword.error"), "error");
     }
   };
 
@@ -79,11 +81,9 @@ const changePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
   const handleClickShowNewPassword = () => setShowNewPassword(!showNewPassword);
   const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
 
-
   const handleMouseDownPassword = (event: React.MouseEvent<any>) => {
     event.preventDefault();
   };
-
 
   const {
     values,
@@ -94,99 +94,100 @@ const changePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
   } = formik;
 
   return (
-    <Grid item xs container spacing={2} sx={{ marginTop: 5 }}>
-      <Grid item xs sx={{ marginLeft: 4, marginTop: 3 }} direction="column">
-        <form onSubmit={handleSubmit} style={{ width: '80%' }}>
-          <TextField
-            name="oldPassword"
-            sx={{ width: 500 }}
-            label={t("changePassword.OldPassword")}
-            variant="outlined"
-            type={showPassword ? 'text' : 'password'}
-            fullWidth
-            margin="normal"
-            value={values.oldPassword}
-            onChange={handleChange}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {!showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
+    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <form onSubmit={handleSubmit} style={{ width: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <MyCustomeTextField
+          name="oldPassword"
+          label={t("changePassword.OldPassword")}
+          variant="outlined"
+          type={showPassword ? 'text' : 'password'}
+          fullWidth
+          margin="normal"
+          value={values.oldPassword}
+          onChange={handleChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="start">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={(event) => event.preventDefault()}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        /><Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'start' }}>
+          {errors.oldPassword && touched.oldPassword && <ErrorMessage message={errors.oldPassword} />}
+        </Box>
+        <MyCustomeTextField
+          name="newPassword"
+          label={t("changePassword.NewPassword")}
+          variant="outlined"
+          type={showNewPassword ? 'text' : 'password'}
+          fullWidth
+          margin="normal"
+          value={values.newPassword}
+          onChange={handleChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="start">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowNewPassword}
+                  onMouseDown={(event) => event.preventDefault()}
+                  edge="end"
+                >
+                  {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'start' }}>
+          {errors.newPassword && touched.newPassword && <ErrorMessage message={errors.newPassword} />}
+        </Box>
+        <MyCustomeTextField
+          name="confirmPassword"
+          label={t("changePassword.RePassword")}
+          variant="outlined"
+          type={showConfirmPassword ? 'text' : 'password'}
+          fullWidth
+          margin="normal"
+          value={values.confirmPassword}
+          onChange={handleChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="start">
+                <IconButton
+                  aria-label="toggle confirm password visibility"
+                  onClick={handleClickShowConfirmPassword}
+                  onMouseDown={(event) => event.preventDefault()}
+                  edge="end"
+                >
+                  {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'start' }}>
+          {errors.confirmPassword && touched.confirmPassword && <ErrorMessage message={errors.confirmPassword} />}
+        </Box>
+        <div style={{ marginTop: "16px" }}>
+          <MyCustomButton
+            borderRadius={8}
+            fontSize={16}
+            fontWeight={400}
+            content={t('changePassword.BtnChange')}
+            type="submit"
           />
-          {errors.oldPassword && touched.oldPassword && (
-            <ErrorMessage message={errors.oldPassword} />
-          )}
-          <TextField
-            name="newPassword"
-            sx={{ width: 500 }}
-            label={t("changePassword.NewPassword")}
-            variant="outlined"
-            type={showNewPassword ? 'text' : 'password'}
-            fullWidth
-            margin="normal"
-            value={values.newPassword}
-            onChange={handleChange}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowNewPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {!showNewPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          {errors.newPassword && touched.newPassword && (
-            <ErrorMessage message={errors.newPassword} />
-          )}
-          <TextField
-            name="confirmPassword"
-            sx={{ width: 500 }}
-            label={t("changePassword.RePassword")}
-            variant="outlined"
-            type={showConfirmPassword ? 'text' : 'password'}
-            fullWidth
-            margin="normal"
-            value={values.confirmPassword}
-            onChange={handleChange}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">
-                  <IconButton
-                    aria-label="toggle confirm password visibility"
-                    onClick={handleClickShowConfirmPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {!showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          {errors.confirmPassword && touched.confirmPassword && (
-            <ErrorMessage message={errors.confirmPassword} />
-          )}
-          <div >
-            <Button variant="outlined" type='submit' sx={{ fontWeight: '500', width: 150, marginTop: 3, paddingTop: 1, paddingBottom: 1, marginLeft: '31%' }}>{t("changePassword.BtnChange")}</Button>
-          </div>
-        </form>
-      </Grid>
-    </Grid>
-  )
-}
-export default changePassComponent
+        </div>
+      </form>
+    </Box>
+  );
+};
+
+export default ChangePassComponent;

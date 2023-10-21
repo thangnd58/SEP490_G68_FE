@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import {CssBaseline, Container, Paper,} from '@mui/material'
+import { CssBaseline, Container, Paper, Box, } from '@mui/material'
 import UserProfileComponent from './components/userProfileComponent'
 function UserProfilePage() {
 
   return (
     <div>
       <CssBaseline />
-      <Container style={{ marginTop: '20px' }}>
-        <Paper elevation={3} style={{ padding: '16px', margin: 'auto' }}>
-          <UserProfileComponent />
-        </Paper>
-      </Container>
+      <Paper elevation={2} style={{margin: '32px auto', width: "60%", borderRadius: "8px" }}>
+        <UserProfileComponent />
+      </Paper>
     </div>
   )
 }

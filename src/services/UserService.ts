@@ -90,6 +90,9 @@ const UserService = {
     },
     updateAvatarUser: async (userId: number, avatarName: string) => {
         return await api.put(`/user/${userId}/avatar`, { avatar: avatarName });
+    },
+    deleteAvatarUser: async (userId: number) => {
+        return await api.delete(`/user/${userId}/avatar`);
     }
 }
 
