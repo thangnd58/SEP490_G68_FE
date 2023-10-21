@@ -5,9 +5,8 @@ import ToastComponent from '../components/toast/ToastComponent';
 import usei18next from '../hooks/usei18next';
 import { ROUTES } from '../utils/Constant';
 import { User, Role } from '../utils/type';
-import { useDispatch } from 'react-redux';
 import { getUserInfo } from '../redux/reducers/authReducer';
-import { useAppSelector } from '../hooks/useAction';
+import { useAppDispatch, useAppSelector } from '../hooks/useAction';
 
 interface AuthContext {
     isLogin: boolean;
@@ -32,8 +31,8 @@ const AuthProvider = (props: { children: JSX.Element }) => {
     const [isLogin, setIslogin] = useState<boolean>(UserService.isLoggedIn());
     const navigate = useNavigate();
     const { t } = usei18next();
-    const dispatch = useDispatch();
-    const { user } = useAppSelector((state) => state.userInfo);
+    const dispatch = useAppDispatch();
+    const { user } = useAppSelector((state:any) => state.userInfo);
 
     useEffect(() => {
         const token = UserService.getToken();
