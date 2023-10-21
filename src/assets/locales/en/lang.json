@@ -129,7 +129,7 @@
     "Male": "Male",
     "Female": "Female",
     "BtnDelete": "Delete",
-    "BtnUpload": "Upload Image",
+    "BtnUpload": "Upload",
     "ChangeProfile": "Change Profile",
     "InputProfile": "Please input Information"
   },
@@ -150,7 +150,7 @@
     "BtnCancel": "Cancel",
     "BtnSave": "Save",
     "Image": "Image License",
-    "BtnchooseLicense": "Upload Image",
+    "BtnchooseLicense": "Upload",
     "Processing": "Processing",
     "Approve": "Approved",
     "Reject": "Rejected",

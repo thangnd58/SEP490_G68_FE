@@ -124,6 +124,7 @@ const UserInformationComponent = () => {
 
         const responseUrl = await UploadImageService.generateUrlUpload(params);
         if (responseUrl.status !== 200) {
+          ToastComponent(t('toast.uploadImage.error'), 'error');
           return;
         }
 
@@ -131,14 +132,17 @@ const UserInformationComponent = () => {
         const responseUpload = await UploadImageService.uploadImage(urlUpload, file);
 
         if (responseUpload.status !== 200) {
+          ToastComponent(t('toast.uploadImage.error'), 'error');
           return;
         }
 
         const resultUpdateAvatar = await UserService.updateAvatarUser(user!.userId, file.name);
         if (resultUpdateAvatar.status !== 200) {
+          ToastComponent(t('toast.uploadImage.error'), 'error');
           return;
         }
         dispatch(getUserInfo());
+        ToastComponent(t('toast.uploadImage.success'), 'success');
       }
     } catch (error) {
     } finally {
@@ -185,6 +189,7 @@ const UserInformationComponent = () => {
 
         const responseUrl = await UploadImageService.generateUrlUpload(params);
         if (responseUrl.status !== 200) {
+          ToastComponent(t('toast.uploadImage.error'), 'error');
           return;
         }
 
@@ -192,11 +197,14 @@ const UserInformationComponent = () => {
         const responseUpload = await UploadImageService.uploadImage(urlUpload, file);
 
         if (responseUpload.status !== 200) {
+          ToastComponent(t('toast.uploadImage.error'), 'error');
           return;
         }
+
         const newPreview = URL.createObjectURL(file);
         setFieldValue('licenceImage', file.name);
         setImagePreviewUrl(newPreview);
+        ToastComponent("t('toast.uploadImage.success')", 'success');
       }
     } catch (error) {
     } finally {
@@ -257,7 +265,7 @@ const UserInformationComponent = () => {
           <Box sx={{ width: '70%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '32px' }}>
             <Box sx={{ width: '100%' }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'  }}>
+                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                   <Typography variant="h6" fontSize={16} color={theme.palette.text.secondary} fontWeight={400}>
                     {t('userProfile.Name')}
                   </Typography>

@@ -63,6 +63,8 @@ const FormStyle = styled('form')(({ theme }) => ({
       },
       '& .MuiButton-root.submit-button': {
         marginTop: '1.5rem',
+        width: '100%',
+
       },
     }
   },
