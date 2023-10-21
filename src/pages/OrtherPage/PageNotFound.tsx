@@ -6,7 +6,7 @@ import { PageNoteFoundImage } from '../../assets/images';
 import { ROUTES } from '../../utils/Constant';
 import usei18next from '../../hooks/usei18next';
 
-export default function PageNotFound() {
+function PageNotFound() {
   const theme = useTheme();
   const {t} = usei18next();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -22,7 +22,7 @@ export default function PageNotFound() {
           <Typography variant="h6" color="textSecondary" textAlign="center" mt={2} mb={2} fontWeight={500} flexWrap={'wrap'} sx={{ fontSize: isMobile ? '16px' : '20px' }}>
             {t("404.message")}
           </Typography>
-          <Button variant="contained" color="primary" onClick={() => navigate(ROUTES.homepage)} sx={{ fontSize: isMobile ? '16px' : '20px' }}>
+          <Button variant="contained" color="primary" onClick={() => navigate(-1)} sx={{ fontSize: isMobile ? '16px' : '20px' }}>
           {t("404.back")}
           </Button>
         </Box>
@@ -40,3 +40,5 @@ export default function PageNotFound() {
     </Grid>
   );
 }
+
+export default PageNotFound;

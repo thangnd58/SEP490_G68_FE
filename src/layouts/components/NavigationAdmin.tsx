@@ -6,16 +6,30 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { RouterManage } from '../../routes/RoutesManagement';
 import { Typography } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router';
 import { ManagementIcon } from '../../assets/icons';
 import usei18next from '../../hooks/usei18next';
+import { ROUTES } from '../../utils/Constant';
+import { VerifiedUser } from '@mui/icons-material';
 
 export default function NavigationAdmin() {
     const navigate = useNavigate();
     const location = useLocation();
     const { t } = usei18next();
+
+    const RouterManage = [
+        {
+            path: ROUTES.admin.managemotorbikes,
+            name: t("dashBoardManager.Navigation.motorbikeRentalManager"),
+            icon: VerifiedUser,
+        },
+        {
+            path: ROUTES.admin.managelicences,
+            name: t("dashBoardManager.Navigation.licenseManager"),
+            icon: VerifiedUser,
+        }
+    ];
 
     console.log(location)
     return (

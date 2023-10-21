@@ -10,7 +10,6 @@ const RegisterMotorbikeStyle = styled("form")(({ theme }) => ({
         display: 'flex',
         flexDirection: 'column',
         margin: '32px auto',
-        padding: '32px',
         borderRadius: '8px'
     },
 }));
@@ -22,9 +21,9 @@ export default function RegisterMotorbike() {
         <RegisterMotorbikeStyle className='form'>
             <Paper elevation={2}>
                 <Box
-                    width={"100%"}
                     alignContent={'center'}
                     margin={"auto"}
+                    padding={"32px"}
                     display={"flex"}
                     flexDirection={"column"}>
                     <Typography

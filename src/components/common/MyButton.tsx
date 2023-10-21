@@ -1,46 +1,57 @@
-import { Button, styled } from "@mui/material";
+import { Button, Typography, styled } from "@mui/material";
 
 const CustomButton = styled(Button)(({ theme }) => ({
-    background: theme.palette.primary.main,
-    color: theme.palette.common.white,
-    '&:hover': {
-      background: theme.palette.primary.dark,
-    },
-  }));
-  
-  interface CustomButtonProps {
-    onClick: () => void;
-    content: string;
-    className?: string;
-    width?: string;
-    height?: string;
-    fontSize?: number;
-    fontWeight?: number;
-    uppercase?: boolean;
-    borderRadius?: number;
-    icon?: React.ReactNode;
-    iconPosition?: 'left' | 'right';
-  }
-  
-  const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content,className, width, height, fontSize, fontWeight, uppercase, borderRadius, icon, iconPosition }) => { 
-    return (
-      <CustomButton
-        className={className}
-        onClick={onClick}
-        style={{
-          width: width || '100%',
-          height: height || '100%',
-          fontSize: fontSize || 16,
-          fontWeight: fontWeight || 'bold',
-          textTransform: uppercase ? 'uppercase' : 'none',
-          borderRadius: borderRadius || 8,
-        }}
-        startIcon={iconPosition === 'left' ? icon : null}
-        endIcon={iconPosition === 'right' ? icon : null}
+  background: theme.palette.primary.main,
+  color: theme.palette.common.white,
+  '&:hover': {
+    background: theme.palette.primary.dark,
+  },
+}));
+
+interface CustomButtonProps {
+  onClick?: () => void;
+  content: string;
+  className?: string;
+  width?: string;
+  height?: string;
+  fontSize?: number;
+  fontWeight?: number;
+  uppercase?: boolean;
+  borderRadius?: number;
+  variant?: 'text' | 'outlined' | 'contained';
+  icon?: React.ReactNode;
+  iconPosition?: 'left' | 'right';
+  type?: 'button' | 'submit' | 'reset';
+}
+
+const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, className, width, height, fontSize, fontWeight, uppercase, borderRadius, icon, iconPosition,variant,type }) => {
+  return (
+    <CustomButton
+      className={className}
+      onClick={onClick}
+      type={type}
+      style={{
+        height: height || '100%',
+        fontSize: fontSize || 16,
+        textTransform: uppercase ? 'uppercase' : 'none',
+        borderRadius: borderRadius || 8,
+        border: variant === 'outlined' ? '2px solid #8B4513' : 'none',
+        background: variant === 'outlined' ? '#fff' : '#8B4513',
+        // whiteSpace: 'nowrap',
+        padding: '8px 16px',
+      }}
+      startIcon={iconPosition === 'left' ? icon : null}
+      endIcon={iconPosition === 'right' ? icon : null}
+    >
+      <Typography
+        width={"auto"}
+        fontWeight= {fontWeight || '400'}
+        color={variant === 'outlined' ? '#8B4513' : '#fff'}
       >
         {content}
-      </CustomButton>
-    );
-  };
-  
-  export default MyCustomButton;
+      </Typography>
+    </CustomButton>
+  );
+};
+
+export default MyCustomButton;
