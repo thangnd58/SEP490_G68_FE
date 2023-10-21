@@ -9,6 +9,8 @@ import { GridPrintGetRowsToExportParams, GridRowId, GridToolbar, gridFilteredSor
 import { ROUTES } from '../../../utils/Constant';
 import { useNavigate } from 'react-router-dom';
 import usei18next from '../../../hooks/usei18next';
+import { Typography } from '@mui/material';
+import theme from '../../../utils/theme';
 
 const MotorbikeManagement = () => {
 
@@ -32,7 +34,7 @@ const MotorbikeManagement = () => {
 
     const columns = [
         { field: 'motorbikeName', headerName: t("dashBoardManager.motorbikeRentalManager.columnMotorbikeName"), width: 150 },
-        { field: 'type', headerName: t("dashBoardManager.motorbikeRentalManager.columnType"), width: 200 },
+        { field: 'type', headerName: t("dashBoardManager.motorbikeRentalManager.columnType"), width: 150 },
         { field: 'address', headerName: t("dashBoardManager.motorbikeRentalManager.columnAddress"), width: 150 },
         { field: 'licensePlate', headerName: t("dashBoardManager.motorbikeRentalManager.columnLicensePlate"), width: 150 },
         {
@@ -59,7 +61,7 @@ const MotorbikeManagement = () => {
             field: 'id', headerName: t("dashBoardManager.motorbikeRentalManager.columnAction"), width: 150,
             renderCell: (params: any) => (
                 <Box sx={{ cursor: 'pointer' }}>
-                    <VisibilityOutlined onClick={() => navigate(`${ROUTES.admin.MotorbikeRegister}/${params.value}`)}/>
+                    <VisibilityOutlined onClick={() => navigate(`${ROUTES.admin.MotorbikeRegister}/${params.value}`)} />
                 </Box>
             )
         },
@@ -77,24 +79,32 @@ const MotorbikeManagement = () => {
     };
 
     return (
-        <Box sx={{ height: '88vh', width: '100%' }}>
-            <DataGrid
-                rows={listMotorbike}
-                initialState={{
-                    pagination: { paginationModel: { pageSize: 10 } },
-                }}
-                pageSizeOptions={[5, 10, 25]}
-                columns={columns}
-                loading={listMotorbike.length === 0}
-                rowHeight={38}
-                checkboxSelection
-                disableRowSelectionOnClick
-                pagination
-                slots={{ toolbar: GridToolbar }}
-                slotProps={{
-                    toolbar: { printOptions: { getRowsToExport: getSelectedRowsToExport } },
-                }}
-            />
+        <Box sx={{maxWidth:"1160px"}}>
+            <Box sx={{ backgroundColor: "#8B4513" }}>
+                <Typography color={theme.palette.common.white} variant="h1" fontSize={24} fontWeight={700} pb={2}>
+                    {t("dashBoardManager.Navigation.motorbikeRentalManager")}
+                </Typography>
+            </Box>
+            <Box sx={{ backgroundColor: "#fff", borderRadius:"4px" }}>
+                <DataGrid
+                    rows={listMotorbike}
+                    initialState={{
+                        pagination: { paginationModel: { pageSize: 10 } },
+                    }}
+                    pageSizeOptions={[5, 10, 25]}
+                    columns={columns}
+                    loading={listMotorbike.length === 0}
+                    rowHeight={38}
+                    checkboxSelection
+                    disableRowSelectionOnClick
+                    pagination
+                    slots={{ toolbar: GridToolbar }}
+                    slotProps={{
+                        toolbar: { printOptions: { getRowsToExport: getSelectedRowsToExport } },
+                    }}
+                />
+            </Box>
+
         </Box>
     )
 }

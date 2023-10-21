@@ -6,7 +6,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { Typography } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router';
 import { ManagementIcon } from '../../assets/icons';
 import usei18next from '../../hooks/usei18next';
@@ -28,25 +28,60 @@ export default function NavigationAdmin() {
             path: ROUTES.admin.managelicences,
             name: t("dashBoardManager.Navigation.licenseManager"),
             icon: VerifiedUser,
-        }
+        },
+        {
+            path: ROUTES.admin.managelicences,
+            name: t("dashBoardManager.Navigation.licenseManager"),
+            icon: VerifiedUser,
+        },
+        {
+            path: ROUTES.admin.managelicences,
+            name: t("dashBoardManager.Navigation.licenseManager"),
+            icon: VerifiedUser,
+        },
+        {
+            path: ROUTES.admin.managelicences,
+            name: t("dashBoardManager.Navigation.licenseManager"),
+            icon: VerifiedUser,
+        },
+        {
+            path: ROUTES.admin.managelicences,
+            name: t("dashBoardManager.Navigation.licenseManager"),
+            icon: VerifiedUser,
+        },
+        {
+            path: ROUTES.admin.managelicences,
+            name: t("dashBoardManager.Navigation.licenseManager"),
+            icon: VerifiedUser,
+        },
+        {
+            path: ROUTES.admin.managelicences,
+            name: t("dashBoardManager.Navigation.licenseManager"),
+            icon: VerifiedUser,
+        },
+        {
+            path: ROUTES.admin.managelicences,
+            name: t("dashBoardManager.Navigation.licenseManager"),
+            icon: VerifiedUser,
+        },
+
     ];
 
     console.log(location)
     return (
         <React.Fragment>
             <Box role="presentation">
-                <Box sx={{ display: 'flex', gap: '10px', my: 1, mx: 2 }}>
+                {/* <Box sx={{ display: 'flex', gap: '10px', my: 1, mx: 2 }}>
                     <ManagementIcon />
                     <Typography fontSize={18}>{t("dashBoardManager.Navigation.manager")}</Typography>
-                </Box>
-                <List>
-                    <Divider />
+                </Box> */}
+                <List sx={{ paddingTop: "0px", paddingBottom: "0px" }}>
                     {RouterManage.map((item, index) => (
                         <ListItem key={index} disablePadding>
-                            <ListItemButton sx={{ backgroundColor: location.pathname.includes(item.path) ? "primary.main" : "common.white", color: location.pathname.includes(item.path) ? "common.white" : "primary.main" }} onClick={() => navigate(item.path)}>
-                                <ListItemIcon>
+                            <ListItemButton sx={{border: "1px solid #E0E0E0", backgroundColor: location.pathname.includes(item.path) ? "primary.main" : "common.white", color: location.pathname.includes(item.path) ? "common.white" : "primary.main" }} onClick={() => navigate(item.path)}>
+                                <IconButton>
                                     <item.icon />
-                                </ListItemIcon>
+                                </IconButton>
                                 <ListItemText primary={item.name} />
                             </ListItemButton>
                         </ListItem>
