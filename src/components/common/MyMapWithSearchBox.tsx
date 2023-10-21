@@ -25,7 +25,8 @@ interface Location {
 
 export default function MyMapWithSearchBox() {
     const { isLoaded } = useLoadScript({
-        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
+        googleMapsApiKey: '',
+        // googleMapsApiKey: 'AIzaSyCBbV93_1xl3BUQM99xEtfw-h8vWLRUUcw',
         libraries: ["places"],
     });
 
@@ -35,8 +36,8 @@ export default function MyMapWithSearchBox() {
         flexDirection: "row"
     }}>
         <CircularProgress />
-    </Box>;
-    return <MyMap />;
+    </Box>
+    return <MyMap />
 }
 
 function MyMap() {
@@ -66,7 +67,6 @@ function MyMap() {
         }
     };
 
-
     const {
         value,
         setValue,
@@ -83,11 +83,11 @@ function MyMap() {
         setShowMenu(false);
     };
 
-    useEffect(() => {
-        if (value.trim() === '' || data.length === 0) {
-            setShowMenu(false);
-        }
-    }, [value]);
+    // useEffect(() => {
+    //     if (value.trim() === '' || data.length === 0) {
+    //         setShowMenu(false);
+    //     }
+    // }, [value]);
 
     return (
         <>
@@ -109,8 +109,7 @@ function MyMap() {
                     SelectProps={{
                         native: true,
                     }}
-                    onChange={(e) => {
-                        ;
+                    onChange={(e: any) => {
                         setValue(e.target.value);
                         setShowMenu(true);
                     }}
@@ -199,4 +198,3 @@ function MyMap() {
         </>
     );
 }
-  

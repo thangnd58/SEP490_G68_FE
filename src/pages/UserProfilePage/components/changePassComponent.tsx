@@ -111,7 +111,7 @@ const ChangePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
-                  onMouseDown={(event) => event.preventDefault()}
+                  onMouseDown={(event:any) => event.preventDefault()}
                   edge="end"
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -137,7 +137,7 @@ const ChangePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={handleClickShowNewPassword}
-                  onMouseDown={(event) => event.preventDefault()}
+                  onMouseDown={(event:any) => event.preventDefault()}
                   edge="end"
                 >
                   {showNewPassword ? <VisibilityOff /> : <Visibility />}
@@ -164,7 +164,7 @@ const ChangePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
                 <IconButton
                   aria-label="toggle confirm password visibility"
                   onClick={handleClickShowConfirmPassword}
-                  onMouseDown={(event) => event.preventDefault()}
+                  onMouseDown={(event:any) => event.preventDefault()}
                   edge="end"
                 >
                   {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
