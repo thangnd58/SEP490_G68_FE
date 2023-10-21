@@ -3,6 +3,7 @@ import { Button, Typography, styled } from "@mui/material";
 const CustomButton = styled(Button)(({ theme }) => ({
   background: theme.palette.primary.main,
   color: theme.palette.common.white,
+  border: "2px solid #8B4513",
   '&:hover': {
     background: theme.palette.primary.dark,
   },
@@ -35,7 +36,6 @@ const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, classNa
         fontSize: fontSize || 16,
         textTransform: uppercase ? 'uppercase' : 'none',
         borderRadius: borderRadius || 8,
-        border: variant === 'outlined' ? '2px solid #8B4513' : 'none',
         background: variant === 'outlined' ? '#fff' : '#8B4513',
         // whiteSpace: 'nowrap',
         padding: '8px 16px',

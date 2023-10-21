@@ -9,11 +9,13 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../utils/Constant';
 import usei18next from '../../../hooks/usei18next';
+import { Typography } from '@mui/material';
+import theme from '../../../utils/theme';
 
 const LicenceManagement = () => {
     const [listLicences, setListLicences] = useState<Lisence[]>([]);
     const navigate = useNavigate();
-    const {t} = usei18next();
+    const { t } = usei18next();
 
     useEffect(() => {
         getAllLicences();
@@ -72,33 +74,41 @@ const LicenceManagement = () => {
             headerName: t("dashBoardManager.licenseManager.columnAction"),
             width: 200,
             renderCell: (params: any) => (
-                <Box  sx={{ cursor: 'pointer' }}>
-                    <VisibilityOutlined onClick={() => navigate(`${ROUTES.admin.licenceRegister}/${params.value}`)}/>
+                <Box sx={{ cursor: 'pointer' }}>
+                    <VisibilityOutlined onClick={() => navigate(`${ROUTES.admin.licenceRegister}/${params.value}`)} />
                 </Box>
             )
         },
     ];
 
     return (
-        <Box>
-            <DataGrid
-                rows={listLicences}
-                initialState={{
-                    pagination: { paginationModel: { pageSize: 10 } },
-                }}
-                pageSizeOptions={[5, 10, 25]}
-                columns={columns}
-                loading={listLicences.length === 0}
-                rowHeight={38}
-                checkboxSelection
-                disableRowSelectionOnClick
-                getRowId={(row) => row.licenceId}
-                pagination
-                slots={{ toolbar: GridToolbar }}
-                slotProps={{
-                    toolbar: { printOptions: { getRowsToExport: getSelectedRowsToExport } },
-                }}
-            />
+        <Box sx={{maxWidth:"1160px"}}>
+            <Box sx={{ backgroundColor: "#8B4513" }}>
+                <Typography color={theme.palette.common.white} variant="h1" fontSize={24} fontWeight={700} pb={2}>
+                    {t("dashBoardManager.Navigation.licenseManager")}
+                </Typography>
+            </Box>
+            <Box sx={{ backgroundColor: "#fff", borderRadius: "4px" }}>
+                <DataGrid
+
+                    rows={listLicences}
+                    initialState={{
+                        pagination: { paginationModel: { pageSize: 10 } },
+                    }}
+                    pageSizeOptions={[5, 10, 25]}
+                    columns={columns}
+                    loading={listLicences.length === 0}
+                    rowHeight={38}
+                    checkboxSelection
+                    disableRowSelectionOnClick
+                    getRowId={(row) => row.licenceId}
+                    pagination
+                    slots={{ toolbar: GridToolbar }}
+                    slotProps={{
+                        toolbar: { printOptions: { getRowsToExport: getSelectedRowsToExport } },
+                    }}
+                />
+            </Box>
         </Box>
     )
 }
