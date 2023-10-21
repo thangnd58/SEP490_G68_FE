@@ -15,7 +15,6 @@ interface AuthContext {
     logout: () => void;
     register: (user: any) => void;
     forgotPassword: (email: string) => void;
-    getUser: () => void;
 }
 
 export const AuthContext = React.createContext<AuthContext>({
@@ -25,7 +24,6 @@ export const AuthContext = React.createContext<AuthContext>({
     logout: () => { },
     register: (user: any) => { },
     forgotPassword: (email: string) => { },
-    getUser: () => { },
 });
 
 const AuthProvider = (props: { children: JSX.Element }) => {
@@ -41,40 +39,6 @@ const AuthProvider = (props: { children: JSX.Element }) => {
             setIslogin(true);
         }
     }, [])
-
-
-    const getUser = async () => {
-        try {
-            const res: any = await UserService.getUserInfo();
-            if (res.status === 200) {
-                const data = res.data;
-                const userRole: Role = {
-                    createUserId: data.role.createUserId,
-                    createDatetime: data.role.createDatetime,
-                    deleted: data.role.deleted,
-                    roleId: data.role.roleId,
-                    roleName: data.role.roleName,
-                    updateDatetime: data.role.updateDatetime,
-                    updateUserId: data.role.updateUserId,
-                }
-                const userResponse: User = {
-                    address: data.address,
-                    avatarUrl: data.avatarUrl,
-                    avatar: data.avatar,
-                    dob: data.dob,
-                    email: data.email,
-                    gender: data.gender,
-                    name: data.name,
-                    phone: data.phone,
-                    role: userRole,
-                    userId: data.userId,
-                    password: ""
-                }
-            }
-        } catch (error) {
-
-        }
-    }
 
     const externalLogin = async (googleToken: any) => {
         try {
@@ -153,8 +117,7 @@ const AuthProvider = (props: { children: JSX.Element }) => {
         login,
         logout,
         register,
-        forgotPassword,
-        getUser
+        forgotPassword
     };
     return (
         <AuthContext.Provider value={valueContext}>{children}</AuthContext.Provider>
