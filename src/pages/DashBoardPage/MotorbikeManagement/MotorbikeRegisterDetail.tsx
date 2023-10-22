@@ -57,16 +57,16 @@ const MotorbikeRegisterDetail = () => {
       };
 
     return (
-        <Box sx={{ display: 'flex', height: '88vh', marginTop: '2rem' }}>
+        <Box sx={{ display: 'flex', height: '60vh', marginTop: '7rem', justifyContent: 'space-between', gap: '1rem' }}>
             <Box flex={1} width={'50%'} marginLeft={2} borderRadius={5} sx={{ background: 'linear-gradient(#8B4513, White)' }} display={'grid'} gridTemplateColumns={'1fr'}>
                 <Typography color={'white'} marginTop={3} marginLeft={3} fontSize={29} fontWeight={'bold'}>{t("dashBoardManager.Motobike.Title")}</Typography>
                 <Box display={'flex'} justifyContent={'center'} >
-                    <Box height="260px" width="510px" display={'flex'} sx={{ backgroundColor: 'White' }} justifyContent={'center'} alignItems={'center'}>
+                    <Box height="80%" width="80%" display={'flex'} sx={{ backgroundColor: 'White' }} justifyContent={'center'} alignItems={'center'}>
                         <img height="250px" width="500px" src={motorbike?.image} alt={'licence'} />
                     </Box>
                 </Box>
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', mx: '1rem', gap: '3rem', width: '50%', position: 'relative' }} >
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '3rem', width:'50%' }} >
                 <Box sx={{ display: 'flex' }}>
                     <Typography variant="h5" sx={{ color: 'Black', marginRight: 1 }} align="right" fontWeight={'bold'}>{t("dashBoardManager.Motobike.Name")} :</Typography>
                     <Typography variant="h5" align="left">{motorbike?.motorbikeName}</Typography>

@@ -1,8 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import { routes } from "./routes";
-import { useAuth } from "../contexts/AuthContext";
-import Home from "../pages/HomePage/HomePage";
-import LayoutAdmin from "../layouts/LayoutAdmin";
 import Layout from "../layouts/Layout";
 import PageNotFound from "../pages/OrtherPage/PageNotFound";
 import LayoutEmpty from "../layouts/LayoutEmpty";
