@@ -18,7 +18,7 @@ import useThemePage from '../../../hooks/useThemePage';
 
 const UserInformationComponent = () => {
   const { t } = usei18next();
-  const { user } = useAppSelector((state:any) => state.userInfo);
+  const { user } = useAppSelector((state: any) => state.userInfo);
   const [lisence, setLisence] = useState<Lisence>();
   const [isEditLisence, setIsEditLisence] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -362,7 +362,7 @@ const UserInformationComponent = () => {
               )}
             </Box>
 
-            <Box sx={{ flexBasis: '30%', flexGrow: 1, display: 'flex', marginTop: isMobile ? '16px' : '0px' , justifyContent: 'flex-end', gap: '16px' }}>
+            <Box sx={{ flexBasis: '30%', flexGrow: 1, display: 'flex', marginTop: isMobile ? '16px' : '0px', justifyContent: 'flex-end', gap: '16px' }}>
               {isEditLisence ? (
                 <>
                   <MyCustomButton
@@ -394,7 +394,7 @@ const UserInformationComponent = () => {
           </Box>
 
           {/* Bottom Section (License Details and Image) */}
-          <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row' , width: '100%', justifyContent: 'space-between', marginTop: '32px', gap: '32px' }}>
+          <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', width: '100%', justifyContent: 'space-between', marginTop: '32px', gap: '32px' }}>
             <Box sx={{ flexBasis: '50%', flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '32px', justifyContent: 'space-between' }}>
               <Box>
                 <MyCustomeTextField

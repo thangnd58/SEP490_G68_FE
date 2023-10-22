@@ -136,10 +136,7 @@ function MyMap() {
                                 value={description}
                                 onClick={() => handleSelect(description)}
                             >
-                                <Typography
-                                >
-                                    {description}
-                                </Typography>
+                                <Typography>{description}</Typography>
                             </MenuItem>
                         ))}
                 </Box>

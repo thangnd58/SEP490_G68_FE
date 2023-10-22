@@ -1,7 +1,7 @@
-import { Box, Grid, IconButton, ImageList, ImageListItem, Modal, Typography } from '@mui/material';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { Box, Button, FormControl, Grid, IconButton, ImageList, ImageListItem, InputLabel, List, MenuItem, Modal, Select, TextField, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import RegisterMotorbikeItem from './RegisterMotorbikeItem';
-import MyCustomTextField from '../../../../components/common/MyTextField';
 import { CloseOutlined, Map } from '@mui/icons-material';
 import MyCustomButton from '../../../../components/common/MyButton';
 import theme from '../../../../utils/theme';
@@ -14,6 +14,7 @@ import ToastComponent from '../../../../components/toast/ToastComponent';
 import MyMapWithSearchBox from '../../../../components/common/MyMapWithSearchBox';
 import { t } from 'i18next';
 import MyIcon from '../../../../components/common/MyIcon';
+import { useFormik } from 'formik';
 
 const RegisterMotorbikeForm = () => {
 
@@ -30,27 +31,6 @@ const RegisterMotorbikeForm = () => {
     const [isMapModalOpen, setMapModalOpen] = useState(false);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-    const [licensePlate, setLicensePlate] = useState('');
-    const [description, setDescription] = useState('');
-    const [fuelConsumption, setFuelConsumption] = useState('');
-    const [defaultPrice, setDefaultPrice] = useState('');
-    const [selectedProvinceValue, setSelectedProvinceValue] = useState('');
-    const [selectedDistrictValue, setSelectedDistrictValue] = useState('');
-    const [selectedWardValue, setSelectedWardValue] = useState('');
-
-    const handleSubmit = () => {
-        // Log giá trị của các trường TextField
-        console.log('Biển số xe:', licensePlate);
-        // console.log('Mô tả:', description);
-        // console.log('Mức tiêu thụ nhiên liệu:', fuelConsumption);
-        // console.log('Giá thuê mặc định:', defaultPrice);
-        // console.log('Tỉnh/Thành phố:', selectedProvinceValue);
-        // console.log('Quận/Huyện:', selectedDistrictValue);
-        // console.log('Phường/Xã:', selectedWardValue);
-
-        // Thực hiện các thao tác cần thiết khi bấm nút submit
-    };
-
 
     useEffect(() => {
         PostMotorbikeService.getAllBrand().then((res) => {
@@ -64,38 +44,6 @@ const RegisterMotorbikeForm = () => {
             }
         });
     }, []);
-
-    useEffect(() => {
-        if (selectedBrand !== 0) {
-            PostMotorbikeService.getAllModel(Number(selectedBrand)).then((res) => {
-                if (res.length > 0) {
-                    setListModel(res);
-                }
-            });
-        }
-    }, [selectedBrand]);
-
-    // useEffect(() => {
-    //     if (selectedProvince !== 0) {
-    //         ProvincesService.getDistrictsByProvince(Number(selectedProvince)).then((res) => {
-    //             if (res !== null) {
-    //                 setListDistrict(res);
-    //             }
-    //         });
-    //     }
-    // }, [selectedProvince]);
-
-    // useEffect(() => {
-    //     if (selectedDistrict !== 0) {
-    //         ProvincesService.getWardsByDistrict(Number(selectedDistrict)).then((res) => {
-    //             if (res !== null) {
-    //                 setListWard(res);
-    //             }
-    //         });
-    //     }
-    // }, [selectedDistrict]);
-
-
 
     const handleAddImages = () => {
         if (fileInputRef.current) {
@@ -114,6 +62,7 @@ const RegisterMotorbikeForm = () => {
                 const isValidSize = imageFiles.every((file) => file.size / (1024 * 1024) <= MAX_IMAGE_SIZE_MB);
                 if (isValidSize) {
                     setSelectedImages((prevImages) => [...prevImages, ...imageFiles]);
+                    setFieldValue("images", [...selectedImages, ...imageFiles]);
                 } else {
                     ToastComponent(`Kích thước ảnh không được vượt quá ${MAX_IMAGE_SIZE_MB}MB`, "error",);
                 }
@@ -127,11 +76,6 @@ const RegisterMotorbikeForm = () => {
         const updatedImages = selectedImages.filter((_, index) => index !== indexToRemove);
         setSelectedImages(updatedImages);
     };
-
-    const handleLicensePlateChange = (value: string) => {
-        setLicensePlate(value);
-    };
-
 
     const openModal = (index: number) => {
         setSelectedImageIndex(index);
@@ -150,20 +94,74 @@ const RegisterMotorbikeForm = () => {
         setMapModalOpen(false);
     };
 
+    const MyTextField = styled(TextField)(({
+        "& .MuiOutlinedInput-root fieldset": { borderRadius: "8px" },
+        "& .MuiOutlinedInput-root:hover fieldset": {
+            borderColor: theme.palette.primary.main,
+        },
+        "& .MuiOutlinedInput-root.Mui-focused fieldset": {
+            borderColor: theme.palette.primary.main,
+        }
+    }));
+
+    const formik = useFormik({
+        initialValues: {
+            licensePlate: "",
+            images: [],
+            brand: "",
+            model: "",
+            year: "",
+            fuel: "",
+            fuelConsumption: "",
+            description: "",
+            raincoat: false,
+            helmet: false,
+            reflectiveClothes: false,
+            bagage: false,
+            repairKit: false,
+            caseTelephone: false,
+            defaultPrice: 120,
+            province: 1,
+            district: 1,
+            ward: 1,
+            address: "",
+            location: {
+                lat: 21.027763,
+                lng: 105.834160
+            },
+            miscellaneous: ""
+        },
+
+        onSubmit: (values, actions) => {
+            alert("values:" + JSON.stringify(values));
+        }
+    }
+    );
+
+    const {
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleSubmit,
+        setFieldValue
+    } = formik;
 
     return (
-
         <Box width={"100%"}>
             <Box>
                 <RegisterMotorbikeItem
                     title={t("postMotorbike.registedForm.licensePlate")}
                     isRequired={true}
                     item={
-                        <MyCustomTextField
-                            borderRadius={8}
-                            width='100%'
+                        <TextField
+                            name='licensePlate'
+                            value={values.licensePlate}
+                            onChange={(e: any) => {
+                                setFieldValue("licensePlate", e.target.value);
+                            }}
+                            fullWidth
                             placeholder={t("postMotorbike.registedForm.licensePlatePlaceHolder")}
-                            onValueChange={handleLicensePlateChange}
                         />
                     }
                 />
@@ -177,6 +175,7 @@ const RegisterMotorbikeForm = () => {
                             cols={3}
                             variant="quilted"
                             rowHeight={165}
+
                         >
                             {selectedImages.map((image, index) => (
                                 <ImageListItem
@@ -260,13 +259,22 @@ const RegisterMotorbikeForm = () => {
                                         fontWeightTitle={500}
                                         isRequired={false}
                                         item={
-                                            <MyCustomTextField
-                                                borderRadius={8}
-                                                placeholder={t("postMotorbike.registedForm.brandPlaceHolder")}
-                                                listItems={listBrand.map((brand) => ({ key: brand.id.toString(), value: brand.brandName }))}
-                                            // Lưu trạng thái hãng xe đã chọn
-                                            // setSelectedBrand={setSelectedBrand}
-                                            />
+                                            <Select
+                                                sx={{
+                                                    width: '100%', borderRadius: '8px',
+                                                }}
+                                                displayEmpty
+                                                name="brand"
+                                                value={values.brand}
+                                                onChange={handleChange}
+                                            >
+                                                <MenuItem value="">
+                                                    <em>{t("postMotorbike.registedForm.brandPlaceHolder")}</em>
+                                                </MenuItem>
+                                                <MenuItem value={10}>Ten</MenuItem>
+                                                <MenuItem value={20}>Twenty</MenuItem>
+                                                <MenuItem value={30}>Thirty</MenuItem>
+                                            </Select>
                                         }
                                     />
                                 </Grid>
@@ -277,14 +285,22 @@ const RegisterMotorbikeForm = () => {
                                         fontWeightTitle={500}
                                         isRequired={false}
                                         item={
-                                            <MyCustomTextField
-                                                borderRadius={8}
-                                                placeholder={t("postMotorbike.registedForm.modelPlaceHolder")}
-                                                listItems={listModel.map((model) => ({ key: model.id.toString(), value: model.modelName }))}
-                                            // Vô hiệu hóa trường nhập liệu nếu chưa chọn hãng xe
-                                            // disabled={selectedBrand === 0}
-                                            // selectedBrand={selectedBrand}
-                                            />
+                                            <Select
+                                                sx={{
+                                                    width: '100%', borderRadius: '8px',
+                                                }}
+                                                displayEmpty
+                                                name="model"
+                                                value={values.model}
+                                                onChange={handleChange}
+                                            >
+                                                <MenuItem value="">
+                                                    <em>{t("postMotorbike.registedForm.modelPlaceHolder")}</em>
+                                                </MenuItem>
+                                                <MenuItem value={10}>Ten</MenuItem>
+                                                <MenuItem value={20}>Twenty</MenuItem>
+                                                <MenuItem value={30}>Thirty</MenuItem>
+                                            </Select>
                                         }
                                     />
                                 </Grid>
@@ -295,11 +311,22 @@ const RegisterMotorbikeForm = () => {
                                         fontWeightTitle={500}
                                         isRequired={false}
                                         item={
-                                            <MyCustomTextField
-                                                borderRadius={8}
-                                                placeholder={t("postMotorbike.registedForm.yearPlaceHolder")}
-                                                listItems={[{ key: '2023', value: '2023' }, { key: '2022', value: '2022' }]}
-                                            />
+                                            <Select
+                                                sx={{
+                                                    width: '100%', borderRadius: '8px',
+                                                }}
+                                                displayEmpty
+                                                name="year"
+                                                value={values.year}
+                                                onChange={handleChange}
+                                            >
+                                                <MenuItem value="">
+                                                    <em>{t("postMotorbike.registedForm.yearPlaceHolder")}</em>
+                                                </MenuItem>
+                                                <MenuItem value={2023}>2023</MenuItem>
+                                                <MenuItem value={2022}>2022</MenuItem>
+                                                <MenuItem value={2021}>2021</MenuItem>
+                                            </Select>
                                         }
                                     />
                                 </Grid>
@@ -310,11 +337,21 @@ const RegisterMotorbikeForm = () => {
                                         fontWeightTitle={500}
                                         isRequired={false}
                                         item={
-                                            <MyCustomTextField
-                                                borderRadius={8}
-                                                placeholder={t("postMotorbike.registedForm.fuelPlaceHolder")}
-                                                listItems={[{ key: 'Xăng', value: 'Xăng' }, { key: 'Điện', value: 'Điện' }]}
-                                            />
+                                            <Select
+                                                sx={{
+                                                    width: '100%', borderRadius: '8px',
+                                                }}
+                                                displayEmpty
+                                                name="fuel"
+                                                value={values.fuel}
+                                                onChange={handleChange}
+                                            >
+                                                <MenuItem value="">
+                                                    <em>{t("postMotorbike.registedForm.fuelPlaceHolder")}</em>
+                                                </MenuItem>
+                                                <MenuItem value={"Xăng"}>Xăng</MenuItem>
+                                                <MenuItem value={"Điện"}>Điện</MenuItem>
+                                            </Select>
                                         }
                                     />
                                 </Grid>
@@ -329,9 +366,12 @@ const RegisterMotorbikeForm = () => {
                                         fontSizeSecondTitle='16px'
                                         fontWeightSecondTitle={400}
                                         item={
-                                            <MyCustomTextField
+                                            <MyTextField
+                                                name='fuelConsumption'
+                                                value={values.fuelConsumption}
+                                                onChange={handleChange}
+                                                fullWidth
                                                 type='number'
-                                                borderRadius={8}
                                                 placeholder={t("postMotorbike.registedForm.fuelConsumptionPlaceHolder")}
                                             />
                                         }
@@ -345,10 +385,15 @@ const RegisterMotorbikeForm = () => {
                     title={t("postMotorbike.registedForm.description")}
                     isRequired={false}
                     item={
-                        <MyCustomTextField
-                            borderRadius={8}
-                            width='100%'
-                            multiline={true}
+                        <MyTextField
+
+                            name='description'
+                            value={values.description}
+                            onChange={handleChange}
+                            rows={8}
+                            multiline
+                            fullWidth
+                            type='number'
                             placeholder={t("postMotorbike.registedForm.descriptionPlaceHolder")}
                         />
                     }
@@ -390,9 +435,13 @@ const RegisterMotorbikeForm = () => {
                         <Box sx={{ width: '100%' }}>
                             <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                                 <Grid item xs={6}>
-                                    <MyCustomTextField
+
+                                    <MyTextField
+                                        name='defaultPrice'
+                                        value={values.defaultPrice}
+                                        onChange={handleChange}
+                                        fullWidth
                                         type='number'
-                                        borderRadius={8}
                                         placeholder={t("postMotorbike.registedForm.defaultRentPricePlaceHolder")}
                                     />
                                 </Grid>
@@ -419,18 +468,22 @@ const RegisterMotorbikeForm = () => {
                     title={t("postMotorbike.registedForm.location")}
                     isRequired={true}
                     item={
-                        <MyCustomTextField
-                            borderRadius={8}
-                            width='100%'
-                            // disabled={true}
+                        <MyTextField
+                            name='address'
+                            value={values.address}
+                            onChange={handleChange}
+                            fullWidth
                             placeholder={t("postMotorbike.registedForm.locationPlaceHolder")}
-                            icon={
-                                <Map
-                                    onClick={openMapModal}
-                                    style={{ cursor: 'pointer' }}
-                                />
+                            InputProps={
+                                {
+                                    endAdornment: (
+                                        <Map
+                                            onClick={openMapModal}
+                                            style={{ cursor: 'pointer' }}
+                                        />
+                                    )
+                                }
                             }
-                            iconPosition='end'
                         />
                     }
                 />
@@ -439,16 +492,20 @@ const RegisterMotorbikeForm = () => {
                     isRequired={false}
                     secondTitle={t("postMotorbike.registedForm.miscellaneousSecondTitle")}
                     item={
-                        <MyCustomTextField
-                            borderRadius={8}
-                            width='100%'
-                            multiline={true}
+                        <MyTextField
+                            name='miscellaneous'
+                            value={values.miscellaneous}
+                            onChange={handleChange}
+                            rows={8}
+                            multiline
+                            fullWidth
+                            type='number'
                             placeholder={t("postMotorbike.registedForm.miscellaneousPlaceHolder")}
                         />
                     }
                 />
                 <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"center"} margin={"32px 0px 0px 0px"}>
-                    <MyCustomButton width='30%' borderRadius={8} fontSize={16} fontWeight={600} content={t("postMotorbike.registedForm.btnSubmit")} onClick={() => { }} />
+                    <MyCustomButton width='30%' borderRadius={8} fontSize={16} fontWeight={600} content={t("postMotorbike.registedForm.btnSubmit")} onClick={handleSubmit} />
                 </Box>
             </Box>
             <ImageModal selectedImages={selectedImages} selectedImageIndex={selectedImageIndex} closeModal={closeModal} />
@@ -466,34 +523,78 @@ const RegisterMotorbikeForm = () => {
                 }}>
                     <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"start"} alignItems={"center"}>
                         <Typography width={"100%"} variant='h2' color={theme.palette.text.primary} fontSize={"24px"} fontWeight={600} textAlign={"start"}>
-                        {t("postMotorbike.registedForm.selectAddress")}
+                            {t("postMotorbike.registedForm.selectAddress")}
                         </Typography>
                         <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
-            
-                            <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeMapModal} position='bottom'/>
-
+                            <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeMapModal} position='bottom' />
                         </Box>
                     </Box>
                     <Box width={"100%"} height={"80%"} display={"flex"} flexDirection={"column"} justifyContent={"start"} alignItems={"center"}>
-                        <RegisterMotorbikeItem title={t("postMotorbike.registedForm.selectProvince")} fontSizeTitle='16px' isRequired={true} item={<MyCustomTextField borderRadius={8} fontSize={16} height='48px' width='100%' placeholder={t("postMotorbike.registedForm.selectProvincePlaceHolder")}
-                            listItems={listProvince.map((province) => ({ key: province.code.toString(), value: province.name }))}
-                        />} />
+                        <RegisterMotorbikeItem
+                            title={t("postMotorbike.registedForm.selectProvince")}
+                            fontSizeTitle='16px'
+                            isRequired={true}
+                            item={
+                                <Select
+                                    sx={{
+                                        width: '100%', borderRadius: '8px',
+                                    }}
+                                    displayEmpty
+                                    name="province"
+                                    value={values.province}
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value={0}>
+                                        <em>{t("postMotorbike.registedForm.selectProvincePlaceHolder")}</em>
+                                    </MenuItem>
+                                    {listProvince.map((province) => (
+                                        <MenuItem value={province.code}>{province.name}</MenuItem>
+                                    ))}
+                                </Select>
+                            }
+                        />
 
-                        <RegisterMotorbikeItem title={t("postMotorbike.registedForm.selectDistrict")} fontSizeTitle='16px' isRequired={true} item={<MyCustomTextField borderRadius={8} width='100%' placeholder={t("postMotorbike.registedForm.selectDistrictPlaceHolder")}
-                            listItems={listProvince.map((province) => ({ key: province.code.toString(), value: province.name }))}
-                        />} />
+                        <RegisterMotorbikeItem
+                            title={t("postMotorbike.registedForm.selectDistrict")}
+                            fontSizeTitle='16px' isRequired={true} item={
+                                <Select
+                                    sx={{
+                                        width: '100%', borderRadius: '8px',
+                                    }}
+                                    displayEmpty
+                                    name="district"
+                                    value={values.district}
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value={0}>
+                                        <em>{t("postMotorbike.registedForm.selectDistrictPlaceHolder")}</em>
+                                    </MenuItem>
+                                    {listProvince.map((province) => (
+                                        <MenuItem value={province.code}>{province.name}</MenuItem>
+                                    ))}
+                                </Select>} />
 
-                        <RegisterMotorbikeItem fontSizeTitle='16px' title={t("postMotorbike.registedForm.selectWard")} isRequired={true} item={<MyCustomTextField borderRadius={8} width='100%' placeholder={t("postMotorbike.registedForm.selectWardPlaceHolder")} listItems={[{
-                            key: '1',
-                            value: 'Phường Hoàng Văn Thụ'
-                        }, {
-                            key: '2',
-                            value: 'Phường Thanh Xuân Trung'
-                        }, {
-                            key: '3',
-                            value: 'Phường Thanh Xuân Bắc'
-                        }]} />} />
-
+                        <RegisterMotorbikeItem
+                            fontSizeTitle='16px'
+                            title={t("postMotorbike.registedForm.selectWard")}
+                            isRequired={true}
+                            item={
+                                <Select
+                                    sx={{
+                                        width: '100%', borderRadius: '8px',
+                                    }}
+                                    displayEmpty
+                                    name="ward"
+                                    value={values.ward}
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value={0}>
+                                        <em>{t("postMotorbike.registedForm.selectWardPlaceHolder")}</em>
+                                    </MenuItem>
+                                    {listProvince.map((province) => (
+                                        <MenuItem value={province.code}>{province.name}</MenuItem>
+                                    ))}
+                                </Select>} />
 
                         <RegisterMotorbikeItem
                             fontSizeTitle='16px'
@@ -502,32 +603,23 @@ const RegisterMotorbikeForm = () => {
                             item={<MyMapWithSearchBox />}
                             myButton={
                                 <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"center"} margin={"24px 0px 0px 0px"}>
-                                    <MyCustomButton width='30%' borderRadius={8} fontSize={16} fontWeight={600} content={t("postMotorbike.registedForm.btnConfirm")} onClick={handleSubmit} />
+                                    <MyCustomButton width='30%' borderRadius={8} fontSize={16} fontWeight={600} content={t("postMotorbike.registedForm.btnConfirm")} onClick={closeMapModal} />
                                 </Box>
                             }
                         />
                     </Box>
                 </Box>
             </Modal>
-
         </Box>
+
     );
 };
-
-interface MapModalProps {
-    isMapModalOpen: boolean;
-    closeMapModal: () => void;
-}
 
 interface ImageModalProps {
     selectedImages: File[];
     selectedImageIndex: number | null;
     closeModal: () => void;
 }
-
-// function MapModal({ isMapModalOpen, closeMapModal }: MapModalProps) {
-//     return ();
-// }
 
 function ImageModal({ selectedImages, selectedImageIndex, closeModal }: ImageModalProps) {
     return (<Modal open={selectedImageIndex !== null} onClose={closeModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description" sx={{
