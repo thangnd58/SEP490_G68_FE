@@ -7,7 +7,8 @@
     "userprofile": "User Profile",
     "dashboard": "Dash Board",
     "mylistmotorbike": "My List Motorbike",
-    "registermotorbike": "Register Motorbike"
+    "registermotorbike": "Register Motorbike",
+    "home_page": "Home Page"
   },
   "form": {
     "login": "Login",

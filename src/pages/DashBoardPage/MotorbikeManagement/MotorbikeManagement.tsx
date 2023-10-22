@@ -58,7 +58,7 @@ const MotorbikeManagement = () => {
             ),
         },
         {
-            field: 'id', headerName: t("dashBoardManager.motorbikeRentalManager.columnAction"), width: 150,
+            field: 'id', headerName: t("dashBoardManager.motorbikeRentalManager.columnAction"), width: 100,
             renderCell: (params: any) => (
                 <Box sx={{ cursor: 'pointer' }}>
                     <VisibilityOutlined onClick={() => navigate(`${ROUTES.admin.MotorbikeRegister}/${params.value}`)} />
@@ -79,7 +79,7 @@ const MotorbikeManagement = () => {
     };
 
     return (
-        <Box sx={{maxWidth:"1160px"}}>
+        <Box >
             <Box sx={{ backgroundColor: "#8B4513" }}>
                 <Typography color={theme.palette.common.white} variant="h1" fontSize={24} fontWeight={700} pb={2}>
                     {t("dashBoardManager.Navigation.motorbikeRentalManager")}
