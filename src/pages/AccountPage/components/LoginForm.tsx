@@ -115,14 +115,14 @@ const LoginForm = () => {
       email: Yup.string()
         .email(t("form.validateEmail"))
         .required(t("form.required")),
-      // password: Yup.string()
-      //   .min(8, t("form.validatePassword", { min: 8 }))
-      //   .max(32, t("form.validatePasswordMax", { max: 32 }))
-      //   .matches(
-      //     /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-      //     t("form.validateCharacter")
-      //   )
-      //   .required(t("form.required")),
+      password: Yup.string()
+        // .min(8, t("form.validatePassword", { min: 8 }))
+        // .max(32, t("form.validatePasswordMax", { max: 32 }))
+        // .matches(
+        //   /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+        //   t("form.validateCharacter")
+        // )
+        .required(t("form.required")),
     }),
     onSubmit: values => {
       login({ email: values.email, password: values.password }, !saveAccount)
@@ -163,7 +163,7 @@ const LoginForm = () => {
 
   return (
     <FormStyle className='form' onSubmit={handleSubmit}>
-      <Paper elevation={3} sx={{ width: isMobile ? '80%' : '30%', }}>
+      <Paper elevation={3} sx={{ width: isMobile ? '80%' : '30%'}}>
         <Typography className='login'>
           {t("form.login")}
         </Typography>

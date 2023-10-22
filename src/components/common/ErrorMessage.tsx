@@ -1,11 +1,25 @@
+import React, { useState, useEffect } from 'react';
 import { Typography } from "@mui/material";
-import { memo } from "react";
 import theme from "../../utils/theme";
 
-const ErrorMessage = memo(({ message }: { message: string }) => {
-    return <Typography fontSize='13px' color={theme.palette.error.main}>
-        {message}
-    </Typography>
-})
+const ErrorMessage = ({ message }: { message: string }) => {
+  const [isVisible, setIsVisible] = useState(true);
 
-export default ErrorMessage
+//   useEffect(() => {
+//     const timeout = setTimeout(() => {
+//       setIsVisible(false);
+//     }, 1000);
+
+//     return () => {
+//       clearTimeout(timeout);
+//     };
+//   }, []);
+
+  return isVisible ? (
+    <Typography fontSize='13px' color={theme.palette.error.main}>
+      {message}
+    </Typography>
+  ) : null;
+};
+
+export default ErrorMessage;

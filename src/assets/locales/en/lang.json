@@ -251,7 +251,7 @@
       "fuelConsumptionPlaceHolder": "3",
       "description": "Description",
       "descriptionPlaceHolder": "Enter Description of your motorbike",
-      "Equipment": "Equipment",
+      "equipment": "Equipment",
       "helmet": "Helmet",
       "raincoat": "Raincoat",
       "reflectiveClothes": "Reflective Clothes",

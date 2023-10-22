@@ -3,7 +3,6 @@ import { Button, Typography, styled } from "@mui/material";
 const CustomButton = styled(Button)(({ theme }) => ({
   background: theme.palette.primary.main,
   color: theme.palette.common.white,
-  border: "2px solid #8B4513",
   '&:hover': {
     background: theme.palette.primary.dark,
   },
@@ -23,11 +22,13 @@ interface CustomButtonProps {
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right';
   type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
 }
 
-const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, className, width, height, fontSize, fontWeight, uppercase, borderRadius, icon, iconPosition,variant,type }) => {
+const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, className, width, height, fontSize, fontWeight, uppercase, borderRadius, icon, iconPosition,variant,type,disabled }) => {
   return (
     <CustomButton
+      disabled={disabled}
       className={className}
       onClick={onClick}
       type={type}
@@ -35,7 +36,8 @@ const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, classNa
         height: height || '100%',
         textTransform: uppercase ? 'uppercase' : 'none',
         borderRadius: borderRadius || 8,
-        background: variant === 'outlined' ? '#fff' : '#8B4513',
+        background: disabled ? '#777E90' : (variant === 'outlined' ? '#fff' : '#8B4513'),
+        border: disabled ? '2px solid #777E90' : '2px solid #8B4513',
         // whiteSpace: 'nowrap',
         padding: '8px 16px',
       }}

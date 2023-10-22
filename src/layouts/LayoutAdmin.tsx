@@ -22,12 +22,12 @@ const LayoutAdmin = ({ children }: LayoutAdminProps) => {
             </Box>
 
             {/* Background Part */}
-            <Box position="sticky" height={"107px"} zIndex={998} width={"100%"} sx={{ backgroundColor: "#8B4513" }} />
+            <Box position="sticky" top={"85px"} height={"107px"} zIndex={998} width={"100%"} sx={{ backgroundColor: "#8B4513" }} />
 
             {/* Main Part */}
             <Box component="main" display="flex" >
                 {/* Side bar */}
-                <Box component="aside" width={"20%"} height={"600px"} position="sticky" top={"85px"} style={{ zIndex: 999 }} sx={{ marginTop: '-107px', mb: "24px" }} >
+                <Box component="aside" width={"20%"} height={"580px"} position="sticky" top={"85px"} style={{ zIndex: 999 }} sx={{ marginTop: '-107px', mb: "24px" }} >
                     <Box sx={{ backgroundColor: "#8B4513" }} display={'flex'} justifyContent={'start'} alignItems={'center'} padding={"16px"} gap={"8px"}>
                         <Avatar onClick={() => navigate(ROUTES.user.userprofile)} sx={{ width: 75, height: 75 }} src={user?.avatarUrl} alt={user?.name} />
                         <Box display={'flex'} justifyContent={'center'} alignItems={'start'} flexDirection={"column"} gap={"2px"}>
@@ -43,6 +43,9 @@ const LayoutAdmin = ({ children }: LayoutAdminProps) => {
 
                 {/* Content */}
                 <Box component="section" width={"80%"} p={"24px 32px 32px 0px"} style={{ overflow: 'auto', zIndex: 999, marginTop: '-107px' }} >
+                    {children}
+                    {children}
+                    {children}
                     {children}
                 </Box>
             </Box>
