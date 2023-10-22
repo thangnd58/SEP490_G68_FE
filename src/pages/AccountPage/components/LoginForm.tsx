@@ -265,10 +265,6 @@ const LoginForm = () => {
             </Box>
           </Box>
         </Box>
-
-
-
-
       </Paper>
     </FormStyle >
   );

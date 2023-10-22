@@ -12,19 +12,20 @@ import UploadImageService from '../../../services/UploadImageService';
 import MyCustomButton from '../../../components/common/MyButton';
 import { CheckCircle, CheckCircleOutline, Error, ErrorOutline, Warning, WarningAmber } from '@mui/icons-material';
 import theme from '../../../utils/theme';
-import { useAppSelector } from '../../../hooks/useAction';
+import { useAppDispatch, useAppSelector } from '../../../hooks/useAction';
 import { getUserInfo } from '../../../redux/reducers/authReducer';
-import { useDispatch } from 'react-redux';
+import useThemePage from '../../../hooks/useThemePage';
 
 const UserInformationComponent = () => {
   const { t } = usei18next();
-  const { user } = useAppSelector((state) => state.userInfo);
+  const { user } = useAppSelector((state:any) => state.userInfo);
   const [lisence, setLisence] = useState<Lisence>();
   const [isEditLisence, setIsEditLisence] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const inputRefLicense = useRef<HTMLInputElement>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const { isMobile } = useThemePage();
 
   useEffect(() => {
     getLisence();
@@ -222,7 +223,7 @@ const UserInformationComponent = () => {
         <Box
           sx={{
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: isMobile ? 'column' : 'row',
             justifyContent: 'space-between',
             width: '100%',
             border: '3px solid #E0E0E0',
@@ -230,9 +231,9 @@ const UserInformationComponent = () => {
           }}
         >
           {/* Left Section (Avatar and Two Buttons) */}
-          <Box sx={{ flexBasis: '30%', flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '16px', padding: "32px" }}>
+          <Box sx={{ flexBasis: '30%', flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '16px' }}>
             <Box>
-              <Avatar variant="rounded" sx={{ width: 200, height: 200 }} src={user.avatarUrl} alt={user.name} />
+              <Avatar variant="rounded" sx={{ width: 200, height: 200, marginTop: isMobile ? '16px' : '0px' }} src={user.avatarUrl} alt={user.name} />
               <input
                 ref={inputRef}
                 type="file"
@@ -245,14 +246,14 @@ const UserInformationComponent = () => {
             <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: "16px" }}>
               <MyCustomButton
                 borderRadius={8}
-                fontSize={16}
+                fontSize={isMobile ? 12 : 16}
                 fontWeight={400}
                 content={t('userProfile.BtnUpload')}
                 onClick={onClickRef} />
 
               <MyCustomButton
                 borderRadius={8}
-                fontSize={16}
+                fontSize={isMobile ? 12 : 16}
                 fontWeight={500}
                 variant='outlined'
                 content={t('userProfile.BtnDelete')}
@@ -262,62 +263,62 @@ const UserInformationComponent = () => {
 
 
           {/* Right Section (Basic Information) */}
-          <Box sx={{ width: '70%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '32px' }}>
+          <Box sx={{ width: isMobile ? '100%' : '70%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '32px' }}>
             <Box sx={{ width: '100%' }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography variant="h6" fontSize={16} color={theme.palette.text.secondary} fontWeight={400}>
+                  <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                     {t('userProfile.Name')}
                   </Typography>
-                  <Typography fontSize={20} color={theme.palette.text.primary} fontWeight={600}>
+                  <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
                     {user.name}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography variant="h6" fontSize={16} color={theme.palette.text.secondary} fontWeight={400}>
+                  <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                     {t('userProfile.Email')}
                   </Typography>
-                  <Typography fontSize={20} color={theme.palette.text.primary} fontWeight={600}>
+                  <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
                     {user.email ? user.email : t('userProfile.InputProfile')}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography variant="h6" fontSize={16} color={theme.palette.text.secondary} fontWeight={400}>
+                  <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                     {t('userProfile.PhoneNumber')}
                   </Typography>
-                  <Typography fontSize={20} color={theme.palette.text.primary} fontWeight={600}>
+                  <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
                     {user.phone ? user.phone : t('userProfile.InputProfile')}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography variant="h6" fontSize={16} color={theme.palette.text.secondary} fontWeight={400}>
+                  <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                     {t('userProfile.Gender')}
                   </Typography>
-                  <Typography fontSize={20} color={theme.palette.text.primary} fontWeight={600}>
+                  <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
                     {user.gender ? (user.gender === 'Male' ? t('userProfile.Male') : t('userProfile.Female')) : t('userProfile.InputProfile')}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography variant="h6" fontSize={16} color={theme.palette.text.secondary} fontWeight={400}>
+                  <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                     {t('userProfile.DOB')}
                   </Typography>
-                  <Typography fontSize={20} color={theme.palette.text.primary} fontWeight={600}>
+                  <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
                     {user.dob ? user.dob : t('userProfile.InputProfile')}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography variant="h6" fontSize={16} color={theme.palette.text.secondary} fontWeight={400}>
+                  <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                     {t('userProfile.Address')}
                   </Typography>
-                  <Typography fontSize={20} color={theme.palette.text.primary} fontWeight={600}>
+                  <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
                     {user.address ? user.address : t('userProfile.InputProfile')}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography variant="h6" fontSize={16} color={theme.palette.text.secondary} fontWeight={400}>
+                  <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                     Google
                   </Typography>
-                  <Typography fontSize={20} color={theme.palette.text.primary} fontWeight={600}>
+                  <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
                     {user.address ? user.address : t('userProfile.InputProfile')}
                   </Typography>
                 </Box>
@@ -329,9 +330,9 @@ const UserInformationComponent = () => {
         {/* Part 2 (Bottom, Driver License) */}
         <Box sx={{ marginTop: '32px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
           {/* Top Section (Title and Edit Button) */}
-          <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between' }}>
+          <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', width: '100%', justifyContent: 'space-between' }}>
             <Box sx={{ flexBasis: '70%', flexGrow: 1, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: '16px' }}>
-              <Typography variant="h6" fontWeight="bold">
+              <Typography variant="h6" fontWeight="bold" fontSize={isMobile ? 16 : 20}>
                 {t('licenseInfo.Title')}
               </Typography>
               {lisence?.status !== undefined && (
@@ -361,18 +362,18 @@ const UserInformationComponent = () => {
               )}
             </Box>
 
-            <Box sx={{ flexBasis: '30%', flexGrow: 1, display: 'flex', justifyContent: 'flex-end', gap: '16px' }}>
+            <Box sx={{ flexBasis: '30%', flexGrow: 1, display: 'flex', marginTop: isMobile ? '16px' : '0px' , justifyContent: 'flex-end', gap: '16px' }}>
               {isEditLisence ? (
                 <>
                   <MyCustomButton
                     borderRadius={8}
-                    fontSize={16}
+                    fontSize={isMobile ? 12 : 16}
                     fontWeight={400}
                     content={t('licenseInfo.BtnSave')}
                     onClick={() => handleSubmit()} />
                   <MyCustomButton
                     borderRadius={8}
-                    fontSize={16}
+                    fontSize={isMobile ? 12 : 16}
                     variant='outlined'
                     fontWeight={500}
                     content={t('licenseInfo.BtnCancel')}
@@ -384,7 +385,7 @@ const UserInformationComponent = () => {
               ) : (
                 <MyCustomButton
                   borderRadius={8}
-                  fontSize={16}
+                  fontSize={isMobile ? 12 : 16}
                   fontWeight={400}
                   content={t('licenseInfo.BtnEdit')}
                   onClick={() => setIsEditLisence(true)} />
@@ -393,8 +394,8 @@ const UserInformationComponent = () => {
           </Box>
 
           {/* Bottom Section (License Details and Image) */}
-          <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between', marginTop: '32px', gap: '32px' }}>
-            <Box sx={{ flexBasis: '50%', flexGrow: 1, display: 'flex', flexDirection: 'column', height: '270px', justifyContent: 'space-between' }}>
+          <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row' , width: '100%', justifyContent: 'space-between', marginTop: '32px', gap: '32px' }}>
+            <Box sx={{ flexBasis: '50%', flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '32px', justifyContent: 'space-between' }}>
               <Box>
                 <MyCustomeTextField
                   disabled={!isEditLisence}
@@ -453,7 +454,7 @@ const UserInformationComponent = () => {
               height: '270px',
             }}>
               {lisence ? (
-                <Avatar variant="rounded" sx={{ width: 373, height: 234 }} src={imagePreviewUrl} alt={user.name} />
+                <Avatar variant="rounded" sx={{ width: '100%', height: '100%' }} src={imagePreviewUrl} alt={user.name} />
               ) : (
                 <Typography fontWeight="500" sx={{ width: '100%', margin: '100px 0px' }} align="center">
                   {t('licenseInfo.Image')}
@@ -476,7 +477,7 @@ const UserInformationComponent = () => {
               <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%', marginTop: '16px' }}>
                 <MyCustomButton
                   borderRadius={8}
-                  fontSize={16}
+                  fontSize={isMobile ? 12 : 16}
                   fontWeight={400}
                   content={t('licenseInfo.BtnchooseLicense')}
                   onClick={onClickRefLicense} />

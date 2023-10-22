@@ -19,6 +19,7 @@ import theme from '../../../utils/theme';
 import { useAppSelector } from '../../../hooks/useAction';
 import { useDispatch } from 'react-redux';
 import { getUserInfo } from '../../../redux/reducers/authReducer';
+import useThemePage from '../../../hooks/useThemePage';
 
 interface ChildComponentProps {
     setType: React.Dispatch<React.SetStateAction<string>>;
@@ -28,6 +29,7 @@ const ChangeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
     const { t } = usei18next();
     const { user } = useAppSelector((state) => state.userInfo);
     const dispatch = useDispatch();
+    const { isMobile } = useThemePage();
     const formik = useFormik({
         initialValues: {
             name: user ? user.name : '',
@@ -80,7 +82,7 @@ const ChangeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
 
     return (
         <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <form onSubmit={handleSubmit} style={{ width: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <form onSubmit={handleSubmit} style={{ width: isMobile ? "100%" : "50%" , display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <MyCustomeTextField
                     name="name"
                     label={t('userProfile.Name')}

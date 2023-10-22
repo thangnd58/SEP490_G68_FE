@@ -33,7 +33,6 @@ const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, classNa
       type={type}
       style={{
         height: height || '100%',
-        fontSize: fontSize || 16,
         textTransform: uppercase ? 'uppercase' : 'none',
         borderRadius: borderRadius || 8,
         background: variant === 'outlined' ? '#fff' : '#8B4513',
@@ -46,6 +45,7 @@ const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, classNa
       <Typography
         width={"auto"}
         fontWeight= {fontWeight || '400'}
+        fontSize= {fontSize || 16}
         color={variant === 'outlined' ? '#8B4513' : '#fff'}
       >
         {content}
