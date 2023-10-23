@@ -174,7 +174,7 @@ const ChangeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
                 <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'start' }}>
                     {errors.address && touched.address && <ErrorMessage message={errors.address} />}
                 </Box>
-                <div style={{ marginTop: "16px" }}>
+                <Box style={{ marginTop: "16px" }}>
                     <MyCustomButton
                         borderRadius={8}
                         fontSize={16}
@@ -182,7 +182,7 @@ const ChangeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
                         content={t('changePassword.BtnChange')}
                         type="submit"
                     />
-                </div>
+                </Box>
             </form>
         </Box>
     );

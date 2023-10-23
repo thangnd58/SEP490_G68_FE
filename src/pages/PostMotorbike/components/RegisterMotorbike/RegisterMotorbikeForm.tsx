@@ -128,8 +128,8 @@ const RegisterMotorbikeForm = () => {
                 const imageString = selectedImages.map((image) => image.name).join(",");
                 const equipmentsString = selectedItems.join(",");
                 const formSubmit: MotorbikeRequest = {
-                    motorbikeName: values.model,
                     licensePlate: values.licensePlate,
+                    releaseYear: Number(values.year),
                     type: values.fuel,
                     priceRent: Number(values.defaultPrice),
                     equipments: equipmentsString,
@@ -140,7 +140,9 @@ const RegisterMotorbikeForm = () => {
                     image: imageString,
                     address: values.address,
                     location: values.lat + "," + values.lng,
-                    modelId: Number(values.model)
+                    modelId: Number(values.model),
+                    description: values.description,
+                    miscellaneous: values.miscellaneous
                 }
                 const response = await PostMotorbikeService.postMotorbike(formSubmit);
                 const params: ImageUpload = {
@@ -154,7 +156,7 @@ const RegisterMotorbikeForm = () => {
             } catch (error) {
                 ToastComponent("Upload Information Error", "error");
             }
-            finally{
+            finally {
                 navigate(ROUTES.user.listmotorbike);
             }
         }
@@ -218,28 +220,37 @@ const RegisterMotorbikeForm = () => {
         }
     };
 
-    // SELECT CONTROLLER
-    useEffect(() => {
-        PostMotorbikeService.getAllBrand().then((res) => {
-            if (res.length > 0) {
-                setListBrand(res);
+    const getAllBrand = async () => {
+        try {
+            const response = await PostMotorbikeService.getAllBrand();
+            if (response) {
+                setListBrand(response);
             }
-        });
-    }, []);
-    useEffect(() => {
-        ProvincesService.getAllProvinces().then((res) => {
-            if (res.length > 0) {
-                setListProvince(res);
+        } catch (error) {
+
+        }
+    }
+
+    const getAllProvince = async () => {
+        try {
+            const response = await ProvincesService.getAllProvinces();
+            if (response) {
+                setListProvince(response);
             }
-        });
+        } catch (error) {
+
+        }
+    }
+
+    useEffect(() => {
+        getAllBrand();
+        getAllProvince();
     }, []);
+
     useEffect(() => {
         if (values.brand === "") {
             setFieldValue("model", "");
         }
-    }, [values]);
-    useEffect(() => {
-
         if (values.brand !== "") {
             PostMotorbikeService.getModelByBrandId(values.brand).then((res) => {
                 if (res.length > 0) {
@@ -247,36 +258,29 @@ const RegisterMotorbikeForm = () => {
                 }
             });
         }
-    }, [values]);
+    }, [values.brand]);
     useEffect(() => {
-
+        if (values.province === "") {
+            setFieldValue("district", "");
+            setFieldValue("ward", "");
+        }
         if (values.province !== "") {
             ProvincesService.getDistrictsByProvince(values.province).then((res) => {
                 setListDistrict(res);
 
             });
         }
-    }, [values]);
+    }, [values.province]);
     useEffect(() => {
-
+        if (values.district === "") {
+            setFieldValue("ward", "");
+        }
         if (values.district !== "") {
             ProvincesService.getWardsByDistrict(values.district).then((res) => {
                 setListWard(res);
             });
         }
-    }, [values]);
-    useEffect(() => {
-        if (values.province === "") {
-            setFieldValue("district", "");
-            setFieldValue("ward", "");
-        }
-    }, [values]);
-    useEffect(() => {
-
-        if (values.district === "") {
-            setFieldValue("ward", "");
-        }
-    }, [values]);
+    }, [values.district]);
 
     // IMAGE CONTROLLER
     const handleAddImages = () => {
@@ -433,12 +437,6 @@ const RegisterMotorbikeForm = () => {
         setShowMenu(false);
     };
 
-    useEffect(() => {
-        if (value.trim() === '' || data.length === 0) {
-            setShowMenu(false);
-        }
-    }, [value]);
-
     return (
         <Box width={"100%"}>
             <Box>
@@ -492,7 +490,7 @@ const RegisterMotorbikeForm = () => {
                                         alt={`Selected Image ${index + 1}`}
                                         loading="lazy"
                                     />
-                                    <div
+                                    <Box
                                         style={{
                                             position: 'absolute',
                                             top: 0,
@@ -505,8 +503,8 @@ const RegisterMotorbikeForm = () => {
                                         onClick={() => handleRemoveImage(index)}
                                     >
                                         <CloseOutlined />
-                                    </div>
-                                    <div
+                                    </Box>
+                                    <Box
                                         style={{
                                             position: 'absolute',
                                             bottom: 0,
@@ -520,7 +518,7 @@ const RegisterMotorbikeForm = () => {
                                         }}
                                     >
                                         {index + 1}
-                                    </div>
+                                    </Box>
                                 </ImageListItem>
 
                             ))}
@@ -765,34 +763,34 @@ const RegisterMotorbikeForm = () => {
                         <Box sx={{ width: '100%' }}>
                             <Grid container spacing={2} columnSpacing={{ xs: 3, sm: 3, md: 3 }}>
                                 <Grid item xs={isMobile ? 6 : 4}>
-                                    <div onClick={() => handleItemClick("Raincoat")}>
+                                    <Box key="Raincoat" onClick={() => handleItemClick("Raincoat")}>
                                         <EquipmentItem isChosen={values.raincoat} icon={<RainCoatIcon />} label={t("postMotorbike.registedForm.raincoat")} />
-                                    </div>
+                                    </Box>
                                 </Grid>
                                 <Grid item xs={isMobile ? 6 : 4}>
-                                    <div onClick={() => handleItemClick("Helmet")}>
+                                    <Box key="Helmet" onClick={() => handleItemClick("Helmet")}>
                                         <EquipmentItem isChosen={values.helmet} icon={<HelmetIcon />} label={t("postMotorbike.registedForm.helmet")} />
-                                    </div>
+                                    </Box>
                                 </Grid>
                                 <Grid item xs={isMobile ? 6 : 4}>
-                                    <div onClick={() => handleItemClick("ReflectiveClothes")}>
+                                    <Box key="ReflectiveClothes" onClick={() => handleItemClick("ReflectiveClothes")}>
                                         <EquipmentItem isChosen={values.reflectiveClothes} icon={<ProtectClothesIcon />} label={t("postMotorbike.registedForm.reflectiveClothes")} />
-                                    </div>
+                                    </Box>
                                 </Grid>
                                 <Grid item xs={isMobile ? 6 : 4}>
-                                    <div onClick={() => handleItemClick("Bagage")}>
+                                    <Box key="Bagage" onClick={() => handleItemClick("Bagage")}>
                                         <EquipmentItem isChosen={values.bagage} icon={<CartIcon />} label={t("postMotorbike.registedForm.bagage")} />
-                                    </div>
+                                    </Box>
                                 </Grid>
                                 <Grid item xs={isMobile ? 6 : 4}>
-                                    <div onClick={() => handleItemClick("RepairKit")}>
+                                    <Box key="RepairKit" onClick={() => handleItemClick("RepairKit")}>
                                         <EquipmentItem isChosen={values.repairKit} icon={<RepairIcon />} label={t("postMotorbike.registedForm.repairKit")} />
-                                    </div>
+                                    </Box>
                                 </Grid>
                                 <Grid item xs={isMobile ? 6 : 4}>
-                                    <div onClick={() => handleItemClick("CaseTelephone")}>
+                                    <Box key="CaseTelephone" onClick={() => handleItemClick("CaseTelephone")}>
                                         <EquipmentItem isChosen={values.caseTelephone} icon={< TelephoneIcon />} label={t("postMotorbike.registedForm.caseTelephone")} />
-                                    </div>
+                                    </Box>
                                 </Grid>
                             </Grid>
                         </Box>
@@ -1045,7 +1043,7 @@ const RegisterMotorbikeForm = () => {
                                         </Box>
                                     ) : (
                                         <>
-                                            <div style={{ position: "relative", width: "100%" }}>
+                                            <Box style={{ position: "relative", width: "100%" }}>
                                                 <TextField
                                                     sx={{
                                                         width: "100%",
@@ -1105,7 +1103,7 @@ const RegisterMotorbikeForm = () => {
                                                             </MenuItem>
                                                         ))}
                                                 </Box>
-                                            </div>
+                                            </Box>
                                             <Box
                                                 display={"flex"}
                                                 justifyContent={"start"}

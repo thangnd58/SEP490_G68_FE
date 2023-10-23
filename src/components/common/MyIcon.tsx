@@ -1,4 +1,4 @@
-import { Badge, IconButton, Tooltip } from '@mui/material';
+import { Badge, Box, IconButton, Tooltip } from '@mui/material';
 import React from 'react'
 
 interface MyIconProps {
@@ -15,7 +15,7 @@ interface MyIconProps {
 
 export default function MyIcon(props: MyIconProps) {
     return (
-        <div>
+        <Box>
             {props.hasTooltip ? (
                 <Tooltip title={props.tooltipText} placement={props.position ? props.position : 'bottom'}>
                     <IconButton
@@ -44,6 +44,6 @@ export default function MyIcon(props: MyIconProps) {
                     </Badge>
                 </IconButton>
             )}
-        </div>
+        </Box>
     )
 }

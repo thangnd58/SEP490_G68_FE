@@ -1,11 +1,12 @@
 import React from 'react'
 import LoginForm from './components/LoginForm'
+import { Box } from '@mui/material'
 
 function Login() {
   return (
-    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+    <Box style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
       <LoginForm />
-    </div>
+    </Box>
   )
 }
 

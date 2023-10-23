@@ -7,9 +7,9 @@ export interface LayoutEmptyProps {
 
 const LayoutEmpty = ({ children }: LayoutEmptyProps) => {
     return (
-        <div>
+        <Box>
             <Box >{children}</Box>
-        </div>
+        </Box>
     )
 }
 

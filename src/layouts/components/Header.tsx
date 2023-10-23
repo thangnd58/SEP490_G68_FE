@@ -119,7 +119,7 @@ function Header() {
 
 
 
-                                <div
+                                <Box
                                     aria-owns={open ? 'hover-menu' : undefined}
                                     aria-haspopup="true"
                                     onMouseEnter={handlePopoverOpen}
@@ -219,7 +219,7 @@ function Header() {
                                         </>
 
                                     </Popover>
-                                </div>)}
+                                </Box>)}
                         </ListItem>
                     )}
                 </Box>
@@ -231,7 +231,7 @@ function Header() {
                 onClose={toggleDrawer}
             >
 
-                <div
+                <Box
                     style={{ width: "100%", height: "100%" }}
                     role="presentation"
                     onClick={toggleDrawer}
@@ -314,7 +314,7 @@ function Header() {
                             </Box>
                         )
                     }
-                </div>
+                </Box>
             </Drawer>
         </>
     );

@@ -228,10 +228,10 @@
       "table-cell-action": "Action",
       "badge-edit": "Edit",
       "status-approved": "Approved",
-      "status-pendingApproval": "Pending Approval",
-      "status-inOporation": "In Oporation",
+      "status-processing": "Processing",
+      "status-inoporation": "In Oporation",
       "status-rejected": "Rejected",
-      "status-onHiatus": "On Hiatus"
+      "status-onhiatus": "On Hiatus"
     },
     "registedForm": {
       "updateTitle": "Update Information",
