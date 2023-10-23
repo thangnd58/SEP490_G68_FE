@@ -61,7 +61,7 @@ const MotorbikeManagement = () => {
             field: 'id', headerName: t("dashBoardManager.motorbikeRentalManager.columnAction"), width: 100,
             renderCell: (params: any) => (
                 <Box sx={{ cursor: 'pointer' }}>
-                    <VisibilityOutlined onClick={() => navigate(`${ROUTES.admin.MotorbikeRegister}/${params.value}`)} />
+                    <VisibilityOutlined onClick={() => navigate(`${ROUTES.admin.motorbikeregister}/${params.value}`)} />
                 </Box>
             )
         },

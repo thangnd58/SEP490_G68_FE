@@ -106,3 +106,22 @@ export interface Motorbike {
     createDatetime: string,
     modelId: number
 }
+
+export interface MotorbikeRequest{
+    motorbikeName: string,
+    licensePlate: string,
+    type: string,
+    priceRent: number,
+    equipments: string,
+    fuelConsumption: number,
+    provinceId: number,
+    districtId: number,
+    wardId: number,
+    image: string,
+    address: string,
+    location: string,
+    // createDatetime: string,
+    modelId: number,
+}
+
+

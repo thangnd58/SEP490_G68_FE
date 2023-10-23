@@ -75,7 +75,7 @@ const LicenceManagement = () => {
             width: 100,
             renderCell: (params: any) => (
                 <Box sx={{ cursor: 'pointer' }}>
-                    <VisibilityOutlined onClick={() => navigate(`${ROUTES.admin.licenceRegister}/${params.value}`)} />
+                    <VisibilityOutlined onClick={() => navigate(`${ROUTES.admin.licenceregister}/${params.value}`)} />
                 </Box>
             )
         },
