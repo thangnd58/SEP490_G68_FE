@@ -362,7 +362,7 @@ const UserInformationComponent = () => {
               )}
             </Box>
 
-            <Box sx={{ flexBasis: '30%', flexGrow: 1, display: 'flex', marginTop: isMobile ? '16px' : '0px', justifyContent: 'flex-end', gap: '16px' }}>
+            <Box sx={{ flexBasis: '30%', flexGrow: 1, display: 'flex', marginTop: isMobile ? '16px' : '0px', justifyContent: isMobile ?'flex-start': 'flex-end', gap: '16px' }}>
               {isEditLisence ? (
                 <>
                   <MyCustomButton

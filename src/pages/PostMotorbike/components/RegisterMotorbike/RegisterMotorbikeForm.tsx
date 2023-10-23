@@ -24,6 +24,7 @@ import { saveAs } from 'file-saver';
 import UploadImageService from '../../../../services/UploadImageService';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../../utils/Constant';
+import useThemePage from '../../../../hooks/useThemePage';
 
 
 const RegisterMotorbikeForm = () => {
@@ -41,6 +42,8 @@ const RegisterMotorbikeForm = () => {
     const [selectedItems, setSelectedItems] = useState<string[]>([]);
     const [canSubmitting, setCanSubmitting] = useState(false);
     const navigate = useNavigate();
+    const { isMobile } = useThemePage();
+
 
     const MAX_IMAGES = 12;
     const MAX_IMAGE_SIZE_MB = 10;
@@ -97,8 +100,8 @@ const RegisterMotorbikeForm = () => {
             licensePlate: Yup.string()
                 .required(t("form.required")),
             images: Yup.array()
-                .min(1, "Image is required")
-                .max(12, "Image can not larger than 12"),
+                .min(1, "Bạn phải nhập ảnh cho xe")
+                .max(12, "Bạn chỉ có thể nhập tối đa 12 ảnh"),
             brand: Yup.string()
                 .required("Bạn phải chọn hãng xe"),
             model: Yup.string()
@@ -544,9 +547,9 @@ const RegisterMotorbikeForm = () => {
                         </Box>
                     }
                 />
-                {/* {errors.images && touched.images && (
+                {errors.images && touched.images && (
                     <ErrorMessage message={errors.images} />
-                )} */}
+                )}
 
                 <RegisterMotorbikeItem
                     title={t("postMotorbike.registedForm.basicInfo")}
@@ -555,7 +558,7 @@ const RegisterMotorbikeForm = () => {
                     item={
                         <Box sx={{ width: '100%' }}>
                             <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                <Grid item xs={6}>
+                                <Grid item xs={isMobile ? 12 : 6}>
                                     <RegisterMotorbikeItem
                                         title={t("postMotorbike.registedForm.brand")}
                                         fontSizeTitle='20px'
@@ -588,7 +591,7 @@ const RegisterMotorbikeForm = () => {
                                         <ErrorMessage message={errors.brand} />
                                     )}
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={isMobile ? 12 : 6}>
                                     <RegisterMotorbikeItem
                                         title={t("postMotorbike.registedForm.model")}
                                         fontSizeTitle='20px'
@@ -624,7 +627,7 @@ const RegisterMotorbikeForm = () => {
                                         <ErrorMessage message={errors.model} />
                                     )}
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={isMobile ? 12 : 6}>
                                     <RegisterMotorbikeItem
                                         title={t("postMotorbike.registedForm.year")}
                                         fontSizeTitle='20px'
@@ -659,7 +662,7 @@ const RegisterMotorbikeForm = () => {
                                         <ErrorMessage message={errors.year} />
                                     )}
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={isMobile ? 12 : 6}>
                                     <RegisterMotorbikeItem
                                         title={t("postMotorbike.registedForm.fuel")}
                                         fontSizeTitle='20px'
@@ -694,7 +697,7 @@ const RegisterMotorbikeForm = () => {
                                         <ErrorMessage message={errors.fuel} />
                                     )}
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={isMobile ? 12 : 6}>
                                     <RegisterMotorbikeItem
                                         title={t("postMotorbike.registedForm.fuelConsumption")}
                                         fontSizeTitle='20px'
@@ -760,33 +763,33 @@ const RegisterMotorbikeForm = () => {
                     isRequired={false}
                     item={
                         <Box sx={{ width: '100%' }}>
-                            <Grid container spacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                <Grid item xs={4}>
+                            <Grid container spacing={2} columnSpacing={{ xs: 3, sm: 3, md: 3 }}>
+                                <Grid item xs={isMobile ? 6 : 4}>
                                     <div onClick={() => handleItemClick("Raincoat")}>
                                         <EquipmentItem isChosen={values.raincoat} icon={<RainCoatIcon />} label={t("postMotorbike.registedForm.raincoat")} />
                                     </div>
                                 </Grid>
-                                <Grid item xs={4}>
+                                <Grid item xs={isMobile ? 6 : 4}>
                                     <div onClick={() => handleItemClick("Helmet")}>
                                         <EquipmentItem isChosen={values.helmet} icon={<HelmetIcon />} label={t("postMotorbike.registedForm.helmet")} />
                                     </div>
                                 </Grid>
-                                <Grid item xs={4}>
+                                <Grid item xs={isMobile ? 6 : 4}>
                                     <div onClick={() => handleItemClick("ReflectiveClothes")}>
                                         <EquipmentItem isChosen={values.reflectiveClothes} icon={<ProtectClothesIcon />} label={t("postMotorbike.registedForm.reflectiveClothes")} />
                                     </div>
                                 </Grid>
-                                <Grid item xs={4}>
+                                <Grid item xs={isMobile ? 6 : 4}>
                                     <div onClick={() => handleItemClick("Bagage")}>
                                         <EquipmentItem isChosen={values.bagage} icon={<CartIcon />} label={t("postMotorbike.registedForm.bagage")} />
                                     </div>
                                 </Grid>
-                                <Grid item xs={4}>
+                                <Grid item xs={isMobile ? 6 : 4}>
                                     <div onClick={() => handleItemClick("RepairKit")}>
                                         <EquipmentItem isChosen={values.repairKit} icon={<RepairIcon />} label={t("postMotorbike.registedForm.repairKit")} />
                                     </div>
                                 </Grid>
-                                <Grid item xs={4}>
+                                <Grid item xs={isMobile ? 6 : 4}>
                                     <div onClick={() => handleItemClick("CaseTelephone")}>
                                         <EquipmentItem isChosen={values.caseTelephone} icon={< TelephoneIcon />} label={t("postMotorbike.registedForm.caseTelephone")} />
                                     </div>
@@ -921,13 +924,13 @@ const RegisterMotorbikeForm = () => {
                 margin: '32px 0px',
                 overflowY: 'auto',
             }}>
-                <Box width={"30%"} height={"auto"} sx={{
+                <Box width={isMobile ? "70%" : "50%"} height={"auto"} sx={{
                     padding: "16px 32px",
                     backgroundColor: 'white',
                     borderRadius: '8px',
                 }}>
                     <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"start"} alignItems={"center"}>
-                        <Typography width={"100%"} variant='h2' color={theme.palette.text.primary} fontSize={"24px"} fontWeight={600} textAlign={"start"}>
+                        <Typography width={"100%"} variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "20px" : "24px"} fontWeight={600} textAlign={"start"}>
                             {t("postMotorbike.registedForm.selectAddress")}
                         </Typography>
                         <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>

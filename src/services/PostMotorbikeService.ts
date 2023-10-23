@@ -5,6 +5,7 @@ import api from "./BaseService"
 const apiGetAllBrand = '/brands'
 const apiGetAllMotorbike = '/models'
 const apiPostMotorbike = '/motorbike'
+const apiGetListRegisterMotorbike = '/motorbikes'
 
 export const PostMotorbikeService = {
     getAllBrand: async (): Promise<Brand[]> => {
@@ -17,6 +18,11 @@ export const PostMotorbikeService = {
     },
     postMotorbike: async (motorbike: MotorbikeRequest): Promise<string> => {
         const response = await api.post(apiPostMotorbike, motorbike)
+        return response.data
+    },
+
+    getListRegisterMotorbike: async (): Promise<Motorbike[]> => {
+        const response = await api.get(apiGetListRegisterMotorbike)
         return response.data
     }
     
