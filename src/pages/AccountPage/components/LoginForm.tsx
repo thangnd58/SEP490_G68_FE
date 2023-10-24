@@ -71,7 +71,6 @@ const FormStyle = styled('form')(({ theme }) => ({
     justifyContent: 'center',
     marginBottom: '1.5rem',
     '& .login-form-content': {
-      width: '80%',
       '& .error-text': {
         color: theme.palette.error.main,
       },
@@ -163,12 +162,12 @@ const LoginForm = () => {
 
   return (
     <FormStyle className='form' onSubmit={handleSubmit}>
-      <Paper elevation={3} sx={{ width: isMobile ? '80%' : '30%'}}>
+      <Paper elevation={3} sx={{ width: isMobile ? '75%' : '30%'}}>
         <Typography className='login'>
           {t("form.login")}
         </Typography>
         <Box className='login-form'>
-          <Box className="login-form-content">
+          <Box className="login-form-content" sx={{width: isMobile ? "100%" : "80%"}}>
             <TextField
               name='email'
               label={t("form.email")}

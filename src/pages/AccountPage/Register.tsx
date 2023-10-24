@@ -1,11 +1,12 @@
 import React from 'react'
 import RegisterForm from './components/RegisterForm'
+import { Box } from '@mui/material'
 
 function Register() {
   return (
-    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <Box style={{display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <RegisterForm />
-    </div>
+    </Box>
   )
 }
 

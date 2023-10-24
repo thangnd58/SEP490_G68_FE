@@ -91,6 +91,7 @@ const MotorbikeManagement = () => {
                     initialState={{
                         pagination: { paginationModel: { pageSize: 10 } },
                     }}
+                    
                     pageSizeOptions={[5, 10, 25]}
                     columns={columns}
                     loading={listMotorbike.length === 0}

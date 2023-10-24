@@ -6,6 +6,7 @@ import theme from '../utils/theme';
 import { useAppSelector } from '../hooks/useAction';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../utils/Constant';
+import usei18next from '../hooks/usei18next';
 
 export interface LayoutAdminProps {
     children: JSX.Element;
@@ -14,6 +15,7 @@ export interface LayoutAdminProps {
 const LayoutAdmin = ({ children }: LayoutAdminProps) => {
     const { user } = useAppSelector((state) => state.userInfo);
     const navigate = useNavigate();
+    const {t} = usei18next();
     return (
         <Box display="flex" flexDirection="column">
             {/* Header */}
@@ -33,7 +35,7 @@ const LayoutAdmin = ({ children }: LayoutAdminProps) => {
                         <Box display={'flex'} justifyContent={'center'} alignItems={'start'} flexDirection={"column"} gap={"2px"}>
                             <Typography variant='h1' fontSize={"18px"} sx={{ fontWeight: "600" }} color={theme.palette.common.white}>{user?.name}</Typography>
                             <Typography variant='h1' fontSize={"12px"} sx={{ fontWeight: "400", fontStyle: "italic" }} color={theme.palette.common.white}>{user?.email}</Typography>
-                            <Typography variant='h1' fontSize={"10px"} sx={{ fontWeight: "400", mt: "4px" }} color={theme.palette.common.white}>Adminstrator</Typography>
+                            <Typography variant='h1' fontSize={"10px"} sx={{ fontWeight: "400", mt: "4px" }} color={theme.palette.common.white}>{user?.role.roleName === 'Admin' ? t("layout.admin") : t("layout.staff")}</Typography>
                         </Box>
                     </Box>
                     <Box sx={{ border: "1px solid #E0E0E0", margin:"16px", borderRadius: '4px' }}>

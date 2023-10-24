@@ -6,7 +6,7 @@ import usei18next from '../../hooks/usei18next';
 import { useNavigate } from 'react-router';
 import MenuIcon from '@mui/icons-material/Menu';
 import useThemePage from '../../hooks/useThemePage';
-import { AccountBox, ExitToApp, ListAlt, ManageAccounts, Notifications, Search, VpnKey } from '@mui/icons-material';
+import { AccountBox, Close, ExitToApp, Home, ListAlt, Loyalty, ManageAccounts, Notifications, Search, VpnKey } from '@mui/icons-material';
 import { LogoHeader, NotificationIcon, UnitedKingDomFlag, VietNamFlag } from '../../assets/images';
 import { ROUTES } from '../../utils/Constant';
 import MyIcon from '../../components/common/MyIcon';
@@ -119,7 +119,7 @@ function Header() {
 
 
 
-                                <div
+                                <Box
                                     aria-owns={open ? 'hover-menu' : undefined}
                                     aria-haspopup="true"
                                     onMouseEnter={handlePopoverOpen}
@@ -219,52 +219,102 @@ function Header() {
                                         </>
 
                                     </Popover>
-                                </div>)}
+                                </Box>)}
                         </ListItem>
                     )}
                 </Box>
             </AppBar>
             <Drawer
-                anchor="right"
+                sx={{ '& .MuiDrawer-paper': { width: "100%" } }}
+                anchor="left"
                 open={drawerOpen}
                 onClose={toggleDrawer}
             >
-                <div
+
+                <Box
+                    style={{ width: "100%", height: "100%" }}
                     role="presentation"
                     onClick={toggleDrawer}
                     onKeyDown={toggleDrawer}
                 >
-                    <List>
-                        {isLogin ? (
-                            <>
-                                <ListItem onClick={() => navigate(ROUTES.user.userprofile)} sx={{ borderBottom: '1px solid gray' }}>
-                                    <ListItemText primary={t('header.userprofile')} />
-                                </ListItem>
-                                <ListItem onClick={() => navigate(ROUTES.admin.managemotorbikes)} sx={{ borderBottom: '1px solid gray' }}>
-                                    <ListItemText primary={t('header.dashboard')} />
-                                </ListItem>
-                                <ListItem onClick={() => {
-                                    UserService.logout();
-                                    logout();
-                                }} sx={{ borderBottom: '1px solid gray' }}>
-                                    <ListItemText primary={t('header.logout')} />
-                                </ListItem>
-                            </>
+                    {isLogin ?
+                        (
+                            <Box height={"100%"} width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} sx={{}}>
+                                {/* header */}
+                                <Box height={"10%"} width={"95%"} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 16px' }}>
+                                    <LogoFull size={150} />
+                                    <MyIcon icon={<Close />} hasTooltip tooltipText={t("header.btn_close")} position='bottom' />
+                                </Box>
+                                {/* content */}
+                                <Box height={"90%"} sx={{ display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: 'center', margin: '0 auto', padding: '32px', gap: '16px' }}>
+                                    <Box
+                                        width={"100%"}
+                                        sx={{ cursor: "pointer", display: 'flex', justifyContent: 'center', gap: '16px', alignItems: 'center', padding: '0px 16px' }}
+                                        onClick={() => {
+                                            setAnchorEl(null);
+                                            navigate(ROUTES.user.userprofile);
+                                        }}
+                                    >
+                                        <Avatar sx={{ width: 75, height: 75 }} src={(user && user.avatarUrl ? user.avatarUrl : '')} />
+                                        <Typography variant='h3' fontSize={"24px"} sx={{ fontWeight: "500", }}>
+                                            {user?.name}
+                                        </Typography>
+                                    </Box>
+                                    {
+                                        user?.role.roleName === 'Admin' || user?.role.roleName === 'Staff' ?
+                                            (
+                                                <MyCustomButton iconPosition='left' icon={<ManageAccounts sx={{ color: "#8B4513" }} />} width='100%' onClick={() => navigate(ROUTES.admin.managemotorbikes)} content={t("header.dashboard")} variant='outlined' />
+                                            ) : (
+                                                <>
+                                                    <MyCustomButton iconPosition='left' icon={<ListAlt sx={{ color: "#8B4513" }} />} width='100%' onClick={() => navigate(ROUTES.user.listmotorbike)} content={t('header.mylistmotorbike')} variant='outlined' />
+                                                    <MyCustomButton iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick={() => navigate(ROUTES.user.listmotorbike)} content={t('header.btn_promotion')} variant='outlined' />
+                                                </>
+                                            )
+                                    }
+                                    <Box width={"100%"} sx={{ display: 'flex', justifyContent: 'center', gap: '8px', alignItems: 'center', padding: '0px 16px' }}>
+                                        <MyIcon icon={<LanguageBox />} hasTooltip tooltipText={isVn ? 'Tiếng Việt' : 'English'} position='left' />
+                                        <Typography variant='h3' fontSize={"16px"} sx={{ fontWeight: "500", }}>
+                                            {isVn ? 'Tiếng Việt' : 'English'}
+                                        </Typography>
+
+                                    </Box>
+                                    <Divider sx={{ marginBottom: "16px", borderBottom: '1px solid #B1B5C3', width: "100%" }} />
+                                    <MyCustomButton iconPosition='left' icon={<Home sx={{ color: "#8B4513" }} />} width='100%' onClick={() => navigate(ROUTES.homepage)} content={t("header.home_page")} variant='outlined' />
+                                    <MyCustomButton iconPosition='left' icon={<VpnKey sx={{ color: "#8B4513" }} />} width='100%' onClick={() => navigate(ROUTES.user.registermotorbike)} content={t('header.registermotorbike')} variant='outlined' />
+                                    <MyCustomButton iconPosition='left' icon={<ExitToApp sx={{ color: "#fff" }} />} width='100%' onClick={() => {
+                                        setAnchorEl(null);
+                                        UserService.logout();
+                                        logout();
+                                    }} content={t('header.logout')} />
+                                </Box>
+                            </Box>
                         ) : (
-                            <>
-                                <ListItem onClick={() => navigate(ROUTES.account.register)} sx={{ borderBottom: '1px solid gray' }}>
-                                    <ListItemText primary={t('header.register')} />
-                                </ListItem>
-                                <ListItem onClick={() => navigate(ROUTES.account.login)} sx={{ borderBottom: '1px solid gray' }}>
-                                    <ListItemText primary={t('header.login')} />
-                                </ListItem>
-                            </>
-                        )}
-                        <ListItem>
-                            <MyIcon icon={<LanguageBox />} hasTooltip tooltipText={isVn ? 'Tiếng Việt' : 'English'} position='left' />
-                        </ListItem>
-                    </List>
-                </div>
+                            <Box height={"100%"} width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} sx={{}}>
+                                {/* header */}
+                                <Box height={"10%"} width={"90%"} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 16px' }}>
+                                    <LogoFull size={150} />
+                                    <MyIcon icon={<Close />} hasTooltip tooltipText={t("header.btn_close")} position='bottom' />
+                                </Box>
+                                {/* content */}
+                                <Box height={"90%"} sx={{ display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: 'center', margin: '0 auto', padding: '32px', gap: '16px' }}>
+                                    <MyCustomButton width='100%' onClick={() => navigate(ROUTES.account.login)} content={t('header.login')} />
+                                    <MyCustomButton width='100%' onClick={() => navigate(ROUTES.account.register)} content={t('header.register')} variant='outlined' />
+                                    <Box width={"100%"} sx={{ display: 'flex', justifyContent: 'center', gap: '8px', alignItems: 'center', padding: '0px 16px' }}>
+                                        <MyIcon icon={<LanguageBox />} hasTooltip tooltipText={isVn ? 'Tiếng Việt' : 'English'} position='left' />
+                                        <Typography variant='h3' fontSize={"16px"} sx={{ fontWeight: "500", }}>
+                                            {isVn ? 'Tiếng Việt' : 'English'}
+                                        </Typography>
+
+                                    </Box>
+                                    <Divider sx={{ marginBottom: "16px", borderBottom: '1px solid #B1B5C3', width: "100%" }} />
+                                    <MyCustomButton iconPosition='left' icon={<Home sx={{ color: "#8B4513" }} />} width='100%' onClick={() => navigate(ROUTES.homepage)} content={t("header.home_page")} variant='outlined' />
+                                    <MyCustomButton iconPosition='left' icon={<VpnKey sx={{ color: "#8B4513" }} />} width='100%' onClick={() => navigate(ROUTES.user.registermotorbike)} content={t('header.registermotorbike')} variant='outlined' />
+
+                                </Box>
+                            </Box>
+                        )
+                    }
+                </Box>
             </Drawer>
         </>
     );

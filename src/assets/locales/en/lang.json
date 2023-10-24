@@ -8,7 +8,13 @@
     "dashboard": "Dash Board",
     "mylistmotorbike": "My List Motorbike",
     "registermotorbike": "Register Motorbike",
-    "home_page": "Home Page"
+    "home_page": "Home Page",
+    "btn_close": "Close",
+    "btn_promotion": "Promotion"
+  },
+  "layout": {
+    "admin": "Adminstrator",
+    "staff": "Staff"
   },
   "form": {
     "login": "Login",
@@ -247,10 +253,10 @@
       "table-cell-action": "Action",
       "badge-edit": "Edit",
       "status-approved": "Approved",
-      "status-pendingApproval": "Pending Approval",
-      "status-inOporation": "In Oporation",
+      "status-processing": "Processing",
+      "status-inoporation": "In Oporation",
       "status-rejected": "Rejected",
-      "status-onHiatus": "On Hiatus"
+      "status-onhiatus": "On Hiatus"
     },
     "registedForm": {
       "updateTitle": "Update Information",

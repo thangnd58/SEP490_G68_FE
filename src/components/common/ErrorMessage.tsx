@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Typography } from "@mui/material";
 import theme from "../../utils/theme";
 
-const ErrorMessage = ({ message }: { message: string }) => {
+const ErrorMessage = ({ message }: { message: any }) => {
   const [isVisible, setIsVisible] = useState(true);
 
 //   useEffect(() => {

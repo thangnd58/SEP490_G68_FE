@@ -24,6 +24,7 @@ import { saveAs } from 'file-saver';
 import UploadImageService from '../../../../services/UploadImageService';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../../utils/Constant';
+import useThemePage from '../../../../hooks/useThemePage';
 
 
 const RegisterMotorbikeForm = () => {
@@ -41,6 +42,8 @@ const RegisterMotorbikeForm = () => {
     const [selectedItems, setSelectedItems] = useState<string[]>([]);
     const [canSubmitting, setCanSubmitting] = useState(false);
     const navigate = useNavigate();
+    const { isMobile } = useThemePage();
+
 
     const MAX_IMAGES = 12;
     const MAX_IMAGE_SIZE_MB = 10;
@@ -97,8 +100,8 @@ const RegisterMotorbikeForm = () => {
             licensePlate: Yup.string()
                 .required(t("form.required")),
             images: Yup.array()
-                .min(1, "Image is required")
-                .max(12, "Image can not larger than 12"),
+                .min(1, "Bạn phải nhập ảnh cho xe")
+                .max(12, "Bạn chỉ có thể nhập tối đa 12 ảnh"),
             brand: Yup.string()
                 .required("Bạn phải chọn hãng xe"),
             model: Yup.string()
@@ -125,8 +128,8 @@ const RegisterMotorbikeForm = () => {
                 const imageString = selectedImages.map((image) => image.name).join(",");
                 const equipmentsString = selectedItems.join(",");
                 const formSubmit: MotorbikeRequest = {
-                    motorbikeName: values.model,
                     licensePlate: values.licensePlate,
+                    releaseYear: Number(values.year),
                     type: values.fuel,
                     priceRent: Number(values.defaultPrice),
                     equipments: equipmentsString,
@@ -137,7 +140,9 @@ const RegisterMotorbikeForm = () => {
                     image: imageString,
                     address: values.address,
                     location: values.lat + "," + values.lng,
-                    modelId: Number(values.model)
+                    modelId: Number(values.model),
+                    description: values.description,
+                    miscellaneous: values.miscellaneous
                 }
                 const response = await PostMotorbikeService.postMotorbike(formSubmit);
                 const params: ImageUpload = {
@@ -151,7 +156,7 @@ const RegisterMotorbikeForm = () => {
             } catch (error) {
                 ToastComponent("Upload Information Error", "error");
             }
-            finally{
+            finally {
                 navigate(ROUTES.user.listmotorbike);
             }
         }
@@ -215,28 +220,37 @@ const RegisterMotorbikeForm = () => {
         }
     };
 
-    // SELECT CONTROLLER
-    useEffect(() => {
-        PostMotorbikeService.getAllBrand().then((res) => {
-            if (res.length > 0) {
-                setListBrand(res);
+    const getAllBrand = async () => {
+        try {
+            const response = await PostMotorbikeService.getAllBrand();
+            if (response) {
+                setListBrand(response);
             }
-        });
-    }, []);
-    useEffect(() => {
-        ProvincesService.getAllProvinces().then((res) => {
-            if (res.length > 0) {
-                setListProvince(res);
+        } catch (error) {
+
+        }
+    }
+
+    const getAllProvince = async () => {
+        try {
+            const response = await ProvincesService.getAllProvinces();
+            if (response) {
+                setListProvince(response);
             }
-        });
+        } catch (error) {
+
+        }
+    }
+
+    useEffect(() => {
+        getAllBrand();
+        getAllProvince();
     }, []);
+
     useEffect(() => {
         if (values.brand === "") {
             setFieldValue("model", "");
         }
-    }, [values]);
-    useEffect(() => {
-
         if (values.brand !== "") {
             PostMotorbikeService.getModelByBrandId(values.brand).then((res) => {
                 if (res.length > 0) {
@@ -244,36 +258,29 @@ const RegisterMotorbikeForm = () => {
                 }
             });
         }
-    }, [values]);
+    }, [values.brand]);
     useEffect(() => {
-
+        if (values.province === "") {
+            setFieldValue("district", "");
+            setFieldValue("ward", "");
+        }
         if (values.province !== "") {
             ProvincesService.getDistrictsByProvince(values.province).then((res) => {
                 setListDistrict(res);
 
             });
         }
-    }, [values]);
+    }, [values.province]);
     useEffect(() => {
-
+        if (values.district === "") {
+            setFieldValue("ward", "");
+        }
         if (values.district !== "") {
             ProvincesService.getWardsByDistrict(values.district).then((res) => {
                 setListWard(res);
             });
         }
-    }, [values]);
-    useEffect(() => {
-        if (values.province === "") {
-            setFieldValue("district", "");
-            setFieldValue("ward", "");
-        }
-    }, [values]);
-    useEffect(() => {
-
-        if (values.district === "") {
-            setFieldValue("ward", "");
-        }
-    }, [values]);
+    }, [values.district]);
 
     // IMAGE CONTROLLER
     const handleAddImages = () => {
@@ -430,12 +437,6 @@ const RegisterMotorbikeForm = () => {
         setShowMenu(false);
     };
 
-    useEffect(() => {
-        if (value.trim() === '' || data.length === 0) {
-            setShowMenu(false);
-        }
-    }, [value]);
-
     return (
         <Box width={"100%"}>
             <Box>
@@ -489,7 +490,7 @@ const RegisterMotorbikeForm = () => {
                                         alt={`Selected Image ${index + 1}`}
                                         loading="lazy"
                                     />
-                                    <div
+                                    <Box
                                         style={{
                                             position: 'absolute',
                                             top: 0,
@@ -502,8 +503,8 @@ const RegisterMotorbikeForm = () => {
                                         onClick={() => handleRemoveImage(index)}
                                     >
                                         <CloseOutlined />
-                                    </div>
-                                    <div
+                                    </Box>
+                                    <Box
                                         style={{
                                             position: 'absolute',
                                             bottom: 0,
@@ -517,7 +518,7 @@ const RegisterMotorbikeForm = () => {
                                         }}
                                     >
                                         {index + 1}
-                                    </div>
+                                    </Box>
                                 </ImageListItem>
 
                             ))}
@@ -544,9 +545,9 @@ const RegisterMotorbikeForm = () => {
                         </Box>
                     }
                 />
-                {/* {errors.images && touched.images && (
+                {errors.images && touched.images && (
                     <ErrorMessage message={errors.images} />
-                )} */}
+                )}
 
                 <RegisterMotorbikeItem
                     title={t("postMotorbike.registedForm.basicInfo")}
@@ -555,7 +556,7 @@ const RegisterMotorbikeForm = () => {
                     item={
                         <Box sx={{ width: '100%' }}>
                             <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                <Grid item xs={6}>
+                                <Grid item xs={isMobile ? 12 : 6}>
                                     <RegisterMotorbikeItem
                                         title={t("postMotorbike.registedForm.brand")}
                                         fontSizeTitle='20px'
@@ -588,7 +589,7 @@ const RegisterMotorbikeForm = () => {
                                         <ErrorMessage message={errors.brand} />
                                     )}
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={isMobile ? 12 : 6}>
                                     <RegisterMotorbikeItem
                                         title={t("postMotorbike.registedForm.model")}
                                         fontSizeTitle='20px'
@@ -624,7 +625,7 @@ const RegisterMotorbikeForm = () => {
                                         <ErrorMessage message={errors.model} />
                                     )}
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={isMobile ? 12 : 6}>
                                     <RegisterMotorbikeItem
                                         title={t("postMotorbike.registedForm.year")}
                                         fontSizeTitle='20px'
@@ -659,7 +660,7 @@ const RegisterMotorbikeForm = () => {
                                         <ErrorMessage message={errors.year} />
                                     )}
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={isMobile ? 12 : 6}>
                                     <RegisterMotorbikeItem
                                         title={t("postMotorbike.registedForm.fuel")}
                                         fontSizeTitle='20px'
@@ -694,7 +695,7 @@ const RegisterMotorbikeForm = () => {
                                         <ErrorMessage message={errors.fuel} />
                                     )}
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={isMobile ? 12 : 6}>
                                     <RegisterMotorbikeItem
                                         title={t("postMotorbike.registedForm.fuelConsumption")}
                                         fontSizeTitle='20px'
@@ -760,36 +761,36 @@ const RegisterMotorbikeForm = () => {
                     isRequired={false}
                     item={
                         <Box sx={{ width: '100%' }}>
-                            <Grid container spacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                <Grid item xs={4}>
-                                    <div onClick={() => handleItemClick("Raincoat")}>
+                            <Grid container spacing={2} columnSpacing={{ xs: 3, sm: 3, md: 3 }}>
+                                <Grid item xs={isMobile ? 6 : 4}>
+                                    <Box key="Raincoat" onClick={() => handleItemClick("Raincoat")}>
                                         <EquipmentItem isChosen={values.raincoat} icon={<RainCoatIcon />} label={t("postMotorbike.registedForm.raincoat")} />
-                                    </div>
+                                    </Box>
                                 </Grid>
-                                <Grid item xs={4}>
-                                    <div onClick={() => handleItemClick("Helmet")}>
+                                <Grid item xs={isMobile ? 6 : 4}>
+                                    <Box key="Helmet" onClick={() => handleItemClick("Helmet")}>
                                         <EquipmentItem isChosen={values.helmet} icon={<HelmetIcon />} label={t("postMotorbike.registedForm.helmet")} />
-                                    </div>
+                                    </Box>
                                 </Grid>
-                                <Grid item xs={4}>
-                                    <div onClick={() => handleItemClick("ReflectiveClothes")}>
+                                <Grid item xs={isMobile ? 6 : 4}>
+                                    <Box key="ReflectiveClothes" onClick={() => handleItemClick("ReflectiveClothes")}>
                                         <EquipmentItem isChosen={values.reflectiveClothes} icon={<ProtectClothesIcon />} label={t("postMotorbike.registedForm.reflectiveClothes")} />
-                                    </div>
+                                    </Box>
                                 </Grid>
-                                <Grid item xs={4}>
-                                    <div onClick={() => handleItemClick("Bagage")}>
+                                <Grid item xs={isMobile ? 6 : 4}>
+                                    <Box key="Bagage" onClick={() => handleItemClick("Bagage")}>
                                         <EquipmentItem isChosen={values.bagage} icon={<CartIcon />} label={t("postMotorbike.registedForm.bagage")} />
-                                    </div>
+                                    </Box>
                                 </Grid>
-                                <Grid item xs={4}>
-                                    <div onClick={() => handleItemClick("RepairKit")}>
+                                <Grid item xs={isMobile ? 6 : 4}>
+                                    <Box key="RepairKit" onClick={() => handleItemClick("RepairKit")}>
                                         <EquipmentItem isChosen={values.repairKit} icon={<RepairIcon />} label={t("postMotorbike.registedForm.repairKit")} />
-                                    </div>
+                                    </Box>
                                 </Grid>
-                                <Grid item xs={4}>
-                                    <div onClick={() => handleItemClick("CaseTelephone")}>
+                                <Grid item xs={isMobile ? 6 : 4}>
+                                    <Box key="CaseTelephone" onClick={() => handleItemClick("CaseTelephone")}>
                                         <EquipmentItem isChosen={values.caseTelephone} icon={< TelephoneIcon />} label={t("postMotorbike.registedForm.caseTelephone")} />
-                                    </div>
+                                    </Box>
                                 </Grid>
                             </Grid>
                         </Box>
@@ -921,13 +922,13 @@ const RegisterMotorbikeForm = () => {
                 margin: '32px 0px',
                 overflowY: 'auto',
             }}>
-                <Box width={"30%"} height={"auto"} sx={{
+                <Box width={isMobile ? "70%" : "50%"} height={"auto"} sx={{
                     padding: "16px 32px",
                     backgroundColor: 'white',
                     borderRadius: '8px',
                 }}>
                     <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"start"} alignItems={"center"}>
-                        <Typography width={"100%"} variant='h2' color={theme.palette.text.primary} fontSize={"24px"} fontWeight={600} textAlign={"start"}>
+                        <Typography width={"100%"} variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "20px" : "24px"} fontWeight={600} textAlign={"start"}>
                             {t("postMotorbike.registedForm.selectAddress")}
                         </Typography>
                         <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
@@ -1042,7 +1043,7 @@ const RegisterMotorbikeForm = () => {
                                         </Box>
                                     ) : (
                                         <>
-                                            <div style={{ position: "relative", width: "100%" }}>
+                                            <Box style={{ position: "relative", width: "100%" }}>
                                                 <TextField
                                                     sx={{
                                                         width: "100%",
@@ -1102,7 +1103,7 @@ const RegisterMotorbikeForm = () => {
                                                             </MenuItem>
                                                         ))}
                                                 </Box>
-                                            </div>
+                                            </Box>
                                             <Box
                                                 display={"flex"}
                                                 justifyContent={"start"}
