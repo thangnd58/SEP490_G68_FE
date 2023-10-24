@@ -246,6 +246,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
             <Box>
               <Avatar variant="rounded" sx={{ width: 200, height: 200, marginTop: isMobile ? '16px' : '0px' }} src={user.avatarUrl} alt={user.name} />
               <input
+                aria-label='upload avatar'
                 ref={inputRef}
                 type="file"
                 style={{ display: 'none' }}
@@ -484,6 +485,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
 
           {/* Upload Button */}
           <input
+            aria-label='upload license'
             ref={inputRefLicense}
             type="file"
             style={{ display: 'none' }}

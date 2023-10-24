@@ -316,10 +316,11 @@
       "address": "Địa chỉ",
       "addressPlaceHolder": "Nhập địa chỉ",
       "btnConfirm": "Xác nhận",
-      "miscellaneous": "Thông tin khác",
+      "miscellaneous": "Điều khoản khác",
       "miscellaneousSecondTitle": "Nhập các yêu cầu khác cho khách hàng của bạn",
       "miscellaneousPlaceHolder": "Ví dụ: Không cho thuê cho người dưới 18 tuổi",
-      "btnSubmit": "Đăng ký"
+      "btnSubmit": "Đăng ký",
+      "terms_and_conditions": "1.Yêu cầu tuổi tối thiểu: Người thuê xe phải đủ tuổi theo quy định của công ty cho thuê xe. Thông thường, tuổi tối thiểu là từ 21 đến 25 tuổi.\\n\\n2.Bằng lái hợp lệ: Người thuê xe cần có bằng lái xe hợp lệ và đã qua các bài kiểm tra và kiểm tra định kỳ nếu có.\\n\\n3.Thời gian thuê: Cần xác định thời gian thuê xe, bao gồm ngày và giờ thuê xe cũng như thời gian trả xe.\\n\\n3.Phí thuê và đặt cọc: Cần biết giá thuê xe và nếu có, mức đặt cọc. Đặt cọc thường được trả trước và hoàn lại sau khi trả xe nếu không có thiệt hại.\\n\\n5.Bảo hiểm: Nắm rõ loại bảo hiểm bao gồm trong hợp đồng thuê xe. Bảo hiểm cho xe, người và tài sản khác có thể được yêu cầu hoặc cung cấp riêng biệt.\\n\\n6.Hạn chế quãng đường: Các hạn chế về số dặm hoặc quãng đường có thể được áp dụng. Vi phạm hạn chế này có thể dẫn đến các khoản phí phạt.\\n\\n7.Nhiên liệu: Biết rõ quy định về nhiên liệu, bao gồm việc trả xe với mức nhiên liệu tương đương như khi nhận xe.\\n\\n8.Phí trễ: Hiểu về các phí phạt nếu trả xe muộn hơn thời gian thuê.\\n\\n9.Điều khoản bảo trì và sửa chữa: Xem xét các điều khoản về bảo trì và sửa chữa xe trong trường hợp cần thiết.\\n\\n10.Hủy đặt xe: Nắm rõ quy định về hủy đặt xe và hoàn trả tiền nếu cần.\\n\\n11.Lưu ý về tiền mặt và thẻ tín dụng: Nếu có, kiểm tra phương thức thanh toán được chấp nhận.\\n\\n12.Thiệt hại và trả xe: Xác định trạng thái của xe khi nhận và ghi chú bất kỳ thiệt hại nào. Điều này có thể được kiểm tra trên biểu mẫu kiểm tra xe.\\n\\n13.Sử dụng xe ngoài vùng quy định: Nếu bạn dự định sử dụng xe ngoài khu vùng quy định, cần thông báo và hỏi xin sự cho phép từ công ty cho thuê xe.\\n\\n14.Chấp thuận điều khoản: Người thuê xe cần đọc và chấp thuận tất cả các điều khoản và điều kiện trước khi ký hợp đồng thuê xe."
     }
   }
 }

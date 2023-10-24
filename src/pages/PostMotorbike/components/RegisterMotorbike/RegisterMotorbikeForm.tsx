@@ -46,6 +46,8 @@ const RegisterMotorbikeForm = () => {
     const { isMobile } = useThemePage();
     const { id } = useParams();
     const [listImageFiles, setListImageFiles] = useState<File[]>([]);
+    const [getBrandName, setGetBrandName] = useState("");
+    const [getModelName, setGetModelName] = useState("");
 
 
     const MAX_IMAGES = 12;
@@ -188,11 +190,9 @@ const RegisterMotorbikeForm = () => {
                     address: values.address,
                     location: values.lat + "," + values.lng,
                     modelId: Number(values.model),
-                    description: values.description,
-                    miscellaneous: values.miscellaneous
+                    description: values.description === "" ? (getBrandName + " " + getModelName + " " + values.year) : values.description,
+                    miscellaneous: values.miscellaneous === "" ? t("postMotorbike.registedForm.terms_and_conditions") : values.miscellaneous,
                 }
-
-                console.log(formSubmit);
 
                 if (id) {
                     formSubmit.id = Number(id);
@@ -223,6 +223,7 @@ const RegisterMotorbikeForm = () => {
 
             } catch (error) {
                 ToastComponent("Upload Information Error", "error");
+                setCanSubmitting(false);
             }
             finally {
             }
@@ -315,6 +316,7 @@ const RegisterMotorbikeForm = () => {
     }, []);
 
     useEffect(() => {
+        setGetBrandName(listBrand.find((brand) => brand.id === Number(values.brand))?.brandName || "");
         if (values.brand === "") {
             setFieldValue("model", "");
         }
@@ -326,6 +328,11 @@ const RegisterMotorbikeForm = () => {
             });
         }
     }, [values.brand]);
+    
+    useEffect(() => {
+        setGetModelName(listModel.find((model) => model.id === Number(values.model))?.modelName || "");
+    }, [values.model]);
+    
     useEffect(() => {
         if (values.province === "") {
             setFieldValue("district", "");
@@ -983,7 +990,14 @@ const RegisterMotorbikeForm = () => {
                     }
                 />
                 <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"center"} margin={"32px 0px 0px 0px"}>
-                    <MyCustomButton disabled={canSubmitting} width='30%' borderRadius={8} fontSize={16} fontWeight={600} content={t("postMotorbike.registedForm.btnSubmit")} onClick={handleSubmit} />
+                    <MyCustomButton 
+                    disabled={canSubmitting} 
+                    width='30%' 
+                    borderRadius={8} 
+                    fontSize={16} 
+                    fontWeight={600} 
+                    content= {id ? t("postMotorbike.registedForm.btnConfirm") : t("postMotorbike.registedForm.btnSubmit") }
+                    onClick={handleSubmit} />
                 </Box>
             </Box>
             {/* <ImageModal selectedImages={selectedImages} selectedImageIndex={selectedImageIndex} closeModal={closeModal} /> */}

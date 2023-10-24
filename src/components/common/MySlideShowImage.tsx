@@ -27,17 +27,18 @@ export default function MySlideShowImage(props: CreateFadeEffectImageProps) {
                 transitionDuration={500}
             >
                 {props.images.map((item) => (
-                    <Box key={item} style={{
+                    <Box key={item} 
+                    style={{
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',                        
                     }}>
                         <img
                             style={{
-                                maxHeight: isIpad ? "400px" : (isMobile ? "200px" : "400px"),
+                                borderRadius: '8px',
                                 alignContent: 'center',
                                 justifyContent: 'center',
-                                width: '80%',
+                                width: '60%',
                                 objectFit: 'cover',
                             }}
                             src={item}
