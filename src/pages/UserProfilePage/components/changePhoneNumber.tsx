@@ -19,6 +19,7 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
     const { isMobile } = useThemePage();
     const { user } = useAppSelector((state) => state.userInfo);
     const { t } = usei18next();
+    const [oldOtp, setOldOtp] = useState(true); 
     const [showButtons, setShowButtons] = useState(true);
     const [showOtp, setShowOtp] = useState(true);
     const getOTP = async() => {
@@ -37,15 +38,19 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
 
     const formik = useFormik({
       initialValues: {
-        otp: "",
+        otpOld: "",
+        phone: "",
+        otpNew:""
       },
       validationSchema: Yup.object({
-        otp: Yup.string().required(t('form.required')).matches(/^[0-9]{6}$/, t('form.validateOtp')),
+        otpOld: Yup.string().required(t('form.required')).matches(/^[0-9]{6}$/, t('form.validateOtp')),
+        phone:  Yup.string().required(t('form.required')).matches(/^[0-9]{10}$/, t('form.validateOtp')),
       }),
       onSubmit: values => {
-        verifyOtp(values.otp);
+        verifyOtp(values.otpOld);
       }
     });
+
 
 
     const verifyOtp = async (otp : string) =>{
@@ -71,7 +76,7 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
 
     return (
       <Box width={'100%'}>
-      {showOtp ? (
+      {!showOtp ? (
         
         <Box className='confirm-old-phone-otp' sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Box display={'flex'} alignItems={'center'}>
@@ -83,11 +88,11 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
             <Box display={'flex'} justifyContent={'flex-end'} gap={'40px'} alignContent={'center'} alignItems={'center'}>
               <TextField
                 style={{marginBottom : '13px',width:'90%'}}
-                name="otp"
+                name="otpOld"
                 label="OTP"
                 variant="outlined"                
                 margin="normal"
-                value={values.otp}
+                value={values.otpOld}
                 onChange={handleChange}
                 />
                 
@@ -104,7 +109,7 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
                     ></MyCustomButton>
             </Box>
                 <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' , marginBottom : '13px'}}>
-                  {errors.otp && touched.otp && <ErrorMessage message={errors.otp} />}
+                  {errors.otpOld && touched.otpOld && <ErrorMessage message={errors.otpOld} />}
                 </Box>
                 <MyCustomButton
                     borderRadius={8}
@@ -119,31 +124,46 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
           </form>
         </Box>)
         : (
-        <Box className='input-new-phone' sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>    
-          <form onSubmit={handleSubmit} style={{ width: isMobile ? "100%" : "50%", display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-            <TextField
-              style={{width:'85%'}}
-              name="otp1"
-              label={t("ChangePhone.NewPhone")}
-              variant="outlined"                
-              margin="normal"
-              value={values.otp}
-              onChange={handleChange}
-              />
-            <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' , marginBottom : '13px'}}>
-                {errors.otp && touched.otp && <ErrorMessage message={errors.otp} />}
-            </Box>
-            <Box display={'flex'} justifyContent={'flex-end'} gap={'40px'} alignContent={'center'} alignItems={'center'}>
+        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>    
+          <form 
+          onSubmit={handleSubmit} 
+          style={{ 
+            width: isMobile ? "100%" : "50%",
+             display: 'flex', 
+             flexDirection: 'column', 
+             alignItems: 'center',
+             padding:"0px 64px"
+             }}>
+            <Box width={"100%"} display={'flex'}  justifyContent={'space-between'} flexDirection={'column'} alignContent={'center'} alignItems={'center'}>
               <TextField
-                style={{marginBottom : '13px',width:'90%'}}
-                name="otp1"
+                sx= {
+                  {
+                    width: "100%"
+                  }
+                }
+                name="phone"
+                label={t("ChangePhone.NewPhone")}
+                variant="outlined"                
+                margin="normal"
+                value={values.phone}
+                onChange={handleChange}
+                />
+              <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                  {errors.phone && touched.phone && <ErrorMessage message={errors.phone} />}
+              </Box>
+            </Box>
+            
+            <Box width={"100%"} display={'flex'} justifyContent={'space-between'} alignContent={'center'} alignItems={'center'} gap={"32px"}>
+              <TextField
+                style={{marginBottom : '13px',width:'100%'}}
+                name="otpNew"
                 label="OTP"
                 variant="outlined"                
                 margin="normal"
-                value={values.otp}
+                value={values.otpNew}
                 onChange={handleChange}
                 />
-                
+
                 <MyCustomButton
                     borderRadius={8}
                     fontSize={isMobile ? 12 : 16}
@@ -153,9 +173,13 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
                     isWrap={false}
                     variant='outlined'
                     onClick={getOTP}
-                    disabled={showButtons ? false : true}
                     ></MyCustomButton>
             </Box>
+
+
+            <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' , marginBottom : '13px'}}>
+                  {errors.phone && touched.phone && <ErrorMessage message={errors.phone} />}
+              </Box>
             <MyCustomButton
                 borderRadius={8}
                 fontSize={isMobile ? 12 : 16}
