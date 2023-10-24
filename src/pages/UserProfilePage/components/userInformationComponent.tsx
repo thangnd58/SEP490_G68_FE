@@ -10,18 +10,19 @@ import ErrorMessage from '../../../components/common/ErrorMessage';
 import ToastComponent from '../../../components/toast/ToastComponent';
 import UploadImageService from '../../../services/UploadImageService';
 import MyCustomButton from '../../../components/common/MyButton';
-import { CheckCircle, CheckCircleOutline, Error, ErrorOutline, Warning, WarningAmber } from '@mui/icons-material';
+import { CheckCircle, CheckCircleOutline, EditOutlined, Error, ErrorOutline, Warning, WarningAmber } from '@mui/icons-material';
 import theme from '../../../utils/theme';
 import { useAppDispatch, useAppSelector } from '../../../hooks/useAction';
 import { getUserInfo } from '../../../redux/reducers/authReducer';
 import useThemePage from '../../../hooks/useThemePage';
+import MyIcon from '../../../components/common/MyIcon';
 
 interface ChildComponentProps {
   setType: React.Dispatch<React.SetStateAction<string>>;
   setShowButtons: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setType, setShowButtons}) => {
+const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setType, setShowButtons }) => {
 
   const { t } = usei18next();
   const { user } = useAppSelector((state: any) => state.userInfo);
@@ -177,7 +178,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
     }
   };
 
-  const ChangePhone = () =>{
+  const ChangePhone = () => {
     setType('changePhone');
     setShowButtons(false);
   }
@@ -295,13 +296,13 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                   <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                     {t('userProfile.PhoneNumber')}
                   </Typography>
-                  <Box>
-                    <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600} display={'inline'} marginRight={2}>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'end' }}>
+                    <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600} display={'inline'}>
                       {user.phone ? user.phone : t('userProfile.InputProfile')}
                     </Typography>
-                    <Button onClick={ChangePhone}>{t('userProfile.BtnChange')}</Button>
+                    <MyIcon icon={<EditOutlined />} hasTooltip tooltipText={t('userProfile.BtnChange')} onClick={ChangePhone} position='right' />
                   </Box>
-                  
+
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                   <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
@@ -375,7 +376,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
               )}
             </Box>
 
-            <Box sx={{ flexBasis: '30%', flexGrow: 1, display: 'flex', marginTop: isMobile ? '16px' : '0px', justifyContent: isMobile ?'flex-start': 'flex-end', gap: '16px' }}>
+            <Box sx={{ flexBasis: '30%', flexGrow: 1, display: 'flex', marginTop: isMobile ? '16px' : '0px', justifyContent: isMobile ? 'flex-start' : 'flex-end', gap: '16px' }}>
               {isEditLisence ? (
                 <>
                   <MyCustomButton

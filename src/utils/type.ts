@@ -98,7 +98,7 @@ export interface Motorbike {
     districtId: number,
     wardId: number,
     image: string,
-    imageUrls: string[],
+    imageUrl: string[],
     address: string,
     location: string,
     status: string,
@@ -112,6 +112,7 @@ export interface Motorbike {
 }
 
 export interface MotorbikeRequest{
+    id?: number,
     licensePlate: string,
     releaseYear : number,
     type: string,

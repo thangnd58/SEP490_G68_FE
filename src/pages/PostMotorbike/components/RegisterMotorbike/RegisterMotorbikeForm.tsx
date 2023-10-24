@@ -22,9 +22,10 @@ import * as Yup from "yup";
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import UploadImageService from '../../../../services/UploadImageService';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '../../../../utils/Constant';
 import useThemePage from '../../../../hooks/useThemePage';
+
 
 
 const RegisterMotorbikeForm = () => {
@@ -35,7 +36,7 @@ const RegisterMotorbikeForm = () => {
     const [listWard, setListWard] = useState<District>();
     const [listBrand, setListBrand] = useState<Brand[]>([]);
     const [listModel, setListModel] = useState<Model[]>([]);
-    const [selectedImages, setSelectedImages] = useState<File[]>([]);
+    const [selectedImages, setSelectedImages] = useState<string[]>([]);
     const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
     const [isMapModalOpen, setMapModalOpen] = useState(false);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -43,6 +44,8 @@ const RegisterMotorbikeForm = () => {
     const [canSubmitting, setCanSubmitting] = useState(false);
     const navigate = useNavigate();
     const { isMobile } = useThemePage();
+    const { id } = useParams();
+    const [listImageFiles, setListImageFiles] = useState<File[]>([]);
 
 
     const MAX_IMAGES = 12;
@@ -70,6 +73,50 @@ const RegisterMotorbikeForm = () => {
             { key: "Điện", value: "Điện" }
         ];
     }, []);
+
+    useEffect(() => {
+        if (id) {
+            getMotorbikeById(id);
+        }
+    }, [id]);
+
+    const getMotorbikeById = async (id: string) => {
+        try {
+            const response = await PostMotorbikeService.getMotorbikeById(id);
+            if (response) {
+                const motorbike = response;
+                const imageList = motorbike.imageUrl;
+                setSelectedImages(imageList);
+                setSelectedItems(motorbike.equipments.split(","));
+                setCanSubmitting(false);
+                setFieldValue("licensePlate", motorbike.licensePlate);
+                setFieldValue("images", motorbike.image.split(","));
+                // setFieldValue("brand", motorbike.bran);
+                setFieldValue("model", motorbike.modelId);
+                setFieldValue("year", motorbike.releaseYear);
+                setFieldValue("fuel", motorbike.type);
+                setFieldValue("defaultPrice", motorbike.priceRent);
+                setFieldValue("fuelConsumption", motorbike.fuelConsumption);
+                setFieldValue("province", motorbike.provinceId);
+                setFieldValue("district", motorbike.districtId);
+                setFieldValue("ward", motorbike.wardId);
+                setFieldValue("address", motorbike.address);
+                setFieldValue("lat", motorbike.location.split(",")[0]);
+                setFieldValue("lng", motorbike.location.split(",")[1]);
+                setFieldValue("description", motorbike.description);
+                setFieldValue("miscellaneous", motorbike.miscellaneous);
+                setFieldValue("raincoat", motorbike.equipments.includes("Raincoat"));
+                setFieldValue("helmet", motorbike.equipments.includes("Helmet"));
+                setFieldValue("reflectiveClothes", motorbike.equipments.includes("ReflectiveClothes"));
+                setFieldValue("bagage", motorbike.equipments.includes("Bagage"));
+                setFieldValue("repairKit", motorbike.equipments.includes("RepairKit"));
+                setFieldValue("caseTelephone", motorbike.equipments.includes("CaseTelephone"));
+                setValue(motorbike.address, false);
+            }
+        } catch (error) {
+
+        }
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -125,7 +172,7 @@ const RegisterMotorbikeForm = () => {
         onSubmit: async (values, actions) => {
             try {
                 setCanSubmitting(true);
-                const imageString = selectedImages.map((image) => image.name).join(",");
+                const imageString = values.images.join(",");
                 const equipmentsString = selectedItems.join(",");
                 const formSubmit: MotorbikeRequest = {
                     licensePlate: values.licensePlate,
@@ -144,20 +191,40 @@ const RegisterMotorbikeForm = () => {
                     description: values.description,
                     miscellaneous: values.miscellaneous
                 }
-                const response = await PostMotorbikeService.postMotorbike(formSubmit);
-                const params: ImageUpload = {
-                    tableName: 'motorbike',
-                    columnName: 'image',
-                    code: response,
-                    fileName: "images.zip",
-                };
-                await handleZipImages(params);
+
+                console.log(formSubmit);
+
+                if (id) {
+                    formSubmit.id = Number(id);
+                    const response = await PostMotorbikeService.updateMotorbike(formSubmit);
+                    const params: ImageUpload = {
+                        tableName: 'motorbike',
+                        columnName: 'image',
+                        code: response,
+                        fileName: "images.zip",
+                    };
+                    await handleZipImages(params);
+
+                } else {
+                    const response = await PostMotorbikeService.postMotorbike(formSubmit);
+                    const params: ImageUpload = {
+                        tableName: 'motorbike',
+                        columnName: 'image',
+                        code: response,
+                        fileName: "images.zip",
+                    };
+                    await handleZipImages(params);
+                }
+                ToastComponent(t('toast.uploadImage.success'), 'success');
+                // wait 1s to upload image
+                setTimeout(() => {
+                    navigate(ROUTES.user.listmotorbike);
+                }, 1500);
 
             } catch (error) {
                 ToastComponent("Upload Information Error", "error");
             }
             finally {
-                navigate(ROUTES.user.listmotorbike);
             }
         }
     }
@@ -296,8 +363,11 @@ const RegisterMotorbikeForm = () => {
             if (selectedImages.length + imageFiles.length <= MAX_IMAGES) {
                 const isValidSize = imageFiles.every((file) => file.size / (1024 * 1024) <= MAX_IMAGE_SIZE_MB);
                 if (isValidSize) {
-                    setSelectedImages((prevImages) => [...prevImages, ...imageFiles]);
-                    setFieldValue("images", [...selectedImages, ...imageFiles]);
+                    const imageFilesString = imageFiles.map((image) => URL.createObjectURL(image));
+                    const imageFilesName = imageFiles.map((image) => image.name);
+                    setSelectedImages((prevImages) => [...prevImages, ...imageFilesString]);
+                    setListImageFiles([...listImageFiles, ...imageFiles]);
+                    setFieldValue("images", [...values.images ,... imageFilesName]);
                 } else {
                     ToastComponent(`Kích thước ảnh không được vượt quá ${MAX_IMAGE_SIZE_MB}MB`, "error",);
                 }
@@ -317,7 +387,7 @@ const RegisterMotorbikeForm = () => {
             }
             const urlUpload = responseUrl.data.uploadUrl;
             const zip = new JSZip();
-            selectedImages.forEach((image, index) => {
+            listImageFiles.forEach((image) => {
                 zip.file(image.name, image);
             });
             zip.generateAsync({ type: "blob" }).then((content) => {
@@ -327,7 +397,6 @@ const RegisterMotorbikeForm = () => {
                             ToastComponent(t('toast.uploadImage.error'), 'error');
                             return;
                         }
-                        ToastComponent(t('toast.uploadImage.success'), 'success');
                     });
                 });
             });
@@ -338,7 +407,9 @@ const RegisterMotorbikeForm = () => {
 
     const handleRemoveImage = (indexToRemove: number) => {
         const updatedImages = selectedImages.filter((_, index) => index !== indexToRemove);
+        const updatedImagesName = values.images.filter((_, index) => index !== indexToRemove);
         setSelectedImages(updatedImages);
+        setFieldValue("images", updatedImagesName)
     };
 
     // MODAL CONTROLLER
@@ -486,7 +557,7 @@ const RegisterMotorbikeForm = () => {
                                     <img
                                         onClick={() => openModal(index)}
                                         style={{ borderRadius: '4px', border: '1px solid #E0E0E0' }}
-                                        src={URL.createObjectURL(image)}
+                                        src={image}
                                         alt={`Selected Image ${index + 1}`}
                                         loading="lazy"
                                     />
@@ -535,6 +606,7 @@ const RegisterMotorbikeForm = () => {
                                 onClick={handleAddImages}
                             />
                             <input
+                                aria-label='btn-add-image'
                                 type="file"
                                 accept="image/*"
                                 multiple
@@ -914,7 +986,7 @@ const RegisterMotorbikeForm = () => {
                     <MyCustomButton disabled={canSubmitting} width='30%' borderRadius={8} fontSize={16} fontWeight={600} content={t("postMotorbike.registedForm.btnSubmit")} onClick={handleSubmit} />
                 </Box>
             </Box>
-            <ImageModal selectedImages={selectedImages} selectedImageIndex={selectedImageIndex} closeModal={closeModal} />
+            {/* <ImageModal selectedImages={selectedImages} selectedImageIndex={selectedImageIndex} closeModal={closeModal} /> */}
             <Modal open={isMapModalOpen} onClose={closeMapModal} aria-labelledby="map-modal-title" aria-describedby="map-modal-description" sx={{
                 display: 'flex',
                 alignItems: 'start',

@@ -90,13 +90,19 @@ const MotorbikeManagement = () => {
                     {t("dashBoardManager.Navigation.motorbikeRentalManager")}
                 </Typography>
             </Box>
-            <Box sx={{ backgroundColor: "#fff", borderRadius:"4px" }}>
+            <Box sx={{ backgroundColor: "#fff", borderRadius: "4px" }}>
                 <DataGrid
+                    sx={{
+                        '& .MuiDataGrid-virtualScroller': {
+                            minHeight: "300px",
+
+                        },
+                    }}
                     rows={listMotorbike}
                     initialState={{
                         pagination: { paginationModel: { pageSize: 10 } },
                     }}
-                    
+
                     pageSizeOptions={[5, 10, 25]}
                     columns={columns}
                     loading={listMotorbike.length === 0}
