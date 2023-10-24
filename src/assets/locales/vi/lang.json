@@ -250,7 +250,7 @@
       "fuelConsumptionPlaceHolder": "3",
       "description": "Mô tả",
       "descriptionPlaceHolder": "Nhập mô tả về xe của bạn",
-      "Equipment": "Trang bị",
+      "equipment": "Trang bị",
       "helmet": "Mũ bảo hiểm 3/4",
       "raincoat": "Áo mưa",
       "reflectiveClothes": "Áo phản quang",
