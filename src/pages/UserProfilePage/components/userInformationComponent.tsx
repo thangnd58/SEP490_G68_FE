@@ -15,6 +15,7 @@ import theme from '../../../utils/theme';
 import { useAppDispatch, useAppSelector } from '../../../hooks/useAction';
 import { getUserInfo } from '../../../redux/reducers/authReducer';
 import useThemePage from '../../../hooks/useThemePage';
+import EditIcon from '@mui/icons-material/Edit';
 import MyIcon from '../../../components/common/MyIcon';
 
 interface ChildComponentProps {
@@ -296,11 +297,15 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                   <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                     {t('userProfile.PhoneNumber')}
                   </Typography>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'end' }}>
-                    <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600} display={'inline'}>
+                  <Box display={'flex'} alignItems={'center'} alignContent={'center'}>
+                    <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600} display={'inline'} marginRight={1}>
                       {user.phone ? user.phone : t('userProfile.InputProfile')}
                     </Typography>
-                    <MyIcon icon={<EditOutlined />} hasTooltip tooltipText={t('userProfile.BtnChange')} onClick={ChangePhone} position='right' />
+                    <MyIcon icon={<EditIcon />} hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => {
+                      setType('changePhone');
+                      setShowButtons(false);
+                    }} />
+                    {/* <Button onClick={ChangePhone}>{t('userProfile.BtnChange')}</Button> */}
                   </Box>
 
                 </Box>
