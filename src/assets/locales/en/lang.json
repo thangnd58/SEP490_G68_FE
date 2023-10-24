@@ -29,6 +29,7 @@
     "saveAccount": "Save account",
     "forgotPassword": "Forgot password?",
     "validatePhone": "Invalid phone number format",
+    "validateOtp": "Invalid OTP number format",
     "validLicenseNumber": "Invalid license number format",
     "passwordsMustMatch": "Passwords do not match!",
     "resetpassword": "Recovery password",
@@ -102,6 +103,21 @@
         "warning": "Reject Motorbike failed",
         "error": "Error when reject motorbike"
       }
+    },
+    "sendOtp": {
+      "success": "OTP has been sent to you",
+      "warning": "Send OTP failed",
+      "error": "Error when send OTP"
+    },
+    "ConfirmOtp": {
+      "success": "Confirm OTP successfully",
+      "warning": "Confirm OTP failed",
+      "error": "Error confirm OTP"
+    },
+    "ChangePhone":{
+      "success": "Change phone successfully",
+      "warning": "Change phone failed",
+      "error": "Error when change phone"
     }
   },
   "footer": {
@@ -132,7 +148,16 @@
     "BtnDelete": "Delete",
     "BtnUpload": "Upload",
     "ChangeProfile": "Change Profile",
-    "InputProfile": "Please input Information"
+    "InputProfile": "Please input Information",
+    "BtnChange": "Change"
+  },
+  "ChangePhone":{
+    "Title": "Change Phone Number",
+    "BtnConfirm": "Confirm",
+    "BtnChange": "Complete",
+    "GetOTP" : "Get OTP",
+    "NewPhone": "New Phone",
+    "Phone": "Phone"
   },
   "changePassword": {
     "Title": "Change Password",

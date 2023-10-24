@@ -23,9 +23,10 @@ interface CustomButtonProps {
   iconPosition?: 'left' | 'right';
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
+  isWrap?: boolean;
 }
 
-const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, className, width, height, fontSize, fontWeight, uppercase, borderRadius, icon, iconPosition,variant,type,disabled }) => {
+const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, className, width, height, fontSize, fontWeight, uppercase, borderRadius, icon, iconPosition,variant,type,disabled,isWrap }) => {
   return (
     <CustomButton
       disabled={disabled}
@@ -49,6 +50,9 @@ const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, classNa
         fontWeight= {fontWeight || '400'}
         fontSize= {fontSize || 16}
         color={variant === 'outlined' ? '#8B4513' : '#fff'}
+        style={{
+          whiteSpace: isWrap ? 'normal' : 'nowrap',
+        }}
       >
         {content}
       </Typography>
