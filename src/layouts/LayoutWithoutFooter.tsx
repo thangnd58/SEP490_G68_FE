@@ -8,10 +8,10 @@ export interface LayoutWithoutFooterProps {
 
 const LayoutWithoutFooter = ({ children }: LayoutWithoutFooterProps) => {
     return (
-        <div>
+        <Box>
             <Header />
             <Box >{children}</Box>
-        </div>
+        </Box>
     )
 }
 

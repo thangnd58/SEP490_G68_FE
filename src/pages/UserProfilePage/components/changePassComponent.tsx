@@ -178,7 +178,7 @@ const ChangePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
         <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'start' }}>
           {errors.confirmPassword && touched.confirmPassword && <ErrorMessage message={errors.confirmPassword} />}
         </Box>
-        <div style={{ marginTop: "16px" }}>
+        <Box style={{ marginTop: "16px" }}>
           <MyCustomButton
             borderRadius={8}
             fontSize={16}
@@ -186,7 +186,7 @@ const ChangePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
             content={t('changePassword.BtnChange')}
             type="submit"
           />
-        </div>
+        </Box>
       </form>
     </Box>
   );

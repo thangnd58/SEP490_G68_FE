@@ -46,7 +46,7 @@ export const routes: Route[] = [
     { path: ROUTES.user.userprofile, component: UserProfilePage, role: ["Admin","Staff", "Customer"] },
     { path: ROUTES.user.registermotorbike, component: RegisterMotorbike, role: ["Customer"] },
     { path: ROUTES.user.listmotorbike, component: ListMotorbike, role: ["Customer"] },
-    { path: ROUTES.user.updateregistermotorbike, component: UpdateRegisterMotorbike, role: ["Customer"] },
+    { path: `${ROUTES.user.updateregistermotorbike}/:id`, component: UpdateRegisterMotorbike, role: ["Customer"] },
 
     // Auth Page
     { path: ROUTES.account.login, component: Login, layout: LayoutWithoutFooter },

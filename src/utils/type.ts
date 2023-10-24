@@ -88,8 +88,8 @@ export interface Ward {
 
 export interface Motorbike {
     id?: number,
-    motorbikeName: string,
     licensePlate: string,
+    releaseYear : number,
     type: string,
     priceRent: number,
     equipments: string,
@@ -98,18 +98,22 @@ export interface Motorbike {
     districtId: number,
     wardId: number,
     image: string,
+    imageUrls: string[],
     address: string,
     location: string,
-    status: number,
+    status: string,
     statusComment: string,
     userId: number,
     createDatetime: string,
-    modelId: number
+    modelId: number,
+    modelName: string,
+    miscellaneous : string,
+    description : string,
 }
 
 export interface MotorbikeRequest{
-    motorbikeName: string,
     licensePlate: string,
+    releaseYear : number,
     type: string,
     priceRent: number,
     equipments: string,
@@ -120,8 +124,10 @@ export interface MotorbikeRequest{
     image: string,
     address: string,
     location: string,
-    // createDatetime: string,
     modelId: number,
+    description : string,
+    miscellaneous : string,
+
 }
 
 

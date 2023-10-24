@@ -8,7 +8,13 @@
     "dashboard": "Dash Board",
     "mylistmotorbike": "My List Motorbike",
     "registermotorbike": "Register Motorbike",
-    "home_page": "Home Page"
+    "home_page": "Home Page",
+    "btn_close": "Close",
+    "btn_promotion": "Promotion"
+  },
+  "layout": {
+    "admin": "Adminstrator",
+    "staff": "Staff"
   },
   "form": {
     "login": "Login",
@@ -29,6 +35,7 @@
     "saveAccount": "Save account",
     "forgotPassword": "Forgot password?",
     "validatePhone": "Invalid phone number format",
+    "validateOtp": "Invalid OTP number format",
     "validLicenseNumber": "Invalid license number format",
     "passwordsMustMatch": "Passwords do not match!",
     "resetpassword": "Recovery password",
@@ -102,6 +109,21 @@
         "warning": "Reject Motorbike failed",
         "error": "Error when reject motorbike"
       }
+    },
+    "sendOtp": {
+      "success": "OTP has been sent to you",
+      "warning": "Send OTP failed",
+      "error": "Error when send OTP"
+    },
+    "ConfirmOtp": {
+      "success": "Confirm OTP successfully",
+      "warning": "Confirm OTP failed",
+      "error": "Error confirm OTP"
+    },
+    "ChangePhone":{
+      "success": "Change phone successfully",
+      "warning": "Change phone failed",
+      "error": "Error when change phone"
     }
   },
   "footer": {
@@ -132,7 +154,16 @@
     "BtnDelete": "Delete",
     "BtnUpload": "Upload",
     "ChangeProfile": "Change Profile",
-    "InputProfile": "Please input Information"
+    "InputProfile": "Please input Information",
+    "BtnChange": "Change"
+  },
+  "ChangePhone":{
+    "Title": "Change Phone Number",
+    "BtnConfirm": "Confirm",
+    "BtnChange": "Complete",
+    "GetOTP" : "Get OTP",
+    "NewPhone": "New Phone",
+    "Phone": "Phone"
   },
   "changePassword": {
     "Title": "Change Password",
@@ -222,10 +253,10 @@
       "table-cell-action": "Action",
       "badge-edit": "Edit",
       "status-approved": "Approved",
-      "status-pendingApproval": "Pending Approval",
-      "status-inOporation": "In Oporation",
+      "status-processing": "Processing",
+      "status-inoporation": "In Oporation",
       "status-rejected": "Rejected",
-      "status-onHiatus": "On Hiatus"
+      "status-onhiatus": "On Hiatus"
     },
     "registedForm": {
       "updateTitle": "Update Information",

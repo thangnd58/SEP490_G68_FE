@@ -69,7 +69,7 @@ const MotorbikeRegisterDetail = () => {
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '3rem', width:'50%' }} >
                 <Box sx={{ display: 'flex' }}>
                     <Typography variant="h5" sx={{ color: 'Black', marginRight: 1 }} align="right" fontWeight={'bold'}>{t("dashBoardManager.Motobike.Name")} :</Typography>
-                    <Typography variant="h5" align="left">{motorbike?.motorbikeName}</Typography>
+                    <Typography variant="h5" align="left">{motorbike?.modelName}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex' }}>
                     <Typography variant="h5" sx={{ color: 'Black', marginTop: 1, marginRight: 1 }} align="right" fontWeight={'bold'}>{t("dashBoardManager.Motobike.Plate")} : </Typography>
