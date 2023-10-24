@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { Avatar, Typography, Button, TextField, Box, Chip, styled } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
 import { AuthContext, useAuth } from '../../../contexts/AuthContext';
@@ -16,7 +16,13 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/useAction';
 import { getUserInfo } from '../../../redux/reducers/authReducer';
 import useThemePage from '../../../hooks/useThemePage';
 
-const UserInformationComponent = () => {
+interface ChildComponentProps {
+  setType: React.Dispatch<React.SetStateAction<string>>;
+  setShowButtons: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setType, setShowButtons}) => {
+
   const { t } = usei18next();
   const { user } = useAppSelector((state: any) => state.userInfo);
   const [lisence, setLisence] = useState<Lisence>();
@@ -171,7 +177,10 @@ const UserInformationComponent = () => {
     }
   };
 
-
+  const ChangePhone = () =>{
+    setType('changePhone');
+    setShowButtons(false);
+  }
   const handleUploadLicenseImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const file = event.target.files && event.target.files[0];
@@ -286,9 +295,13 @@ const UserInformationComponent = () => {
                   <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                     {t('userProfile.PhoneNumber')}
                   </Typography>
-                  <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
-                    {user.phone ? user.phone : t('userProfile.InputProfile')}
-                  </Typography>
+                  <Box>
+                    <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600} display={'inline'} marginRight={2}>
+                      {user.phone ? user.phone : t('userProfile.InputProfile')}
+                    </Typography>
+                    <Button onClick={ChangePhone}>{t('userProfile.BtnChange')}</Button>
+                  </Box>
+                  
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                   <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>

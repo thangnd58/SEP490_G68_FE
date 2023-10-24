@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, Typography, Button, Box } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
 import ChangePassComponent from './changePassComponent';
@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import MyIcon from '../../../components/common/MyIcon';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import useThemePage from '../../../hooks/useThemePage';
+import ChangePhoneComponent from './changePhoneNumber';
 
 function UserProfileComponent() {
 
@@ -54,7 +55,7 @@ function UserProfileComponent() {
         </Box>
       )}
 
-      {type === 'info' && <UserInformationComponent />}
+      {type === 'info' && <UserInformationComponent setType={setType} setShowButtons={setShowButtons}/>}
 
       {type === 'changePass' &&
 
@@ -93,6 +94,26 @@ function UserProfileComponent() {
           {/* Phần 2 - ChangUserProfile component */}
           <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 2 }}>
             <ChangeUserProfile setType={handleShowButtons} />
+          </Box>
+        </Box>
+
+      }
+      {type === 'changePhone' &&
+        <Box sx={{ width: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+          {/* Phần 1 - Layout theo chiều ngang */}
+          <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2, justifyContent: 'space-between' }}>
+            <MyIcon icon={<ArrowBack />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-back")} onClick={() => {
+              setType('info');
+              setShowButtons(true);
+            }} position='right' />
+            <Typography width={"100%"} variant="h5" fontWeight="600" fontSize={isMobile ? "24px" : "32px"}>
+              {t("ChangePhone.Title")}
+            </Typography>
+          </Box>
+
+          {/* Phần 2 - ChangUserProfile component */}
+          <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 2 }}>
+            <ChangePhoneComponent setType={handleShowButtons} />
           </Box>
         </Box>
 

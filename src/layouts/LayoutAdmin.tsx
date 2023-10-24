@@ -46,9 +46,6 @@ const LayoutAdmin = ({ children }: LayoutAdminProps) => {
                 {/* Content */}
                 <Box component="section" width={"80%"} p={"24px 32px 32px 0px"} style={{ overflow: 'auto', zIndex: 999, marginTop: '-107px' }} >
                     {children}
-                    {children}
-                    {children}
-                    {children}
                 </Box>
             </Box>
         </Box>
