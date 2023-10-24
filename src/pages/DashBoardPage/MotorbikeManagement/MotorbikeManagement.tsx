@@ -24,6 +24,7 @@ const MotorbikeManagement = () => {
     const getAllMotorbikes = async () => {
         try {
             const response = await MotorbikeManagementService.getAllMotorbikes();
+            console.log(response)
             if (response) {
                 setListMotorbike(response)
             }
@@ -52,7 +53,11 @@ const MotorbikeManagement = () => {
             renderCell: (params: any) => (
                 <Box sx={{ backgroundColor: '#ECFFEE', cursor: 'pointer', width: '100%', fontWeight: '600', textTransform: 'uppercase', textAlign: 'center', color: params.value === 0 ? "warning.main" : params.value === 1 ? "success.main" : "error.main" }}>
                     {
-                        params.value === 0 ? t("dashBoardManager.motorbikeRentalManager.statusPending") : params.value === 1 ? t("dashBoardManager.motorbikeRentalManager.statusVerified") : t("dashBoardManager.motorbikeRentalManager.statusCancelled")
+                        params.value === "Processing" ?  t("postMotorbike.listform.status-processing")
+                        : params.value === "Approved" ? t("postMotorbike.listform.status-approved")
+                        : params.value === "In Oporation" ? t("postMotorbike.listform.status-inoporation")
+                        : params.value === "On Hiatus" ? t("postMotorbike.listform.status-onhiatus")
+                        : t("postMotorbike.listform.status-rejected")
                     }
                 </Box>
             ),

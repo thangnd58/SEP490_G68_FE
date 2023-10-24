@@ -78,10 +78,10 @@ const LicenceRegisterDetail = () => {
                     <Typography variant="h5" sx={{ marginTop: 3 }} align="left">{licence?.dob}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Button key={'changePass'} variant="contained" onClick={() => changeStatus(1)}>{t("licenseInfo.BtnApprove")}</Button>
-                    <Button key={'changePass'} variant="outlined" onClick={() => changeStatus(2)}>{t("licenseInfo.BtnReject")}</Button>
+                    <Button  variant="contained" onClick={() => changeStatus(1)}>{t("licenseInfo.BtnApprove")}</Button>
+                    <Button  variant="outlined" onClick={() => changeStatus(2)}>{t("licenseInfo.BtnReject")}</Button>
                 </Box>
-                <MyCustomButton key={'changePass'} height="auto" onClick={() => navigate(-1)} content={t("changePassword.Back")} />
+                <MyCustomButton height="auto" onClick={() => navigate(-1)} content={t("changePassword.Back")} />
             </Box>
         </Box>
     )
