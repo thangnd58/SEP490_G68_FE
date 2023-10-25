@@ -187,7 +187,8 @@
     "Approve": "Đã xác minh",
     "Reject": "Từ chối",
     "BtnApprove": "Chấp nhận",
-    "BtnReject": "Từ chối"
+    "BtnReject": "Từ chối",
+    "InputComment": "Nhập nội dung"
   },
   "dashBoardManager": {
     "Navigation": {
