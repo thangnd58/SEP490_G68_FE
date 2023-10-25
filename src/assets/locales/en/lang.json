@@ -187,7 +187,8 @@
     "Approve": "Approved",
     "Reject": "Rejected",
     "BtnApprove": "Approve",
-    "BtnReject": "Reject"
+    "BtnReject": "Reject",
+    "InputComment": "Input Comment"
   },
   "dashBoardManager": {
     "Navigation": {
