@@ -218,6 +218,7 @@
     },
 
     "motorbikeRentalManager": {
+      "columnUserName": "User Name",
       "columnMotorbikeName": "Motorbike Name",
       "columnAddress": "Address",
       "columnType": "Motorbike Type",
@@ -322,7 +323,15 @@
       "miscellaneousSecondTitle": "Specify the requirements for customers to rent a motorbike",
       "miscellaneousPlaceHolder": "Enter your requirements",
       "btnSubmit": "Submit",
-      "terms_and_conditions": "1. Minimum Age Requirement: The renter must meet the age requirements specified by the rental company. Typically, the minimum age is between 21 and 25 years.\\n\\n2. Valid Driver's License: The renter must have a valid driver's license and have passed any required tests and periodic checks if applicable.\\n\\n3. Rental Duration: Specify the rental period, including the rental date and time, as well as the return time.\\n\\n4. Rental Fees and Deposit: You need to know the rental price and, if applicable, the deposit amount. Deposits are typically paid in advance and refunded after returning the vehicle if there is no damage.\\n\\n5. Insurance: Understand the type of insurance included in the rental agreement. Insurance for the vehicle, individuals, and other properties may be required or provided separately.\\n\\n6. Distance Limitations: Limitations on the number of miles or distance may apply. Violating these limitations can result in penalties.\\n\\n7. Fuel: Be aware of fuel requirements, including returning the vehicle with an equivalent fuel level as when received.\\n\\n8. Late Fees: Understand late return fees if you return the vehicle later than the rental time.\\n\\n9. Maintenance and Repairs: Review the terms regarding vehicle maintenance and repairs in case of need.\\n\\n10. Cancellation of Reservation: Familiarize yourself with the cancellation policy and refund procedures if necessary.\\n\\n11. Cash and Credit Card Notes: If applicable, check the accepted payment methods.\\n\\n12. Damage and Return of Vehicle: Assess the vehicle's condition upon receipt and note any damage. This may be documented on a vehicle inspection form.\\n\\n13. Use Outside Designated Area: If you plan to use the vehicle outside the designated area, notify and seek permission from the rental company.\\n\\n14. Acceptance of Terms: Renters should read and accept all terms and conditions before signing the rental agreement."
+      "terms_and_conditions": "1. Minimum Age Requirement: The renter must meet the age requirements specified by the rental company. Typically, the minimum age is between 21 and 25 years.\\n\\n2. Valid Driver's License: The renter must have a valid driver's license and have passed any required tests and periodic checks if applicable.\\n\\n3. Rental Duration: Specify the rental period, including the rental date and time, as well as the return time.\\n\\n4. Rental Fees and Deposit: You need to know the rental price and, if applicable, the deposit amount. Deposits are typically paid in advance and refunded after returning the vehicle if there is no damage.\\n\\n5. Insurance: Understand the type of insurance included in the rental agreement. Insurance for the vehicle, individuals, and other properties may be required or provided separately.\\n\\n6. Distance Limitations: Limitations on the number of miles or distance may apply. Violating these limitations can result in penalties.\\n\\n7. Fuel: Be aware of fuel requirements, including returning the vehicle with an equivalent fuel level as when received.\\n\\n8. Late Fees: Understand late return fees if you return the vehicle later than the rental time.\\n\\n9. Maintenance and Repairs: Review the terms regarding vehicle maintenance and repairs in case of need.\\n\\n10. Cancellation of Reservation: Familiarize yourself with the cancellation policy and refund procedures if necessary.\\n\\n11. Cash and Credit Card Notes: If applicable, check the accepted payment methods.\\n\\n12. Damage and Return of Vehicle: Assess the vehicle's condition upon receipt and note any damage. This may be documented on a vehicle inspection form.\\n\\n13. Use Outside Designated Area: If you plan to use the vehicle outside the designated area, notify and seek permission from the rental company.\\n\\n14. Acceptance of Terms: Renters should read and accept all terms and conditions before signing the rental agreement.",
+      "register_success": "Register successfully",
+      "register_fail": "Register fail",
+      "update_success": "Update successfully",
+      "update_fail": "Update fail",
+      "delete_image_success": "Delete image successfully",
+      "delete_image_fail": "Delete image fail",
+      "upload_image_success": "Upload image successfully",
+      "upload_image_fail": "Upload image fail"
     }
   }
 }

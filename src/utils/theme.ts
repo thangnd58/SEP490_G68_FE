@@ -13,7 +13,7 @@ const theme = createTheme({
             secondary: '#73787E', // secondary text color
         },
         warning: {
-            main: '#F29100' // warning color
+            main: '#FFC68A' // warning color
         },
         success: {
             main: '#6EBF87' // success color

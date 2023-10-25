@@ -17,6 +17,7 @@ import { getUserInfo } from '../../../redux/reducers/authReducer';
 import useThemePage from '../../../hooks/useThemePage';
 import EditIcon from '@mui/icons-material/Edit';
 import MyIcon from '../../../components/common/MyIcon';
+import MyDialog from '../../../components/common/MyDialog';
 
 interface ChildComponentProps {
   setType: React.Dispatch<React.SetStateAction<string>>;
@@ -173,6 +174,13 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
         // Handle error here if the deletion was not successful
         ToastComponent(t('userProfile.AvatarDeleteError'), 'error');
       }
+      // alert('ok');
+      // <MyDialog
+      //   open={true}
+      //   title={t('userProfile.DeleteAvatar')}
+      //   content={t('userProfile.DeleteAvatarContent')}
+      //   onClickAgree={() => { alert('ok') }}
+      // />
     } catch (error) {
       // Handle any unexpected errors here
       ToastComponent(t('userProfile.AvatarDeleteError'), 'error');

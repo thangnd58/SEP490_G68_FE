@@ -7,6 +7,10 @@ import { Lisence } from "../../../utils/type";
 import MyCustomButton from "../../../components/common/MyButton";
 import ToastComponent from "../../../components/toast/ToastComponent";
 import { useFormik } from "formik";
+import theme from "../../../utils/theme";
+import useThemePage from "../../../hooks/useThemePage";
+import MyIcon from "../../../components/common/MyIcon";
+import { ArrowBack } from "@mui/icons-material";
 
 const LicenceRegisterDetail = () => {
     const { t } = usei18next()
@@ -14,6 +18,8 @@ const LicenceRegisterDetail = () => {
     const navigate = useNavigate()
     const [statusChange, setStatusChange] = useState<Number>();
     const [licence, setLicence] = useState<Lisence>();
+    const { isMobile, isIpad } = useThemePage();
+
     useEffect(() => {
         getLicenseById(Number(id))
     }, [id])
@@ -23,7 +29,7 @@ const LicenceRegisterDetail = () => {
             statusComment: ""
         },
         onSubmit: values => {
-            changeStatus(Number(statusChange),values.statusComment);
+            changeStatus(Number(statusChange), values.statusComment);
         }
     });
 
@@ -37,86 +43,191 @@ const LicenceRegisterDetail = () => {
 
         }
     }
-    const changeStatus = async (status: number, statusComment : string) => {
+    const changeStatus = async (status: number, statusComment: string) => {
         try {
-            const response = await LicenceManagementService.changeStatus(Number(id),status,statusComment)
+            const response = await LicenceManagementService.changeStatus(Number(id), status, statusComment)
             if (response.status === 200) {
-                if(status == 1){
+                if (status == 1) {
                     navigate(-1)
                     ToastComponent(t("toast.dashboardLicense.Arrprove.success"), "success");
-                }else {
+                } else {
                     navigate(-1)
                     ToastComponent(t("toast.dashboardLicense.Reject.success"), "success");
                 }
-                
+
             } else {
-                if(status == 1){
+                if (status == 1) {
                     ToastComponent(t("toast.dashboardLicense.Arrprove.warning"), "warning");
-                }else {
+                } else {
                     ToastComponent(t("toast.dashboardLicense.Reject.warning"), "warning");
                 }
             }
         } catch (error) {
-            if(status == 1){
+            if (status == 1) {
                 ToastComponent(t("toast.dashboardLicense.Arrprove.error"), "error");
-            }else{
+            } else {
                 ToastComponent(t("toast.dashboardLicense.Reject.error"), "error");
             }
-            
-        }
-        
-      };
 
-      const {
+        }
+
+    };
+
+    const {
         values,
         handleChange,
         handleSubmit,
-      } = formik;
+    } = formik;
 
     return (
-        <Box sx={{ display: 'flex', height: '60vh', marginTop: '7rem', justifyContent: 'space-between', gap: '1rem' }}>
-            <Box flex={1} width={'50%'} marginLeft={2} borderRadius={5} sx={{ background: 'linear-gradient(#8B4513, White)' }} display={'grid'} gridTemplateColumns={'1fr'}>
-                <Typography color={'white'} marginTop={3} marginLeft={3} fontSize={29} fontWeight={'bold'}>{t("dashBoardManager.License")}</Typography>
-                <Box display={'flex'} justifyContent={'center'} >
-                    <Box height="80%" width="80%" display={'flex'} sx={{ backgroundColor: 'White' }} justifyContent={'center'} alignItems={'center'}>
-                        <img height="250px" width="500px" src={licence?.licenceImageUrl} alt={'licence'} />
-                    </Box>
-                </Box>
+        <Box width={'100%'} display={'flex'} flexDirection={'column'} gap={"16px"}>
+            <Box sx={{ backgroundColor: "#8B4513" }} width={'100%'} display={'flex'} flexDirection={'row'} alignItems={'center'} gap={1} >
+                <MyIcon icon={<ArrowBack style={{ color: theme.palette.common.white }} />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-back")} onClick={() => navigate(-1)} position='bottom' />
+                <Typography color={theme.palette.common.white} variant="h1" fontSize={24} fontWeight={700}>
+                    {t("dashBoardManager.Navigation.licenseManager")}
+                </Typography>
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '3rem', width:'50%' }} >
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '3rem', width:'100%' }}>
-                    <Box sx={{ display: 'flex' }}>
-                        <Typography variant="h5" sx={{ color: 'Black', marginRight: 1 }} align="right" fontWeight={'bold'}>{t("licenseInfo.NumberLicense")} :</Typography>
-                        <Typography variant="h5" align="left">{licence?.licenceNumber}</Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex' }}>
-                        <Typography variant="h5" sx={{ color: 'Black', marginTop: 3, marginRight: 1 }} align="right" fontWeight={'bold'}>{t("licenseInfo.Name")} : </Typography>
-                        <Typography variant="h5" sx={{ marginTop: 3 }} align="left">{licence?.fullName}</Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex' }}>
-                        <Typography variant="h5" sx={{ color: 'Black', marginTop: 3, marginRight: 1 }} align="right" fontWeight={'bold'}>{t("userProfile.DOB")} : </Typography>
-                        <Typography variant="h5" sx={{ marginTop: 3 }} align="left">{licence?.dob}</Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Button key={'changePass'} variant="contained" type="submit" onClick={() => setStatusChange(1)}>{t("licenseInfo.BtnApprove")}</Button>
-                        <Button key={'changePass'} variant="outlined" type="submit"  onClick={() => setStatusChange(2)}>{t("licenseInfo.BtnReject")}</Button>
-                    </Box>
-                    <TextareaAutosize
-                        name="statusComment"
-                        aria-label={t("licenseInfo.InputComment")}
-                        minRows={3}
-                        onChange={handleChange}
-                        value={values.statusComment}
-                        placeholder={t("licenseInfo.InputComment")}
+
+            <Box sx={{
+                border: "1px solid #E0E0E0",
+                backgroundColor: "#fff",
+                borderRadius: "8px",
+                display: 'flex',
+                flexDirection: isMobile ? 'column' : 'row',
+                alignContent: 'center',
+                padding: isMobile ? '2rem' : '3rem',
+                justifyContent: 'center',
+                gap: '3rem'
+            }}>
+                <Box sx={{ display: 'flex', width: isMobile ? '90%' : '40%', alignItems: 'center', justifyContent: 'center' }}>
+                    <img
                         style={{
-                            paddingTop : '10px',
-                            borderRadius : '10px',
-                            fontFamily: 'Arial, sans-serif',
-                            fontSize : '16px'
+                            width:'90%',
+                            borderRadius: '16px',
+                            objectFit: 'cover',
+                            border: '3px solid #8B4513',
+                            padding: '1rem'
                         }}
-                    />
-                    <MyCustomButton height="auto" onClick={() => navigate(-1)} content={t("changePassword.Back")} />
-                </form>
+                        src={licence?.licenceImageUrl}
+                        alt={'licence'} />
+                </Box>
+                <Box
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        width: isMobile ? '90%' : '40%',
+                        gap: '1rem'
+                    }}
+                >
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginBottom: '8px',
+                        }}
+                    >
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                color: 'Black',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            {t("licenseInfo.NumberLicense")} :
+                        </Typography>
+                        <Typography variant="h5" align="left">
+                            {licence?.licenceNumber}
+                        </Typography>
+                    </Box>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginBottom: '8px',
+                        }}
+                    >
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                color: 'Black',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            {t("licenseInfo.Name")} :
+                        </Typography>
+                        <Typography variant="h5" align="left">
+                            {licence?.fullName}
+                        </Typography>
+                    </Box>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                color: 'Black',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            {t("userProfile.DOB")} :
+                        </Typography>
+                        <Typography variant="h5" align="left">
+                            {licence?.dob}
+                        </Typography>
+                    </Box>
+                    <form onSubmit={handleSubmit}>
+                        <TextField
+                            name="statusComment"
+                            aria-label={t("licenseInfo.InputComment")}
+                            minRows={3}
+                            onChange={handleChange}
+                            value={values.statusComment}
+                            placeholder={t("licenseInfo.InputComment")}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    '& fieldset': {
+                                        borderColor: theme.palette.action.disabledBackground,
+                                        borderRadius: '8px'
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: theme.palette.primary.main,
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: theme.palette.primary.main,
+                                    },
+                                },
+                                width: '100%',
+                                paddingTop: '10px',
+                                fontFamily: 'Arial, sans-serif',
+                                fontSize: '16px'
+                            }}
+                        />
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: "16px", mt: "16px" }}>
+                            <MyCustomButton
+                                type="submit"
+                                borderRadius={8}
+                                fontSize={16}
+                                fontWeight={500}
+                                variant='outlined'
+                                content={t("licenseInfo.BtnReject")}
+                                onClick={() => setStatusChange(2)} />
+                            <MyCustomButton
+                                type="submit"
+                                borderRadius={8}
+                                fontSize={16}
+                                fontWeight={400}
+                                content={t("licenseInfo.BtnApprove")}
+                                onClick={() => setStatusChange(1)} />
+                        </Box>
+                    </form>
+                </Box>
+
             </Box>
         </Box>
     )

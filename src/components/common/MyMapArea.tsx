@@ -1,63 +1,39 @@
-// import React, { useState, useMemo, useEffect } from "react";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-import usePlacesAutocomplete, {
-    getGeocode,
-    getLatLng,
-} from "use-places-autocomplete";
-import { Box, FormControl, FormHelperText, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
-
 import * as React from 'react';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import CloseIcon from "@mui/icons-material/Close";
-import Slide from "@mui/material/Slide";
-import { use } from "i18next";
-import { Field, Form, useFormik } from "formik";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+import { TransitionProps } from '@mui/material/transitions';
+import MyDialog from './MyDialog';
 
-export default function MyMapArea() {
-    return (
-        <CustomizedSnackbars />
-    )
-}
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
-function CustomizedSnackbars() {
-    const formik = useFormik({
-        initialValues: {
-            price: "abcv", //not Material UI. Works.
-            hours: 60 //from Material UI
-        },
+export default function AlertDialogSlide() {
+  const [open, setOpen] = React.useState(false);
 
-        onSubmit: (values, actions) => {
-            alert("values:" + JSON.stringify(values));
-        }
-    });
+  const handleClickOpen = () => {
+    console.log("handleClickOpen");
+    setOpen(true);
+    console.log(open);
+  };
 
-    const {
-        values,
-        errors,
-        touched,
-        handleChange,
-        handleSubmit,
-        setFieldValue,
-        handleReset
-    } = formik;
+  const handleAgree = () => {
+    alert("agree");
+  }
 
-    return (
-        <>
-            <TextField
-                id="price"
-                name="price"
-                type="text"
-                onChange={handleChange}
-                value={values.price}
-            />
-            <Select name="hours" id="hours" value={values.hours} onChange={handleChange}>
-                <MenuItem value={60}>01</MenuItem>
-                <MenuItem value={120}>02</MenuItem>
-            </Select>
-            <Button type="submit" onClick={() => handleSubmit()}>Submit</Button>
-        </>
-    );
+  return (
+    <div>
+      <MyDialog title="title" handleClickOpen={handleClickOpen} open={open} content="content" onClickAgree={handleAgree} />
+    </div>
+  );
 }
