@@ -6,8 +6,9 @@ const apiGetAllBrand = '/brands'
 const apiGetAllMotorbike = '/models'
 const apiPostMotorbike = '/motorbike'
 const apiGetListRegisterMotorbike = '/motorbikes'
-const apiGetMotorbikeById = '/motobike'
-const apiUpdateMotorbike = '/motobike'
+const apiGetListMotorbikeByUserId = '/motorbikes/userId';
+const apiGetMotorbikeById = '/motorbike'
+const apiUpdateMotorbike = '/motorbike'
 
 
 export const PostMotorbikeService = {
@@ -26,6 +27,10 @@ export const PostMotorbikeService = {
 
     getListRegisterMotorbike: async (): Promise<Motorbike[]> => {
         const response = await api.get(apiGetListRegisterMotorbike)
+        return response.data
+    },
+    getListMotorbikeByUserId: async (): Promise<Motorbike[]> => {
+        const response = await api.get(apiGetListMotorbikeByUserId)
         return response.data
     },
 

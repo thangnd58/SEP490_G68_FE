@@ -43,10 +43,11 @@ const ListMotorbikeForm = () => {
   useEffect(() => {
     getAllMotorbikesRegistered();
   }, [])
+  console.log(listRegisterMotorbike);
 
   const getAllMotorbikesRegistered = async () => {
     try {
-      const response = await PostMotorbikeService.getListRegisterMotorbike();
+      const response = await PostMotorbikeService.getListMotorbikeByUserId();
       if (response) {
         setListRegisterMotorbike(response);
         setDefaultListRegisterMotorbike(response);
@@ -57,7 +58,7 @@ const ListMotorbikeForm = () => {
   }
 
   // get unique status into 2D array has key is status and value is status using i18next
-  const getUniqueStatus = [...new Set(listRegisterMotorbike.map(item => item.status))];
+  const getUniqueStatus = [...new Set(defaultListRegisterMotorbike.map(item => item.status))];
   const setUniqueStatus = getUniqueStatus.map(item => {
     return { key: item, value: t(`postMotorbike.listform.status-${item.replace(/\s/g, '').toLowerCase()}`) }
   })
@@ -72,13 +73,12 @@ const ListMotorbikeForm = () => {
     if (selectedStatus === "All") {
       setListRegisterMotorbike(defaultListRegisterMotorbike);
     } else {
-      const newList = listRegisterMotorbike.filter(item => item.status === selectedStatus);
+      const newList = defaultListRegisterMotorbike.filter(item => item.status === selectedStatus);
       setListRegisterMotorbike(newList);
     }
   }, [selectedStatus])
 
   const columns = [
-
     {
       field: 'imageUrl', headerName: t("postMotorbike.listform.table-cell-image"), width: 250,
       renderCell: (params: any) => (
@@ -92,7 +92,13 @@ const ListMotorbikeForm = () => {
         </Box>
       ),
     },
-    { field: 'modelName', headerName: t("postMotorbike.listform.table-cell-model"), width: 150 },
+    {
+      field: "model.modelName",
+      headerName: t("postMotorbike.listform.table-cell-model"),
+      width: 150,
+      valueGetter: ({ row } : any) => row.model.modelName
+
+    },
     { field: 'licensePlate', headerName: t("postMotorbike.listform.table-cell-plate"), width: 150 },
     {
       field: 'createDatetime', headerName: t("postMotorbike.listform.table-cell-registerdate"), width: 225,
@@ -326,7 +332,7 @@ function ItemMotorbikeModal({ isMobile, isIpad, isItemModalOpen, closeItemModal,
                 fontWeight="600"
                 fontSize={isMobile ? "32px" : "48px"}
                 textTransform={"uppercase"}>
-                {motorbike?.modelName}
+                {motorbike?.model.modelName}
               </Typography>
               <Box display="flex" flexDirection="row" alignItems="center" width={"100%"} mb={"32px"}>
                 <MyIcon icon={<LocationOn />} hasTooltip tooltipText={t("postMotorbike.listform.badge-location")} onClick={() => { }} position='left' />

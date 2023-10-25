@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import usei18next from '../../../hooks/usei18next';
 import { Chip, Typography } from '@mui/material';
 import theme from '../../../utils/theme';
+import MyIcon from '../../../components/common/MyIcon';
+import EditIcon from '@mui/icons-material/Edit';
 
 const MotorbikeManagement = () => {
 
@@ -34,10 +36,15 @@ const MotorbikeManagement = () => {
     }
 
     const columns = [
-        { field: 'modelName', headerName: t("dashBoardManager.motorbikeRentalManager.columnMotorbikeName"), width: 150 },
-        { field: 'type', headerName: t("dashBoardManager.motorbikeRentalManager.columnType"), width: 150 },
+        {
+            field: 'user.name', headerName: t("dashBoardManager.motorbikeRentalManager.columnUserName"), width: 150, valueGetter: ({ row }: any) => row.user.name
+        },
+        {
+            field: 'model.modelName', headerName: t("dashBoardManager.motorbikeRentalManager.columnMotorbikeName"), width: 100, valueGetter: ({ row }: any) => row.model.modelName
+        },
+        { field: 'type', headerName: t("dashBoardManager.motorbikeRentalManager.columnType"), width: 75 },
         { field: 'address', headerName: t("dashBoardManager.motorbikeRentalManager.columnAddress"), width: 150 },
-        { field: 'licensePlate', headerName: t("dashBoardManager.motorbikeRentalManager.columnLicensePlate"), width: 150 },
+        { field: 'licensePlate', headerName: t("dashBoardManager.motorbikeRentalManager.columnLicensePlate"), width: 125 },
         {
             field: 'createDatetime', headerName: t("dashBoardManager.motorbikeRentalManager.columnCreateDate"), width: 200,
             renderCell: (params: any) => (
@@ -53,41 +60,41 @@ const MotorbikeManagement = () => {
             renderCell: (params: any) => (
                 params.value === "Processing" ? (
                     <Chip
-                      sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
-                      color="warning"
-                      icon={<WarningAmber />}
-                      label={t('postMotorbike.listform.status-processing')} />)
+                        sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                        color="warning"
+                        icon={<WarningAmber />}
+                        label={t('postMotorbike.listform.status-processing')} />)
                     : params.value === "Approved" ? (
-                      <Chip
-                        sx={{ '& .MuiChip-label': { fontSize: "16px" } }}
-                        color="success"
-                        icon={<CheckCircleOutline />}
-                        label={t('postMotorbike.listform.status-approved')} />)
-                      : params.value === "Rejected" ? (
                         <Chip
-                          sx={{ '& .MuiChip-label': { fontSize: "16px" } }}
-                          color="error"
-                          icon={<ErrorOutline />}
-                          label={t('postMotorbike.listform.status-rejected')} />)
-                        : params.value === "On Hiatus" ? (
-                          <Chip
-                            sx={{ '& .MuiChip-label': { fontSize: "16px" } }}
-                            color="warning"
-                            icon={<StopCircleOutlined />}
-                            label={t('postMotorbike.listform.status-onhiatus')} />)
-                          : (
+                            sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                            color="success"
+                            icon={<CheckCircleOutline />}
+                            label={t('postMotorbike.listform.status-approved')} />)
+                        : params.value === "Rejected" ? (
                             <Chip
-                              sx={{ '& .MuiChip-label': { fontSize: "16px" } }}
-                              color="success"
-                              icon={<ChangeCircleOutlined />}
-                              label={t('postMotorbike.listform.status-inoporation')} />)
+                                sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                                color="error"
+                                icon={<ErrorOutline />}
+                                label={t('postMotorbike.listform.status-rejected')} />)
+                            : params.value === "On Hiatus" ? (
+                                <Chip
+                                    sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                                    color="warning"
+                                    icon={<StopCircleOutlined />}
+                                    label={t('postMotorbike.listform.status-onhiatus')} />)
+                                : (
+                                    <Chip
+                                        sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                                        color="success"
+                                        icon={<ChangeCircleOutlined />}
+                                        label={t('postMotorbike.listform.status-inoporation')} />)
             ),
         },
         {
             field: 'id', headerName: t("dashBoardManager.motorbikeRentalManager.columnAction"), width: 100,
             renderCell: (params: any) => (
                 <Box sx={{ cursor: 'pointer' }}>
-                    <VisibilityOutlined onClick={() => navigate(`${ROUTES.admin.motorbikeregister}/${params.value}`)} />
+                    <MyIcon icon={<EditIcon />} hasTooltip position='right' tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.motorbikeregister}/${params.value}`)} />
                 </Box>
             )
         },
@@ -116,7 +123,9 @@ const MotorbikeManagement = () => {
                     sx={{
                         '& .MuiDataGrid-virtualScroller': {
                             minHeight: "300px",
-
+                        },
+                        '& .MuiDataGrid-cell:focus-within': {
+                            outline: "none",
                         },
                     }}
                     rows={listMotorbike}

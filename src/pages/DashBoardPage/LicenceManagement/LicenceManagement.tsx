@@ -1,7 +1,7 @@
 import { Box } from '@mui/system';
 import { DataGridPro, GridToolbar, gridFilteredSortedRowIdsSelector, selectedGridRowsSelector } from '@mui/x-data-grid-pro';
 import React, { useState, useEffect } from 'react';
-import { VisibilityOutlined } from '@mui/icons-material';
+import { CheckCircleOutline, ErrorOutline, VisibilityOutlined, WarningAmber } from '@mui/icons-material';
 import { Lisence } from '../../../utils/type';
 import LicenceManagementService from '../../../services/LicenceManagementService';
 import { GridPrintGetRowsToExportParams, GridRowId } from '@mui/x-data-grid';
@@ -9,8 +9,10 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../utils/Constant';
 import usei18next from '../../../hooks/usei18next';
-import { Typography } from '@mui/material';
+import { Chip, Typography } from '@mui/material';
 import theme from '../../../utils/theme';
+import MyIcon from '../../../components/common/MyIcon';
+import EditIcon from '@mui/icons-material/Edit';
 
 const LicenceManagement = () => {
     const [listLicences, setListLicences] = useState<Lisence[]>([]);
@@ -44,9 +46,9 @@ const LicenceManagement = () => {
     };
 
     const columns = [
-        { field: 'licenceNumber', headerName: t("dashBoardManager.licenseManager.columnLicenseNumber"), width: 200 },
+        { field: 'licenceNumber', headerName: t("dashBoardManager.licenseManager.columnLicenseNumber"), width: 150 },
         { field: 'fullName', headerName: t("dashBoardManager.licenseManager.columnFullName"), width: 200 },
-        { field: 'dob', headerName: t("dashBoardManager.licenseManager.columnDateOfBirth"), width: 200 },
+        { field: 'dob', headerName: t("dashBoardManager.licenseManager.columnDateOfBirth"), width: 150 },
         {
             field: 'createDatetime',
             headerName: t("dashBoardManager.licenseManager.columnCreateDate"),
@@ -62,11 +64,26 @@ const LicenceManagement = () => {
             headerName: t("dashBoardManager.licenseManager.columnStatus"),
             width: 200,
             renderCell: (params: any) => (
-                <Box sx={{ backgroundColor: '#ECFFEE', cursor: 'pointer', width: '100%', fontWeight: '600', textTransform: 'uppercase', textAlign: 'center', color: params.value === 0 ? "warning.main" : params.value === 1 ? "success.main" : "error.main" }}>
-                    {
-                        params.value === 0 ? t("dashBoardManager.licenseManager.statusPending") : params.value === 1 ? t("dashBoardManager.licenseManager.statusVerified") : t("dashBoardManager.licenseManager.statusCancelled")
-                    }
-                </Box>
+
+                params.value === 0 ?
+                    (<Chip
+                        sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                        color="warning"
+                        icon={<WarningAmber />}
+                        label={t("dashBoardManager.licenseManager.statusPending")} />)
+                    : params.value === 1 ?
+                        (<Chip
+                            sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                            color="success"
+                            icon={<CheckCircleOutline />}
+                            label={t("dashBoardManager.licenseManager.statusVerified")} />)
+                        :
+                        (<Chip
+                            sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                            color="error"
+                            icon={<ErrorOutline />}
+                            label={t("dashBoardManager.licenseManager.statusCancelled")} />)
+
             ),
         },
         {
@@ -75,7 +92,7 @@ const LicenceManagement = () => {
             width: 100,
             renderCell: (params: any) => (
                 <Box sx={{ cursor: 'pointer' }}>
-                    <VisibilityOutlined onClick={() => navigate(`${ROUTES.admin.licenceregister}/${params.value}`)} />
+                    <MyIcon icon={<EditIcon />} position='right' hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.licenceregister}/${params.value}`)} />
                 </Box>
             )
         },
@@ -88,24 +105,27 @@ const LicenceManagement = () => {
                     {t("dashBoardManager.Navigation.licenseManager")}
                 </Typography>
             </Box>
-            <Box sx={{ 
-                backgroundColor: "#fff", 
-                borderRadius: "4px" }}>
+            <Box sx={{
+                backgroundColor: "#fff",
+                borderRadius: "4px"
+            }}>
                 <DataGrid
                     sx={{
                         '& .MuiDataGrid-virtualScroller': {
                             minHeight: "300px",
-
+                        },
+                        '& .MuiDataGrid-cell:focus-within': {
+                            outline: "none",
                         },
                     }}
                     rows={listLicences}
                     initialState={{
-                        pagination: { paginationModel: { pageSize: 10 } },
+                        pagination: { paginationModel: { pageSize: 7 } },
                     }}
-                    pageSizeOptions={[5, 10, 25]}
+                    pageSizeOptions={[7, 10, 25]}
                     columns={columns}
                     loading={listLicences.length === 0}
-                    rowHeight={38}
+                    rowHeight={48}
                     checkboxSelection
                     disableRowSelectionOnClick
                     getRowId={(row) => row.licenceId}

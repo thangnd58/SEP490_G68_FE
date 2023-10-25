@@ -23,7 +23,7 @@ export default function EquipmentItem({ icon, label, isChosen }: EquipmentItemPr
             alignContent: 'center',
             padding: '16px 0px',
             gap: '8px',
-            cursor: 'pointer'
+            cursor: 'pointer',
         }}>
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                 {icon}

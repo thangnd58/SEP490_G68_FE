@@ -93,8 +93,8 @@ const RegisterMotorbikeForm = () => {
                 setCanSubmitting(false);
                 setFieldValue("licensePlate", motorbike.licensePlate);
                 setFieldValue("images", motorbike.image.split(","));
-                // setFieldValue("brand", motorbike.bran);
-                setFieldValue("model", motorbike.modelId);
+                setFieldValue("brand", motorbike.model.brand.id);
+                setFieldValue("model", motorbike.model.id);
                 setFieldValue("year", motorbike.releaseYear);
                 setFieldValue("fuel", motorbike.type);
                 setFieldValue("defaultPrice", motorbike.priceRent);
@@ -203,7 +203,9 @@ const RegisterMotorbikeForm = () => {
                         code: response,
                         fileName: "images.zip",
                     };
-                    await handleZipImages(params);
+                    if (listImageFiles.length > 0) {
+                        await handleZipImages(params);
+                    }
 
                 } else {
                     const response = await PostMotorbikeService.postMotorbike(formSubmit);
@@ -213,16 +215,26 @@ const RegisterMotorbikeForm = () => {
                         code: response,
                         fileName: "images.zip",
                     };
-                    await handleZipImages(params);
+                    if (listImageFiles.length > 0) {
+                        await handleZipImages(params);
+                    }
                 }
-                ToastComponent(t('toast.uploadImage.success'), 'success');
-                // wait 1s to upload image
+                if (id) {
+                    ToastComponent(t('postMotorbike.registedForm.update_success'), 'success');
+                } else {
+                    ToastComponent(t('postMotorbike.registedForm.register_success'), 'success');
+                }
+                // wait 2s to upload image
                 setTimeout(() => {
                     navigate(ROUTES.user.listmotorbike);
-                }, 1500);
+                }, 2000);
 
             } catch (error) {
-                ToastComponent("Upload Information Error", "error");
+                if (id) {
+                    ToastComponent(t('postMotorbike.registedForm.update_fail'), 'error');
+                } else {
+                    ToastComponent(t('postMotorbike.registedForm.register_fail'), 'error');
+                }
                 setCanSubmitting(false);
             }
             finally {
@@ -328,11 +340,11 @@ const RegisterMotorbikeForm = () => {
             });
         }
     }, [values.brand]);
-    
+
     useEffect(() => {
         setGetModelName(listModel.find((model) => model.id === Number(values.model))?.modelName || "");
     }, [values.model]);
-    
+
     useEffect(() => {
         if (values.province === "") {
             setFieldValue("district", "");
@@ -374,7 +386,7 @@ const RegisterMotorbikeForm = () => {
                     const imageFilesName = imageFiles.map((image) => image.name);
                     setSelectedImages((prevImages) => [...prevImages, ...imageFilesString]);
                     setListImageFiles([...listImageFiles, ...imageFiles]);
-                    setFieldValue("images", [...values.images ,... imageFilesName]);
+                    setFieldValue("images", [...values.images, ...imageFilesName]);
                 } else {
                     ToastComponent(`Kích thước ảnh không được vượt quá ${MAX_IMAGE_SIZE_MB}MB`, "error",);
                 }
@@ -605,7 +617,6 @@ const RegisterMotorbikeForm = () => {
                     myButton={
                         <Box width={"100%"}>
                             <MyCustomButton
-                                width="20%"
                                 borderRadius={8}
                                 fontSize={16}
                                 fontWeight={600}
@@ -843,7 +854,7 @@ const RegisterMotorbikeForm = () => {
                             <Grid container spacing={2} columnSpacing={{ xs: 3, sm: 3, md: 3 }}>
                                 <Grid item xs={isMobile ? 6 : 4}>
                                     <Box key="Raincoat" onClick={() => handleItemClick("Raincoat")}>
-                                        <EquipmentItem isChosen={values.raincoat} icon={<RainCoatIcon />} label={t("postMotorbike.registedForm.raincoat")} />
+                                        <EquipmentItem  isChosen={values.raincoat} icon={<RainCoatIcon />} label={t("postMotorbike.registedForm.raincoat")} />
                                     </Box>
                                 </Grid>
                                 <Grid item xs={isMobile ? 6 : 4}>
@@ -990,14 +1001,13 @@ const RegisterMotorbikeForm = () => {
                     }
                 />
                 <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"center"} margin={"32px 0px 0px 0px"}>
-                    <MyCustomButton 
-                    disabled={canSubmitting} 
-                    width='30%' 
-                    borderRadius={8} 
-                    fontSize={16} 
-                    fontWeight={600} 
-                    content= {id ? t("postMotorbike.registedForm.btnConfirm") : t("postMotorbike.registedForm.btnSubmit") }
-                    onClick={handleSubmit} />
+                    <MyCustomButton
+                        disabled={canSubmitting}
+                        borderRadius={8}
+                        fontSize={16}
+                        fontWeight={600}
+                        content={id ? t("postMotorbike.registedForm.btnConfirm") : t("postMotorbike.registedForm.btnSubmit")}
+                        onClick={handleSubmit} />
                 </Box>
             </Box>
             {/* <ImageModal selectedImages={selectedImages} selectedImageIndex={selectedImageIndex} closeModal={closeModal} /> */}
@@ -1013,11 +1023,11 @@ const RegisterMotorbikeForm = () => {
                     backgroundColor: 'white',
                     borderRadius: '8px',
                 }}>
-                    <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"start"} alignItems={"center"}>
-                        <Typography width={"100%"} variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "20px" : "24px"} fontWeight={600} textAlign={"start"}>
+                    <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
+                        <Typography  variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "20px" : "24px"} fontWeight={600} textAlign={"start"}>
                             {t("postMotorbike.registedForm.selectAddress")}
                         </Typography>
-                        <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
+                        <Box  height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
                             <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeMapModal} position='bottom' />
                         </Box>
                     </Box>
@@ -1267,7 +1277,6 @@ const RegisterMotorbikeForm = () => {
                                     margin={"24px 0px 0px 0px"}>
                                     <MyCustomButton
                                         disabled={values.province === "" || values.district === "" || values.ward === "" || values.address === ""}
-                                        width='30%'
                                         borderRadius={8}
                                         fontSize={16}
                                         fontWeight={600}
