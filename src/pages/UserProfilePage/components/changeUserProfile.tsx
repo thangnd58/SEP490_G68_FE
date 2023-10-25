@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { RadioGroup, Typography, Button, TextField, FormControlLabel, Radio, Box } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
-import { useAuth } from '../../../contexts/AuthContext';
 import { useFormik } from 'formik';
 import ToastComponent from '../../../components/toast/ToastComponent';
 import UserService from '../../../services/UserService';
@@ -9,13 +8,7 @@ import * as Yup from 'yup';
 import ErrorMessage from '../../../components/common/ErrorMessage';
 import MyCustomButton from '../../../components/common/MyButton';
 import { MyCustomeTextField } from './userInformationComponent';
-
 import { Dayjs } from 'dayjs';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import theme from '../../../utils/theme';
 import { useAppSelector } from '../../../hooks/useAction';
 import { useDispatch } from 'react-redux';
 import { getUserInfo } from '../../../redux/reducers/authReducer';

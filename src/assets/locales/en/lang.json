@@ -113,7 +113,8 @@
     "sendOtp": {
       "success": "OTP has been sent to you",
       "warning": "Send OTP failed",
-      "error": "Error when send OTP"
+      "error": "Error when send OTP",
+      "Conflict" : "Phone number already exists"
     },
     "ConfirmOtp": {
       "success": "Confirm OTP successfully",
@@ -155,7 +156,9 @@
     "BtnUpload": "Upload",
     "ChangeProfile": "Change Profile",
     "InputProfile": "Please input Information",
-    "BtnChange": "Change"
+    "BtnChange": "Change",
+    "notYetVerify" : "Waiting to verify",
+    "Verified" : "Verified"
   },
   "ChangePhone":{
     "Title": "Change Phone Number",

@@ -10,6 +10,8 @@ import * as Yup from "yup";
 import ErrorMessage from '../../../components/common/ErrorMessage';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import { useAppSelector } from '../../../hooks/useAction';
+import { getUserInfo } from '../../../redux/reducers/authReducer';
+import { useDispatch } from 'react-redux';
 
 interface ChildComponentProps {
   setType: React.Dispatch<React.SetStateAction<string>>;
@@ -19,22 +21,14 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
   const { isMobile } = useThemePage();
   const { user } = useAppSelector((state) => state.userInfo);
   const { t } = usei18next();
-  const [oldOtp, setOldOtp] = useState(true);
-  const [showButtons, setShowButtons] = useState(true);
-  const [showOtp, setShowOtp] = useState(true);
-  const getOTP = async () => {
-    try {
-      const response = await UserService.requestVerifyPhone();
-      if (response.status === 200) {
-        setShowButtons(false);
-        ToastComponent(t("toast.sendOtp.success"), "success");
-      } else {
-        ToastComponent(t("toast.sendOtp.warning"), "warning");
-      }
-    } catch (error) {
-      ToastComponent(t("toast.sendOtp.error"), "error");
-    }
-  };
+  const [typeOtp, setTypeOtp] = useState<number>();
+  const [showButtonsOtp1, setShowButtonsOtp1] = useState<boolean>(true);
+  const [showButtonsOtp2, setShowButtonsOtp2] = useState<boolean>(true);
+  const [showButtonsConfirm1, setShowButtonsConfirm1] = useState<boolean>(false);
+  const [showButtonsConfirm2, setShowButtonsConfirm2] = useState<boolean>(false);
+  const [showOtp, setShowOtp] = useState<boolean>(true);
+  const dispatch = useDispatch();
+  
 
   const formik = useFormik({
     initialValues: {
@@ -44,21 +38,79 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
     },
     validationSchema: Yup.object({
       otpOld: Yup.string().required(t('form.required')).matches(/^[0-9]{6}$/, t('form.validateOtp')),
-      phone: Yup.string().required(t('form.required')).matches(/^[0-9]{10}$/, t('form.validateOtp')),
+      phone: Yup.string().required(t('form.required')).matches(/^[0-9]{10}$/, t('form.validatePhone')),
+      otpNew : Yup.string().required(t('form.required')).matches(/^[0-9]{6}$/, t('form.validateOtp')),
     }),
     onSubmit: values => {
-      verifyOtp(values.otpOld);
+      verifyOtp(values.phone, values.otpOld, values.otpNew);
     }
   });
+  
+  const getOTP = async (type : number) => {
+    setTypeOtp(type);
+    let phoneToSend = ""
+    if(type === 1 && user){
+      phoneToSend = user.phone;
+      setFieldValue("phone","0000000000");
+      setFieldValue("otpNew","000000");
+    }else{
+      phoneToSend = values.phone;
+    }
+    if(user){
+      try {
+        const response = await UserService.requestVerifyPhone(phoneToSend,type)
+        if (response.status === 200) {
+          if(type === 1 ){
+            setShowButtonsOtp1(false);
+            setShowButtonsConfirm1(true);
+            setTimeout(() => {
+              setShowButtonsOtp1(true);
+            }, 10000);
+          }else{
+            setShowButtonsOtp2(false);
+            setShowButtonsConfirm2(true);
+            setTimeout(() => {
+              setShowButtonsOtp2(true);
+            }, 10000);
+          }
+          
+          ToastComponent(t("toast.sendOtp.success"), "success");
+        }else if(response.status === 409){
+          ToastComponent(t("toast.sendOtp.Conflict"), "warning");
+        } else {
+          ToastComponent(t("toast.sendOtp.warning"), "warning");
+        }
+      } catch (error) {
+        ToastComponent(t("toast.sendOtp.error"), "error");
+      }
+    }
+    
+  };
 
-
-
-  const verifyOtp = async (otp: string) => {
+  const verifyOtp = async (phone: string, otpOld: string, otpNew : string) => {
     try {
-      const response = await UserService.requestVerifyOtp(otp);
+      let phoneToSend = ""
+      let otpToSend = ""
+      if(typeOtp === 1 && user){
+        phoneToSend = user.phone;
+        otpToSend = otpOld;
+        setFieldValue("phone","");
+        setFieldValue("otpNew","");
+      }else{
+        phoneToSend = phone;
+        otpToSend = otpNew;
+      }
+      const response = await UserService.requestVerifyOtp(phoneToSend, otpToSend);
       if (response.status === 200) {
-        setShowOtp(false);
-        ToastComponent(t("toast.ConfirmOtp.success"), "success");
+        
+        if(typeOtp === 1){
+          setShowOtp(false);
+          ToastComponent(t("toast.ConfirmOtp.success"), "success");
+        }else{
+          dispatch(getUserInfo());
+          setType('info');
+          ToastComponent(t("toast.ChangePhone.success"), "success");
+        }
       } else {
         ToastComponent(t("toast.ConfirmOtp.warning"), "warning");
       }
@@ -71,12 +123,13 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
     errors,
     touched,
     handleChange,
-    handleSubmit
+    handleSubmit,
+    setFieldValue
   } = formik;
 
   return (
     <Box width={'100%'}>
-      {!showOtp ? (
+      {showOtp ? (
 
         <Box className='confirm-old-phone-otp' sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Box display={'flex'} alignItems={'center'}>
@@ -103,8 +156,8 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
                 content={t("ChangePhone.GetOTP")}
                 isWrap={false}
                 variant='outlined'
-                onClick={getOTP}
-                disabled={showButtons ? false : true}
+                onClick={() => getOTP(1)}
+                disabled={showButtonsOtp1 ? false : true}
               ></MyCustomButton>
             </Box>
             <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: '13px' }}>
@@ -116,6 +169,7 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
               fontWeight={400}
               content={t("ChangePhone.BtnConfirm")}
               type='submit'
+              disabled={showButtonsConfirm1 ? false : true}
               isWrap={false}></MyCustomButton>
 
 
@@ -127,7 +181,7 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
             <form
               onSubmit={handleSubmit}
               style={{
-                width: isMobile ? "100%" : "80%",
+                width: isMobile ? "100%" : "50%",
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -171,7 +225,8 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
                   content={t("ChangePhone.GetOTP")}
                   isWrap={false}
                   variant='outlined'
-                  onClick={getOTP}
+                  onClick={() => getOTP(2)}
+                  disabled={showButtonsOtp2 ? false : true}
                 ></MyCustomButton>
               </Box>
 
@@ -185,6 +240,7 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
                 fontWeight={400}
                 content={t("ChangePhone.BtnConfirm")}
                 type='submit'
+                disabled={showButtonsConfirm2 ? false : true}
                 isWrap={false}></MyCustomButton>
             </form>
           </Box>
