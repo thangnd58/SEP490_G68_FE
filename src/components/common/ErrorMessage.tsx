@@ -5,18 +5,8 @@ import theme from "../../utils/theme";
 const ErrorMessage = ({ message }: { message: any }) => {
   const [isVisible, setIsVisible] = useState(true);
 
-//   useEffect(() => {
-//     const timeout = setTimeout(() => {
-//       setIsVisible(false);
-//     }, 1000);
-
-//     return () => {
-//       clearTimeout(timeout);
-//     };
-//   }, []);
-
   return isVisible ? (
-    <Typography fontSize='13px' color={theme.palette.error.main}>
+    <Typography fontSize='13px' color="red">
       {message}
     </Typography>
   ) : null;

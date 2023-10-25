@@ -4,12 +4,12 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Motorbike } from '../../../utils/type';
 import React, { useState, useEffect } from 'react';
 import MotorbikeManagementService from '../../../services/MotorbikeManagementService';
-import { VisibilityOutlined } from '@mui/icons-material';
+import { ChangeCircleOutlined, CheckCircleOutline, ErrorOutline, StopCircleOutlined, VisibilityOutlined, WarningAmber } from '@mui/icons-material';
 import { GridPrintGetRowsToExportParams, GridRowId, GridToolbar, gridFilteredSortedRowIdsSelector, selectedGridRowsSelector } from '@mui/x-data-grid';
 import { ROUTES } from '../../../utils/Constant';
 import { useNavigate } from 'react-router-dom';
 import usei18next from '../../../hooks/usei18next';
-import { Typography } from '@mui/material';
+import { Chip, Typography } from '@mui/material';
 import theme from '../../../utils/theme';
 
 const MotorbikeManagement = () => {
@@ -24,6 +24,7 @@ const MotorbikeManagement = () => {
     const getAllMotorbikes = async () => {
         try {
             const response = await MotorbikeManagementService.getAllMotorbikes();
+            console.log(response)
             if (response) {
                 setListMotorbike(response)
             }
@@ -33,7 +34,7 @@ const MotorbikeManagement = () => {
     }
 
     const columns = [
-        { field: 'motorbikeName', headerName: t("dashBoardManager.motorbikeRentalManager.columnMotorbikeName"), width: 150 },
+        { field: 'modelName', headerName: t("dashBoardManager.motorbikeRentalManager.columnMotorbikeName"), width: 150 },
         { field: 'type', headerName: t("dashBoardManager.motorbikeRentalManager.columnType"), width: 150 },
         { field: 'address', headerName: t("dashBoardManager.motorbikeRentalManager.columnAddress"), width: 150 },
         { field: 'licensePlate', headerName: t("dashBoardManager.motorbikeRentalManager.columnLicensePlate"), width: 150 },
@@ -50,11 +51,36 @@ const MotorbikeManagement = () => {
             headerName: t("dashBoardManager.motorbikeRentalManager.columnStatus"),
             width: 150,
             renderCell: (params: any) => (
-                <Box sx={{ backgroundColor: '#ECFFEE', cursor: 'pointer', width: '100%', fontWeight: '600', textTransform: 'uppercase', textAlign: 'center', color: params.value === 0 ? "warning.main" : params.value === 1 ? "success.main" : "error.main" }}>
-                    {
-                        params.value === 0 ? t("dashBoardManager.motorbikeRentalManager.statusPending") : params.value === 1 ? t("dashBoardManager.motorbikeRentalManager.statusVerified") : t("dashBoardManager.motorbikeRentalManager.statusCancelled")
-                    }
-                </Box>
+                params.value === "Processing" ? (
+                    <Chip
+                      sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                      color="warning"
+                      icon={<WarningAmber />}
+                      label={t('postMotorbike.listform.status-processing')} />)
+                    : params.value === "Approved" ? (
+                      <Chip
+                        sx={{ '& .MuiChip-label': { fontSize: "16px" } }}
+                        color="success"
+                        icon={<CheckCircleOutline />}
+                        label={t('postMotorbike.listform.status-approved')} />)
+                      : params.value === "Rejected" ? (
+                        <Chip
+                          sx={{ '& .MuiChip-label': { fontSize: "16px" } }}
+                          color="error"
+                          icon={<ErrorOutline />}
+                          label={t('postMotorbike.listform.status-rejected')} />)
+                        : params.value === "On Hiatus" ? (
+                          <Chip
+                            sx={{ '& .MuiChip-label': { fontSize: "16px" } }}
+                            color="warning"
+                            icon={<StopCircleOutlined />}
+                            label={t('postMotorbike.listform.status-onhiatus')} />)
+                          : (
+                            <Chip
+                              sx={{ '& .MuiChip-label': { fontSize: "16px" } }}
+                              color="success"
+                              icon={<ChangeCircleOutlined />}
+                              label={t('postMotorbike.listform.status-inoporation')} />)
             ),
         },
         {
@@ -85,17 +111,23 @@ const MotorbikeManagement = () => {
                     {t("dashBoardManager.Navigation.motorbikeRentalManager")}
                 </Typography>
             </Box>
-            <Box sx={{ backgroundColor: "#fff", borderRadius:"4px" }}>
+            <Box sx={{ backgroundColor: "#fff", borderRadius: "4px" }}>
                 <DataGrid
+                    sx={{
+                        '& .MuiDataGrid-virtualScroller': {
+                            minHeight: "300px",
+
+                        },
+                    }}
                     rows={listMotorbike}
                     initialState={{
-                        pagination: { paginationModel: { pageSize: 10 } },
+                        pagination: { paginationModel: { pageSize: 7 } },
                     }}
-                    
-                    pageSizeOptions={[5, 10, 25]}
+
+                    pageSizeOptions={[7, 10, 25]}
                     columns={columns}
                     loading={listMotorbike.length === 0}
-                    rowHeight={38}
+                    rowHeight={48}
                     checkboxSelection
                     disableRowSelectionOnClick
                     pagination

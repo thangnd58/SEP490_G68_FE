@@ -116,9 +116,6 @@ function Header() {
                                     <MyCustomButton onClick={() => navigate(ROUTES.account.register)} content={t('header.register')} variant='outlined' />
                                 </Box>
                             ) : (
-
-
-
                                 <Box
                                     aria-owns={open ? 'hover-menu' : undefined}
                                     aria-haspopup="true"

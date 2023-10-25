@@ -88,9 +88,16 @@ const LicenceManagement = () => {
                     {t("dashBoardManager.Navigation.licenseManager")}
                 </Typography>
             </Box>
-            <Box sx={{ backgroundColor: "#fff", borderRadius: "4px" }}>
+            <Box sx={{ 
+                backgroundColor: "#fff", 
+                borderRadius: "4px" }}>
                 <DataGrid
+                    sx={{
+                        '& .MuiDataGrid-virtualScroller': {
+                            minHeight: "300px",
 
+                        },
+                    }}
                     rows={listLicences}
                     initialState={{
                         pagination: { paginationModel: { pageSize: 10 } },

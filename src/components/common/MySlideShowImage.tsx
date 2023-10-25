@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import React from 'react';
 import { Fade } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
+import useThemePage from '../../hooks/useThemePage';
 
 
 interface CreateFadeEffectImageProps {
@@ -14,20 +15,34 @@ interface CreateFadeEffectImageProps {
 }
 
 export default function MySlideShowImage(props: CreateFadeEffectImageProps) {
+    const isMobile = useThemePage();
+    const isIpad = useThemePage();
     return (
-        console.log(props.images),
-        <Box className="slide-container">
+        <Box className="slide-container" width={"100%"}>
             <Fade
-            autoplay={props.autoPlay ? props.autoPlay : false}
+                autoplay={true}
+                duration={3000}
+                canSwipe={true}
+                pauseOnHover={true}
+                transitionDuration={500}
             >
                 {props.images.map((item) => (
-                    <Box key={item} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <img style={{
-                            borderRadius: '8px',
-                            border: '8px solid #E0E0E0',
-                            width: '100px',
-                            height: '100px'
-                        }} src={item} />
+                    <Box key={item} 
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',                        
+                    }}>
+                        <img
+                            style={{
+                                borderRadius: '8px',
+                                alignContent: 'center',
+                                justifyContent: 'center',
+                                width: '60%',
+                                objectFit: 'cover',
+                            }}
+                            src={item}
+                        />
                     </Box>
                 ))}
             </Fade>

@@ -16,10 +16,10 @@ const theme = createTheme({
             main: '#F29100' // warning color
         },
         success: {
-            main: '#00BB5D' // success color
+            main: '#6EBF87' // success color
         },
         error: {
-            main: '#F9503D' // error color
+            main: '#FFCCCC' // error color
         },
         action: {
             hover: '#E0E0E0', // hover color

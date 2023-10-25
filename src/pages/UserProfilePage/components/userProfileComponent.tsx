@@ -55,7 +55,7 @@ function UserProfileComponent() {
         </Box>
       )}
 
-      {type === 'info' && <UserInformationComponent setType={setType} setShowButtons={setShowButtons}/>}
+      {type === 'info' && <UserInformationComponent setType={setType} setShowButtons={setShowButtons} />}
 
       {type === 'changePass' &&
 
