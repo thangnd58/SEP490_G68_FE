@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
-import { Avatar, Typography, Button, TextField, Box, Chip, styled } from '@mui/material';
+import { Avatar, Typography, Button, TextField, Box, Chip, styled, Tooltip } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
 import { AuthContext, useAuth } from '../../../contexts/AuthContext';
 import * as Yup from 'yup';
@@ -312,11 +312,19 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                           label={t('userProfile.Verified')} />
                       )}
                       {user.phoneVerified === false && (
-                        <Chip
-                          sx={{ '& .MuiChip-label': { fontSize: "15px" }, height : '90%' }}
+                        <Tooltip title={t('userProfile.AlertVerify')}>
+                          <Chip
+                          sx={{ '& .MuiChip-label': { fontSize: "15px" }, height : '90%', cursor : 'pointer' }}
                           color="warning"
                           icon={<WarningAmber />}
-                          label={t('userProfile.notYetVerify')} />
+                          label={t('userProfile.notYetVerify')}
+                          onClick={() => {
+                            setType('verifyPhone');
+                            setShowButtons(false);
+                            }}
+                          />
+                        </Tooltip>
+                        
                         )}
                       
 
@@ -329,6 +337,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                         setType('changePhone');
                         setShowButtons(false);
                       }} />
+                      
                     {/* <Button onClick={ChangePhone}>{t('userProfile.BtnChange')}</Button> */}
                     </Box>
                 </Box>

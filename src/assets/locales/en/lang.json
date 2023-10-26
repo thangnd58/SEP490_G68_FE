@@ -125,6 +125,11 @@
       "success": "Change phone successfully",
       "warning": "Change phone failed",
       "error": "Error when change phone"
+    },
+    "VerifyPhone":{
+      "success": "Verify phone successfully",
+      "warning": "Verify phone failed",
+      "error": "Error when verify phone"
     }
   },
   "footer": {
@@ -158,7 +163,8 @@
     "InputProfile": "Please input Information",
     "BtnChange": "Change",
     "notYetVerify" : "Waiting to verify",
-    "Verified" : "Verified"
+    "Verified" : "Verified",
+    "AlertVerify" : "Please verify your phone number"
   },
   "ChangePhone":{
     "Title": "Change Phone Number",
@@ -167,6 +173,13 @@
     "GetOTP" : "Get OTP",
     "NewPhone": "New Phone",
     "Phone": "Phone"
+  },
+  "VerifyPhone":{
+    "Title": "Verify Phone Number",
+    "BtnConfirm": "Confirm",
+    "BtnChange": "Complete",
+    "GetOTP" : "Get OTP",
+    "TooltipGetOTP" : "The system will send a message containing the OTP code to your phone."
   },
   "changePassword": {
     "Title": "Change Password",

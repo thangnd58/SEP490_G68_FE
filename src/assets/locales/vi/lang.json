@@ -125,6 +125,11 @@
       "success": "Cập nhật số điện thoại thành công",
       "warning": "Cập nhật số điện thoại thất bại",
       "error": "Lỗi cập nhật số điện thoại"
+    },
+    "VerifyPhone":{
+      "success": "Xác minh số điện thoại thành công",
+      "warning": "Xác minh số điện thoại thất bại",
+      "error": "Lỗi xác minh số điện thoại"
     }
   },
   "footer": {
@@ -158,7 +163,8 @@
     "InputProfile": "Vui lòng điền thông tin",
     "BtnChange": "Thay đổi",
     "notYetVerify" : "Chưa xác minh",
-    "Verified" : "Đã xác minh"
+    "Verified" : "Đã xác minh",
+    "AlertVerify" : "Hãy xác minh số điện thoại của bạn"
   },
   "ChangePhone":{
     "Title": "Thay đổi số điện thoại",
@@ -167,6 +173,13 @@
     "GetOTP" : "Lấy OTP",
     "NewPhone": "Số Điện Thoại Mới",
     "Phone": "Số Điện Thoại"
+  },
+  "VerifyPhone":{
+    "Title": "Xác thực số điện thoại",
+    "BtnConfirm": "Xác nhận",
+    "BtnChange": "Đông ý",
+    "GetOTP" : "Lấy OTP",
+    "TooltipGetOTP" : "Hệ thống sẽ gửi tin nhắn chứa mã xác thực đến số điện thoại của bạn."
   },
   "changePassword": {
     "Title": "Đổi mật khẩu",
