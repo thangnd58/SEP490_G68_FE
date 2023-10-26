@@ -38,6 +38,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
 
   useEffect(() => {
     getLisence();
+    console.log(user.phoneVerified);
   }, []);
 
   const getLisence = async () => {
@@ -187,10 +188,6 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
     }
   };
 
-  const ChangePhone = () => {
-    setType('changePhone');
-    setShowButtons(false);
-  }
   const handleUploadLicenseImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const file = event.target.files && event.target.files[0];
@@ -303,20 +300,37 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
-                    {t('userProfile.PhoneNumber')}
-                  </Typography>
-                  <Box display={'flex'} alignItems={'center'} alignContent={'center'}>
-                    <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600} display={'inline'} marginRight={1}>
-                      {user.phone ? user.phone : t('userProfile.InputProfile')}
-                    </Typography>
-                    <MyIcon icon={<EditIcon />} hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => {
-                      setType('changePhone');
-                      setShowButtons(false);
-                    }} />
-                    {/* <Button onClick={ChangePhone}>{t('userProfile.BtnChange')}</Button> */}
-                  </Box>
+                    <Box display={'flex'} alignItems={'center'} alignContent={'center'}>
+                      <Typography variant="h6" marginRight={1} fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
+                      {t('userProfile.PhoneNumber')}
+                      </Typography>
+                      {user.phoneVerified === true && (
+                        <Chip
+                          sx={{ '& .MuiChip-label': { fontSize: "15px" }, height : '90%'}}
+                          color="success"
+                          icon={<CheckCircleOutline />}
+                          label={t('userProfile.Verified')} />
+                      )}
+                      {user.phoneVerified === false && (
+                        <Chip
+                          sx={{ '& .MuiChip-label': { fontSize: "15px" }, height : '90%' }}
+                          color="warning"
+                          icon={<WarningAmber />}
+                          label={t('userProfile.notYetVerify')} />
+                        )}
+                      
 
+                    </Box>
+                    <Box display={'flex'} alignItems={'center'} alignContent={'center'}>
+                      <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600} display={'inline'} marginRight={1}>
+                          {user.phone ? user.phone : t('userProfile.InputProfile')}
+                        </Typography>
+                      <MyIcon icon={<EditIcon />} hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => {
+                        setType('changePhone');
+                        setShowButtons(false);
+                      }} />
+                    {/* <Button onClick={ChangePhone}>{t('userProfile.BtnChange')}</Button> */}
+                    </Box>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                   <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>

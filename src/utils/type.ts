@@ -9,7 +9,8 @@ export interface User {
     avatar: string,
     password?: string,
     avatarUrl: string,
-    role : Role
+    role: Role,
+    phoneVerified : boolean
 }
 
 export interface Role {

@@ -113,7 +113,8 @@
     "sendOtp": {
       "success": "OTP đã được gửi đến bạn",
       "warning": "Gửi OTP thất bại",
-      "error": "Lỗi gửi OTP"
+      "error": "Lỗi gửi OTP",
+      "Conflict" : "Số điện thoại đã tồn tại"
     },
     "ConfirmOtp": {
       "success": "Xác nhận OTP thành công",
@@ -155,7 +156,9 @@
     "BtnUpload": "Tải lên ảnh",
     "ChangeProfile": "Chỉnh sửa hồ sơ",
     "InputProfile": "Vui lòng điền thông tin",
-    "BtnChange": "Thay đổi"
+    "BtnChange": "Thay đổi",
+    "notYetVerify" : "Chưa xác minh",
+    "Verified" : "Đã xác minh"
   },
   "ChangePhone":{
     "Title": "Thay đổi số điện thoại",
