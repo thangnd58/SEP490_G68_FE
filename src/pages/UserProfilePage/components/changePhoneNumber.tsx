@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, } from 'react';
-import { Typography, TextField, Box, Button } from '@mui/material';
+import { Typography, TextField, Box, Tooltip } from '@mui/material';
 import MyCustomButton from '../../../components/common/MyButton';
 import useThemePage from '../../../hooks/useThemePage';
 import usei18next from '../../../hooks/usei18next';
@@ -26,7 +26,7 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
   const [showButtonsOtp2, setShowButtonsOtp2] = useState<boolean>(true);
   const [showButtonsConfirm1, setShowButtonsConfirm1] = useState<boolean>(false);
   const [showButtonsConfirm2, setShowButtonsConfirm2] = useState<boolean>(false);
-  const [showOtp, setShowOtp] = useState<boolean>(true);
+  const [showOtp, setShowOtp] = useState<boolean>(user?.phoneVerified ? true : false);
   const dispatch = useDispatch();
   
 
@@ -148,17 +148,20 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
                 value={values.otpOld}
                 onChange={handleChange}
               />
-
-              <MyCustomButton
-                borderRadius={8}
-                fontSize={isMobile ? 12 : 16}
-                fontWeight={400}
-                content={t("ChangePhone.GetOTP")}
-                isWrap={false}
-                variant='outlined'
-                onClick={() => getOTP(1)}
-                disabled={showButtonsOtp1 ? false : true}
-              ></MyCustomButton>
+              <Tooltip title={t("VerifyPhone.TooltipGetOTP")}>
+                <Box>
+                  <MyCustomButton
+                    borderRadius={8}
+                    fontSize={isMobile ? 12 : 16}
+                    fontWeight={400}
+                    content={t("ChangePhone.GetOTP")}
+                    isWrap={false}
+                    variant='outlined'
+                    onClick={() => getOTP(1)}
+                    disabled={showButtonsOtp1 ? false : true}
+                  ></MyCustomButton>
+                </Box>
+              </Tooltip>
             </Box>
             <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: '13px' }}>
               {errors.otpOld && touched.otpOld && <ErrorMessage message={errors.otpOld} />}
@@ -216,18 +219,21 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
                   value={values.otpNew}
                   onChange={handleChange}
                 />
-
-                <MyCustomButton
-                  borderRadius={8}
-                  fontSize={isMobile ? 12 : 16}
-                  fontWeight={400}
-                  height='67%'
-                  content={t("ChangePhone.GetOTP")}
-                  isWrap={false}
-                  variant='outlined'
-                  onClick={() => getOTP(2)}
-                  disabled={showButtonsOtp2 ? false : true}
-                ></MyCustomButton>
+                <Tooltip title={t("VerifyPhone.TooltipGetOTP")}>
+                  <Box>
+                    <MyCustomButton
+                      borderRadius={8}
+                      fontSize={isMobile ? 12 : 16}
+                      fontWeight={400}
+                      height='67%'
+                      content={t("ChangePhone.GetOTP")}
+                      isWrap={false}
+                      variant='outlined'
+                      onClick={() => getOTP(2)}
+                      disabled={showButtonsOtp2 ? false : true}
+                    ></MyCustomButton>
+                  </Box>
+                </Tooltip>
               </Box>
 
 

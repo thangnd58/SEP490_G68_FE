@@ -27,26 +27,25 @@ const ChangeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
         initialValues: {
             name: user ? user.name : '',
             gender: user ? user.gender : 'Male',
-            phone: user ? user.phone : '',
             dob: user ? user.dob : '',
             address: user ? user.address : '',
         },
         validationSchema: Yup.object({
             name: Yup.string().required(t('form.required')),
-            phone: Yup.string().required(t('form.required')).matches(/^[0-9]{10}$/, t('form.validatePhone')),
             dob: Yup.string().required(t('form.required')),
             address: Yup.string().required(t('form.required')),
         }),
         onSubmit: values => {
-            changeUserProfile(values.name, values.phone, values.gender, values.dob, values.address);
+            changeUserProfile(values.name,  values.gender, values.dob, values.address);
         },
     });
 
-    const changeUserProfile = async (name: string, phone: string, gender: string, dob: string, address: string) => {
+    const changeUserProfile = async (name: string, gender: string, dob: string, address: string) => {
+        if(user){
         try {
             const response = await UserService.changeUserProfile(
                 name,
-                phone,
+                user.phone,
                 gender,
                 dob,
                 address
@@ -60,6 +59,7 @@ const ChangeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
             }
         } catch (error) {
             ToastComponent(t('toast.changeUserProfile.error'), 'error');
+        }
         }
     };
 
@@ -104,21 +104,6 @@ const ChangeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
                             label={t('userProfile.Female')}
                         />
                     </RadioGroup>
-                </Box>
-                <MyCustomeTextField
-                    name="phone"
-                    label={t('userProfile.PhoneNumber')}
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={values.phone}
-                    onChange={handleChange}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
-                <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'start' }}>
-                    {errors.phone && touched.phone && <ErrorMessage message={errors.phone} />}
                 </Box>
                 <MyCustomeTextField
                     name="dob"
