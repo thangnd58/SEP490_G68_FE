@@ -32,11 +32,11 @@ const AuthProvider = (props: { children: JSX.Element }) => {
     const navigate = useNavigate();
     const { t } = usei18next();
     const dispatch = useAppDispatch();
-    const { user } = useAppSelector((state:any) => state.userInfo);
+    const { user } = useAppSelector((state: any) => state.userInfo);
 
     useEffect(() => {
         const token = UserService.getToken();
-        if (token && user) {
+        if (token && user && UserService.isLoggedIn()) {
             setIslogin(true);
         }
     }, [])

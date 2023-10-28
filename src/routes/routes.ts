@@ -43,7 +43,7 @@ export const routes: Route[] = [
     { path: ROUTES.other.pagenotfound, component: PageNotFound, layout: LayoutEmpty },
 
     // User Page
-    { path: ROUTES.user.userprofile, component: UserProfilePage, role: ["Admin","Staff", "Customer"] },
+    { path: ROUTES.user.userprofile, component: UserProfilePage, role: ["Admin", "Staff","Customer"] },
     { path: ROUTES.user.registermotorbike, component: RegisterMotorbike, role: ["Customer"] },
     { path: ROUTES.user.listmotorbike, component: ListMotorbike, role: ["Customer"] },
     { path: `${ROUTES.user.updateregistermotorbike}/:id`, component: UpdateRegisterMotorbike, role: ["Customer"] },
