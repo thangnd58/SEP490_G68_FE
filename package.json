@@ -67,6 +67,7 @@
     ]
   },
   "devDependencies": {
-    "@types/file-saver": "^2.0.6"
+    "@types/file-saver": "^2.0.6",
+    "eslint": "^8.52.0"
   }
 }

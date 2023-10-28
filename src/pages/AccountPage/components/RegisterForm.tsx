@@ -104,7 +104,7 @@ const RegisterForm = () => {
         .oneOf([Yup.ref('password')], t('form.passwordsMustMatch')).required(t('form.required')),
     }),
     onSubmit: values => {
-      register({ name: values.username, email: values.email, password: values.password });
+      register({ name: values.username, email: values.email, password: values.password, phone: values.phone});
     },
   });
 
