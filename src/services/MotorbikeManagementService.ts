@@ -8,11 +8,11 @@ const MotorbikeManagementService = {
         return (await api.get(urlMotorbikes)).data;
     },
     getMotorbikesById:async (id: number): Promise<Motorbike> => {
-        return (await api.get(`/motobike/${id}`)).data
+        return (await api.get(`/motorbike/${id}`)).data
     },
-    changeStatus: async (id: number,status: number, statusComment: string) => {
+    changeStatus: async (id: number,status: string, statusComment: string) => {
         const params = { status, statusComment}
-        return await api.put(`/motorbike/${id}`, params);
+        return await api.put(`/motorbike/handle/${id}`, params);
     }
 }
 export default MotorbikeManagementService

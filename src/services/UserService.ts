@@ -93,7 +93,14 @@ const UserService = {
     },
     deleteAvatarUser: async (userId: number) => {
         return await api.delete(`/user/${userId}/avatar`);
+    },
+    requestVerifyPhone : async (phone:string,type :number) =>{
+        return api.post('/user/phone/request-verify',{ phone: phone,type :type })
+    },
+    requestVerifyOtp : async (phone:string, otp : string) =>{
+        return api.post('/user/phone/verify',{phone: phone, otp: otp })
     }
+    
 }
 
 export default UserService 

@@ -12,11 +12,11 @@ export const ProvincesService = {
         const response = await axios.get(apiGetProvinces)
         return response.data
     },
-    getDistrictsByProvince: async (code: number): Promise<Province> => {
+    getDistrictsByProvince: async (code: string): Promise<Province> => {
         const response = await axios.get(apiGetDistrictsByProvince + '/' + code + '?depth=2')
         return response.data
     },
-    getWardsByDistrict: async (code: number): Promise<District> => {
+    getWardsByDistrict: async (code: string): Promise<District> => {
         const response = await axios.get(apiGetWardsByDistrict + '/' + code + '?depth=2')
         return response.data
     }

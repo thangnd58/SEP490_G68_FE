@@ -13,13 +13,13 @@ const theme = createTheme({
             secondary: '#73787E', // secondary text color
         },
         warning: {
-            main: '#F29100' // warning color
+            main: '#FFC68A' // warning color
         },
         success: {
-            main: '#00BB5D' // success color
+            main: '#6EBF87' // success color
         },
         error: {
-            main: '#F9503D' // error color
+            main: '#FFCCCC' // error color
         },
         action: {
             hover: '#E0E0E0', // hover color

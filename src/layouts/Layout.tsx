@@ -5,11 +5,11 @@ import Footer from './components/Footer'
 
 const Layout = ({ children }: { children: JSX.Element }) => {
     return (
-        <div>
+        <Box>
             <Header />
             <Box sx={{minHeight: '80vh'}} >{children}</Box>
             <Footer />
-        </div>
+        </Box>
     )
 }
 

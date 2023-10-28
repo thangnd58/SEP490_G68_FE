@@ -1,84 +1,39 @@
-// import React, { useState, useMemo, useEffect } from "react";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-import usePlacesAutocomplete, {
-    getGeocode,
-    getLatLng,
-} from "use-places-autocomplete";
-import { Box, IconButton, MenuItem, Select, TextField, Typography } from "@mui/material";
-
 import * as React from 'react';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import CloseIcon from "@mui/icons-material/Close";
-import Slide from "@mui/material/Slide";
-import { use } from "i18next";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+import { TransitionProps } from '@mui/material/transitions';
+import MyDialog from './MyDialog';
 
-export default function MyMapArea() {
-    return (
-        <CustomizedSnackbars autoHideDuration={1000} severity="error" message="This is a error message!" />
-    )
-}
-
-interface CustomizedSnackbarsProps {
-    autoHideDuration: number;
-    severity: "success" | "error" | "warning" | "info";
-    message: string;
-};
-
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-    props,
-    ref,
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>,
 ) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export function CustomizedSnackbars( { autoHideDuration, severity, message }: CustomizedSnackbarsProps) {
-    const [open, setOpen] = React.useState(true);
-    const [inputValue, setInputValue] = React.useState('');
+export default function AlertDialogSlide() {
+  const [open, setOpen] = React.useState(false);
 
+  const handleClickOpen = () => {
+    console.log("handleClickOpen");
+    setOpen(true);
+    console.log(open);
+  };
 
-    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpen(false);
-    };
+  const handleAgree = () => {
+    alert("agree");
+  }
 
-    const action = (
-        <>
-            <IconButton
-                size="small"
-                aria-label="close"
-                color="inherit"
-                onClick={handleClose}
-            >
-                <CloseIcon fontSize="small" />
-            </IconButton>
-        </>
-    );
-
-    return (
-        <div>
-            <Snackbar
-                open={open}
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                autoHideDuration={autoHideDuration}
-                TransitionComponent={Slide}
-                transitionDuration={{ enter: 1000, exit: 2000 }}
-                TransitionProps={{ enter: true, exit: false }}
-                onClose={handleClose}
-                action={action}
-                sx={{
-                    color: "secondary",
-                    "& .MuiSnackbarContent-root": { backgroundColor: "green" }
-                }}
-            >
-                <Alert severity={severity} sx={{ width: "100%" }}>
-                    {message}
-                </Alert>
-            </Snackbar>
-        </div>
-    );
+  return (
+    <div>
+      <MyDialog title="title" handleClickOpen={handleClickOpen} open={open} content="content" onClickAgree={handleAgree} />
+    </div>
+  );
 }

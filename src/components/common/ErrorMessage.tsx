@@ -1,11 +1,15 @@
+import React, { useState, useEffect } from 'react';
 import { Typography } from "@mui/material";
-import { memo } from "react";
 import theme from "../../utils/theme";
 
-const ErrorMessage = memo(({ message }: { message: string }) => {
-    return <Typography fontSize='13px' color={theme.palette.error.main}>
-        {message}
-    </Typography>
-})
+const ErrorMessage = ({ message }: { message: any }) => {
+  const [isVisible, setIsVisible] = useState(true);
 
-export default ErrorMessage
+  return isVisible ? (
+    <Typography fontSize='13px' color="red">
+      {message}
+    </Typography>
+  ) : null;
+};
+
+export default ErrorMessage;

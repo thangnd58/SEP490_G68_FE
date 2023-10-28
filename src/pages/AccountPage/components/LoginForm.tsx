@@ -71,7 +71,6 @@ const FormStyle = styled('form')(({ theme }) => ({
     justifyContent: 'center',
     marginBottom: '1.5rem',
     '& .login-form-content': {
-      width: '80%',
       '& .error-text': {
         color: theme.palette.error.main,
       },
@@ -115,14 +114,14 @@ const LoginForm = () => {
       email: Yup.string()
         .email(t("form.validateEmail"))
         .required(t("form.required")),
-      // password: Yup.string()
-      //   .min(8, t("form.validatePassword", { min: 8 }))
-      //   .max(32, t("form.validatePasswordMax", { max: 32 }))
-      //   .matches(
-      //     /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-      //     t("form.validateCharacter")
-      //   )
-      //   .required(t("form.required")),
+      password: Yup.string()
+        // .min(8, t("form.validatePassword", { min: 8 }))
+        // .max(32, t("form.validatePasswordMax", { max: 32 }))
+        // .matches(
+        //   /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+        //   t("form.validateCharacter")
+        // )
+        .required(t("form.required")),
     }),
     onSubmit: values => {
       login({ email: values.email, password: values.password }, !saveAccount)
@@ -163,12 +162,12 @@ const LoginForm = () => {
 
   return (
     <FormStyle className='form' onSubmit={handleSubmit}>
-      <Paper elevation={3} sx={{ width: isMobile ? '80%' : '30%', }}>
+      <Paper elevation={3} sx={{ width: isMobile ? '75%' : '30%'}}>
         <Typography className='login'>
           {t("form.login")}
         </Typography>
         <Box className='login-form'>
-          <Box className="login-form-content">
+          <Box className="login-form-content" sx={{width: isMobile ? "100%" : "80%"}}>
             <TextField
               name='email'
               label={t("form.email")}
@@ -265,10 +264,6 @@ const LoginForm = () => {
             </Box>
           </Box>
         </Box>
-
-
-
-
       </Paper>
     </FormStyle >
   );

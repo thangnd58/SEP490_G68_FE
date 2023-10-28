@@ -1,5 +1,5 @@
 
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, TextareaAutosize, TextField } from "@mui/material";
 import usei18next from "../../../hooks/usei18next";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -7,15 +7,39 @@ import MotorbikeManagementService from "../../../services/MotorbikeManagementSer
 import { Motorbike } from "../../../utils/type";
 import MyCustomButton from "../../../components/common/MyButton";
 import ToastComponent from "../../../components/toast/ToastComponent";
+import { useFormik } from "formik";
+import MyIcon from "../../../components/common/MyIcon";
+import { ArrowBack } from "@mui/icons-material";
+import theme from "../../../utils/theme";
+import useThemePage from "../../../hooks/useThemePage";
 
 const MotorbikeRegisterDetail = () => {
     const { t } = usei18next()
     const { id } = useParams();
+    const [statusChange, setStatusChange] = useState<string>();
     const navigate = useNavigate()
     const [motorbike, setMotorbike] = useState<Motorbike>();
+    const { isMobile, isIpad } = useThemePage();
+
     useEffect(() => {
         getMotobikeById(Number(id))
     }, [id])
+
+    const formik = useFormik({
+        initialValues: {
+            statusComment: ""
+        },
+        onSubmit: values => {
+            if (statusChange)
+                changeStatus(statusChange, values.statusComment);
+        }
+    });
+
+    const {
+        values,
+        handleChange,
+        handleSubmit,
+    } = formik;
 
     const getMotobikeById = async (id: number) => {
         try {
@@ -28,73 +52,236 @@ const MotorbikeRegisterDetail = () => {
         }
     }
 
-    const changeStatus = async (status: number) => {
+    const changeStatus = async (status: string, statusComment: string) => {
         try {
-            const response = await MotorbikeManagementService.changeStatus(Number(id),Number(status),"")
+            const response = await MotorbikeManagementService.changeStatus(Number(id), status, statusComment)
             if (response.status === 200) {
-                if(status == 1){
+                if (status == "Approved") {
+                    navigate(-1);
                     ToastComponent(t("toast.dashboardMotorbike.Arrprove.success"), "success");
-                }else {
+                } else {
+                    navigate(-1);
                     ToastComponent(t("toast.dashboardMotorbike.Reject.success"), "success");
                 }
-                
+
             } else {
-                if(status == 1){
+                if (status == "Approved") {
                     ToastComponent(t("toast.dashboardMotorbike.Arrprove.warning"), "warning");
-                }else {
-                    ToastComponent(t("toast.dashboardMotorbike.Reject.success"), "success");
+                } else {
+                    ToastComponent(t("toast.dashboardMotorbike.Reject.warning"), "warning");
                 }
             }
         } catch (error) {
-            if(status == 1){
+            if (status == "Approved") {
                 ToastComponent(t("toast.dashboardMotorbike.Arrprove.error"), "error");
-            }else{
+            } else {
                 ToastComponent(t("toast.dashboardMotorbike.Reject.error"), "error");
             }
-            
+
         }
-        
-      };
+
+    };
+    // get first image in list imageUrl
+    const getImageUrl = motorbike?.imageUrl[0];
 
     return (
-        <Box sx={{ display: 'flex', height: '88vh', marginTop: '2rem' }}>
-            <Box flex={1} width={'50%'} marginLeft={2} borderRadius={5} sx={{ background: 'linear-gradient(#8B4513, White)' }} display={'grid'} gridTemplateColumns={'1fr'}>
-                <Typography color={'white'} marginTop={3} marginLeft={3} fontSize={29} fontWeight={'bold'}>{t("dashBoardManager.Motobike.Title")}</Typography>
-                <Box display={'flex'} justifyContent={'center'} >
-                    <Box height="260px" width="510px" display={'flex'} sx={{ backgroundColor: 'White' }} justifyContent={'center'} alignItems={'center'}>
-                        <img height="250px" width="500px" src={motorbike?.image} alt={'licence'} />
-                    </Box>
-                </Box>
+        <Box width={'100%'} display={'flex'} flexDirection={'column'} gap={"16px"}>
+            <Box sx={{ backgroundColor: "#8B4513" }} width={'100%'} display={'flex'} flexDirection={'row'} alignItems={'center'} gap={1} >
+                <MyIcon icon={<ArrowBack style={{ color: theme.palette.common.white }} />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-back")} onClick={() => navigate(-1)} position='bottom' />
+                <Typography color={theme.palette.common.white} variant="h1" fontSize={24} fontWeight={700}>
+                    {t("dashBoardManager.Navigation.licenseManager")}
+                </Typography>
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', mx: '1rem', gap: '3rem', width: '50%', position: 'relative' }} >
-                <Box sx={{ display: 'flex' }}>
-                    <Typography variant="h5" sx={{ color: 'Black', marginRight: 1 }} align="right" fontWeight={'bold'}>{t("dashBoardManager.Motobike.Name")} :</Typography>
-                    <Typography variant="h5" align="left">{motorbike?.motorbikeName}</Typography>
+
+            <Box sx={{
+                border: "1px solid #E0E0E0",
+                backgroundColor: "#fff",
+                borderRadius: "8px",
+                display: 'flex',
+                flexDirection: isMobile ? 'column' : 'row',
+                alignContent: 'center',
+                padding: isMobile ? '2rem' : '3rem',
+                justifyContent: 'center',
+                gap: '3rem'
+            }}>
+                <Box sx={{ display: 'flex', width: isMobile ? '90%' : '40%', alignItems: 'center', justifyContent: 'center' }}>
+                    <img
+                        style={{
+                            width: '90%',
+                            borderRadius: '16px',
+                            objectFit: 'cover',
+                            border: '3px solid #8B4513',
+                            padding: '1rem'
+                        }}
+                        src={getImageUrl}
+                        alt={'motorbike'}>
+
+                    </img>
                 </Box>
-                <Box sx={{ display: 'flex' }}>
-                    <Typography variant="h5" sx={{ color: 'Black', marginTop: 1, marginRight: 1 }} align="right" fontWeight={'bold'}>{t("dashBoardManager.Motobike.Plate")} : </Typography>
-                    <Typography variant="h5" sx={{ marginTop: 1 }} align="left">{motorbike?.licensePlate}</Typography>
+
+                <Box
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        width: isMobile ? '90%' : '40%',
+                        gap: '1rem'
+                    }}
+                >
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginBottom: '8px',
+                        }}
+                    >
+                        <Typography
+                            variant="h6" // Chỉnh cỡ chữ thành h6
+                            sx={{
+                                color: 'Black',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            {t("dashBoardManager.Motobike.Name")}
+                        </Typography>
+                        <Typography variant="h6" align="left">
+                            {motorbike?.model.modelName}
+                        </Typography>
+                    </Box>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginBottom: '8px',
+                        }}
+                    >
+                        <Typography
+                            variant="h6" // Chỉnh cỡ chữ thành h6
+                            sx={{
+                                color: 'Black',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            {t("dashBoardManager.Motobike.Plate")}
+                        </Typography>
+                        <Typography variant="h6" align="left">
+                            {motorbike?.licensePlate}
+                        </Typography>
+                    </Box>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginBottom: '8px',
+                        }}
+                    >
+                        <Typography
+                            variant="h6" // Chỉnh cỡ chữ thành h6
+                            sx={{
+                                color: 'Black',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            {t("dashBoardManager.Motobike.Fuel")}
+                        </Typography>
+                        <Typography variant="h6" align="left">
+                            {motorbike?.type}
+                        </Typography>
+                    </Box>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginBottom: '8px',
+                        }}
+                    >
+                        <Typography
+                            variant="h6" // Chỉnh cỡ chữ thành h6
+                            sx={{
+                                color: 'Black',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            {t("dashBoardManager.Motobike.Location")}
+                        </Typography>
+                        <Typography variant="h6" align="right">
+                            {motorbike?.address}
+                        </Typography>
+                    </Box>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Typography
+                            variant="h6" // Chỉnh cỡ chữ thành h6
+                            sx={{
+                                color: 'Black',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            {t("dashBoardManager.Motobike.PriceForRent")} :
+                        </Typography>
+                        <Typography variant="h6" align="left">
+                            {motorbike?.priceRent}
+                        </Typography>
+                    </Box>
+                    <form onSubmit={handleSubmit}>
+                        <TextField
+                            name="statusComment"
+                            aria-label={t("licenseInfo.InputComment")}
+                            minRows={3}
+                            onChange={handleChange}
+                            value={values.statusComment}
+                            placeholder={t("licenseInfo.InputComment")}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    '& fieldset': {
+                                        borderColor: theme.palette.action.disabledBackground,
+                                        borderRadius: '8px'
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: theme.palette.primary.main,
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: theme.palette.primary.main,
+                                    },
+                                },
+                                width: '100%',
+                                paddingTop: '10px',
+                                fontFamily: 'Arial, sans-serif',
+                                fontSize: '16px'
+                            }}
+                        />
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: "16px", mt: "16px" }}>
+                            <MyCustomButton
+                                type="submit"
+                                borderRadius={8}
+                                fontSize={16}
+                                fontWeight={500}
+                                variant='outlined'
+                                content={t("licenseInfo.BtnReject")}
+                                onClick={() => setStatusChange("Rejected")} />
+                            <MyCustomButton
+                                type="submit"
+                                borderRadius={8}
+                                fontSize={16}
+                                fontWeight={400}
+                                content={t("licenseInfo.BtnApprove")}
+                                onClick={() => setStatusChange("Approved")} />
+                        </Box>
+                    </form>
                 </Box>
-                <Box sx={{ display: 'flex' }}>
-                    <Typography variant="h5" sx={{ color: 'Black', marginTop: 1, marginRight: 1 }} align="right" fontWeight={'bold'}>{t("dashBoardManager.Motobike.Fuel")} : </Typography>
-                    <Typography variant="h5" sx={{ marginTop: 1 }} align="left">{motorbike?.type}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex' }}>
-                    <Typography variant="h5" sx={{ color: 'Black', marginTop: 1, marginRight: 1 }} align="right" fontWeight={'bold'}>{t("dashBoardManager.Motobike.Location")} : </Typography>
-                    <Typography variant="h5" sx={{ marginTop: 1 }} align="left">{motorbike?.address}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex' }}>
-                    <Typography variant="h5" sx={{ color: 'Black', marginTop: 1, marginRight: 1 }} align="right" fontWeight={'bold'}>{t("dashBoardManager.Motobike.PriceForRent")} : </Typography>
-                    <Typography variant="h5" sx={{ marginTop: 1 }} align="left">{motorbike?.priceRent}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Button key={'changePass'} variant="contained" onClick={() =>  changeStatus(1)}>{t("licenseInfo.BtnApprove")}</Button>
-                    <Button key={'changePass'} variant="outlined" onClick={() => changeStatus(2)}>{t("licenseInfo.BtnReject")}</Button>
-                </Box>
-                <MyCustomButton key={'changePass'} height="auto" onClick={() => navigate(-1)} content={t("changePassword.Back")} />
+
             </Box>
         </Box>
-    )
+
+    );
 }
 
 export default MotorbikeRegisterDetail;

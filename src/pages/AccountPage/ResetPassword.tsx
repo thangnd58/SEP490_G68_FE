@@ -1,11 +1,12 @@
 import React from 'react'
 import ResetPasswordForm from './components/ResetPasswordForm'
+import { Box } from '@mui/material'
 
 const ResetPassword = () => {
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <ResetPasswordForm />
-        </div>
+        </Box>
     )
 }
 

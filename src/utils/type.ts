@@ -1,15 +1,16 @@
 export interface User {
     userId: number,
     name: string,
-    password?: string,
     email: string,
     phone: string,
     gender: string,
     dob: string,
     address: string,
     avatar: string,
+    password?: string,
     avatarUrl: string,
-    role: Role
+    role: Role,
+    phoneVerified : boolean
 }
 
 export interface Role {
@@ -51,7 +52,8 @@ export interface ImageUpload {
 export interface Model {
     id: number,
     modelName: string,
-    modelImage: string
+    modelImage: string,
+    brand: Brand
 }
 
 export interface Brand {
@@ -88,8 +90,32 @@ export interface Ward {
 
 export interface Motorbike {
     id?: number,
-    motorbikeName: string,
     licensePlate: string,
+    releaseYear: number,
+    type: string,
+    priceRent: number,
+    equipments: string,
+    fuelConsumption: number,
+    provinceId: number,
+    districtId: number,
+    wardId: number,
+    image: string,
+    imageUrl: string[],
+    address: string,
+    location: string,
+    status: string,
+    statusComment: string,
+    user: User,
+    createDatetime: string,
+    model: Model,
+    miscellaneous: string,
+    description: string,
+}
+
+export interface MotorbikeRequest {
+    id?: number,
+    licensePlate: string,
+    releaseYear: number,
     type: string,
     priceRent: number,
     equipments: string,
@@ -100,9 +126,10 @@ export interface Motorbike {
     image: string,
     address: string,
     location: string,
-    status: number,
-    statusComment: string,
-    userId: number,
-    createDatetime: string,
-    modelId: number
+    modelId: number,
+    description: string,
+    miscellaneous: string,
+
 }
+
+

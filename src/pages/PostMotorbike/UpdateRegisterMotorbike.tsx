@@ -5,7 +5,7 @@ import RegisterMotorbikeForm from './components/RegisterMotorbike/RegisterMotorb
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
 import MyIcon from '../../components/common/MyIcon';
-import { t } from 'i18next';
+import usei18next from '../../hooks/usei18next';
 
 
 const UpdateRegisterMotorbikeStyle = styled("form")(({ theme }) => ({
@@ -31,6 +31,8 @@ export default function UpdateRegisterMotorbike() {
         history(-1); // Go back to the previous route
     };
 
+    const { t } = usei18next();
+
     return (
         <UpdateRegisterMotorbikeStyle className='form'>
             <Paper elevation={2}>
@@ -53,6 +55,9 @@ export default function UpdateRegisterMotorbike() {
                             sx={{ textAlign: 'center' }}>
                             {t("postMotorbike.registedForm.updateTitle")}
                         </Typography>
+                    </Box>
+                    <Box margin={"16px 0px 0px 0px"}>
+
                     </Box>
 
                     <RegisterMotorbikeForm />

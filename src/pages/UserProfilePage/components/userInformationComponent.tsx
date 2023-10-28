@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Avatar, Typography, Button, TextField, Box, Chip, styled } from '@mui/material';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { Avatar, Typography, Button, TextField, Box, Chip, styled, Tooltip } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
 import { AuthContext, useAuth } from '../../../contexts/AuthContext';
 import * as Yup from 'yup';
@@ -10,20 +10,35 @@ import ErrorMessage from '../../../components/common/ErrorMessage';
 import ToastComponent from '../../../components/toast/ToastComponent';
 import UploadImageService from '../../../services/UploadImageService';
 import MyCustomButton from '../../../components/common/MyButton';
-import { CheckCircle, CheckCircleOutline, Error, ErrorOutline, Warning, WarningAmber } from '@mui/icons-material';
+import { CheckCircle, CheckCircleOutline, EditOutlined, Error, ErrorOutline, Warning, WarningAmber } from '@mui/icons-material';
 import theme from '../../../utils/theme';
+import { useAppDispatch, useAppSelector } from '../../../hooks/useAction';
+import { getUserInfo } from '../../../redux/reducers/authReducer';
+import useThemePage from '../../../hooks/useThemePage';
+import EditIcon from '@mui/icons-material/Edit';
+import MyIcon from '../../../components/common/MyIcon';
+import MyDialog from '../../../components/common/MyDialog';
 
-const UserInformationComponent = () => {
+interface ChildComponentProps {
+  setType: React.Dispatch<React.SetStateAction<string>>;
+  setShowButtons: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setType, setShowButtons }) => {
+
   const { t } = usei18next();
-  const { user, getUser } = useAuth();
+  const { user } = useAppSelector((state: any) => state.userInfo);
   const [lisence, setLisence] = useState<Lisence>();
   const [isEditLisence, setIsEditLisence] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const inputRefLicense = useRef<HTMLInputElement>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("");
+  const dispatch = useAppDispatch();
+  const { isMobile } = useThemePage();
 
   useEffect(() => {
     getLisence();
+    console.log(user.phoneVerified);
   }, []);
 
   const getLisence = async () => {
@@ -120,6 +135,7 @@ const UserInformationComponent = () => {
 
         const responseUrl = await UploadImageService.generateUrlUpload(params);
         if (responseUrl.status !== 200) {
+          ToastComponent(t('toast.uploadImage.error'), 'error');
           return;
         }
 
@@ -127,15 +143,17 @@ const UserInformationComponent = () => {
         const responseUpload = await UploadImageService.uploadImage(urlUpload, file);
 
         if (responseUpload.status !== 200) {
+          ToastComponent(t('toast.uploadImage.error'), 'error');
           return;
         }
 
         const resultUpdateAvatar = await UserService.updateAvatarUser(user!.userId, file.name);
         if (resultUpdateAvatar.status !== 200) {
+          ToastComponent(t('toast.uploadImage.error'), 'error');
           return;
         }
-
-        getUser();
+        dispatch(getUserInfo());
+        ToastComponent(t('toast.uploadImage.success'), 'success');
       }
     } catch (error) {
     } finally {
@@ -152,17 +170,23 @@ const UserInformationComponent = () => {
       if (response.status === 200) {
         // Avatar deletion is successful
         ToastComponent(t('userProfile.AvatarDeleted'), 'success');
-        getUser();
+        dispatch(getUserInfo());
       } else {
         // Handle error here if the deletion was not successful
         ToastComponent(t('userProfile.AvatarDeleteError'), 'error');
       }
+      // alert('ok');
+      // <MyDialog
+      //   open={true}
+      //   title={t('userProfile.DeleteAvatar')}
+      //   content={t('userProfile.DeleteAvatarContent')}
+      //   onClickAgree={() => { alert('ok') }}
+      // />
     } catch (error) {
       // Handle any unexpected errors here
       ToastComponent(t('userProfile.AvatarDeleteError'), 'error');
     }
   };
-
 
   const handleUploadLicenseImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
@@ -182,6 +206,7 @@ const UserInformationComponent = () => {
 
         const responseUrl = await UploadImageService.generateUrlUpload(params);
         if (responseUrl.status !== 200) {
+          ToastComponent(t('toast.uploadImage.error'), 'error');
           return;
         }
 
@@ -189,11 +214,14 @@ const UserInformationComponent = () => {
         const responseUpload = await UploadImageService.uploadImage(urlUpload, file);
 
         if (responseUpload.status !== 200) {
+          ToastComponent(t('toast.uploadImage.error'), 'error');
           return;
         }
+
         const newPreview = URL.createObjectURL(file);
         setFieldValue('licenceImage', file.name);
         setImagePreviewUrl(newPreview);
+        ToastComponent("t('toast.uploadImage.success')", 'success');
       }
     } catch (error) {
     } finally {
@@ -211,7 +239,7 @@ const UserInformationComponent = () => {
         <Box
           sx={{
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: isMobile ? 'column' : 'row',
             justifyContent: 'space-between',
             width: '100%',
             border: '3px solid #E0E0E0',
@@ -219,10 +247,11 @@ const UserInformationComponent = () => {
           }}
         >
           {/* Left Section (Avatar and Two Buttons) */}
-          <Box sx={{ flexBasis: '30%', flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '16px', padding: "32px" }}>
+          <Box sx={{ flexBasis: '30%', flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '16px' }}>
             <Box>
-              <Avatar variant="rounded" sx={{ width: 200, height: 200 }} src={user.avatarUrl} alt={user.name} />
+              <Avatar variant="rounded" sx={{ width: 200, height: 200, marginTop: isMobile ? '16px' : '0px' }} src={user.avatarUrl} alt={user.name} />
               <input
+                aria-label='upload avatar'
                 ref={inputRef}
                 type="file"
                 style={{ display: 'none' }}
@@ -234,14 +263,14 @@ const UserInformationComponent = () => {
             <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: "16px" }}>
               <MyCustomButton
                 borderRadius={8}
-                fontSize={16}
+                fontSize={isMobile ? 12 : 16}
                 fontWeight={400}
                 content={t('userProfile.BtnUpload')}
                 onClick={onClickRef} />
 
               <MyCustomButton
                 borderRadius={8}
-                fontSize={16}
+                fontSize={isMobile ? 12 : 16}
                 fontWeight={500}
                 variant='outlined'
                 content={t('userProfile.BtnDelete')}
@@ -251,62 +280,96 @@ const UserInformationComponent = () => {
 
 
           {/* Right Section (Basic Information) */}
-          <Box sx={{ width: '70%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '32px' }}>
+          <Box sx={{ width: isMobile ? '100%' : '70%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '32px' }}>
             <Box sx={{ width: '100%' }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'  }}>
-                  <Typography variant="h6" fontSize={16} color={theme.palette.text.secondary} fontWeight={400}>
+                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                     {t('userProfile.Name')}
                   </Typography>
-                  <Typography fontSize={20} color={theme.palette.text.primary} fontWeight={600}>
+                  <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
                     {user.name}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography variant="h6" fontSize={16} color={theme.palette.text.secondary} fontWeight={400}>
+                  <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                     {t('userProfile.Email')}
                   </Typography>
-                  <Typography fontSize={20} color={theme.palette.text.primary} fontWeight={600}>
+                  <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
                     {user.email ? user.email : t('userProfile.InputProfile')}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography variant="h6" fontSize={16} color={theme.palette.text.secondary} fontWeight={400}>
-                    {t('userProfile.PhoneNumber')}
-                  </Typography>
-                  <Typography fontSize={20} color={theme.palette.text.primary} fontWeight={600}>
-                    {user.phone ? user.phone : t('userProfile.InputProfile')}
-                  </Typography>
+                    <Box display={'flex'} alignItems={'center'} alignContent={'center'}>
+                      <Typography variant="h6" marginRight={1} fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
+                      {t('userProfile.PhoneNumber')}
+                      </Typography>
+                      {user.phoneVerified === true && (
+                        <Chip
+                          sx={{ '& .MuiChip-label': { fontSize: "15px" }, height : '90%'}}
+                          color="success"
+                          icon={<CheckCircleOutline />}
+                          label={t('userProfile.Verified')} />
+                      )}
+                      {user.phoneVerified === false && (
+                        <Tooltip title={t('userProfile.AlertVerify')}>
+                          <Chip
+                          sx={{ '& .MuiChip-label': { fontSize: "15px" }, height : '90%', cursor : 'pointer' }}
+                          color="warning"
+                          icon={<WarningAmber />}
+                          label={t('userProfile.notYetVerify')}
+                          onClick={() => {
+                            setType('verifyPhone');
+                            setShowButtons(false);
+                            }}
+                          />
+                        </Tooltip>
+                        
+                        )}
+                      
+
+                    </Box>
+                    <Box display={'flex'} alignItems={'center'} alignContent={'center'}>
+                      <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600} display={'inline'} marginRight={1}>
+                          {user.phone ? user.phone : t('userProfile.InputProfile')}
+                        </Typography>
+                      <MyIcon icon={<EditIcon />} hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => {
+                        setType('changePhone');
+                        setShowButtons(false);
+                      }} />
+                      
+                    {/* <Button onClick={ChangePhone}>{t('userProfile.BtnChange')}</Button> */}
+                    </Box>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography variant="h6" fontSize={16} color={theme.palette.text.secondary} fontWeight={400}>
+                  <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                     {t('userProfile.Gender')}
                   </Typography>
-                  <Typography fontSize={20} color={theme.palette.text.primary} fontWeight={600}>
+                  <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
                     {user.gender ? (user.gender === 'Male' ? t('userProfile.Male') : t('userProfile.Female')) : t('userProfile.InputProfile')}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography variant="h6" fontSize={16} color={theme.palette.text.secondary} fontWeight={400}>
+                  <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                     {t('userProfile.DOB')}
                   </Typography>
-                  <Typography fontSize={20} color={theme.palette.text.primary} fontWeight={600}>
+                  <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
                     {user.dob ? user.dob : t('userProfile.InputProfile')}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography variant="h6" fontSize={16} color={theme.palette.text.secondary} fontWeight={400}>
+                  <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                     {t('userProfile.Address')}
                   </Typography>
-                  <Typography fontSize={20} color={theme.palette.text.primary} fontWeight={600}>
+                  <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
                     {user.address ? user.address : t('userProfile.InputProfile')}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography variant="h6" fontSize={16} color={theme.palette.text.secondary} fontWeight={400}>
+                  <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                     Google
                   </Typography>
-                  <Typography fontSize={20} color={theme.palette.text.primary} fontWeight={600}>
+                  <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
                     {user.address ? user.address : t('userProfile.InputProfile')}
                   </Typography>
                 </Box>
@@ -318,9 +381,9 @@ const UserInformationComponent = () => {
         {/* Part 2 (Bottom, Driver License) */}
         <Box sx={{ marginTop: '32px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
           {/* Top Section (Title and Edit Button) */}
-          <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between' }}>
+          <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', width: '100%', justifyContent: 'space-between' }}>
             <Box sx={{ flexBasis: '70%', flexGrow: 1, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: '16px' }}>
-              <Typography variant="h6" fontWeight="bold">
+              <Typography variant="h6" fontWeight="bold" fontSize={isMobile ? 16 : 20}>
                 {t('licenseInfo.Title')}
               </Typography>
               {lisence?.status !== undefined && (
@@ -350,18 +413,18 @@ const UserInformationComponent = () => {
               )}
             </Box>
 
-            <Box sx={{ flexBasis: '30%', flexGrow: 1, display: 'flex', justifyContent: 'flex-end', gap: '16px' }}>
+            <Box sx={{ flexBasis: '30%', flexGrow: 1, display: 'flex', marginTop: isMobile ? '16px' : '0px', justifyContent: isMobile ? 'flex-start' : 'flex-end', gap: '16px' }}>
               {isEditLisence ? (
                 <>
                   <MyCustomButton
                     borderRadius={8}
-                    fontSize={16}
+                    fontSize={isMobile ? 12 : 16}
                     fontWeight={400}
                     content={t('licenseInfo.BtnSave')}
                     onClick={() => handleSubmit()} />
                   <MyCustomButton
                     borderRadius={8}
-                    fontSize={16}
+                    fontSize={isMobile ? 12 : 16}
                     variant='outlined'
                     fontWeight={500}
                     content={t('licenseInfo.BtnCancel')}
@@ -373,7 +436,7 @@ const UserInformationComponent = () => {
               ) : (
                 <MyCustomButton
                   borderRadius={8}
-                  fontSize={16}
+                  fontSize={isMobile ? 12 : 16}
                   fontWeight={400}
                   content={t('licenseInfo.BtnEdit')}
                   onClick={() => setIsEditLisence(true)} />
@@ -382,8 +445,8 @@ const UserInformationComponent = () => {
           </Box>
 
           {/* Bottom Section (License Details and Image) */}
-          <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between', marginTop: '32px', gap: '32px' }}>
-            <Box sx={{ flexBasis: '50%', flexGrow: 1, display: 'flex', flexDirection: 'column', height: '270px', justifyContent: 'space-between' }}>
+          <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', width: '100%', justifyContent: 'space-between', marginTop: '32px', gap: '32px' }}>
+            <Box sx={{ flexBasis: '50%', flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '32px', justifyContent: 'space-between' }}>
               <Box>
                 <MyCustomeTextField
                   disabled={!isEditLisence}
@@ -442,7 +505,7 @@ const UserInformationComponent = () => {
               height: '270px',
             }}>
               {lisence ? (
-                <Avatar variant="rounded" sx={{ width: 373, height: 234 }} src={imagePreviewUrl} alt={user.name} />
+                <Avatar variant="rounded" sx={{ width: '100%', height: '100%' }} src={imagePreviewUrl} alt={user.name} />
               ) : (
                 <Typography fontWeight="500" sx={{ width: '100%', margin: '100px 0px' }} align="center">
                   {t('licenseInfo.Image')}
@@ -453,6 +516,7 @@ const UserInformationComponent = () => {
 
           {/* Upload Button */}
           <input
+            aria-label='upload license'
             ref={inputRefLicense}
             type="file"
             style={{ display: 'none' }}
@@ -465,7 +529,7 @@ const UserInformationComponent = () => {
               <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%', marginTop: '16px' }}>
                 <MyCustomButton
                   borderRadius={8}
-                  fontSize={16}
+                  fontSize={isMobile ? 12 : 16}
                   fontWeight={400}
                   content={t('licenseInfo.BtnchooseLicense')}
                   onClick={onClickRefLicense} />

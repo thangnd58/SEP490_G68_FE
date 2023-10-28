@@ -1,4 +1,4 @@
-import { Verified, VerifiedOutlined, VerifiedUser } from "@mui/icons-material";
+import { VerifiedUser } from "@mui/icons-material";
 import { ROUTES } from "../utils/Constant";
 
 export const RouterManage = [

@@ -25,8 +25,8 @@ export const ROUTES = {
     admin: {
         managemotorbikes: "/manage-motorbikes",
         managelicences: "/manage-licences",
-        licenceRegister: "/manage-licences/licence-detail",
-        MotorbikeRegister: "/manage-motorbikes/motorbike-detail"
+        licenceregister: "/manage-licences/licence-detail",
+        motorbikeregister: "/manage-motorbikes/motorbike-detail"
     },
     other:{
         pagenotfound: "/page-not-found",

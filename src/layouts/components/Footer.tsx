@@ -53,9 +53,9 @@ function Footer() {
           borderTop: (theme) => `1px solid ${theme.palette.divider}`,
         }}
       >
-        <div className='logo-full' style={{ margin: '16px 0' }}>
+        <Box className='logo-full' style={{ margin: '16px 0' }}>
           <LogoFull size={200} />
-          <div
+          <Box
             style={{
               display: 'flex',
               justifyItems: 'center',
@@ -80,8 +80,8 @@ function Footer() {
                 rotate: '180deg',
               }}
             />
-          </div>
-        </div>
+          </Box>
+        </Box>
         {footers.map((footer, idx) => (
           <Grid item xs={12} md={3} key={idx} style={{ margin: '16px 0' }}>
             <Typography component="div" variant="h5" color="text.primary" gutterBottom>

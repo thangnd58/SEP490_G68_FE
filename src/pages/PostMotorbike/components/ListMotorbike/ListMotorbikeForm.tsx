@@ -1,525 +1,160 @@
-import { Checkbox, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, NativeSelect, Paper, Switch, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, TableSortLabel, TextField, Toolbar, Tooltip, Typography } from '@mui/material'
-import { alpha, useTheme } from '@mui/material/styles';
-import { Box } from '@mui/system'
+import React, { useEffect, useMemo, useState } from 'react'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { visuallyHidden } from '@mui/utils';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import LastPageIcon from '@mui/icons-material/LastPage';
-
-
-import React from 'react'
-import theme from '../../../../utils/theme';
-import { Edit, EditOutlined } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
 import MyIcon from '../../../../components/common/MyIcon';
 import usei18next from '../../../../hooks/usei18next';
+import { Chip, CircularProgress, Divider, FormControl, Grid, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import { Box } from '@mui/system'
+import { ChangeCircleOutlined, CheckCircleOutline, CloseOutlined, EditOutlined, ErrorOutline, GasMeterOutlined, LocalDrinkOutlined, LocationOn, NewReleasesOutlined, StopCircleOutlined, WarningAmber } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../../../utils/Constant';
+import { DataGrid } from '@mui/x-data-grid';
+import { Motorbike } from '../../../../utils/type';
+import { PostMotorbikeService } from '../../../../services/PostMotorbikeService';
+import { Fade } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css'
+import MySlideShowImage from '../../../../components/common/MySlideShowImage';
+import theme from '../../../../utils/theme';
+import useThemePage from '../../../../hooks/useThemePage';
+import { CartIcon, HelmetIcon, ProtectClothesIcon, RainCoatIcon, RepairIcon, TelephoneIcon } from '../../../../assets/icons';
+import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 
-export default function ListMotorbikeForm() {
-  const {t} = usei18next();
+const ListMotorbikeForm = () => {
 
-  interface Data {
-    id: number;
-    image: string;
-    model: string;
-    licensePlate: string;
-    registrationDate: string;
-    status: string;
-    action: string;
-  }
+  const { t } = usei18next();
+  const navigate = useNavigate();
+  const { isMobile, isIpad } = useThemePage();
 
-  function createData(
-    id: number,
-    image: string,
-    model: string,
-    licensePlate: string,
-    registrationDate: string,
-    status: string,
-    action: string
-  ): Data {
-    return {
-      id,
-      image,
-      model,
-      licensePlate,
-      registrationDate,
-      status,
-      action
-    };
-  }
+  const [isItemMotorbikeModalOpen, setItemMotorbikeModalOpen] = useState(false);
+  const [defaultListRegisterMotorbike, setDefaultListRegisterMotorbike] = useState<Motorbike[]>([]);
+  const [listRegisterMotorbike, setListRegisterMotorbike] = useState<Motorbike[]>([]);
+  const [motorbike, setMotorbike] = useState<Motorbike>();
+  const [modalImageList, setModalImageList] = useState([]);
 
-  // using i18next for status
-  function checkStatus(status: string) {
-    switch (status) {
-      case 'Đã phê duyệt':
-        return t("postMotorbike.listform.status-approved");
-      case 'Chờ phê duyệt':
-        return t("postMotorbike.listform.status-pendingApproval");
-      case 'Đang hoạt động':
-        return t("postMotorbike.listform.status-inOporation");
-      case 'Đã từ chối':
-        return t("postMotorbike.listform.status-rejected");
-      case 'Tạm ngưng':
-        return t("postMotorbike.listform.status-onHiatus");
-      default:
-        return '';
+  const openItemModal = (motorbike: Motorbike, imageList: any) => {
+    setMotorbike(motorbike);
+    setModalImageList(imageList);
+    setItemMotorbikeModalOpen(true);
+  };
+
+  const closeItemModal = () => {
+    setItemMotorbikeModalOpen(false);
+  };
+
+  useEffect(() => {
+    getAllMotorbikesRegistered();
+  }, [])
+  console.log(listRegisterMotorbike);
+
+  const getAllMotorbikesRegistered = async () => {
+    try {
+      const response = await PostMotorbikeService.getListMotorbikeByUserId();
+      if (response) {
+        setListRegisterMotorbike(response);
+        setDefaultListRegisterMotorbike(response);
+      }
+    } catch (error) {
+
     }
   }
 
-  const rows = [
-    createData(1, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Honda", "29F1-12345", "21/10/2021", checkStatus("Đã phê duyệt"), "Xóa"),
-    createData(2, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Yamaha", "29F1-12346", "16/10/2021", checkStatus("Đang hoạt động"), "Xóa"),
-    createData(3, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Piaggio", "29F1-12347", "18/10/2021", checkStatus("Đang hoạt động"), "Xóa"),
-    createData(4, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "SYM", "29F1-12348", "10/10/2021", checkStatus("Đã phê duyệt"), "Xóa"),
-    createData(5, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Suzuki", "29F1-12349", "01/10/2021", checkStatus("Tạm ngưng"), "Xóa"),
-    createData(6, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Triumph", "29F1-12341", "02/10/2021", checkStatus("Đang hoạt động"), "Xóa"),
-    createData(7, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Ducati", "29F1-12342", "03/10/2021", checkStatus("Đã phê duyệt"), "Xóa"),
-    createData(8, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Vinfast", "29F1-12335", "04/10/2021", checkStatus("Chờ phê duyệt"), "Xóa"),
-    createData(9, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Honda", "29F1-123454", "05/10/2021", checkStatus("Chờ phê duyệt"), "Xóa"),
-    createData(10, "https://tapchigiaothong.qltns.mediacdn.vn/zoom/686_429/tapchigiaothong.vn/files/thu.ha/2017/03/13/honda-wave-alpha-110-vne-8450-3722-1489338975-2019.jpg", "Honda", "29F1-12344", "06/10/2021", checkStatus("Tạm ngưng"), "Xóa"),
-  ];
+  // get unique status into 2D array has key is status and value is status using i18next
+  const getUniqueStatus = [...new Set(defaultListRegisterMotorbike.map(item => item.status))];
+  const setUniqueStatus = getUniqueStatus.map(item => {
+    return { key: item, value: t(`postMotorbike.listform.status-${item.replace(/\s/g, '').toLowerCase()}`) }
+  })
 
-  function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-    return 0;
-  }
-
-  type Order = 'asc' | 'desc';
-
-  function getComparator<Key extends keyof any>(
-    order: Order,
-    orderBy: Key,
-  ): (
-    a: { [key in Key]: number | string },
-    b: { [key in Key]: number | string },
-  ) => number {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
-  }
-
-  // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-  // stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-  // only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-  // with exampleArray.slice().sort(exampleComparator)
-  function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
-    const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) {
-        return order;
-      }
-      return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-  }
-
-  interface HeadCell {
-    disablePadding: boolean;
-    id: keyof Data;
-    label: string;
-  }
-
-  const headCells: readonly HeadCell[] = [
-    {
-      id: 'id',
-      disablePadding: true,
-      label: t("postMotorbike.listform.table-cell-#"),
-    },
-    {
-      id: 'image',
-      disablePadding: false,
-      label: t("postMotorbike.listform.table-cell-image"),
-    },
-    {
-      id: 'model',
-      disablePadding: false,
-      label: t("postMotorbike.listform.table-cell-model"),
-    },
-    {
-      id: 'licensePlate',
-      disablePadding: false,
-      label: t("postMotorbike.listform.table-cell-plate"),
-    },
-    {
-      id: 'registrationDate',
-      disablePadding: false,
-      label: t("postMotorbike.listform.table-cell-registerdate"),
-    },
-    {
-      id: 'status',
-      disablePadding: false,
-      label: t("postMotorbike.listform.table-cell-status"),
-    },
-    {
-      id: 'action',
-      disablePadding: false,
-      label: t("postMotorbike.listform.table-cell-action"),
-    },
-  ];
-
-  interface EnhancedTableProps {
-    numSelected: number;
-    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-    onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    order: Order;
-    orderBy: string;
-    rowCount: number;
-  }
-
-  function EnhancedTableHead(props: EnhancedTableProps) {
-    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-      props;
-    const createSortHandler =
-      (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
-        onRequestSort(event, property);
-      };
-
-    return (
-      <TableHead sx={{ backgroundColor: "#8B4513" }}>
-        <TableRow>
-          {headCells.map((headCell) => (
-            <TableCell
-              key={headCell.id}
-              align={headCell.id === 'id' ? 'center' : 'left'}
-              padding={headCell.disablePadding ? 'none' : 'normal'}
-              sortDirection={orderBy === headCell.id ? order : false}
-            >
-              <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : 'asc'}
-                onClick={createSortHandler(headCell.id)}
-              >
-                <Typography color={theme.palette.common.white} fontWeight={"600"} fontSize={"16px"}>{headCell.label}</Typography>
-                {(headCell.id != 'image' && orderBy === headCell.id) ? (
-                  <Box component="span" sx={visuallyHidden}>
-                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                  </Box>
-                ) : null}
-              </TableSortLabel>
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
-    );
-  }
-
-  interface EnhancedTableToolbarProps {
-    numSelected: number;
-  }
-
-  function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-    const { numSelected } = props;
-
-    return (
-      <Toolbar
-        sx={{
-          pl: { sm: 2 },
-          pr: { xs: 1, sm: 1 },
-          ...(numSelected > 0 && {
-            bgcolor: (theme) =>
-              alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-          }),
-        }}
-      >
-        {numSelected > 0 ? (
-          <Typography
-            sx={{ flex: '1 1 100%' }}
-            color="inherit"
-            variant="subtitle1"
-            component="div"
-          >
-            {numSelected} selected
-          </Typography>
-        ) : (
-          <Typography
-            sx={{ flex: '1 1 100%' }}
-            variant="h6"
-            id="tableTitle"
-            component="div"
-          >
-            Danh sách xe cho thuê của bạn
-          </Typography>
-        )}
-        {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <div></div>
-        )}
-      </Toolbar>
-    );
-  }
-
-  interface TablePaginationActionsProps {
-    count: number;
-    page: number;
-    rowsPerPage: number;
-    onPageChange: (
-      event: React.MouseEvent<HTMLButtonElement>,
-      newPage: number,
-    ) => void;
-  }
-
-  function TablePaginationActions(props: TablePaginationActionsProps) {
-    const theme = useTheme();
-    const { count, page, rowsPerPage, onPageChange } = props;
-
-    const handleFirstPageButtonClick = (
-      event: React.MouseEvent<HTMLButtonElement>,
-    ) => {
-      onPageChange(event, 0);
-    };
-
-    const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-      onPageChange(event, page - 1);
-    };
-
-    const handleNextButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-      onPageChange(event, page + 1);
-    };
-
-    const handleLastPageButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-      onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-    };
-
-    return (
-      <Box sx={{ flexShrink: 0, ml: 2.5 }}>
-        <IconButton
-          onClick={handleFirstPageButtonClick}
-          disabled={page === 0}
-          aria-label="first page"
-        >
-          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-        </IconButton>
-        <IconButton
-          onClick={handleBackButtonClick}
-          disabled={page === 0}
-          aria-label="previous page"
-        >
-          {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-        </IconButton>
-        <IconButton
-          onClick={handleNextButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label="next page"
-        >
-          {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-        </IconButton>
-        <IconButton
-          onClick={handleLastPageButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label="last page"
-        >
-          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-        </IconButton>
-      </Box>
-    );
-  }
-
-  function EnhancedTable() {
-    const [order, setOrder] = React.useState<Order>('asc');
-    const [orderBy, setOrderBy] = React.useState<keyof Data>('id');
-    const [selected, setSelected] = React.useState<readonly number[]>([]);
-    const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const navigate = useNavigate();
-
-    const handleRequestSort = (
-      event: React.MouseEvent<unknown>,
-      property: keyof Data,
-    ) => {
-      const isAsc = orderBy === property && order === 'asc';
-      setOrder(isAsc ? 'desc' : 'asc');
-      setOrderBy(property);
-    };
-
-    const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (event.target.checked) {
-        const newSelected = rows.map((n) => n.id);
-        setSelected(newSelected);
-        return;
-      }
-      setSelected([]);
-    };
-
-    const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
-      const selectedIndex = selected.indexOf(id);
-      let newSelected: readonly number[] = [];
-
-      if (selectedIndex === -1) {
-        newSelected = newSelected.concat(selected, id);
-      } else if (selectedIndex === 0) {
-        newSelected = newSelected.concat(selected.slice(1));
-      } else if (selectedIndex === selected.length - 1) {
-        newSelected = newSelected.concat(selected.slice(0, -1));
-      } else if (selectedIndex > 0) {
-        newSelected = newSelected.concat(
-          selected.slice(0, selectedIndex),
-          selected.slice(selectedIndex + 1),
-        );
-      }
-      setSelected(newSelected);
-    };
-
-    const handleChangePage = (
-      event: React.MouseEvent<HTMLButtonElement> | null,
-      newPage: number,
-    ) => {
-      setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (
-      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => {
-      const newRowsPerPage = parseInt(event.target.value, 10);
-      setRowsPerPage(newRowsPerPage);
-      setPage(0);
-
-      if (newRowsPerPage === -1) {
-        setPage(0);
-      }
-    };
-
-    const handleChangeToUpdateForm = () => {
-      navigate("/update-register-motorbike")
-    }
-
-    const isSelected = (id: number) => selected.indexOf(id) !== -1;
-
-    // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows =
-      page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
-    const visibleRows = React.useMemo(
-      () =>
-        stableSort(rows, getComparator(order, orderBy)).slice(
-          page * rowsPerPage,
-          page * rowsPerPage + rowsPerPage,
-        ),
-      [order, orderBy, page, rowsPerPage],
-    );
-
-    return (
-      <Box sx={{ width: '100%' }}>
-        <Box margin={"0px auto"} width={"100%"} border={"3px solid #8B4513"} borderRadius={"8px"}>
-          <TableContainer>
-            <Table
-              aria-labelledby="tableTitle"
-              size={dense ? 'small' : 'medium'}
-            >
-              <EnhancedTableHead
-                numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
-                onSelectAllClick={handleSelectAllClick}
-                onRequestSort={handleRequestSort}
-                rowCount={rows.length}
-              />
-              <TableBody>
-                {visibleRows.map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.id}
-                      selected={isItemSelected}
-                      sx={{ cursor: 'pointer' }}
-                    >
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                        align="center"
-                      >
-                        <Typography fontWeight={600}>{row.id}</Typography>
-                      </TableCell>
-                      <TableCell align="left" sx={{ padding: "auto" }}><img src={row.image} alt="" width={"100px"} style={{ borderRadius: "8px" }} /></TableCell>
-                      <TableCell align="left">{row.model}</TableCell>
-                      <TableCell align="left">{row.licensePlate}</TableCell>
-                      <TableCell align="left">{row.registrationDate}</TableCell>
-                      <TableCell align="left">{row.status}</TableCell>
-                      <TableCell align="left">
-                        <MyIcon icon={<EditOutlined />} hasTooltip tooltipText={t("postMotorbike.listform.badge-edit")} onClick={handleChangeToUpdateForm} position='right' />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-                {emptyRows > 0 && (
-                  <TableRow
-                    style={{
-                      height: (dense ? 33 : 53) * emptyRows,
-                    }}
-                  >
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-
-            </Table>
-          </TableContainer>
-          <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"}>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={[5, 10]}
-                  colSpan={3}
-                  count={rows.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  SelectProps={{
-                    inputProps: {
-                      'aria-label': 'rows per page',
-                    },
-                    native: true,
-                  }}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                  ActionsComponent={TablePaginationActions}
-                />
-              </TableRow>
-            </TableFooter>
-          </Box>
-        </Box>
-      </Box>
-    );
-  }
-
-  const allStatus = rows.map((row) => row.status); // get all status
-  const uniqueStatus = Array.from(new Set(allStatus)); // remove duplicate status
-  const [selectedStatus, setSelectedStatus] = React.useState(''); // state for selected status
-  const [filteredRows, setFilteredRows] = React.useState(rows); // state for filtered rows
+  const [selectedStatus, setSelectedStatus] = useState("All");
   const handleChangeStatus = (event: SelectChangeEvent) => {
-    const selected = event.target.value;
-    setSelectedStatus(selected);
+    setSelectedStatus(event.target.value);
+  };
 
-    // Filter the rows based on the selected status
-    if (selected === '') {
-      setFilteredRows(rows); // No filter, show all rows
+  // change the list Register Motorbike when change status
+  useEffect(() => {
+    if (selectedStatus === "All") {
+      setListRegisterMotorbike(defaultListRegisterMotorbike);
     } else {
-      const filtered = rows.filter((row) => row.status === selected);
-      setFilteredRows(filtered);
+      const newList = defaultListRegisterMotorbike.filter(item => item.status === selectedStatus);
+      setListRegisterMotorbike(newList);
     }
-  }; // handle change status
+  }, [selectedStatus])
+
+  const columns = [
+    {
+      field: 'imageUrl', headerName: t("postMotorbike.listform.table-cell-image"), width: 250,
+      renderCell: (params: any) => (
+        <Box width={"100%"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
+          <img src={params.value[0]} style={{
+            width: "150px",
+            height: "120px",
+            border: '2px solid #8B4513',
+            borderRadius: '8px',
+          }} alt="image" />
+        </Box>
+      ),
+    },
+    {
+      field: "model.modelName",
+      headerName: t("postMotorbike.listform.table-cell-model"),
+      width: 150,
+      valueGetter: ({ row } : any) => row.model.modelName
+
+    },
+    { field: 'licensePlate', headerName: t("postMotorbike.listform.table-cell-plate"), width: 150 },
+    {
+      field: 'createDatetime', headerName: t("postMotorbike.listform.table-cell-registerdate"), width: 225,
+      renderCell: (params: any) => (
+        <Box>
+          {new Date(params.value).toLocaleString()}
+        </Box>
+      ),
+    },
+    {
+      field: 'status',
+      headerName: t("postMotorbike.listform.table-cell-status"),
+      width: 175,
+      renderCell: (params: any) => (
+        params.value === "Processing" ? (
+          <Chip
+            sx={{ '& .MuiChip-label': { fontSize: "16px" } }}
+            color="warning"
+            icon={<WarningAmber />}
+            label={t('postMotorbike.listform.status-processing')} />)
+          : params.value === "Approved" ? (
+            <Chip
+              sx={{ '& .MuiChip-label': { fontSize: "16px" } }}
+              color="success"
+              icon={<CheckCircleOutline />}
+              label={t('postMotorbike.listform.status-approved')} />)
+            : params.value === "Rejected" ? (
+              <Chip
+                sx={{ '& .MuiChip-label': { fontSize: "16px" } }}
+                color="error"
+                icon={<ErrorOutline />}
+                label={t('postMotorbike.listform.status-rejected')} />)
+              : params.value === "On Hiatus" ? (
+                <Chip
+                  sx={{ '& .MuiChip-label': { fontSize: "16px" } }}
+                  color="warning"
+                  icon={<StopCircleOutlined />}
+                  label={t('postMotorbike.listform.status-onhiatus')} />)
+                : (
+                  <Chip
+                    sx={{ '& .MuiChip-label': { fontSize: "16px" } }}
+                    color="success"
+                    icon={<ChangeCircleOutlined />}
+                    label={t('postMotorbike.listform.status-inoporation')} />)
+      ),
+    },
+    {
+      field: 'id', headerName: t("postMotorbike.listform.table-cell-action"), width: 200,
+      renderCell: (params: any) => (
+        <MyIcon icon={<EditOutlined />} hasTooltip tooltipText={t("postMotorbike.listform.badge-edit")} onClick={() => navigate(`${ROUTES.user.updateregistermotorbike}/${params.value}`)} position='right' />
+      ),
+    },
+  ];
+
   return (
-    <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignContent={"center"}>
+    <Box width={"95%"} margin={"32px auto"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignContent={"flex-end"}>
       <Box display={"flex"} flexDirection={"row"} justifyContent={"end"} alignContent={"center"} marginBottom={"8px"}>
         <Typography fontSize={"18px"} fontWeight={"400"}
           margin={"auto 8px"}>{t("postMotorbike.listform.status")}</Typography>
@@ -529,23 +164,454 @@ export default function ListMotorbikeForm() {
             id="demo-select-small"
             value={selectedStatus}
             native
+            displayEmpty
             onChange={handleChangeStatus}
           >
-            <option value="">
+            <option value={"All"}>
               <em>{t("postMotorbike.listform.all")}</em>
             </option>
-            {uniqueStatus.map((status) => (
-              <option value={status}>
-                {status}
+            {setUniqueStatus.map((status) => (
+              <option value={status.key}>
+                {status.value}
               </option>
             ))}
           </Select>
         </FormControl>
       </Box>
-      <Box display={"flex"} flexDirection={"row"} justifyContent={"end"} alignContent={"center"}>
-        <EnhancedTable />
+      <Box >
+        <Box sx={{ borderRadius: "8px" }}>
+          <DataGrid
+            sx={{
+              cursor: "pointer",
+              fontSize: "16px",
+              borderRadius: "8px",
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: "#8B4513",
+              },
+              '& .MuiDataGrid-columnHeaderTitle ': {
+                color: "#fff",
+                fontWeight: "600",
+                fontSize: "18px",
+              },
+              '& .MuiDataGrid-cell:focus-within': {
+                outline: "none",
+              },
+
+            }}
+            rows={listRegisterMotorbike}
+            initialState={{
+              pagination: { paginationModel: { pageSize: 10 } },
+            }}
+            pageSizeOptions={[5, 10, 25]}
+            columns={columns}
+            loading={listRegisterMotorbike.length === 0}
+            disableRowSelectionOnClick
+            rowHeight={150}
+            pagination
+            onRowClick={(params) => {
+              openItemModal(params.row, params.row.imageUrl);
+            }}
+          />
+        </Box>
       </Box>
+      <ItemMotorbikeModal isMobile={isMobile} isIpad={isIpad} isItemModalOpen={isItemMotorbikeModalOpen} closeItemModal={closeItemModal} imageList={modalImageList} motorbike={motorbike} />
     </Box>
   )
 }
 
+export default ListMotorbikeForm;
+
+function ItemMotorbikeModal({ isMobile, isIpad, isItemModalOpen, closeItemModal, imageList, motorbike }: { isMobile: boolean, isIpad: boolean, isItemModalOpen: boolean, closeItemModal: any, imageList: any, motorbike?: Motorbike }) {
+  interface Location {
+    lat: number,
+    lng: number,
+  }
+
+  const { t } = usei18next();
+  const [equipmentList, setEquipmentList] = useState<string[]>([]);
+  const [location, setLocation] = useState<Location>();
+
+  useEffect(() => {
+    if (motorbike) {
+      const tempEquipmentList = motorbike.equipments.split(",");
+      const location = motorbike.location.split(",");
+      const lat = Number(location[0]);
+      const lng = Number(location[1]);
+      setLocation({ lat, lng });
+      setEquipmentList(tempEquipmentList);
+    }
+  }, [motorbike])
+
+  // MAP CONTROLLER
+  // Map with search box
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
+    libraries: ["places"],
+  });
+
+  const defaultLoction = useMemo(() => ({ lat: location?.lat || 10.762622, lng: location?.lng || 106.660172 }), [location]);
+
+  return (
+    <Modal
+      open={isItemModalOpen}
+      onClose={closeItemModal}
+      aria-labelledby="map-modal-title"
+      aria-describedby="map-modal-description"
+      sx={{
+        display: 'flex',
+        alignItems: 'start',
+        justifyContent: 'center',
+        margin: '32px 0px',
+        overflowY: 'auto',
+      }}>
+      <Box width={"90%"} height={"auto"}
+        sx={{
+          backgroundColor: '#fff',
+          borderRadius: '8px'
+        }}>
+        <Box
+          sx={{
+            borderTopLeftRadius: "8px",
+            borderTopRightRadius: "8px",
+            backgroundColor: '#fff',
+            borderBottom: '1px solid #E0E0E0',
+          }}
+          height={"10%"}
+          display={"flex"}
+          flexDirection={"row"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+          padding={"32px"}
+          position={"sticky"}
+          top={0}
+          zIndex={1000}
+        >
+          <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "24px" : "32px"} fontWeight={600} textAlign={"start"}>
+            {t("postMotorbike.listform.motorbikeInfo")}
+          </Typography>
+          <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
+            <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeItemModal} position='bottom' />
+          </Box>
+        </Box>
+        <Box
+          margin={isMobile ? "32px 32px" : "32px 64px"}
+          height={"100%"}
+          display={"flex"}
+          flexDirection={"column"}
+          justifyContent={"start"}
+          alignItems={"center"}
+          zIndex={999}
+        >
+          {/* Image List */}
+          <Box
+            width={"100%"}
+            display={"flex"}
+            flexDirection={"row"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            mb={"16px"}>
+            <MySlideShowImage images={imageList} />
+          </Box>
+
+          {/* Divider Line */}
+          <Divider sx={{ width: "100%", margin: "16px 0px" }} variant="middle" />
+          {/* Basic Infor List */}
+          <Box
+            width={"100%"}
+            height={"auto"}
+            display={"flex"}
+            flexDirection={"column"}
+            justifyContent={"space-between"}
+            alignItems={"start"}
+          >
+            {/* Tên xe và địa chỉ */}
+            <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} margin={"16px 0px"}>
+              <Typography
+                color={theme.palette.text.primary}
+                variant="h5"
+                fontWeight="600"
+                fontSize={isMobile ? "32px" : "48px"}
+                textTransform={"uppercase"}>
+                {motorbike?.model.modelName}
+              </Typography>
+              <Box display="flex" flexDirection="row" alignItems="center" width={"100%"} mb={"32px"}>
+                <MyIcon icon={<LocationOn />} hasTooltip tooltipText={t("postMotorbike.listform.badge-location")} onClick={() => { }} position='left' />
+                <Typography variant="h5" color={theme.palette.text.secondary} fontSize={isMobile ? "16px" : "20px"}>
+                  {motorbike?.address}
+                </Typography>
+              </Box>
+              <Divider sx={{ width: "100%" }} variant="fullWidth" />
+            </Box>
+            {/* Phần Thứ Nhất */}
+            <Box
+              width={"100%"}
+              display="flex"
+              flexDirection={isIpad || isMobile ? "column" : "row"}
+              alignItems="start"
+              justifyContent={"space-between"}
+              paddingBottom="16px">
+
+              {/* Phần Thứ Hai */}
+              <Box
+                sx={{
+                  backgroundColor: "rgba(139, 69, 19, 0.05)",
+                  borderRadius: "8px",
+                  minHeight: "300px",
+                }}
+                margin={isIpad || isMobile ? "16px 0px" : "0px 0px"}
+                width={isIpad || isMobile ? "auto" : "25%"}
+                display="flex"
+                flexDirection="column"
+                alignItems="start"
+                padding="16px"
+              >
+                <Box display="flex" flexDirection="row" alignItems="center" width={"100%"} justifyContent={"space-between"} pb={"18px"}>
+                  <Typography variant="h5" color={theme.palette.text.primary} fontSize={"32px"} fontWeight="600">
+                    {t("postMotorbike.listform.profit")}
+                  </Typography>
+                  <Chip
+                    style={{ fontSize: "28px", fontWeight: "600", borderRadius: "8px", padding: "16px 8px" }}
+                    color="success" label={Number(motorbike?.priceRent) * 0.85 + "K"} />
+                </Box>
+                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"}>
+                  <TableContainer
+                    sx={{
+                      borderRadius: '8px',
+                      backgroundColor: '#fff',
+                      border: '2px solid #8B4513',
+                      '& .MuiTableHead-root': {
+                        '& .MuiTableCell-head': {
+                          fontWeight: '600',
+                          fontSize: '20px',
+                        },
+
+                      },
+                    }}
+                  >
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell align="left">Loại</TableCell>
+                          <TableCell align="right">Giá</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell align="left">Giá thuê mặc định</TableCell>
+                          <TableCell align="right">{motorbike?.priceRent} 000 VND</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell align="left">
+                            <>
+                              - Giá giảm
+                              <Chip
+                                style={{ fontSize: "16px", fontWeight: "600", borderRadius: "8px", marginLeft: "8px" }}
+                                color="error" label={"15%"} />
+                            </>
+                          </TableCell>
+                          <TableCell align="right">{Number(motorbike?.priceRent) * 0.15} 000 VND</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell align="left">Lợi nhuận</TableCell>
+                          <TableCell align="right">{Number(motorbike?.priceRent) * 0.85} 000 VND</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Box>
+              </Box>
+              <Box
+                width={isIpad || isMobile ? "100%" : "70%"}
+                display="flex"
+                flexDirection="column"
+                alignItems="start"
+                paddingBottom="16px"
+              >
+                {/* Thông tin xe */}
+                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"} mt={"16px"}>
+                  <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                    {t("postMotorbike.listform.motorbikeFeature")}
+                  </Typography>
+
+                  <Box width={"100%"}>
+                    <Box
+                      sx={{ backgroundColor: "rgba(19, 139, 31, 0.05)", borderRadius: "8px" }}
+                      padding={"16px"}
+                      display="flex"
+                      flexDirection={isMobile ? "column" : "row"}
+                      alignItems="center"
+                      gap={"8px"}
+                      justifyContent={"space-between"}>
+
+                      <MotorbikeFeatureItem
+                        icon={<NewReleasesOutlined color='primary' fontSize='large' />}
+                        title={t("postMotorbike.listform.release-year")}
+                        content={motorbike?.releaseYear}
+                        isMobile={isMobile}
+                        t={t}
+                      />
+                      <MotorbikeFeatureItem
+                        icon={<GasMeterOutlined color='primary' fontSize='large' />}
+                        title={t("postMotorbike.listform.type")}
+                        content={motorbike?.type}
+                        isMobile={isMobile}
+                        t={t}
+                      />
+                      <MotorbikeFeatureItem
+                        icon={<LocalDrinkOutlined color='primary' fontSize='large' />}
+                        title={t("postMotorbike.listform.fuel-consumption")}
+                        content={motorbike?.fuelConsumption + "L/100km"}
+                        isMobile={isMobile}
+                        t={t}
+                      />
+                    </Box>
+                  </Box>
+                </Box>
+
+                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+
+                {/* Biển số xe */}
+                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
+                  <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                    {t("postMotorbike.listform.licensePlate")}
+                  </Typography>
+                  <Box width={"100%"}>
+                    <Box display="flex" flexDirection="row" alignItems="center" justifyContent={"center"} borderRadius={"8px"} margin={"0px 16px"} padding={"16px 0px"} border={"2px solid #8B4513"}>
+                      <Typography variant="h5" fontWeight="600" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
+                        {motorbike?.licensePlate} {/* Thêm biển số xe */}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+
+                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+
+                {/* Trang bị */}
+                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
+                  <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                    {t("postMotorbike.listform.equipments")}
+                  </Typography>
+
+                  <Box width={"100%"}>
+                    <Box
+                      sx={{ backgroundColor: "rgba(19, 139, 31, 0.05)", borderRadius: "8px" }}
+                      padding={"16px 16px"}
+                      display="flex" flexDirection="row" alignItems="center" justifyContent={"center"} borderRadius={"8px"}>
+
+                      <Grid container columnSpacing={{ xs: 3, sm: 3, md: 3 }} rowSpacing={3}>
+                        {equipmentList.filter(item => item === "Raincoat").length > 0 && (
+                          <Grid item xs={isMobile ? 12 : 4}>
+                            <EquipmentItem icon={< RainCoatIcon />} label={t("postMotorbike.registedForm.raincoat")} />
+                          </Grid>
+                        )}
+                        {equipmentList.filter(item => item === "Helmet").length > 0 && (
+                          <Grid item xs={isMobile ? 12 : 4}>
+                            <EquipmentItem icon={< HelmetIcon />} label={t("postMotorbike.registedForm.helmet")} />
+                          </Grid>
+                        )}
+                        {equipmentList.filter(item => item === "ReflectiveClothes").length > 0 && (
+                          <Grid item xs={isMobile ? 12 : 4}>
+                            <EquipmentItem icon={< ProtectClothesIcon />} label={t("postMotorbike.registedForm.reflectiveClothes")} />
+                          </Grid>
+                        )}
+                        {equipmentList.filter(item => item === "RepairKit").length > 0 && (
+                          <Grid item xs={isMobile ? 12 : 4}>
+                            <EquipmentItem icon={< RepairIcon />} label={t("postMotorbike.registedForm.repairKit")} />
+                          </Grid>
+                        )}
+                        {equipmentList.filter(item => item === "Bagage").length > 0 && (
+                          <Grid item xs={isMobile ? 12 : 4}>
+                            <EquipmentItem icon={< CartIcon />} label={t("postMotorbike.registedForm.bagage")} />
+                          </Grid>
+                        )}
+                        {equipmentList.filter(item => item === "CaseTelephone").length > 0 && (
+                          <Grid item xs={isMobile ? 12 : 4}>
+                            <EquipmentItem icon={< TelephoneIcon />} label={t("postMotorbike.registedForm.caseTelephone")} />
+                          </Grid>
+                        )}
+                      </Grid>
+                    </Box>
+                  </Box>
+                </Box>
+
+                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+
+                {/* Hiển thị bản đồ vị trí xe */}
+                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
+                  <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                    {t("postMotorbike.listform.address")}
+                  </Typography>
+                  {isLoaded ? (
+                    <Box
+                      borderRadius={"10px"}
+                      border={"3px solid"}
+                      margin={"0px auto"}
+                      width={"100%"}
+                      display="flex"
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                      flexDirection={"column"}
+                    >
+                      <GoogleMap
+                        zoom={18}
+                        center={defaultLoction}
+                        mapContainerStyle={{
+                          width: "100%",
+                          height: "40vh",
+                          borderRadius: "8px",
+                        }}
+                        clickableIcons={false}
+                      >
+                        <Marker position={defaultLoction} />
+                      </GoogleMap>
+                    </Box>
+                  ) : (
+                    <Box sx={{
+                      display: 'flex', justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "row"
+                    }}>
+                      <CircularProgress />
+                    </Box>
+                  )}
+                </Box>
+
+                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+
+                {/* Thông tin khác */}
+                <Typography variant="h5" fontWeight="600">
+                  Rating & Feedback: {/* Thêm rating và feedback */}
+                </Typography>
+              </Box>
+
+
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </Modal>
+  );
+}
+
+function MotorbikeFeatureItem({ icon, title, content, isMobile }: any) {
+  return (<Box display="flex" flexDirection="row" alignItems="start" width={isMobile ? "90%" : "30%"} justifyContent={"start"} gap={"8px"} border={"2px solid #8B4513"} borderRadius={"8px"} padding={"8px"}>
+    {icon}
+    <Box display="flex" flexDirection="column" alignItems="start" justifyContent={"space-between"} gap={"8px"}>
+      <Typography variant="h5" color={theme.palette.text.primary} fontWeight={600} fontSize={isMobile ? "16px" : "16px"}>
+        {title}
+      </Typography>
+      <Typography variant="h5" color={theme.palette.text.secondary} fontSize={isMobile ? "16px" : "16px"}>
+        {content}
+      </Typography>
+    </Box>
+  </Box>);
+}
+function EquipmentItem({ icon, label }: any) {
+  return (
+    <Box display="flex" flexDirection="row" alignItems="center" justifyContent={"center"} padding={"16px 0px"} border={"2px solid #8B4513"} borderRadius={"8px"} gap={"16px"}>
+      {icon}
+      <Typography variant="h5" fontWeight="400" color={theme.palette.text.primary} fontSize={"16px"}>
+        {label}
+      </Typography>
+    </Box>);
+}

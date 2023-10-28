@@ -9,6 +9,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ErrorMessage from '../../../components/common/ErrorMessage';
 import MyCustomButton from '../../../components/common/MyButton';
 import { MyCustomeTextField } from './userInformationComponent';
+import useThemePage from '../../../hooks/useThemePage';
 
 interface ChildComponentProps {
   setType: React.Dispatch<React.SetStateAction<string>>;
@@ -84,6 +85,7 @@ const ChangePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
   const handleMouseDownPassword = (event: React.MouseEvent<any>) => {
     event.preventDefault();
   };
+  const { isMobile } = useThemePage();
 
   const {
     values,
@@ -95,7 +97,7 @@ const ChangePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
 
   return (
     <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <form onSubmit={handleSubmit} style={{ width: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <form onSubmit={handleSubmit} style={{ width: isMobile ? "100%" : "50%", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <MyCustomeTextField
           name="oldPassword"
           label={t("changePassword.OldPassword")}
@@ -111,7 +113,7 @@ const ChangePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
-                  onMouseDown={(event) => event.preventDefault()}
+                  onMouseDown={(event:any) => event.preventDefault()}
                   edge="end"
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -137,7 +139,7 @@ const ChangePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={handleClickShowNewPassword}
-                  onMouseDown={(event) => event.preventDefault()}
+                  onMouseDown={(event:any) => event.preventDefault()}
                   edge="end"
                 >
                   {showNewPassword ? <VisibilityOff /> : <Visibility />}
@@ -164,7 +166,7 @@ const ChangePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
                 <IconButton
                   aria-label="toggle confirm password visibility"
                   onClick={handleClickShowConfirmPassword}
-                  onMouseDown={(event) => event.preventDefault()}
+                  onMouseDown={(event:any) => event.preventDefault()}
                   edge="end"
                 >
                   {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
@@ -176,7 +178,7 @@ const ChangePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
         <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'start' }}>
           {errors.confirmPassword && touched.confirmPassword && <ErrorMessage message={errors.confirmPassword} />}
         </Box>
-        <div style={{ marginTop: "16px" }}>
+        <Box style={{ marginTop: "16px" }}>
           <MyCustomButton
             borderRadius={8}
             fontSize={16}
@@ -184,7 +186,7 @@ const ChangePassComponent: FunctionComponent<ChildComponentProps> = ({ setType }
             content={t('changePassword.BtnChange')}
             type="submit"
           />
-        </div>
+        </Box>
       </form>
     </Box>
   );

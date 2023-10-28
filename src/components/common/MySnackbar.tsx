@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import { IconButton } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import CloseIcon from "@mui/icons-material/Close";
 
 
@@ -43,7 +43,7 @@ function CustomizedSnackbars({ autoHideDuration, severity, message }: Customized
         </>
     );
     return (
-        <div>
+        <Box>
             <Snackbar
                 open={open}
                 anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -55,6 +55,6 @@ function CustomizedSnackbars({ autoHideDuration, severity, message }: Customized
                     {message}
                 </Alert>
             </Snackbar>
-        </div>
+        </Box>
     );
 }

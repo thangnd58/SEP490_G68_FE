@@ -43,10 +43,10 @@ export const routes: Route[] = [
     { path: ROUTES.other.pagenotfound, component: PageNotFound, layout: LayoutEmpty },
 
     // User Page
-    { path: ROUTES.user.userprofile, component: UserProfilePage, role: ["Admin", "Customer"] },
+    { path: ROUTES.user.userprofile, component: UserProfilePage, role: ["Admin","Staff", "Customer"] },
     { path: ROUTES.user.registermotorbike, component: RegisterMotorbike, role: ["Customer"] },
     { path: ROUTES.user.listmotorbike, component: ListMotorbike, role: ["Customer"] },
-    { path: ROUTES.user.updateregistermotorbike, component: UpdateRegisterMotorbike, role: ["Customer"] },
+    { path: `${ROUTES.user.updateregistermotorbike}/:id`, component: UpdateRegisterMotorbike, role: ["Customer"] },
 
     // Auth Page
     { path: ROUTES.account.login, component: Login, layout: LayoutWithoutFooter },
@@ -59,8 +59,8 @@ export const routes: Route[] = [
     { path: `${ROUTES.account.userverification}/:ticket`, component: VerifyReigsterStatus, layout: LayoutWithoutFooter },
     
     // Admin Page
-    { path: `${ROUTES.admin.managemotorbikes}`, component: MotorbikeManagement, layout: LayoutAdmin, role: ["Admin"] },
-    { path: `${ROUTES.admin.managelicences}`, component: LicenceManagement, layout: LayoutAdmin, role: ["Admin"] },
-    { path: `${ROUTES.admin.licenceRegister}/:id`, component: LicenceRegisterDetail, layout: LayoutAdmin, role: ["Admin"] },
-    { path: `${ROUTES.admin.MotorbikeRegister}/:id`, component: MotorbikeRegisterDetail, layout: LayoutAdmin, role: ["Admin"] },
+    { path: `${ROUTES.admin.managemotorbikes}`, component: MotorbikeManagement, layout: LayoutAdmin, role: ["Admin","Staff"] },
+    { path: `${ROUTES.admin.managelicences}`, component: LicenceManagement, layout: LayoutAdmin, role: ["Admin","Staff"] },
+    { path: `${ROUTES.admin.licenceregister}/:id`, component: LicenceRegisterDetail, layout: LayoutAdmin, role: ["Admin","Staff"] },
+    { path: `${ROUTES.admin.motorbikeregister}/:id`, component: MotorbikeRegisterDetail, layout: LayoutAdmin, role: ["Admin","Staff"] },
 ];

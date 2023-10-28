@@ -57,12 +57,13 @@ const FormStyle = styled('form')(({ theme }) => ({
     justifyContent: 'center',
     marginBottom: '1.5rem',
     '& .register-form-content': {
-      width: '80%',
       '& .error-text': {
         color: theme.palette.error.main,
       },
       '& .MuiButton-root.submit-button': {
         marginTop: '1.5rem',
+        width: '100%',
+
       },
     }
   },
@@ -128,12 +129,12 @@ const RegisterForm = () => {
 
   return (
     <FormStyle className='form' onSubmit={handleSubmit}>
-      <Paper elevation={3} sx={{ width: isMobile ? '80%' : '30%', }}>
+      <Paper elevation={3} sx={{ width: isMobile ? '75%' : '30%', }}>
         <Typography className='heading'>
           {t("form.register")}
         </Typography>
         <Box className='register-form'>
-          <Box className='register-form-content'>
+          <Box className='register-form-content' sx={{ width: isMobile ? '100%' : '80%', }}>
             <TextField
               name='username'
               label={t('form.userName')}
