@@ -37,14 +37,18 @@ const Wallet = () => {
     const currentDate = dayjs();
     const { isMobile } = useThemePage();
     const { setContentModal, setShowModal } = useContext(ModalContext);
-    const showModal = () => {
-        setContentModal(<ModalDepositeMoney content='Haha' title='Haha' onClickAgree={() => {}} />)
+    const showModalDeposite = () => {
+        setContentModal(<ModalDepositeMoney content='Haha' title='Haha' onClickAgree={() => { }} />)
+        setShowModal(true)
+    }
+    const showModalWithdrawal = () => {
+        setContentModal(<ModalDepositeMoney content='Haha' title='Haha' onClickAgree={() => { }} />)
         setShowModal(true)
     }
     return (
         <Box display={'flex'} justifyContent={'center'} marginTop={'2rem'}>
             <Box display={'flex'} flexDirection={'column'} gap={'1rem'} width={'80%'} textAlign={'center'}>
-                <Typography variant='h5' fontWeight={'bold'}>
+                <Typography variant='h4' fontWeight={'bold'}>
                     {t('wallet.title_my_wallet')}
                 </Typography>
                 <Box
@@ -56,7 +60,7 @@ const Wallet = () => {
                     px={'2.5rem'}
                     sx={{ backgroundColor: 'primary.main', borderTopLeftRadius: '8px', borderTopRightRadius: '8px' }}
                 >
-                    <Typography>{t('wallet.title_summary_transaction')}</Typography>
+                    <Typography variant='h6'>{t('wallet.title_summary_transaction')}</Typography>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePickerStyle>
                             <DatePicker
@@ -75,9 +79,9 @@ const Wallet = () => {
                     </Typography>
                 </Box>
                 <CollapsibleTable />
-                <Box display={'flex'} gap={'1rem'} justifyContent={'center'}>
-                    <MyCustomButton onClick={() => showModal()} content={t("wallet.title_button_deposit")} />
-                    <MyCustomButton content={t("wallet.title_button_request_withdrawal")} variant='outlined' />
+                <Box display={'flex'} gap={'1rem'} justifyContent={'center'} mb={'1rem'}>
+                    <MyCustomButton onClick={() => showModalDeposite()} content={t("wallet.title_button_deposit")} />
+                    <MyCustomButton onClick={() => showModalWithdrawal()} content={t("wallet.title_button_request_withdrawal")} variant='outlined' />
                 </Box>
             </Box>
         </Box>
