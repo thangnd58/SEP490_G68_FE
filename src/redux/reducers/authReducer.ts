@@ -11,14 +11,14 @@ export interface UserInfo {
 
 const storedUserInfo = localStorage.getItem("userInfo");
 const initialState: UserInfo = {
-  user: storedUserInfo ? JSON.parse(storedUserInfo) : null,
+  user: UserService.isLoggedIn() ? (storedUserInfo ? JSON.parse(storedUserInfo) : null) : null,
 };
 
 export const authReducer = createSlice({
   name: "userInfo",
   initialState,
   reducers: {
-    updateUser: (state, action)=> {
+    updateUser: (state, action) => {
       state.user = action.payload
     }
   },
@@ -27,12 +27,16 @@ export const authReducer = createSlice({
 export const getUserInfo = (): any => {
   return async (dispatch: AppDispatch, getState: RootState) => {
     try {
-      const userInfo = await UserService.getUserInfo();
-      //@ts-ignore
-      dispatch(updateUser(userInfo.data))
-      //@ts-ignore
-      localStorage.setItem("userInfo", JSON.stringify(userInfo.data));
-    } catch (err) {}
+      if (UserService.isLoggedIn()) {
+        const userInfo = await UserService.getUserInfo();
+        //@ts-ignore
+        dispatch(updateUser(userInfo.data))
+        //@ts-ignore
+        localStorage.setItem("userInfo", JSON.stringify(userInfo.data));
+      } else {
+        localStorage.removeItem("userInfo");
+      }
+    } catch (err) { }
   };
 };
 

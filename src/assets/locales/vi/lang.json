@@ -348,5 +348,19 @@
       "upload_image_success": "Tải ảnh thành công",
       "upload_image_fail": "Tải ảnh thất bại"
     }
+  },
+  "wallet": {
+    "title_my_wallet": "Ví của tôi",
+    "title_summary_transaction": "Tổng hợp giao dịch",
+    "title_transaction_code": "Mã giao dịch",
+    "title_date_deposit": "Ngày nạp",
+    "title_status": "Trạng thái",
+    "title_change_balance": "Số dư",
+    "title_request_date": "Ngày tạo",
+    "title_approval_date": "Ngày duyệt",
+    "title_current_balance": "Số dư hiện tại",
+    "title_button_deposit": "Nạp tiền vào ví",
+    "title_button_request_withdrawal": "Gửi yêu cầu rút tiền",
+    "title_dialog_deposite": "Tạo yêu cầu nạp tiền"
   }
 }

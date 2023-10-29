@@ -24,6 +24,7 @@ import UpdateRegisterMotorbike from '../pages/PostMotorbike/UpdateRegisterMotorb
 import MyMapWithSearchBox from '../components/common/MyMapWithSearchBox';
 import PageNotFound from '../pages/OrtherPage/PageNotFound';
 import LayoutEmpty from '../layouts/LayoutEmpty';
+import Wallet from '../pages/WalletPage/Wallet';
 
 
 export type Route = {
@@ -43,7 +44,7 @@ export const routes: Route[] = [
     { path: ROUTES.other.pagenotfound, component: PageNotFound, layout: LayoutEmpty },
 
     // User Page
-    { path: ROUTES.user.userprofile, component: UserProfilePage, role: ["Admin","Staff", "Customer"] },
+    { path: ROUTES.user.userprofile, component: UserProfilePage, role: ["Admin", "Staff","Customer"] },
     { path: ROUTES.user.registermotorbike, component: RegisterMotorbike, role: ["Customer"] },
     { path: ROUTES.user.listmotorbike, component: ListMotorbike, role: ["Customer"] },
     { path: `${ROUTES.user.updateregistermotorbike}/:id`, component: UpdateRegisterMotorbike, role: ["Customer"] },
@@ -63,4 +64,7 @@ export const routes: Route[] = [
     { path: `${ROUTES.admin.managelicences}`, component: LicenceManagement, layout: LayoutAdmin, role: ["Admin","Staff"] },
     { path: `${ROUTES.admin.licenceregister}/:id`, component: LicenceRegisterDetail, layout: LayoutAdmin, role: ["Admin","Staff"] },
     { path: `${ROUTES.admin.motorbikeregister}/:id`, component: MotorbikeRegisterDetail, layout: LayoutAdmin, role: ["Admin","Staff"] },
+
+    //Wallet Page
+    { path: `${ROUTES.user.wallet}`, component: Wallet, role: ["Admin", "Staff","Customer"] },
 ];
