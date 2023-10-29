@@ -33,7 +33,7 @@ export default function AlertDialogSlide() {
 
   return (
     <div>
-      <MyDialog title="title" handleClickOpen={handleClickOpen} open={open} content="content" onClickAgree={handleAgree} />
+      <MyDialog title="title"  content="content" onClickAgree={handleAgree} />
     </div>
   );
 }
