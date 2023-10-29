@@ -91,7 +91,8 @@ const AuthProvider = (props: { children: JSX.Element }) => {
             const response = await UserService.register({
                 name: user.name,
                 email: user.email,
-                password: user.password
+                password: user.password,
+                phone: user.phone
             });
             if (response.status === 200) {
                 navigate(`${ROUTES.account.verifyrequired}/register`);
