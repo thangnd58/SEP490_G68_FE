@@ -305,7 +305,7 @@ function Header() {
                                     </Box>
                                     <Divider sx={{ marginBottom: "16px", borderBottom: '1px solid #B1B5C3', width: "100%" }} />
                                     <MyCustomButton iconPosition='left' icon={<Home sx={{ color: "#8B4513" }} />} width='100%' onClick={() => navigate(ROUTES.homepage)} content={t("header.home_page")} variant='outlined' />
-                                    <MyCustomButton iconPosition='left' icon={<VpnKey sx={{ color: "#8B4513" }} />} width='100%' onClick={() => navigate(ROUTES.user.registermotorbike)} content={t('header.registermotorbike')} variant='outlined' />
+                                    <MyCustomButton iconPosition='left' icon={<VpnKey sx={{ color: "#8B4513" }} />} width='100%' onClick={() => isLogin ? navigate(ROUTES.user.registermotorbike) : navigate(ROUTES.user.introductionmotorbike)} content={t('header.registermotorbike')} variant='outlined' />
 
                                 </Box>
                             </Box>

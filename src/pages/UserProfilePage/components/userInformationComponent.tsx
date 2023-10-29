@@ -38,7 +38,6 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
 
   useEffect(() => {
     getLisence();
-    console.log(user.phoneVerified);
   }, []);
 
   const getLisence = async () => {
@@ -163,18 +162,18 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
     }
   };
 
-  const handleDeleteAvatar = async () => {
+  const handleDeleteAvatar = () => {
     try {
-      const response = await UserService.deleteAvatarUser(user!.userId);
+      // const response = await UserService.deleteAvatarUser(user!.userId);
 
-      if (response.status === 200) {
-        // Avatar deletion is successful
-        ToastComponent(t('userProfile.AvatarDeleted'), 'success');
-        dispatch(getUserInfo());
-      } else {
-        // Handle error here if the deletion was not successful
-        ToastComponent(t('userProfile.AvatarDeleteError'), 'error');
-      }
+      // if (response.status === 200) {
+      //   // Avatar deletion is successful
+      //   ToastComponent(t('userProfile.AvatarDeleted'), 'success');
+      //   dispatch(getUserInfo());
+      // } else {
+      //   // Handle error here if the deletion was not successful
+      //   ToastComponent(t('userProfile.AvatarDeleteError'), 'error');
+      // }
       // alert('ok');
       // <MyDialog
       //   open={true}
@@ -182,6 +181,15 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
       //   content={t('userProfile.DeleteAvatarContent')}
       //   onClickAgree={() => { alert('ok') }}
       // />
+      MyDialog(
+        {
+          title: t('userProfile.DeleteAvatar'),
+          content: t('userProfile.DeleteAvatarContent'),
+          onClickAgree: () => {
+            alert('ok');
+          }
+        }
+      );
     } catch (error) {
       // Handle any unexpected errors here
       ToastComponent(t('userProfile.AvatarDeleteError'), 'error');
@@ -300,46 +308,46 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Box display={'flex'} alignItems={'center'} alignContent={'center'}>
-                      <Typography variant="h6" marginRight={1} fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
+                  <Box display={'flex'} alignItems={'center'} alignContent={'center'}>
+                    <Typography variant="h6" marginRight={1} fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                       {t('userProfile.PhoneNumber')}
-                      </Typography>
-                      {user.phoneVerified === true && (
+                    </Typography>
+                    {user.phoneVerified === true && (
+                      <Chip
+                        sx={{ '& .MuiChip-label': { fontSize: "15px" }, height: '90%' }}
+                        color="success"
+                        icon={<CheckCircleOutline />}
+                        label={t('userProfile.Verified')} />
+                    )}
+                    {user.phoneVerified === false && (
+                      <Tooltip title={t('userProfile.AlertVerify')}>
                         <Chip
-                          sx={{ '& .MuiChip-label': { fontSize: "15px" }, height : '90%'}}
-                          color="success"
-                          icon={<CheckCircleOutline />}
-                          label={t('userProfile.Verified')} />
-                      )}
-                      {user.phoneVerified === false && (
-                        <Tooltip title={t('userProfile.AlertVerify')}>
-                          <Chip
-                          sx={{ '& .MuiChip-label': { fontSize: "15px" }, height : '90%', cursor : 'pointer' }}
+                          sx={{ '& .MuiChip-label': { fontSize: "15px" }, height: '90%', cursor: 'pointer' }}
                           color="warning"
                           icon={<WarningAmber />}
                           label={t('userProfile.notYetVerify')}
                           onClick={() => {
                             setType('verifyPhone');
                             setShowButtons(false);
-                            }}
-                          />
-                        </Tooltip>
-                        
-                        )}
-                      
+                          }}
+                        />
+                      </Tooltip>
 
-                    </Box>
-                    <Box display={'flex'} alignItems={'center'} alignContent={'center'}>
-                      <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600} display={'inline'} marginRight={1}>
-                          {user.phone ? user.phone : t('userProfile.InputProfile')}
-                        </Typography>
-                      <MyIcon icon={<EditIcon />} hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => {
-                        setType('changePhone');
-                        setShowButtons(false);
-                      }} />
-                      
+                    )}
+
+
+                  </Box>
+                  <Box display={'flex'} alignItems={'center'} alignContent={'center'}>
+                    <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600} display={'inline'} marginRight={1}>
+                      {user.phone ? user.phone : t('userProfile.InputProfile')}
+                    </Typography>
+                    <MyIcon icon={<EditIcon />} hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => {
+                      setType('changePhone');
+                      setShowButtons(false);
+                    }} />
+
                     {/* <Button onClick={ChangePhone}>{t('userProfile.BtnChange')}</Button> */}
-                    </Box>
+                  </Box>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                   <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>

@@ -18,22 +18,13 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AlertDialogSlide() {
-  const [open, setOpen] = React.useState(false);
+export default function MyMapArea() {
 
-  const handleClickOpen = () => {
-    console.log("handleClickOpen");
-    setOpen(true);
-    console.log(open);
-  };
-
-  const handleAgree = () => {
-    alert("agree");
+  const clickAgree = () => {
+    alert('agree');
   }
 
   return (
-    <div>
-      <MyDialog title="title"  content="content" onClickAgree={handleAgree} />
-    </div>
+    <MyDialog title="title" content="content" onClickAgree={clickAgree} />
   );
 }

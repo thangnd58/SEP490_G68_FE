@@ -19,8 +19,8 @@ const Transition = React.forwardRef(function Transition(
 });
 
 export default function MyDialog(props: MyDialogProps) {
-    const {closeModal} = useContext(ModalContext);
-    
+    const { closeModal } = useContext(ModalContext);
+
     return (
         <>
             <Dialog

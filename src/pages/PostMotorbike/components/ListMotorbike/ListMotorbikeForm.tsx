@@ -43,7 +43,6 @@ const ListMotorbikeForm = () => {
   useEffect(() => {
     getAllMotorbikesRegistered();
   }, [])
-  console.log(listRegisterMotorbike);
 
   const getAllMotorbikesRegistered = async () => {
     try {

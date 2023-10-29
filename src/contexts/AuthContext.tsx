@@ -83,7 +83,7 @@ const AuthProvider = (props: { children: JSX.Element }) => {
         localStorage.setItem("token", JSON.stringify(""));
         localStorage.removeItem("userInfo");
         ToastComponent(t("toast.logout.success"), "success");
-        navigate(ROUTES.homepage);
+        navigate(ROUTES.account.login);
     };
 
     const register = async (user: any) => {
