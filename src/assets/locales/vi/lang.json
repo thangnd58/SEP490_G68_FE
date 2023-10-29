@@ -360,6 +360,7 @@
     "title_approval_date": "Ngày duyệt",
     "title_current_balance": "Số dư hiện tại",
     "title_button_deposit": "Nạp tiền vào ví",
-    "title_button_request_withdrawal": "Gửi yêu cầu rút tiền"
+    "title_button_request_withdrawal": "Gửi yêu cầu rút tiền",
+    "title_dialog_deposite": "Tạo yêu cầu nạp tiền"
   }
 }

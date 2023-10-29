@@ -20,17 +20,17 @@ const root = ReactDOM.createRoot(rootElement);
 store.dispatch(getUserInfo());
 root.render(
   <Provider store={store}>
-    <ModalProvider>
-      <ModalContext.Consumer>
-        {({ contentModal }) => {
-          return (
-            <>
-              {contentModal}
-            </>
-          );
-        }}
-      </ModalContext.Consumer>
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <ModalProvider>
+        <ModalContext.Consumer>
+          {({ contentModal }) => {
+            return (
+              <>
+                {contentModal}
+              </>
+            );
+          }}
+        </ModalContext.Consumer>
         <BrowserRouter>
           <AuthProvider>
             <>
@@ -54,7 +54,7 @@ root.render(
             </>
           </AuthProvider>
         </BrowserRouter>
-      </ThemeProvider>
-    </ModalProvider>
+      </ModalProvider>
+    </ThemeProvider>
   </Provider>
 );
