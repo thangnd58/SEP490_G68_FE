@@ -10,7 +10,8 @@ export interface User {
     password?: string,
     avatarUrl: string,
     role: Role,
-    phoneVerified : boolean
+    phoneVerified: boolean,
+    balance: number
 }
 
 export interface Role {
@@ -148,4 +149,21 @@ export interface Bank {
     support: number,
 }
 
+export interface WalletHistory {
+    id: number,
+    deposit?: number,
+    withdraw?: number,
+    create_Date: string,
+    dateApprove?: string,
+    status?: string,
+    userId: number,
+    transactionId: string
+}
+
+export interface RequestWithDrawal {
+    amount: number,
+    bankCode: string,
+    nameInBank: string,
+    bankNumber: string
+}
 

@@ -6,10 +6,13 @@ import { TransitionProps } from "@mui/material/transitions";
 import { ModalContext } from "../../../contexts/ModalContext";
 import usei18next from "../../../hooks/usei18next";
 import MyCustomButton from "../../../components/common/MyButton";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import ErrorMessage from "../../../components/common/ErrorMessage";
+import WalletService from "../../../services/WalletService";
 
 interface MyDialogProps {
     title: string;
-    onClickAgree: () => void;
 }
 
 const Transition = React.forwardRef(function Transition(
@@ -21,10 +24,37 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-
 const ModalDepositeMoney = (props: MyDialogProps) => {
     const { closeModal } = useContext(ModalContext);
     const { t } = usei18next();
+
+    const formik = useFormik({
+        initialValues: {
+            amount: "",
+        },
+        validationSchema: Yup.object({
+            amount: Yup.number().required(t("form.required")),
+        }),
+        onSubmit: async (values) => {
+            try {
+                const res: any = await WalletService.depositeMoney(values.amount);
+                if (res) {
+                    window.location.replace(res.data);
+                }
+            } catch (error) {
+
+            }
+        }
+    });
+
+    const {
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleSubmit,
+        setFieldValue
+    } = formik;
     return (
         <Dialog
             open={true}
@@ -48,6 +78,9 @@ const ModalDepositeMoney = (props: MyDialogProps) => {
                 <TextField
                     placeholder={t("wallet.placeholder_amount_want")}
                     type="number"
+                    name="amount"
+                    onChange={handleChange}
+                    value={values.amount}
                     sx={{
                         "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
                             display: "none",
@@ -64,9 +97,12 @@ const ModalDepositeMoney = (props: MyDialogProps) => {
                         ),
                     }}
                 />
+                {errors.amount && touched.amount && (
+                    <ErrorMessage message={errors.amount} />
+                )}
             </DialogContent>
             <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
-                <MyCustomButton onClick={() => { }} content={t("wallet.title_button_send_request")} />
+                <MyCustomButton onClick={handleSubmit} content={t("wallet.title_button_send_request")} />
             </DialogActions>
         </Dialog>
     )

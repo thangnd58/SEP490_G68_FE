@@ -24,7 +24,7 @@ import UpdateRegisterMotorbike from '../pages/PostMotorbike/UpdateRegisterMotorb
 import MyMapWithSearchBox from '../components/common/MyMapWithSearchBox';
 import PageNotFound from '../pages/OrtherPage/PageNotFound';
 import LayoutEmpty from '../layouts/LayoutEmpty';
-import Wallet from '../pages/WalletPage/Wallet';
+import Wallet from '../pages/WalletPage/WalletPage';
 
 
 export type Route = {

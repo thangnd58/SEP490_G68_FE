@@ -352,6 +352,8 @@
   "wallet": {
     "title_my_wallet": "Ví của tôi",
     "title_summary_transaction": "Tổng hợp giao dịch",
+    "title_deposit_transaction": "Giao dịch nạp tiền",
+    "title_withdrawal_transaction": "Giao dịch rút tiền",
     "title_transaction_code": "Mã giao dịch",
     "title_date_deposit": "Ngày nạp",
     "title_status": "Trạng thái",

@@ -352,6 +352,8 @@
   "wallet": {
     "title_my_wallet": "My wallet",
     "title_summary_transaction": "Summary of transactions",
+    "title_deposit_transaction": "Deposit transaction",
+    "title_withdrawal_transaction": "Withdrawal transaction",
     "title_transaction_code": "Transaction code",
     "title_date_deposit": "Deposit date",
     "title_status": "Status",
