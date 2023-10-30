@@ -352,6 +352,8 @@
   "wallet": {
     "title_my_wallet": "My wallet",
     "title_summary_transaction": "Summary of transactions",
+    "title_deposit_transaction": "Deposit transaction",
+    "title_withdrawal_transaction": "Withdrawal transaction",
     "title_transaction_code": "Transaction code",
     "title_date_deposit": "Deposit date",
     "title_status": "Status",
@@ -364,6 +366,16 @@
     "title_dialog_deposite": "Create request deposite money",
     "title_button_send_request": "Send request",
     "title_amount": "Amount",
-    "placeholder_amount_want": "Amount you want to deposit"
+    "placeholder_amount_want": "Amount you want to deposit",
+    "title_dialog_withdrawal": "Create withdrawal request",
+    "title_type_withdrawal_bank": "Bank transfer",
+    "title_placeholder_money_want_withdrawal": "Amount withdraw",
+    "title_bank_name": "Beneficiary bank",
+    "placeholder_bank_name": "Select the bank",
+    "title_bank_number": "Account number",
+    "placeholder_bank_number": "Enter account number",
+    "title_name_owner_bank_account": "Beneficiary name",
+    "placehoder_name_owner": "Enter beneficiary name",
+    "label_hint_cost": "Money transfer fee: 9,900 VND"
   }
 }

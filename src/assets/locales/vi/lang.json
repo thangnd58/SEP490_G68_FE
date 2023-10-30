@@ -352,6 +352,8 @@
   "wallet": {
     "title_my_wallet": "Ví của tôi",
     "title_summary_transaction": "Tổng hợp giao dịch",
+    "title_deposit_transaction": "Giao dịch nạp tiền",
+    "title_withdrawal_transaction": "Giao dịch rút tiền",
     "title_transaction_code": "Mã giao dịch",
     "title_date_deposit": "Ngày nạp",
     "title_status": "Trạng thái",
@@ -364,6 +366,16 @@
     "title_dialog_deposite": "Tạo yêu cầu nạp tiền",
     "title_button_send_request": "Gửi yêu cầu",
     "title_amount": "Số tiền",
-    "placeholder_amount_want": "Số tiền muốn nạp"
+    "placeholder_amount_want": "Số tiền muốn nạp",
+    "title_dialog_withdrawal": "Tạo yêu cầu rút tiền",
+    "title_type_withdrawal_bank": "Chuyển khoản qua ngân hàng",
+    "title_placeholder_money_want_withdrawal": "Số tiền muốn rút",
+    "title_bank_name": "Ngân hàng thụ hưởng",
+    "placeholder_bank_name": "Chọn ngân hàng",
+    "title_bank_number": "Số tài khoản",
+    "placeholder_bank_number": "Nhập số tài khoản",
+    "title_name_owner_bank_account": "Tên người thụ hưởng",
+    "placehoder_name_owner": "Nhập họ và tên",
+    "label_hint_cost": "Phí chuyển tiền: 9.900 VNĐ"
   }
 }
