@@ -114,19 +114,19 @@
       "success": "OTP has been sent to you",
       "warning": "Send OTP failed",
       "error": "Error when send OTP",
-      "Conflict" : "Phone number already exists"
+      "Conflict": "Phone number already exists"
     },
     "ConfirmOtp": {
       "success": "Confirm OTP successfully",
       "warning": "Confirm OTP failed",
       "error": "Error confirm OTP"
     },
-    "ChangePhone":{
+    "ChangePhone": {
       "success": "Change phone successfully",
       "warning": "Change phone failed",
       "error": "Error when change phone"
     },
-    "VerifyPhone":{
+    "VerifyPhone": {
       "success": "Verify phone successfully",
       "warning": "Verify phone failed",
       "error": "Error when verify phone"
@@ -162,24 +162,24 @@
     "ChangeProfile": "Change Profile",
     "InputProfile": "Please input Information",
     "BtnChange": "Change",
-    "notYetVerify" : "Waiting to verify",
-    "Verified" : "Verified",
-    "AlertVerify" : "Please verify your phone number"
+    "notYetVerify": "Waiting to verify",
+    "Verified": "Verified",
+    "AlertVerify": "Please verify your phone number"
   },
-  "ChangePhone":{
+  "ChangePhone": {
     "Title": "Change Phone Number",
     "BtnConfirm": "Confirm",
     "BtnChange": "Complete",
-    "GetOTP" : "Get OTP",
+    "GetOTP": "Get OTP",
     "NewPhone": "New Phone",
     "Phone": "Phone"
   },
-  "VerifyPhone":{
+  "VerifyPhone": {
     "Title": "Verify Phone Number",
     "BtnConfirm": "Confirm",
     "BtnChange": "Complete",
-    "GetOTP" : "Get OTP",
-    "TooltipGetOTP" : "The system will send a message containing the OTP code to your phone."
+    "GetOTP": "Get OTP",
+    "TooltipGetOTP": "The system will send a message containing the OTP code to your phone."
   },
   "changePassword": {
     "Title": "Change Password",
@@ -232,7 +232,6 @@
       "statusVerified": "Verified",
       "statusCancelled": "Cancelled"
     },
-
     "motorbikeRentalManager": {
       "columnUserName": "User Name",
       "columnMotorbikeName": "Motorbike Name",
@@ -271,7 +270,7 @@
       "table-cell-action": "Action",
       "badge-edit": "Edit",
       "badge-delete": "Delete",
-      "badge-location" : "Location",
+      "badge-location": "Location",
       "status-approved": "Approved",
       "status-processing": "Processing",
       "status-inoporation": "In Oporation",
@@ -281,7 +280,7 @@
       "motorbikeFeature": "Motorbike Feature",
       "release-year": "Release Year",
       "type": "Fuel Type",
-      "fuel-consumption" : "Fuel Consumption",
+      "fuel-consumption": "Fuel Consumption",
       "licensePlate": "License Plate",
       "equipments": "Equipments",
       "address": "Address",
@@ -334,7 +333,7 @@
       "selectWardPlaceHolder": "Choose District First",
       "address": "Address",
       "addressPlaceHolder": "Enter Address",
-      "btnConfirm" : "Confirm",
+      "btnConfirm": "Confirm",
       "miscellaneous": "Miscellaneous",
       "miscellaneousSecondTitle": "Specify the requirements for customers to rent a motorbike",
       "miscellaneousPlaceHolder": "Enter your requirements",
@@ -349,5 +348,22 @@
       "upload_image_success": "Upload image successfully",
       "upload_image_fail": "Upload image fail"
     }
+  },
+  "wallet": {
+    "title_my_wallet": "My wallet",
+    "title_summary_transaction": "Summary of transactions",
+    "title_transaction_code": "Transaction code",
+    "title_date_deposit": "Deposit date",
+    "title_status": "Status",
+    "title_change_balance": "Balance",
+    "title_request_date": "Request creation",
+    "title_approval_date": "Request approval",
+    "title_current_balance": "Current balance",
+    "title_button_deposit": "Deposit to wallet",
+    "title_button_request_withdrawal": "Send withdrawal request",
+    "title_dialog_deposite": "Create request deposite money",
+    "title_button_send_request": "Send request",
+    "title_amount": "Amount",
+    "placeholder_amount_want": "Amount you want to deposit"
   }
 }

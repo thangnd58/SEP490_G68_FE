@@ -11,6 +11,7 @@ import theme from './utils/theme';
 import { Provider, useDispatch } from 'react-redux'
 import store from './redux/store';
 import { getUserInfo } from './redux/reducers/authReducer';
+import ModalProvider, { ModalContext } from './contexts/ModalContext';
 // Load environment variables
 // require('dotenv').config();
 
@@ -20,29 +21,40 @@ store.dispatch(getUserInfo());
 root.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <AuthProvider>
-          <>
-            <ToastContainer
+      <ModalProvider>
+        <ModalContext.Consumer>
+          {({ contentModal }) => {
+            return (
+              <>
+                {contentModal}
+              </>
+            );
+          }}
+        </ModalContext.Consumer>
+        <BrowserRouter>
+          <AuthProvider>
+            <>
+              <ToastContainer
 
-              bodyStyle={{ color: theme.palette.text.primary }}
-              position="bottom-left"
-              transition={Slide}
-              pauseOnHover={false}
-              autoClose={1000}
-              pauseOnFocusLoss={false}
-              toastStyle={{
-                border: "3px solid " + theme.palette.action.disabledBackground, borderRadius: '8px', width: '350px'
-              }}
-              style={{
-                fontSize: '16px',
-                fontWeight: '500',
-              }}
-            />
-            <AppRoute />
-          </>
-        </AuthProvider>
-      </BrowserRouter>
+                bodyStyle={{ color: theme.palette.text.primary }}
+                position="bottom-left"
+                transition={Slide}
+                pauseOnHover={false}
+                autoClose={1000}
+                pauseOnFocusLoss={false}
+                toastStyle={{
+                  border: "3px solid " + theme.palette.action.disabledBackground, borderRadius: '8px', width: '350px'
+                }}
+                style={{
+                  fontSize: '16px',
+                  fontWeight: '500',
+                }}
+              />
+              <AppRoute />
+            </>
+          </AuthProvider>
+        </BrowserRouter>
+      </ModalProvider>
     </ThemeProvider>
   </Provider>
 );
