@@ -7,5 +7,7 @@ import SuccessIcon from './success.png';
 import ErrorIcon from './error.png';
 import PageNoteFoundImage from './page-note-found.png';
 import DepositeMoneyImage from './deposite_money.png';
+import CancelImage from './cancel.png';
+import WithdrawalMoneyImage from './withdrawal_money.png';
 
-export { DepositeMoneyImage, PageNoteFoundImage, VietNamFlag, UnitedKingDomFlag, LogoHeader, EmailIcon, SuccessIcon, ErrorIcon, NotificationIcon };
+export { WithdrawalMoneyImage, CancelImage, DepositeMoneyImage, PageNoteFoundImage, VietNamFlag, UnitedKingDomFlag, LogoHeader, EmailIcon, SuccessIcon, ErrorIcon, NotificationIcon };

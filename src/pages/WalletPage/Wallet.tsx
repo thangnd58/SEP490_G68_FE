@@ -12,6 +12,7 @@ import MyCustomButton from '../../components/common/MyButton';
 import MyDialog from '../../components/common/MyDialog';
 import { ModalContext } from '../../contexts/ModalContext';
 import ModalDepositeMoney from './component/ModalDepositeMoney';
+import ModalWithdrawalMoney from './component/ModalWithdrawalMoney';
 
 const DatePickerStyle = styled('div')(({ theme }) => ({
     '& .MuiTextField-root': {
@@ -38,11 +39,11 @@ const Wallet = () => {
     const { isMobile } = useThemePage();
     const { setContentModal, setShowModal } = useContext(ModalContext);
     const showModalDeposite = () => {
-        setContentModal(<ModalDepositeMoney content='Haha' title='Haha' onClickAgree={() => { }} />)
+        setContentModal(<ModalDepositeMoney title={t("wallet.title_dialog_deposite")}  onClickAgree={() => { }} />)
         setShowModal(true)
     }
     const showModalWithdrawal = () => {
-        setContentModal(<ModalDepositeMoney content='Haha' title='Haha' onClickAgree={() => { }} />)
+        setContentModal(<ModalWithdrawalMoney title={t("wallet.title_dialog_withdrawal")}  onClickAgree={() => { }} />)
         setShowModal(true)
     }
     return (

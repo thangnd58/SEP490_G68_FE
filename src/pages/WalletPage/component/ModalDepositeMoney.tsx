@@ -1,6 +1,6 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, TextField, Typography, styled } from "@mui/material"
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, InputAdornment, Slide, TextField, Typography, styled } from "@mui/material"
 import MyCustomTextField from "../../../components/common/MyTextField"
-import { DepositeMoneyImage, VietNamFlag } from "../../../assets/images"
+import { CancelImage, DepositeMoneyImage, VietNamFlag } from "../../../assets/images"
 import React, { useContext } from "react";
 import { TransitionProps } from "@mui/material/transitions";
 import { ModalContext } from "../../../contexts/ModalContext";
@@ -9,7 +9,6 @@ import MyCustomButton from "../../../components/common/MyButton";
 
 interface MyDialogProps {
     title: string;
-    content: string;
     onClickAgree: () => void;
 }
 
@@ -34,18 +33,36 @@ const ModalDepositeMoney = (props: MyDialogProps) => {
             fullWidth
             PaperProps={{ sx: { borderRadius: "16px", padding: '1rem 1.5rem' } }}
         >
-            <DialogTitle sx={{ display: 'flex', alignItems: 'center' }}>
-                <img width={36} height={36} src={DepositeMoneyImage} />
-                <Typography variant="h5" mt={'1rem'} fontWeight={700}>{t("wallet.title_dialog_deposite")}</Typography>
+            <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <img width={36} height={36} src={DepositeMoneyImage} />
+                    <Typography variant="h5" mt={'1rem'} fontWeight={700}>{props.title}</Typography>
+                </Box>
+                <img onClick={closeModal} style={{ marginTop: '1rem', cursor: 'pointer' }} width={24} height={24} src={CancelImage} />
             </DialogTitle>
             <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <Box border={'1px solid'}></Box>
                 <Typography fontWeight={700}>
                     {t("wallet.title_amount")}
                 </Typography>
-                <MyCustomTextField
+                <TextField
                     placeholder={t("wallet.placeholder_amount_want")}
                     type="number"
+                    sx={{
+                        "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+                            display: "none",
+                        },
+                        "& input[type=number]": {
+                            MozAppearance: "textfield",
+                        },
+                    }}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position='end'>
+                                <Typography>VNĐ</Typography>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
             </DialogContent>
             <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>

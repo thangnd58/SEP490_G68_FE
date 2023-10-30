@@ -133,3 +133,19 @@ export interface MotorbikeRequest {
 }
 
 
+export interface Bank {
+    bin: string,
+    code: string,
+    id: number,
+    isTransfer: number,
+    logo: string,
+    name: string,
+    lookupSupported: number,
+    shortName: string,
+    short_name: string,
+    swift_code: string,
+    transferSupported: number
+    support: number,
+}
+
+
