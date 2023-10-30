@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, TextField, Typography, styled } from "@mui/material"
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, TextField, Typography } from "@mui/material"
 import MyCustomTextField from "../../../components/common/MyTextField"
 import { DepositeMoneyImage, VietNamFlag } from "../../../assets/images"
 import React, { useContext } from "react";
@@ -22,8 +22,7 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-
-const ModalDepositeMoney = (props: MyDialogProps) => {
+const ModalWithdrawalMoney = (props: MyDialogProps) => {
     const { closeModal } = useContext(ModalContext);
     const { t } = usei18next();
     return (
@@ -52,7 +51,8 @@ const ModalDepositeMoney = (props: MyDialogProps) => {
                 <MyCustomButton onClick={() => { }} content={t("wallet.title_button_send_request")} />
             </DialogActions>
         </Dialog>
+
     )
 }
 
-export default ModalDepositeMoney
+export default ModalWithdrawalMoney

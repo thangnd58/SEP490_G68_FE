@@ -360,6 +360,10 @@
     "title_approval_date": "Request approval",
     "title_current_balance": "Current balance",
     "title_button_deposit": "Deposit to wallet",
-    "title_button_request_withdrawal": "Send withdrawal request"
+    "title_button_request_withdrawal": "Send withdrawal request",
+    "title_dialog_deposite": "Create request deposite money",
+    "title_button_send_request": "Send request",
+    "title_amount": "Amount",
+    "placeholder_amount_want": "Amount you want to deposit"
   }
 }

@@ -361,6 +361,9 @@
     "title_current_balance": "Số dư hiện tại",
     "title_button_deposit": "Nạp tiền vào ví",
     "title_button_request_withdrawal": "Gửi yêu cầu rút tiền",
-    "title_dialog_deposite": "Tạo yêu cầu nạp tiền"
+    "title_dialog_deposite": "Tạo yêu cầu nạp tiền",
+    "title_button_send_request": "Gửi yêu cầu",
+    "title_amount": "Số tiền",
+    "placeholder_amount_want": "Số tiền muốn nạp"
   }
 }
