@@ -12,6 +12,7 @@ import MyCustomButton from '../../components/common/MyButton';
 import MyDialog from '../../components/common/MyDialog';
 import { ModalContext } from '../../contexts/ModalContext';
 import ModalDepositeMoney from './component/ModalDepositeMoney';
+import { CustomizedSnackbars } from '../../components/common/MySnackbar';
 
 const DatePickerStyle = styled('div')(({ theme }) => ({
     '& .MuiTextField-root': {

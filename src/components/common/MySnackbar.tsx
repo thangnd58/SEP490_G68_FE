@@ -3,9 +3,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import { Box, IconButton } from '@mui/material';
-import CloseIcon from "@mui/icons-material/Close";
-
+import { Box } from '@mui/material';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -18,10 +16,11 @@ interface CustomizedSnackbarsProps {
     autoHideDuration: number;
     severity: "success" | "error" | "warning" | "info";
     message: string;
+    open: boolean;
 };
 
-function CustomizedSnackbars({ autoHideDuration, severity, message }: CustomizedSnackbarsProps) {
-    const [open, setOpen] = React.useState(false);
+export function CustomizedSnackbars(props: CustomizedSnackbarsProps) {
+    const [open, setOpen] = React.useState(props.open);
 
     const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
@@ -30,29 +29,16 @@ function CustomizedSnackbars({ autoHideDuration, severity, message }: Customized
         setOpen(false);
     };
 
-    const action = (
-        <>
-            <IconButton
-                size="small"
-                aria-label="close"
-                color="inherit"
-                onClick={handleClose}
-            >
-                <CloseIcon fontSize="small" />
-            </IconButton>
-        </>
-    );
     return (
-        <Box>
+        <Box>   
             <Snackbar
                 open={open}
-                anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                autoHideDuration={1000}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                autoHideDuration={props.autoHideDuration}
                 onClose={handleClose}
-                action={action}
             >
-                <Alert severity={severity} sx={{ width: "100%" }}>
-                    {message}
+                <Alert onClose={handleClose} severity={props.severity} sx={{ width: "100%" }}>
+                    {props.message}
                 </Alert>
             </Snackbar>
         </Box>
