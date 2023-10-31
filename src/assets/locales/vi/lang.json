@@ -388,7 +388,9 @@
       "price" : "Giá"
     },
     "item":{
-      "ship" : "Giao xe tận nơi"
+      "ship" : "Giao xe tận nơi",
+      "unlike" : "Bỏ thích",
+      "view" : "Xem chi tiết"
     }
   }
 }

@@ -388,7 +388,9 @@
       "price" : "Price"
     },
     "item":{
-      "ship" : "Delivery to your location"
+      "ship" : "Delivery to your location",
+      "unlike" : "Unlike",
+      "view" : "View Detail"
     }
   }
 }
