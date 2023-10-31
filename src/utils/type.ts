@@ -167,3 +167,18 @@ export interface RequestWithDrawal {
     bankNumber: string
 }
 
+
+export interface ResponseWithDrawal {
+    id: number,
+    deposit: number,
+    withdraw: number,
+    create_Date: string,
+    dateApprove: string,
+    userApprove: string,
+    transactionId: string,
+    bankCode: string,
+    nameInBank: string,
+    bankNumber: string,
+    status: string,
+    userId: number
+}

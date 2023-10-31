@@ -12,11 +12,13 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { formatMoney } from '../../../utils/helper';
-import { Typography } from '@mui/material';
+import { Chip, Typography } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
 import { WalletHistory } from '../../../utils/type';
 import WalletService from '../../../services/WalletService';
 import { DataGrid } from '@mui/x-data-grid';
+import { CheckCircleOutline, ErrorOutline, WarningAmber } from '@mui/icons-material';
+import dayjs from 'dayjs';
 
 
 function createData(
@@ -96,6 +98,28 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         },
         {
             field: 'status', headerName: t("wallet.title_status"), flex: 1,
+            renderCell: (params: any) => (
+
+                params.value === "Processing" ?
+                    (<Chip
+                        sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                        color="warning"
+                        icon={<WarningAmber />}
+                        label={t("wallet.status_withdrawal_processing")} />)
+                    : params.value === "Done" ?
+                        (<Chip
+                            sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                            color="success"
+                            icon={<CheckCircleOutline />}
+                            label={t("wallet.status_withdrawal_done")} />)
+                        :
+                        (<Chip
+                            sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                            color="error"
+                            icon={<ErrorOutline />}
+                            label={t("wallet.status_withdrawal_cancel")} />)
+
+            ),
 
 
         },
@@ -187,24 +211,24 @@ function Row(props: { row: ReturnType<typeof createData> }) {
 
 
 
-export default function CollapsibleTable({ reload }: { reload: boolean }) {
+export default function CollapsibleTable({ reload, selectedDate }: { reload: boolean, selectedDate: dayjs.Dayjs }) {
     const [deposites, setDeposites] = React.useState<WalletHistory[]>([])
     const [withdrawals, setWithdrawals] = React.useState<WalletHistory[]>([])
     const { t } = usei18next();
     React.useEffect(() => {
         try {
-            WalletService.depositeList().then((data) => {
+            WalletService.depositeList(selectedDate).then((data) => {
                 //@ts-ignore
                 setDeposites(data.data)
             })
-            WalletService.withdrawList().then((data) => {
+            WalletService.withdrawList(selectedDate).then((data) => {
                 //@ts-ignore
                 setWithdrawals(data.data)
             })
         } catch (error) {
 
         }
-    }, [reload])
+    }, [reload, selectedDate])
 
     //@ts-ignore
     const totalDeposits = deposites.reduce((total, it) => total + it.deposit, 0);
