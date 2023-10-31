@@ -26,7 +26,6 @@ const MotorbikeManagement = () => {
     const getAllMotorbikes = async () => {
         try {
             const response = await MotorbikeManagementService.getAllMotorbikes();
-            console.log(response)
             if (response) {
                 setListMotorbike(response)
             }

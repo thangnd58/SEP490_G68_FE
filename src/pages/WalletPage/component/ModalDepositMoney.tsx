@@ -1,8 +1,8 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, InputAdornment, Slide, TextField, Typography, styled } from "@mui/material"
+import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, InputAdornment, Slide, TextField, Typography, styled } from "@mui/material"
 import MyCustomTextField from "../../../components/common/MyTextField"
 import { CancelImage, DepositeMoneyImage, VietNamFlag } from "../../../assets/images"
 import React, { useContext } from "react";
-import { TransitionProps } from "@mui/material/transitions";
+
 import { ModalContext } from "../../../contexts/ModalContext";
 import usei18next from "../../../hooks/usei18next";
 import MyCustomButton from "../../../components/common/MyButton";
@@ -10,21 +10,14 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import ErrorMessage from "../../../components/common/ErrorMessage";
 import WalletService from "../../../services/WalletService";
+import { Transition } from "../common/Transition";
+import { formatMoney } from "../../../utils/helper";
 
 interface MyDialogProps {
     title: string;
 }
 
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement<any, any>;
-    },
-    ref: React.Ref<unknown>,
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
-
-const ModalDepositeMoney = (props: MyDialogProps) => {
+const ModalDepositMoney = (props: MyDialogProps) => {
     const { closeModal } = useContext(ModalContext);
     const { t } = usei18next();
 
@@ -33,7 +26,7 @@ const ModalDepositeMoney = (props: MyDialogProps) => {
             amount: "",
         },
         validationSchema: Yup.object({
-            amount: Yup.number().required(t("form.required")),
+            amount: Yup.number().min(10000, t("wallet.minimum_money_deposit", { min: formatMoney(10000) })).required(t("form.required")),
         }),
         onSubmit: async (values) => {
             try {
@@ -108,4 +101,4 @@ const ModalDepositeMoney = (props: MyDialogProps) => {
     )
 }
 
-export default ModalDepositeMoney
+export default ModalDepositMoney

@@ -211,7 +211,8 @@
     "Navigation": {
       "manager": "Manager",
       "licenseManager": "License Manager",
-      "motorbikeRentalManager": "Motorbike Rental Manager"
+      "motorbikeRentalManager": "Motorbike Rental Manager",
+      "withdrawalRequestManager": "Manage Withdrawal Requests"
     },
     "License": "License",
     "Motobike": {
@@ -245,6 +246,13 @@
       "statusVerified": "Verified",
       "statusCancelled": "Cancelled",
       "columnAction": "Action"
+    },
+    "withdrawalRequest": {
+      "columnAccountName": "Account owner",
+      "columnAccountNumber": "Account number",
+      "columnAmount": "Amount",
+      "columnViewQr": "QR CODE",
+      "buttonConfirmProcess": "Confirm successful transfer"
     }
   },
   "component": {
@@ -377,7 +385,17 @@
     "placeholder_bank_number": "Enter account number",
     "title_name_owner_bank_account": "Beneficiary name",
     "placehoder_name_owner": "Enter beneficiary name",
-    "label_hint_cost": "Money transfer fee: 9,900 VND"
+    "label_hint_cost": "* Money transfer fee: 9,900 VND",
+    "status_withdrawal_processing": "Processing",
+    "status_withdrawal_done": "Done",
+    "status_withdrawal_cancel": "Cancelled",
+    "button_confirm": "Confirm",
+    "title_status_deposite_success": "Deposit successful !",
+    "content_status_deposite_success": "Congratulations, you have successfully deposited",
+    "title_create_request_withdrawal": "Create request successfully!",
+    "content_create_request_withdrawal": "Please wait 1-2 days for us to approve your request",
+    "minimum_money_deposit": "Minimum {{min}}",
+    "maximum_money_deposit": "Maximum {{max}}"
   },
   "favourite" :{
     "title" : "My Favourite",

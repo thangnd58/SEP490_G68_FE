@@ -25,6 +25,7 @@ import MyMapWithSearchBox from '../components/common/MyMapWithSearchBox';
 import PageNotFound from '../pages/OrtherPage/PageNotFound';
 import LayoutEmpty from '../layouts/LayoutEmpty';
 import Wallet from '../pages/WalletPage/WalletPage';
+import WithdrawalRequestManagement from '../pages/DashBoardPage/WithdrawalRequestManagement/WithdrawalRequestManagement';
 import Favourite from '../pages/FavouritePage/FavouritePage';
 
 export type Route = {
@@ -62,6 +63,7 @@ export const routes: Route[] = [
     
     // Admin Page
     { path: `${ROUTES.admin.managemotorbikes}`, component: MotorbikeManagement, layout: LayoutAdmin, role: ["Admin","Staff"] },
+    { path: `${ROUTES.admin.managerequestwithdraw}`, component: WithdrawalRequestManagement, layout: LayoutAdmin, role: ["Admin","Staff"] },
     { path: `${ROUTES.admin.managelicences}`, component: LicenceManagement, layout: LayoutAdmin, role: ["Admin","Staff"] },
     { path: `${ROUTES.admin.licenceregister}/:id`, component: LicenceRegisterDetail, layout: LayoutAdmin, role: ["Admin","Staff"] },
     { path: `${ROUTES.admin.motorbikeregister}/:id`, component: MotorbikeRegisterDetail, layout: LayoutAdmin, role: ["Admin","Staff"] },

@@ -1,7 +1,6 @@
 import { Autocomplete, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, InputAdornment, MenuItem, Select, Slide, TextField, Typography } from "@mui/material"
-import { CancelImage, DepositeMoneyImage, VietNamFlag, WithdrawalMoneyImage } from "../../../assets/images"
+import { CancelImage, DepositeMoneyImage, SettingIcon, VietNamFlag, WithdrawalMoneyImage } from "../../../assets/images"
 import React, { useContext, useEffect, useState } from "react";
-import { TransitionProps } from "@mui/material/transitions";
 import { ModalContext } from "../../../contexts/ModalContext";
 import usei18next from "../../../hooks/usei18next";
 import MyCustomButton from "../../../components/common/MyButton";
@@ -10,26 +9,25 @@ import ErrorMessage from "../../../components/common/ErrorMessage";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import WalletService from "../../../services/WalletService";
+import { Transition } from "../common/Transition";
+import ModalStatus from "./ModalStatus";
+import { formatMoney } from "../../../utils/helper";
+import { useDispatch } from "react-redux";
+import { getUserInfo } from "../../../redux/reducers/authReducer";
+import { useAppSelector } from "../../../hooks/useAction";
 
 interface MyDialogProps {
     title: string;
     setReload: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement<any, any>;
-    },
-    ref: React.Ref<unknown>,
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
-
 const ModalWithdrawalMoney = (props: MyDialogProps) => {
-    const { closeModal } = useContext(ModalContext);
+    const { closeModal, setContentModal, setShowModal } = useContext(ModalContext);
     const { t } = usei18next();
     const [banks, setBanks] = useState<Bank[]>([]);
     const [selectedBank, setSelectedBank] = useState<Bank>();
+    const dispatch = useDispatch();
+    const { user } = useAppSelector((state) => state.userInfo);
 
     const fetchBanks = async () => {
         try {
@@ -47,6 +45,14 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
         fetchBanks();
     }, []);
 
+    const showModalStatus = () => {
+        setContentModal(<ModalStatus icon={SettingIcon} title={t("wallet.title_create_request_withdrawal")} content={t("wallet.content_create_request_withdrawal")} handleConfirm={() => {
+            dispatch(getUserInfo());
+            closeModal();
+        }} />)
+        setShowModal(true)
+    }
+
     const formik = useFormik({
         initialValues: {
             amount: "",
@@ -55,7 +61,10 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
             bankNumber: ""
         },
         validationSchema: Yup.object({
-            amount: Yup.number().required(t("form.required")),
+            amount: Yup.number().min(50000, t("wallet.minimum_money_deposit", { min: formatMoney(50000) })).max(user?.balance || 0, t("wallet.maximum_money_deposit", { max: formatMoney(user?.balance || 0) })).required(t("form.required")),
+            bankCode: Yup.string().required(t("form.required")),
+            nameInBank: Yup.string().required(t("form.required")),
+            bankNumber: Yup.string().required(t("form.required")),
         }),
         onSubmit: async (values) => {
             try {
@@ -68,6 +77,7 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
                 WalletService.requesWithdrawal(req).then((data) => {
                     closeModal();
                     props.setReload((prev) => !prev)
+                    showModalStatus();
                 })
             } catch (error) {
 
@@ -127,6 +137,9 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
                         ),
                     }}
                 />
+                {errors.amount && touched.amount && (
+                    <ErrorMessage message={errors.amount} />
+                )}
                 <Typography fontWeight={700}>
                     {t("wallet.title_bank_name")} <span style={{ color: '#DA251D' }}>*</span>
                 </Typography>
@@ -137,6 +150,7 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
                     value={selectedBank}
                     onChange={(event, newValue) => {
                         setSelectedBank(newValue || undefined);
+                        setFieldValue("bankCode", newValue?.bin)
                     }}
                     id="combo-box-demo"
                     renderInput={(params: any) => <TextField {...params} label={t("wallet.placeholder_bank_name")} />}
@@ -146,6 +160,9 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
                         },
                     }}
                 />
+                {errors.bankCode && touched.bankCode && (
+                    <ErrorMessage message={errors.bankCode} />
+                )}
                 <Typography fontWeight={700}>
                     {t("wallet.title_bank_number")} <span style={{ color: '#DA251D' }}>*</span>
                 </Typography>
@@ -164,6 +181,9 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
                         },
                     }}
                 />
+                {errors.bankNumber && touched.bankNumber && (
+                    <ErrorMessage message={errors.bankNumber} />
+                )}
                 <Typography fontWeight={700}>
                     {t("wallet.title_name_owner_bank_account")} <span style={{ color: '#DA251D' }}>*</span>
                 </Typography>
@@ -174,6 +194,9 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
                     value={values.nameInBank}
                     onChange={handleChange}
                 />
+                {errors.nameInBank && touched.nameInBank && (
+                    <ErrorMessage message={errors.nameInBank} />
+                )}
                 <ErrorMessage message={t("wallet.label_hint_cost")} />
             </DialogContent>
             <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
