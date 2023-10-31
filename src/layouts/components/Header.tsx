@@ -13,6 +13,7 @@ import MyIcon from '../../components/common/MyIcon';
 import { useAppSelector } from '../../hooks/useAction';
 import MyCustomButton from '../../components/common/MyButton';
 import theme from '../../utils/theme';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const LanguageBox = memo(() => {
     const { isVn, changeLang } = usei18next();
@@ -186,19 +187,34 @@ function Header() {
                                             }
 
                                             {user?.role.roleName === 'Customer' ? (
-                                                <MenuItem
+                                                <Box>
+                                                    <MenuItem
                                                     onClick={() => {
                                                         setAnchorEl(null);
                                                         navigate(ROUTES.user.registermotorbike);
                                                     }}
                                                     //hover to change background color
                                                     sx={{ textAlign: 'center' }}
-                                                >
-                                                    <PopoverItem
-                                                        label={t('header.registermotorbike')}
-                                                        icon={<VpnKey sx={{ color: "#9A9EA5" }} />} />
+                                                    >
+                                                        <PopoverItem
+                                                            label={t('header.registermotorbike')}
+                                                            icon={<VpnKey sx={{ color: "#9A9EA5" }} />} />
+                                                    </MenuItem>
+                                                    <MenuItem
+                                                        onClick={() => {
+                                                            setAnchorEl(null);
+                                                            navigate(ROUTES.user.favourite);
+                                                        }}
+                                                        //hover to change background color
+                                                        sx={{ textAlign: 'center' }}
+                                                    >
+                                                        <PopoverItem
+                                                            label={t('header.favourite')}
+                                                            icon={<FavoriteIcon sx={{ color: "#9A9EA5" }} />} />
 
-                                                </MenuItem>) : null
+                                                    </MenuItem>
+                                                </Box>
+                                                ) : null
                                             }
                                             <MenuItem
                                                 onClick={() => {

@@ -10,7 +10,8 @@
     "registermotorbike": "Trở thành chủ xe",
     "home_page": "Về Trang Chủ",
     "btn_close": "Đóng",
-    "btn_promotion": "Xem khuyến mãi"
+    "btn_promotion": "Xem khuyến mãi",
+    "favourite" : "Yêu Thích"
   },
   "layout": {
     "admin": "Quản trị viên",
@@ -395,6 +396,19 @@
     "content_create_request_withdrawal": "Bạn hãy chờ 1-2 ngày để chúng tôi phê duyệt yêu cầu của bạn",
     "minimum_money_deposit": "Tối thiểu {{min}}",
     "maximum_money_deposit": "Tối đa {{max}}"
-
+  },
+  "favourite" :{
+    "title" : "Xe yêu thích",
+    "sort" : {
+      "title" : "Sắp xếp",
+      "date" : "Ngày",
+      "brand" : "Hãng",
+      "price" : "Giá"
+    },
+    "item":{
+      "ship" : "Giao xe tận nơi",
+      "unlike" : "Bỏ thích",
+      "view" : "Xem chi tiết"
+    }
   }
 }

@@ -14,7 +14,8 @@ export const ROUTES = {
         registermotorbike: "/register-motorbike",
         listmotorbike: "/list-motorbike",
         updateregistermotorbike: "/update-register-motorbike",
-        wallet: "/my-wallet"
+        wallet: "/my-wallet",
+        favourite : "/my-favourite"
     },
 
     component: {

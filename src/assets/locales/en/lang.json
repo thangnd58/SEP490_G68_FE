@@ -10,7 +10,8 @@
     "registermotorbike": "Register Motorbike",
     "home_page": "Home Page",
     "btn_close": "Close",
-    "btn_promotion": "Promotion"
+    "btn_promotion": "Promotion",
+    "favourite" : "My Favourite"
   },
   "layout": {
     "admin": "Adminstrator",
@@ -395,5 +396,19 @@
     "content_create_request_withdrawal": "Please wait 1-2 days for us to approve your request",
     "minimum_money_deposit": "Minimum {{min}}",
     "maximum_money_deposit": "Maximum {{max}}"
+  },
+  "favourite" :{
+    "title" : "My Favourite",
+    "sort" : {
+      "title" : "Sort",
+      "date" : "Date",
+      "brand" : "Brand",
+      "price" : "Price"
+    },
+    "item":{
+      "ship" : "Delivery to your location",
+      "unlike" : "Unlike",
+      "view" : "View Detail"
+    }
   }
 }
