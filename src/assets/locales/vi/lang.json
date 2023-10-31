@@ -10,7 +10,8 @@
     "registermotorbike": "Trở thành chủ xe",
     "home_page": "Về Trang Chủ",
     "btn_close": "Đóng",
-    "btn_promotion": "Xem khuyến mãi"
+    "btn_promotion": "Xem khuyến mãi",
+    "favourite" : "Yêu Thích"
   },
   "layout": {
     "admin": "Quản trị viên",
@@ -377,5 +378,17 @@
     "title_name_owner_bank_account": "Tên người thụ hưởng",
     "placehoder_name_owner": "Nhập họ và tên",
     "label_hint_cost": "Phí chuyển tiền: 9.900 VNĐ"
+  },
+  "favourite" :{
+    "title" : "Xe yêu thích",
+    "sort" : {
+      "title" : "Sắp xếp",
+      "date" : "Ngày",
+      "brand" : "Hãng",
+      "price" : "Giá"
+    },
+    "item":{
+      "ship" : "Giao xe tận nơi"
+    }
   }
 }

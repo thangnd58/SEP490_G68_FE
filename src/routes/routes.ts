@@ -25,7 +25,7 @@ import MyMapWithSearchBox from '../components/common/MyMapWithSearchBox';
 import PageNotFound from '../pages/OrtherPage/PageNotFound';
 import LayoutEmpty from '../layouts/LayoutEmpty';
 import Wallet from '../pages/WalletPage/WalletPage';
-
+import Favourite from '../pages/FavouritePage/FavouritePage';
 
 export type Route = {
     path: string;
@@ -48,6 +48,7 @@ export const routes: Route[] = [
     { path: ROUTES.user.registermotorbike, component: RegisterMotorbike, role: ["Customer"] },
     { path: ROUTES.user.listmotorbike, component: ListMotorbike, role: ["Customer"] },
     { path: `${ROUTES.user.updateregistermotorbike}/:id`, component: UpdateRegisterMotorbike, role: ["Customer"] },
+    { path: ROUTES.user.favourite, component: Favourite, role: ["Customer"] },
 
     // Auth Page
     { path: ROUTES.account.login, component: Login, layout: LayoutWithoutFooter },
