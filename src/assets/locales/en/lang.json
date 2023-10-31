@@ -10,7 +10,8 @@
     "registermotorbike": "Register Motorbike",
     "home_page": "Home Page",
     "btn_close": "Close",
-    "btn_promotion": "Promotion"
+    "btn_promotion": "Promotion",
+    "favourite" : "My Favourite"
   },
   "layout": {
     "admin": "Adminstrator",
@@ -377,5 +378,19 @@
     "title_name_owner_bank_account": "Beneficiary name",
     "placehoder_name_owner": "Enter beneficiary name",
     "label_hint_cost": "Money transfer fee: 9,900 VND"
+  },
+  "favourite" :{
+    "title" : "My Favourite",
+    "sort" : {
+      "title" : "Sort",
+      "date" : "Date",
+      "brand" : "Brand",
+      "price" : "Price"
+    },
+    "item":{
+      "ship" : "Delivery to your location",
+      "unlike" : "Unlike",
+      "view" : "View Detail"
+    }
   }
 }
