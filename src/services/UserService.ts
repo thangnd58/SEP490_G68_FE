@@ -1,4 +1,4 @@
-import { User, Lisence, ResetPassword } from "../utils/type";
+import { User, Lisence, ResetPassword, UserFavourite } from "../utils/type";
 import api from "./BaseService";
 import { isExpired, decodeToken } from "react-jwt";
 
@@ -10,6 +10,7 @@ const apiVerify = '/user-verification'
 const apiLisence = '/licence'
 const apiForgotPassword = '/forgot-password'
 const apiSetPassword = '/set-password'
+const apiUserFavourite = '/favourite';
 
 
 const UserService = {
@@ -99,8 +100,10 @@ const UserService = {
     },
     requestVerifyOtp : async (phone:string, otp : string) =>{
         return api.post('/user/phone/verify',{phone: phone, otp: otp })
+    },
+    getUserFavourite: async (): Promise<UserFavourite[]> => {
+        return await api.get(apiUserFavourite);
     }
-    
 }
 
 export default UserService 
