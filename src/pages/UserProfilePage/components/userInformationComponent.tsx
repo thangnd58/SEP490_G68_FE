@@ -39,6 +39,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
   useEffect(() => {
     getLisence();
     console.log(user.phoneVerified);
+    console.log(user);
   }, []);
 
   const getLisence = async () => {

@@ -408,7 +408,9 @@
     "item":{
       "ship" : "Delivery to your location",
       "unlike" : "Unlike",
-      "view" : "View Detail"
+      "view" : "View Detail",
+      "gasoline" : "Gasoline",
+      "electric" : "Electric "
     }
   }
 }
