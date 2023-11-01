@@ -12,6 +12,7 @@ import { Provider, useDispatch } from 'react-redux'
 import store from './redux/store';
 import { getUserInfo } from './redux/reducers/authReducer';
 import ModalProvider, { ModalContext } from './contexts/ModalContext';
+import { getUserFavouriteInfo } from './redux/reducers/userFavouriteReducer';
 // Load environment variables
 // require('dotenv').config();
 

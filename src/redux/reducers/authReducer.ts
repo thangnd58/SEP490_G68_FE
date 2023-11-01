@@ -29,6 +29,7 @@ export const getUserInfo = (): any => {
     try {
       if (UserService.isLoggedIn()) {
         const userInfo = await UserService.getUserInfo();
+        console.log(userInfo);
         //@ts-ignore
         dispatch(updateUser(userInfo.data))
         //@ts-ignore
