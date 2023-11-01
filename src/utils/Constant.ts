@@ -15,7 +15,8 @@ export const ROUTES = {
         introductionmotorbike: "/introduction-motorbike",
         listmotorbike: "/list-motorbike",
         updateregistermotorbike: "/update-register-motorbike",
-        wallet: "/my-wallet"
+        wallet: "/my-wallet",
+        favourite : "/my-favourite"
     },
 
     component: {
@@ -28,7 +29,8 @@ export const ROUTES = {
         managemotorbikes: "/manage-motorbikes",
         managelicences: "/manage-licences",
         licenceregister: "/manage-licences/licence-detail",
-        motorbikeregister: "/manage-motorbikes/motorbike-detail"
+        motorbikeregister: "/manage-motorbikes/motorbike-detail",
+        managerequestwithdraw: "/manage-withdrawals"
     },
     other:{
         pagenotfound: "/page-not-found",

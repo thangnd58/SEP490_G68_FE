@@ -12,43 +12,126 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { formatMoney } from '../../../utils/helper';
-import { Typography } from '@mui/material';
+import { Chip, Typography } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
+import { WalletHistory } from '../../../utils/type';
+import WalletService from '../../../services/WalletService';
+import { DataGrid } from '@mui/x-data-grid';
+import { CheckCircleOutline, ErrorOutline, WarningAmber } from '@mui/icons-material';
+import dayjs from 'dayjs';
+
 
 function createData(
     name: string,
     total: number,
     price: number,
-    type: string
+    type: string,
+    transaction: WalletHistory[]
 ) {
     return {
         name,
         price,
         total,
         type,
-        transaction: [
-            {
-                code: 'NAP0001',
-                date: '2020-01-05',
-                status: 'Thành công',
-                changeBalance: 120000,
-            },
-            {
-                code: 'NAP0001',
-                requestDate: '2020-01-05',
-                approvalDate: '2020-01-05',
-                status: 'Thành công',
-                changeBalance: 120000,
-            }
-        ],
+        transaction,
     };
 }
+
+
 
 function Row(props: { row: ReturnType<typeof createData> }) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
     const { t } = usei18next();
+    const columnsDeposite = [
+        {
+            field: 'transactionId', headerName: t("wallet.title_transaction_code"), flex: 1,
+            renderCell: (params: any) => (
+                <Box>
+                    {`NAP${params.value}`}
+                </Box>
+            ),
+        },
+        {
+            field: 'create_Date', headerName: t("wallet.title_date_deposit"), flex: 1,
+            renderCell: (params: any) => (
+                <Box>
+                    {new Date(params.value).toLocaleString()}
+                </Box>
+            ),
+        },
+        {
+            field: 'deposit', headerName: t("wallet.title_change_balance"), flex: 1,
+            renderCell: (params: any) => (
+                <Box>
+                    + {formatMoney(params.value || 0)}
+                </Box>
+            ),
+        },
+    ];
 
+    const columnsWithdrawal = [
+        {
+            field: 'id', headerName: t("wallet.title_transaction_code"), flex: 1,
+            renderCell: (params: any) => (
+                <Box>
+                    {`RUT${params.value}`}
+                </Box>
+            ),
+        },
+        {
+            field: 'create_Date', headerName: t("wallet.title_date_deposit"), flex: 1,
+            renderCell: (params: any) => (
+                <Box>
+                    {new Date(params.value).toLocaleString()}
+                </Box>
+            ),
+        },
+        {
+            field: 'dateApprove', headerName: t("wallet.title_approval_date"), flex: 1,
+            renderCell: (params: any) => (
+
+                <Box>
+                    {params.value ? new Date(params.value).toLocaleString() : "N/A"}
+                </Box>
+            ),
+        },
+        {
+            field: 'status', headerName: t("wallet.title_status"), flex: 1,
+            renderCell: (params: any) => (
+
+                params.value === "Processing" ?
+                    (<Chip
+                        sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                        color="warning"
+                        icon={<WarningAmber />}
+                        label={t("wallet.status_withdrawal_processing")} />)
+                    : params.value === "Done" ?
+                        (<Chip
+                            sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                            color="success"
+                            icon={<CheckCircleOutline />}
+                            label={t("wallet.status_withdrawal_done")} />)
+                        :
+                        (<Chip
+                            sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                            color="error"
+                            icon={<ErrorOutline />}
+                            label={t("wallet.status_withdrawal_cancel")} />)
+
+            ),
+
+
+        },
+        {
+            field: 'withdraw', headerName: t("wallet.title_change_balance"), flex: 1,
+            renderCell: (params: any) => (
+                <Box>
+                    - {formatMoney(params.value || 0)}
+                </Box>
+            ),
+        },
+    ];
     return (
         <React.Fragment>
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -74,55 +157,49 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                     <Collapse in={open} unmountOnExit>
                         <Box sx={{ margin: 1 }}>
                             {
-                                row.type === 'NAP' ? <Table size="small" aria-label="purchases">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>{t("wallet.title_transaction_code")}</TableCell>
-                                            <TableCell>{t("wallet.title_date_deposit")}</TableCell>
-                                            <TableCell >{t("wallet.title_status")}</TableCell>
-                                            <TableCell align="right">{t("wallet.title_change_balance")}</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {row.transaction.map((transactionRow) => (
-                                            <TableRow key={transactionRow.code}>
-                                                <TableCell component="th" scope="row">
-                                                    {transactionRow.code}
-                                                </TableCell>
-                                                <TableCell>{transactionRow.date}</TableCell>
-                                                <TableCell>{transactionRow.status}</TableCell>
-                                                <TableCell align="right">
-                                                    +{formatMoney(transactionRow.changeBalance)}
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table> : <Table size="small" aria-label="purchases">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>{t("wallet.title_transaction_code")}</TableCell>
-                                            <TableCell>{t("wallet.title_request_date")}</TableCell>
-                                            <TableCell>{t("wallet.title_approval_date")}</TableCell>
-                                            <TableCell >{t("wallet.title_status")}</TableCell>
-                                            <TableCell align="right">{t("wallet.title_change_balance")}</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {row.transaction.map((transactionRow) => (
-                                            <TableRow key={transactionRow.code}>
-                                                <TableCell component="th" scope="row">
-                                                    {transactionRow.code}
-                                                </TableCell>
-                                                <TableCell>{transactionRow.requestDate}</TableCell>
-                                                <TableCell>{transactionRow.approvalDate}</TableCell>
-                                                <TableCell>{transactionRow.status}</TableCell>
-                                                <TableCell align="right">
-                                                    -{formatMoney(transactionRow.changeBalance)}
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
+                                row.type === 'NAP' ?
+                                    <DataGrid
+                                        sx={{
+                                            '& .MuiDataGrid-virtualScroller': {
+                                                minHeight: "300px",
+                                            },
+                                            '& .MuiDataGrid-cell:focus-within': {
+                                                outline: "none",
+                                            },
+                                        }}
+                                        rows={row.transaction}
+                                        checkboxSelection={false}
+                                        initialState={{
+                                            pagination: { paginationModel: { pageSize: 7 } },
+                                        }}
+                                        pageSizeOptions={[7, 10, 25]}
+                                        columns={columnsDeposite}
+                                        loading={row.transaction.length === 0}
+                                        rowHeight={48}
+                                        disableRowSelectionOnClick
+                                        pagination
+                                    /> :
+                                    <DataGrid
+                                        sx={{
+                                            '& .MuiDataGrid-virtualScroller': {
+                                                minHeight: "300px",
+                                            },
+                                            '& .MuiDataGrid-cell:focus-within': {
+                                                outline: "none",
+                                            },
+                                        }}
+                                        rows={row.transaction}
+                                        checkboxSelection={false}
+                                        initialState={{
+                                            pagination: { paginationModel: { pageSize: 7 } },
+                                        }}
+                                        pageSizeOptions={[7, 10, 25]}
+                                        columns={columnsWithdrawal}
+                                        loading={row.transaction.length === 0}
+                                        rowHeight={48}
+                                        disableRowSelectionOnClick
+                                        pagination
+                                    />
                             }
                         </Box>
                     </Collapse>
@@ -132,12 +209,37 @@ function Row(props: { row: ReturnType<typeof createData> }) {
     );
 }
 
-const rows = [
-    createData('Giao dịch nạp tiền', 20, 262000, 'NAP'),
-    createData('Giao dịch rút tiền', 25, 262000, 'RUT'),
-];
 
-export default function CollapsibleTable() {
+
+export default function CollapsibleTable({ reload, selectedDate }: { reload: boolean, selectedDate: dayjs.Dayjs }) {
+    const [deposites, setDeposites] = React.useState<WalletHistory[]>([])
+    const [withdrawals, setWithdrawals] = React.useState<WalletHistory[]>([])
+    const { t } = usei18next();
+    React.useEffect(() => {
+        try {
+            WalletService.depositeList(selectedDate).then((data) => {
+                //@ts-ignore
+                setDeposites(data.data)
+            })
+            WalletService.withdrawList(selectedDate).then((data) => {
+                //@ts-ignore
+                setWithdrawals(data.data)
+            })
+        } catch (error) {
+
+        }
+    }, [reload, selectedDate])
+
+    //@ts-ignore
+    const totalDeposits = deposites.reduce((total, it) => total + it.deposit, 0);
+    //@ts-ignore
+    const totalWithdrawal = withdrawals.reduce((total, it) => total + it.withdraw, 0);
+
+    const rows = [
+        createData(t("wallet.title_deposit_transaction"), deposites.length, totalDeposits, 'NAP', deposites),
+        createData(t("wallet.title_withdrawal_transaction"), withdrawals.length, totalWithdrawal, 'RUT', withdrawals),
+    ];
+
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">

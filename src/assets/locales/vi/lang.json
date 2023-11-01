@@ -10,7 +10,8 @@
     "registermotorbike": "Trở thành chủ xe",
     "home_page": "Về Trang Chủ",
     "btn_close": "Đóng",
-    "btn_promotion": "Xem khuyến mãi"
+    "btn_promotion": "Xem khuyến mãi",
+    "favourite" : "Yêu Thích"
   },
   "layout": {
     "admin": "Quản trị viên",
@@ -210,7 +211,8 @@
     "Navigation": {
       "manager": "Quản lý",
       "licenseManager": "Quản lý bằng lái xe",
-      "motorbikeRentalManager": "Quản lý xe máy cho thuê"
+      "motorbikeRentalManager": "Quản lý xe máy cho thuê",
+      "withdrawalRequestManager": "Quản lý yêu cầu rút tiền"
     },
     "License": "Bằng lái xe",
     "Motobike": {
@@ -244,6 +246,13 @@
       "statusVerified": "Đã xác thực",
       "statusCancelled": "Đã hủy",
       "columnAction": "Chỉnh sửa"
+    },
+    "withdrawalRequest" : {
+      "columnAccountName": "Chủ tài khoản",
+      "columnAccountNumber": "Số tài khoản",
+      "columnAmount": "Số tiền",
+      "columnViewQr": "QR CODE",
+      "buttonConfirmProcess": "Xác nhận là đã chuyển khoản thành công"
     }
   },
   "component": {
@@ -352,6 +361,8 @@
   "wallet": {
     "title_my_wallet": "Ví của tôi",
     "title_summary_transaction": "Tổng hợp giao dịch",
+    "title_deposit_transaction": "Giao dịch nạp tiền",
+    "title_withdrawal_transaction": "Giao dịch rút tiền",
     "title_transaction_code": "Mã giao dịch",
     "title_date_deposit": "Ngày nạp",
     "title_status": "Trạng thái",
@@ -364,6 +375,40 @@
     "title_dialog_deposite": "Tạo yêu cầu nạp tiền",
     "title_button_send_request": "Gửi yêu cầu",
     "title_amount": "Số tiền",
-    "placeholder_amount_want": "Số tiền muốn nạp"
+    "placeholder_amount_want": "Số tiền muốn nạp",
+    "title_dialog_withdrawal": "Tạo yêu cầu rút tiền",
+    "title_type_withdrawal_bank": "Chuyển khoản qua ngân hàng",
+    "title_placeholder_money_want_withdrawal": "Số tiền muốn rút",
+    "title_bank_name": "Ngân hàng thụ hưởng",
+    "placeholder_bank_name": "Chọn ngân hàng",
+    "title_bank_number": "Số tài khoản",
+    "placeholder_bank_number": "Nhập số tài khoản",
+    "title_name_owner_bank_account": "Tên người thụ hưởng",
+    "placehoder_name_owner": "Nhập họ và tên",
+    "label_hint_cost": "* Phí chuyển tiền: 9.900 VNĐ",
+    "status_withdrawal_processing": "Đang xử lý",
+    "status_withdrawal_done": "Đã xử lý",
+    "status_withdrawal_cancel": "Đã hủy",
+    "button_confirm": "Xác nhận",
+    "title_status_deposite_success": "Nạp tiền thành công !",
+    "content_status_deposite_success": "Chúc mừng bạn đã nạp tiền thành công",
+    "title_create_request_withdrawal": "Tạo yêu cầu thành công !",
+    "content_create_request_withdrawal": "Bạn hãy chờ 1-2 ngày để chúng tôi phê duyệt yêu cầu của bạn",
+    "minimum_money_deposit": "Tối thiểu {{min}}",
+    "maximum_money_deposit": "Tối đa {{max}}"
+  },
+  "favourite" :{
+    "title" : "Xe yêu thích",
+    "sort" : {
+      "title" : "Sắp xếp",
+      "date" : "Ngày",
+      "brand" : "Hãng",
+      "price" : "Giá"
+    },
+    "item":{
+      "ship" : "Giao xe tận nơi",
+      "unlike" : "Bỏ thích",
+      "view" : "Xem chi tiết"
+    }
   }
 }

@@ -10,7 +10,8 @@ export interface User {
     password?: string,
     avatarUrl: string,
     role: Role,
-    phoneVerified : boolean
+    phoneVerified: boolean,
+    balance: number
 }
 
 export interface Role {
@@ -133,3 +134,51 @@ export interface MotorbikeRequest {
 }
 
 
+export interface Bank {
+    bin: string,
+    code: string,
+    id: number,
+    isTransfer: number,
+    logo: string,
+    name: string,
+    lookupSupported: number,
+    shortName: string,
+    short_name: string,
+    swift_code: string,
+    transferSupported: number
+    support: number,
+}
+
+export interface WalletHistory {
+    id: number,
+    deposit?: number,
+    withdraw?: number,
+    create_Date: string,
+    dateApprove?: string,
+    status?: string,
+    userId: number,
+    transactionId: string
+}
+
+export interface RequestWithDrawal {
+    amount: number,
+    bankCode: string,
+    nameInBank: string,
+    bankNumber: string
+}
+
+
+export interface ResponseWithDrawal {
+    id: number,
+    deposit: number,
+    withdraw: number,
+    create_Date: string,
+    dateApprove: string,
+    userApprove: string,
+    transactionId: string,
+    bankCode: string,
+    nameInBank: string,
+    bankNumber: string,
+    status: string,
+    userId: number
+}

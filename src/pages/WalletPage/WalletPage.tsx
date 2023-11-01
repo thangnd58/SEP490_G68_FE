@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Box, Typography, styled } from '@mui/material';
 import usei18next from '../../hooks/usei18next';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -11,8 +11,18 @@ import { formatMoney } from '../../utils/helper';
 import MyCustomButton from '../../components/common/MyButton';
 import MyDialog from '../../components/common/MyDialog';
 import { ModalContext } from '../../contexts/ModalContext';
-import ModalDepositeMoney from './component/ModalDepositeMoney';
-import { CustomizedSnackbars } from '../../components/common/MySnackbar';
+import ModalDepositMoney from './component/ModalDepositMoney';
+import ModalWithdrawalMoney from './component/ModalWithdrawalMoney';
+import { useNavigate } from 'react-router-dom';
+import WalletService from '../../services/WalletService';
+import { useAppSelector } from '../../hooks/useAction';
+import { ROUTES } from '../../utils/Constant';
+import { useDispatch } from 'react-redux';
+import { getUserInfo } from '../../redux/reducers/authReducer';
+import ModalStatus from './component/ModalStatus';
+import { SuccessIcon } from '../../assets/images';
+
+
 
 const DatePickerStyle = styled('div')(({ theme }) => ({
     '& .MuiTextField-root': {
@@ -38,14 +48,58 @@ const Wallet = () => {
     const currentDate = dayjs();
     const { isMobile } = useThemePage();
     const { setContentModal, setShowModal } = useContext(ModalContext);
+    const { user } = useAppSelector((state) => state.userInfo);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [reload, setReload] = useState<boolean>(false);
+
+    const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs>(currentDate);
+
+    const handleDateChange = (date: any) => {
+        setSelectedDate(date);
+    };
+
     const showModalDeposite = () => {
-        setContentModal(<ModalDepositeMoney content='Haha' title='Haha' onClickAgree={() => { }} />)
+        setContentModal(<ModalDepositMoney title={t("wallet.title_dialog_deposite")} />)
         setShowModal(true)
     }
+
     const showModalWithdrawal = () => {
-        setContentModal(<ModalDepositeMoney content='Haha' title='Haha' onClickAgree={() => { }} />)
+        setContentModal(<ModalWithdrawalMoney setReload={setReload} title={t("wallet.title_dialog_withdrawal")} />)
         setShowModal(true)
     }
+
+    const showModalStatus = () => {
+        setContentModal(<ModalStatus icon={SuccessIcon} title={t("wallet.title_status_deposite_success")} content={t("wallet.content_status_deposite_success")} handleConfirm={handleConfirmDeposit} />)
+        setShowModal(true)
+    }
+
+    const handleConfirmDeposit = () => {
+        navigate(ROUTES.user.wallet)
+    }
+
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+
+    const allQueryParameters: any = {};
+
+    for (const [key, value] of params) {
+        allQueryParameters[key] = value;
+    }
+
+    useEffect(() => {
+        if (allQueryParameters.vnp_ResponseCode === "00") {
+            try {
+                WalletService.updateMoneyToDb(search).then((data) => {
+                    dispatch(getUserInfo());
+                    showModalStatus();
+                })
+            } catch (error) {
+            }
+        }
+    }, [])
+
+
     return (
         <Box display={'flex'} justifyContent={'center'} marginTop={'2rem'}>
             <Box display={'flex'} flexDirection={'column'} gap={'1rem'} width={'80%'} textAlign={'center'}>
@@ -66,20 +120,21 @@ const Wallet = () => {
                         <DatePickerStyle>
                             <DatePicker
                                 views={['month', 'year']}
-                                defaultValue={currentDate}
+                                value={selectedDate}
+                                onChange={handleDateChange}
                             />
                         </DatePickerStyle>
                     </LocalizationProvider>
                 </Box>
                 <Box>
                     <Typography variant='h5' fontWeight={'bold'}>
-                        {formatMoney(0)}
+                        {formatMoney(user?.balance || 0)}
                     </Typography>
                     <Typography color={'text.secondary'}>
                         {t('wallet.title_current_balance')}
                     </Typography>
                 </Box>
-                <CollapsibleTable />
+                <CollapsibleTable reload={reload} selectedDate={selectedDate} />
                 <Box display={'flex'} gap={'1rem'} justifyContent={'center'} mb={'1rem'}>
                     <MyCustomButton onClick={() => showModalDeposite()} content={t("wallet.title_button_deposit")} />
                     <MyCustomButton onClick={() => showModalWithdrawal()} content={t("wallet.title_button_request_withdrawal")} variant='outlined' />

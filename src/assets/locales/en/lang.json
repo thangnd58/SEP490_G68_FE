@@ -10,7 +10,8 @@
     "registermotorbike": "Register Motorbike",
     "home_page": "Home Page",
     "btn_close": "Close",
-    "btn_promotion": "Promotion"
+    "btn_promotion": "Promotion",
+    "favourite" : "My Favourite"
   },
   "layout": {
     "admin": "Adminstrator",
@@ -210,7 +211,8 @@
     "Navigation": {
       "manager": "Manager",
       "licenseManager": "License Manager",
-      "motorbikeRentalManager": "Motorbike Rental Manager"
+      "motorbikeRentalManager": "Motorbike Rental Manager",
+      "withdrawalRequestManager": "Manage Withdrawal Requests"
     },
     "License": "License",
     "Motobike": {
@@ -244,6 +246,13 @@
       "statusVerified": "Verified",
       "statusCancelled": "Cancelled",
       "columnAction": "Action"
+    },
+    "withdrawalRequest": {
+      "columnAccountName": "Account owner",
+      "columnAccountNumber": "Account number",
+      "columnAmount": "Amount",
+      "columnViewQr": "QR CODE",
+      "buttonConfirmProcess": "Confirm successful transfer"
     }
   },
   "component": {
@@ -352,6 +361,8 @@
   "wallet": {
     "title_my_wallet": "My wallet",
     "title_summary_transaction": "Summary of transactions",
+    "title_deposit_transaction": "Deposit transaction",
+    "title_withdrawal_transaction": "Withdrawal transaction",
     "title_transaction_code": "Transaction code",
     "title_date_deposit": "Deposit date",
     "title_status": "Status",
@@ -364,6 +375,40 @@
     "title_dialog_deposite": "Create request deposite money",
     "title_button_send_request": "Send request",
     "title_amount": "Amount",
-    "placeholder_amount_want": "Amount you want to deposit"
+    "placeholder_amount_want": "Amount you want to deposit",
+    "title_dialog_withdrawal": "Create withdrawal request",
+    "title_type_withdrawal_bank": "Bank transfer",
+    "title_placeholder_money_want_withdrawal": "Amount withdraw",
+    "title_bank_name": "Beneficiary bank",
+    "placeholder_bank_name": "Select the bank",
+    "title_bank_number": "Account number",
+    "placeholder_bank_number": "Enter account number",
+    "title_name_owner_bank_account": "Beneficiary name",
+    "placehoder_name_owner": "Enter beneficiary name",
+    "label_hint_cost": "* Money transfer fee: 9,900 VND",
+    "status_withdrawal_processing": "Processing",
+    "status_withdrawal_done": "Done",
+    "status_withdrawal_cancel": "Cancelled",
+    "button_confirm": "Confirm",
+    "title_status_deposite_success": "Deposit successful !",
+    "content_status_deposite_success": "Congratulations, you have successfully deposited",
+    "title_create_request_withdrawal": "Create request successfully!",
+    "content_create_request_withdrawal": "Please wait 1-2 days for us to approve your request",
+    "minimum_money_deposit": "Minimum {{min}}",
+    "maximum_money_deposit": "Maximum {{max}}"
+  },
+  "favourite" :{
+    "title" : "My Favourite",
+    "sort" : {
+      "title" : "Sort",
+      "date" : "Date",
+      "brand" : "Brand",
+      "price" : "Price"
+    },
+    "item":{
+      "ship" : "Delivery to your location",
+      "unlike" : "Unlike",
+      "view" : "View Detail"
+    }
   }
 }
