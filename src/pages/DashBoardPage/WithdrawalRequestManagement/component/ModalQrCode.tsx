@@ -7,6 +7,7 @@ import { ResponseWithDrawal } from "../../../../utils/type";
 import axios from "axios";
 import MyCustomButton from "../../../../components/common/MyButton";
 import WalletService from "../../../../services/WalletService";
+import useThemePage from "../../../../hooks/useThemePage";
 
 interface MyDialogProps {
     withdrawal: ResponseWithDrawal;
@@ -16,7 +17,8 @@ interface MyDialogProps {
 const ModalQrCode = (props: MyDialogProps) => {
     const { closeModal } = useContext(ModalContext);
     const [qrUrl, setQrUrl] = useState<string>("");
-    const { t } = usei18next();
+    const { t } = usei18next()
+    const { isMobile } = useThemePage();
     const getQrCode = async () => {
         try {
             const req = {
@@ -63,15 +65,13 @@ const ModalQrCode = (props: MyDialogProps) => {
                 sx: {
                     borderRadius: "16px",
                     padding: '1rem',
-                    width: '50%',
-                    maxHeight: 'unset', // Set maxHeight to 'unset'
                 },
             }}
         >
             <Box textAlign={'center'}>
-                <img src={qrUrl} alt="" style={{ objectFit: 'cover' }} />
+                <img src={qrUrl} alt="" width={'100%'} style={{ objectFit: 'cover' }} />
             </Box>
-            <MyCustomButton onClick={() => changeStatusTransfer()} variant="outlined" content={t("dashBoardManager.withdrawalRequest.buttonConfirmProcess")} />
+            <MyCustomButton fontSize={isMobile ? 12 : 16} onClick={() => changeStatusTransfer()} variant="outlined" content={t("dashBoardManager.withdrawalRequest.buttonConfirmProcess")} />
         </Dialog>
     );
 };

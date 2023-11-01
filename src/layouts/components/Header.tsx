@@ -6,7 +6,7 @@ import usei18next from '../../hooks/usei18next';
 import { useNavigate } from 'react-router';
 import MenuIcon from '@mui/icons-material/Menu';
 import useThemePage from '../../hooks/useThemePage';
-import { AccountBox, Close, ExitToApp, Home, ListAlt, Loyalty, ManageAccounts, Notifications, Search, VpnKey } from '@mui/icons-material';
+import { AccountBox, Close, ExitToApp, Home, ListAlt, Loyalty, ManageAccounts, Notifications, Search, VpnKey, WalletOutlined } from '@mui/icons-material';
 import { LogoHeader, NotificationIcon, UnitedKingDomFlag, VietNamFlag } from '../../assets/images';
 import { ROUTES } from '../../utils/Constant';
 import MyIcon from '../../components/common/MyIcon';
@@ -189,12 +189,12 @@ function Header() {
                                             {user?.role.roleName === 'Customer' ? (
                                                 <Box>
                                                     <MenuItem
-                                                    onClick={() => {
-                                                        setAnchorEl(null);
-                                                        navigate(ROUTES.user.registermotorbike);
-                                                    }}
-                                                    //hover to change background color
-                                                    sx={{ textAlign: 'center' }}
+                                                        onClick={() => {
+                                                            setAnchorEl(null);
+                                                            navigate(ROUTES.user.registermotorbike);
+                                                        }}
+                                                        //hover to change background color
+                                                        sx={{ textAlign: 'center' }}
                                                     >
                                                         <PopoverItem
                                                             label={t('header.registermotorbike')}
@@ -213,8 +213,21 @@ function Header() {
                                                             icon={<FavoriteIcon sx={{ color: "#9A9EA5" }} />} />
 
                                                     </MenuItem>
+                                                    <MenuItem
+                                                        onClick={() => {
+                                                            setAnchorEl(null);
+                                                            navigate(ROUTES.user.wallet);
+                                                        }}
+                                                        //hover to change background color
+                                                        sx={{ textAlign: 'center' }}
+                                                    >
+                                                        <PopoverItem
+                                                            label={t('header.wallet')}
+                                                            icon={<WalletOutlined sx={{ color: "#9A9EA5" }} />} />
+
+                                                    </MenuItem>
                                                 </Box>
-                                                ) : null
+                                            ) : null
                                             }
                                             <MenuItem
                                                 onClick={() => {

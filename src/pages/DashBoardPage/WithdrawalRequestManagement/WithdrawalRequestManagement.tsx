@@ -13,6 +13,7 @@ import WalletService from '../../../services/WalletService';
 import { formatMoney } from '../../../utils/helper';
 import { ModalContext } from '../../../contexts/ModalContext';
 import ModalQrCode from './component/ModalQrCode';
+import useThemePage from '../../../hooks/useThemePage';
 
 const WithdrawalRequestManagement = () => {
 
@@ -20,7 +21,7 @@ const WithdrawalRequestManagement = () => {
     const { t } = usei18next();
     const { closeModal, setShowModal, setContentModal } = useContext(ModalContext);
     const [reload, setReload] = useState<boolean>(false);
-
+    const { isMobile } = useThemePage();
     useEffect(() => {
         getAllWithdrawals();
     }, [reload])
@@ -38,13 +39,13 @@ const WithdrawalRequestManagement = () => {
 
     const columns = [
         {
-            field: 'nameInBank', headerName: t("dashBoardManager.withdrawalRequest.columnAccountName"), flex: 1
+            field: 'nameInBank', headerName: t("dashBoardManager.withdrawalRequest.columnAccountName"), width: 200
         },
         {
-            field: 'bankNumber', headerName: t("dashBoardManager.withdrawalRequest.columnAccountNumber"), flex: 1
+            field: 'bankNumber', headerName: t("dashBoardManager.withdrawalRequest.columnAccountNumber"), width: 200
         },
         {
-            field: 'withdraw', headerName: t("dashBoardManager.withdrawalRequest.columnAmount"), flex: 1,
+            field: 'withdraw', headerName: t("dashBoardManager.withdrawalRequest.columnAmount"), width: 200,
             renderCell: (params: any) => {
                 return formatMoney(params.value)
             }
@@ -52,7 +53,7 @@ const WithdrawalRequestManagement = () => {
         {
             field: 'status',
             headerName: t("dashBoardManager.motorbikeRentalManager.columnStatus"),
-            flex: 1,
+            width: 200,
             renderCell: (params: any) => (
                 params.value === "Processing" ?
                     (<Chip
@@ -75,10 +76,10 @@ const WithdrawalRequestManagement = () => {
             ),
         },
         {
-            field: 'id', headerName: t("dashBoardManager.withdrawalRequest.columnViewQr"), flex: 1,
+            field: 'id', headerName: t("dashBoardManager.withdrawalRequest.columnViewQr"), width: 200,
             renderCell: (params: any) => (
                 <Box sx={{ cursor: 'pointer' }}>
-                    <MyIcon icon={<Visibility />} hasTooltip position='right' tooltipText={t("userProfile.BtnChange")} onClick={() => {
+                    <MyIcon icon={<Visibility />} hasTooltip position='right' tooltipText={t("favourite.item.view")} onClick={() => {
                         setContentModal(<ModalQrCode setReload={setReload} withdrawal={params.row} />)
                     }} />
                 </Box>
@@ -112,7 +113,7 @@ const WithdrawalRequestManagement = () => {
                         },
                         '& .MuiDataGrid-cell:focus-within': {
                             outline: "none",
-                        },
+                        }
                     }}
                     rows={listWithdrawal}
                     initialState={{

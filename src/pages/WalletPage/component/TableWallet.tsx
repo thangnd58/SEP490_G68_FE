@@ -19,6 +19,7 @@ import WalletService from '../../../services/WalletService';
 import { DataGrid } from '@mui/x-data-grid';
 import { CheckCircleOutline, ErrorOutline, WarningAmber } from '@mui/icons-material';
 import dayjs from 'dayjs';
+import useThemePage from '../../../hooks/useThemePage';
 
 
 function createData(
@@ -43,9 +44,12 @@ function Row(props: { row: ReturnType<typeof createData> }) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
     const { t } = usei18next();
+    const { isMobile } = useThemePage();
+
     const columnsDeposite = [
         {
-            field: 'transactionId', headerName: t("wallet.title_transaction_code"), flex: 1,
+            field: 'transactionId', headerName: t("wallet.title_transaction_code"),
+            flex: 1,
             renderCell: (params: any) => (
                 <Box>
                     {`NAP${params.value}`}
@@ -136,7 +140,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         <React.Fragment>
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
                 <TableCell scope="row" >
-                    <Box sx={{ display: 'flex', gap: '10px' }}>
+                    <Box sx={{ display: 'flex', gap: '5px' }}>
                         <Typography>{row.name}</Typography>
                         <Typography>({row.total})</Typography>
                     </Box>
@@ -153,7 +157,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                 </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6} >
                     <Collapse in={open} unmountOnExit>
                         <Box sx={{ margin: 1 }}>
                             {
@@ -166,6 +170,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                                             '& .MuiDataGrid-cell:focus-within': {
                                                 outline: "none",
                                             },
+                                            width: isMobile ? '800px' : '100%'
                                         }}
                                         rows={row.transaction}
                                         checkboxSelection={false}
@@ -187,6 +192,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                                             '& .MuiDataGrid-cell:focus-within': {
                                                 outline: "none",
                                             },
+                                            width: isMobile ? '800px' : '100%'
                                         }}
                                         rows={row.transaction}
                                         checkboxSelection={false}
@@ -242,7 +248,7 @@ export default function CollapsibleTable({ reload, selectedDate }: { reload: boo
 
     return (
         <TableContainer component={Paper}>
-            <Table aria-label="collapsible table">
+            <Table aria-label="collapsible table" >
                 <TableBody>
                     {rows.map((row) => (
                         <Row key={row.name} row={row} />
