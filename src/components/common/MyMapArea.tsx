@@ -8,6 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import MyDialog from './MyDialog';
+import { HelmetIcon } from '../../assets/icons';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -25,6 +26,6 @@ export default function MyMapArea() {
   }
 
   return (
-    <MyDialog title="title" content="content" onClickAgree={clickAgree} />
+    <MyDialog icon={<HelmetIcon/>} title="Thông báo" content="Xin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủ" hasAgreeButton hasCancelButton onClickAgree={clickAgree} />
   );
 }

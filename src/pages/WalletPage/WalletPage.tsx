@@ -21,6 +21,7 @@ import { getUserInfo } from '../../redux/reducers/authReducer';
 import ModalStatus from './component/ModalStatus';
 import { SuccessIcon } from '../../assets/images';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
+import { HelmetIcon } from '../../assets/icons';
 
 
 
@@ -66,7 +67,7 @@ const Wallet = () => {
     }
 
     const showModalWithdrawal = () => {
-        setContentModal(<ModalWithdrawalMoney setReload={setReload} title={t("wallet.title_dialog_withdrawal")} />)
+        setContentModal(<MyDialog icon={<HelmetIcon />} title="Thông báo" content="Xin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủ" hasAgreeButton hasCancelButton onClickAgree={() => { }} />)
         setShowModal(true)
     }
 
