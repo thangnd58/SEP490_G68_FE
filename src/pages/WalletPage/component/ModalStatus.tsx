@@ -16,17 +16,17 @@ interface MyDialogProps {
 const ModalStatus = (props: MyDialogProps) => {
     const { t } = usei18next();
     const { closeModal } = useContext(ModalContext);
-
+    const {isMobile} = useThemePage();
     return (
         <Dialog
             open={true}
             onClose={closeModal}
             TransitionComponent={Transition}
             fullWidth
-            PaperProps={{ sx: { borderRadius: "16px", padding: '1rem', width: '50%' } }}
+            PaperProps={{ sx: { borderRadius: "16px", padding: '1rem', width: isMobile ? '100%' : '50%' } }}
         >
             <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Typography variant="h5" fontWeight={700}>{props.title}</Typography>
+                <Typography variant={isMobile ? "h6" : "h5"} fontWeight={700}>{props.title}</Typography>
             </DialogTitle>
             <DialogContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '1rem', alignItems: 'center' }}>
                 <Box sx={{ textAlign: 'center', mt: '1.5rem' }}>

@@ -12,6 +12,7 @@ import ErrorMessage from "../../../components/common/ErrorMessage";
 import WalletService from "../../../services/WalletService";
 import { Transition } from "../common/Transition";
 import { formatMoney } from "../../../utils/helper";
+import useThemePage from "../../../hooks/useThemePage";
 
 interface MyDialogProps {
     title: string;
@@ -20,6 +21,7 @@ interface MyDialogProps {
 const ModalDepositMoney = (props: MyDialogProps) => {
     const { closeModal } = useContext(ModalContext);
     const { t } = usei18next();
+    const { isMobile } = useThemePage();
 
     const formik = useFormik({
         initialValues: {
@@ -58,10 +60,10 @@ const ModalDepositMoney = (props: MyDialogProps) => {
         >
             <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <img width={36} height={36} src={DepositeMoneyImage} />
-                    <Typography variant="h5" mt={'1rem'} fontWeight={700}>{props.title}</Typography>
+                    <img width={isMobile ? 26 : 36} height={isMobile ? 26 : 36} src={DepositeMoneyImage} />
+                    <Typography variant="h5" fontSize={isMobile ? 16 : 24} mt={'0.7rem'} fontWeight={700}>{props.title}</Typography>
                 </Box>
-                <img onClick={closeModal} style={{ marginTop: '1rem', cursor: 'pointer' }} width={24} height={24} src={CancelImage} />
+                <img onClick={closeModal} style={{ marginTop: '1rem', cursor: 'pointer' }} width={isMobile ? 16 : 24} height={isMobile ? 16 : 24} src={CancelImage} />
             </DialogTitle>
             <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <Box border={'1px solid'}></Box>

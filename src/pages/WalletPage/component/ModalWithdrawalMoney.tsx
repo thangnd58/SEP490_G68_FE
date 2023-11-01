@@ -15,6 +15,7 @@ import { formatMoney } from "../../../utils/helper";
 import { useDispatch } from "react-redux";
 import { getUserInfo } from "../../../redux/reducers/authReducer";
 import { useAppSelector } from "../../../hooks/useAction";
+import useThemePage from "../../../hooks/useThemePage";
 
 interface MyDialogProps {
     title: string;
@@ -28,6 +29,7 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
     const [selectedBank, setSelectedBank] = useState<Bank>();
     const dispatch = useDispatch();
     const { user } = useAppSelector((state) => state.userInfo);
+    const { isMobile } = useThemePage();
 
     const fetchBanks = async () => {
         try {
@@ -105,10 +107,10 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
         >
             <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <img width={30} height={30} src={WithdrawalMoneyImage} />
-                    <Typography variant="h5" mb={'8px'} ml={'2px'} fontWeight={700}>{props.title}</Typography>
+                    <img width={isMobile ? 20 : 30} height={isMobile ? 20 : 30} src={WithdrawalMoneyImage} />
+                    <Typography variant="h5" fontSize={isMobile ? 16 : 24} mb={'8px'} ml={'2px'} fontWeight={700}>{props.title}</Typography>
                 </Box>
-                <img onClick={closeModal} style={{ cursor: 'pointer' }} width={24} height={24} src={CancelImage} />
+                <img onClick={closeModal} style={{ cursor: 'pointer' }} width={isMobile ? 16 : 24} height={isMobile ? 16 : 24} src={CancelImage} />
             </DialogTitle>
             <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <Box border={'1px solid'}></Box>
