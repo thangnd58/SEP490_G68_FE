@@ -11,7 +11,8 @@
     "home_page": "Home Page",
     "btn_close": "Close",
     "btn_promotion": "Promotion",
-    "favourite" : "My Favourite"
+    "favourite" : "My Favourite",
+    "wallet": "My Wallet"
   },
   "layout": {
     "admin": "Adminstrator",

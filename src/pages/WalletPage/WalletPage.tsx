@@ -26,8 +26,8 @@ import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 
 const DatePickerStyle = styled('div')(({ theme }) => ({
     '& .MuiTextField-root': {
+        width: '190px',
         '& .MuiOutlinedInput-root': {
-            width: '190px',
             '& fieldset': {
                 border: 'none',
             },
@@ -41,6 +41,12 @@ const DatePickerStyle = styled('div')(({ theme }) => ({
         '& .MuiOutlinedInput-input': {
             color: theme.palette.common.white,
         },
+    },
+    '& .MuiPickersPopper-root': {
+        position: 'absolute',
+        inset: '0px auto auto 0px',
+        margin: '0px',
+        transform: 'translate(527px, 231px)'
     }
 }));
 
