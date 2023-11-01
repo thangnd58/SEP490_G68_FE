@@ -9,7 +9,6 @@ import useThemePage from '../../hooks/useThemePage';
 import CollapsibleTable from './component/TableWallet';
 import { formatMoney } from '../../utils/helper';
 import MyCustomButton from '../../components/common/MyButton';
-import MyDialog from '../../components/common/MyDialog';
 import { ModalContext } from '../../contexts/ModalContext';
 import ModalDepositMoney from './component/ModalDepositMoney';
 import ModalWithdrawalMoney from './component/ModalWithdrawalMoney';
@@ -21,12 +20,14 @@ import { useDispatch } from 'react-redux';
 import { getUserInfo } from '../../redux/reducers/authReducer';
 import ModalStatus from './component/ModalStatus';
 import { SuccessIcon } from '../../assets/images';
+import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 
 
 
 const DatePickerStyle = styled('div')(({ theme }) => ({
     '& .MuiTextField-root': {
         '& .MuiOutlinedInput-root': {
+            width: '190px',
             '& fieldset': {
                 border: 'none',
             },
@@ -40,7 +41,7 @@ const DatePickerStyle = styled('div')(({ theme }) => ({
         '& .MuiOutlinedInput-input': {
             color: theme.palette.common.white,
         },
-    },
+    }
 }));
 
 const Wallet = () => {
@@ -75,6 +76,7 @@ const Wallet = () => {
     }
 
     const handleConfirmDeposit = () => {
+        setReload((prev) => !prev)
         navigate(ROUTES.user.wallet)
     }
 
@@ -99,6 +101,8 @@ const Wallet = () => {
         }
     }, [])
 
+    const [isPickerOpen, setIsPickerOpen] = useState<boolean>(false);
+
 
     return (
         <Box display={'flex'} justifyContent={'center'} marginTop={'2rem'}>
@@ -119,9 +123,14 @@ const Wallet = () => {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePickerStyle>
                             <DatePicker
-                                views={['month', 'year']}
+                                slots={{
+                                    openPickerIcon: isPickerOpen ? ArrowDropUp : ArrowDropDown,
+                                }}
+                                views={['year', 'month']}
                                 value={selectedDate}
                                 onChange={handleDateChange}
+                                onOpen={() => setIsPickerOpen(true)}
+                                onClose={() => setIsPickerOpen(false)}
                             />
                         </DatePickerStyle>
                     </LocalizationProvider>
