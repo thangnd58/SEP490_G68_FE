@@ -11,7 +11,6 @@ import { formatMoney } from '../../utils/helper';
 import MyCustomButton from '../../components/common/MyButton';
 import { ModalContext } from '../../contexts/ModalContext';
 import ModalDepositMoney from './component/ModalDepositMoney';
-import ModalWithdrawalMoney from './component/ModalWithdrawalMoney';
 import { useNavigate } from 'react-router-dom';
 import WalletService from '../../services/WalletService';
 import { useAppSelector } from '../../hooks/useAction';
@@ -21,9 +20,7 @@ import { getUserInfo } from '../../redux/reducers/authReducer';
 import ModalStatus from './component/ModalStatus';
 import { SuccessIcon } from '../../assets/images';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
-import { HelmetIcon } from '../../assets/icons';
-
-
+import ModalWithdrawalMoney from './component/ModalWithdrawalMoney';
 
 const DatePickerStyle = styled('div')(({ theme }) => ({
     '& .MuiTextField-root': {
@@ -67,7 +64,7 @@ const Wallet = () => {
     }
 
     const showModalWithdrawal = () => {
-        setContentModal(<MyDialog icon={<HelmetIcon />} title="Thông báo" content="Xin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủ" hasAgreeButton hasCancelButton onClickAgree={() => { }} />)
+        setContentModal(<ModalWithdrawalMoney setReload={setReload} title={t("wallet.title_dialog_withdrawal")} />)
         setShowModal(true)
     }
 
