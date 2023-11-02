@@ -32,9 +32,9 @@ const ChangeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
         },
         validationSchema: Yup.object({
             gender: Yup.string().required(t('form.required')),
-            name: Yup.string().required(t('form.required')),
+            name: Yup.string().required(t('form.required')).max(256, t('form.validateString265Char')),
             dob: Yup.date().required(t('form.required')).max(new Date(),  t('form.validateDOB')),
-            address: Yup.string().required(t('form.required')),
+            address: Yup.string().required(t('form.required')).max(256, t('form.validateString265Char')),
         }),
         onSubmit: values => {
             changeUserProfile(values.name,  values.gender, values.dob, values.address);

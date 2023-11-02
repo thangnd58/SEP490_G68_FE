@@ -54,7 +54,8 @@
     "input_new_password": "Nhập mật khẩu mới",
     "back_to_home_page": "Trở về trang chủ",
     "verifySuceessLabel": "Chúc mừng",
-    "verifyErrorLabel": "Rất tiếc"
+    "verifyErrorLabel": "Rất tiếc",
+    "validateString265Char"  : "Chuỗi không thể vượt quá 256 ký tự"
   },
   "toast": {
     "login": {
