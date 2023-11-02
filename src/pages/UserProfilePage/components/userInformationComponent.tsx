@@ -371,7 +371,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                     Google
                   </Typography>
                   <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
-                    {user.address ? user.address : t('userProfile.InputProfile')}
+                    {user.googleIdentity ? user.googleIdentity : t('userProfile.InputProfile')}
                   </Typography>
                 </Box>
               </Box>

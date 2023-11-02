@@ -11,7 +11,8 @@ export interface User {
     avatarUrl: string,
     role: Role,
     phoneVerified: boolean,
-    balance: number
+    balance: number,
+    googleIdentity : string
 }
 
 export interface Role {
