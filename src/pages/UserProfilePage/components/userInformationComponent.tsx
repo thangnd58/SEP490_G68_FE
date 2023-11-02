@@ -66,7 +66,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
     validationSchema: Yup.object({
       licenceNumber: Yup.string().required(t('form.required')).matches(/^[0-9]{12}$/, t('form.validLicenseNumber')),
       fullName: Yup.string().required(t('form.required')),
-      dob: Yup.string().required(t('form.required')),
+      dob: Yup.date().required(t('form.required')).max(new Date(),  t('form.validateDOB')),
     }),
     onSubmit: values => {
       changeLisence(values.licenceNumber, values.fullName, values.dob, values.licenceImage);

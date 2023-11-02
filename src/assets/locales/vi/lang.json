@@ -37,6 +37,7 @@
     "saveAccount": "Ghi nhớ đăng nhập",
     "forgotPassword": "Quên mật khẩu?",
     "validatePhone": "Nhập sai định dạng số điện thoại",
+    "validateDOB" : "Ngày không thể vượt quá ngày hiện tại",
     "validateOtp": "Nhập sai định dạng OTP",
     "validLicenseNumber": "Nhập sai định dạng bằng lái xe",
     "passwordsMustMatch": "Mật khẩu nhập lại không khớp!",
