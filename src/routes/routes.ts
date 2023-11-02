@@ -28,6 +28,7 @@ import IntroductionMotorbike from '../pages/PostMotorbike/IntroductionMotorbike'
 import Wallet from '../pages/WalletPage/WalletPage';
 import WithdrawalRequestManagement from '../pages/DashBoardPage/WithdrawalRequestManagement/WithdrawalRequestManagement';
 import Favourite from '../pages/FavouritePage/FavouritePage';
+import ListMotorbikesSearchedPage from '../pages/HomePage/ListMotorbikesSearchedPage';
 
 export type Route = {
     path: string;
@@ -39,6 +40,7 @@ export type Route = {
 export const routes: Route[] = [
     // Home Page
     { path: ROUTES.homepage, component: Home },
+    { path: `${ROUTES.search.filtermotorbike}/:startDate/:endDate/:address`, component: ListMotorbikesSearchedPage },
 
     // Components Page
     { path: ROUTES.component.mymaparea, component: MyMapArea },

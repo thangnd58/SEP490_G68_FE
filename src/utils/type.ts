@@ -185,30 +185,36 @@ export interface ResponseWithDrawal {
 }
 
 export interface UserFavourite {
-    userId : number,
-    motorbikeId : number,
-    createDatetime : string,
-    motorbikeFavourite : MotorbikeFavourite[]
+    userId: number,
+    motorbikeId: number,
+    createDatetime: string,
+    motorbikeFavourite: MotorbikeFavourite[]
 }
 export interface MotorbikeFavourite {
-    id : number,
-    priceRent : number,
-    equipments : string,
-    fuelConsumption : number,
-    provinceId : number,
-    districtId : number,
-    wardId : number,
-    imageUrl : string,
-    address : string,
-    location : string,
-    miscellaneous : string,
-    brandName : string,
-    modelName : string,
-    userId : UserForRent[]
+    id: number,
+    priceRent: number,
+    equipments: string,
+    fuelConsumption: number,
+    provinceId: number,
+    districtId: number,
+    wardId: number,
+    imageUrl: string,
+    address: string,
+    location: string,
+    miscellaneous: string,
+    brandName: string,
+    modelName: string,
+    userId: UserForRent[]
 }
 
 export interface UserForRent {
-    userId : number,
-    name :  string,
-    avatarUrl : string
+    userId: number,
+    name: string,
+    avatarUrl: string
+}
+
+export interface SearchMotorbikeRequest {
+    startDate: string,
+    endDate: string,
+    address: string
 }

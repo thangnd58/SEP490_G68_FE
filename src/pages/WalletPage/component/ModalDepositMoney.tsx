@@ -1,5 +1,4 @@
 import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, InputAdornment, Slide, TextField, Typography, styled } from "@mui/material"
-import MyCustomTextField from "../../../components/common/MyTextField"
 import { CancelImage, DepositeMoneyImage, VietNamFlag } from "../../../assets/images"
 import React, { useContext } from "react";
 
@@ -59,7 +58,7 @@ const ModalDepositMoney = (props: MyDialogProps) => {
             PaperProps={{ sx: { borderRadius: "16px", padding: '1rem 1.5rem' } }}
         >
             <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap:'8px' }}>
                     <img width={isMobile ? 26 : 36} height={isMobile ? 26 : 36} src={DepositeMoneyImage} />
                     <Typography variant="h5" fontSize={isMobile ? 16 : 24} mt={'0.7rem'} fontWeight={700}>{props.title}</Typography>
                 </Box>

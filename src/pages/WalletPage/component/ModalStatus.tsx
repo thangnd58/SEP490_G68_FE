@@ -23,21 +23,24 @@ const ModalStatus = (props: MyDialogProps) => {
             onClose={closeModal}
             TransitionComponent={Transition}
             fullWidth
-            PaperProps={{ sx: { borderRadius: "16px", padding: '1rem', width: isMobile ? '100%' : '50%' } }}
+            PaperProps={{ sx: { borderRadius: "16px", padding: '1rem', width: isMobile ? '100%' : '30%' } }}
         >
             <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Typography variant={isMobile ? "h6" : "h5"} fontWeight={700}>{props.title}</Typography>
             </DialogTitle>
             <DialogContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '1rem', alignItems: 'center' }}>
                 <Box sx={{ textAlign: 'center', mt: '1.5rem' }}>
-                    <img alt="success-icon" src={props.icon} style={{ marginBottom: '2rem' }} />
+                    <img alt="success-icon" src={props.icon}/>
                 </Box>
-                <Typography sx={{ marginBottom: '2rem', textAlign: 'center', color: 'text.secondary' }}>
+                <Typography sx={{ textAlign: 'center', color: 'text.secondary' }}>
                     {props.content}
                 </Typography>
             </DialogContent>
             <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
-                <MyCustomButton width="100%" onClick={() => {
+                <MyCustomButton 
+                fontWeight={600}
+                width="90%" 
+                onClick={() => {
                     props.handleConfirm();
                     closeModal();
                 }} content={t("wallet.button_confirm")} />

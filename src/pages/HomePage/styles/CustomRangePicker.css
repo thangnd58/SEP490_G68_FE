@@ -1,0 +1,21 @@
+/* CustomRangePicker.css */
+.custom-range-picker {
+  cursor: pointer;
+  width: 100%;
+  height: 56px;
+  border-radius: 8px;
+
+  &:hover {
+    border: 1px solid #8b4513;
+  }
+
+  &:focus-within {
+    border: 1px solid #8b4513;
+    box-shadow: none;
+  }
+
+  .ant-picker-cell-inner {
+    background-color: #8b4513; /* Màu nền mới */
+    color: #fff; /* Màu chữ */
+  }
+}
