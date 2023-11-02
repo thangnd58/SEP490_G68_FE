@@ -31,6 +31,7 @@ const ChangeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
             address: user ? user.address : '',
         },
         validationSchema: Yup.object({
+            gender: Yup.string().required(t('form.required')),
             name: Yup.string().required(t('form.required')),
             dob: Yup.string().required(t('form.required')),
             address: Yup.string().required(t('form.required')),
@@ -104,6 +105,9 @@ const ChangeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
                             label={t('userProfile.Female')}
                         />
                     </RadioGroup>
+                </Box>
+                <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'start' }}>
+                    {errors.gender && touched.gender && <ErrorMessage message={errors.gender} />}
                 </Box>
                 <MyCustomeTextField
                     name="dob"
