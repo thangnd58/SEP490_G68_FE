@@ -31,9 +31,10 @@ const ChangeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
             address: user ? user.address : '',
         },
         validationSchema: Yup.object({
-            name: Yup.string().required(t('form.required')),
-            dob: Yup.string().required(t('form.required')),
-            address: Yup.string().required(t('form.required')),
+            gender: Yup.string().required(t('form.required')),
+            name: Yup.string().required(t('form.required')).max(256, t('form.validateString265Char')),
+            dob: Yup.date().required(t('form.required')).max(new Date(),  t('form.validateDOB')),
+            address: Yup.string().required(t('form.required')).max(256, t('form.validateString265Char')),
         }),
         onSubmit: values => {
             changeUserProfile(values.name,  values.gender, values.dob, values.address);
@@ -104,6 +105,9 @@ const ChangeUserProfileComponent: FunctionComponent<ChildComponentProps> = ({ se
                             label={t('userProfile.Female')}
                         />
                     </RadioGroup>
+                </Box>
+                <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'start' }}>
+                    {errors.gender && touched.gender && <ErrorMessage message={errors.gender} />}
                 </Box>
                 <MyCustomeTextField
                     name="dob"
