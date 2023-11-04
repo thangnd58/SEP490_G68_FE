@@ -134,6 +134,13 @@
       "success": "Verify phone successfully",
       "warning": "Verify phone failed",
       "error": "Error when verify phone"
+    },
+    "favourite" : {
+      "delete":{
+        "success": "Unlike motorbike successfully",
+        "warning": "Unlike motorbike failed",
+        "error": "Error when unlike motorbike"
+      }
     }
   },
   "footer": {
@@ -414,7 +421,9 @@
       "unlike" : "Unlike",
       "view" : "View Detail",
       "gasoline" : "Gasoline",
-      "electric" : "Electric "
+      "electric" : "Electric ",
+      "day" : "1 day",
+      "addToCart" : "Add To Cart"
     }
   }
 }

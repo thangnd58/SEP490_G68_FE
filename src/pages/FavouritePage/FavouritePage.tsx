@@ -8,6 +8,8 @@ import IconButton from '@mui/material/IconButton';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { useAppDispatch, useAppSelector,  } from '../../hooks/useAction';
 import { getUserFavouriteInfo } from '../../redux/reducers/userFavouriteReducer';
+import UserService from '../../services/UserService';
+import ToastComponent from '../../components/toast/ToastComponent';
 
 const FavouritePage = () => {
     const { t } = usei18next();
@@ -25,6 +27,19 @@ const FavouritePage = () => {
         //   }
     }, [])
 
+    const deleteFavourite = async (id: number) => {
+        try {
+            const response = await UserService.deleteFavourite(id);
+            if (response.status === 200) { 
+              dispatch(getUserFavouriteInfo());
+              ToastComponent(t("toast.favourite.delete.success"), "success");
+            } else {
+              ToastComponent(t("toast.favourite.delete.warning"), "warning");
+            }
+          } catch (error) {
+            ToastComponent(t("toast.favourite.delete.error"), "error");
+          }
+    }
     return (
         <Box display={'flex'} flexDirection={'row'} margin={'32px auto'} borderRadius={'8px'} justifyContent={'center'}>
             <Paper elevation={2} sx={{ width: isMobile ? '90%' : '80%' }}>
@@ -125,7 +140,7 @@ const FavouritePage = () => {
                                         </Box>
                                     </Box>
                                     <Box width={"50%"} display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                                        <Button variant="contained" color="primary">
+                                        <Button variant="contained" color="primary" onClick={() => deleteFavourite(item.motorbikeId)}>
                                             {t('favourite.item.unlike')}
                                         </Button>
                                     </Box>
@@ -134,7 +149,7 @@ const FavouritePage = () => {
                                     <Box display={'flex'}>
                                         <Typography fontWeight={'bold'} fontSize={'19px'}>{Number(item.motorbike.priceRent) * 0.85 + "K"}</Typography>
                                         <Typography fontSize={'19px'}>/</Typography>
-                                        <Typography paddingTop={'4px'} fontSize={'15px'}> Ngày</Typography>
+                                        <Typography paddingTop={'5px'} fontSize={'13px'}>{t('favourite.item.day')}</Typography>
                                     </Box>
                                     <IconButton
                                         style={{fontSize : '15px' , fontWeight : 'bold'}}
@@ -143,7 +158,7 @@ const FavouritePage = () => {
                                             // Add your action here
                                         }}
                                         >
-                                        <KeyboardDoubleArrowRightIcon /> Thêm giỏ hàng
+                                        <KeyboardDoubleArrowRightIcon />  {t('favourite.item.addToCart')}
                                     </IconButton>
                                 </Box>
                             </Box>

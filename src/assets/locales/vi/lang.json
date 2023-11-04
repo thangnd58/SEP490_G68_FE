@@ -134,6 +134,13 @@
       "success": "Xác minh số điện thoại thành công",
       "warning": "Xác minh số điện thoại thất bại",
       "error": "Lỗi xác minh số điện thoại"
+    },
+    "favourite" : {
+      "delete":{
+        "success": "Xóa xe yêu thích thành công",
+        "warning": "Xóa xe yêu thích thất bại",
+        "error": "Lỗi xác xóa xe yêu thích"
+      }
     }
   },
   "footer": {
@@ -409,12 +416,14 @@
       "brand": "Hãng",
       "price": "Giá"
     },
-    "item": {
-      "ship": "Giao xe tận nơi",
-      "unlike": "Bỏ thích",
-      "view": "Xem chi tiết",
-      "gasoline": "Xăng",
-      "electric": "Điện "
+    "item":{
+      "ship" : "Giao xe tận nơi",
+      "unlike" : "Bỏ thích",
+      "view" : "Xem chi tiết",
+      "gasoline" : "Xăng",
+      "electric" : "Điện ",
+      "day" : "1 Ngày",
+      "addToCart" : "Thêm giỏ hàng"
     }
   }
 }
