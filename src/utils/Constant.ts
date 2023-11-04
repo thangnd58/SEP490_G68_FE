@@ -1,6 +1,9 @@
 export const BASE_URL = "https://hzuzmhgcmt.ap-southeast-1.awsapprunner.com/api";
 export const ROUTES = {
     homepage: "/",
+    search:{
+        filtermotorbike: "/search/filter"
+    },
     account: {
         login: "/login",
         register: "/register",
@@ -12,6 +15,7 @@ export const ROUTES = {
     user: {
         userprofile: "/user-profile",
         registermotorbike: "/register-motorbike",
+        introductionmotorbike: "/introduction-motorbike",
         listmotorbike: "/list-motorbike",
         updateregistermotorbike: "/update-register-motorbike",
         wallet: "/my-wallet",

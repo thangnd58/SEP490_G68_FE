@@ -11,7 +11,8 @@
     "home_page": "Home Page",
     "btn_close": "Close",
     "btn_promotion": "Promotion",
-    "favourite" : "My Favourite"
+    "favourite" : "My Favourite",
+    "wallet": "My Wallet"
   },
   "layout": {
     "admin": "Adminstrator",
@@ -397,7 +398,8 @@
     "title_create_request_withdrawal": "Create request successfully!",
     "content_create_request_withdrawal": "Please wait 1-2 days for us to approve your request",
     "minimum_money_deposit": "Minimum {{min}}",
-    "maximum_money_deposit": "Maximum {{max}}"
+    "maximum_money_deposit": "Maximum {{max}}",
+    "title_no_transaction": "No transaction yet"
   },
   "favourite" :{
     "title" : "My Favourite",

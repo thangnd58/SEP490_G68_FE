@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { TextField, Button, Paper, Typography, InputAdornment, IconButton, Checkbox, styled, Box } from '@mui/material';
 import { AuthContext, useAuth } from '../../../contexts/AuthContext';
 import usei18next from '../../../hooks/usei18next';
@@ -10,6 +10,11 @@ import { useNavigate } from 'react-router';
 import { Height, Visibility, VisibilityOff } from '@mui/icons-material';
 import ErrorMessage from '../../../components/common/ErrorMessage';
 import MyCustomButton from '../../../components/common/MyButton';
+import { useAppSelector } from '../../../hooks/useAction';
+import { ModalContext } from '../../../contexts/ModalContext';
+import MyDialog from '../../../components/common/MyDialog';
+import { HelmetIcon } from '../../../assets/icons';
+import { ROUTES } from '../../../utils/Constant';
 
 const FormStyle = styled('form')(({ theme }) => ({
   width: '100%',
@@ -161,13 +166,14 @@ const LoginForm = () => {
   }, [localStorage])
 
   return (
+
     <FormStyle className='form' onSubmit={handleSubmit}>
-      <Paper elevation={3} sx={{ width: isMobile ? '75%' : '30%'}}>
+      <Paper elevation={3} sx={{ width: isMobile ? '75%' : '30%' }}>
         <Typography className='login'>
           {t("form.login")}
         </Typography>
         <Box className='login-form'>
-          <Box className="login-form-content" sx={{width: isMobile ? "100%" : "80%"}}>
+          <Box className="login-form-content" sx={{ width: isMobile ? "100%" : "80%" }}>
             <TextField
               name='email'
               label={t("form.email")}
@@ -233,23 +239,23 @@ const LoginForm = () => {
               </Box>
             </Box>
             <Box className='google-buttons'>
-              <GoogleOAuthProvider clientId="1088937198611-lpsokcekdcethdobpeghbm43nf4fglcl.apps.googleusercontent.com">
-                <GoogleLogin
-                  size='large'
-                  type='standard'
-                  logo_alignment='center'
-                  shape='circle'
-                  width={100}
-                  useOneTap={true}
-                  text='continue_with'
-                  onSuccess={credentialResponse => {
-                    handleGoogleLogin(credentialResponse)
-                  }}
-                  onError={() => {
-                    console.log('Login Failed');
-                  }}
-                />
-              </GoogleOAuthProvider>
+                <GoogleOAuthProvider clientId="1088937198611-lpsokcekdcethdobpeghbm43nf4fglcl.apps.googleusercontent.com">
+                  <GoogleLogin
+                    size='large'
+                    type='standard'
+                    logo_alignment='center'
+                    shape='circle'
+                    width={100}
+                    useOneTap={true}
+                    text='continue_with'
+                    onSuccess={credentialResponse => {
+                      handleGoogleLogin(credentialResponse)
+                    }}
+                    onError={() => {
+                      console.log('Login Failed');
+                    }}
+                  />
+                </GoogleOAuthProvider>
             </Box>
             <Box className='login-hint'>
               <Typography>
@@ -267,6 +273,7 @@ const LoginForm = () => {
       </Paper>
     </FormStyle >
   );
+
 };
 
 export default LoginForm;

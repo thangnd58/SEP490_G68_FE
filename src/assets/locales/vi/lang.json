@@ -11,7 +11,7 @@
     "home_page": "Về Trang Chủ",
     "btn_close": "Đóng",
     "btn_promotion": "Xem khuyến mãi",
-    "favourite" : "Yêu Thích",
+    "favourite": "Yêu Thích",
     "wallet": "Ví của tôi"
   },
   "layout": {
@@ -37,7 +37,7 @@
     "saveAccount": "Ghi nhớ đăng nhập",
     "forgotPassword": "Quên mật khẩu?",
     "validatePhone": "Nhập sai định dạng số điện thoại",
-    "validateDOB" : "Ngày không thể vượt quá ngày hiện tại",
+    "validateDOB": "Ngày không thể vượt quá ngày hiện tại",
     "validateOtp": "Nhập sai định dạng OTP",
     "validLicenseNumber": "Nhập sai định dạng bằng lái xe",
     "passwordsMustMatch": "Mật khẩu nhập lại không khớp!",
@@ -55,7 +55,7 @@
     "back_to_home_page": "Trở về trang chủ",
     "verifySuceessLabel": "Chúc mừng",
     "verifyErrorLabel": "Rất tiếc",
-    "validateString265Char"  : "Chuỗi không thể vượt quá 256 ký tự"
+    "validateString265Char": "Chuỗi không thể vượt quá 256 ký tự"
   },
   "toast": {
     "login": {
@@ -118,19 +118,19 @@
       "success": "OTP đã được gửi đến bạn",
       "warning": "Gửi OTP thất bại",
       "error": "Lỗi gửi OTP",
-      "Conflict" : "Số điện thoại đã tồn tại"
+      "Conflict": "Số điện thoại đã tồn tại"
     },
     "ConfirmOtp": {
       "success": "Xác nhận OTP thành công",
       "warning": "Xác nhận OTP thất bại",
       "error": "Lỗi xác nhận OTP"
     },
-    "ChangePhone":{
+    "ChangePhone": {
       "success": "Cập nhật số điện thoại thành công",
       "warning": "Cập nhật số điện thoại thất bại",
       "error": "Lỗi cập nhật số điện thoại"
     },
-    "VerifyPhone":{
+    "VerifyPhone": {
       "success": "Xác minh số điện thoại thành công",
       "warning": "Xác minh số điện thoại thất bại",
       "error": "Lỗi xác minh số điện thoại"
@@ -166,24 +166,24 @@
     "ChangeProfile": "Chỉnh sửa hồ sơ",
     "InputProfile": "Vui lòng điền thông tin",
     "BtnChange": "Thay đổi",
-    "notYetVerify" : "Chưa xác minh",
-    "Verified" : "Đã xác minh",
-    "AlertVerify" : "Hãy xác minh số điện thoại của bạn"
+    "notYetVerify": "Chưa xác minh",
+    "Verified": "Đã xác minh",
+    "AlertVerify": "Hãy xác minh số điện thoại của bạn"
   },
-  "ChangePhone":{
+  "ChangePhone": {
     "Title": "Thay đổi số điện thoại",
     "BtnConfirm": "Xác nhận",
     "BtnChange": "Đông ý",
-    "GetOTP" : "Lấy OTP",
+    "GetOTP": "Lấy OTP",
     "NewPhone": "Số Điện Thoại Mới",
     "Phone": "Số Điện Thoại"
   },
-  "VerifyPhone":{
+  "VerifyPhone": {
     "Title": "Xác thực số điện thoại",
     "BtnConfirm": "Xác nhận",
     "BtnChange": "Đông ý",
-    "GetOTP" : "Lấy OTP",
-    "TooltipGetOTP" : "Hệ thống sẽ gửi tin nhắn chứa mã xác thực đến số điện thoại của bạn."
+    "GetOTP": "Lấy OTP",
+    "TooltipGetOTP": "Hệ thống sẽ gửi tin nhắn chứa mã xác thực đến số điện thoại của bạn."
   },
   "changePassword": {
     "Title": "Đổi mật khẩu",
@@ -250,7 +250,7 @@
       "statusCancelled": "Đã hủy",
       "columnAction": "Chỉnh sửa"
     },
-    "withdrawalRequest" : {
+    "withdrawalRequest": {
       "columnAccountName": "Chủ tài khoản",
       "columnAccountNumber": "Số tài khoản",
       "columnAmount": "Số tiền",
@@ -282,7 +282,7 @@
       "table-cell-action": "Chỉnh sửa",
       "badge-edit": "Chỉnh sửa",
       "badge-delete": "Xóa",
-      "badge-location" : "Vị trí",
+      "badge-location": "Vị trí",
       "status-approved": "Đã phê duyệt",
       "status-processing": "Đang xử lý",
       "status-inoporation": "Đang hoạt động",
@@ -292,7 +292,7 @@
       "motorbikeFeature": "Đặc điểm",
       "release-year": "Năm sản xuất",
       "type": "Loại nhiên liệu",
-      "fuel-consumption" : "Mức tiêu thụ",
+      "fuel-consumption": "Mức tiêu thụ",
       "licensePlate": "Biển số xe",
       "equipments": "Trang bị",
       "address": "Địa chỉ",
@@ -398,22 +398,23 @@
     "title_create_request_withdrawal": "Tạo yêu cầu thành công !",
     "content_create_request_withdrawal": "Bạn hãy chờ 1-2 ngày để chúng tôi phê duyệt yêu cầu của bạn",
     "minimum_money_deposit": "Tối thiểu {{min}}",
-    "maximum_money_deposit": "Tối đa {{max}}"
+    "maximum_money_deposit": "Tối đa {{max}}",
+    "title_no_transaction": "Bạn chưa có giao dịch nào"
   },
-  "favourite" :{
-    "title" : "Xe yêu thích",
-    "sort" : {
-      "title" : "Sắp xếp",
-      "date" : "Ngày",
-      "brand" : "Hãng",
-      "price" : "Giá"
+  "favourite": {
+    "title": "Xe yêu thích",
+    "sort": {
+      "title": "Sắp xếp",
+      "date": "Ngày",
+      "brand": "Hãng",
+      "price": "Giá"
     },
-    "item":{
-      "ship" : "Giao xe tận nơi",
-      "unlike" : "Bỏ thích",
-      "view" : "Xem chi tiết",
-      "gasoline" : "Xăng",
-      "electric" : "Điện "
+    "item": {
+      "ship": "Giao xe tận nơi",
+      "unlike": "Bỏ thích",
+      "view": "Xem chi tiết",
+      "gasoline": "Xăng",
+      "electric": "Điện "
     }
   }
 }

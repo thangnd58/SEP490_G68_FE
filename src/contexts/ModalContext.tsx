@@ -1,3 +1,4 @@
+import { Modal } from "@mui/material";
 import { createContext, ReactNode, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -5,6 +6,7 @@ export const ModalContext = createContext<any>(null);
 
 type Props = {
   children?: ReactNode;
+  canCloseModal?: boolean;
 };
 
 const ModalProvider: React.FC<Props> = ({ children }) => {
@@ -22,10 +24,10 @@ const ModalProvider: React.FC<Props> = ({ children }) => {
     setContentModal,
     closeModal,
     backdropRef,
-  };
+  }; 
   return (
     <ModalContext.Provider value={valueContext}>
-      {children}
+        {children}
     </ModalContext.Provider>
   );
 };

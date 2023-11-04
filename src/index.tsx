@@ -36,7 +36,6 @@ root.render(
           <AuthProvider>
             <>
               <ToastContainer
-
                 bodyStyle={{ color: theme.palette.text.primary }}
                 position="bottom-left"
                 transition={Slide}

@@ -1010,7 +1010,7 @@ const RegisterMotorbikeForm = () => {
                         onClick={handleSubmit} />
                 </Box>
             </Box>
-            {/* <ImageModal selectedImages={selectedImages} selectedImageIndex={selectedImageIndex} closeModal={closeModal} /> */}
+            {/* <ImageModal selectedImages={listImageFiles} selectedImageIndex={selectedImageIndex} closeModal={closeModal} /> */}
             <Modal open={isMapModalOpen} onClose={closeMapModal} aria-labelledby="map-modal-title" aria-describedby="map-modal-description" sx={{
                 display: 'flex',
                 alignItems: 'start',

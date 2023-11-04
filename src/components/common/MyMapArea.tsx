@@ -8,6 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import MyDialog from './MyDialog';
+import { HelmetIcon } from '../../assets/icons';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -18,22 +19,13 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AlertDialogSlide() {
-  const [open, setOpen] = React.useState(false);
+export default function MyMapArea() {
 
-  const handleClickOpen = () => {
-    console.log("handleClickOpen");
-    setOpen(true);
-    console.log(open);
-  };
-
-  const handleAgree = () => {
-    alert("agree");
+  const clickAgree = () => {
+    alert('agree');
   }
 
   return (
-    <div>
-      <MyDialog title="title"  content="content" onClickAgree={handleAgree} />
-    </div>
+    <MyDialog icon={<HelmetIcon/>} title="Thông báo" content="Xin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủXin Mời bạn trở về trang chủ" hasAgreeButton hasCancelButton onClickAgree={clickAgree} />
   );
 }
