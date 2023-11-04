@@ -38,6 +38,7 @@
     "forgotPassword": "Forgot password?",
     "validatePhone": "Invalid phone number format",
     "validateOtp": "Invalid OTP number format",
+    "validateDOB" : "Date cannot exceed the current date",
     "validLicenseNumber": "Invalid license number format",
     "passwordsMustMatch": "Passwords do not match!",
     "resetpassword": "Recovery password",
@@ -53,7 +54,8 @@
     "input_new_password": "Set new password",
     "back_to_home_page": "Back to home page",
     "verifySuceessLabel": "Congratulations",
-    "verifyErrorLabel": "Sorry"
+    "verifyErrorLabel": "Sorry",
+    "validateString265Char"  : "The string cannot exceed 256 characters"
   },
   "toast": {
     "login": {
@@ -409,7 +411,9 @@
     "item":{
       "ship" : "Delivery to your location",
       "unlike" : "Unlike",
-      "view" : "View Detail"
+      "view" : "View Detail",
+      "gasoline" : "Gasoline",
+      "electric" : "Electric "
     }
   }
 }

@@ -3,14 +3,27 @@ import { Avatar, Box, Chip, FormControl, Paper, Select, Typography, Button , Too
 import usei18next from '../../hooks/usei18next';
 import theme from '../../utils/theme'
 import useThemePage from '../../hooks/useThemePage';
-import { Image } from '@mui/icons-material';
 import PlaceIcon from '@mui/icons-material/Place';
 import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-const Wallet = () => {
+import { useAppDispatch, useAppSelector,  } from '../../hooks/useAction';
+import { getUserFavouriteInfo } from '../../redux/reducers/userFavouriteReducer';
+
+const FavouritePage = () => {
     const { t } = usei18next();
     const { isMobile } = useThemePage();
+    const { userFavourite } = useAppSelector((state) => state.userFavouriteInfo);
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(getUserFavouriteInfo());
+        // if (userFavourite) {
+        //     userFavourite.map((item: any) => console.log(item.motorbike.address));
+        //     console.log('du lieu');
+        //   } else {
+        //     console.log('Dữ liệu không tồn tại');
+        //   }
+    }, [])
 
     return (
         <Box display={'flex'} flexDirection={'row'} margin={'32px auto'} borderRadius={'8px'} justifyContent={'center'}>
@@ -66,13 +79,13 @@ const Wallet = () => {
                     {/* Item List*/}
                     
                     <Box display={'flex'}  flexDirection={"row"} flexWrap={'wrap'} justifyContent={'space-evenly'} >
-                        
+                        {userFavourite.map((item:any) => (
                         <Box marginTop={'30px'} height={'270px'} width={'43%'} border={'1px black solid'} borderRadius={'5px'} display={'flex'} >
                             
                             {/* Image*/}
                             <Tooltip title={t("favourite.item.view")}>
                             <Box display={'flex'} width={"55%"} justifyContent={'center'} alignItems={'center'} sx={{cursor:'pointer'}}>
-                                <img style={{ borderRadius: '10px', width : '300px' , height : '230px'}} src='https://vcdn-vnexpress.vnecdn.net/2022/07/05/Wave-Den-6379-1657000031.jpg'/>
+                                <Avatar variant="rounded" sx={{ borderRadius: '10px', width : '300px' , height : '230px'}} src={item.motorbike.imageUrl} />
                             </Box>
                             </Tooltip>
                             {/* Content*/}
@@ -82,7 +95,7 @@ const Wallet = () => {
                                     <Chip
                                         sx={{ '& .MuiChip-label': { fontSize: "12px" },height: '27px', fontWeight : 'bold'}}
                                         color="success"
-                                        label='Xe Tay Ga' />
+                                        label={item.motorbike.fuelConsumption == 1 ? t("favourite.item.gasoline") : t("favourite.item.electric")} />
                                     <Chip
                                         sx={{ '& .MuiChip-label': { fontSize: "12px" },height: '27px', marginLeft : '7px', fontWeight : 'bold'}}
                                         color="warning"
@@ -90,25 +103,25 @@ const Wallet = () => {
                                 </Box>
                                
                                     <Box display={'flex'} sx={{cursor:'pointer'}}>
-                                        <Typography fontWeight={'bold'} fontSize={'20px'} marginTop={'8px'} marginLeft={'4px'}>Honda</Typography>
-                                        <Tooltip placement='right' title='Wave Alpha Wave Alpha'>
-                                            <Typography fontSize={'20px'} marginTop={'8px'} marginLeft={'8px'} textOverflow={'ellipsis'} whiteSpace={'nowrap'} overflow={'hidden'}>Wave Alpha Wave Alpha</Typography>
+                                        <Typography fontWeight={'bold'} fontSize={'20px'} marginTop={'8px'} marginLeft={'4px'}>{item.motorbike.brandName}</Typography>
+                                        <Tooltip placement='right' title={item.motorbike.modelName}>
+                                            <Typography fontSize={'20px'} marginTop={'8px'} marginLeft={'8px'} textOverflow={'ellipsis'} whiteSpace={'nowrap'} overflow={'hidden'}>{item.motorbike.modelName}</Typography>
                                         </Tooltip>
                                     </Box>
                                 
                                 <Box display={'flex'}  marginTop={'8px'} borderBottom={'1px #8B4513 solid'} paddingBottom={'8px'}>
                                     <PlaceIcon></PlaceIcon>
-                                    <Tooltip placement='right' title='Quận Tây Hồ, Hà Nội, Quận Tây Hồ, Hà NộiQuận Tây Hồ, Hà NộiQuận Tây Hồ, Hà Nội'>
-                                        <Typography textOverflow={'ellipsis'} whiteSpace={'nowrap'} overflow={'hidden'}>Quận Tây Hồ, Hà Nội, Quận Tây Hồ, Hà NộiQuận Tây Hồ, Hà NộiQuận Tây Hồ, Hà Nội</Typography>
+                                    <Tooltip placement='right' title={item.motorbike.address}>
+                                        <Typography textOverflow={'ellipsis'} whiteSpace={'nowrap'} overflow={'hidden'}>{item.motorbike.address}</Typography>
                                     </Tooltip>
                                 </Box>
                                 <Box display={'flex'}>
                                     <Box width={"50%"} borderRight={'1px #8B4513 solid'} flexDirection={"column"} justifyContent={'center'} display={'flex'} alignItems={'center'}>
                                         <Box marginTop={'10px'}>
-                                            <Avatar src={''} /> 
+                                            <Avatar src={item.motorbike.user.avatarUrl} /> 
                                         </Box>
                                         <Box width={"100%"}>
-                                        <Typography marginTop={'5px'} fontSize={'13px'} align='center' textOverflow={'ellipsis'} whiteSpace={'nowrap'} overflow={'hidden'}>Nguyễn Xuân Trường Trường Trường Trường</Typography>   
+                                        <Typography marginTop={'5px'} fontSize={'13px'} align='center' textOverflow={'ellipsis'} whiteSpace={'nowrap'} overflow={'hidden'}>{item.motorbike.user.name}</Typography>   
                                         </Box>
                                     </Box>
                                     <Box width={"50%"} display={'flex'} justifyContent={'center'} alignItems={'center'}>
@@ -117,9 +130,9 @@ const Wallet = () => {
                                         </Button>
                                     </Box>
                                 </Box>
-                                <Box display={'flex'}  marginTop={'10px'} justifyContent={'center'} alignItems={'center'} gap={'5px'}>
+                                <Box display={'flex'}  marginTop={'10px'} justifyContent={'space-between'} alignItems={'center'} >
                                     <Box display={'flex'}>
-                                        <Typography fontWeight={'bold'} fontSize={'19px'}>250.000đ</Typography>
+                                        <Typography fontWeight={'bold'} fontSize={'19px'}>{Number(item.motorbike.priceRent) * 0.85 + "K"}</Typography>
                                         <Typography fontSize={'19px'}>/</Typography>
                                         <Typography paddingTop={'4px'} fontSize={'15px'}> Ngày</Typography>
                                     </Box>
@@ -134,11 +147,11 @@ const Wallet = () => {
                                     </IconButton>
                                 </Box>
                             </Box>
-                        </Box>  
+                        </Box> 
+                         ))} 
+                        {/* <Box marginTop={'30px'} height={'280px'} width={'43%'} border={'1px black solid'} borderRadius={'5px'}></Box>     
                         <Box marginTop={'30px'} height={'280px'} width={'43%'} border={'1px black solid'} borderRadius={'5px'}></Box>     
-                        <Box marginTop={'30px'} height={'280px'} width={'43%'} border={'1px black solid'} borderRadius={'5px'}></Box>     
-                        <Box marginTop={'30px'} height={'280px'} width={'43%'} border={'1px black solid'} borderRadius={'5px'}></Box>              
-
+                        <Box marginTop={'30px'} height={'280px'} width={'43%'} border={'1px black solid'} borderRadius={'5px'}></Box>               */}
                     </Box>
                 </Box>
             </Paper>
@@ -147,4 +160,4 @@ const Wallet = () => {
     );
 };
 
-export default Wallet;
+export default FavouritePage;

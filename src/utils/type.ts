@@ -11,7 +11,8 @@ export interface User {
     avatarUrl: string,
     role: Role,
     phoneVerified: boolean,
-    balance: number
+    balance: number,
+    googleIdentity : string
 }
 
 export interface Role {
@@ -181,4 +182,33 @@ export interface ResponseWithDrawal {
     bankNumber: string,
     status: string,
     userId: number
+}
+
+export interface UserFavourite {
+    userId : number,
+    motorbikeId : number,
+    createDatetime : string,
+    motorbikeFavourite : MotorbikeFavourite[]
+}
+export interface MotorbikeFavourite {
+    id : number,
+    priceRent : number,
+    equipments : string,
+    fuelConsumption : number,
+    provinceId : number,
+    districtId : number,
+    wardId : number,
+    imageUrl : string,
+    address : string,
+    location : string,
+    miscellaneous : string,
+    brandName : string,
+    modelName : string,
+    userId : UserForRent[]
+}
+
+export interface UserForRent {
+    userId : number,
+    name :  string,
+    avatarUrl : string
 }
