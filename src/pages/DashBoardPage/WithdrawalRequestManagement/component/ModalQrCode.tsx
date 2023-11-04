@@ -1,4 +1,4 @@
-import { Box, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import { Box, Dialog, DialogTitle, DialogContent, DialogActions, CircularProgress } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import usei18next from "../../../../hooks/usei18next";
 import { ModalContext } from "../../../../contexts/ModalContext";
@@ -19,6 +19,7 @@ const ModalQrCode = (props: MyDialogProps) => {
     const [qrUrl, setQrUrl] = useState<string>("");
     const { t } = usei18next()
     const { isMobile } = useThemePage();
+    const [loadingQrCode, setLoadingQrCode] = useState(false);
     const getQrCode = async () => {
         try {
             const req = {
@@ -34,6 +35,7 @@ const ModalQrCode = (props: MyDialogProps) => {
             );
             if (response.data.code === "00") {
                 setQrUrl(response.data.data.qrDataURL);
+                setLoadingQrCode(true);
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -58,20 +60,31 @@ const ModalQrCode = (props: MyDialogProps) => {
     return (
         <Dialog
             open={true}
+            fullWidth
             onClose={closeModal}
             TransitionComponent={Transition}
-            fullWidth
             PaperProps={{
                 sx: {
                     borderRadius: "16px",
                     padding: '1rem',
+                    alignItems: 'center',
                 },
             }}
         >
-            <Box textAlign={'center'}>
-                <img src={qrUrl} alt="" width={'100%'} style={{ objectFit: 'cover' }} />
+            <Box minHeight={"100px"} textAlign={'center'}>
+                {loadingQrCode == false ? (
+                    <CircularProgress /> // Hiển thị CircularProgress khi đang tải.
+                ) : (
+                    <img src={qrUrl} alt="" width={'70%'} style={{ objectFit: 'cover' }} />
+                )}
             </Box>
-            <MyCustomButton fontSize={isMobile ? 12 : 16} onClick={() => changeStatusTransfer()} variant="outlined" content={t("dashBoardManager.withdrawalRequest.buttonConfirmProcess")} />
+            <MyCustomButton
+                fontWeight={600}
+                width="70%"
+                fontSize={isMobile ? 12 : 16}
+                onClick={() => changeStatusTransfer()}
+                content={t("dashBoardManager.withdrawalRequest.buttonConfirmProcess")}
+            />
         </Dialog>
     );
 };

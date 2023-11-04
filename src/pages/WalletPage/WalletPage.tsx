@@ -11,7 +11,6 @@ import { formatMoney } from '../../utils/helper';
 import MyCustomButton from '../../components/common/MyButton';
 import { ModalContext } from '../../contexts/ModalContext';
 import ModalDepositMoney from './component/ModalDepositMoney';
-import ModalWithdrawalMoney from './component/ModalWithdrawalMoney';
 import { useNavigate } from 'react-router-dom';
 import WalletService from '../../services/WalletService';
 import { useAppSelector } from '../../hooks/useAction';
@@ -21,8 +20,7 @@ import { getUserInfo } from '../../redux/reducers/authReducer';
 import ModalStatus from './component/ModalStatus';
 import { SuccessIcon } from '../../assets/images';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
-
-
+import ModalWithdrawalMoney from './component/ModalWithdrawalMoney';
 
 const DatePickerStyle = styled('div')(({ theme }) => ({
     '& .MuiTextField-root': {
@@ -111,9 +109,9 @@ const Wallet = () => {
 
 
     return (
-        <Box display={'flex'} justifyContent={'center'} marginTop={'2rem'}>
+        <Box display={'flex'} justifyContent={'center'} margin={'2rem 0rem'}>
             <Box display={'flex'} flexDirection={'column'} gap={'1rem'} width={'80%'} textAlign={'center'}>
-                <Typography variant='h4' fontWeight={'bold'}>
+                <Typography variant='h4' fontSize={"32px"} fontWeight={'600'} color={'text.primary'}>
                     {t('wallet.title_my_wallet')}
                 </Typography>
                 <Box
@@ -122,7 +120,7 @@ const Wallet = () => {
                     justifyContent={isMobile ? 'center' : 'space-between'}
                     alignItems={'center'}
                     color={'common.white'}
-                    px={'2.5rem'}
+                    padding={'0px 16px'}
                     sx={{ backgroundColor: 'primary.main', borderTopLeftRadius: '8px', borderTopRightRadius: '8px' }}
                 >
                     <Typography variant='h6'>{t('wallet.title_summary_transaction')}</Typography>

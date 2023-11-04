@@ -9,5 +9,6 @@ export { ReactComponent as RepairIcon } from "./repair-svgrepo-com 1.svg";
 export { ReactComponent as TelephoneIcon } from "./telephone-bill-svgrepo-com 1.svg";
 export { ReactComponent as ProtectClothesIcon } from "./life-safe-safety-safety-vest-swim-vest-svgrepo-com 1.svg";
 export { ReactComponent as ManagementIcon } from "./management-icon.svg";
+export { ReactComponent as OrnamentIcon } from "./ornament.svg";
 
 

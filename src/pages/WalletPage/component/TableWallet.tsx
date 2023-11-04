@@ -138,7 +138,11 @@ function Row(props: { row: ReturnType<typeof createData> }) {
     ];
     return (
         <React.Fragment>
-            <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+            <TableRow
+                sx={{
+                    '& > *': { borderBottom: 'unset' },
+                    backgroundColor: '#f5f5f5'
+                }}>
                 <TableCell scope="row" >
                     <Box sx={{ display: 'flex', gap: '5px' }}>
                         <Typography>{row.name}</Typography>
@@ -161,51 +165,58 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                     <Collapse in={open} unmountOnExit>
                         <Box sx={{ margin: 1 }}>
                             {
-                                row.type === 'NAP' ?
-                                    <DataGrid
-                                        sx={{
-                                            '& .MuiDataGrid-virtualScroller': {
-                                                minHeight: "300px",
-                                            },
-                                            '& .MuiDataGrid-cell:focus-within': {
-                                                outline: "none",
-                                            },
-                                            width: isMobile ? '800px' : '100%'
-                                        }}
-                                        rows={row.transaction}
-                                        checkboxSelection={false}
-                                        initialState={{
-                                            pagination: { paginationModel: { pageSize: 7 } },
-                                        }}
-                                        pageSizeOptions={[7, 10, 25]}
-                                        columns={columnsDeposite}
-                                        loading={row.transaction.length === 0}
-                                        rowHeight={48}
-                                        disableRowSelectionOnClick
-                                        pagination
-                                    /> :
-                                    <DataGrid
-                                        sx={{
-                                            '& .MuiDataGrid-virtualScroller': {
-                                                minHeight: "300px",
-                                            },
-                                            '& .MuiDataGrid-cell:focus-within': {
-                                                outline: "none",
-                                            },
-                                            width: isMobile ? '800px' : '100%'
-                                        }}
-                                        rows={row.transaction}
-                                        checkboxSelection={false}
-                                        initialState={{
-                                            pagination: { paginationModel: { pageSize: 7 } },
-                                        }}
-                                        pageSizeOptions={[7, 10, 25]}
-                                        columns={columnsWithdrawal}
-                                        loading={row.transaction.length === 0}
-                                        rowHeight={48}
-                                        disableRowSelectionOnClick
-                                        pagination
-                                    />
+                                row.total === 0 ? (
+                                    <Typography
+                                        variant='body1'
+                                        padding={"1rem 0rem"}
+                                        sx={{ textAlign: 'center' }}
+                                    >
+                                        {t("wallet.title_no_transaction")}
+                                    </Typography>
+                                ) : (
+                                    row.type === 'NAP' ?
+                                        (
+                                            <DataGrid
+                                                sx={{
+                                                    '& .MuiDataGrid-cell:focus-within': {
+                                                        outline: "none",
+                                                    },
+                                                    width: isMobile ? '800px' : '100%'
+                                                }}
+                                                rows={row.transaction}
+                                                checkboxSelection={false}
+                                                initialState={{
+                                                    pagination: { paginationModel: { pageSize: 7 } },
+                                                }}
+                                                pageSizeOptions={[7, 10, 25]}
+                                                columns={columnsDeposite}
+                                                loading={row.transaction.length === 0}
+                                                rowHeight={48}
+                                                disableRowSelectionOnClick
+                                                pagination
+                                            />
+                                        ) : (
+                                            <DataGrid
+                                                sx={{
+                                                    '& .MuiDataGrid-cell:focus-within': {
+                                                        outline: "none",
+                                                    },
+                                                    width: isMobile ? '800px' : '100%'
+                                                }}
+                                                rows={row.transaction}
+                                                checkboxSelection={false}
+                                                initialState={{
+                                                    pagination: { paginationModel: { pageSize: 7 } },
+                                                }}
+                                                pageSizeOptions={[7, 10, 25]}
+                                                columns={columnsWithdrawal}
+                                                loading={row.transaction.length === 0}
+                                                rowHeight={48}
+                                                disableRowSelectionOnClick
+                                                pagination
+                                            />
+                                        )
+                                )
                             }
                         </Box>
                     </Collapse>

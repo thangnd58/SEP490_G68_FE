@@ -66,13 +66,13 @@ const UserService = {
         }
         return false;
     },
-    getUserInfo: async (): Promise<User | undefined> => {
+    getUserInfo: async (): Promise<User | string> => {
         const accessToken = JSON.parse(localStorage.getItem('token')!);
         if (accessToken) {
             const decode: any = decodeToken(accessToken);
             return await api.get(`${apiUser}/${decode.UserId}`);
         }
-        return undefined;
+        return "";
     },
     verifyUserRegister: async (ticketValue: string) => {
         return await api.post(`${apiVerify}`, { ticket: ticketValue });
@@ -80,8 +80,7 @@ const UserService = {
     getLisenceInfo: async (id?: number) => {
         const accessToken = JSON.parse(localStorage.getItem('token')!);
         const decode: any = decodeToken(accessToken);
-        return await api.get(`${apiLisence}/${decode.UserId}`);
-        
+        return await api.get(`${apiLisence}/${decode.UserId}`);  
     },
     forgotPassword: async (email: string) => {
         return api.post(`${apiForgotPassword}`, { email: email });

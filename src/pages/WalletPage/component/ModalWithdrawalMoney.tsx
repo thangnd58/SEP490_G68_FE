@@ -106,7 +106,7 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
             PaperProps={{ sx: { borderRadius: "16px", padding: '1rem 1.5rem' } }}
         >
             <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap:'8px' }}>
                     <img width={isMobile ? 20 : 30} height={isMobile ? 20 : 30} src={WithdrawalMoneyImage} />
                     <Typography variant="h5" fontSize={isMobile ? 16 : 24} mb={'8px'} ml={'2px'} fontWeight={700}>{props.title}</Typography>
                 </Box>
