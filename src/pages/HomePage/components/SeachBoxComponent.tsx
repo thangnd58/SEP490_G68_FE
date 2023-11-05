@@ -50,7 +50,7 @@ const SeachBoxComponent = () => {
         }),
 
         onSubmit: async (values, actions) => {
-            alert(JSON.stringify(values, null, 2));
+            // alert(JSON.stringify(values, null, 2));
             // convert date to timestamp
             const startDate = dayjs(values.startDate, "DD-MM-YYYY HH:mm").unix();
             const endDate = dayjs(values.endDate, "DD-MM-YYYY HH:mm").unix();
@@ -264,7 +264,6 @@ const SeachBoxComponent = () => {
                             }
                         }}
                         allowClear={false}
-
                     />
                     <MyCustomButton
                         borderRadius={8}
@@ -364,7 +363,7 @@ const SeachBoxComponent = () => {
                                                     top="100%"
                                                     zIndex="1"
                                                     sx={{ backgroundColor: "#ffffff" }}
-                                                    border={"3px solid #ebebeb"}
+                                                    // border={"3px solid #ebebeb"}
                                                     borderRadius={"8px"}>
                                                     {status === "OK" &&
                                                         data.map(({ place_id, description }) => (

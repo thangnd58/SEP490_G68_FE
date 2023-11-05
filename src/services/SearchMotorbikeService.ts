@@ -1,14 +1,12 @@
-import axios from "axios"
 import { Motorbike, SearchMotorbikeRequest } from "../utils/type"
+import api from "./BaseService"
 
-const baseUrl = 'https://provinces.open-api.vn/api'
-
-const apiGetMotorbikesByPlaceAndTime = baseUrl + '/?depth=1'
+const apiGetMotorbikesByPlaceAndTime = '/motorbike-rental'
 
 
 export const SearchMotorbikeServices = {
     getMotorbikesByPlaceAndTime: async (searchMotorbikeRequest: SearchMotorbikeRequest): Promise<Motorbike[]> => {
-        const response = await axios.get(apiGetMotorbikesByPlaceAndTime)
+        const response = await api.get(apiGetMotorbikesByPlaceAndTime + '?Address=' + searchMotorbikeRequest.address + '&StartDatetime=' + searchMotorbikeRequest.startDate + '&EndDatetime=' + searchMotorbikeRequest.endDate)
         return response.data
     }
 }
