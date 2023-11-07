@@ -29,6 +29,7 @@ import Wallet from '../pages/WalletPage/WalletPage';
 import WithdrawalRequestManagement from '../pages/DashBoardPage/WithdrawalRequestManagement/WithdrawalRequestManagement';
 import Favourite from '../pages/FavouritePage/FavouritePage';
 import ListMotorbikesSearchedPage from '../pages/HomePage/ListMotorbikesSearchedPage';
+import BrandManagement from '../pages/DashBoardPage/BrandManagement/BrandManagement';
 
 export type Route = {
     path: string;
@@ -69,6 +70,7 @@ export const routes: Route[] = [
     { path: `${ROUTES.admin.managemotorbikes}`, component: MotorbikeManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managerequestwithdraw}`, component: WithdrawalRequestManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managelicences}`, component: LicenceManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
+    { path: `${ROUTES.admin.managerBrand}`, component: BrandManagement, layout: LayoutAdmin, role: ["Admin"] },
     { path: `${ROUTES.admin.licenceregister}/:id`, component: LicenceRegisterDetail, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.motorbikeregister}/:id`, component: MotorbikeRegisterDetail, layout: LayoutAdmin, role: ["Admin", "Staff"] },
 
