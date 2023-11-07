@@ -20,6 +20,9 @@ export const authReducer = createSlice({
   reducers: {
     updateUser: (state, action) => {
       state.user = action.payload
+    },
+    deleteUser: (state) => {
+      state.user = null
     }
   },
 });
@@ -29,7 +32,6 @@ export const getUserInfo = (): any => {
     try {
       if (UserService.isLoggedIn()) {
         const userInfo = await UserService.getUserInfo();
-        console.log(userInfo);
         //@ts-ignore
         dispatch(updateUser(userInfo.data))
         //@ts-ignore
@@ -41,5 +43,18 @@ export const getUserInfo = (): any => {
   };
 };
 
-export const { updateUser } = authReducer.actions;
+export const deleteUserInfor = (): any => {
+  return async (dispatch: AppDispatch, getState: RootState) => {
+    try {
+      if (!UserService.isLoggedIn()) {
+        //@ts-ignore
+        dispatch(deleteUser())
+      }
+    } catch (err) { }
+  };
+};
+
+
+
+export const { updateUser, deleteUser } = authReducer.actions;
 export default authReducer.reducer;

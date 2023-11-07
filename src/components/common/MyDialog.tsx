@@ -88,7 +88,7 @@ export default function MyDialog(props: MyDialogProps) {
                                 borderRadius={8}
                                 fontSize={16}
                                 fontWeight={500}
-                                content={"Đồng ý"}
+                                content={"Xác nhận"}
                                 onClick={() => {
                                     if (props.onClickAgree) {
                                         props.onClickAgree();

@@ -30,7 +30,10 @@ import useThemePage from '../../../../hooks/useThemePage';
 
 const RegisterMotorbikeForm = () => {
 
+    const navigate = useNavigate();
     const { t } = usei18next();
+    const { isMobile } = useThemePage();
+    const { id } = useParams();
     const [listProvince, setListProvince] = useState<Province[]>([]);
     const [listDistrict, setListDistrict] = useState<Province>();
     const [listWard, setListWard] = useState<District>();
@@ -42,9 +45,6 @@ const RegisterMotorbikeForm = () => {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [selectedItems, setSelectedItems] = useState<string[]>([]);
     const [canSubmitting, setCanSubmitting] = useState(false);
-    const navigate = useNavigate();
-    const { isMobile } = useThemePage();
-    const { id } = useParams();
     const [listImageFiles, setListImageFiles] = useState<File[]>([]);
     const [getBrandName, setGetBrandName] = useState("");
     const [getModelName, setGetModelName] = useState("");
@@ -854,7 +854,7 @@ const RegisterMotorbikeForm = () => {
                             <Grid container spacing={2} columnSpacing={{ xs: 3, sm: 3, md: 3 }}>
                                 <Grid item xs={isMobile ? 6 : 4}>
                                     <Box key="Raincoat" onClick={() => handleItemClick("Raincoat")}>
-                                        <EquipmentItem  isChosen={values.raincoat} icon={<RainCoatIcon />} label={t("postMotorbike.registedForm.raincoat")} />
+                                        <EquipmentItem isChosen={values.raincoat} icon={<RainCoatIcon />} label={t("postMotorbike.registedForm.raincoat")} />
                                     </Box>
                                 </Grid>
                                 <Grid item xs={isMobile ? 6 : 4}>
@@ -1024,10 +1024,10 @@ const RegisterMotorbikeForm = () => {
                     borderRadius: '8px',
                 }}>
                     <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
-                        <Typography  variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "20px" : "24px"} fontWeight={600} textAlign={"start"}>
+                        <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "20px" : "24px"} fontWeight={600} textAlign={"start"}>
                             {t("postMotorbike.registedForm.selectAddress")}
                         </Typography>
-                        <Box  height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
+                        <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
                             <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeMapModal} position='bottom' />
                         </Box>
                     </Box>

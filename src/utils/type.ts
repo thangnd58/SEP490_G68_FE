@@ -12,7 +12,7 @@ export interface User {
     role: Role,
     phoneVerified: boolean,
     balance: number,
-    googleIdentity : string
+    googleIdentity: string
 }
 
 export interface Role {
@@ -112,6 +112,7 @@ export interface Motorbike {
     model: Model,
     miscellaneous: string,
     description: string,
+    distance: number,
 }
 
 export interface MotorbikeRequest {

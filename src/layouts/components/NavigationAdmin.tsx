@@ -32,6 +32,11 @@ export default function NavigationAdmin() {
             path: ROUTES.admin.managerequestwithdraw,
             name: t("dashBoardManager.Navigation.withdrawalRequestManager"),
             icon: VerifiedUser,
+        },
+        {
+            path: ROUTES.admin.managerBrand,
+            name: t("dashBoardManager.Navigation.brand"),
+            icon: VerifiedUser,
         }
     ];
 
