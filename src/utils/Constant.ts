@@ -33,7 +33,8 @@ export const ROUTES = {
         managelicences: "/manage-licences",
         licenceregister: "/manage-licences/licence-detail",
         motorbikeregister: "/manage-motorbikes/motorbike-detail",
-        managerequestwithdraw: "/manage-withdrawals"
+        managerequestwithdraw: "/manage-withdrawals",
+        managerBrand : "/manage-brands"
     },
     other:{
         pagenotfound: "/page-not-found",

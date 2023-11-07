@@ -215,7 +215,8 @@
       "manager": "Manager",
       "licenseManager": "License Manager",
       "motorbikeRentalManager": "Motorbike Rental Manager",
-      "withdrawalRequestManager": "Manage Withdrawal Requests"
+      "withdrawalRequestManager": "Manage Withdrawal Requests",
+      "brand" : "Manage Brands"
     },
     "License": "License",
     "Motobike": {
@@ -256,6 +257,13 @@
       "columnAmount": "Amount",
       "columnViewQr": "QR CODE",
       "buttonConfirmProcess": "Confirm successful transfer"
+    },
+    "brand" : {
+      "brandName" : "Brand Name",
+      "createDate": "Create Date",
+      "status" : "Status",
+      "action" : "Action",
+      "delete" : "Delete"
     }
   },
   "component": {

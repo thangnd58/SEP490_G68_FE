@@ -215,7 +215,8 @@
       "manager": "Quản lý",
       "licenseManager": "Quản lý bằng lái xe",
       "motorbikeRentalManager": "Quản lý xe máy cho thuê",
-      "withdrawalRequestManager": "Quản lý yêu cầu rút tiền"
+      "withdrawalRequestManager": "Quản lý yêu cầu rút tiền",
+      "brand" : "Quản lý hãng xe"
     },
     "License": "Bằng lái xe",
     "Motobike": {
@@ -256,6 +257,14 @@
       "columnAmount": "Số tiền",
       "columnViewQr": "QR CODE",
       "buttonConfirmProcess": "Xác nhận là đã chuyển khoản thành công"
+    },
+    "brand" : {
+      "brandName" : "Tên hãng",
+      "createDate": "Ngày tạo",
+      "status" : "Trạng thái",
+      "action" : "Chỉnh sửa",
+      "delete" : "Xóa"
+      
     }
   },
   "component": {
