@@ -107,6 +107,7 @@ const FormStyle = styled('form')(({ theme }) => ({
 
 const LoginForm = () => {
   const { login, externalLogin } = useAuth();
+  const { user } = useAppSelector((state) => state.userInfo);
   const { t } = usei18next();
   const { isMobile } = useThemePage();
   const navigate = useNavigate();
@@ -239,23 +240,24 @@ const LoginForm = () => {
               </Box>
             </Box>
             <Box className='google-buttons'>
-                <GoogleOAuthProvider clientId="1088937198611-lpsokcekdcethdobpeghbm43nf4fglcl.apps.googleusercontent.com">
-                  <GoogleLogin
-                    size='large'
-                    type='standard'
-                    logo_alignment='center'
-                    shape='circle'
-                    width={100}
-                    useOneTap={true}
-                    text='continue_with'
-                    onSuccess={credentialResponse => {
-                      handleGoogleLogin(credentialResponse)
-                    }}
-                    onError={() => {
-                      console.log('Login Failed');
-                    }}
-                  />
-                </GoogleOAuthProvider>
+
+              <GoogleOAuthProvider clientId="1088937198611-lpsokcekdcethdobpeghbm43nf4fglcl.apps.googleusercontent.com">
+                <GoogleLogin
+                  size='large'
+                  type='standard'
+                  logo_alignment='center'
+                  shape='circle'
+                  width={100}
+                  useOneTap={user ? false : true}
+                  text='continue_with'
+                  onSuccess={credentialResponse => {
+                    handleGoogleLogin(credentialResponse)
+                  }}
+                  onError={() => {
+                    console.log('Login Failed');
+                  }}
+                />
+              </GoogleOAuthProvider>
             </Box>
             <Box className='login-hint'>
               <Typography>

@@ -4,6 +4,7 @@
   width: 100%;
   height: 56px;
   border-radius: 8px;
+  border: 1px solid #e0e0e0;
 
   &:hover {
     border: 1px solid #8b4513;
@@ -18,4 +19,24 @@
     background-color: #8b4513; /* Màu nền mới */
     color: #fff; /* Màu chữ */
   }
+}
+
+/* Customer Search Box */
+.custom-search-box {
+  border-radius: 8px;
+  border: 1px solid #fff;
+  /* hover color */
+  &:hover {
+    border: 1px solid #8b4513;
+  }
+
+  /* focus color */
+  &:focus-within {
+    border: 1px solid #8b4513;
+    box-shadow: none;
+  }
+}
+
+.custom-advanced-search {
+  border-top: 1px solid #e0e0e0;
 }

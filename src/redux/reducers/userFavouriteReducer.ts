@@ -16,7 +16,6 @@ export const userFavouriteReducer = createSlice({
     reducers: {
       updateUser: (state, action) => {
         state.userFavourite = action.payload
-        console.log(state.userFavourite);
       }
     },
   });
