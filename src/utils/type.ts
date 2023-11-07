@@ -112,6 +112,7 @@ export interface Motorbike {
     model: Model,
     miscellaneous: string,
     description: string,
+    distance: number,
 }
 
 export interface MotorbikeRequest {

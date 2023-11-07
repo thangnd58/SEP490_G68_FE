@@ -1,8 +1,8 @@
-import { Box, CircularProgress, IconButton, MenuItem, Modal, Select, TextField, Typography, styled } from '@mui/material';
+import { Box, CircularProgress, Icon, IconButton, MenuItem, Modal, Select, Slider, TextField, Typography, styled } from '@mui/material';
 import React, { useEffect, useMemo, useState } from 'react'
 import usei18next from '../../hooks/usei18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AutoGraph, CheckBox, CheckBoxOutlineBlank, CloseOutlined, ElectricBike, FilterAltOutlined, LocationOnOutlined, MyLocation, RestartAltOutlined, SearchOutlined } from '@mui/icons-material';
+import { AutoGraph, CheckBox, CheckBoxOutlineBlank, CloseOutlined, ElectricBike, FilterAltOutlined, LocalGasStation, LocationOnOutlined, MyLocation, RestartAltOutlined, SearchOutlined } from '@mui/icons-material';
 import theme from '../../utils/theme';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
@@ -15,8 +15,9 @@ import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocom
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 import { ROUTES } from '../../utils/Constant';
-import { SearchMotorbikeRequest } from '../../utils/type';
+import { Motorbike, SearchMotorbikeRequest } from '../../utils/type';
 import { SearchMotorbikeServices } from '../../services/SearchMotorbikeService';
+import { forEach } from 'jszip';
 
 
 export default function ListMotorbikesSearchedPage() {
@@ -26,6 +27,7 @@ export default function ListMotorbikesSearchedPage() {
     const { t } = usei18next();
     const navigate = useNavigate();
     const { isMobile } = useThemePage();
+    const [listMotorbikes, setListMotorbikes] = useState<Motorbike[]>([]);
 
     const [isMapModalOpen, setMapModalOpen] = useState(false);
     const [isAdvancedFilterModalOpen, setAdvancedFilterModalOpen] = useState(false);
@@ -90,20 +92,22 @@ export default function ListMotorbikesSearchedPage() {
         },
     ]
 
-
-
     useEffect(() => {
-        getMotorbikesByPlaceAndTime();
+        getMotorbikesByPlaceAndTime(startDate, endDate, address);
     }, [startDate, endDate, address]);
 
-    const getMotorbikesByPlaceAndTime = async () => {
-        if (!startDate || !endDate || !address) return;
+    const getMotorbikesByPlaceAndTime = async (startDateTimeParam?: string, endDateTimeParam?: string, addressParam?: string) => {
+        if (!startDateTimeParam || !endDateTimeParam || !addressParam) {
+            return;
+        }
         const formData: SearchMotorbikeRequest = {
-            startDate: convertTimestampToDate(Number(startDate)),
-            endDate: convertTimestampToDate(Number(endDate)),
-            address: address
+            startDate: convertTimestampToDate(Number(startDateTimeParam)),
+            endDate: convertTimestampToDate(Number(endDateTimeParam)),
+            address: addressParam,
         }
         const response = await SearchMotorbikeServices.getMotorbikesByPlaceAndTime(formData);
+        setListMotorbikes(response);
+        return response;
     }
 
     // FORM CONTROLLER
@@ -122,10 +126,15 @@ export default function ListMotorbikesSearchedPage() {
         }),
 
         onSubmit: async (values, actions) => {
-            // alert(JSON.stringify(values, null, 2));
             // convert date to timestamp
             const startDate = dayjs(values.startDate, "DD-MM-YYYY HH:mm").unix();
             const endDate = dayjs(values.endDate, "DD-MM-YYYY HH:mm").unix();
+            let encodeAddress = '';
+            // encode address
+            if (values.address) {
+                encodeAddress = encodeURIComponent(values.address);
+            }
+            console.log(getMotorbikesByPlaceAndTime(startDate.toString(), endDate.toString(), encodeAddress));
         }
     }
     );
@@ -163,7 +172,7 @@ export default function ListMotorbikesSearchedPage() {
             key: 'electric',
             value: 'Xe điện',
             isChecked: false
-        },
+        }
     ];
 
     // state for select options
@@ -186,8 +195,68 @@ export default function ListMotorbikesSearchedPage() {
         }));
     };
 
+    const featureOptions = [
+        {
+            key: 'all',
+            value: 'Tất cả',
+            isChecked: false
+        },
+        {
+            key: 'raincoat',
+            value: 'Áo mưa',
+            isChecked: false
+        },
+        {
+            key: 'helmet',
+            value: 'Mũ bảo hiểm',
+            isChecked: false
+        },
 
+        {
+            key: 'reflectiveClothes',
+            value: 'Dây đeo phản quang',
+            isChecked: false
+        },
+        {
+            key: 'repairKit',
+            value: 'Bộ dụng cụ sửa chữa',
+            isChecked: false
+        },
+        {
+            key: 'caseTelephone',
+            value: 'Giá đỡ điện thoại',
+            isChecked: false
+        },
+        {
+            key: 'bagage',
+            value: 'Baga sau',
+            isChecked: false
+        },
+    ];
 
+    // state for feature options
+    const [featureOptionsState, setFeatureOptionsState] = useState(featureOptions);
+
+    const checkFeatureOptions: any = (key: string) => {
+        const isAllUnchecked = featureOptionsState.every(option => option.key === 'all' || option.isChecked); // Kiểm tra xem tất cả tùy chọn khác đã được chọn hay chưa (trừ 'all')
+
+        setFeatureOptionsState(prevState => prevState.map(option => {
+            if (key === 'all') {
+                option.isChecked = !isAllUnchecked;
+            } else if (key === '') {
+                option.isChecked = false;
+            } else if (option.key === 'all') {
+                option.isChecked = false;
+            } else if (option.key === key) {
+                option.isChecked = !option.isChecked;
+            }
+            return option;
+        }));
+    };
+
+    // Tạo hai mảng chứa dữ liệu của từng hàng
+    const featureOptionsRow1 = featureOptionsState.slice(0, Math.ceil(featureOptionsState.length / 2));
+    const featureOptionsRow2 = featureOptionsState.slice(Math.ceil(featureOptionsState.length / 2));
 
     // ADDRESS MODAL CONTROLLER
     const openMapModal = () => {
@@ -287,6 +356,29 @@ export default function ListMotorbikesSearchedPage() {
         setShowMenu(false);
     };
 
+
+    // HANDLE RangeSlider
+    const [price, setPrice] = React.useState<number[]>([0, 200]);
+
+    const handlePriceChange = (event: Event, newValue: number | number[]) => {
+        setPrice(newValue as number[]);
+    };
+
+    const [releaseYear, setReleaseYear] = React.useState<number[]>([1990, 2023]);
+    const handleReleaseYearChange = (event: Event, newValue: number | number[]) => {
+        setReleaseYear(newValue as number[]);
+    }
+
+    const [fuelConsumption, setFuelConsumption] = React.useState<number[]>([0, 10]);
+    const handleFuelConsumptionChange = (event: Event, newValue: number | number[]) => {
+        setFuelConsumption(newValue as number[]);
+    }
+
+    const [maxDistance, setMaxDistance] = React.useState<number[]>([0, 100]);
+    const handleMaxDistanceChange = (event: Event, newValue: number | number[]) => {
+        setMaxDistance(newValue as number[]);
+    }
+
     return (
         <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
             {/* filter motorbikes */}
@@ -304,8 +396,8 @@ export default function ListMotorbikesSearchedPage() {
                         <Box
                             className="custom-search-box"
                             display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ cursor: 'pointer', gap: '8px' }} padding={"4px 0px"}
-                            onClick={openMapModal} 
-                            >
+                            onClick={openMapModal}
+                        >
                             <LocationOnOutlined sx={{ color: theme.palette.action.disabled }} />
                             <Typography
                                 color={theme.palette.text.primary}
@@ -341,18 +433,12 @@ export default function ListMotorbikesSearchedPage() {
                             format="DD-MM-YYYY HH:mm"
                             placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
                             value={[
-                                dayjs(convertTimestampToDate(Number(startDate)), "DD-MM-YYYY HH:mm"),
-                                dayjs(convertTimestampToDate(Number(endDate)), "DD-MM-YYYY HH:mm"),
+                                dayjs(values.startDate, "DD-MM-YYYY HH:mm"),
+                                dayjs(values.endDate, "DD-MM-YYYY HH:mm"),
                             ]}
                             onChange={(dates, dateStrings) => {
-                                if (dates && dates.length === 2) {
-                                    setFieldValue('startDate', dateStrings[0]);
-                                    setFieldValue('endDate', dateStrings[1]);
-                                } else {
-                                    // Xử lý trường hợp người dùng xóa hết giá trị
-                                    setFieldValue('startDate', ''); // Đặt giá trị mặc định khác hoặc null tùy theo nhu cầu
-                                    setFieldValue('endDate', ''); // Đặt giá trị mặc định khác hoặc null tùy theo nhu cầu
-                                }
+                                setFieldValue('startDate', dateStrings[0]);
+                                setFieldValue('endDate', dateStrings[1]);
                             }}
                             allowClear={false}
                         />
@@ -372,11 +458,18 @@ export default function ListMotorbikesSearchedPage() {
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     backgroundColor: '#8B4513',
-
                                 }}
                             >
-                                <SearchOutlined sx={{ cursor: 'pointer', color: theme.palette.common.white }} />
+                                <SearchOutlined onClick={
+                                    () => {
+                                        handleSubmit();
+                                    }
+                                } sx={{ cursor: 'pointer', color: theme.palette.common.white }} />
                             </Box>
+                            {/* | */}
+                            <Typography color={theme.palette.action.disabled} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                |
+                            </Typography>
                             {/* filter icon */}
                             <MyCustomButton
                                 borderRadius={8}
@@ -385,12 +478,44 @@ export default function ListMotorbikesSearchedPage() {
                                 borderWeight={1}
                                 height='32px'
                                 variant='outlined'
-                                borderColor='#000'
+                                borderColor='#e0e0e0'
                                 fontColor='#000'
                                 icon={<FilterAltOutlined style={{ color: theme.palette.common.black, }} />}
                                 iconPosition='left'
                                 content={"Bộ lọc"}
                                 onClick={openAdvancedFilterModal} />
+
+                            {/* - */}
+                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                -
+                            </Typography>
+
+                            {/* sort field */}
+                            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
+                                <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                    Sắp xếp theo:
+                                </Typography>
+                                <Select
+                                    labelId="demo-select-small-label"
+                                    id="demo-select-small"
+                                    // value={selectedStatus}
+                                    native
+                                    displayEmpty
+                                    size='small'
+                                    sx={{
+                                        fontSize: '14px',
+                                        height: '32px',
+                                        borderRadius: '8px',
+                                    }}
+                                // onChange={handleChangeStatus}
+                                >
+                                    {sortOptions.map((option) => (
+                                        <option key={option.key} value={option.key}>
+                                            {option.value}
+                                        </option>
+                                    ))}
+                                </Select>
+                            </Box>
                         </Box>
 
                     </Box>
@@ -406,7 +531,28 @@ export default function ListMotorbikesSearchedPage() {
                     </Typography>
                 </Box>
                 {/* list motorbikes */}
+                {
+                    listMotorbikes.length > 0 ? (
+                        <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
+                            {/* display motobike address and license plate */}
+                            {
+                                listMotorbikes.map((motorbike: Motorbike, index: number) => (
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "400" }}>
+                                        <span style={{ color: 'red' }}>{index + 1}.</span> {motorbike.address} - {motorbike.licensePlate} - Distance: {motorbike.distance} - {motorbike.model.modelName}
+                                    </Typography>
+                                ))
+                            }
+
+                        </Box>
+                    ) : (
+
+                        <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
+                            <CircularProgress />
+                        </Box>
+                    )}
+
             </Box>
+
 
             {/* modal address */}
             <Modal
@@ -599,16 +745,18 @@ export default function ListMotorbikesSearchedPage() {
                 aria-describedby="map-modal-description"
                 sx={{
                     display: 'flex',
-                    alignItems: 'center',
+                    alignItems: 'start',
                     justifyContent: 'center',
                     margin: '32px 0px',
                     overflowY: 'auto',
                 }}>
-                <Box width={isMobile ? "70%" : "50%"} height={"auto"} sx={{
-                    padding: "16px 32px",
-                    backgroundColor: 'white',
-                    borderRadius: '8px',
-                }}>
+                <Box width={isMobile ? "70%" : "50%"}
+                    height={"auto"}
+                    sx={{
+                        padding: "16px 32px",
+                        backgroundColor: 'white',
+                        borderRadius: '8px',
+                    }}>
                     <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} pb={"8px"} borderBottom={"1px solid #e0e0e0"}>
                         <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "20px" : "24px"} fontWeight={600} textAlign={"start"}>
                             {"Bộ lọc nâng cao"}
@@ -617,9 +765,9 @@ export default function ListMotorbikesSearchedPage() {
                             <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeAdvancedFilterModal} position='bottom' />
                         </Box>
                     </Box>
-                    <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"start"} alignItems={"center"}>
+                    <Box width={"95%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} margin={"8px auto"} sx={{ gap: '16px' }}>
                         {/* Các lựa chọn */}
-                        <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"space-between"} alignItems={"center"} sx={{ gap: '8px' }} p={"8px 0px"}>
+                        <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"space-between"} alignItems={"center"} sx={{ gap: '8px' }}>
                             <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
                                 {/* tilte */}
                                 <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={600} textAlign={"start"}>
@@ -646,6 +794,7 @@ export default function ListMotorbikesSearchedPage() {
                                         borderRadius={4}
                                         fontSize={12}
                                         fontWeight={500}
+                                        borderWeight={1}
                                         height='28px'
                                         icon={
                                             selectOptionsState[0].isChecked ? <CheckBox style={{ color: "#8B4513", }} /> : <CheckBoxOutlineBlank style={{ color: "#8B4513", }}
@@ -676,7 +825,7 @@ export default function ListMotorbikesSearchedPage() {
                                     content={selectOptionsState[1].value}
                                     borderWeight={1}
                                     fontColor={"#000"}
-                                    borderColor={"#000"}
+                                    borderColor={"#e0e0e0"}
                                     onClick={
                                         () => {
                                             checkSelectOptions('5star');
@@ -694,7 +843,7 @@ export default function ListMotorbikesSearchedPage() {
                                     content={selectOptionsState[2].value}
                                     borderWeight={1}
                                     fontColor={"#000"}
-                                    borderColor={"#000"}
+                                    borderColor={"#e0e0e0"}
                                     onClick={
                                         () => {
                                             checkSelectOptions('electric');
@@ -704,75 +853,266 @@ export default function ListMotorbikesSearchedPage() {
                         </Box>
                         {/* Hãng xe và mẫu xe */}
                         {/* box price */}
-                        <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
-                            {/* min price */}
-                            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
-                                <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
-                                    Giá thấp nhất:
+                        <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                {/* tilte */}
+                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={600} textAlign={"start"}>
+                                    {"Giới hạn giá / Ngày thuê"}
                                 </Typography>
-                                <MyTextFieldCustom
-                                    variant="outlined"
-                                    size="small"
-                                    type='number'
-                                // onChange={handleChange}
-                                // value={values.minPrice}
-                                />
                             </Box>
-                            {/* max price */}
-                            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
-                                <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
-                                    Giá cao nhất:
-                                </Typography>
-                                <MyTextFieldCustom
-                                    variant="outlined"
-                                    size="small"
-                                    type='number'
-                                // onChange={handleChange}
-                                // value={values.maxPrice}
-                                />
+                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
+                                {/* price */}
+                                <Box sx={{ width: "97%" }}>
+                                    <Slider
+                                        value={price}
+                                        max={200}
+                                        min={0}
+                                        onChange={handlePriceChange}
+                                        valueLabelDisplay="auto"
+                                    />
+                                </Box>
                             </Box>
-
-
-
-
-
-                        </Box>
-                        {/* sort field */}
-                        <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
-                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
-                                Sắp xếp theo:
-                            </Typography>
-                            <Select
-                                labelId="demo-select-small-label"
-                                id="demo-select-small"
-                                // value={selectedStatus}
-                                native
-                                displayEmpty
-                                size='small'
-                                sx={{
-                                    fontSize: '14px',
-                                    height: '32px',
-                                    borderRadius: '8px',
-                                }}
-                            // onChange={handleChangeStatus}
-                            >
-                                {sortOptions.map((option) => (
-                                    <option key={option.key} value={option.key}>
-                                        {option.value}
-                                    </option>
-                                ))}
-                            </Select>
+                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                        Tối thiểu:
+                                    </Typography>
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                        {price[0]}K
+                                    </Typography>
+                                </Box>
+                                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                        Tối đa:
+                                    </Typography>
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                        {price[1]}K
+                                    </Typography>
+                                </Box>
+                            </Box>
                         </Box>
                         {/* Năm sản xuất */}
+                        <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                {/* tilte */}
+                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={600} textAlign={"start"}>
+                                    {"Năm sản xuất"}
+                                </Typography>
+                            </Box>
+                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
+                                {/* price */}
+                                <Box sx={{ width: "97%" }}>
+                                    <Slider
+                                        value={releaseYear}
+                                        onChange={handleReleaseYearChange}
+                                        valueLabelDisplay="auto"
+                                        max={2023}
+                                        min={1990}
+                                    />
+                                </Box>
+                            </Box>
+                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                        Tối thiểu:
+                                    </Typography>
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                        {releaseYear[0]}
+                                    </Typography>
+                                </Box>
+                                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                        Tối đa:
+                                    </Typography>
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                        {releaseYear[1]}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Box>
                         {/* Mức tiêu thụ nhiên liệu */}
+                        <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                {/* tilte */}
+                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={600} textAlign={"start"}>
+                                    {"Mức tiêu thụ nhiên liệu"}
+                                </Typography>
+                            </Box>
+                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
+                                {/* price */}
+                                <Box sx={{ width: "97%" }}>
+                                    <Slider
+                                        value={fuelConsumption}
+                                        onChange={handleFuelConsumptionChange}
+                                        valueLabelDisplay="auto"
+                                        max={10}
+                                        min={0}
+                                    />
+                                </Box>
+                            </Box>
+                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                        Tối thiểu:
+                                    </Typography>
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                        {fuelConsumption[0]}L/km
+                                    </Typography>
+                                </Box>
+                                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                        Tối đa:
+                                    </Typography>
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                        {fuelConsumption[1]}L/km
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Box>
                         {/* Khoảng cách */}
+                        <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                {/* tilte */}
+                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={600} textAlign={"start"}>
+                                    {"Khoảng cách"}
+                                </Typography>
+                            </Box>
+                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
+                                {/* price */}
+                                <Box sx={{ width: "97%" }}>
+                                    <Slider defaultValue={100} aria-label="Default" valueLabelDisplay="auto" />
+                                </Box>
+                            </Box>
+                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                        Tối đa:
+                                    </Typography>
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                        20km
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Box>
                         {/* Loại nhiên liệu */}
                         {/* Các tính năng */}
+                        <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"space-between"} alignItems={"center"} sx={{ gap: '8px' }}>
+                            <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
+                                {/* tilte */}
+                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={600} textAlign={"start"}>
+                                    {"Các tính năng"}
+                                </Typography>
+                                {/* action button */}
+                                <Box display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"} sx={{ gap: '8px' }}>
+                                    <MyCustomButton
+                                        borderRadius={4}
+                                        fontSize={12}
+                                        fontWeight={500}
+                                        height='28px'
+                                        variant='outlined'
+                                        backgroundColor='#F4EDE8'
+                                        noBorder={true}
+                                        content={"Xóa tất cả"}
+                                        onClick={
+                                            () => {
+                                                checkFeatureOptions('');
+                                            }
+                                        } />
+                                    <MyCustomButton
+                                        isChecked={featureOptionsState[0].isChecked}
+                                        borderRadius={4}
+                                        fontSize={12}
+                                        fontWeight={500}
+                                        height='28px'
+                                        borderWeight={1}
+                                        icon={
+                                            featureOptionsState[0].isChecked ? <CheckBox style={{ color: "#8B4513", }} /> : <CheckBoxOutlineBlank style={{ color: "#8B4513", }}
+                                            />
+                                        }
+                                        iconPosition='left'
+                                        variant='outlined'
+                                        content={selectOptionsState[0].value}
+                                        onClick={
+                                            () => {
+                                                checkFeatureOptions('all');
+                                            }
+                                        } />
+
+                                </Box>
+                            </Box>
+                            {/* content */}
+                            <Box width={"100%"} display={"flex"} flexDirection={"column"} sx={{ gap: '8px' }}>
+                                <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} sx={{ gap: '8px' }}>
+                                    {
+                                        featureOptionsRow1.map((option, index) => (
+                                            option.key !== 'all' && (
+                                                <MyCustomButton
+                                                    width='30%'
+                                                    key={index}
+                                                    justifyContent='start'
+                                                    isChecked={option.isChecked}
+                                                    borderRadius={4}
+                                                    fontSize={14}
+                                                    fontWeight={400}
+                                                    height='28px'
+                                                    variant='outlined'
+                                                    icon={
+                                                        option.isChecked ? <CheckBox style={{ color: "#8B4513", }} /> : <CheckBoxOutlineBlank style={{ color: "#8B4513", }}
+                                                        />
+                                                    }
+                                                    iconPosition='left'
+                                                    content={option.value}
+                                                    borderWeight={1}
+                                                    fontColor={"#000"}
+                                                    borderColor={"#e0e0e0"}
+                                                    onClick={
+                                                        () => {
+                                                            checkFeatureOptions(option.key);
+                                                        }
+                                                    } />
+                                            )))
+                                    }
+                                </Box>
+
+                                <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} sx={{ gap: '8px' }}>
+                                    {
+                                        featureOptionsRow2.map((option, index) => (
+                                            option.key !== 'all' && (
+                                                <MyCustomButton
+                                                    width='30%'
+                                                    justifyContent='start'
+                                                    key={index}
+                                                    isChecked={option.isChecked}
+                                                    borderRadius={4}
+                                                    fontSize={14}
+                                                    fontWeight={400}
+                                                    height='28px'
+                                                    variant='outlined'
+                                                    icon={
+                                                        option.isChecked ? <CheckBox style={{ color: "#8B4513", }} /> : <CheckBoxOutlineBlank style={{ color: "#8B4513", }}
+                                                        />
+                                                    }
+                                                    iconPosition='left'
+                                                    content={option.value}
+                                                    borderWeight={1}
+                                                    fontColor={"#000"}
+                                                    borderColor={"#e0e0e0"}
+                                                    onClick={
+                                                        () => {
+                                                            checkFeatureOptions(option.key);
+                                                        }
+                                                    } />
+                                            )))
+                                    }
+                                </Box>
+                            </Box>
+                        </Box>
                         {/* Action Button */}
                         <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} sx={{ gap: '8px' }} p={"8px 0px"}>
                             <MyCustomButton
                                 borderRadius={8}
-                                fontWeight={500}
+                                fontWeight={400}
+                                fontSize={14}
                                 variant='outlined'
                                 icon={<RestartAltOutlined style={{ color: "#8B4513", }} />}
                                 iconPosition='left'
@@ -784,7 +1124,8 @@ export default function ListMotorbikesSearchedPage() {
                                 } />
                             <MyCustomButton
                                 borderRadius={8}
-                                fontWeight={500}
+                                fontWeight={400}
+                                fontSize={14}
                                 content={"Áp dụng bộ lọc"}
                                 onClick={
                                     () => {

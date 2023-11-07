@@ -27,11 +27,12 @@ interface CustomButtonProps {
   fontColor?: string;
   borderColor?: string;
   borderWeight?: number;
+  justifyContent?: 'start' | 'center' | 'end';
 }
 
-const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, className, width, height, fontSize, fontWeight, uppercase, borderRadius, icon, iconPosition, variant, type, disabled, isWrap, backgroundColor, noBorder, fontColor, borderColor, borderWeight,isChecked }) => {
+const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, className, width, height, fontSize, fontWeight, uppercase, borderRadius, icon, iconPosition, variant, type, disabled, isWrap, backgroundColor, noBorder, fontColor, borderColor, borderWeight, isChecked,justifyContent }) => {
   let borderWeightValue = borderWeight || 2;
-  let backgroundColorCheckedValue = isChecked==true ? '#f5e9e1' : (isChecked==false ? '#fff' : (backgroundColor ? backgroundColor : (disabled ? '#777E90' : (variant === 'outlined' ? '#fff' : '#8B4513'))));
+  let backgroundColorCheckedValue = isChecked == true ? '#f5e9e1' : (isChecked == false ? '#fff' : (backgroundColor ? backgroundColor : (disabled ? '#777E90' : (variant === 'outlined' ? '#fff' : '#8B4513'))));
   return (
     <CustomButton
       disabled={disabled}
@@ -39,6 +40,7 @@ const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, classNa
       onClick={onClick}
       type={type}
       style={{
+        justifyContent: justifyContent || 'center',
         width: width || 'auto',
         height: height || 'auto',
         textTransform: uppercase ? 'uppercase' : 'none',

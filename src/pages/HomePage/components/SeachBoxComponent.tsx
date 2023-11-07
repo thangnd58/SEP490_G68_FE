@@ -55,7 +55,10 @@ const SeachBoxComponent = () => {
             const startDate = dayjs(values.startDate, "DD-MM-YYYY HH:mm").unix();
             const endDate = dayjs(values.endDate, "DD-MM-YYYY HH:mm").unix();
 
-            navigate(`${ROUTES.search.filtermotorbike}/${startDate}/${endDate}/${values.address}`)
+            // encode address
+            const encodeAddress = encodeURIComponent(values.address);
+
+            navigate(`${ROUTES.search.filtermotorbike}/${startDate}/${endDate}/${encodeAddress}`)
         }
     }
     );
