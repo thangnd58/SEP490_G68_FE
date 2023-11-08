@@ -1,12 +1,12 @@
 import React, { memo, useState } from 'react';
-import { AppBar, Avatar, Badge, Box, Button, Divider, Drawer, IconButton, InputAdornment, InputLabel, List, ListItem, ListItemText, Menu, MenuItem, OutlinedInput, Popover, Typography, } from '@mui/material';
+import { AppBar, Avatar, Badge, Box, Button, Divider, Drawer, IconButton, InputAdornment, InputLabel, List, ListItem, ListItemText, Menu, MenuItem, OutlinedInput, Popover, Tooltip, Typography, } from '@mui/material';
 import UserService from '../../services/UserService';
 import { AuthContext, useAuth } from '../../contexts/AuthContext';
 import usei18next from '../../hooks/usei18next';
 import { useNavigate } from 'react-router';
 import MenuIcon from '@mui/icons-material/Menu';
 import useThemePage from '../../hooks/useThemePage';
-import { AccountBox, Close, ExitToApp, Home, ListAlt, Loyalty, ManageAccounts, Notifications, Search, VpnKey, WalletOutlined } from '@mui/icons-material';
+import { AccountBox, AddShoppingCart, Close, ExitToApp, Home, ListAlt, Loyalty, ManageAccounts, Notifications, NotificationsActive, NotificationsActiveOutlined, Search, VpnKey, WalletOutlined } from '@mui/icons-material';
 import { LogoHeader, NotificationIcon, UnitedKingDomFlag, VietNamFlag } from '../../assets/images';
 import { ROUTES } from '../../utils/Constant';
 import MyIcon from '../../components/common/MyIcon';
@@ -73,6 +73,7 @@ function Header() {
 
     return (
         <>
+            {/* DESKTOP */}
             <AppBar
                 position="static"
                 color="default"
@@ -102,11 +103,32 @@ function Header() {
                             <MyIcon icon={<LanguageBox />} hasTooltip tooltipText={isVn ? 'Tiếng Việt' : 'English'} position='left' />
 
                             {isLogin ? (
-                                <IconButton >
-                                    <Badge badgeContent={100} color="primary">
-                                        <IconBox image={NotificationIcon} width={24} height={28.23} onClick={() => navigate(ROUTES.homepage)} />
-                                    </Badge>
-                                </IconButton>) : null
+                                <>
+                                    <MyIcon
+                                        icon={
+                                            <NotificationsActiveOutlined
+                                                sx={{ color: "#777E90" }}
+                                                onClick={() => navigate(ROUTES.homepage)}
+                                            />
+                                        }
+                                        badgeContent='100'
+                                        badgeColor='primary'
+                                        hasBagde
+                                        hasTooltip
+                                        tooltipText={t("header.notificaiton")} position='bottom' />
+                                    <MyIcon
+                                        icon={
+                                            <AddShoppingCart
+                                                sx={{ color: "#777E90" }}
+                                                onClick={() => navigate(ROUTES.homepage)}
+                                            />
+                                        }
+                                        hasTooltip
+                                        tooltipText={t("header.cart")} position='bottom' />
+
+                                </>
+                            ) : null
+
                             }
 
                             <Divider sx={{ borderLeft: '1px solid #B1B5C3', height: 32 }} />
@@ -250,6 +272,8 @@ function Header() {
                     )}
                 </Box>
             </AppBar>
+
+            {/* MOBILE */}
             <Drawer
                 sx={{ '& .MuiDrawer-paper': { width: "100%" } }}
                 anchor="left"
