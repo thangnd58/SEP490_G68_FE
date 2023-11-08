@@ -11,13 +11,13 @@ import { ModalContext } from '../../../contexts/ModalContext';
 import MotorbikeDetailModal from './MotorbikeDetailModal';
 import MyIcon from '../../../components/common/MyIcon';
 
-export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean }) {
+export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean, startDate?: string, endDate?: string }) {
     const { t } = usei18next();
     const { setContentModal, setShowModal } = useContext(ModalContext);
 
     const showMotorbikeDetailModal = () => {
         setContentModal(
-            <MotorbikeDetailModal motorbikeId={props.motorbike.id} />
+            <MotorbikeDetailModal motorbikeId={props.motorbike.id} startDate={props.startDate} endDate={props.endDate} />
         )
         setShowModal(true)
     }
@@ -58,15 +58,15 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                 />
                 {/* User Avatar */}
                 <Tooltip title={props.motorbike.user.name} placement='right-end'>
-                 <Avatar sx={{
+                    <Avatar sx={{
                         position: 'absolute',
                         bottom: -20,
                         left: 12,
                         width: '40px',
                         height: '40px',
                         borderRadius: '50%',
-                    }} src={props.motorbike.user.avatarUrl} /> 
-                 </Tooltip>
+                    }} src={props.motorbike.user.avatarUrl} />
+                </Tooltip>
                 {/* Favorite Icon */}
                 {
                     props.motorbike.isFavourite ? (

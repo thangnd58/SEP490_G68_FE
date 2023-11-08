@@ -220,3 +220,27 @@ export interface SearchMotorbikeRequest {
     endDate: string,
     address: string
 }
+
+
+export interface BookingRequest {
+    motorbikeId: number,
+    deliveryMode: string,
+    address: string,
+    startDatetime: string,
+    endDatetime: string,
+    couponCode: string
+}
+
+export interface BookingResponse {
+    motorbikeId: number,
+    deliveryMode: string,
+    address: string,
+    startDatetime: string,
+    endDatetime: string,
+    rentalDays: number,
+    motorbikes: any,
+    feeOfService: number,
+    totalAmountTemp: number,
+    couponCode: string,
+    totalAmount: number
+}
