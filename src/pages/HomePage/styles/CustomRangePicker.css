@@ -37,6 +37,26 @@
   }
 }
 
+.custom-search-box-1 {
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  /* hover color */
+  &:hover {
+    border: 1px solid #8b4513;
+  }
+
+  /* focus color */
+  &:focus-within {
+    border: 1px solid #8b4513;
+    box-shadow: none;
+  }
+}
+
 .custom-advanced-search {
   border-top: 1px solid #e0e0e0;
+}
+
+.ant-picker-dropdown {
+  z-index: 9999;
 }

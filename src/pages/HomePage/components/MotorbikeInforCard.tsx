@@ -17,7 +17,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
 
     const showMotorbikeDetailModal = () => {
         setContentModal(
-            <MotorbikeDetailModal motorbike={props.motorbike} />
+            <MotorbikeDetailModal motorbikeId={props.motorbike.id} />
         )
         setShowModal(true)
     }
