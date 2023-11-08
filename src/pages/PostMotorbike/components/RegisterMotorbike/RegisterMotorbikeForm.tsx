@@ -25,6 +25,7 @@ import UploadImageService from '../../../../services/UploadImageService';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '../../../../utils/Constant';
 import useThemePage from '../../../../hooks/useThemePage';
+import Editor from '../../../../components/common/Editor';
 
 
 
@@ -824,25 +825,29 @@ const RegisterMotorbikeForm = () => {
                     title={t("postMotorbike.registedForm.description")}
                     isRequired={false}
                     item={
-                        <TextField
-                            sx={{
-                                "& .MuiOutlinedInput-root fieldset": { borderRadius: "8px" },
-                                "& .MuiOutlinedInput-root:hover fieldset": {
-                                    borderColor: theme.palette.primary.main,
-                                },
-                                "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-                                    borderColor: theme.palette.primary.main,
-                                }
-                            }}
-                            name='description'
-                            value={values.description}
-                            onChange={handleChange}
-                            rows={8}
-                            multiline
-                            fullWidth
-                            type='number'
-                            placeholder={t("postMotorbike.registedForm.descriptionPlaceHolder")}
-                        />
+                        <Editor onChangeData={(data) => {
+                            setFieldValue("description", data);
+                        }}
+                            content={values.description} />
+                        // <TextField
+                        //     sx={{
+                        //         "& .MuiOutlinedInput-root fieldset": { borderRadius: "8px" },
+                        //         "& .MuiOutlinedInput-root:hover fieldset": {
+                        //             borderColor: theme.palette.primary.main,
+                        //         },
+                        //         "& .MuiOutlinedInput-root.Mui-focused fieldset": {
+                        //             borderColor: theme.palette.primary.main,
+                        //         }
+                        //     }}
+                        //     name='description'
+                        //     value={values.description}
+                        //     onChange={handleChange}
+                        //     rows={8}
+                        //     multiline
+                        //     fullWidth
+                        //     type='number'
+                        //     placeholder={t("postMotorbike.registedForm.descriptionPlaceHolder")}
+                        // />
                     }
                 />
 
@@ -979,25 +984,28 @@ const RegisterMotorbikeForm = () => {
                     isRequired={false}
                     secondTitle={t("postMotorbike.registedForm.miscellaneousSecondTitle")}
                     item={
-                        <TextField
-                            sx={{
-                                "& .MuiOutlinedInput-root fieldset": { borderRadius: "8px" },
-                                "& .MuiOutlinedInput-root:hover fieldset": {
-                                    borderColor: theme.palette.primary.main,
-                                },
-                                "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-                                    borderColor: theme.palette.primary.main,
-                                }
-                            }}
-                            name='miscellaneous'
-                            value={values.miscellaneous}
-                            onChange={handleChange}
-                            rows={8}
-                            multiline
-                            fullWidth
-                            type='number'
-                            placeholder={t("postMotorbike.registedForm.miscellaneousPlaceHolder")}
-                        />
+                        <Editor onChangeData={(data) => {
+                            setFieldValue("miscellaneous", data);
+                        }} content={values.miscellaneous} />
+                        // <TextField
+                        //     sx={{
+                        //         "& .MuiOutlinedInput-root fieldset": { borderRadius: "8px" },
+                        //         "& .MuiOutlinedInput-root:hover fieldset": {
+                        //             borderColor: theme.palette.primary.main,
+                        //         },
+                        //         "& .MuiOutlinedInput-root.Mui-focused fieldset": {
+                        //             borderColor: theme.palette.primary.main,
+                        //         }
+                        //     }}
+                        //     name='miscellaneous'
+                        //     value={values.miscellaneous}
+                        //     onChange={handleChange}
+                        //     rows={8}
+                        //     multiline
+                        //     fullWidth
+                        //     type='number'
+                        //     placeholder={t("postMotorbike.registedForm.miscellaneousPlaceHolder")}
+                        // />
                     }
                 />
                 <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"center"} margin={"32px 0px 0px 0px"}>
