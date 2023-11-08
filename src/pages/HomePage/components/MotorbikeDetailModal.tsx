@@ -262,7 +262,31 @@ export default function MotorbikeDetailModal(props: { motorbike: Motorbike }) {
                 </Box>
 
                 <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+                {/* Mô tả */}
+                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
+                  <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                    {t("postMotorbike.listform.description")}
+                  </Typography>
+                  <Box width={"100%"}>
+                    <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
+                      <div dangerouslySetInnerHTML={{ __html: props.motorbike?.description || "" }}></div>
+                    </Typography>
+                  </Box>
+                </Box>
+                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
 
+                {/* Điều khoản khác */}
+                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
+                  <Typography variant="h6" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                    {t("postMotorbike.listform.miscellaneous")}
+                  </Typography>
+                  <Box width={"100%"}>
+                    <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
+                      <div dangerouslySetInnerHTML={{ __html: props.motorbike?.miscellaneous || "" }}></div>
+                    </Typography>
+                  </Box>
+                </Box>
+                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
                 {/* Biển số xe */}
                 <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
                   <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>

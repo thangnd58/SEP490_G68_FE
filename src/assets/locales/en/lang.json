@@ -306,7 +306,8 @@
       "address": "Address",
       "description": "Description",
       "defaultPrice": "Default Price",
-      "profit": "Profit"
+      "profit": "Profit",
+      "miscellaneous": "Miscellaneous"
     },
     "registedForm": {
       "updateTitle": "Update Information",

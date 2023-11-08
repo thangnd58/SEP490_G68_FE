@@ -307,7 +307,8 @@
       "address": "Địa chỉ",
       "description": "Mô tả",
       "defaultPrice": "Giá thuê mặc định",
-      "profit": "Lợi nhuận"
+      "profit": "Lợi nhuận",
+      "miscellaneous": "Điều khoản khác"
     },
     "registedForm": {
       "updateTitle": "Cập nhật thông tin xe",
