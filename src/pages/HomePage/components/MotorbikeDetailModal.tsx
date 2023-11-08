@@ -3,386 +3,666 @@ import { Motorbike } from '../../../utils/type'
 import MyDialog from '../../../components/common/MyDialog'
 import usei18next from '../../../hooks/usei18next';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
-import { Box, Chip, CircularProgress, Divider, Grid, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, Chip, CircularProgress, Divider, Grid, IconButton, MenuItem, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import MyIcon from '../../../components/common/MyIcon';
-import { CloseOutlined, GasMeterOutlined, LocalDrinkOutlined, LocationOn, NewReleasesOutlined } from '@mui/icons-material';
+import { CloseOutlined, FormatBoldRounded, GasMeterOutlined, LocalDrinkOutlined, LocationOn, LocationOnOutlined, Loyalty, MyLocation, NewReleasesOutlined } from '@mui/icons-material';
 import MySlideShowImage from '../../../components/common/MySlideShowImage';
 import theme from '../../../utils/theme';
 import { CartIcon, HelmetIcon, ProtectClothesIcon, RainCoatIcon, RepairIcon, TelephoneIcon } from '../../../assets/icons';
 import useThemePage from '../../../hooks/useThemePage';
 import { ModalContext } from '../../../contexts/ModalContext';
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
+import MyCustomButton from '../../../components/common/MyButton';
+import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
+import { useFormik } from 'formik';
+import * as Yup from "yup";
+import { PostMotorbikeService } from '../../../services/PostMotorbikeService';
+import RegisterMotorbikeItem from '../../PostMotorbike/components/RegisterMotorbike/RegisterMotorbikeItem';
 
-export default function MotorbikeDetailModal(props: { motorbike: Motorbike }) {
-  interface Location {
-    lat: number,
-    lng: number,
-  }
+export default function MotorbikeDetailModal(props: { motorbikeId: number | undefined, searchedAddress?: string, startDate?: string, endDate?: string }) {
 
   const { isMobile, isIpad } = useThemePage();
   const { t } = usei18next();
   const [equipmentList, setEquipmentList] = useState<string[]>([]);
   const [location, setLocation] = useState<Location>();
   const { closeModal } = useContext(ModalContext);
+  const { RangePicker } = DatePicker;
+  const [isMapModalOpen, setMapModalOpen] = useState(false);
+  const [motorbike, setMotorbike] = useState<Motorbike>();
+
+  interface Location {
+    lat: number,
+    lng: number,
+  }
+
+  // get motorbike by id
+  useEffect(() => {
+    if (props.motorbikeId)
+      getMotorbikeById(props.motorbikeId.toString());
+  }, [props.motorbikeId]);
+  const getMotorbikeById = async (id: string) => {
+    try {
+      const response = await PostMotorbikeService.getMotorbikeById(id);
+      if (response) {
+        setMotorbike(response);
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
+  // format number * 1000 to type 1.000 VND/ngày
+  const formatMoney = (money: number | undefined) => {
+    if (money) {
+      return (money * 1000).toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+    }
+    return 0;
+  }
+  // convert timestamp to date
+  const convertTimestampToDate = (timestamp: number) => {
+    return dayjs(timestamp * 1000).format("DD-MM-YYYY HH:mm");
+  }
 
   useEffect(() => {
-    if (props.motorbike) {
-      const tempEquipmentList = props.motorbike.equipments.split(",");
-      const location = props.motorbike.location.split(",");
+    if (motorbike) {
+      const tempEquipmentList = motorbike.equipments.split(",");
+      const location = motorbike.location.split(",");
       const lat = Number(location[0]);
       const lng = Number(location[1]);
       setLocation({ lat, lng });
       setEquipmentList(tempEquipmentList);
     }
-  }, [props.motorbike])
+  }, [motorbike])
+
+  // FORM CONTROLLER
+  const formik = useFormik({
+    initialValues: {
+      address: "address",
+      lat: 21.028511,
+      lng: 105.804817,
+      startDate: convertTimestampToDate(Number(props?.startDate)),
+      endDate: convertTimestampToDate(Number(props?.startDate)),
+    },
+    validationSchema: Yup.object({
+      address: Yup.string().required(t("postMotorbike.registedForm.addressRequired")),
+      startDate: Yup.string().required(t("postMotorbike.registedForm.startDateRequired")),
+      endDate: Yup.string().required(t("postMotorbike.registedForm.endDateRequired")),
+    }),
+
+    onSubmit: async (values, actions) => {
+      // convert date to timestamp
+      const startDate = dayjs(values.startDate, "DD-MM-YYYY HH:mm").unix();
+      const endDate = dayjs(values.endDate, "DD-MM-YYYY HH:mm").unix();
+      let encodeAddress = '';
+      // encode address
+      if (values.address) {
+        encodeAddress = encodeURIComponent(values.address);
+      }
+      // console.log(getMotorbikesByPlaceAndTime(startDate.toString(), endDate.toString(), encodeAddress));
+    }
+  }
+  );
+
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleSubmit,
+    setFieldValue
+  } = formik;
 
   // MAP CONTROLLER
-  // Map with search box
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
     libraries: ["places"],
   });
 
-  const defaultLoction = useMemo(() => ({ lat: location?.lat || 10.762622, lng: location?.lng || 106.660172 }), [location]);
-  return (
+  // declare vaiables
+  const defaultDeliveryLoction = useMemo(() => ({ lat: values.lat, lng: values.lng }), []);
+  const [selected, setSelected] = useState<Location>(defaultDeliveryLoction);
+  const [showMenu, setShowMenu] = useState(false);
+  const defaultLoctionMotorbike = useMemo(() => ({ lat: location?.lat || 10.762622, lng: location?.lng || 106.660172 }), [location]);
 
-    <Modal
-      open={true}
-      onClose={closeModal}
-      aria-labelledby="map-modal-title"
-      aria-describedby="map-modal-description"
-      sx={{
-        display: 'flex',
-        alignItems: 'start',
-        justifyContent: 'center',
-        margin: '32px 0px',
-        overflowY: 'auto',
-      }}>
-      <Box width={"90%"} height={"auto"}
+  // ADDRESS MODAL CONTROLLER
+  const openMapModal = () => {
+    setMapModalOpen(true);
+  };
+
+  const closeMapModal = () => {
+    setMapModalOpen(false);
+  };
+
+  // MAP CONTROLLER
+
+  // handle get location click then set default location motorbike
+  const handleGetLocationClick = () => {
+
+    if (motorbike) {
+      setValue(motorbike?.address);
+      setFieldValue("address", motorbike?.address);
+      setFieldValue("lat", location?.lat);
+      setFieldValue("lng", location?.lng);
+      setShowMenu(false);
+    }
+  };
+
+  // handle double click on map
+  const handleDoubleClick = (e: any) => {
+    setSelected({
+      lat: e.latLng.lat(),
+      lng: e.latLng.lng(),
+    });
+
+    getGeocode({
+      location: {
+        lat: e.latLng.lat(),
+        lng: e.latLng.lng(),
+      },
+    }).then((results) => {
+      setValue(results[0].formatted_address, false);
+      setFieldValue("address", results[0].formatted_address);
+      setFieldValue("lat", e.latLng.lat());
+      setFieldValue("lng", e.latLng.lng());
+      setShowMenu(false);
+    });
+  };
+
+  // handle change address
+  const {
+    value,
+    setValue,
+    suggestions: { status, data },
+    clearSuggestions,
+  } = usePlacesAutocomplete();
+
+  useEffect(() => {
+    if (values.address)
+      setValue(values.address);
+  }, [values.address]);
+
+  // handle select address
+  const handleSelect = async (address: any) => {
+    setValue(address, false);
+    clearSuggestions();
+    const results = await getGeocode({ address });
+    const { lat, lng } = await getLatLng(results[0]);
+    setSelected({ lat, lng });
+    setFieldValue("lat", lat);
+    setFieldValue("lng", lng);
+    setFieldValue("address", address);
+    setShowMenu(false);
+  };
+
+  return (
+    <>
+      <Modal
+        open={true}
+        aria-labelledby="map-modal-title"
+        aria-describedby="map-modal-description"
         sx={{
-          backgroundColor: '#fff',
-          borderRadius: '8px'
+          display: 'flex',
+          alignItems: 'start',
+          justifyContent: 'center',
+          margin: '32px 0px',
+          overflowY: 'auto',
         }}>
-        <Box
+        <Box width={"90%"} height={"auto"}
           sx={{
-            borderTopLeftRadius: "8px",
-            borderTopRightRadius: "8px",
             backgroundColor: '#fff',
-            borderBottom: '1px solid #E0E0E0',
-          }}
-          height={"10%"}
-          display={"flex"}
-          flexDirection={"row"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-          padding={"32px"}
-          position={"sticky"}
-          top={0}
-          zIndex={1000}
-        >
-          <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "24px" : "32px"} fontWeight={600} textAlign={"start"}>
-            {t("postMotorbike.listform.motorbikeInfo")}
-          </Typography>
-          <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
-            <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeModal} position='bottom' />
-          </Box>
-        </Box>
-        <Box
-          margin={isMobile ? "32px 32px" : "32px 64px"}
-          height={"100%"}
-          display={"flex"}
-          flexDirection={"column"}
-          justifyContent={"start"}
-          alignItems={"center"}
-          zIndex={999}
-        >
-          {/* Image List */}
+            borderRadius: '8px'
+          }}>
           <Box
-            width={"100%"}
+            sx={{
+              borderTopLeftRadius: "8px",
+              borderTopRightRadius: "8px",
+              backgroundColor: '#fff',
+              borderBottom: '1px solid #E0E0E0',
+            }}
+            height={"10%"}
             display={"flex"}
             flexDirection={"row"}
-            justifyContent={"center"}
+            justifyContent={"space-between"}
             alignItems={"center"}
-            mb={"16px"}>
-            <MySlideShowImage images={props.motorbike.imageUrl} />
+            padding={"32px"}
+            position={"sticky"}
+            top={0}
+            zIndex={1000}
+          >
+            <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "24px" : "32px"} fontWeight={600} textAlign={"start"}>
+              {t("postMotorbike.listform.motorbikeInfo")}
+            </Typography>
+            <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
+              <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeModal} position='bottom' />
+            </Box>
           </Box>
-
-          {/* Divider Line */}
-          <Divider sx={{ width: "100%", margin: "16px 0px" }} variant="middle" />
-          {/* Basic Infor List */}
           <Box
-            width={"100%"}
-            height={"auto"}
+            margin={isMobile ? "32px 32px" : "32px 64px"}
+            height={"100%"}
             display={"flex"}
             flexDirection={"column"}
-            justifyContent={"space-between"}
-            alignItems={"start"}
+            justifyContent={"start"}
+            alignItems={"center"}
+            zIndex={999}
           >
-            {/* Tên xe và địa chỉ */}
-            <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} margin={"16px 0px"}>
-              <Typography
-                color={theme.palette.text.primary}
-                variant="h5"
-                fontWeight="600"
-                fontSize={isMobile ? "32px" : "48px"}
-                textTransform={"uppercase"}>
-                {props.motorbike?.model?.modelName}
-              </Typography>
-              <Box display="flex" flexDirection="row" alignItems="center" width={"100%"} mb={"32px"}>
-                <MyIcon icon={<LocationOn />} hasTooltip tooltipText={t("postMotorbike.listform.badge-location")} onClick={() => { }} position='left' />
-                <Typography variant="h5" color={theme.palette.text.secondary} fontSize={isMobile ? "16px" : "20px"}>
-                  {props.motorbike?.address}
-                </Typography>
-              </Box>
-              <Divider sx={{ width: "100%" }} variant="fullWidth" />
-            </Box>
-            {/* Phần Thứ Nhất */}
+            {/* Image List */}
             <Box
               width={"100%"}
-              display="flex"
-              flexDirection={isIpad || isMobile ? "column" : "row"}
-              alignItems="start"
+              display={"flex"}
+              flexDirection={"row"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              mb={"16px"}>
+              {motorbike?.imageUrl && motorbike?.imageUrl.length > 0 && (
+                <MySlideShowImage images={motorbike.imageUrl} />)}
+            </Box>
+
+            {/* Divider Line */}
+            <Divider sx={{ width: "100%", margin: "16px 0px" }} variant="middle" />
+            {/* Basic Infor List */}
+            <Box
+              width={"100%"}
+              height={"auto"}
+              display={"flex"}
+              flexDirection={"column"}
               justifyContent={"space-between"}
-              paddingBottom="16px">
-
-              {/* Phần Thứ Hai */}
-              <Box
-                sx={{
-                  backgroundColor: "rgba(139, 69, 19, 0.05)",
-                  borderRadius: "8px",
-                  minHeight: "300px",
-                }}
-                margin={isIpad || isMobile ? "16px 0px" : "0px 0px"}
-                width={isIpad || isMobile ? "auto" : "25%"}
-                display="flex"
-                flexDirection="column"
-                alignItems="start"
-                padding="16px"
-              >
-                <Box display="flex" flexDirection="row" alignItems="center" width={"100%"} justifyContent={"space-between"} pb={"18px"}>
-                  <Typography variant="h5" color={theme.palette.text.primary} fontSize={"32px"} fontWeight="600">
-                    {t("postMotorbike.listform.profit")}
+              alignItems={"start"}
+            >
+              {/* Tên xe và địa chỉ */}
+              <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} margin={"16px 0px"}>
+                <Typography
+                  color={theme.palette.text.primary}
+                  variant="h5"
+                  fontWeight="600"
+                  fontSize={isMobile ? "32px" : "48px"}
+                  textTransform={"uppercase"}>
+                  {motorbike?.model?.modelName}
+                </Typography>
+                <Box display="flex" flexDirection="row" alignItems="center" width={"100%"} mb={"32px"}>
+                  <MyIcon icon={<LocationOn />} hasTooltip tooltipText={t("postMotorbike.listform.badge-location")} onClick={() => { }} position='left' />
+                  <Typography variant="h5" color={theme.palette.text.secondary} fontSize={isMobile ? "16px" : "20px"}>
+                    {motorbike?.address}
                   </Typography>
-                  <Chip
-                    style={{ fontSize: "28px", fontWeight: "600", borderRadius: "8px", padding: "16px 8px" }}
-                    color="success" label={Number(props.motorbike?.priceRent) * 0.85 + "K"} />
                 </Box>
-                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"}>
-                  <TableContainer
-                    sx={{
-                      borderRadius: '8px',
-                      backgroundColor: '#fff',
-                      border: '2px solid #8B4513',
-                      '& .MuiTableHead-root': {
-                        '& .MuiTableCell-head': {
-                          fontWeight: '600',
-                          fontSize: '20px',
-                        },
-
-                      },
-                    }}
-                  >
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell align="left">Loại</TableCell>
-                          <TableCell align="right">Giá</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        <TableRow>
-                          <TableCell align="left">Giá thuê mặc định</TableCell>
-                          <TableCell align="right">{props.motorbike?.priceRent} 000 VND</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell align="left">
-                            <>
-                              - Giá giảm
-                              <Chip
-                                style={{ fontSize: "16px", fontWeight: "600", borderRadius: "8px", marginLeft: "8px" }}
-                                color="error" label={"15%"} />
-                            </>
-                          </TableCell>
-                          <TableCell align="right">{Number(props.motorbike?.priceRent) * 0.15} 000 VND</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell align="left">Lợi nhuận</TableCell>
-                          <TableCell align="right">{Number(props.motorbike?.priceRent) * 0.85} 000 VND</TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </Box>
+                <Divider sx={{ width: "100%" }} variant="fullWidth" />
               </Box>
+              {/* Infor*/}
               <Box
-                width={isIpad || isMobile ? "100%" : "70%"}
+                width={"100%"}
                 display="flex"
-                flexDirection="column"
+                flexDirection={isIpad || isMobile ? "column" : "row"}
                 alignItems="start"
-                paddingBottom="16px"
-              >
-                {/* Thông tin xe */}
-                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"} mt={"16px"}>
-                  <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
-                    {t("postMotorbike.listform.motorbikeFeature")}
-                  </Typography>
+                justifyContent={"space-between"}
+                paddingBottom="16px">
 
-                  <Box width={"100%"}>
-                    <Box
-                      sx={{ backgroundColor: "rgba(19, 139, 31, 0.05)", borderRadius: "8px" }}
-                      padding={"16px"}
-                      display="flex"
-                      flexDirection={isMobile ? "column" : "row"}
-                      alignItems="center"
-                      gap={"8px"}
-                      justifyContent={"space-between"}>
-
-                      <MotorbikeFeatureItem
-                        icon={<NewReleasesOutlined color='primary' fontSize='large' />}
-                        title={t("postMotorbike.listform.release-year")}
-                        content={props.motorbike?.releaseYear}
-                        isMobile={isMobile}
-                        t={t}
-                      />
-                      <MotorbikeFeatureItem
-                        icon={<GasMeterOutlined color='primary' fontSize='large' />}
-                        title={t("postMotorbike.listform.type")}
-                        content={props.motorbike?.type}
-                        isMobile={isMobile}
-                        t={t}
-                      />
-                      <MotorbikeFeatureItem
-                        icon={<LocalDrinkOutlined color='primary' fontSize='large' />}
-                        title={t("postMotorbike.listform.fuel-consumption")}
-                        content={props.motorbike?.fuelConsumption + "L/100km"}
-                        isMobile={isMobile}
-                        t={t}
+                {/* Hóa đơn thanh toán */}
+                <Box
+                  sx={{
+                    backgroundColor: "rgba(139, 69, 19, 0.05)",
+                    borderRadius: "8px",
+                    minHeight: "300px",
+                  }}
+                  margin={isIpad || isMobile ? "16px 0px" : "0px 0px"}
+                  width={isIpad || isMobile ? "auto" : "35%"}
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="start"
+                  padding="16px"
+                >
+                  <Box display="flex" flexDirection="row" alignItems="center" width={"100%"} justifyContent={"flex-start"} >
+                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '24px', fontWeight: "600", }}>
+                      {formatMoney(motorbike?.priceRent) + "/ngày"}
+                    </Typography>
+                  </Box>
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"}>
+                    {/* Line */}
+                    <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
+                    {/* Chọn ngày giờ */}
+                    <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                      <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
+                        {/* start date */}
+                        <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                          Ngày bắt đầu:
+                        </Typography>
+                        {/* end date */}
+                        <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                          Ngày kết thúc:
+                        </Typography>
+                      </Box>
+                      <RangePicker
+                        className="custom-range-picker"
+                        style={{
+                          fontFamily: 'Inter',
+                          fontStyle: 'normal',
+                          fontSize: '20px',
+                          height: '48px',
+                        }}
+                        size='large'
+                        showTime={{ format: 'HH:mm' }}
+                        format="DD-MM-YYYY HH:mm"
+                        placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
+                        // value={[
+                        //     dayjs(values.startDate, "DD-MM-YYYY HH:mm"),
+                        //     dayjs(values.endDate, "DD-MM-YYYY HH:mm"),
+                        // ]}
+                        // onChange={(dates, dateStrings) => {
+                        //     setFieldValue('startDate', dateStrings[0]);
+                        //     setFieldValue('endDate', dateStrings[1]);
+                        // }}
+                        allowClear={false}
                       />
                     </Box>
-                  </Box>
-                </Box>
+                    {/* Chọn vị trí trả xe */}
+                    <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} marginTop={'8px'}>
+                      <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
+                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                          Địa điểm giao xe
+                        </Typography>
+                      </Box>
+                      <Box
+                        className="custom-search-box-1"
+                        width={"100%"}
+                        display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ cursor: 'pointer', gap: '8px' }}
+                        onClick={openMapModal}
+                      >
+                        <LocationOnOutlined sx={{
+                          color: theme.palette.action.disabled,
+                          marginLeft: '8px',
+                        }} />
+                        <Typography
+                          color={theme.palette.text.primary}
+                          sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                          padding={'11px 0px'}
+                          onChange={handleChange}
+                        >
+                          {values.address}
+                        </Typography>
+                      </Box>
+                    </Box>
+                    {/* Line */}
+                    <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
+                    {/* Đơn giá */}
+                    <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                      {/* Đơn giá thuê */}
+                      <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                          Đơn giá thuê
+                        </Typography>
+                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                          {formatMoney(motorbike?.priceRent)}/ngày
+                        </Typography>
+                      </Box>
+                      {/* Phí dịch vụ */}
+                      <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                          Phí dịch vụ
+                        </Typography>
+                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                          {formatMoney(motorbike?.priceRent)}/ ngày
+                        </Typography>
+                      </Box>
 
-                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
-                {/* Mô tả */}
-                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                  <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
-                    {t("postMotorbike.listform.description")}
-                  </Typography>
-                  <Box width={"100%"}>
-                    <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
-                      <div dangerouslySetInnerHTML={{ __html: props.motorbike?.description || "" }}></div>
-                    </Typography>
-                  </Box>
-                </Box>
-                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+                      {/* Phí bảo hiểm */}
+                      <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                          Phí bảo hiểm
+                        </Typography>
+                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                          {formatMoney(motorbike?.priceRent)}/ ngày
+                        </Typography>
+                      </Box>
+                    </Box>
+                    {/* Line */}
+                    <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
 
-                {/* Điều khoản khác */}
-                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                  <Typography variant="h6" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
-                    {t("postMotorbike.listform.miscellaneous")}
-                  </Typography>
-                  <Box width={"100%"}>
-                    <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
-                      <div dangerouslySetInnerHTML={{ __html: props.motorbike?.miscellaneous || "" }}></div>
-                    </Typography>
-                  </Box>
-                </Box>
-                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
-                {/* Biển số xe */}
-                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                  <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
-                    {t("postMotorbike.listform.licensePlate")}
-                  </Typography>
-                  <Box width={"100%"}>
-                    <Box display="flex" flexDirection="row" alignItems="center" justifyContent={"center"} borderRadius={"8px"} margin={"0px 16px"} padding={"16px 0px"} border={"2px solid #8B4513"}>
-                      <Typography variant="h5" fontWeight="600" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
-                        {props.motorbike?.licensePlate} {/* Thêm biển số xe */}
+                    {/* Tổng tiền và app mã khuyến mãi */}
+                    <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
+                      {/* Tổng tiền */}
+                      <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                          Tổng phí thuê xe
+                        </Typography>
+                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                          {formatMoney(motorbike?.priceRent)} x 1? ngày
+                        </Typography>
+                      </Box>
+                      {/* Mã khuyến mãi */}
+                      <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                        {/* <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                        Mã khuyến mãi
+                      </Typography>
+                      <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                        -120.000VND
+                      </Typography> */}
+                        <MyCustomButton iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick={() => { }} content={"Mã khuyến mãi"} variant='outlined' />
+                      </Box>
+                    </Box>
+                    {/* Line */}
+                    <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
+
+                    {/* Tổng tiền */}
+                    <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                      <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                        Tổng tiền
+                      </Typography>
+                      <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                        {formatMoney(motorbike?.priceRent)}
                       </Typography>
                     </Box>
+                    {/* Line */}
+                    <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
+
+                    {/* Button */}
+                    <MyCustomButton width='100%' onClick={() => { }} content={"Đặt xe"} variant='contained' />
+
                   </Box>
                 </Box>
+                {/* Thông tin xe */}
+                <Box
+                  width={isIpad || isMobile ? "100%" : "60%"}
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="start"
+                  paddingBottom="16px"
+                >
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"} mt={"16px"}>
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                      {t("postMotorbike.listform.motorbikeFeature")}
+                    </Typography>
 
-                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+                    <Box width={"100%"}>
+                      <Box
+                        sx={{ backgroundColor: "rgba(19, 139, 31, 0.05)", borderRadius: "8px" }}
+                        padding={"16px"}
+                        display="flex"
+                        flexDirection={isMobile ? "column" : "row"}
+                        alignItems="center"
+                        gap={"8px"}
+                        justifyContent={"space-between"}>
 
-                {/* Trang bị */}
-                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                  <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
-                    {t("postMotorbike.listform.equipments")}
-                  </Typography>
-
-                  <Box width={"100%"}>
-                    <Box
-                      sx={{ backgroundColor: "rgba(19, 139, 31, 0.05)", borderRadius: "8px" }}
-                      padding={"16px 16px"}
-                      display="flex" flexDirection="row" alignItems="center" justifyContent={"center"} borderRadius={"8px"}>
-
-                      <Grid container columnSpacing={{ xs: 3, sm: 3, md: 3 }} rowSpacing={3}>
-                        {equipmentList.filter(item => item === "Raincoat").length > 0 && (
-                          <Grid item xs={isMobile ? 12 : 4}>
-                            <EquipmentItem icon={< RainCoatIcon />} label={t("postMotorbike.registedForm.raincoat")} />
-                          </Grid>
-                        )}
-                        {equipmentList.filter(item => item === "Helmet").length > 0 && (
-                          <Grid item xs={isMobile ? 12 : 4}>
-                            <EquipmentItem icon={< HelmetIcon />} label={t("postMotorbike.registedForm.helmet")} />
-                          </Grid>
-                        )}
-                        {equipmentList.filter(item => item === "ReflectiveClothes").length > 0 && (
-                          <Grid item xs={isMobile ? 12 : 4}>
-                            <EquipmentItem icon={< ProtectClothesIcon />} label={t("postMotorbike.registedForm.reflectiveClothes")} />
-                          </Grid>
-                        )}
-                        {equipmentList.filter(item => item === "RepairKit").length > 0 && (
-                          <Grid item xs={isMobile ? 12 : 4}>
-                            <EquipmentItem icon={< RepairIcon />} label={t("postMotorbike.registedForm.repairKit")} />
-                          </Grid>
-                        )}
-                        {equipmentList.filter(item => item === "Bagage").length > 0 && (
-                          <Grid item xs={isMobile ? 12 : 4}>
-                            <EquipmentItem icon={< CartIcon />} label={t("postMotorbike.registedForm.bagage")} />
-                          </Grid>
-                        )}
-                        {equipmentList.filter(item => item === "CaseTelephone").length > 0 && (
-                          <Grid item xs={isMobile ? 12 : 4}>
-                            <EquipmentItem icon={< TelephoneIcon />} label={t("postMotorbike.registedForm.caseTelephone")} />
-                          </Grid>
-                        )}
-                      </Grid>
+                        <MotorbikeFeatureItem
+                          icon={<NewReleasesOutlined color='primary' fontSize='large' />}
+                          title={t("postMotorbike.listform.release-year")}
+                          content={motorbike?.releaseYear}
+                          isMobile={isMobile}
+                          t={t}
+                        />
+                        <MotorbikeFeatureItem
+                          icon={<GasMeterOutlined color='primary' fontSize='large' />}
+                          title={t("postMotorbike.listform.type")}
+                          content={motorbike?.type}
+                          isMobile={isMobile}
+                          t={t}
+                        />
+                        <MotorbikeFeatureItem
+                          icon={<LocalDrinkOutlined color='primary' fontSize='large' />}
+                          title={t("postMotorbike.listform.fuel-consumption")}
+                          content={motorbike?.fuelConsumption + "L/100km"}
+                          isMobile={isMobile}
+                          t={t}
+                        />
+                      </Box>
                     </Box>
                   </Box>
-                </Box>
 
-                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+                  <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
 
-                {/* Hiển thị bản đồ vị trí xe */}
-                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                  <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
-                    {t("postMotorbike.listform.address")}
-                  </Typography>
-                  {isLoaded ? (
-                    <Box
-                      borderRadius={"10px"}
-                      border={"3px solid"}
-                      margin={"0px auto"}
-                      width={"100%"}
-                      display="flex"
-                      justifyContent={"center"}
-                      alignItems={"center"}
-                      flexDirection={"column"}
-                    >
-                      <GoogleMap
-                        zoom={18}
-                        center={defaultLoction}
-                        mapContainerStyle={{
-                          width: "100%",
-                          height: "40vh",
-                          borderRadius: "8px",
-                        }}
-                        clickableIcons={false}
+                  {/* Biển số xe */}
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                      {t("postMotorbike.listform.licensePlate")}
+                    </Typography>
+                    <Box width={"100%"}>
+                      <Box display="flex" flexDirection="row" alignItems="center" justifyContent={"center"} borderRadius={"8px"} margin={"0px 16px"} padding={"16px 0px"} border={"2px solid #8B4513"}>
+                        <Typography variant="h5" fontWeight="600" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
+                          {motorbike?.licensePlate} {/* Thêm biển số xe */}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+
+                  <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+
+                  {/* Trang bị */}
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                      {t("postMotorbike.listform.equipments")}
+                    </Typography>
+
+                    <Box width={"100%"}>
+                      <Box
+                        sx={{ backgroundColor: "rgba(19, 139, 31, 0.05)", borderRadius: "8px" }}
+                        padding={"16px 16px"}
+                        display="flex" flexDirection="row" alignItems="center" justifyContent={"center"} borderRadius={"8px"}>
+
+                        <Grid container columnSpacing={{ xs: 3, sm: 3, md: 3 }} rowSpacing={3}>
+                          {equipmentList.filter(item => item === "Raincoat").length > 0 && (
+                            <Grid item xs={isMobile ? 12 : 4}>
+                              <EquipmentItem icon={< RainCoatIcon />} label={t("postMotorbike.registedForm.raincoat")} />
+                            </Grid>
+                          )}
+                          {equipmentList.filter(item => item === "Helmet").length > 0 && (
+                            <Grid item xs={isMobile ? 12 : 4}>
+                              <EquipmentItem icon={< HelmetIcon />} label={t("postMotorbike.registedForm.helmet")} />
+                            </Grid>
+                          )}
+                          {equipmentList.filter(item => item === "ReflectiveClothes").length > 0 && (
+                            <Grid item xs={isMobile ? 12 : 4}>
+                              <EquipmentItem icon={< ProtectClothesIcon />} label={t("postMotorbike.registedForm.reflectiveClothes")} />
+                            </Grid>
+                          )}
+                          {equipmentList.filter(item => item === "RepairKit").length > 0 && (
+                            <Grid item xs={isMobile ? 12 : 4}>
+                              <EquipmentItem icon={< RepairIcon />} label={t("postMotorbike.registedForm.repairKit")} />
+                            </Grid>
+                          )}
+                          {equipmentList.filter(item => item === "Bagage").length > 0 && (
+                            <Grid item xs={isMobile ? 12 : 4}>
+                              <EquipmentItem icon={< CartIcon />} label={t("postMotorbike.registedForm.bagage")} />
+                            </Grid>
+                          )}
+                          {equipmentList.filter(item => item === "CaseTelephone").length > 0 && (
+                            <Grid item xs={isMobile ? 12 : 4}>
+                              <EquipmentItem icon={< TelephoneIcon />} label={t("postMotorbike.registedForm.caseTelephone")} />
+                            </Grid>
+                          )}
+                        </Grid>
+                      </Box>
+                    </Box>
+                  </Box>
+
+                  <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+
+                  {/* Hiển thị bản đồ vị trí xe */}
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                      {t("postMotorbike.listform.address")}
+                    </Typography>
+                    {isLoaded ? (
+                      <Box
+                        borderRadius={"10px"}
+                        border={"3px solid"}
+                        margin={"0px auto"}
+                        width={"100%"}
+                        display="flex"
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        flexDirection={"column"}
                       >
-                        <Marker position={defaultLoction} />
-                      </GoogleMap>
-                    </Box>
-                  ) : (
+                        <GoogleMap
+                          zoom={18}
+                          center={defaultLoctionMotorbike}
+                          mapContainerStyle={{
+                            width: "100%",
+                            height: "40vh",
+                            borderRadius: "8px",
+                          }}
+                          clickableIcons={false}
+                        >
+                          <Marker position={defaultLoctionMotorbike} />
+                        </GoogleMap>
+                      </Box>
+                    ) : (
+                      <Box sx={{
+                        display: 'flex', justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "row"
+                      }}>
+                        <CircularProgress />
+                      </Box>
+                    )}
+                  </Box>
+
+                  <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+
+                  {/* Thông tin khác */}
+                  <Typography variant="h5" fontWeight="600">
+                    Rating & Feedback: {/* Thêm rating và feedback */}
+                  </Typography>
+                </Box>
+
+
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+
+      </Modal>
+      {/* modal address */}
+      <Modal
+        open={isMapModalOpen}
+        aria-labelledby="map-modal-title"
+        aria-describedby="map-modal-description"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflowY: 'auto',
+          zIndex: 10000
+        }}>
+        <Box width={isMobile ? "70%" : "50%"} height={"auto"} sx={{
+          padding: "16px 32px",
+          backgroundColor: 'white',
+          borderRadius: '8px',
+        }}>
+          <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
+            <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "20px" : "24px"} fontWeight={600} textAlign={"start"}>
+              {t("postMotorbike.registedForm.selectAddress")}
+            </Typography>
+            <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
+              <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeMapModal} position='bottom' />
+            </Box>
+          </Box>
+          <Box width={"100%"} height={"80%"} display={"flex"} flexDirection={"column"} justifyContent={"start"} alignItems={"center"}>
+            <RegisterMotorbikeItem
+              fontSizeTitle='16px'
+              title={t("postMotorbike.registedForm.address")}
+              isRequired={true}
+              item={
+                (!isLoaded)
+                  ? (
                     <Box sx={{
                       display: 'flex', justifyContent: "center",
                       alignItems: "center",
@@ -390,23 +670,151 @@ export default function MotorbikeDetailModal(props: { motorbike: Motorbike }) {
                     }}>
                       <CircularProgress />
                     </Box>
-                  )}
+                  ) : (
+                    <>
+                      <Box style={{ position: "relative", width: "100%" }}>
+                        <TextField
+                          sx={{
+                            width: "100%",
+                            "& .MuiOutlinedInput-root fieldset": { borderRadius: "8px" },
+                            "& .MuiOutlinedInput-root:hover fieldset": {
+                              borderColor: theme.palette.primary.main,
+                            },
+                            "& .MuiOutlinedInput-root.Mui-focused fieldset": {
+                              borderColor: theme.palette.primary.main,
+                            }
+                          }}
+                          // disabled={values.province === "" || values.district === "" || values.ward === ""}
+                          placeholder={t("component.MyMapWithSearchBox.searchPlaceholder")}
+                          fullWidth
+                          name="address"
+                          value={value}
+                          SelectProps={{
+                            native: true,
+                          }}
+                          onChange={(e: any) => {
+                            setValue(e.target.value);
+                            setShowMenu(true);
+                            handleChange(e);
+                          }}
+                        ></TextField>
+                        <Box
+                          position="absolute"
+                          display={showMenu ? "block" : "none"}
+                          margin={"8px auto"}
+                          width={"100%"}
+                          top="100%"
+                          zIndex="1"
+                          sx={{ backgroundColor: "#E0E0E0" }}
+                          borderRadius={"8px"}
+                        >
+                          {status === "OK" &&
+                            data.map(({ place_id, description }) => (
+                              <MenuItem
+                                dense
+                                sx={{
+                                  cursor: "pointer",
+                                  "&:hover": { backgroundColor: "#ebebeb" },
+                                  width: "99%",
+                                  color: "#000000",
+                                  whiteSpace: "normal",
+                                  wordWrap: "break-word",
+                                }}
+                                key={place_id}
+                                value={description}
+                                onClick={() => handleSelect(description)}
+                              >
+                                <Typography>{description}</Typography>
+                              </MenuItem>
+                            ))}
+                        </Box>
+                      </Box>
+                      <Box
+                        display={"flex"}
+                        justifyContent={"start"}
+                        alignItems={"center"}
+                        flexDirection={"row"}
+                        margin={"8px auto"}
+                      >
+                        <IconButton
+                          size="small"
+                          color="primary"
+                          onClick={handleGetLocationClick}
+                        >
+                          <MyLocation />
+                        </IconButton>
+                        <Typography variant="caption" fontSize={"12px"} color={theme.palette.text.secondary}>{"Lấy vị trí mặc định của xe"}</Typography>
+                      </Box>
+
+                      <Box
+                        borderRadius={"10px"}
+                        border={"3px solid"}
+                        margin={"0px auto"}
+                        width={"100%"}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        flexDirection={"column"}
+                      >
+                        <GoogleMap
+                          zoom={18}
+                          center={selected ? selected : defaultDeliveryLoction}
+                          mapContainerStyle={{
+                            width: "100%",
+                            height: "40vh",
+                            borderRadius: "8px",
+                          }}
+                          onDblClick={(e) => {
+                            if (e.latLng) {
+                              handleDoubleClick(e);
+                            }
+                          }}
+                        >
+                          {selected &&
+                            (
+                              <>
+                                <Marker position={selected} />
+                                <TextField
+                                  type='hidden'
+                                  name="lat"
+                                  value={selected.lat}
+                                  onChange={handleChange}
+                                />
+                                <TextField
+                                  type='hidden'
+                                  name="lng"
+                                  value={selected.lng}
+                                  onChange={handleChange}
+                                />
+                              </>
+
+                            )
+                          }
+                        </GoogleMap>
+                      </Box>
+                    </>
+                  )
+
+              }
+              myButton={
+                <Box
+                  width={"100%"}
+                  display={"flex"}
+                  flexDirection={"row"}
+                  justifyContent={"center"}
+                  margin={"24px 0px 0px 0px"}>
+                  <MyCustomButton
+                    borderRadius={8}
+                    fontSize={16}
+                    fontWeight={600}
+                    content={t("postMotorbike.registedForm.btnConfirm")}
+                    onClick={closeMapModal} />
                 </Box>
-
-                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
-
-                {/* Thông tin khác */}
-                <Typography variant="h5" fontWeight="600">
-                  Rating & Feedback: {/* Thêm rating và feedback */}
-                </Typography>
-              </Box>
-
-
-            </Box>
+              }
+            />
           </Box>
         </Box>
-      </Box>
-    </Modal>
+      </Modal>
+    </>
   );
 
 }

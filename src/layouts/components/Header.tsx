@@ -58,13 +58,15 @@ function Header() {
     const navigate = useNavigate();
     const { isMobile } = useThemePage();
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [isAvatarClicked, setIsAvatarClicked] = useState(false);
     const toggleDrawer = () => {
         setDrawerOpen(!drawerOpen);
     };
 
     const [anchorEl, setAnchorEl] = useState<any>(null);
 
-    const handlePopoverOpen = (event: React.MouseEvent<any>) => {
+    const handleAvatarClick = (event: React.MouseEvent<any>) => {
+        setIsAvatarClicked(true);
         setAnchorEl(event.currentTarget);
     };
 
@@ -142,17 +144,21 @@ function Header() {
                                 <Box
                                     aria-owns={open ? 'hover-menu' : undefined}
                                     aria-haspopup="true"
-                                    onMouseEnter={handlePopoverOpen}
-                                    onMouseLeave={() => setAnchorEl(null)}
                                 >
-                                    <Avatar src={isLogin ? (user && user.avatarUrl ? user.avatarUrl : '') : ''} />
+                                    <Avatar
+                                        src={isLogin ? (user && user.avatarUrl ? user.avatarUrl : '') : ''}
+                                        sx={{ cursor: 'pointer' }}
+                                        onClick={handleAvatarClick}
+                                    />
                                     <Popover
                                         sx={{ marginTop: '8px' }}
                                         id="hover-menu"
-                                        open={open}
+                                        open={isAvatarClicked}
                                         anchorEl={anchorEl}
-                                        onClose={() => setAnchorEl(null)}
-                                        anchorOrigin={{
+                                        onClose={() => {
+                                            setIsAvatarClicked(false);
+                                            setAnchorEl(null);
+                                        }} anchorOrigin={{
                                             vertical: "bottom",
                                             horizontal: 'right',
                                         }}
@@ -166,6 +172,7 @@ function Header() {
                                         <>
                                             <MenuItem
                                                 onClick={() => {
+                                                    setIsAvatarClicked(false);
                                                     setAnchorEl(null);
                                                     navigate(ROUTES.user.userprofile);
                                                 }}
@@ -180,6 +187,7 @@ function Header() {
                                             {user?.role.roleName === 'Admin' || user?.role.roleName === 'Staff' ? (
                                                 <MenuItem
                                                     onClick={() => {
+                                                        setIsAvatarClicked(false);
                                                         setAnchorEl(null);
                                                         navigate(ROUTES.admin.managemotorbikes);
                                                     }}
@@ -194,6 +202,7 @@ function Header() {
                                                 (
                                                     <MenuItem
                                                         onClick={() => {
+                                                            setIsAvatarClicked(false);
                                                             setAnchorEl(null);
                                                             navigate(ROUTES.user.listmotorbike);
                                                         }}
@@ -212,6 +221,7 @@ function Header() {
                                                 <Box>
                                                     <MenuItem
                                                         onClick={() => {
+                                                            setIsAvatarClicked(false);
                                                             setAnchorEl(null);
                                                             navigate(ROUTES.user.registermotorbike);
                                                         }}
@@ -224,6 +234,7 @@ function Header() {
                                                     </MenuItem>
                                                     <MenuItem
                                                         onClick={() => {
+                                                            setIsAvatarClicked(false);
                                                             setAnchorEl(null);
                                                             navigate(ROUTES.user.favourite);
                                                         }}
@@ -237,6 +248,7 @@ function Header() {
                                                     </MenuItem>
                                                     <MenuItem
                                                         onClick={() => {
+                                                            setIsAvatarClicked(false);
                                                             setAnchorEl(null);
                                                             navigate(ROUTES.user.wallet);
                                                         }}
@@ -253,6 +265,7 @@ function Header() {
                                             }
                                             <MenuItem
                                                 onClick={() => {
+                                                    setIsAvatarClicked(false);
                                                     setAnchorEl(null);
                                                     UserService.logout();
                                                     logout();
