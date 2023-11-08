@@ -11,6 +11,7 @@ import DepositeMoneyImage from './deposite_money.png';
 import CancelImage from './cancel.png';
 import WithdrawalMoneyImage from './withdrawal_money.png';
 import ImageSearchBox from './image-search-box.png';
+import NoDataImage from './no_data.png';
 
 export {
     SettingIcon,
@@ -25,5 +26,6 @@ export {
     SuccessIcon,
     ErrorIcon,
     NotificationIcon,
-    ImageSearchBox
+    ImageSearchBox,
+    NoDataImage
 };

@@ -42,29 +42,31 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                 sx={{ cursor: 'pointer', position: 'relative' }}
             >
                 <Avatar
-                    src={ImageSearchBox}
+                    src={props.motorbike.imageUrl[0]}
                     sx={props.isFavoritePage ? {
                         width: '100%',
                         height: '150px',
                         borderRadius: '8px',
+                        border: '1px solid #e0e0e0',
                     } : {
                         width: '100%',
                         height: '190px',
                         borderRadius: '8px',
+                        border: '1px solid #e0e0e0',
                     }} alt="image"
                     onClick={showMotorbikeDetailModal}
                 />
                 {/* User Avatar */}
-                {/* <Tooltip title={props.motorbike.user.name} placement='right-end'> */}
-                {/* <Avatar sx={{
+                <Tooltip title={props.motorbike.user.name} placement='right-end'>
+                 <Avatar sx={{
                         position: 'absolute',
-                        bottom: -24,
-                        left: 4,
+                        bottom: -20,
+                        left: 12,
                         width: '40px',
                         height: '40px',
                         borderRadius: '50%',
-                    }} src={props.motorbike.user.avatarUrl} /> */}
-                {/* </Tooltip> */}
+                    }} src={props.motorbike.user.avatarUrl} /> 
+                 </Tooltip>
                 {/* Favorite Icon */}
                 {
                     props.motorbike.isFavourite ? (
