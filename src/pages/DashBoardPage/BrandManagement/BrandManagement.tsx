@@ -9,8 +9,23 @@ import EditIcon from '@mui/icons-material/Edit';
 import { GridToolbar, gridFilteredSortedRowIdsSelector, selectedGridRowsSelector } from '@mui/x-data-grid-pro';
 import { GridPrintGetRowsToExportParams, GridRowId } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { ModalContext } from "../../../contexts/ModalContext";
+import ModalDeleteBrand from "./component/ModalDeleteBrand";
+import { useContext, useEffect, useState } from "react";
+import MyDialog from "../../../components/common/MyDialog";
+import { Brand } from "../../../utils/type";
+import { PostMotorbikeService } from "../../../services/PostMotorbikeService";
+import ToastComponent from "../../../components/toast/ToastComponent";
 const BrandManagement = () => {
     const { t } = usei18next();
+    const { closeModal, setShowModal, setContentModal } = useContext(ModalContext);
+    const [reload, setReload] = useState<boolean>(false);
+    const [listBrand, setListBrand] = useState<Brand[]>([]);
+
+
+    useEffect(() => {
+        getAllBrand();
+    },[]);
     const listBrands = 	
     [
       {
@@ -64,6 +79,33 @@ const BrandManagement = () => {
         "brandImage": "img"
       }
     ];
+
+    const getAllBrand = async () => {
+        try {
+            const response = await PostMotorbikeService.getAllBrand();
+            if (response) {
+                setListBrand(response);
+            }
+        } catch (error) {
+
+        }
+    }
+
+    const callAPIdelete = async (id: number) => {
+        try {
+            console.log(id);
+            const response = await PostMotorbikeService.deleteBrand(id);
+            if (response.status === 200) {
+                ToastComponent(t('toast.BrandManager.Delete.success'), 'success');
+                getAllBrand();
+            } else {
+                ToastComponent(t('toast.BrandManager.Delete.warning'), 'warning');
+            }
+        } catch (error) {
+            ToastComponent(t('toast.BrandManager.Delete.error'), 'error');
+        }
+    }
+
     const getSelectedRowsToExport = ({
         apiRef,
     }: GridPrintGetRowsToExportParams): GridRowId[] => {
@@ -75,6 +117,9 @@ const BrandManagement = () => {
         return gridFilteredSortedRowIdsSelector(apiRef);
     };
 
+    const deleteBrand = (id: number) =>{
+        callAPIdelete(id);
+    }
     const columns = [
         { field: 'brandName', headerName: t("dashBoardManager.brand.brandName"), width: 150 },
         {
@@ -88,31 +133,9 @@ const BrandManagement = () => {
             ),
         },
         {
-            field: 'status',
+            field: 'numberOfModel',
             headerName: t("dashBoardManager.brand.status"),
-            width: 200,
-            renderCell: (params: any) => (
-
-                params.value === 0 ?
-                    (<Chip
-                        sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
-                        color="warning"
-                        icon={<WarningAmber />}
-                        label={t("dashBoardManager.licenseManager.statusPending")} />)
-                    : params.value === 1 ?
-                        (<Chip
-                            sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
-                            color="success"
-                            icon={<CheckCircleOutline />}
-                            label={t("dashBoardManager.licenseManager.statusVerified")} />)
-                        :
-                        (<Chip
-                            sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
-                            color="error"
-                            icon={<ErrorOutline />}
-                            label={t("dashBoardManager.licenseManager.statusCancelled")} />)
-
-            ),
+            width: 250
         },
         {
             field: 'id',
@@ -121,7 +144,10 @@ const BrandManagement = () => {
             renderCell: (params: any) => (
                 <Box sx={{ cursor: 'pointer' }} display={'flex'}>
                     <MyIcon icon={<EditIcon />} position='left' hasTooltip tooltipText={t("userProfile.BtnChange")} />
-                    <MyIcon icon={<DeleteIcon />} position='right' hasTooltip tooltipText={t("dashBoardManager.brand.delete")} />
+                    <MyIcon icon={<DeleteIcon />} position='right' hasTooltip tooltipText={t("dashBoardManager.brand.delete")} 
+                    onClick={() => {
+                        setContentModal(<MyDialog icon={<DeleteIcon/>} onClickAgree={() => deleteBrand(params.id)} title={t("dashBoardManager.brand.confirmDelete")}  content={t("dashBoardManager.brand.titleConfirmDelete") + params.row.brandName}  hasAgreeButton={true} hasCancelButton={true}/>)
+                    }}/>
                 </Box>
             )
         },
@@ -147,13 +173,13 @@ const BrandManagement = () => {
                             outline: "none",
                         },
                     }}
-                    rows={listBrands}
+                    rows={listBrand}
                     initialState={{
                         pagination: { paginationModel: { pageSize: 7 } },
                     }}
                     pageSizeOptions={[7, 10, 25]}
                     columns={columns}
-                    loading={listBrands.length === 0}
+                    loading={listBrand.length === 0}
                     rowHeight={48}
                     checkboxSelection
                     disableRowSelectionOnClick

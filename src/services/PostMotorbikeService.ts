@@ -43,6 +43,9 @@ export const PostMotorbikeService = {
         const response = await api.put(`${apiUpdateMotorbike}/${motorbike.id}`, motorbike)
         return response.data
     },
+    deleteBrand: async (id: number) => {
+        return await api.delete(`/brand/${id}`);
+    },
 
     
 }

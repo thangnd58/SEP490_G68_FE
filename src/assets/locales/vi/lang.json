@@ -112,6 +112,23 @@
         "success": "Hủy đăng ký xe máy thành công",
         "warning": "Hủy đăng ký xe máy thất bại",
         "error": "Lỗi hủy đăng ký xe máy"
+      },
+      "BrandManager":{
+        "Delete":{
+          "success": "Xóa thương hiệu thành công",
+          "warning": "Xóa thương hiệu thất bại",
+          "error": "Lỗi xóa thương hiệu"
+        },
+        "Edit":{
+          "success": "Sửa thương hiệu thành công",
+          "warning": "Sửa thương hiệu thất bại",
+          "error": "Lỗi Sửa thương hiệu"
+        },
+        "Add":{
+          "success": "Thêm thương hiệu thành công",
+          "warning": "Thêm thương hiệu thất bại",
+          "error": "Lỗi thêm thương hiệu"
+        }
       }
     },
     "sendOtp": {
@@ -261,9 +278,11 @@
     "brand" : {
       "brandName" : "Tên hãng",
       "createDate": "Ngày tạo",
-      "status" : "Trạng thái",
+      "status" : "Số lượng mẫu xe",
       "action" : "Chỉnh sửa",
-      "delete" : "Xóa"
+      "delete" : "Xóa",
+      "confirmDelete" : "Xác nhận xóa thương hiệu",
+      "titleConfirmDelete" : "Bạn có muốn xóa thương hiệu : "
       
     }
   },

@@ -134,6 +134,23 @@
       "success": "Verify phone successfully",
       "warning": "Verify phone failed",
       "error": "Error when verify phone"
+    },
+    "BrandManager":{
+      "Delete":{
+        "success": "Delete brand successfully",
+        "warning": "Delete brand failed",
+        "error": "Error when delete brand"
+      },
+      "Edit":{
+        "success": "Edit brand successfully",
+        "warning": "Edit brand failed",
+        "error": "Error when edit brand"
+      },
+      "Add":{
+        "success": "Add brand successfully",
+        "warning": "Add brand failed",
+        "error": "Error when add brand"
+      }
     }
   },
   "footer": {
@@ -261,9 +278,11 @@
     "brand" : {
       "brandName" : "Brand Name",
       "createDate": "Create Date",
-      "status" : "Status",
+      "status" : "Number of motorbike models",
       "action" : "Action",
-      "delete" : "Delete"
+      "delete" : "Delete",
+      "confirmDelete" : "Confirm Delete Brand",
+      "titleConfirmDelete" : "Do you want to delete brand : "
     }
   },
   "component": {

@@ -61,8 +61,11 @@ export interface Model {
 export interface Brand {
     id: number,
     brandName: string,
-    brandImage: string
+    brandImage: string,
+    createDate : string,
+    numberOfModel : number
 }
+
 
 export interface Province {
     name: string,
