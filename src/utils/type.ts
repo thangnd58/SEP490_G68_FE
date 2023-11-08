@@ -113,6 +113,7 @@ export interface Motorbike {
     miscellaneous: string,
     description: string,
     distance: number,
+    isFavourite: boolean,
 }
 
 export interface MotorbikeRequest {

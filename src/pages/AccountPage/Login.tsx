@@ -29,7 +29,6 @@ function Login() {
   }
 
   useEffect(() => {
-    // check token exist
     if (user != null) {
       showModalIsLogin();
     }
