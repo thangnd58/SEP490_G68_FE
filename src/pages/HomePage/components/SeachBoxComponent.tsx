@@ -171,14 +171,20 @@ const SeachBoxComponent = () => {
 
 
     return (
-        <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} padding={'32px 64px'}>
+        <Box display={'flex'} alignItems={'center'} justifyContent={'center'} padding={'32px 64px'} gap={'32px'} flexDirection={isMobile ? 'column' : 'row'} width={'100%'} minHeight={'481px'}>
             {/* search box input */}
-            <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} width={'35%'}>
+            <Box
+                display={'flex'}
+                flexDirection={'column'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                minWidth={'30%'}
+                width={'30%'}>
                 <Typography
                     width={'100%'}
                     variant={'h6'}
                     fontWeight={'700'}
-                    fontSize={'56px'}
+                    fontSize={'50px'}
                     color={(theme) => theme.palette.text.primary}
                 >
                     Đồng hành cùng
@@ -187,7 +193,7 @@ const SeachBoxComponent = () => {
                     <Typography
                         variant={'h6'}
                         fontWeight={'700'}
-                        fontSize={'56px'}
+                        fontSize={'50px'}
                         color={(theme) => theme.palette.text.primary}
                     >
                         bạn
@@ -198,7 +204,7 @@ const SeachBoxComponent = () => {
                     <Typography
                         variant={'h6'}
                         fontWeight={'700'}
-                        fontSize={'56px'}
+                        fontSize={'50px'}
                         color={(theme) => theme.palette.primary.main}
                     >
                         WANDRO
@@ -278,15 +284,21 @@ const SeachBoxComponent = () => {
                 </Box>
             </Box>
             {/* search box image */}
-            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} width={'60%'}>
+            <Box
+                display={'flex'}
+                flexDirection={'row'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                minWidth={"60%"}
+                width={'60%'}>
                 <img
                     alt="search box"
                     style={{
                         cursor: 'pointer',
                         borderRadius: '8px',
                         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-
                     }}
+                    loading='eager'
                     src={ImageSearchBox}
                     width={"100%"}
                 />
