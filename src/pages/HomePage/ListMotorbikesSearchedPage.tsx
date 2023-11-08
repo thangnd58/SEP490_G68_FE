@@ -4,7 +4,7 @@ import usei18next from '../../hooks/usei18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AutoGraph, CheckBox, CheckBoxOutlineBlank, CloseOutlined, ElectricBike, FilterAltOutlined, LocalGasStation, LocationOnOutlined, MyLocation, RestartAltOutlined, SearchOutlined } from '@mui/icons-material';
 import theme from '../../utils/theme';
-import { DatePicker } from 'antd';
+import { Avatar, DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import MyIcon from '../../components/common/MyIcon';
 import RegisterMotorbikeItem from '../PostMotorbike/components/RegisterMotorbike/RegisterMotorbikeItem';
@@ -19,12 +19,12 @@ import { Motorbike, SearchMotorbikeRequest } from '../../utils/type';
 import { SearchMotorbikeServices } from '../../services/SearchMotorbikeService';
 import { forEach } from 'jszip';
 import MotorbikeInforCard from './components/MotorbikeInforCard';
+import { NoDataImage, PageNoteFoundImage } from '../../assets/images';
 
 
 export default function ListMotorbikesSearchedPage() {
     const { startDate, endDate, address } = useParams();
     const { RangePicker } = DatePicker;
-    const today = dayjs();
     const { t } = usei18next();
     const navigate = useNavigate();
     const { isMobile } = useThemePage();
@@ -32,6 +32,7 @@ export default function ListMotorbikesSearchedPage() {
 
     const [isMapModalOpen, setMapModalOpen] = useState(false);
     const [isAdvancedFilterModalOpen, setAdvancedFilterModalOpen] = useState(false);
+    const [isLoadingData, setIsLoadingData] = useState(true);
     const [defaultlat, setDefaultLat] = useState();
     const [defaultlng, setDefaultLng] = useState();
 
@@ -98,17 +99,27 @@ export default function ListMotorbikesSearchedPage() {
     }, [startDate, endDate, address]);
 
     const getMotorbikesByPlaceAndTime = async (startDateTimeParam?: string, endDateTimeParam?: string, addressParam?: string) => {
+        setIsLoadingData(true); // Bắt đầu tải dữ liệu
+
         if (!startDateTimeParam || !endDateTimeParam || !addressParam) {
+            setIsLoadingData(false); // Dừng tải dữ liệu
             return;
         }
+
         const formData: SearchMotorbikeRequest = {
             startDate: convertTimestampToDate(Number(startDateTimeParam)),
             endDate: convertTimestampToDate(Number(endDateTimeParam)),
             address: addressParam,
         }
-        const response = await SearchMotorbikeServices.getMotorbikesByPlaceAndTime(formData);
-        setListMotorbikes(response);
-        return response;
+
+        try {
+            const response = await SearchMotorbikeServices.getMotorbikesByPlaceAndTime(formData);
+            setListMotorbikes(response);
+        } catch (error) {
+            // Xử lý lỗi tại đây (nếu cần)
+        }
+
+        setIsLoadingData(false); // Tải dữ liệu hoàn tất
     }
 
     // FORM CONTROLLER
@@ -467,23 +478,16 @@ export default function ListMotorbikesSearchedPage() {
                         {/* search icon */}
                         <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>
 
-                            <Box
-                                className="custom-search-box"
-                                sx={{
-                                    padding: '3px 11px',
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    backgroundColor: '#8B4513',
-                                }}
-                            >
-                                <SearchOutlined onClick={
-                                    () => {
-                                        handleSubmit();
-                                    }
-                                } sx={{ cursor: 'pointer', color: theme.palette.common.white }} />
-                            </Box>
+                            <MyCustomButton
+                                borderRadius={8}
+                                fontSize={14}
+                                height='32px'
+                                fontWeight={400}
+                                onClick={handleSubmit}
+                                icon={<SearchOutlined style={{ color: theme.palette.common.white, }} />}
+                                iconPosition='left'
+                                content={"Tìm xe"}
+                            />
                             {/* | */}
                             <Typography color={theme.palette.action.disabled} sx={{ fontSize: '14px', fontWeight: "400" }}>
                                 |
@@ -535,7 +539,6 @@ export default function ListMotorbikesSearchedPage() {
                                 </Select>
                             </Box>
                         </Box>
-
                     </Box>
                 </Box>
             </Box>
@@ -548,9 +551,11 @@ export default function ListMotorbikesSearchedPage() {
                 display={'flex'}
                 flexDirection={'column'}
                 alignItems={'center'}
-                justifyContent={'center'}
+                justifyContent={'start'}
                 gap={'16px'}
-                padding={'16px 64px 32px 64px'}
+                minHeight={'65vh'}
+                minWidth={"100%"}
+                padding={"16px 0px 32px 0px"}
             >
                 {/* title */}
                 <Box
@@ -567,29 +572,45 @@ export default function ListMotorbikesSearchedPage() {
                 </Box>
                 {/* list motorbikes */}
                 {
-                    listMotorbikes.length > 0 ? (
-                        <Box sx={{
-                            width: '100%',
-                        }} alignItems={'center'} justifyContent={'center'}>
-                            <Grid
-                                width={"100%"}
-                                container
-                                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                                rowSpacing={{ xs: 1, sm: 2, md: 3 }}
-                            >
-                                {listMotorbikes.map((item: Motorbike, index: number) => (
-                                    <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={3}>
-                                        <MotorbikeInforCard motorbike={item} isFavoritePage={false} />
-                                    </Grid>
-                                ))}
-                            </Grid>
-                        </Box>
-                    ) : (
-
+                    isLoadingData ? (
                         <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
                             <CircularProgress />
                         </Box>
-                    )}
+                    ) : (
+                        listMotorbikes.length > 0 ? (
+                            <Box sx={{
+                                width: '90%',
+                                minHeight: '65vh',
+                            }} alignItems={'center'} justifyContent={'center'}>
+                                <Grid
+                                    width={"100%"}
+                                    container
+                                    columnSpacing={{ xs: 1, sm: 1, md: 1 }}
+                                    rowSpacing={{ xs: 1, sm: 2, md: 3 }}
+                                >
+                                    {listMotorbikes.map((item: Motorbike, index: number) => (
+                                        <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={3} sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}>
+                                            <MotorbikeInforCard motorbike={item} isFavoritePage={false} />
+                                        </Grid>
+                                    ))}
+                                </Grid>
+                            </Box>
+                        ) : (
+                            <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
+                                <Avatar
+                                    src={NoDataImage}
+                                    style={{ width: '400px', height: '400px' }}
+                                    shape='square'
+                                    alt="image"
+                                />
+                            </Box>
+                        )
+                    )
+                }
 
             </Box>
 
