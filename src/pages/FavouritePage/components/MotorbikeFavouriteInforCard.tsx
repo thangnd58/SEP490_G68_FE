@@ -3,26 +3,28 @@ import React, { useContext } from 'react';
 import usei18next from '../../../hooks/usei18next';
 import PlaceIcon from '@mui/icons-material/Place';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Motorbike } from '../../../utils/type';
+import { Motorbike, MotorbikeFavourite, UserFavourite } from '../../../utils/type';
 import theme from '../../../utils/theme';
 import { ImageSearchBox } from '../../../assets/images';
 import { BusinessCenterOutlined, FavoriteBorder, FavoriteOutlined, ShoppingCartCheckout, StarPurple500Outlined } from '@mui/icons-material';
 import { ModalContext } from '../../../contexts/ModalContext';
-import MotorbikeDetailModal from './MotorbikeDetailModal';
 import MyIcon from '../../../components/common/MyIcon';
+import MotorbikeDetailModal from '../../HomePage/components/MotorbikeDetailModal';
+import MotorbikeManagementService from '../../../services/MotorbikeManagementService';
+import { useEffect, useState } from "react";
 import UserService from '../../../services/UserService';
 import { useAppDispatch } from '../../../hooks/useAction';
-import ToastComponent from '../../../components/toast/ToastComponent';
 import { getUserFavouriteInfo } from '../../../redux/reducers/userFavouriteReducer';
+import ToastComponent from '../../../components/toast/ToastComponent';
 
-export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean }) {
+export default function MotorbikeFavouriteInforCard(props: { motorbike: MotorbikeFavourite, isFavoritePage: boolean }) {
     const { t } = usei18next();
     const { setContentModal, setShowModal } = useContext(ModalContext);
     const dispatch = useAppDispatch();
 
-    const showMotorbikeDetailModal = () => {
+    const showMotorbikeDetailModal = (id: number) => {
         setContentModal(
-            <MotorbikeDetailModal motorbikeId={props.motorbike.id} />
+            <MotorbikeDetailModal motorbikeId={id} />
         )
         setShowModal(true)
     }
@@ -40,54 +42,36 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
             ToastComponent(t("toast.favourite.delete.error"), "error");
           }
     }
-
-    const addFavourite = async (id: number) => {
-        try {
-            const response = await UserService.addFavourite(id);
-            if (response.status === 200) { 
-              dispatch(getUserFavouriteInfo());
-              ToastComponent(t("toast.favourite.add.success"), "success");
-            } else {
-              ToastComponent(t("toast.favourite.add.warning"), "warning");
-            }
-          } catch (error) {
-            ToastComponent(t("toast.favourite.add.error"), "error");
-          }
-    }
     return (
         <Box
             sx={{
                 backgroundColor: '#fff',
             }}
-            width={props.isFavoritePage ? '575px' : '270px'}
+            width={'575px'}
             border={'1px solid #e0e0e0'}
             borderRadius={'8px'}
             display={'flex'}
             padding={'16px'}
-            flexDirection={props.isFavoritePage ? 'row' : 'column'}
+            flexDirection={'row'}
             justifyContent={'space-between'}
             alignItems={'start'}
             gap={'16px'}
+            marginTop={'25px'}
         >
             {/* Image */}
             <Box
-                width={props.isFavoritePage ? '40%' : '100%'}
+                width={'40%'}
                 sx={{ cursor: 'pointer', position: 'relative' }}
             >
                 <Avatar
-                    src={props.motorbike.imageUrl[0]}
-                    sx={props.isFavoritePage ? {
+                    src={props.motorbike.imageUrl}
+                    sx={{
                         width: '100%',
                         height: '150px',
                         borderRadius: '8px',
-                        border: '1px solid #e0e0e0',
-                    } : {
-                        width: '100%',
-                        height: '190px',
-                        borderRadius: '8px',
-                        border: '1px solid #e0e0e0',
+                        border: '1px solid #e0e0e0'
                     }} alt="image"
-                    onClick={showMotorbikeDetailModal}
+                    onClick={() =>showMotorbikeDetailModal(props.motorbike.id)}
                 />
                 {/* User Avatar */}
                 <Tooltip title={props.motorbike.user.name} placement='right-end'>
@@ -101,8 +85,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                     }} src={props.motorbike.user.avatarUrl} /> 
                  </Tooltip>
                 {/* Favorite Icon */}
-                {
-                    props.motorbike.isFavourite ? (
+                
                         <FavoriteOutlined
                             sx={{
                                 position: 'absolute',
@@ -115,29 +98,14 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                 backgroundColor: 'rgba(0, 0, 0, 0.25)',
                                 borderRadius: '50%',
                             }}
-                            onClick={() => deleteFavourite(props.motorbike.id!)}/>
-                    ) : (
-                        <FavoriteBorder
-                            sx={{
-                                position: 'absolute',
-                                top: 0,
-                                right: 0,
-                                fontSize: '24px',
-                                color: '#fff',
-                                padding: '4px',
-                                margin: '4px',
-                                backgroundColor: 'rgba(0, 0, 0, 0.25)',
-                                borderRadius: '50%',
-                            }}
-                            onClick={() => addFavourite(props.motorbike.id!)}
+                            onClick={() => deleteFavourite(props.motorbike.id)}
                         />
-                    )
-                }
+            
             </Box>
             <Divider orientation="vertical" flexItem />
             {/* Content */}
             <Box
-                width={props.isFavoritePage ? '60%' : '100%'}
+                width={'60%'}
                 display="flex"
                 flexDirection="column"
                 gap="8px">
@@ -146,7 +114,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                     <Chip
                         sx={{ '& .MuiChip-label': { fontSize: "12px" }, height: '28px', fontWeight: '400' }}
                         color="success"
-                        label={props.motorbike.fuelConsumption == 1 ? t("favourite.item.gasoline") : t("favourite.item.electric")} />
+                        label={props.motorbike.fuelConsumption === 1 ? t("favourite.item.gasoline") : t("favourite.item.electric")} />
                     <Chip
                         sx={{ '& .MuiChip-label': { fontSize: "12px" }, height: '28px', fontWeight: '400' }}
                         color="warning"
@@ -155,7 +123,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                 {/* Brand Name and Model */}
                 <Box display="flex" flexDirection="column" gap="4px">
                     <Box>
-                        <Tooltip placement='bottom' title={"HONDA WAVE ALPHA HONDA WAVE ALPHA"}>
+                        <Tooltip placement='bottom' title={props.motorbike.modelName}>
                             <Typography
                                 textOverflow="ellipsis"
                                 whiteSpace="nowrap"
@@ -164,7 +132,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                 fontSize="20px"
                                 color={theme.palette.text.primary}
                             >
-                                HONDA WAVE ALPHA HONDA WAVE ALPHA
+                                {props.motorbike.modelName}
                             </Typography>
                         </Tooltip>
                     </Box>
@@ -205,7 +173,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                     borderTop="1px solid #e0e0e0"
                     paddingTop="8px"
                 >
-                    {props.isFavoritePage ? (
+                   
                         <Typography
                             sx={{
                                 cursor: 'pointer',
@@ -219,13 +187,11 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                             fontWeight={700}
                             align="center"
                             textOverflow="ellipsis"
-                            onClick={showMotorbikeDetailModal}
+                            onClick={() => showMotorbikeDetailModal(props.motorbike.id)}
                         >
                             Xem chi tiết
                         </Typography>
-                    ) : (
-                        <MyIcon icon={<ShoppingCartCheckout />} hasTooltip position='right' tooltipText={t("favourite.item.addtocart")} />
-                    )}
+                    
                     <Box display="flex" flexDirection="row" alignItems="flex-end" borderRadius="8px" padding="0px 8px" gap="4px" sx={{ backgroundColor: "rgba(139, 69, 19, 0.1)" }}>
                         <Typography fontWeight="bold" fontSize="20px" color={theme.palette.text.primary}
                         >
