@@ -102,6 +102,12 @@ const UserService = {
     },
     getUserFavourite: async (): Promise<UserFavourite[]> => {
         return await api.get(apiUserFavourite);
+    },
+    deleteFavourite: async (Id: number) => {
+        return await api.delete(`/favourite/${Id}`);
+    },
+    addFavourite: async (Id: number) => {
+        return await api.post('/favourite',{ motorbikeId: Id });
     }
 }
 
