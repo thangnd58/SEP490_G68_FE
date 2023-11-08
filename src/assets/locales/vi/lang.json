@@ -151,6 +151,18 @@
       "success": "Xác minh số điện thoại thành công",
       "warning": "Xác minh số điện thoại thất bại",
       "error": "Lỗi xác minh số điện thoại"
+    },
+    "favourite" : {
+      "delete":{
+        "success": "Xóa xe yêu thích thành công",
+        "warning": "Xóa xe yêu thích thất bại",
+        "error": "Lỗi xác xóa xe yêu thích"
+      },
+      "add":{
+        "success": "Thêm xe yêu thích thành công",
+        "warning": "Thêm xe yêu thích thất bại",
+        "error": "Lỗi xác thêm xe yêu thích"
+      }
     }
   },
   "footer": {
@@ -326,7 +338,8 @@
       "address": "Địa chỉ",
       "description": "Mô tả",
       "defaultPrice": "Giá thuê mặc định",
-      "profit": "Lợi nhuận"
+      "profit": "Lợi nhuận",
+      "miscellaneous": "Điều khoản khác"
     },
     "registedForm": {
       "updateTitle": "Cập nhật thông tin xe",

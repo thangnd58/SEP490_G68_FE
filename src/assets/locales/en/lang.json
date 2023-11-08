@@ -151,6 +151,18 @@
         "warning": "Add brand failed",
         "error": "Error when add brand"
       }
+    },
+    "favourite" : {
+      "delete":{
+        "success": "Unlike motorbike successfully",
+        "warning": "Unlike motorbike failed",
+        "error": "Error when unlike motorbike"
+      },
+      "add":{
+        "success": "Like motorbike successfully",
+        "warning": "Like motorbike failed",
+        "error": "Error when line motorbike"
+      }
     }
   },
   "footer": {
@@ -325,7 +337,8 @@
       "address": "Address",
       "description": "Description",
       "defaultPrice": "Default Price",
-      "profit": "Profit"
+      "profit": "Profit",
+      "miscellaneous": "Miscellaneous"
     },
     "registedForm": {
       "updateTitle": "Update Information",

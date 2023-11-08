@@ -483,6 +483,7 @@ export default function ListMotorbikesSearchedPage() {
                                 fontSize={14}
                                 height='32px'
                                 fontWeight={400}
+                                disabled={isLoadingData}
                                 onClick={handleSubmit}
                                 icon={<SearchOutlined style={{ color: theme.palette.common.white, }} />}
                                 iconPosition='left'

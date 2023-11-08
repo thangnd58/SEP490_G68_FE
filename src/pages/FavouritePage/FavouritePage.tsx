@@ -9,7 +9,10 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import { useAppDispatch, useAppSelector, } from '../../hooks/useAction';
 import { getUserFavouriteInfo } from '../../redux/reducers/userFavouriteReducer';
 import MotorbikeInforCard from '../HomePage/components/MotorbikeInforCard';
-import { Motorbike } from '../../utils/type';
+import { Motorbike, UserFavourite } from '../../utils/type';
+import MotorbikeFavouriteInforCard from './components/MotorbikeFavouriteInforCard';
+import UserService from '../../services/UserService';
+import ToastComponent from '../../components/toast/ToastComponent';
 
 const FavouritePage = () => {
     const { t } = usei18next();
@@ -76,12 +79,16 @@ const FavouritePage = () => {
     useEffect(() => {
         dispatch(getUserFavouriteInfo());
         // if (userFavourite) {
-        //     userFavourite.map((item: any) => console.log(item.motorbike.address));
+        //     userFavourite.map((item: any) => console.log(item));
         //     console.log('du lieu');
         //   } else {
         //     console.log('Dữ liệu không tồn tại');
         //   }
     }, [])
+
+
+    
+
 
     return (
         <Box display={'flex'} flexDirection={'row'} margin={'32px auto'} borderRadius={'8px'} justifyContent={'center'}>
@@ -136,9 +143,9 @@ const FavouritePage = () => {
 
                     {/* Item List*/}
 
-                    <Box display={'flex'} flexDirection={"row"} flexWrap={'wrap'} justifyContent={'space-between'} >
-                        {userFavourite.map((item: any) => (
-                            <MotorbikeInforCard motorbike={item.motorbike} isFavoritePage={true} />
+                    <Box display={'flex'} flexDirection={"row"} flexWrap={'wrap'} justifyContent={'space-evenly'} >
+                        {userFavourite.map((item: UserFavourite) => (
+                            <MotorbikeFavouriteInforCard motorbike={item.motorbike!} isFavoritePage={true} />
                         ))}
                         {/* <Box marginTop={'30px'} height={'280px'} width={'43%'} border={'1px black solid'} borderRadius={'5px'}></Box>     
                         <Box marginTop={'30px'} height={'280px'} width={'43%'} border={'1px black solid'} borderRadius={'5px'}></Box>     

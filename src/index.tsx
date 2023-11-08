@@ -32,7 +32,8 @@ root.render(
             );
           }}
         </ModalContext.Consumer>
-        <BrowserRouter>
+        <div className='rcs-container'>
+        <BrowserRouter >
           <AuthProvider>
             <>
               <ToastContainer
@@ -54,6 +55,7 @@ root.render(
             </>
           </AuthProvider>
         </BrowserRouter>
+        </div>
       </ModalProvider>
     </ThemeProvider>
   </Provider>

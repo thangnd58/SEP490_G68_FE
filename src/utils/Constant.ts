@@ -17,6 +17,7 @@ export const ROUTES = {
         registermotorbike: "/register-motorbike",
         introductionmotorbike: "/introduction-motorbike",
         listmotorbike: "/list-motorbike",
+        shoppingCart : "/cart",
         updateregistermotorbike: "/update-register-motorbike",
         wallet: "/my-wallet",
         favourite : "/my-favourite"

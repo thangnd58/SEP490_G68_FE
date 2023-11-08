@@ -30,6 +30,7 @@ import WithdrawalRequestManagement from '../pages/DashBoardPage/WithdrawalReques
 import Favourite from '../pages/FavouritePage/FavouritePage';
 import ListMotorbikesSearchedPage from '../pages/HomePage/ListMotorbikesSearchedPage';
 import BrandManagement from '../pages/DashBoardPage/BrandManagement/BrandManagement';
+import CartPage from '../pages/CartPage/CartPage';
 
 export type Route = {
     path: string;
@@ -53,6 +54,7 @@ export const routes: Route[] = [
     { path: ROUTES.user.registermotorbike, component: RegisterMotorbike, role: ["Customer"] },
     { path: ROUTES.user.introductionmotorbike, component: IntroductionMotorbike },
     { path: ROUTES.user.listmotorbike, component: ListMotorbike, role: ["Customer"] },
+    { path: ROUTES.user.shoppingCart, component: CartPage, role: ["Customer"] },
     { path: `${ROUTES.user.updateregistermotorbike}/:id`, component: UpdateRegisterMotorbike, role: ["Customer"] },
     { path: ROUTES.user.favourite, component: Favourite, role: ["Customer"] },
 
