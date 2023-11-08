@@ -190,7 +190,7 @@ export interface UserFavourite {
     userId: number,
     motorbikeId: number,
     createDatetime: string,
-    motorbikeFavourite: MotorbikeFavourite[]
+    motorbike: MotorbikeFavourite
 }
 export interface MotorbikeFavourite {
     id: number,
@@ -206,7 +206,8 @@ export interface MotorbikeFavourite {
     miscellaneous: string,
     brandName: string,
     modelName: string,
-    userId: UserForRent[]
+    user: UserForRent,
+    isFavourite : boolean
 }
 
 export interface UserForRent {

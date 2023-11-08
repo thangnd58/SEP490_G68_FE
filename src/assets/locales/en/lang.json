@@ -134,6 +134,18 @@
       "success": "Verify phone successfully",
       "warning": "Verify phone failed",
       "error": "Error when verify phone"
+    },
+    "favourite" : {
+      "delete":{
+        "success": "Unlike motorbike successfully",
+        "warning": "Unlike motorbike failed",
+        "error": "Error when unlike motorbike"
+      },
+      "add":{
+        "success": "Like motorbike successfully",
+        "warning": "Like motorbike failed",
+        "error": "Error when line motorbike"
+      }
     }
   },
   "footer": {
