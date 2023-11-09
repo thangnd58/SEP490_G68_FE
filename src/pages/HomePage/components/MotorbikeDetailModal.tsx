@@ -23,6 +23,7 @@ import { BookingService } from '../../../services/BookingService';
 import ToastComponent from '../../../components/toast/ToastComponent';
 import { useNavigate } from 'react-router-dom';
 import { BookingDeliveryMode, BookingPaymentType, ROUTES } from '../../../utils/Constant';
+import ApplyPromotionModal from './ApplyPromotionModal';
 
 export default function MotorbikeDetailModal(props: { motorbikeId: number | undefined, searchedAddress?: string, startDate?: string, endDate?: string }) {
 
@@ -35,6 +36,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
   const [isMapModalOpen, setMapModalOpen] = useState(false);
   const [motorbike, setMotorbike] = useState<Motorbike>();
   const [previewBookingData, setPreviewBookingData] = useState<BookingResponse>();
+  const { setContentModal, setShowModal } = useContext(ModalContext);
 
   interface Location {
     lat: number,
@@ -234,6 +236,22 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
     setShowMenu(false);
   };
 
+  const showModalPromotion = () => {
+    setContentModal(
+      <MyDialog
+        style={{
+          zIndex: 10000
+        }}
+        title="Thông báo"
+        content="Bạn có muốn áp dụng mã giảm giá không?"
+        hasAgreeButton
+        hasCancelButton
+        onClickAgree={() => { }}
+      />
+    )
+    setShowModal(true)
+  }
+
   return (
     <>
       <Modal
@@ -411,7 +429,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                         }} />
                         <Typography
                           color={theme.palette.text.primary}
-                          sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                          sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
                           padding={'11px 0px'}
                           onChange={handleChange}
                         >
@@ -495,7 +513,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                       <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                         -120.000VND
                       </Typography> */}
-                        <MyCustomButton iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick={() => { }} content={"Mã khuyến mãi"} variant='outlined' />
+                        <MyCustomButton iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick={showModalPromotion} content={"Mã khuyến mãi"} variant='outlined' />
                       </Box>
                     </Box>
                     {/* Line */}

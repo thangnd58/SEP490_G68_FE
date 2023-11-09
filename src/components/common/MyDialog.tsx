@@ -13,6 +13,7 @@ interface MyDialogProps {
     hasAgreeButton?: boolean;
     hasCancelButton?: boolean;
     icon?: any;
+    style ?: any;
 }
 
 const Transition = React.forwardRef(function Transition(
@@ -33,13 +34,13 @@ export default function MyDialog(props: MyDialogProps) {
                 sx={{
                     '& .MuiDialog-paper': {
                         padding: "16px",
-                        borderRadius: "8px"
+                        borderRadius: "8px",
+                        ...props.style
                     }
                 }}
                 open={true}
                 TransitionComponent={Transition}
                 keepMounted
-                onClose={closeModal}
                 aria-describedby="alert-dialog-slide-description"
             >
                 <Box sx={{
