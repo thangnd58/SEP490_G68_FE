@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
-import { Motorbike } from '../../../utils/type'
+import { BookingRequest, BookingResponse, Motorbike } from '../../../utils/type'
 import MyDialog from '../../../components/common/MyDialog'
 import usei18next from '../../../hooks/usei18next';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
@@ -19,6 +19,7 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import { PostMotorbikeService } from '../../../services/PostMotorbikeService';
 import RegisterMotorbikeItem from '../../PostMotorbike/components/RegisterMotorbike/RegisterMotorbikeItem';
+import { BookingService } from '../../../services/BookingService';
 
 export default function MotorbikeDetailModal(props: { motorbikeId: number | undefined, searchedAddress?: string, startDate?: string, endDate?: string }) {
 
@@ -30,6 +31,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
   const { RangePicker } = DatePicker;
   const [isMapModalOpen, setMapModalOpen] = useState(false);
   const [motorbike, setMotorbike] = useState<Motorbike>();
+  const [previewBookingData, setPreviewBookingData] = useState<BookingResponse>();
 
   interface Location {
     lat: number,
@@ -41,11 +43,13 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
     if (props.motorbikeId)
       getMotorbikeById(props.motorbikeId.toString());
   }, [props.motorbikeId]);
+
   const getMotorbikeById = async (id: string) => {
     try {
       const response = await PostMotorbikeService.getMotorbikeById(id);
       if (response) {
         setMotorbike(response);
+        setFieldValue("address", response.address)
       }
     }
     catch (error) {
@@ -76,14 +80,16 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
     }
   }, [motorbike])
 
+
+
   // FORM CONTROLLER
   const formik = useFormik({
     initialValues: {
       address: "address",
       lat: 21.028511,
       lng: 105.804817,
-      startDate: convertTimestampToDate(Number(props?.startDate)),
-      endDate: convertTimestampToDate(Number(props?.startDate)),
+      startDate: props?.startDate,
+      endDate: props?.endDate,
     },
     validationSchema: Yup.object({
       address: Yup.string().required(t("postMotorbike.registedForm.addressRequired")),
@@ -91,16 +97,8 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
       endDate: Yup.string().required(t("postMotorbike.registedForm.endDateRequired")),
     }),
 
-    onSubmit: async (values, actions) => {
-      // convert date to timestamp
-      const startDate = dayjs(values.startDate, "DD-MM-YYYY HH:mm").unix();
-      const endDate = dayjs(values.endDate, "DD-MM-YYYY HH:mm").unix();
-      let encodeAddress = '';
-      // encode address
-      if (values.address) {
-        encodeAddress = encodeURIComponent(values.address);
-      }
-      // console.log(getMotorbikesByPlaceAndTime(startDate.toString(), endDate.toString(), encodeAddress));
+    onSubmit: async (values) => {
+      
     }
   }
   );
@@ -113,6 +111,20 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
     handleSubmit,
     setFieldValue
   } = formik;
+
+  useEffect(() => {
+    const bookingPreview: BookingRequest = {
+      motorbikeId: props?.motorbikeId || 0,
+      address: values.address,
+      deliveryMode: "SelfPickup",
+      startDatetime: values.startDate || "",
+      endDatetime: values.endDate || "",
+      couponCode: "ABC"
+    }
+    BookingService.getPreviewBooking(bookingPreview).then((data) => {
+      setPreviewBookingData(data)
+    })
+  }, [props?.motorbikeId, values.address, values.startDate, values.endDate])
 
   // MAP CONTROLLER
   const { isLoaded } = useLoadScript({
@@ -343,14 +355,14 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                         showTime={{ format: 'HH:mm' }}
                         format="DD-MM-YYYY HH:mm"
                         placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
-                        // value={[
-                        //     dayjs(values.startDate, "DD-MM-YYYY HH:mm"),
-                        //     dayjs(values.endDate, "DD-MM-YYYY HH:mm"),
-                        // ]}
-                        // onChange={(dates, dateStrings) => {
-                        //     setFieldValue('startDate', dateStrings[0]);
-                        //     setFieldValue('endDate', dateStrings[1]);
-                        // }}
+                        value={[
+                          dayjs(values.startDate, "DD-MM-YYYY HH:mm"),
+                          dayjs(values.endDate, "DD-MM-YYYY HH:mm"),
+                        ]}
+                        onChange={(dates, dateStrings) => {
+                          setFieldValue('startDate', dateStrings[0]);
+                          setFieldValue('endDate', dateStrings[1]);
+                        }}
                         allowClear={false}
                       />
                     </Box>
@@ -394,25 +406,17 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                           {formatMoney(motorbike?.priceRent)}/ngày
                         </Typography>
                       </Box>
-                      {/* Phí dịch vụ */}
-                      <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                          Phí dịch vụ
-                        </Typography>
-                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                          {formatMoney(motorbike?.priceRent)}/ ngày
-                        </Typography>
-                      </Box>
+
 
                       {/* Phí bảo hiểm */}
-                      <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                      {/* <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
                           Phí bảo hiểm
                         </Typography>
                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                           {formatMoney(motorbike?.priceRent)}/ ngày
                         </Typography>
-                      </Box>
+                      </Box> */}
                     </Box>
                     {/* Line */}
                     <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
@@ -425,7 +429,16 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                           Tổng phí thuê xe
                         </Typography>
                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                          {formatMoney(motorbike?.priceRent)} x 1? ngày
+                          {formatMoney(previewBookingData?.totalAmountTemp)} x {previewBookingData?.rentalDays} ngày
+                        </Typography>
+                      </Box>
+                      {/* Phí dịch vụ */}
+                      <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                          Tổng phí dịch vụ
+                        </Typography>
+                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                          {formatMoney(previewBookingData?.feeOfService)}
                         </Typography>
                       </Box>
                       {/* Mã khuyến mãi */}
@@ -448,14 +461,14 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                         Tổng tiền
                       </Typography>
                       <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                        {formatMoney(motorbike?.priceRent)}
+                        {formatMoney(previewBookingData?.totalAmount)}
                       </Typography>
                     </Box>
                     {/* Line */}
                     <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
 
                     {/* Button */}
-                    <MyCustomButton width='100%' onClick={() => { }} content={"Đặt xe"} variant='contained' />
+                    <MyCustomButton width='100%' onClick={handleSubmit} content={"Đặt xe"} variant='contained' />
 
                   </Box>
                 </Box>
@@ -508,7 +521,31 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                   </Box>
 
                   <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+                  {/* Mô tả */}
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                      {t("postMotorbike.listform.description")}
+                    </Typography>
+                    <Box width={"100%"}>
+                      <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
+                        <div dangerouslySetInnerHTML={{ __html: motorbike?.description || "" }}></div>
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
 
+                  {/* Điều khoản khác */}
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
+                    <Typography variant="h6" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                      {t("postMotorbike.listform.miscellaneous")}
+                    </Typography>
+                    <Box width={"100%"}>
+                      <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
+                        <div dangerouslySetInnerHTML={{ __html: motorbike?.miscellaneous || "" }}></div>
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
                   {/* Biển số xe */}
                   <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
                     <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
