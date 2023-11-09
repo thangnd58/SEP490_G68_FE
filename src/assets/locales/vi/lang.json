@@ -388,6 +388,7 @@
     "title_summary_transaction": "Tổng hợp giao dịch",
     "title_deposit_transaction": "Giao dịch nạp tiền",
     "title_withdrawal_transaction": "Giao dịch rút tiền",
+    "title_history_booking": "Lịch sử đặt xe",
     "title_transaction_code": "Mã giao dịch",
     "title_date_deposit": "Ngày nạp",
     "title_status": "Trạng thái",
@@ -421,7 +422,14 @@
     "content_create_request_withdrawal": "Bạn hãy chờ 1-2 ngày để chúng tôi phê duyệt yêu cầu của bạn",
     "minimum_money_deposit": "Tối thiểu {{min}}",
     "maximum_money_deposit": "Tối đa {{max}}",
-    "title_no_transaction": "Bạn chưa có giao dịch nào"
+    "title_no_transaction": "Bạn chưa có giao dịch nào",
+    "title_booking_id": "Mã đặt",
+    "title_address_get_motorbike": "Địa chỉ nhận",
+    "title_startdate_rent": "Ngày nhận xe",
+    "title_enddate_rent": "Ngày trả xe",
+    "title_type_payment": "Loại thanh toán",
+    "title_total_amount": "Tổng tiền",
+    "title_status_booking": "Trạng thái"
   },
   "favourite": {
     "title": "Xe yêu thích",
@@ -437,6 +445,12 @@
       "view": "Xem chi tiết",
       "gasoline": "Xăng",
       "electric": "Điện "
+    }
+  },
+  "booking": {
+    "toast" : {
+      "success" : "Đặt xe thành công.",
+      "error": "Đặt xe thất bại. Vui lòng thử lại sau"
     }
   }
 }

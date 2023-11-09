@@ -595,7 +595,7 @@ export default function ListMotorbikesSearchedPage() {
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                         }}>
-                                            <MotorbikeInforCard motorbike={item} isFavoritePage={false} startDate={values.startDate} endDate={values.endDate} />
+                                            <MotorbikeInforCard motorbike={item} isFavoritePage={false} startDate={values.startDate} endDate={values.endDate} searchedAddress={address} />
                                         </Grid>
                                     ))}
                                 </Grid>
