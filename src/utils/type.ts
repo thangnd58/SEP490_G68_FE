@@ -239,9 +239,29 @@ export interface BookingResponse {
     startDatetime: string,
     endDatetime: string,
     rentalDays: number,
-    motorbikes: any,
+    motorbikes: Motorbike[],
     feeOfService: number,
     totalAmountTemp: number,
     couponCode: string,
     totalAmount: number
+}
+
+export interface Booking {
+    bookingId: number,
+    deliveryMode: string,
+    address: string,
+    startDatetime: string,
+    endDatetime: string,
+    rentalDays: number,
+    motorbikes: Motorbike[],
+    feeOfService: number,
+    totalAmountTemp: number,
+    couponCode: string,
+    totalAmount: number,
+    paymentType: string,
+    status: string,
+    createDatetime: string,
+    updateDatetime: string,
+    createUserId: number,
+    updateUserId: number
 }

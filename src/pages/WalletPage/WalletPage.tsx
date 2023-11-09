@@ -21,6 +21,7 @@ import ModalStatus from './component/ModalStatus';
 import { SuccessIcon } from '../../assets/images';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import ModalWithdrawalMoney from './component/ModalWithdrawalMoney';
+import { PaymentService } from '../../services/PaymentService';
 
 const DatePickerStyle = styled('div')(({ theme }) => ({
     '& .MuiTextField-root': {
@@ -74,11 +75,6 @@ const Wallet = () => {
         setShowModal(true)
     }
 
-    const showModalStatus = () => {
-        setContentModal(<ModalStatus icon={SuccessIcon} title={t("wallet.title_status_deposite_success")} content={t("wallet.content_status_deposite_success")} handleConfirm={handleConfirmDeposit} />)
-        setShowModal(true)
-    }
-
     const handleConfirmDeposit = () => {
         setReload((prev) => !prev)
         navigate(ROUTES.user.wallet)
@@ -98,9 +94,16 @@ const Wallet = () => {
             try {
                 WalletService.updateMoneyToDb(search).then((data) => {
                     dispatch(getUserInfo());
-                    showModalStatus();
+                    setContentModal(<ModalStatus icon={SuccessIcon} title={t("wallet.title_status_deposite_success")} content={t("wallet.content_status_deposite_success")} handleConfirm={handleConfirmDeposit} />)
+                    setShowModal(true)
+                })
+                PaymentService.processPaymentDb(search).then((data) => {
+                    dispatch(getUserInfo());
+                    setContentModal(<ModalStatus icon={SuccessIcon} title={t("Thanh toán thành công")} content={"Bạn đã thanh toán đơn đặt xe thành công. Hệ thống sẽ xử lý yêu cầu đặt xe của bạn sớm nhất"} handleConfirm={handleConfirmDeposit} />)
+                    setShowModal(true)
                 })
             } catch (error) {
+
             }
         }
     }, [])

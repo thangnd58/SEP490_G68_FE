@@ -15,14 +15,14 @@ import { useAppDispatch } from '../../../hooks/useAction';
 import ToastComponent from '../../../components/toast/ToastComponent';
 import { getUserFavouriteInfo } from '../../../redux/reducers/userFavouriteReducer';
 
-export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean, startDate?: string, endDate?: string }) {
+export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean, startDate?: string, endDate?: string, searchedAddress?: string }) {
     const { t } = usei18next();
     const { setContentModal, setShowModal } = useContext(ModalContext);
     const dispatch = useAppDispatch();
 
     const showMotorbikeDetailModal = () => {
         setContentModal(
-            <MotorbikeDetailModal motorbikeId={props.motorbike.id} startDate={props.startDate} endDate={props.endDate} />
+            <MotorbikeDetailModal motorbikeId={props.motorbike.id} startDate={props.startDate} endDate={props.endDate} searchedAddress={props.searchedAddress} />
         )
         setShowModal(true)
     }

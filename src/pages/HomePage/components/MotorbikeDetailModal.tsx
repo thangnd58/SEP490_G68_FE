@@ -3,7 +3,7 @@ import { BookingRequest, BookingResponse, Motorbike } from '../../../utils/type'
 import MyDialog from '../../../components/common/MyDialog'
 import usei18next from '../../../hooks/usei18next';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
-import { Box, Chip, CircularProgress, Divider, Grid, IconButton, MenuItem, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Box, Chip, CircularProgress, Divider, FormControl, FormLabel, RadioGroup, Radio, FormControlLabel, Grid, IconButton, MenuItem, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import MyIcon from '../../../components/common/MyIcon';
 import { CloseOutlined, FormatBoldRounded, GasMeterOutlined, LocalDrinkOutlined, LocationOn, LocationOnOutlined, Loyalty, MyLocation, NewReleasesOutlined } from '@mui/icons-material';
 import MySlideShowImage from '../../../components/common/MySlideShowImage';
@@ -20,6 +20,9 @@ import * as Yup from "yup";
 import { PostMotorbikeService } from '../../../services/PostMotorbikeService';
 import RegisterMotorbikeItem from '../../PostMotorbike/components/RegisterMotorbike/RegisterMotorbikeItem';
 import { BookingService } from '../../../services/BookingService';
+import ToastComponent from '../../../components/toast/ToastComponent';
+import { useNavigate } from 'react-router-dom';
+import { BookingDeliveryMode, BookingPaymentType, ROUTES } from '../../../utils/Constant';
 
 export default function MotorbikeDetailModal(props: { motorbikeId: number | undefined, searchedAddress?: string, startDate?: string, endDate?: string }) {
 
@@ -27,7 +30,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
   const { t } = usei18next();
   const [equipmentList, setEquipmentList] = useState<string[]>([]);
   const [location, setLocation] = useState<Location>();
-  const { closeModal } = useContext(ModalContext);
+  const { closeModal, setContentModal, setShowModal } = useContext(ModalContext);
   const { RangePicker } = DatePicker;
   const [isMapModalOpen, setMapModalOpen] = useState(false);
   const [motorbike, setMotorbike] = useState<Motorbike>();
@@ -49,7 +52,6 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
       const response = await PostMotorbikeService.getMotorbikeById(id);
       if (response) {
         setMotorbike(response);
-        setFieldValue("address", response.address)
       }
     }
     catch (error) {
@@ -85,11 +87,13 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
   // FORM CONTROLLER
   const formik = useFormik({
     initialValues: {
-      address: "address",
+      address: props?.searchedAddress,
       lat: 21.028511,
       lng: 105.804817,
       startDate: props?.startDate,
       endDate: props?.endDate,
+      paymentType: BookingPaymentType.UserBalance,
+      deliveryMode: BookingDeliveryMode.DeliveryService
     },
     validationSchema: Yup.object({
       address: Yup.string().required(t("postMotorbike.registedForm.addressRequired")),
@@ -98,10 +102,27 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
     }),
 
     onSubmit: async (values) => {
-      
+      try {
+        const request = {
+          motorbikeId: props?.motorbikeId || 0,
+          address: values.address || "",
+          deliveryMode: values.deliveryMode,
+          startDatetime: values.startDate || "",
+          endDatetime: values.endDate || "",
+          couponCode: "",
+          paymentType: BookingPaymentType.Card
+        }
+        await BookingService.postBooking(request)
+        ToastComponent(t("booking.toast.success"), "success")
+        window.location.reload()
+      } catch (error) {
+        ToastComponent(t("booking.toast.error"), "error")
+      }
     }
   }
   );
+
+
 
   const {
     values,
@@ -115,11 +136,11 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
   useEffect(() => {
     const bookingPreview: BookingRequest = {
       motorbikeId: props?.motorbikeId || 0,
-      address: values.address,
-      deliveryMode: "SelfPickup",
+      address: values.address || "",
+      deliveryMode: values.deliveryMode,
       startDatetime: values.startDate || "",
       endDatetime: values.endDate || "",
-      couponCode: "ABC"
+      couponCode: ""
     }
     BookingService.getPreviewBooking(bookingPreview).then((data) => {
       setPreviewBookingData(data)
@@ -151,7 +172,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
 
   // handle get location click then set default location motorbike
   const handleGetLocationClick = () => {
-
+    setFieldValue("deliveryMode", BookingDeliveryMode.SelfPickup)
     if (motorbike) {
       setValue(motorbike?.address);
       setFieldValue("address", motorbike?.address);
@@ -160,6 +181,8 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
       setShowMenu(false);
     }
   };
+
+
 
   // handle double click on map
   const handleDoubleClick = (e: any) => {
@@ -193,6 +216,9 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
   useEffect(() => {
     if (values.address)
       setValue(values.address);
+    if (values.deliveryMode === BookingDeliveryMode.SelfPickup) {
+      setFieldValue("deliveryMode", BookingDeliveryMode.DeliveryService)
+    }
   }, [values.address]);
 
   // handle select address
@@ -391,6 +417,26 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                         >
                           {values.address}
                         </Typography>
+                      </Box>
+                    </Box>
+                    {/* Chọn vị trí trả xe */}
+                    <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} marginTop={'8px'}>
+                      <Box width={"100%"} display={'flex'} flexDirection={'column'} justifyContent={'start'} sx={{ gap: '8px' }}>
+                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                          Loại thanh toán
+                        </Typography>
+                        <Box>
+                          <RadioGroup
+                            value={values.paymentType}
+                            onChange={(event) => {
+                              setFieldValue("paymentType", event.target.value)
+                            }}
+                            sx={{ display: 'flex', flexDirection: 'row' }}
+                          >
+                            <FormControlLabel checked={values.paymentType === BookingPaymentType.UserBalance} value={BookingPaymentType.UserBalance} control={<Radio />} label="Số dư ví" />
+                            <FormControlLabel checked={values.paymentType === BookingPaymentType.Card} value={BookingPaymentType.Card} control={<Radio />} label="Ví điện tử VN Pay" />
+                          </RadioGroup>
+                        </Box>
                       </Box>
                     </Box>
                     {/* Line */}
