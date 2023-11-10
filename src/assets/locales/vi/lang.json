@@ -12,7 +12,9 @@
     "btn_close": "Đóng",
     "btn_promotion": "Xem khuyến mãi",
     "favourite": "Yêu Thích",
-    "wallet": "Ví của tôi"
+    "wallet": "Ví của tôi",
+    "notification": "Thông báo",
+    "cart": "Giỏ hàng"
   },
   "layout": {
     "admin": "Quản trị viên",

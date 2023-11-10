@@ -110,14 +110,15 @@ function Header() {
                                         icon={
                                             <NotificationsActiveOutlined
                                                 sx={{ color: "#777E90" }}
-                                                onClick={() => navigate(ROUTES.homepage)}
+                                                onClick={() => { }}
                                             />
                                         }
                                         badgeContent='100'
                                         badgeColor='primary'
                                         hasBagde
                                         hasTooltip
-                                        tooltipText={t("header.notificaiton")} position='bottom' />
+                                        tooltipText={t("header.notification")} position='bottom' />
+                                    
                                     <MyIcon
                                         icon={
                                             <AddShoppingCart
@@ -385,7 +386,7 @@ function Header() {
 
 export default Header;
 
-function PopoverItem({ label, icon }: { label: string; icon: any; }) {
+export function PopoverItem({ label, icon }: { label: string; icon: any; }) {
     return (
         <Box sx={{
             display: 'flex',

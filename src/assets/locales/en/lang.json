@@ -12,7 +12,9 @@
     "btn_close": "Close",
     "btn_promotion": "Promotion",
     "favourite": "My Favourite",
-    "wallet": "My Wallet"
+    "wallet": "My Wallet",
+    "notification": "Notification",
+    "cart": "My cart"
   },
   "layout": {
     "admin": "Adminstrator",
