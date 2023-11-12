@@ -1,38 +1,55 @@
-.ck .ck-sticky-panel__content{
-    position: unset !important;
-}
-.ck-content{
-    min-height: 200px !important;
-    max-height: 400px !important;
-    padding-left: 10px !important;
-    padding-right: 10px !important;
+.ck .ck-sticky-panel__content {
+  position: unset !important;
 }
 
-.ck.ck-editor{
+.ck-content {
+  min-height: 200px !important;
+  max-height: 400px !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+.ck.ck-editor {
   overflow: hidden;
 }
+
 /* custom css ckEditor numberList and Bulleted  */
 .ck.ck-content ul,
 .ck.ck-content ul li {
   list-style-type: inherit;
 }
+
 .ck.ck-content ul {
   padding-left: 20px;
 }
+
 .ck.ck-content ol,
 .ck.ck-content ol li {
   list-style-type: decimal;
 }
+
 .ck.ck-content ol {
   padding-left: 20px;
 }
 
-/* table {
+table {
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   border: 1px solid black;
   padding: 4px 8px;
-} */
+}
 
+figure {
+  display: block;
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+.image {
+  border-radius: '8px';
+}

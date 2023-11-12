@@ -4,6 +4,7 @@ import axios from "axios";
 import { User } from "../../utils/type";
 import { AppDispatch, RootState } from "../store";
 import UserService from "../../services/UserService";
+import { getUserNotificationInfo } from "./notificationReducer";
 
 export interface UserInfo {
   user: null | User
@@ -34,6 +35,7 @@ export const getUserInfo = (): any => {
         const userInfo = await UserService.getUserInfo();
         //@ts-ignore
         dispatch(updateUser(userInfo.data))
+        dispatch(getUserNotificationInfo())
         //@ts-ignore
         localStorage.setItem("userInfo", JSON.stringify(userInfo.data));
       } else {

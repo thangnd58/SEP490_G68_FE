@@ -295,8 +295,14 @@
       "buttonSave": "Lưu",
       "statusAddNewsSuccess": "Thêm tin tức thành công",
       "statusEditNewsSuccess": "Sửa tin tức thành công",
-      "statusAddNewsError": "Cập nhật in tức thất bại",
-      "viewsMore": "Xem thêm"
+      "statusAddNewsError": "Cập nhật tin tức thất bại",
+      "statusDeleteNewsSuccess": "Xóa tin tức thành công",
+      "statusDeleteNewsError": "Xóa tin tức thất bại",
+      "viewsMore": "Xem thêm",
+      "buttonDelete": "Xóa",
+      "addNews": "Thêm",
+      "deleteNewsTitle": "Xóa tin tức",
+      "deleteNewsWarn": "Lưu ý: Sau khi xóa sẽ không thể khôi phục. Bạn có muốn xóa không?"
     }
   },
   "component": {

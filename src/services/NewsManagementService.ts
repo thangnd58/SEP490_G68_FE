@@ -15,6 +15,9 @@ const NewsManagementService = {
     },
     addNews: async (newsReq: NewsRequest) => {
         return await api.post(`${urlNews}`, newsReq)
+    },
+    deleteNews: async (id: string) => {
+        return await api.delete(`${urlNews}/${id}`)
     }
 }
 export default NewsManagementService

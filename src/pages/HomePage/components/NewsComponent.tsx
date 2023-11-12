@@ -33,6 +33,8 @@ export default function NewsComponent() {
                         <Grid item xs={8} >
                             <Box position={'relative'}
                                 onClick={() => navigate(`${ROUTES.newspage}/${listNews[0].newsId}`)}
+                                height={'100%'} 
+
                             >
                                 <img src={listNews[0].imageUrl} width={'100%'} alt={listNews[0].image}
                                     style={{
@@ -47,7 +49,7 @@ export default function NewsComponent() {
                                     style={{
                                         background: 'linear-gradient(rgba(255, 255, 255, 0) 0%, #000000)',
                                         width: '100%',
-                                        height: '50%',
+                                        height: '80%',
                                     }}
                                     borderRadius={'8px'}
                                 ></Box>
@@ -77,7 +79,7 @@ export default function NewsComponent() {
                                     <Box position={'relative'}
                                         onClick={() => navigate(`${ROUTES.newspage}/${listNews[1].newsId}`)}
                                     >
-                                        <img src={listNews[1].imageUrl} width={isMobile ? '93%' : '95.3%'} alt={listNews[1].image}
+                                        <img src={listNews[1].imageUrl} width={'100%'} alt={listNews[1].image}
                                             style={{
                                                 cursor: 'pointer',
                                                 borderRadius: '8px',
@@ -89,8 +91,8 @@ export default function NewsComponent() {
                                             bottom={'0px'}
                                             style={{
                                                 background: 'linear-gradient(rgba(255, 255, 255, 0) 0%, #000000)',
-                                                width: isMobile ? '93%' : '95.3%',
-                                                height: '50%',
+                                                width: '100%',
+                                                height: '80%',
                                             }}
                                             borderRadius={'8px'}
                                         ></Box>
@@ -118,7 +120,7 @@ export default function NewsComponent() {
                                     <Box position={'relative'}
                                         onClick={() => navigate(`${ROUTES.newspage}/${listNews[2].newsId}`)}
                                     >
-                                        <img src={listNews[2].imageUrl} width={isMobile ? '93%' : '95.3%'} alt={listNews[2].image}
+                                        <img src={listNews[2].imageUrl} width={'100%'} alt={listNews[2].image}
                                             style={{
                                                 cursor: 'pointer',
                                                 borderRadius: '8px',
@@ -130,8 +132,8 @@ export default function NewsComponent() {
                                             bottom={'0px'}
                                             style={{
                                                 background: 'linear-gradient(rgba(255, 255, 255, 0) 0%, #000000)',
-                                                width: isMobile ? '93%' : '95.3%',
-                                                height: '50%',
+                                                width: '100%',
+                                                height: '80%',
                                             }}
                                             borderRadius={'8px'}
                                         ></Box>
@@ -160,7 +162,7 @@ export default function NewsComponent() {
                     </Grid>
                 </Box>
             }
-            <MyCustomButton content={(t("dashBoardManager.news.viewsMore"))} icon={<ArrowRightAlt style={{color: '#FFFFFF'}} />} iconPosition='right' onClick={() => navigate(ROUTES.newspage)} />
+            <MyCustomButton content={(t("dashBoardManager.news.viewsMore"))} icon={<ArrowRightAlt style={{ color: '#FFFFFF' }} />} iconPosition='right' onClick={() => navigate(ROUTES.newspage)} />
         </Box>
     )
 }

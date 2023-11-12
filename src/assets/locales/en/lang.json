@@ -295,7 +295,13 @@
       "statusAddNewsSuccess": "Add news successfully",
       "statusEditNewsSuccess": "Edit news successfully",
       "statusEditNewsError": "Edit news failed",
-      "viewsMore": "More"
+      "statusDeleteNewsSuccess": "Remove news successfully",
+      "statusDeleteNewsError": "Remove news failed",
+      "viewsMore": "More",
+      "buttonDelete": "Delete",
+      "addNews": "Add",
+      "deleteNewsTitle": "Delete this news",
+      "deleteNewsWarn": "Note: Once deleted, cannot be restored. Do you want to delete?"
     }
   },
   "component": {

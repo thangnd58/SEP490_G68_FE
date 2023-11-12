@@ -574,7 +574,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                     </Typography>
                     <Box width={"100%"}>
                       <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
-                        <div dangerouslySetInnerHTML={{ __html: motorbike?.description || "" }}></div>
+                        <div style={{textAlign: 'justify'}} dangerouslySetInnerHTML={{ __html: motorbike?.description || "" }}></div>
                       </Typography>
                     </Box>
                   </Box>
@@ -587,7 +587,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                     </Typography>
                     <Box width={"100%"}>
                       <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
-                        <div dangerouslySetInnerHTML={{ __html: motorbike?.miscellaneous || "" }}></div>
+                        <div style={{textAlign: 'justify'}} dangerouslySetInnerHTML={{ __html: motorbike?.miscellaneous || "" }}></div>
                       </Typography>
                     </Box>
                   </Box>

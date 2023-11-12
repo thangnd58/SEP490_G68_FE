@@ -1,8 +1,8 @@
 import { Box } from '@mui/system';
 import { DataGrid } from '@mui/x-data-grid';
 import { News } from '../../../utils/type';
-import React, { useState, useEffect } from 'react';
-import { Add, ChangeCircleOutlined, CheckCircleOutline, ErrorOutline, StopCircleOutlined, VisibilityOutlined, WarningAmber } from '@mui/icons-material';
+import React, { useState, useEffect, useContext } from 'react';
+import { Add, ChangeCircleOutlined, CheckCircleOutline, Delete, ErrorOutline, StopCircleOutlined, VisibilityOutlined, WarningAmber } from '@mui/icons-material';
 import { GridPrintGetRowsToExportParams, GridRowId, GridToolbar, gridFilteredSortedRowIdsSelector, selectedGridRowsSelector } from '@mui/x-data-grid';
 import { ROUTES } from '../../../utils/Constant';
 import { useNavigate } from 'react-router-dom';
@@ -14,16 +14,20 @@ import EditIcon from '@mui/icons-material/Edit';
 import NewsManagementService from '../../../services/NewsManagementService';
 import MyCustomButton from '../../../components/common/MyButton';
 import useThemePage from '../../../hooks/useThemePage';
+import { ModalContext } from '../../../contexts/ModalContext';
+import MyDialog from '../../../components/common/MyDialog';
+import ToastComponent from '../../../components/toast/ToastComponent';
 
 const NewsManagement = () => {
-
+    const { setContentModal } = useContext(ModalContext)
     const [listNews, setListNews] = useState<News[]>([]);
     const navigate = useNavigate();
     const { t } = usei18next();
-    const {isMobile} = useThemePage();
+    const [reload, setIsReload] = useState<boolean>(false);
+
     useEffect(() => {
         getAllNews();
-    }, [])
+    }, [reload])
 
     const getAllNews = async () => {
         try {
@@ -33,6 +37,16 @@ const NewsManagement = () => {
             }
         } catch (error) {
 
+        }
+    }
+
+    const handleDeleteNews = async (id: string) => {
+        try {
+            await NewsManagementService.deleteNews(id);
+            ToastComponent(t("dashBoardManager.news.statusDeleteNewsSuccess"), "success")
+            setIsReload((prev) => !prev)
+        } catch (error) {
+            ToastComponent(t("dashBoardManager.news.statusDeleteNewsError"), "error")
         }
     }
 
@@ -62,8 +76,20 @@ const NewsManagement = () => {
         {
             field: 'newsId', headerName: t("dashBoardManager.news.columnAction"), width: 100,
             renderCell: (params: any) => (
-                <Box sx={{ cursor: 'pointer' }}>
+                <Box sx={{ cursor: 'pointer', display: 'flex' }}>
                     <MyIcon icon={<EditIcon />} hasTooltip position='right' tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.manageNews}/${params.value}`)} />
+                    <MyIcon icon={<Delete />} hasTooltip position='right' tooltipText={t("dashBoardManager.news.buttonDelete")} onClick={() => {
+                        setContentModal(
+                            <MyDialog
+                                icon={<Delete sx={{ width: '72px', height: '72px' }} />}
+                                title={t("dashBoardManager.news.deleteNewsTitle")}
+                                content={t("dashBoardManager.news.deleteNewsWarn")}
+                                onClickAgree={() => handleDeleteNews(params.value)}
+                                hasAgreeButton={true}
+                                hasCancelButton={true}
+                            />
+                        )
+                    }} />
                 </Box>
             )
         },
@@ -112,9 +138,9 @@ const NewsManagement = () => {
                     // slots={{ toolbar: GridToolbar }}
                     components={{
                         Toolbar: () => (
-                            <Box sx={{ display: 'flex', flexDirection: isMobile ? "column" : "row", alignItems: 'center' }}>
+                            <Box>
                                 <GridToolbar />
-                                <MyCustomButton icon={<Add color='primary'/>}  content='Thêm tin tức' variant='outlined' iconPosition='left' noBorder={true} onClick={() => navigate(`${ROUTES.admin.manageNews}/add`)}/>
+                                <MyCustomButton icon={<Add color='primary' />} content={t("dashBoardManager.news.addNews")} variant='outlined' iconPosition='left' noBorder={true} onClick={() => navigate(`${ROUTES.admin.manageNews}/add`)} />
                             </Box>
                         ),
                     }}
