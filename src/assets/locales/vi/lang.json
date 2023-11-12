@@ -295,7 +295,8 @@
       "buttonSave": "Lưu",
       "statusAddNewsSuccess": "Thêm tin tức thành công",
       "statusEditNewsSuccess": "Sửa tin tức thành công",
-      "statusAddNewsError": "Cập nhật in tức thất bại"
+      "statusAddNewsError": "Cập nhật in tức thất bại",
+      "viewsMore": "Xem thêm"
     }
   },
   "component": {

@@ -294,7 +294,8 @@
       "buttonSave": "Save",
       "statusAddNewsSuccess": "Add news successfully",
       "statusEditNewsSuccess": "Edit news successfully",
-      "statusEditNewsError": "Edit news failed"
+      "statusEditNewsError": "Edit news failed",
+      "viewsMore": "More"
     }
   },
   "component": {

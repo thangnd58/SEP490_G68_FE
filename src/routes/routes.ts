@@ -34,6 +34,7 @@ import CartPage from '../pages/CartPage/CartPage';
 import NewsManagement from '../pages/DashBoardPage/NewsManagement/NewsManagement';
 import NewsManagementForm from '../pages/DashBoardPage/NewsManagement/NewsManagementForm';
 import { DetailNews } from '../pages/NewsPage/DetailNews';
+import { NewsPage } from '../pages/NewsPage/NewsPage';
 
 export type Route = {
     path: string;
@@ -46,6 +47,7 @@ export const routes: Route[] = [
     // Home Page
     { path: ROUTES.homepage, component: Home },
     { path: `${ROUTES.search.filtermotorbike}/:startDate/:endDate/:address`, component: ListMotorbikesSearchedPage },
+    { path: `${ROUTES.newspage}`, component: NewsPage },
     { path: `${ROUTES.newspage}/:id`, component: DetailNews },
 
     // Components Page

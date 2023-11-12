@@ -160,7 +160,7 @@ export default function NewsComponent() {
                     </Grid>
                 </Box>
             }
-            <MyCustomButton content='Tìm hiểu thêm' icon={<ArrowRightAlt style={{color: '#FFFFFF'}} />} iconPosition='right' />
+            <MyCustomButton content={(t("dashBoardManager.news.viewsMore"))} icon={<ArrowRightAlt style={{color: '#FFFFFF'}} />} iconPosition='right' onClick={() => navigate(ROUTES.newspage)} />
         </Box>
     )
 }
