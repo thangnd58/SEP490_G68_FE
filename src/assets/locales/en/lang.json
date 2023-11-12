@@ -453,5 +453,16 @@
       "success": "Successful booking.",
       "error": "Motorbike booking failed. Please try again later"
     }
+  },
+  "helper": {
+    "secondAgo": "seconds ago",
+    "minuteAgo": "minutes ago",
+    "hourAgo": "hours ago",
+    "dayAgo": "days ago",
+    "monthAgo": "months ago",
+    "yearAgo": "years ago"
+  },
+  "notification": {
+    "empty": "You don't have any notifications yet"
   }
 }

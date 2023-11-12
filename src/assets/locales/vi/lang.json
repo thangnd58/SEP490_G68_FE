@@ -454,5 +454,16 @@
       "success" : "Đặt xe thành công.",
       "error": "Đặt xe thất bại. Vui lòng thử lại sau"
     }
+  },
+  "helper": {
+    "secondAgo": "giây trước",
+    "minuteAgo": "phút trước",
+    "hourAgo": "giờ trước",
+    "dayAgo": "ngày trước",
+    "monthAgo": "tháng trước",
+    "yearAgo": "năm trước"
+  },
+  "notification": {
+    "empty": "Bạn chưa có thông báo nào"
   }
 }

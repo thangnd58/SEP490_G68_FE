@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useContext } from 'react';
 import { AppBar, Avatar, Badge, Box, Button, Divider, Drawer, IconButton, InputAdornment, InputLabel, List, ListItem, ListItemText, Menu, MenuItem, OutlinedInput, Popover, Tooltip, Typography, } from '@mui/material';
 import UserService from '../../services/UserService';
 import { AuthContext, useAuth } from '../../contexts/AuthContext';
@@ -6,7 +6,7 @@ import usei18next from '../../hooks/usei18next';
 import { useNavigate } from 'react-router';
 import MenuIcon from '@mui/icons-material/Menu';
 import useThemePage from '../../hooks/useThemePage';
-import { AccountBox, AddShoppingCart, Close, ExitToApp, Home, ListAlt, Loyalty, ManageAccounts, Notifications, NotificationsActive, NotificationsActiveOutlined, Search, VpnKey, WalletOutlined } from '@mui/icons-material';
+import { AccountBox, AddShoppingCart, Circle, Close, ExitToApp, Home, ListAlt, Loyalty, ManageAccounts, Notifications, NotificationsActive, NotificationsActiveOutlined, NotificationsOutlined, Search, VpnKey, WalletOutlined } from '@mui/icons-material';
 import { LogoHeader, NotificationIcon, UnitedKingDomFlag, VietNamFlag } from '../../assets/images';
 import { ROUTES } from '../../utils/Constant';
 import MyIcon from '../../components/common/MyIcon';
@@ -14,6 +14,14 @@ import { useAppSelector } from '../../hooks/useAction';
 import MyCustomButton from '../../components/common/MyButton';
 import theme from '../../utils/theme';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { UnReadIcon } from '../../assets/icons';
+import ErrorMessage from '../../components/common/ErrorMessage';
+import { getPreviousTimeRelative } from '../../utils/helper';
+import { ModalContext } from '../../contexts/ModalContext';
+import MyDialog from '../../components/common/MyDialog';
+import { DetailNotification } from './DetailNotificationModal';
+import store from '../../redux/store';
+import { getUserNotificationInfo } from '../../redux/reducers/notificationReducer';
 
 const LanguageBox = memo(() => {
     const { isVn, changeLang } = usei18next();
@@ -59,10 +67,16 @@ function Header() {
     const { isMobile } = useThemePage();
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [isAvatarClicked, setIsAvatarClicked] = useState(false);
+    const { setContentModal, setShowModal } = useContext(ModalContext);
     const toggleDrawer = () => {
         setDrawerOpen(!drawerOpen);
     };
 
+
+
+    const { userNotification } = useAppSelector((state) => state.userNotificationInfo);
+
+    //avatar zone
     const [anchorEl, setAnchorEl] = useState<any>(null);
 
     const handleAvatarClick = (event: React.MouseEvent<any>) => {
@@ -72,6 +86,19 @@ function Header() {
 
     const open = Boolean(anchorEl);
 
+
+    //notification zone
+    const [anchorElNotify, setAnchorElNotify] = React.useState<HTMLButtonElement | null>(null);
+
+    const handleClickNotify = (event: React.MouseEvent<any>) => {
+        setAnchorElNotify(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorElNotify(null);
+    };
+
+    const openNotify = Boolean(anchorElNotify);
 
     return (
         <>
@@ -106,19 +133,72 @@ function Header() {
 
                             {isLogin ? (
                                 <>
-                                    <MyIcon
-                                        icon={
-                                            <NotificationsActiveOutlined
-                                                sx={{ color: "#777E90" }}
-                                                onClick={() => { }}
-                                            />
-                                        }
-                                        badgeContent='100'
-                                        badgeColor='primary'
-                                        hasBagde
-                                        hasTooltip
-                                        tooltipText={t("header.notification")} position='bottom' />
-                                    
+                                    <Box
+                                        aria-owns={openNotify ? 'hover-menu' : undefined}
+                                        aria-haspopup="true"
+                                    >
+                                        <MyIcon
+                                            icon={
+                                                <NotificationsActiveOutlined
+                                                    sx={{ color: "#777E90" }}
+                                                />
+                                            }
+                                            onClick={handleClickNotify}
+                                            badgeContent={userNotification.filter(item => item.isRead === false).length.toString()}
+                                            badgeColor='primary'
+                                            hasBagde
+                                            hasTooltip
+                                            aria-describedby={openNotify ? 'simple-popover' : undefined}
+                                            tooltipText={t("header.notification")} position='bottom' />
+                                        <Popover
+                                            sx={{ marginTop: '16px', maxHeight: '500px' }}
+                                            open={openNotify}
+                                            id={openNotify ? 'simple-popover' : undefined}
+                                            anchorEl={anchorElNotify}
+                                            onClose={handleClose}
+                                            anchorOrigin={{
+                                                vertical: "bottom",
+                                                horizontal: 'right',
+                                            }}
+                                            transformOrigin={{
+                                                vertical: 'top',
+                                                horizontal: "right",
+                                            }}
+                                            color='primary'
+                                            PaperProps={{ sx: { borderRadius: "16px" } }}
+                                        >
+                                            <Box sx={{ p: '16px', width: '300px' }}>
+                                                <Typography pb={'16px'} fontWeight={'700'} fontSize={'24px'}>Thông báo</Typography>
+                                                <Divider />
+                                                {
+                                                    userNotification.length > 0 ? userNotification.map((notifi) => {
+                                                        return (
+                                                            <MenuItem
+                                                                sx={{ textAlign: 'center' }}
+                                                                key={`NOTIFI${notifi.notificationId}`}
+                                                                onClick={
+                                                                    () => {
+                                                                        setContentModal(<DetailNotification id={notifi.notificationId} />)
+                                                                    }
+                                                                }
+                                                            >
+                                                                <PopoverItem
+                                                                    label={notifi.title}
+                                                                    icon={<NotificationsActiveOutlined scale={2} sx={{ color: notifi.isRead ? "#9A9EA5" : "primary.main" }} />}
+                                                                    iconRead={!notifi.isRead ? <UnReadIcon /> : undefined}
+                                                                    content={notifi.detail}
+                                                                    timeAgo={notifi.createDatetime}
+                                                                />
+                                                            </MenuItem>
+                                                        )
+                                                    }) : (
+                                                        <Typography pt={'8px'}>{t("notification.empty")}</Typography>
+                                                    )
+                                                }
+                                            </Box>
+                                        </Popover>
+                                    </Box>
+
                                     <MyIcon
                                         icon={
                                             <AddShoppingCart
@@ -386,20 +466,27 @@ function Header() {
 
 export default Header;
 
-export function PopoverItem({ label, icon }: { label: string; icon: any; }) {
+export function PopoverItem({ label, icon, iconRead, timeAgo, content }: { label: string; icon: any; iconRead?: any, timeAgo?: string, content?: string }) {
     return (
         <Box sx={{
             display: 'flex',
             alignItems: 'center',
             margin: '8px 0px',
+            position: 'relative',
+            width: '100%',
+            gap:'8px'
         }}>
             {icon}
-            <Typography variant='h3' fontSize={"16px"} sx={{
-                fontWeight: "500",
-                marginLeft: "8px",
-            }}>
-                {label}
-            </Typography>
+            <Box display={'flex'} flexDirection={'column'} alignItems={'start'}>
+                <Typography variant='h3' fontSize={"16px"} sx={{
+                    fontWeight: "500",
+                }}>
+                    {label}
+                </Typography>
+                <Typography noWrap={true} fontSize={'12px'} >{content}</Typography>
+                <Typography fontSize={'10px'} color={'primary.main'}>{timeAgo ? getPreviousTimeRelative(timeAgo) : ""}</Typography>
+            </Box>
+            <Box position={'absolute'} right={'0px'} display={'flex'} alignItems={'center'}>{iconRead}</Box>
         </Box>
 
     );

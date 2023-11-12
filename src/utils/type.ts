@@ -265,3 +265,13 @@ export interface Booking {
     createUserId: number,
     updateUserId: number
 }
+
+export interface Notification {
+    notificationId: number,
+    userId: number,
+    title: string,
+    detail: string,
+    isRead: boolean,
+    createDatetime: string,
+    updateDatetime: string
+}
