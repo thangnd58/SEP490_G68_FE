@@ -25,7 +25,7 @@ export const DetailNews = () => {
         <>
             {
                 news &&
-                <Box display={'flex'} flexDirection={'column'} gap={'8px'} p={'32px 64px'} color={'text.primary'}>
+                <Box display={'flex'} flexDirection={'column'} gap={'8px'} p={isMobile ? '32px 16px' : '32px 64px'} color={'text.primary'}>
                     <Box display={'flex'} flexDirection={isMobile ? 'column' : 'row'} gap={'8px'} alignItems={'center'}>
                         <Typography variant="h4" fontWeight={'700'} textAlign={'center'}>{news.title}</Typography>
                         <Typography sx={{ backgroundColor: 'primary.main', color: 'common.white', p: '8px', borderRadius: '32px' }}>{news.category}</Typography>
