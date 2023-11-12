@@ -37,6 +37,11 @@ export default function NavigationAdmin() {
             path: ROUTES.admin.managerBrand,
             name: t("dashBoardManager.Navigation.brand"),
             icon: VerifiedUser,
+        },
+        {
+            path: ROUTES.admin.manageNews,
+            name: t("dashBoardManager.Navigation.news"),
+            icon: VerifiedUser,
         }
     ];
 

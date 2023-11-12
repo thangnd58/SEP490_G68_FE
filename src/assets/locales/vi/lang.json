@@ -12,7 +12,9 @@
     "btn_close": "Đóng",
     "btn_promotion": "Xem khuyến mãi",
     "favourite": "Yêu Thích",
-    "wallet": "Ví của tôi"
+    "wallet": "Ví của tôi",
+    "notification": "Thông báo",
+    "cart": "Giỏ hàng"
   },
   "layout": {
     "admin": "Quản trị viên",
@@ -146,6 +148,10 @@
         "warning": "Thêm xe yêu thích thất bại",
         "error": "Lỗi xác thêm xe yêu thích"
       }
+    },
+    "uploadImage": {
+      "success" : "Tải ảnh lên thành công",
+      "error": "Tải ảnh lên thất bại"
     }
   },
   "footer": {
@@ -228,7 +234,8 @@
       "licenseManager": "Quản lý bằng lái xe",
       "motorbikeRentalManager": "Quản lý xe máy cho thuê",
       "withdrawalRequestManager": "Quản lý yêu cầu rút tiền",
-      "brand" : "Quản lý hãng xe"
+      "brand" : "Quản lý hãng xe",
+      "news": "Quản lý tin tức"
     },
     "License": "Bằng lái xe",
     "Motobike": {
@@ -277,6 +284,25 @@
       "action" : "Chỉnh sửa",
       "delete" : "Xóa"
       
+    },
+    "news": {
+      "newsId": "ID",
+      "newsTitle": "Tiêu đề",
+      "newsCategory": "Danh mục",
+      "newsCreateDate": "Ngày tạo",
+      "newsUpdateDate": "Ngày sửa",
+      "columnAction": "Chỉnh sửa",
+      "buttonSave": "Lưu",
+      "statusAddNewsSuccess": "Thêm tin tức thành công",
+      "statusEditNewsSuccess": "Sửa tin tức thành công",
+      "statusAddNewsError": "Cập nhật tin tức thất bại",
+      "statusDeleteNewsSuccess": "Xóa tin tức thành công",
+      "statusDeleteNewsError": "Xóa tin tức thất bại",
+      "viewsMore": "Xem thêm",
+      "buttonDelete": "Xóa",
+      "addNews": "Thêm",
+      "deleteNewsTitle": "Xóa tin tức",
+      "deleteNewsWarn": "Lưu ý: Sau khi xóa sẽ không thể khôi phục. Bạn có muốn xóa không?"
     }
   },
   "component": {
@@ -452,5 +478,19 @@
       "success" : "Đặt xe thành công.",
       "error": "Đặt xe thất bại. Vui lòng thử lại sau"
     }
+  },
+  "helper": {
+    "secondAgo": "giây trước",
+    "minuteAgo": "phút trước",
+    "hourAgo": "giờ trước",
+    "dayAgo": "ngày trước",
+    "monthAgo": "tháng trước",
+    "yearAgo": "năm trước"
+  },
+  "notification": {
+    "empty": "Bạn chưa có thông báo nào"
+  },
+  "homepage": {
+    "news": "Tin tức"
   }
 }
