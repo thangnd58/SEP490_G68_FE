@@ -13,12 +13,14 @@ import store from './redux/store';
 import { getUserInfo } from './redux/reducers/authReducer';
 import ModalProvider, { ModalContext } from './contexts/ModalContext';
 import { getUserFavouriteInfo } from './redux/reducers/userFavouriteReducer';
+import { getUserNotificationInfo } from './redux/reducers/notificationReducer';
 // Load environment variables
 // require('dotenv').config();
 
 const rootElement = document.getElementById('root') as HTMLElement;
 const root = ReactDOM.createRoot(rootElement);
 store.dispatch(getUserInfo());
+store.dispatch(getUserNotificationInfo())
 root.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>

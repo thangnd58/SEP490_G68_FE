@@ -10,7 +10,7 @@ interface MyIconProps {
     hasBagde?: boolean;
     badgeContent?: string;
     badgeColor?: string;
-    onClick?: () => void;
+    onClick?: (e:any) => void;
 }
 
 export default function MyIcon(props: MyIconProps) {

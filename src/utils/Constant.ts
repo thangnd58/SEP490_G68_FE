@@ -1,6 +1,7 @@
 export const BASE_URL = "https://hzuzmhgcmt.ap-southeast-1.awsapprunner.com/api";
 export const ROUTES = {
     homepage: "/",
+    newspage: "/news",
     search: {
         filtermotorbike: "/search/filter"
     },
@@ -35,7 +36,8 @@ export const ROUTES = {
         licenceregister: "/manage-licences/licence-detail",
         motorbikeregister: "/manage-motorbikes/motorbike-detail",
         managerequestwithdraw: "/manage-withdrawals",
-        managerBrand: "/manage-brands"
+        managerBrand: "/manage-brands",
+        manageNews: "/manage-news"
     },
     other: {
         pagenotfound: "/page-not-found",

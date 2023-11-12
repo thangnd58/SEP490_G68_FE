@@ -12,7 +12,9 @@
     "btn_close": "Close",
     "btn_promotion": "Promotion",
     "favourite": "My Favourite",
-    "wallet": "My Wallet"
+    "wallet": "My Wallet",
+    "notification": "Notification",
+    "cart": "My cart"
   },
   "layout": {
     "admin": "Adminstrator",
@@ -146,6 +148,10 @@
         "warning": "Like motorbike failed",
         "error": "Error when line motorbike"
       }
+    },
+    "uploadImage": {
+      "success": "Upload image successfully",
+      "error": "Upload image failed"
     }
   },
   "footer": {
@@ -228,7 +234,8 @@
       "licenseManager": "License Manager",
       "motorbikeRentalManager": "Motorbike Rental Manager",
       "withdrawalRequestManager": "Manage Withdrawal Requests",
-      "brand": "Manage Brands"
+      "brand": "Manage Brands",
+      "news": "Manage News"
     },
     "License": "License",
     "Motobike": {
@@ -276,6 +283,25 @@
       "status": "Status",
       "action": "Action",
       "delete": "Delete"
+    },
+    "news": {
+      "newsId": "ID",
+      "newsTitle": "Title",
+      "newsCategory": "Category",
+      "newsCreateDate": "Create Date",
+      "newsUpdateDate": "Upadte Date",
+      "columnAction": "Action",
+      "buttonSave": "Save",
+      "statusAddNewsSuccess": "Add news successfully",
+      "statusEditNewsSuccess": "Edit news successfully",
+      "statusEditNewsError": "Edit news failed",
+      "statusDeleteNewsSuccess": "Remove news successfully",
+      "statusDeleteNewsError": "Remove news failed",
+      "viewsMore": "More",
+      "buttonDelete": "Delete",
+      "addNews": "Add",
+      "deleteNewsTitle": "Delete this news",
+      "deleteNewsWarn": "Note: Once deleted, cannot be restored. Do you want to delete?"
     }
   },
   "component": {
@@ -451,5 +477,19 @@
       "success": "Successful booking.",
       "error": "Motorbike booking failed. Please try again later"
     }
+  },
+  "helper": {
+    "secondAgo": "seconds ago",
+    "minuteAgo": "minutes ago",
+    "hourAgo": "hours ago",
+    "dayAgo": "days ago",
+    "monthAgo": "months ago",
+    "yearAgo": "years ago"
+  },
+  "notification": {
+    "empty": "You don't have any notifications yet"
+  },
+  "homepage": {
+    "news": "News"
   }
 }

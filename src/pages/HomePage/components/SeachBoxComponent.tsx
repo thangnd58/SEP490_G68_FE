@@ -247,7 +247,7 @@ const SeachBoxComponent = () => {
                         placeholder='Địa điểm'
                     />
                     <RangePicker
-                        className="custom-range-picker" // Sử dụng class CSS tùy chỉnh
+                        className="custom-range-picker custom-table" // Sử dụng class CSS tùy chỉnh
                         style={{
                             fontFamily: 'Inter',
                             fontStyle: 'normal',
