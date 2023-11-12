@@ -146,7 +146,8 @@
       "add":{
         "success": "Thêm xe yêu thích thành công",
         "warning": "Thêm xe yêu thích thất bại",
-        "error": "Lỗi xác thêm xe yêu thích"
+        "error_login": "Bạn cần đăng nhập để thêm xe yêu thích",
+        "error": "Lỗi thêm xe yêu thích"
       }
     },
     "uploadImage": {

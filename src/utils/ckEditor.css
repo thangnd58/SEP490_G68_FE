@@ -1,12 +1,15 @@
 .ck .ck-sticky-panel__content {
   position: unset !important;
 }
-
-.ck-content {
-  min-height: 200px !important;
-  max-height: 400px !important;
-  padding-left: 10px !important;
-  padding-right: 10px !important;
+.ck-content{
+    min-height: 300px !important;
+    max-height: 400px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    border-radius: 0px 0px 8px 8px !important;
+}
+.ck-toolbar{
+    border-radius: 8px 8px 0px 0px !important;
 }
 
 .ck.ck-editor {
