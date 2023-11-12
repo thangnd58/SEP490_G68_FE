@@ -201,7 +201,7 @@ function Header() {
 
                                     <MyIcon
                                         icon={
-                                            <AddShoppingCart
+                                            <ShoppingCartCheckout
                                                 sx={{ color: "#777E90" }}
                                                 onClick={() => navigate(ROUTES.homepage)}
                                             />

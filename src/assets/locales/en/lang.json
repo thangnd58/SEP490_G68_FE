@@ -146,7 +146,8 @@
       "add": {
         "success": "Like motorbike successfully",
         "warning": "Like motorbike failed",
-        "error": "Error when line motorbike"
+        "error_login": "Please login to like motorbike!",
+        "error": "Error when like motorbike"
       }
     },
     "uploadImage": {

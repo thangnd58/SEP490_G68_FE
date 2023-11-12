@@ -23,6 +23,7 @@ import { BookingService } from '../../../services/BookingService';
 import ToastComponent from '../../../components/toast/ToastComponent';
 import { useNavigate } from 'react-router-dom';
 import { BookingDeliveryMode, BookingPaymentType, ROUTES } from '../../../utils/Constant';
+import ApplyPromotionModal from './ApplyPromotionModal';
 
 export default function MotorbikeDetailModal(props: { motorbikeId: number | undefined, searchedAddress?: string, startDate?: string, endDate?: string }) {
 
@@ -35,7 +36,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
   const [isMapModalOpen, setMapModalOpen] = useState(false);
   const [motorbike, setMotorbike] = useState<Motorbike>();
   const [previewBookingData, setPreviewBookingData] = useState<BookingResponse>();
-
+  const [isProcessingBooking, setIsProcessingBooking] = useState(false);
   interface Location {
     lat: number,
     lng: number,
@@ -103,6 +104,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
 
     onSubmit: async (values) => {
       try {
+        setIsProcessingBooking(true);
         const request = {
           motorbikeId: props?.motorbikeId || 0,
           address: values.address || "",
@@ -114,7 +116,11 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
         }
         await BookingService.postBooking(request)
         ToastComponent(t("booking.toast.success"), "success")
-        window.location.reload()
+        // wait 1s to reload page
+        setTimeout(() => {
+          setIsProcessingBooking(false);
+          window.location.reload();
+        }, 1000);
       } catch (error) {
         ToastComponent(t("booking.toast.error"), "error")
       }
@@ -233,6 +239,22 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
     setFieldValue("address", address);
     setShowMenu(false);
   };
+
+  const showModalPromotion = () => {
+    setContentModal(
+      <MyDialog
+        style={{
+          zIndex: 10000
+        }}
+        title="Thông báo"
+        content="Bạn có muốn áp dụng mã giảm giá không?"
+        hasAgreeButton
+        hasCancelButton
+        onClickAgree={() => { }}
+      />
+    )
+    setShowModal(true)
+  }
 
   return (
     <>
@@ -411,7 +433,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                         }} />
                         <Typography
                           color={theme.palette.text.primary}
-                          sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                          sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
                           padding={'11px 0px'}
                           onChange={handleChange}
                         >
@@ -433,8 +455,28 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                             }}
                             sx={{ display: 'flex', flexDirection: 'row' }}
                           >
-                            <FormControlLabel checked={values.paymentType === BookingPaymentType.UserBalance} value={BookingPaymentType.UserBalance} control={<Radio />} label="Số dư ví" />
-                            <FormControlLabel checked={values.paymentType === BookingPaymentType.Card} value={BookingPaymentType.Card} control={<Radio />} label="Ví điện tử VN Pay" />
+                            <FormControlLabel
+                              checked={values.paymentType === BookingPaymentType.UserBalance}
+                              value={BookingPaymentType.UserBalance}
+                              control={<Radio />}
+                              label="Số dư ví"
+                              sx={{
+                                '& .MuiFormControlLabel-label': {
+                                  fontSize: '16px',
+                                  fontWeight: '400',
+                                  color: theme.palette.text.primary,
+                                }
+                              }}
+                            />
+                            <FormControlLabel checked={values.paymentType === BookingPaymentType.Card} value={BookingPaymentType.Card} control={<Radio />} label="Ví điện tử VN Pay"
+                              sx={{
+                                '& .MuiFormControlLabel-label': {
+                                  fontSize: '16px',
+                                  fontWeight: '400',
+                                  color: theme.palette.text.primary,
+                                }
+
+                              }} />
                           </RadioGroup>
                         </Box>
                       </Box>
@@ -495,7 +537,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                       <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                         -120.000VND
                       </Typography> */}
-                        <MyCustomButton iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick={() => { }} content={"Mã khuyến mãi"} variant='outlined' />
+                        <MyCustomButton iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick={showModalPromotion} content={"Mã khuyến mãi"} variant='outlined' />
                       </Box>
                     </Box>
                     {/* Line */}
@@ -514,7 +556,8 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                     <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
 
                     {/* Button */}
-                    <MyCustomButton width='100%' onClick={handleSubmit} content={"Đặt xe"} variant='contained' />
+                    <MyCustomButton disabled={isProcessingBooking}
+                      width='100%' onClick={handleSubmit} content={"Đặt xe"} variant='contained' />
 
                   </Box>
                 </Box>
@@ -573,6 +616,11 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                       {t("postMotorbike.listform.description")}
                     </Typography>
                     <Box width={"100%"}>
+                    {/* <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={400}>
+                        <div
+                          style={{ whiteSpace: "pre-wrap", fontSize: isMobile ? "12px" : "16px", fontWeight: "400" }}
+                          dangerouslySetInnerHTML={{ __html: motorbike?.description || "" }}></div>
+                      </Typography> */}
                       <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
                         <div style={{textAlign: 'justify'}} dangerouslySetInnerHTML={{ __html: motorbike?.description || "" }}></div>
                       </Typography>

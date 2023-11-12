@@ -6,7 +6,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Motorbike } from '../../../utils/type';
 import theme from '../../../utils/theme';
 import { ImageSearchBox } from '../../../assets/images';
-import { BusinessCenterOutlined, FavoriteBorder, FavoriteOutlined, ShoppingCartCheckout, StarPurple500Outlined } from '@mui/icons-material';
+import { AddShoppingCart, BusinessCenterOutlined, FavoriteBorder, FavoriteOutlined, ShoppingCartCheckout, StarPurple500Outlined } from '@mui/icons-material';
 import { ModalContext } from '../../../contexts/ModalContext';
 import MotorbikeDetailModal from './MotorbikeDetailModal';
 import MyIcon from '../../../components/common/MyIcon';
@@ -19,6 +19,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
     const { t } = usei18next();
     const { setContentModal, setShowModal } = useContext(ModalContext);
     const dispatch = useAppDispatch();
+    const [isFavorite, setIsFavorite] = React.useState<boolean>(props.motorbike.isFavourite);
 
     const showMotorbikeDetailModal = () => {
         setContentModal(
@@ -30,29 +31,27 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
     const deleteFavourite = async (id: number) => {
         try {
             const response = await UserService.deleteFavourite(id);
-            if (response.status === 200) { 
-              dispatch(getUserFavouriteInfo());
-              ToastComponent(t("toast.favourite.delete.success"), "success");
+            if (response.status === 200) {
+                dispatch(getUserFavouriteInfo());
+                setIsFavorite(false);
             } else {
-              ToastComponent(t("toast.favourite.delete.warning"), "warning");
             }
-          } catch (error) {
+        } catch (error) {
             ToastComponent(t("toast.favourite.delete.error"), "error");
-          }
+        }
     }
 
     const addFavourite = async (id: number) => {
         try {
             const response = await UserService.addFavourite(id);
-            if (response.status === 200) { 
-              dispatch(getUserFavouriteInfo());
-              ToastComponent(t("toast.favourite.add.success"), "success");
+            if (response.status === 200) {
+                dispatch(getUserFavouriteInfo());
+                setIsFavorite(true);
             } else {
-              ToastComponent(t("toast.favourite.add.warning"), "warning");
             }
-          } catch (error) {
-            ToastComponent(t("toast.favourite.add.error"), "error");
-          }
+        } catch (error) {
+            ToastComponent(t("toast.favourite.add.error_login"), "error");
+        }
     }
     return (
         <Box
@@ -102,7 +101,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                 </Tooltip>
                 {/* Favorite Icon */}
                 {
-                    props.motorbike.isFavourite ? (
+                    isFavorite ? (
                         <FavoriteOutlined
                             sx={{
                                 position: 'absolute',
@@ -115,7 +114,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                 backgroundColor: 'rgba(0, 0, 0, 0.25)',
                                 borderRadius: '50%',
                             }}
-                            onClick={() => deleteFavourite(props.motorbike.id!)}/>
+                            onClick={() => deleteFavourite(props.motorbike.id!)} />
                     ) : (
                         <FavoriteBorder
                             sx={{
@@ -224,7 +223,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                             Xem chi tiết
                         </Typography>
                     ) : (
-                        <MyIcon icon={<ShoppingCartCheckout />} hasTooltip position='right' tooltipText={t("favourite.item.addtocart")} />
+                        <MyIcon icon={<AddShoppingCart />} hasTooltip position='right' tooltipText={t("favourite.item.addtocart")} />
                     )}
                     <Box display="flex" flexDirection="row" alignItems="flex-end" borderRadius="8px" padding="0px 8px" gap="4px" sx={{ backgroundColor: "rgba(139, 69, 19, 0.1)" }}>
                         <Typography fontWeight="bold" fontSize="20px" color={theme.palette.text.primary}
