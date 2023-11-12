@@ -165,9 +165,9 @@ function Header() {
                                                 horizontal: "right",
                                             }}
                                             color='primary'
-                                            PaperProps={{ sx: { borderRadius: "16px" } }}
+                                        // PaperProps={{ sx: { borderRadius: "16px" } }}
                                         >
-                                            <Box sx={{ p: '16px', width: '300px' }}>
+                                            <Box sx={{ p: '16px', width: '400px' }}>
                                                 <Typography pb={'16px'} fontWeight={'700'} fontSize={'24px'}>Thông báo</Typography>
                                                 <Divider />
                                                 {
@@ -183,10 +183,10 @@ function Header() {
                                                                 }
                                                             >
                                                                 <PopoverItem
-                                                                    label={notifi.title}
+                                                                    label={notifi.title.substring(0, 30).concat('...')}
                                                                     icon={<NotificationsActiveOutlined scale={2} sx={{ color: notifi.isRead ? "#9A9EA5" : "primary.main" }} />}
                                                                     iconRead={!notifi.isRead ? <UnReadIcon /> : undefined}
-                                                                    content={notifi.detail}
+                                                                    content={notifi.detail.substring(0, 45).concat('...')}
                                                                     timeAgo={notifi.createDatetime}
                                                                 />
                                                             </MenuItem>
@@ -420,7 +420,6 @@ function Header() {
                                         <Typography variant='h3' fontSize={"16px"} sx={{ fontWeight: "500", }}>
                                             {isVn ? 'Tiếng Việt' : 'English'}
                                         </Typography>
-
                                     </Box>
                                     <Divider sx={{ marginBottom: "16px", borderBottom: '1px solid #B1B5C3', width: "100%" }} />
                                     <MyCustomButton iconPosition='left' icon={<Home sx={{ color: "#8B4513" }} />} width='100%' onClick={() => navigate(ROUTES.homepage)} content={t("header.home_page")} variant='outlined' />
@@ -467,24 +466,24 @@ function Header() {
 export default Header;
 
 export function PopoverItem({ label, icon, iconRead, timeAgo, content }: { label: string; icon: any; iconRead?: any, timeAgo?: string, content?: string }) {
+    const { t } = usei18next();
     return (
         <Box sx={{
             display: 'flex',
             alignItems: 'center',
             margin: '8px 0px',
             position: 'relative',
-            width: '100%',
-            gap:'8px'
+            gap: '8px'
         }}>
             {icon}
             <Box display={'flex'} flexDirection={'column'} alignItems={'start'}>
-                <Typography variant='h3' fontSize={"16px"} sx={{
+                <Typography variant='h4' fontSize={"16px"} sx={{
                     fontWeight: "500",
                 }}>
                     {label}
                 </Typography>
-                <Typography noWrap={true} fontSize={'12px'} >{content}</Typography>
-                <Typography fontSize={'10px'} color={'primary.main'}>{timeAgo ? getPreviousTimeRelative(timeAgo) : ""}</Typography>
+                <Typography fontSize={'12px'}>{content}</Typography>
+                <Typography fontSize={'10px'} color={'primary.main'}>{timeAgo ? getPreviousTimeRelative(timeAgo, t) : ""}</Typography>
             </Box>
             <Box position={'absolute'} right={'0px'} display={'flex'} alignItems={'center'}>{iconRead}</Box>
         </Box>

@@ -13,13 +13,13 @@ export const formatMoneyNew = (money: number | undefined) => {
   return 0;
 }
 
-export const getPreviousTimeRelative = (dateString: string) => {
+export const getPreviousTimeRelative = (dateString: string, t: any) => {
   const inputDate = new Date(dateString);
   const timestamp = inputDate.getTime();
   const seconds = Math.floor(timestamp / 1000);
   const currentTimestamp = Math.floor(new Date().getTime() / 1000);
   const difference = currentTimestamp - seconds;
-  const { t } = usei18next();
+  // const { t } = usei18next();
   let output = ``;
   if (difference < 60) {
     output = `${difference} ${t("helper.secondAgo")}`;

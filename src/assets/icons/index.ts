@@ -11,5 +11,5 @@ export { ReactComponent as ProtectClothesIcon } from "./life-safe-safety-safety-
 export { ReactComponent as ManagementIcon } from "./management-icon.svg";
 export { ReactComponent as OrnamentIcon } from "./ornament.svg";
 export {ReactComponent as UnReadIcon} from "./is-read.svg"
-
+export {ReactComponent as ClockIcon} from "./clock-icon.svg"
 

@@ -207,7 +207,7 @@ export interface MotorbikeFavourite {
     brandName: string,
     modelName: string,
     user: UserForRent,
-    isFavourite : boolean
+    isFavourite: boolean
 }
 
 export interface UserForRent {
@@ -274,4 +274,22 @@ export interface Notification {
     isRead: boolean,
     createDatetime: string,
     updateDatetime: string
+}
+
+export interface News {
+    newsId: number,
+    image: string,
+    imageUrl: string,
+    category: string,
+    title: string,
+    detail: string,
+    createDatetime: string,
+    updateDatetime: string
+}
+
+export interface NewsRequest {
+    image: string,
+    category: string,
+    title: string,
+    detail: string
 }

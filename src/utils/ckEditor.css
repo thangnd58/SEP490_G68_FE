@@ -2,11 +2,12 @@
     position: unset !important;
 }
 .ck-content{
-    min-height: 300px !important;
+    min-height: 200px !important;
     max-height: 400px !important;
     padding-left: 10px !important;
     padding-right: 10px !important;
 }
+
 .ck.ck-editor{
   overflow: hidden;
 }

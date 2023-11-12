@@ -31,6 +31,9 @@ import Favourite from '../pages/FavouritePage/FavouritePage';
 import ListMotorbikesSearchedPage from '../pages/HomePage/ListMotorbikesSearchedPage';
 import BrandManagement from '../pages/DashBoardPage/BrandManagement/BrandManagement';
 import CartPage from '../pages/CartPage/CartPage';
+import NewsManagement from '../pages/DashBoardPage/NewsManagement/NewsManagement';
+import NewsManagementForm from '../pages/DashBoardPage/NewsManagement/NewsManagementForm';
+import { DetailNews } from '../pages/NewsPage/DetailNews';
 
 export type Route = {
     path: string;
@@ -43,6 +46,7 @@ export const routes: Route[] = [
     // Home Page
     { path: ROUTES.homepage, component: Home },
     { path: `${ROUTES.search.filtermotorbike}/:startDate/:endDate/:address`, component: ListMotorbikesSearchedPage },
+    { path: `${ROUTES.newspage}/:id`, component: DetailNews },
 
     // Components Page
     { path: ROUTES.component.mymaparea, component: MyMapArea },
@@ -73,8 +77,10 @@ export const routes: Route[] = [
     { path: `${ROUTES.admin.managerequestwithdraw}`, component: WithdrawalRequestManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managelicences}`, component: LicenceManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managerBrand}`, component: BrandManagement, layout: LayoutAdmin, role: ["Admin"] },
+    { path: `${ROUTES.admin.manageNews}`, component: NewsManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.licenceregister}/:id`, component: LicenceRegisterDetail, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.motorbikeregister}/:id`, component: MotorbikeRegisterDetail, layout: LayoutAdmin, role: ["Admin", "Staff"] },
+    { path: `${ROUTES.admin.manageNews}/:id`, component: NewsManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"] },
 
     //Wallet Page
     { path: `${ROUTES.user.wallet}`, component: Wallet, role: ["Admin", "Staff", "Customer"] },

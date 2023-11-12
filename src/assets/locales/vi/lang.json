@@ -148,6 +148,10 @@
         "warning": "Thêm xe yêu thích thất bại",
         "error": "Lỗi xác thêm xe yêu thích"
       }
+    },
+    "uploadImage": {
+      "success" : "Tải ảnh lên thành công",
+      "error": "Tải ảnh lên thất bại"
     }
   },
   "footer": {
@@ -230,7 +234,8 @@
       "licenseManager": "Quản lý bằng lái xe",
       "motorbikeRentalManager": "Quản lý xe máy cho thuê",
       "withdrawalRequestManager": "Quản lý yêu cầu rút tiền",
-      "brand" : "Quản lý hãng xe"
+      "brand" : "Quản lý hãng xe",
+      "news": "Quản lý tin tức"
     },
     "License": "Bằng lái xe",
     "Motobike": {
@@ -279,6 +284,18 @@
       "action" : "Chỉnh sửa",
       "delete" : "Xóa"
       
+    },
+    "news": {
+      "newsId": "ID",
+      "newsTitle": "Tiêu đề",
+      "newsCategory": "Danh mục",
+      "newsCreateDate": "Ngày tạo",
+      "newsUpdateDate": "Ngày sửa",
+      "columnAction": "Chỉnh sửa",
+      "buttonSave": "Lưu",
+      "statusAddNewsSuccess": "Thêm tin tức thành công",
+      "statusEditNewsSuccess": "Sửa tin tức thành công",
+      "statusAddNewsError": "Cập nhật in tức thất bại"
     }
   },
   "component": {
@@ -465,5 +482,8 @@
   },
   "notification": {
     "empty": "Bạn chưa có thông báo nào"
+  },
+  "homepage": {
+    "news": "Tin tức"
   }
 }

@@ -148,6 +148,10 @@
         "warning": "Like motorbike failed",
         "error": "Error when line motorbike"
       }
+    },
+    "uploadImage": {
+      "success": "Upload image successfully",
+      "error": "Upload image failed"
     }
   },
   "footer": {
@@ -230,7 +234,8 @@
       "licenseManager": "License Manager",
       "motorbikeRentalManager": "Motorbike Rental Manager",
       "withdrawalRequestManager": "Manage Withdrawal Requests",
-      "brand": "Manage Brands"
+      "brand": "Manage Brands",
+      "news": "Manage News"
     },
     "License": "License",
     "Motobike": {
@@ -278,6 +283,18 @@
       "status": "Status",
       "action": "Action",
       "delete": "Delete"
+    },
+    "news": {
+      "newsId": "ID",
+      "newsTitle": "Title",
+      "newsCategory": "Category",
+      "newsCreateDate": "Create Date",
+      "newsUpdateDate": "Upadte Date",
+      "columnAction": "Action",
+      "buttonSave": "Save",
+      "statusAddNewsSuccess": "Add news successfully",
+      "statusEditNewsSuccess": "Edit news successfully",
+      "statusEditNewsError": "Edit news failed"
     }
   },
   "component": {
@@ -464,5 +481,8 @@
   },
   "notification": {
     "empty": "You don't have any notifications yet"
+  },
+  "homepage": {
+    "news": "News"
   }
 }
