@@ -16,7 +16,6 @@ export const userFavouriteReducer = createSlice({
     reducers: {
       updateUser: (state, action) => {
         state.userFavourite = action.payload
-        console.log(state.userFavourite);
       }
     },
   });
@@ -27,9 +26,6 @@ export const userFavouriteReducer = createSlice({
         const userFavouriteInfo = await UserService.getUserFavourite();
         //@ts-ignore
         dispatch(updateUser(userFavouriteInfo.data))
-        //@ts-ignore
-        localStorage.setItem("userFavouriteInfo", JSON.stringify(userFavouriteInfo.data));
-        
       } catch (err) { }
     };
   };

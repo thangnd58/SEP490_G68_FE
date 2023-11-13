@@ -4,6 +4,7 @@
   width: 100%;
   height: 56px;
   border-radius: 8px;
+  border: 1px solid #e0e0e0;
 
   &:hover {
     border: 1px solid #8b4513;
@@ -15,7 +16,61 @@
   }
 
   .ant-picker-cell-inner {
-    background-color: #8b4513; /* Màu nền mới */
-    color: #fff; /* Màu chữ */
+    background-color: #8b4513;
+    /* Màu nền mới */
+    color: #fff;
+    /* Màu chữ */
   }
+}
+
+/* Customer Search Box */
+.custom-search-box {
+  border-radius: 8px;
+  border: 1px solid #fff;
+
+  /* hover color */
+  &:hover {
+    border: 1px solid #8b4513;
+  }
+
+  /* focus color */
+  &:focus-within {
+    border: 1px solid #8b4513;
+    box-shadow: none;
+  }
+}
+
+.custom-search-box-1 {
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+
+  /* hover color */
+  &:hover {
+    border: 1px solid #8b4513;
+  }
+
+  /* focus color */
+  &:focus-within {
+    border: 1px solid #8b4513;
+    box-shadow: none;
+  }
+}
+
+.custom-advanced-search {
+  border-top: 1px solid #e0e0e0;
+}
+
+.ant-picker-dropdown {
+  z-index: 9999;
+}
+
+.ant-picker-content {
+  border: none !important;
+  border-collapse: none !important;
+}
+
+.ant-picker-cell, th {
+  border: 0px solid black;
+  padding: 4px 8px;
 }

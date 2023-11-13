@@ -12,7 +12,7 @@ export interface User {
     role: Role,
     phoneVerified: boolean,
     balance: number,
-    googleIdentity : string
+    googleIdentity: string
 }
 
 export interface Role {
@@ -112,6 +112,8 @@ export interface Motorbike {
     model: Model,
     miscellaneous: string,
     description: string,
+    distance: number,
+    isFavourite: boolean,
 }
 
 export interface MotorbikeRequest {
@@ -188,7 +190,7 @@ export interface UserFavourite {
     userId: number,
     motorbikeId: number,
     createDatetime: string,
-    motorbikeFavourite: MotorbikeFavourite[]
+    motorbike: MotorbikeFavourite
 }
 export interface MotorbikeFavourite {
     id: number,
@@ -204,7 +206,8 @@ export interface MotorbikeFavourite {
     miscellaneous: string,
     brandName: string,
     modelName: string,
-    userId: UserForRent[]
+    user: UserForRent,
+    isFavourite: boolean
 }
 
 export interface UserForRent {
@@ -217,4 +220,76 @@ export interface SearchMotorbikeRequest {
     startDate: string,
     endDate: string,
     address: string
+}
+
+
+export interface BookingRequest {
+    motorbikeId: number,
+    deliveryMode: string,
+    address: string,
+    startDatetime: string,
+    endDatetime: string,
+    couponCode: string
+}
+
+export interface BookingResponse {
+    motorbikeId: number,
+    deliveryMode: string,
+    address: string,
+    startDatetime: string,
+    endDatetime: string,
+    rentalDays: number,
+    motorbikes: Motorbike[],
+    feeOfService: number,
+    totalAmountTemp: number,
+    couponCode: string,
+    totalAmount: number
+}
+
+export interface Booking {
+    bookingId: number,
+    deliveryMode: string,
+    address: string,
+    startDatetime: string,
+    endDatetime: string,
+    rentalDays: number,
+    motorbikes: Motorbike[],
+    feeOfService: number,
+    totalAmountTemp: number,
+    couponCode: string,
+    totalAmount: number,
+    paymentType: string,
+    status: string,
+    createDatetime: string,
+    updateDatetime: string,
+    createUserId: number,
+    updateUserId: number
+}
+
+export interface Notification {
+    notificationId: number,
+    userId: number,
+    title: string,
+    detail: string,
+    isRead: boolean,
+    createDatetime: string,
+    updateDatetime: string
+}
+
+export interface News {
+    newsId: number,
+    image: string,
+    imageUrl: string,
+    category: string,
+    title: string,
+    detail: string,
+    createDatetime: string,
+    updateDatetime: string
+}
+
+export interface NewsRequest {
+    image: string,
+    category: string,
+    title: string,
+    detail: string
 }

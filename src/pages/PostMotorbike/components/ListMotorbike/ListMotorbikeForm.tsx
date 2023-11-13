@@ -95,7 +95,7 @@ const ListMotorbikeForm = () => {
       field: "model.modelName",
       headerName: t("postMotorbike.listform.table-cell-model"),
       width: 150,
-      valueGetter: ({ row } : any) => row.model.modelName
+      valueGetter: ({ row }: any) => row.model.modelName
 
     },
     { field: 'licensePlate', headerName: t("postMotorbike.listform.table-cell-plate"), width: 150 },
@@ -467,6 +467,32 @@ function ItemMotorbikeModal({ isMobile, isIpad, isItemModalOpen, closeItemModal,
                   </Box>
                 </Box>
 
+                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+
+                {/* Mô tả */}
+                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
+                  <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                    {t("postMotorbike.listform.description")}
+                  </Typography>
+                  <Box width={"100%"}>
+                    <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
+                      <div dangerouslySetInnerHTML={{ __html: motorbike?.description || "" }}></div>
+                    </Typography>
+                  </Box>
+                </Box>
+                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+
+                {/* Điều khoản khác */}
+                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
+                  <Typography variant="h6" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                    {t("postMotorbike.listform.miscellaneous")}
+                  </Typography>
+                  <Box width={"100%"}>
+                    <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
+                      <div dangerouslySetInnerHTML={{ __html: motorbike?.miscellaneous || "" }}></div>
+                    </Typography>
+                  </Box>
+                </Box>
                 <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
 
                 {/* Biển số xe */}

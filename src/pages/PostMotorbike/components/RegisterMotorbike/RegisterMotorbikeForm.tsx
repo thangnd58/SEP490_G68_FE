@@ -25,12 +25,16 @@ import UploadImageService from '../../../../services/UploadImageService';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '../../../../utils/Constant';
 import useThemePage from '../../../../hooks/useThemePage';
+import Editor from '../../../../components/common/Editor';
 
 
 
 const RegisterMotorbikeForm = () => {
 
+    const navigate = useNavigate();
     const { t } = usei18next();
+    const { isMobile } = useThemePage();
+    const { id } = useParams();
     const [listProvince, setListProvince] = useState<Province[]>([]);
     const [listDistrict, setListDistrict] = useState<Province>();
     const [listWard, setListWard] = useState<District>();
@@ -42,9 +46,6 @@ const RegisterMotorbikeForm = () => {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [selectedItems, setSelectedItems] = useState<string[]>([]);
     const [canSubmitting, setCanSubmitting] = useState(false);
-    const navigate = useNavigate();
-    const { isMobile } = useThemePage();
-    const { id } = useParams();
     const [listImageFiles, setListImageFiles] = useState<File[]>([]);
     const [getBrandName, setGetBrandName] = useState("");
     const [getModelName, setGetModelName] = useState("");
@@ -824,25 +825,29 @@ const RegisterMotorbikeForm = () => {
                     title={t("postMotorbike.registedForm.description")}
                     isRequired={false}
                     item={
-                        <TextField
-                            sx={{
-                                "& .MuiOutlinedInput-root fieldset": { borderRadius: "8px" },
-                                "& .MuiOutlinedInput-root:hover fieldset": {
-                                    borderColor: theme.palette.primary.main,
-                                },
-                                "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-                                    borderColor: theme.palette.primary.main,
-                                }
-                            }}
-                            name='description'
-                            value={values.description}
-                            onChange={handleChange}
-                            rows={8}
-                            multiline
-                            fullWidth
-                            type='number'
-                            placeholder={t("postMotorbike.registedForm.descriptionPlaceHolder")}
-                        />
+                        <Editor onChangeData={(data) => {
+                            setFieldValue("description", data);
+                        }}
+                            content={values.description} />
+                        // <TextField
+                        //     sx={{
+                        //         "& .MuiOutlinedInput-root fieldset": { borderRadius: "8px" },
+                        //         "& .MuiOutlinedInput-root:hover fieldset": {
+                        //             borderColor: theme.palette.primary.main,
+                        //         },
+                        //         "& .MuiOutlinedInput-root.Mui-focused fieldset": {
+                        //             borderColor: theme.palette.primary.main,
+                        //         }
+                        //     }}
+                        //     name='description'
+                        //     value={values.description}
+                        //     onChange={handleChange}
+                        //     rows={8}
+                        //     multiline
+                        //     fullWidth
+                        //     type='number'
+                        //     placeholder={t("postMotorbike.registedForm.descriptionPlaceHolder")}
+                        // />
                     }
                 />
 
@@ -854,7 +859,7 @@ const RegisterMotorbikeForm = () => {
                             <Grid container spacing={2} columnSpacing={{ xs: 3, sm: 3, md: 3 }}>
                                 <Grid item xs={isMobile ? 6 : 4}>
                                     <Box key="Raincoat" onClick={() => handleItemClick("Raincoat")}>
-                                        <EquipmentItem  isChosen={values.raincoat} icon={<RainCoatIcon />} label={t("postMotorbike.registedForm.raincoat")} />
+                                        <EquipmentItem isChosen={values.raincoat} icon={<RainCoatIcon />} label={t("postMotorbike.registedForm.raincoat")} />
                                     </Box>
                                 </Grid>
                                 <Grid item xs={isMobile ? 6 : 4}>
@@ -979,25 +984,28 @@ const RegisterMotorbikeForm = () => {
                     isRequired={false}
                     secondTitle={t("postMotorbike.registedForm.miscellaneousSecondTitle")}
                     item={
-                        <TextField
-                            sx={{
-                                "& .MuiOutlinedInput-root fieldset": { borderRadius: "8px" },
-                                "& .MuiOutlinedInput-root:hover fieldset": {
-                                    borderColor: theme.palette.primary.main,
-                                },
-                                "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-                                    borderColor: theme.palette.primary.main,
-                                }
-                            }}
-                            name='miscellaneous'
-                            value={values.miscellaneous}
-                            onChange={handleChange}
-                            rows={8}
-                            multiline
-                            fullWidth
-                            type='number'
-                            placeholder={t("postMotorbike.registedForm.miscellaneousPlaceHolder")}
-                        />
+                        <Editor onChangeData={(data) => {
+                            setFieldValue("miscellaneous", data);
+                        }} content={values.miscellaneous} />
+                        // <TextField
+                        //     sx={{
+                        //         "& .MuiOutlinedInput-root fieldset": { borderRadius: "8px" },
+                        //         "& .MuiOutlinedInput-root:hover fieldset": {
+                        //             borderColor: theme.palette.primary.main,
+                        //         },
+                        //         "& .MuiOutlinedInput-root.Mui-focused fieldset": {
+                        //             borderColor: theme.palette.primary.main,
+                        //         }
+                        //     }}
+                        //     name='miscellaneous'
+                        //     value={values.miscellaneous}
+                        //     onChange={handleChange}
+                        //     rows={8}
+                        //     multiline
+                        //     fullWidth
+                        //     type='number'
+                        //     placeholder={t("postMotorbike.registedForm.miscellaneousPlaceHolder")}
+                        // />
                     }
                 />
                 <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"center"} margin={"32px 0px 0px 0px"}>
@@ -1024,10 +1032,10 @@ const RegisterMotorbikeForm = () => {
                     borderRadius: '8px',
                 }}>
                     <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
-                        <Typography  variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "20px" : "24px"} fontWeight={600} textAlign={"start"}>
+                        <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "20px" : "24px"} fontWeight={600} textAlign={"start"}>
                             {t("postMotorbike.registedForm.selectAddress")}
                         </Typography>
-                        <Box  height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
+                        <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
                             <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeMapModal} position='bottom' />
                         </Box>
                     </Box>

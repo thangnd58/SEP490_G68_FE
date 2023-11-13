@@ -5,7 +5,7 @@ import ToastComponent from '../components/toast/ToastComponent';
 import usei18next from '../hooks/usei18next';
 import { ROUTES } from '../utils/Constant';
 import { User, Role } from '../utils/type';
-import { getUserInfo } from '../redux/reducers/authReducer';
+import { deleteUserInfor, getUserInfo } from '../redux/reducers/authReducer';
 import { useAppDispatch, useAppSelector } from '../hooks/useAction';
 
 interface AuthContext {
@@ -34,6 +34,7 @@ const AuthProvider = (props: { children: JSX.Element }) => {
     const dispatch = useAppDispatch();
     const { user } = useAppSelector((state: any) => state.userInfo);
 
+    
     useEffect(() => {
         const token = UserService.getToken();
         if (token && user && UserService.isLoggedIn()) {
@@ -82,6 +83,7 @@ const AuthProvider = (props: { children: JSX.Element }) => {
         setIslogin(false)
         localStorage.setItem("token", JSON.stringify(""));
         localStorage.removeItem("userInfo");
+        dispatch(deleteUserInfor())
         ToastComponent(t("toast.logout.success"), "success");
         navigate(ROUTES.account.login);
     };

@@ -11,8 +11,10 @@
     "home_page": "Home Page",
     "btn_close": "Close",
     "btn_promotion": "Promotion",
-    "favourite" : "My Favourite",
-    "wallet": "My Wallet"
+    "favourite": "My Favourite",
+    "wallet": "My Wallet",
+    "notification": "Notification",
+    "cart": "My cart"
   },
   "layout": {
     "admin": "Adminstrator",
@@ -38,7 +40,7 @@
     "forgotPassword": "Forgot password?",
     "validatePhone": "Invalid phone number format",
     "validateOtp": "Invalid OTP number format",
-    "validateDOB" : "Date cannot exceed the current date",
+    "validateDOB": "Date cannot exceed the current date",
     "validLicenseNumber": "Invalid license number format",
     "passwordsMustMatch": "Passwords do not match!",
     "resetpassword": "Recovery password",
@@ -55,7 +57,7 @@
     "back_to_home_page": "Back to home page",
     "verifySuceessLabel": "Congratulations",
     "verifyErrorLabel": "Sorry",
-    "validateString265Char"  : "The string cannot exceed 256 characters"
+    "validateString265Char": "The string cannot exceed 256 characters"
   },
   "toast": {
     "login": {
@@ -135,12 +137,22 @@
       "warning": "Verify phone failed",
       "error": "Error when verify phone"
     },
-    "favourite" : {
-      "delete":{
+    "favourite": {
+      "delete": {
         "success": "Unlike motorbike successfully",
         "warning": "Unlike motorbike failed",
         "error": "Error when unlike motorbike"
+      },
+      "add": {
+        "success": "Like motorbike successfully",
+        "warning": "Like motorbike failed",
+        "error_login": "Please login to like motorbike!",
+        "error": "Error when like motorbike"
       }
+    },
+    "uploadImage": {
+      "success": "Upload image successfully",
+      "error": "Upload image failed"
     }
   },
   "footer": {
@@ -222,7 +234,9 @@
       "manager": "Manager",
       "licenseManager": "License Manager",
       "motorbikeRentalManager": "Motorbike Rental Manager",
-      "withdrawalRequestManager": "Manage Withdrawal Requests"
+      "withdrawalRequestManager": "Manage Withdrawal Requests",
+      "brand": "Manage Brands",
+      "news": "Manage News"
     },
     "License": "License",
     "Motobike": {
@@ -263,6 +277,32 @@
       "columnAmount": "Amount",
       "columnViewQr": "QR CODE",
       "buttonConfirmProcess": "Confirm successful transfer"
+    },
+    "brand": {
+      "brandName": "Brand Name",
+      "createDate": "Create Date",
+      "status": "Status",
+      "action": "Action",
+      "delete": "Delete"
+    },
+    "news": {
+      "newsId": "ID",
+      "newsTitle": "Title",
+      "newsCategory": "Category",
+      "newsCreateDate": "Create Date",
+      "newsUpdateDate": "Upadte Date",
+      "columnAction": "Action",
+      "buttonSave": "Save",
+      "statusAddNewsSuccess": "Add news successfully",
+      "statusEditNewsSuccess": "Edit news successfully",
+      "statusEditNewsError": "Edit news failed",
+      "statusDeleteNewsSuccess": "Remove news successfully",
+      "statusDeleteNewsError": "Remove news failed",
+      "viewsMore": "More",
+      "buttonDelete": "Delete",
+      "addNews": "Add",
+      "deleteNewsTitle": "Delete this news",
+      "deleteNewsWarn": "Note: Once deleted, cannot be restored. Do you want to delete?"
     }
   },
   "component": {
@@ -305,7 +345,8 @@
       "address": "Address",
       "description": "Description",
       "defaultPrice": "Default Price",
-      "profit": "Profit"
+      "profit": "Profit",
+      "miscellaneous": "Miscellaneous"
     },
     "registedForm": {
       "updateTitle": "Update Information",
@@ -372,6 +413,7 @@
     "title_my_wallet": "My wallet",
     "title_summary_transaction": "Summary of transactions",
     "title_deposit_transaction": "Deposit transaction",
+    "title_history_booking": "History booking motorbike",
     "title_withdrawal_transaction": "Withdrawal transaction",
     "title_transaction_code": "Transaction code",
     "title_date_deposit": "Deposit date",
@@ -406,15 +448,22 @@
     "content_create_request_withdrawal": "Please wait 1-2 days for us to approve your request",
     "minimum_money_deposit": "Minimum {{min}}",
     "maximum_money_deposit": "Maximum {{max}}",
-    "title_no_transaction": "No transaction yet"
+    "title_no_transaction": "No transaction yet",
+    "title_booking_id": "Booking code",
+    "title_address_get_motorbike": "Receive address",
+    "title_startdate_rent": "Vehicle pick-up date",
+    "title_enddate_rent": "Car return date",
+    "title_type_payment": "Payment type",
+    "title_total_amount": "Total amount",
+    "title_status_booking": "Status"
   },
-  "favourite" :{
-    "title" : "My Favourite",
-    "sort" : {
-      "title" : "Sort",
-      "date" : "Date",
-      "brand" : "Brand",
-      "price" : "Price"
+  "favourite": {
+    "title": "My Favourite",
+    "sort": {
+      "title": "Sort",
+      "date": "Date",
+      "brand": "Brand",
+      "price": "Price"
     },
     "item":{
       "ship" : "Delivery to your location",
@@ -425,5 +474,25 @@
       "day" : "1 day",
       "addToCart" : "Add To Cart"
     }
+  },
+  "booking": {
+    "toast": {
+      "success": "Successful booking.",
+      "error": "Motorbike booking failed. Please try again later"
+    }
+  },
+  "helper": {
+    "secondAgo": "seconds ago",
+    "minuteAgo": "minutes ago",
+    "hourAgo": "hours ago",
+    "dayAgo": "days ago",
+    "monthAgo": "months ago",
+    "yearAgo": "years ago"
+  },
+  "notification": {
+    "empty": "You don't have any notifications yet"
+  },
+  "homepage": {
+    "news": "News"
   }
 }

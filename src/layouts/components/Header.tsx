@@ -1,12 +1,12 @@
-import React, { memo, useState } from 'react';
-import { AppBar, Avatar, Badge, Box, Button, Divider, Drawer, IconButton, InputAdornment, InputLabel, List, ListItem, ListItemText, Menu, MenuItem, OutlinedInput, Popover, Typography, } from '@mui/material';
+import React, { memo, useState, useContext } from 'react';
+import { AppBar, Avatar, Badge, Box, Button, Divider, Drawer, IconButton, InputAdornment, InputLabel, List, ListItem, ListItemText, Menu, MenuItem, OutlinedInput, Popover, Tooltip, Typography, } from '@mui/material';
 import UserService from '../../services/UserService';
 import { AuthContext, useAuth } from '../../contexts/AuthContext';
 import usei18next from '../../hooks/usei18next';
 import { useNavigate } from 'react-router';
 import MenuIcon from '@mui/icons-material/Menu';
 import useThemePage from '../../hooks/useThemePage';
-import { AccountBox, Close, ExitToApp, Home, ListAlt, Loyalty, ManageAccounts, Notifications, Search, VpnKey, WalletOutlined } from '@mui/icons-material';
+import { AccountBox, AddShoppingCart, Circle, Close, ExitToApp, Home, ListAlt, Loyalty, ManageAccounts, Notifications, NotificationsActive, NotificationsActiveOutlined, NotificationsOutlined, Search, VpnKey, WalletOutlined } from '@mui/icons-material';
 import { LogoHeader, NotificationIcon, UnitedKingDomFlag, VietNamFlag } from '../../assets/images';
 import { ROUTES } from '../../utils/Constant';
 import MyIcon from '../../components/common/MyIcon';
@@ -14,6 +14,14 @@ import { useAppSelector } from '../../hooks/useAction';
 import MyCustomButton from '../../components/common/MyButton';
 import theme from '../../utils/theme';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { UnReadIcon } from '../../assets/icons';
+import ErrorMessage from '../../components/common/ErrorMessage';
+import { getPreviousTimeRelative } from '../../utils/helper';
+import { ModalContext } from '../../contexts/ModalContext';
+import MyDialog from '../../components/common/MyDialog';
+import { DetailNotification } from './DetailNotificationModal';
+import store from '../../redux/store';
+import { getUserNotificationInfo } from '../../redux/reducers/notificationReducer';
 
 const LanguageBox = memo(() => {
     const { isVn, changeLang } = usei18next();
@@ -58,21 +66,43 @@ function Header() {
     const navigate = useNavigate();
     const { isMobile } = useThemePage();
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [isAvatarClicked, setIsAvatarClicked] = useState(false);
+    const { setContentModal, setShowModal } = useContext(ModalContext);
     const toggleDrawer = () => {
         setDrawerOpen(!drawerOpen);
     };
 
+
+
+    const { userNotification } = useAppSelector((state) => state.userNotificationInfo);
+
+    //avatar zone
     const [anchorEl, setAnchorEl] = useState<any>(null);
 
-    const handlePopoverOpen = (event: React.MouseEvent<any>) => {
+    const handleAvatarClick = (event: React.MouseEvent<any>) => {
+        setIsAvatarClicked(true);
         setAnchorEl(event.currentTarget);
     };
 
     const open = Boolean(anchorEl);
 
 
+    //notification zone
+    const [anchorElNotify, setAnchorElNotify] = React.useState<HTMLButtonElement | null>(null);
+
+    const handleClickNotify = (event: React.MouseEvent<any>) => {
+        setAnchorElNotify(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorElNotify(null);
+    };
+
+    const openNotify = Boolean(anchorElNotify);
+
     return (
         <>
+            {/* DESKTOP */}
             <AppBar
                 position="static"
                 color="default"
@@ -102,11 +132,86 @@ function Header() {
                             <MyIcon icon={<LanguageBox />} hasTooltip tooltipText={isVn ? 'Tiếng Việt' : 'English'} position='left' />
 
                             {isLogin ? (
-                                <IconButton >
-                                    <Badge badgeContent={100} color="primary">
-                                        <IconBox image={NotificationIcon} width={24} height={28.23} onClick={() => navigate(ROUTES.homepage)} />
-                                    </Badge>
-                                </IconButton>) : null
+                                <>
+                                    <Box
+                                        aria-owns={openNotify ? 'hover-menu' : undefined}
+                                        aria-haspopup="true"
+                                    >
+                                        <MyIcon
+                                            icon={
+                                                <NotificationsActiveOutlined
+                                                    sx={{ color: "#777E90" }}
+                                                />
+                                            }
+                                            onClick={handleClickNotify}
+                                            badgeContent={userNotification.filter(item => item.isRead === false).length.toString()}
+                                            badgeColor='primary'
+                                            hasBagde
+                                            hasTooltip
+                                            aria-describedby={openNotify ? 'simple-popover' : undefined}
+                                            tooltipText={t("header.notification")} position='bottom' />
+                                        <Popover
+                                            sx={{ marginTop: '16px', maxHeight: '500px' }}
+                                            open={openNotify}
+                                            id={openNotify ? 'simple-popover' : undefined}
+                                            anchorEl={anchorElNotify}
+                                            onClose={handleClose}
+                                            anchorOrigin={{
+                                                vertical: "bottom",
+                                                horizontal: 'right',
+                                            }}
+                                            transformOrigin={{
+                                                vertical: 'top',
+                                                horizontal: "right",
+                                            }}
+                                            color='primary'
+                                        // PaperProps={{ sx: { borderRadius: "16px" } }}
+                                        >
+                                            <Box sx={{ p: '16px', width: '400px' }}>
+                                                <Typography pb={'16px'} fontWeight={'700'} fontSize={'24px'}>Thông báo</Typography>
+                                                <Divider />
+                                                {
+                                                    userNotification.length > 0 ? userNotification.map((notifi) => {
+                                                        return (
+                                                            <MenuItem
+                                                                sx={{ textAlign: 'center' }}
+                                                                key={`NOTIFI${notifi.notificationId}`}
+                                                                onClick={
+                                                                    () => {
+                                                                        setContentModal(<DetailNotification id={notifi.notificationId} />)
+                                                                    }
+                                                                }
+                                                            >
+                                                                <PopoverItem
+                                                                    label={notifi.title.substring(0, 30).concat('...')}
+                                                                    icon={<NotificationsActiveOutlined scale={2} sx={{ color: notifi.isRead ? "#9A9EA5" : "primary.main" }} />}
+                                                                    iconRead={!notifi.isRead ? <UnReadIcon /> : undefined}
+                                                                    content={notifi.detail.substring(0, 45).concat('...')}
+                                                                    timeAgo={notifi.createDatetime}
+                                                                />
+                                                            </MenuItem>
+                                                        )
+                                                    }) : (
+                                                        <Typography pt={'8px'}>{t("notification.empty")}</Typography>
+                                                    )
+                                                }
+                                            </Box>
+                                        </Popover>
+                                    </Box>
+
+                                    <MyIcon
+                                        icon={
+                                            <ShoppingCartCheckout
+                                                sx={{ color: "#777E90" }}
+                                                onClick={() => navigate(ROUTES.homepage)}
+                                            />
+                                        }
+                                        hasTooltip
+                                        tooltipText={t("header.cart")} position='bottom' />
+
+                                </>
+                            ) : null
+
                             }
 
                             <Divider sx={{ borderLeft: '1px solid #B1B5C3', height: 32 }} />
@@ -120,17 +225,21 @@ function Header() {
                                 <Box
                                     aria-owns={open ? 'hover-menu' : undefined}
                                     aria-haspopup="true"
-                                    onMouseEnter={handlePopoverOpen}
-                                    onMouseLeave={() => setAnchorEl(null)}
                                 >
-                                    <Avatar src={isLogin ? (user && user.avatarUrl ? user.avatarUrl : '') : ''} />
+                                    <Avatar
+                                        src={isLogin ? (user && user.avatarUrl ? user.avatarUrl : '') : ''}
+                                        sx={{ cursor: 'pointer' }}
+                                        onClick={handleAvatarClick}
+                                    />
                                     <Popover
                                         sx={{ marginTop: '8px' }}
                                         id="hover-menu"
-                                        open={open}
+                                        open={isAvatarClicked}
                                         anchorEl={anchorEl}
-                                        onClose={() => setAnchorEl(null)}
-                                        anchorOrigin={{
+                                        onClose={() => {
+                                            setIsAvatarClicked(false);
+                                            setAnchorEl(null);
+                                        }} anchorOrigin={{
                                             vertical: "bottom",
                                             horizontal: 'right',
                                         }}
@@ -144,6 +253,7 @@ function Header() {
                                         <>
                                             <MenuItem
                                                 onClick={() => {
+                                                    setIsAvatarClicked(false);
                                                     setAnchorEl(null);
                                                     navigate(ROUTES.user.userprofile);
                                                 }}
@@ -158,6 +268,7 @@ function Header() {
                                             {user?.role.roleName === 'Admin' || user?.role.roleName === 'Staff' ? (
                                                 <MenuItem
                                                     onClick={() => {
+                                                        setIsAvatarClicked(false);
                                                         setAnchorEl(null);
                                                         navigate(ROUTES.admin.managemotorbikes);
                                                     }}
@@ -172,6 +283,7 @@ function Header() {
                                                 (
                                                     <MenuItem
                                                         onClick={() => {
+                                                            setIsAvatarClicked(false);
                                                             setAnchorEl(null);
                                                             navigate(ROUTES.user.listmotorbike);
                                                         }}
@@ -190,6 +302,7 @@ function Header() {
                                                 <Box>
                                                     <MenuItem
                                                         onClick={() => {
+                                                            setIsAvatarClicked(false);
                                                             setAnchorEl(null);
                                                             navigate(ROUTES.user.registermotorbike);
                                                         }}
@@ -202,6 +315,7 @@ function Header() {
                                                     </MenuItem>
                                                     <MenuItem
                                                         onClick={() => {
+                                                            setIsAvatarClicked(false);
                                                             setAnchorEl(null);
                                                             navigate(ROUTES.user.favourite);
                                                         }}
@@ -215,6 +329,7 @@ function Header() {
                                                     </MenuItem>
                                                     <MenuItem
                                                         onClick={() => {
+                                                            setIsAvatarClicked(false);
                                                             setAnchorEl(null);
                                                             navigate(ROUTES.user.wallet);
                                                         }}
@@ -231,6 +346,7 @@ function Header() {
                                             }
                                             <MenuItem
                                                 onClick={() => {
+                                                    setIsAvatarClicked(false);
                                                     setAnchorEl(null);
                                                     UserService.logout();
                                                     logout();
@@ -250,6 +366,8 @@ function Header() {
                     )}
                 </Box>
             </AppBar>
+
+            {/* MOBILE */}
             <Drawer
                 sx={{ '& .MuiDrawer-paper': { width: "100%" } }}
                 anchor="left"
@@ -302,7 +420,6 @@ function Header() {
                                         <Typography variant='h3' fontSize={"16px"} sx={{ fontWeight: "500", }}>
                                             {isVn ? 'Tiếng Việt' : 'English'}
                                         </Typography>
-
                                     </Box>
                                     <Divider sx={{ marginBottom: "16px", borderBottom: '1px solid #B1B5C3', width: "100%" }} />
                                     <MyCustomButton iconPosition='left' icon={<Home sx={{ color: "#8B4513" }} />} width='100%' onClick={() => navigate(ROUTES.homepage)} content={t("header.home_page")} variant='outlined' />
@@ -348,20 +465,27 @@ function Header() {
 
 export default Header;
 
-function PopoverItem({ label, icon }: { label: string; icon: any; }) {
+export function PopoverItem({ label, icon, iconRead, timeAgo, content }: { label: string; icon: any; iconRead?: any, timeAgo?: string, content?: string }) {
+    const { t } = usei18next();
     return (
         <Box sx={{
             display: 'flex',
             alignItems: 'center',
             margin: '8px 0px',
+            position: 'relative',
+            gap: '8px'
         }}>
             {icon}
-            <Typography variant='h3' fontSize={"16px"} sx={{
-                fontWeight: "500",
-                marginLeft: "8px",
-            }}>
-                {label}
-            </Typography>
+            <Box display={'flex'} flexDirection={'column'} alignItems={'start'}>
+                <Typography variant='h4' fontSize={"16px"} sx={{
+                    fontWeight: "500",
+                }}>
+                    {label}
+                </Typography>
+                <Typography fontSize={'12px'}>{content}</Typography>
+                <Typography fontSize={'10px'} color={'primary.main'}>{timeAgo ? getPreviousTimeRelative(timeAgo, t) : ""}</Typography>
+            </Box>
+            <Box position={'absolute'} right={'0px'} display={'flex'} alignItems={'center'}>{iconRead}</Box>
         </Box>
 
     );

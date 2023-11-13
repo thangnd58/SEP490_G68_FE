@@ -4,6 +4,7 @@ import axios from "axios";
 import { User } from "../../utils/type";
 import { AppDispatch, RootState } from "../store";
 import UserService from "../../services/UserService";
+import { getUserNotificationInfo } from "./notificationReducer";
 
 export interface UserInfo {
   user: null | User
@@ -20,6 +21,9 @@ export const authReducer = createSlice({
   reducers: {
     updateUser: (state, action) => {
       state.user = action.payload
+    },
+    deleteUser: (state) => {
+      state.user = null
     }
   },
 });
@@ -29,9 +33,9 @@ export const getUserInfo = (): any => {
     try {
       if (UserService.isLoggedIn()) {
         const userInfo = await UserService.getUserInfo();
-        console.log(userInfo);
         //@ts-ignore
         dispatch(updateUser(userInfo.data))
+        dispatch(getUserNotificationInfo())
         //@ts-ignore
         localStorage.setItem("userInfo", JSON.stringify(userInfo.data));
       } else {
@@ -41,5 +45,18 @@ export const getUserInfo = (): any => {
   };
 };
 
-export const { updateUser } = authReducer.actions;
+export const deleteUserInfor = (): any => {
+  return async (dispatch: AppDispatch, getState: RootState) => {
+    try {
+      if (!UserService.isLoggedIn()) {
+        //@ts-ignore
+        dispatch(deleteUser())
+      }
+    } catch (err) { }
+  };
+};
+
+
+
+export const { updateUser, deleteUser } = authReducer.actions;
 export default authReducer.reducer;

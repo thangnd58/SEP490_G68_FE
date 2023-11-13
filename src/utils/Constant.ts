@@ -1,7 +1,8 @@
 export const BASE_URL = "https://hzuzmhgcmt.ap-southeast-1.awsapprunner.com/api";
 export const ROUTES = {
     homepage: "/",
-    search:{
+    newspage: "/news",
+    search: {
         filtermotorbike: "/search/filter"
     },
     account: {
@@ -17,9 +18,10 @@ export const ROUTES = {
         registermotorbike: "/register-motorbike",
         introductionmotorbike: "/introduction-motorbike",
         listmotorbike: "/list-motorbike",
+        shoppingCart: "/cart",
         updateregistermotorbike: "/update-register-motorbike",
         wallet: "/my-wallet",
-        favourite : "/my-favourite"
+        favourite: "/my-favourite"
     },
 
     component: {
@@ -33,10 +35,36 @@ export const ROUTES = {
         managelicences: "/manage-licences",
         licenceregister: "/manage-licences/licence-detail",
         motorbikeregister: "/manage-motorbikes/motorbike-detail",
-        managerequestwithdraw: "/manage-withdrawals"
+        managerequestwithdraw: "/manage-withdrawals",
+        managerBrand: "/manage-brands",
+        manageNews: "/manage-news"
     },
-    other:{
+    other: {
         pagenotfound: "/page-not-found",
     }
-    
+
+}
+
+export const BookingStatus = {
+    PendingPayment: "PendingPayment",
+    Paid: "Paid",
+    Cancelled: "Cancelled",
+    PendingDelivery: "PendingDelivery",
+    Delivered: "Delivered",
+    PendingReview: "PendingReview",
+    Finished: "Finished",
+}
+
+export const BookingPaymentType =
+{
+    UserBalance: "UserBalance",
+    Card: "Card",
+    EWallet: "EWallet",
+    BankTransfer: "BankTransfer",
+}
+
+export const BookingDeliveryMode =
+{
+    SelfPickup: "SelfPickup",
+    DeliveryService: "DeliveryService",
 }

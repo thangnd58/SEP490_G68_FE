@@ -9,7 +9,7 @@ type Props = {
   canCloseModal?: boolean;
 };
 
-const ModalProvider: React.FC<Props> = ({ children }) => {
+const ModalProvider: React.FC<Props> = ({ children,canCloseModal }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [contentModal, setContentModal] = useState<JSX.Element>(<></>);
   let backdropRef = useRef();

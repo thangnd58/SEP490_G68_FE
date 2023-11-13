@@ -1,0 +1,19 @@
+{
+    "sqltools.connections": [
+        {
+            "mssqlOptions": {
+                "appName": "SQLTools",
+                "useUTC": true,
+                "encrypt": true
+            },
+            "previewLimit": 50,
+            "server": "database-1-20230924.c1nszi8wzkum.ap-southeast-1.rds.amazonaws.com",
+            "port": 1433,
+            "driver": "MSSQL",
+            "username": "sa",
+            "database": "SEP490_FALL2023_BE",
+            "name": "sep490",
+            "password": "sep490g68"
+        }
+    ]
+}

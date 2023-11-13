@@ -9,29 +9,30 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../utils/Constant';
 
 function Login() {
-  // const { user } = useAppSelector((state) => state.userInfo);
-  // const navigate = useNavigate();
+  const { user } = useAppSelector((state) => state.userInfo);
+  const navigate = useNavigate();
 
-  // const { setContentModal, setShowModal } = useContext(ModalContext);
+  const { setContentModal, setShowModal, showModal } = useContext(ModalContext);
 
-  // const showModalIsLogin = () => {
-  //   setContentModal(
-  //     <MyDialog
-  //       icon={<HelmetIcon />}
-  //       title="Thông báo"
-  //       content="Bạn đã đăng nhập, mời bạn quay trở lại trang chủ"
-  //       hasAgreeButton hasCancelButton
-  //       onClickAgree={() => navigate(ROUTES.homepage)}
-  //     />
-  //   )
-  //   setShowModal(true)
-  // }
+  const showModalIsLogin = () => {
+    setContentModal(
+      <MyDialog
+        title="Thông báo"
+        content="Bạn đã đăng nhập, mời bạn quay trở lại trang chủ"
+        hasAgreeButton
+        onClickAgree={() => {
+          navigate(ROUTES.homepage)
+        }}
+      />
+    )
+    setShowModal(true)
+  }
 
-  // useEffect(() => {
-  //   if (user?.role != null) {
-  //     showModalIsLogin();
-  //   }
-  // }, [user])
+  useEffect(() => {
+    if (user != null) {
+      showModalIsLogin();
+    }
+  }, [user])
 
   return (
     <>
