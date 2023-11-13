@@ -6,7 +6,7 @@ import usei18next from '../../hooks/usei18next';
 import { useNavigate } from 'react-router';
 import MenuIcon from '@mui/icons-material/Menu';
 import useThemePage from '../../hooks/useThemePage';
-import { AccountBox, AddShoppingCart, Circle, Close, ExitToApp, Home, ListAlt, Loyalty, ManageAccounts, Notifications, NotificationsActive, NotificationsActiveOutlined, NotificationsOutlined, Search, VpnKey, WalletOutlined } from '@mui/icons-material';
+import { AccountBox, AddShoppingCart, Circle, Close, ExitToApp, Home, ListAlt, Loyalty, ManageAccounts, Notifications, NotificationsActive, NotificationsActiveOutlined, NotificationsOutlined, Search, ShoppingCartCheckout, VpnKey, WalletOutlined } from '@mui/icons-material';
 import { LogoHeader, NotificationIcon, UnitedKingDomFlag, VietNamFlag } from '../../assets/images';
 import { ROUTES } from '../../utils/Constant';
 import MyIcon from '../../components/common/MyIcon';
