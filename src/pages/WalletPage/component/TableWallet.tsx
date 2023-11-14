@@ -12,7 +12,7 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { formatMoney, formatMoneyNew } from '../../../utils/helper';
-import { Chip, Typography } from '@mui/material';
+import { Chip, Typography, styled } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
 import { Booking, WalletHistory } from '../../../utils/type';
 import WalletService from '../../../services/WalletService';
@@ -377,6 +377,11 @@ function Row(props: { row: ReturnType<typeof createData> }) {
 }
 
 
+const TableStyle = styled('form')(({ theme }) => ({
+    '& .MuiTableCell-root': {
+        border: 'none'
+    },
+}));
 
 export default function CollapsibleTable({ reload, selectedDate }: { reload: boolean, selectedDate: dayjs.Dayjs }) {
     const [deposites, setDeposites] = React.useState<WalletHistory[]>([])
@@ -413,14 +418,17 @@ export default function CollapsibleTable({ reload, selectedDate }: { reload: boo
     ];
 
     return (
-        <TableContainer component={Paper}>
-            <Table aria-label="collapsible table" >
-                <TableBody>
-                    {rows.map((row) => (
-                        <Row key={row.name} row={row} />
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <TableStyle>
+            <TableContainer component={Paper}>
+                <Table aria-label="collapsible table" >
+                    <TableBody>
+                        {rows.map((row) => (
+                            <Row key={row.name} row={row} />
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </TableStyle>
+
     );
 }

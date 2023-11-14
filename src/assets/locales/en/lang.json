@@ -465,21 +465,36 @@
       "brand": "Brand",
       "price": "Price"
     },
-    "item":{
-      "ship" : "Delivery to your location",
-      "unlike" : "Unlike",
-      "view" : "View Detail",
-      "gasoline" : "Gasoline",
-      "electric" : "Electric ",
-      "day" : "1 day",
-      "addToCart" : "Add To Cart"
+    "item": {
+      "ship": "Delivery to your location",
+      "unlike": "Unlike",
+      "view": "View Detail",
+      "gasoline": "Gasoline",
+      "electric": "Electric ",
+      "day": "1 day",
+      "addToCart": "Add To Cart"
     }
   },
   "booking": {
     "toast": {
       "success": "Successful booking.",
       "error": "Motorbike booking failed. Please try again later"
-    }
+    },
+    "perDay": "Day",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "addressGetMotorbike": "Motorbike delivery location",
+    "paymentType": "Payment type",
+    "payWallet": "Wallet balance",
+    "payVnPay": "VN Pay e-wallet",
+    "pricePerday": "Rental unit price",
+    "totalPriceRent": "Total car rental fee",
+    "totalPriceService": "Total service fee",
+    "promotionCode": "Promotion code",
+    "totalPrice": "Total price",
+    "bookMotorbikeButton": "Book",
+    "buttonApplyPromotion": "Apply",
+    "buttonApplyPromotionOk": "Applied"
   },
   "helper": {
     "secondAgo": "seconds ago",
@@ -487,12 +502,20 @@
     "hourAgo": "hours ago",
     "dayAgo": "days ago",
     "monthAgo": "months ago",
-    "yearAgo": "years ago"
+    "yearAgo": "years ago",
+    "minuteRemaining": "{{minute}} minutes left",
+    "hourRemaining": "{{hour}} hours left",
+    "dayRemaining": "{{day}} days left",
+    "monthRemaining": "{{month}} months left",
+    "yearRemaining": "{{year}} years left"
   },
   "notification": {
     "empty": "You don't have any notifications yet"
   },
   "homepage": {
     "news": "News"
+  },
+  "promotion": {
+    "yourPromo": "List promotion code"
   }
 }

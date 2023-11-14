@@ -19,7 +19,7 @@ export const getPreviousTimeRelative = (dateString: string, t: any) => {
   const seconds = Math.floor(timestamp / 1000);
   const currentTimestamp = Math.floor(new Date().getTime() / 1000);
   const difference = currentTimestamp - seconds;
-  // const { t } = usei18next();
+
   let output = ``;
   if (difference < 60) {
     output = `${difference} ${t("helper.secondAgo")}`;
@@ -37,3 +37,36 @@ export const getPreviousTimeRelative = (dateString: string, t: any) => {
 
   return output;
 };
+
+
+export const getCountdownTime = (endDate: string, t: any) => {
+  const christmasDate = new Date(endDate);
+
+  const currentDate = new Date();
+
+  const timeRemaining = christmasDate.getTime() - currentDate.getTime();
+
+  // Calculate days, hours, minutes, and seconds
+  const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+  let output = '';
+
+  if (days > 0) {
+    return output = `${t("helper.dayRemaining", {day: days})}`;
+  }
+
+  if (hours > 0) {
+    return output = `${t("helper.hourRemaining", {hour: hours})}`;
+  }
+
+  if (minutes > 0) {
+    return output = `${t("helper.minuteRemaining", {minute: minutes})}`;
+  }
+};
+
+
+
+

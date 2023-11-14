@@ -12,6 +12,7 @@ import CancelImage from './cancel.png';
 import WithdrawalMoneyImage from './withdrawal_money.png';
 import ImageSearchBox from './image-search-box.png';
 import NoDataImage from './no_data.png';
+import PromotionImage from './promotion.png'
 
 export {
     SettingIcon,
@@ -27,5 +28,6 @@ export {
     ErrorIcon,
     NotificationIcon,
     ImageSearchBox,
-    NoDataImage
+    NoDataImage,
+    PromotionImage
 };

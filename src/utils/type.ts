@@ -293,3 +293,21 @@ export interface NewsRequest {
     title: string,
     detail: string
 }
+
+export interface Promotion {
+    id: number,
+    code: string,
+    title: string,
+    description: string,
+    image: string,
+    startDate: string,
+    endDate: string,
+    type: string,
+    maxValue: number,
+    minValue: number,
+    value: number,
+    numberLeft: number,
+    status: true,
+    userCreated: number,
+    dateCreated: string
+}

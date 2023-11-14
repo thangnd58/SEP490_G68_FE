@@ -479,7 +479,22 @@
         "toast": {
             "success": "Đặt xe thành công.",
             "error": "Đặt xe thất bại. Vui lòng thử lại sau"
-        }
+        },
+        "perDay": "Ngày",
+        "startDate": "Ngày bắt đầu",
+        "endDate": "Ngày kết thúc",
+        "addressGetMotorbike": "Địa điểm giao xe",
+        "paymentType": "Loại thanh toán",
+        "payWallet": "Số dư ví",
+        "payVnPay": "Ví điện tử VN Pay",
+        "pricePerday": "Đơn giá thuê",
+        "totalPriceRent": "Tổng phí thuê xe",
+        "totalPriceService": "Tổng phí dịch vụ",
+        "promotionCode": "Mã khuyến mãi",
+        "totalPrice": "Tổng tiền",
+        "bookMotorbikeButton": "Đặt xe",
+        "buttonApplyPromotion": "Áp dụng",
+        "buttonApplyPromotionOk": "Đã áp dụng"
     },
     "helper": {
         "secondAgo": "giây trước",
@@ -487,12 +502,20 @@
         "hourAgo": "giờ trước",
         "dayAgo": "ngày trước",
         "monthAgo": "tháng trước",
-        "yearAgo": "năm trước"
+        "yearAgo": "năm trước",
+        "minuteRemaining": "Còn {{minute}} phút nữa",
+        "hourRemaining": "Còn {{hour}} giờ nữa",
+        "dayRemaining": "Còn {{day}} ngày nữa",
+        "monthRemaining": "Còn {{month}} tháng nữa",
+        "yearRemaining": "Còn {{year}} năm nữa"
     },
     "notification": {
         "empty": "Bạn chưa có thông báo nào"
     },
     "homepage": {
         "news": "Tin tức"
+    },
+    "promotion": {
+        "yourPromo": "Danh sách mã giảm giá của bạn"
     }
 }

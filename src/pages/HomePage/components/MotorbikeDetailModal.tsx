@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
-import { BookingRequest, BookingResponse, Motorbike } from '../../../utils/type'
+import { BookingRequest, BookingResponse, Motorbike, Promotion } from '../../../utils/type'
 import MyDialog from '../../../components/common/MyDialog'
 import usei18next from '../../../hooks/usei18next';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
-import { Box, Chip, CircularProgress, Divider, FormControl, FormLabel, RadioGroup, Radio, FormControlLabel, Grid, IconButton, MenuItem, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Box, Chip, CircularProgress, Divider, FormControl, FormLabel, RadioGroup, Radio, FormControlLabel, Grid, IconButton, MenuItem, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, Button } from '@mui/material';
 import MyIcon from '../../../components/common/MyIcon';
 import { CloseOutlined, FormatBoldRounded, GasMeterOutlined, LocalDrinkOutlined, LocationOn, LocationOnOutlined, Loyalty, MyLocation, NewReleasesOutlined } from '@mui/icons-material';
 import MySlideShowImage from '../../../components/common/MySlideShowImage';
@@ -24,6 +24,9 @@ import ToastComponent from '../../../components/toast/ToastComponent';
 import { useNavigate } from 'react-router-dom';
 import { BookingDeliveryMode, BookingPaymentType, ROUTES } from '../../../utils/Constant';
 import ApplyPromotionModal from './ApplyPromotionModal';
+import { PromotionImage } from '../../../assets/images';
+import { PromotionService } from '../../../services/PromotionService';
+import { getCountdownTime } from '../../../utils/helper';
 
 export default function MotorbikeDetailModal(props: { motorbikeId: number | undefined, searchedAddress?: string, startDate?: string, endDate?: string }) {
 
@@ -34,9 +37,24 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
   const { closeModal, setContentModal, setShowModal } = useContext(ModalContext);
   const { RangePicker } = DatePicker;
   const [isMapModalOpen, setMapModalOpen] = useState(false);
+  const [isModalPromotionOpen, setModalPromotionOpen] = useState(false);
   const [motorbike, setMotorbike] = useState<Motorbike>();
   const [previewBookingData, setPreviewBookingData] = useState<BookingResponse>();
   const [isProcessingBooking, setIsProcessingBooking] = useState(false);
+  const [promotions, setPromotions] = useState<Promotion[]>([])
+
+  useEffect(() => {
+    try {
+      PromotionService.getAllPromotion().then((data) => {
+        if (data) {
+          setPromotions(data)
+        }
+      })
+    } catch (error) {
+
+    }
+  }, [])
+
   interface Location {
     lat: number,
     lng: number,
@@ -94,7 +112,8 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
       startDate: props?.startDate,
       endDate: props?.endDate,
       paymentType: BookingPaymentType.UserBalance,
-      deliveryMode: BookingDeliveryMode.DeliveryService
+      deliveryMode: BookingDeliveryMode.DeliveryService,
+      couponCode: ""
     },
     validationSchema: Yup.object({
       address: Yup.string().required(t("postMotorbike.registedForm.addressRequired")),
@@ -111,7 +130,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
           deliveryMode: values.deliveryMode,
           startDatetime: values.startDate || "",
           endDatetime: values.endDate || "",
-          couponCode: "",
+          couponCode: values.couponCode || "",
           paymentType: BookingPaymentType.Card
         }
         await BookingService.postBooking(request)
@@ -146,12 +165,12 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
       deliveryMode: values.deliveryMode,
       startDatetime: values.startDate || "",
       endDatetime: values.endDate || "",
-      couponCode: ""
+      couponCode: values.couponCode || ""
     }
     BookingService.getPreviewBooking(bookingPreview).then((data) => {
       setPreviewBookingData(data)
     })
-  }, [props?.motorbikeId, values.address, values.startDate, values.endDate])
+  }, [props?.motorbikeId, values.address, values.startDate, values.endDate, values.couponCode])
 
   // MAP CONTROLLER
   const { isLoaded } = useLoadScript({
@@ -373,22 +392,22 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                 >
                   <Box display="flex" flexDirection="row" alignItems="center" width={"100%"} justifyContent={"flex-start"} >
                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '24px', fontWeight: "600", }}>
-                      {formatMoney(motorbike?.priceRent) + "/ngày"}
+                      {`${formatMoney(motorbike?.priceRent)}/${t("booking.perDay")}`}
                     </Typography>
                   </Box>
                   <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"}>
                     {/* Line */}
                     <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
                     {/* Chọn ngày giờ */}
-                    <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                    <Box display={'flex'} flexDirection={'column'} alignItems={'center'} width={"100%"} justifyContent={'center'} sx={{ gap: '4px' }}>
                       <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
                         {/* start date */}
                         <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                          Ngày bắt đầu:
+                          {t("booking.startDate")}
                         </Typography>
                         {/* end date */}
                         <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                          Ngày kết thúc:
+                          {t("booking.endDate")}
                         </Typography>
                       </Box>
                       <RangePicker
@@ -418,7 +437,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                     <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} marginTop={'8px'}>
                       <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                          Địa điểm giao xe
+                          {t("booking.addressGetMotorbike")}
                         </Typography>
                       </Box>
                       <Box
@@ -445,7 +464,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                     <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} marginTop={'8px'}>
                       <Box width={"100%"} display={'flex'} flexDirection={'column'} justifyContent={'start'} sx={{ gap: '8px' }}>
                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                          Loại thanh toán
+                          {t("booking.paymentType")}
                         </Typography>
                         <Box>
                           <RadioGroup
@@ -459,7 +478,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                               checked={values.paymentType === BookingPaymentType.UserBalance}
                               value={BookingPaymentType.UserBalance}
                               control={<Radio />}
-                              label="Số dư ví"
+                              label={t("booking.payWallet")}
                               sx={{
                                 '& .MuiFormControlLabel-label': {
                                   fontSize: '16px',
@@ -468,7 +487,11 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                                 }
                               }}
                             />
-                            <FormControlLabel checked={values.paymentType === BookingPaymentType.Card} value={BookingPaymentType.Card} control={<Radio />} label="Ví điện tử VN Pay"
+                            <FormControlLabel
+                              checked={values.paymentType === BookingPaymentType.Card}
+                              value={BookingPaymentType.Card}
+                              control={<Radio />}
+                              label={t("booking.payVnPay")}
                               sx={{
                                 '& .MuiFormControlLabel-label': {
                                   fontSize: '16px',
@@ -488,23 +511,12 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                       {/* Đơn giá thuê */}
                       <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                          Đơn giá thuê
+                          {t("booking.pricePerday")}
                         </Typography>
                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                          {formatMoney(motorbike?.priceRent)}/ngày
+                          {`${formatMoney(motorbike?.priceRent)}/${t("booking.perDay")}`}
                         </Typography>
                       </Box>
-
-
-                      {/* Phí bảo hiểm */}
-                      {/* <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                          Phí bảo hiểm
-                        </Typography>
-                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                          {formatMoney(motorbike?.priceRent)}/ ngày
-                        </Typography>
-                      </Box> */}
                     </Box>
                     {/* Line */}
                     <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
@@ -514,7 +526,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                       {/* Tổng tiền */}
                       <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                          Tổng phí thuê xe
+                          {t("booking.totalPriceRent")}
                         </Typography>
                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                           {formatMoney(previewBookingData?.totalAmountTemp)} x {previewBookingData?.rentalDays} ngày
@@ -523,22 +535,26 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                       {/* Phí dịch vụ */}
                       <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                          Tổng phí dịch vụ
+                          {t("booking.totalPriceService")}
                         </Typography>
                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                           {formatMoney(previewBookingData?.feeOfService)}
                         </Typography>
                       </Box>
                       {/* Mã khuyến mãi */}
-                      <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                        {/* <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                        Mã khuyến mãi
-                      </Typography>
-                      <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                        -120.000VND
-                      </Typography> */}
-                        <MyCustomButton iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick={showModalPromotion} content={"Mã khuyến mãi"} variant='outlined' />
-                      </Box>
+                      {
+                        values.couponCode !== "" &&
+                        <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                          <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                            {t("booking.promotionCode")}: <span style={{ textTransform: 'uppercase', fontWeight: '700' }}>{values.couponCode}</span>
+                          </Typography>
+                          <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                            -120.000 VND
+                          </Typography>
+                        </Box>
+                      }
+                      <MyCustomButton iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick={() => setModalPromotionOpen(true)} content={t("booking.promotionCode")} variant='outlined' />
+
                     </Box>
                     {/* Line */}
                     <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
@@ -546,7 +562,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                     {/* Tổng tiền */}
                     <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                       <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                        Tổng tiền
+                        {t("booking.totalPrice")}
                       </Typography>
                       <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                         {formatMoney(previewBookingData?.totalAmount)}
@@ -557,7 +573,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
 
                     {/* Button */}
                     <MyCustomButton disabled={isProcessingBooking}
-                      width='100%' onClick={handleSubmit} content={"Đặt xe"} variant='contained' />
+                      width='100%' onClick={handleSubmit} content={t("booking.bookMotorbikeButton")} variant='contained' />
 
                   </Box>
                 </Box>
@@ -616,13 +632,13 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                       {t("postMotorbike.listform.description")}
                     </Typography>
                     <Box width={"100%"}>
-                    {/* <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={400}>
+                      {/* <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={400}>
                         <div
                           style={{ whiteSpace: "pre-wrap", fontSize: isMobile ? "12px" : "16px", fontWeight: "400" }}
                           dangerouslySetInnerHTML={{ __html: motorbike?.description || "" }}></div>
                       </Typography> */}
                       <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
-                        <div style={{textAlign: 'justify'}} dangerouslySetInnerHTML={{ __html: motorbike?.description || "" }}></div>
+                        <div style={{ textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: motorbike?.description || "" }}></div>
                       </Typography>
                     </Box>
                   </Box>
@@ -635,7 +651,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                     </Typography>
                     <Box width={"100%"}>
                       <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
-                        <div style={{textAlign: 'justify'}} dangerouslySetInnerHTML={{ __html: motorbike?.miscellaneous || "" }}></div>
+                        <div style={{ textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: motorbike?.miscellaneous || "" }}></div>
                       </Typography>
                     </Box>
                   </Box>
@@ -761,6 +777,8 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
         </Box>
 
       </Modal>
+
+
       {/* modal address */}
       <Modal
         open={isMapModalOpen}
@@ -772,7 +790,8 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
           justifyContent: 'center',
           overflowY: 'auto',
           zIndex: 10000
-        }}>
+        }}
+      >
         <Box width={isMobile ? "70%" : "50%"} height={"auto"} sx={{
           padding: "16px 32px",
           backgroundColor: 'white',
@@ -945,6 +964,46 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
           </Box>
         </Box>
       </Modal>
+
+      {/* modal promotion */}
+      <Modal
+        open={isModalPromotionOpen}
+        aria-labelledby="map-modal-title"
+        aria-describedby="map-modal-description"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflowY: 'auto',
+          zIndex: 10000
+        }}
+      >
+        <Box width={isMobile ? "70%" : "30%"} height={"auto"} sx={{
+          padding: "16px 32px",
+          backgroundColor: 'white',
+          borderRadius: '8px',
+        }}>
+          <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
+            <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "24px"} fontWeight={600} textAlign={"start"}>
+              {t("promotion.yourPromo")}
+            </Typography>
+            <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
+              <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={() => setModalPromotionOpen(false)} position='bottom' />
+            </Box>
+          </Box>
+          <Divider sx={{ width: "100%", margin: "16px 0px" }} variant="middle" />
+          <Box width={"100%"} height={"80%"} display={"flex"} flexDirection={"column"} gap={'8px'} justifyContent={"start"} alignItems={"center"}>
+            {
+              promotions.length > 0 &&
+              promotions.map((promo) => {
+                return (
+                  <PromotionItem key={`${promo.id}_${promo.code}`} promotion={promo} promoApply={values.couponCode} setPromoApply={setFieldValue} />
+                )
+              })
+            }
+          </Box>
+        </Box>
+      </Modal>
     </>
   );
 
@@ -963,6 +1022,7 @@ function MotorbikeFeatureItem({ icon, title, content, isMobile }: any) {
     </Box>
   </Box>);
 }
+
 function EquipmentItem({ icon, label }: any) {
   return (
     <Box display="flex" flexDirection="row" alignItems="center" justifyContent={"center"} padding={"16px 0px"} border={"2px solid #8B4513"} borderRadius={"8px"} gap={"16px"}>
@@ -971,4 +1031,32 @@ function EquipmentItem({ icon, label }: any) {
         {label}
       </Typography>
     </Box>);
+}
+
+function PromotionItem({ promotion, promoApply, setPromoApply }: { promotion: Promotion, promoApply: string, setPromoApply: any }) {
+  const { t } = usei18next();
+  const { isMobile } = useThemePage();
+  const [isShow, setShow] = useState<boolean>(false);
+
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <img src={PromotionImage} width={48} height={48} alt='promo' />
+          <Box sx={{ cursor: 'pointer' }} onClick={() => setShow((prev) => !prev)}>
+            <Typography fontSize={isMobile ? '12px' : '16px'} textTransform={'uppercase'}>{promotion.code}</Typography>
+            <Typography fontSize={isMobile ? '10px' : '14px'} sx={{ textDecoration: 'underline' }}>{promotion.title}</Typography>
+            <Typography fontSize={isMobile ? '10px' : '12px'} >{getCountdownTime(promotion.endDate, t)}</Typography>
+          </Box>
+        </Box>
+        <MyCustomButton disabled={promotion.code === promoApply} fontColor={promotion.code === promoApply ? "white" : ""} height='40px' fontSize={isMobile ? 12 : 16} onClick={() => setPromoApply("couponCode", promotion.code)} content={promotion.code === promoApply ?  t("booking.buttonApplyPromotionOk") : t("booking.buttonApplyPromotion")} variant='outlined' />
+      </Box >
+      {
+        isShow &&
+        <Box sx={{ p: '8px', border: '1px solid', borderRadius: '8px' }}>
+          <Typography>{promotion.description}</Typography>
+        </Box>
+      }
+    </Box>
+  )
 }
