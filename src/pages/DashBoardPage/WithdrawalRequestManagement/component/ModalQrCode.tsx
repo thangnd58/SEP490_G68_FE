@@ -53,6 +53,16 @@ const ModalQrCode = (props: MyDialogProps) => {
         }
     }
 
+    const rejectBooking = async () => {
+        try {
+            await WalletService.rejectRequestWithdrawal(props.withdrawal.id);
+            props.setReload((prev) => !prev)
+            closeModal();
+        } catch (error) {
+
+        }
+    }
+
     useEffect(() => {
         getQrCode();
     }, [props.withdrawal]);
@@ -78,13 +88,23 @@ const ModalQrCode = (props: MyDialogProps) => {
                     <img src={qrUrl} alt="" width={'70%'} style={{ objectFit: 'cover' }} />
                 )}
             </Box>
-            <MyCustomButton
-                fontWeight={600}
-                width="70%"
-                fontSize={isMobile ? 12 : 16}
-                onClick={() => changeStatusTransfer()}
-                content={t("dashBoardManager.withdrawalRequest.buttonConfirmProcess")}
-            />
+            <Box display={'flex'} flexDirection={'column'} gap={'8px'} alignItems={'center'}>
+                <MyCustomButton
+                    fontWeight={600}
+                    width="100%"
+                    fontSize={isMobile ? 12 : 16}
+                    onClick={() => changeStatusTransfer()}
+                    content={t("dashBoardManager.withdrawalRequest.buttonConfirmProcess")}
+                />
+                <MyCustomButton
+                    fontWeight={600}
+                    width="100%"
+                    variant="outlined"
+                    fontSize={isMobile ? 12 : 16}
+                    onClick={() => rejectBooking()}
+                    content={t("dashBoardManager.withdrawalRequest.buttonReject")}
+                />
+            </Box>
         </Dialog>
     );
 };

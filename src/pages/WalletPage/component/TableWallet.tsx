@@ -110,7 +110,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
             ),
         },
         {
-            field: 'create_Date', headerName: t("wallet.title_date_deposit"), flex: 1,
+            field: 'create_Date', headerName: t("wallet.title_request_date"), flex: 1,
             renderCell: (params: any) => (
                 <Box>
                     {new Date(params.value).toLocaleString()}

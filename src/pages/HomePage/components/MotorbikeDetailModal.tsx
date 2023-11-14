@@ -27,6 +27,8 @@ import ApplyPromotionModal from './ApplyPromotionModal';
 import { PromotionImage } from '../../../assets/images';
 import { PromotionService } from '../../../services/PromotionService';
 import { getCountdownTime } from '../../../utils/helper';
+import { PromotionModal } from '../../MotorbikePage/components/PromotionModal';
+import { ConfirmMotorbikeBookingModal } from '../../MotorbikePage/components/ConfirmMotorbikeBookingModal';
 
 export default function MotorbikeDetailModal(props: { motorbikeId: number | undefined, searchedAddress?: string, startDate?: string, endDate?: string }) {
 
@@ -38,22 +40,10 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
   const { RangePicker } = DatePicker;
   const [isMapModalOpen, setMapModalOpen] = useState(false);
   const [isModalPromotionOpen, setModalPromotionOpen] = useState(false);
+  const [isModalConfirmBookingOpen, setModalConfirmBookingOpen] = useState(false);
   const [motorbike, setMotorbike] = useState<Motorbike>();
   const [previewBookingData, setPreviewBookingData] = useState<BookingResponse>();
   const [isProcessingBooking, setIsProcessingBooking] = useState(false);
-  const [promotions, setPromotions] = useState<Promotion[]>([])
-
-  useEffect(() => {
-    try {
-      PromotionService.getAllPromotion().then((data) => {
-        if (data) {
-          setPromotions(data)
-        }
-      })
-    } catch (error) {
-
-    }
-  }, [])
 
   interface Location {
     lat: number,
@@ -83,7 +73,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
     if (money) {
       return (money * 1000).toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
     }
-    return 0;
+    return '0 VND';
   }
   // convert timestamp to date
   const convertTimestampToDate = (timestamp: number) => {
@@ -281,6 +271,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
         open={true}
         aria-labelledby="map-modal-title"
         aria-describedby="map-modal-description"
+        className='hiddenSroll'
         sx={{
           display: 'flex',
           alignItems: 'start',
@@ -292,7 +283,8 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
           sx={{
             backgroundColor: '#fff',
             borderRadius: '8px'
-          }}>
+          }}
+        >
           <Box
             sx={{
               borderTopLeftRadius: "8px",
@@ -549,7 +541,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                             {t("booking.promotionCode")}: <span style={{ textTransform: 'uppercase', fontWeight: '700' }}>{values.couponCode}</span>
                           </Typography>
                           <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                            -120.000 VND
+                            {formatMoney(previewBookingData?.couponPrice)}
                           </Typography>
                         </Box>
                       }
@@ -573,10 +565,11 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
 
                     {/* Button */}
                     <MyCustomButton disabled={isProcessingBooking}
-                      width='100%' onClick={handleSubmit} content={t("booking.bookMotorbikeButton")} variant='contained' />
+                      width='100%' onClick={() => setModalConfirmBookingOpen(true)} content={t("booking.bookMotorbikeButton")} variant='contained' />
 
                   </Box>
                 </Box>
+
                 {/* Thông tin xe */}
                 <Box
                   width={isIpad || isMobile ? "100%" : "60%"}
@@ -966,44 +959,19 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
       </Modal>
 
       {/* modal promotion */}
-      <Modal
-        open={isModalPromotionOpen}
-        aria-labelledby="map-modal-title"
-        aria-describedby="map-modal-description"
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          overflowY: 'auto',
-          zIndex: 10000
-        }}
-      >
-        <Box width={isMobile ? "70%" : "30%"} height={"auto"} sx={{
-          padding: "16px 32px",
-          backgroundColor: 'white',
-          borderRadius: '8px',
-        }}>
-          <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
-            <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "24px"} fontWeight={600} textAlign={"start"}>
-              {t("promotion.yourPromo")}
-            </Typography>
-            <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
-              <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={() => setModalPromotionOpen(false)} position='bottom' />
-            </Box>
-          </Box>
-          <Divider sx={{ width: "100%", margin: "16px 0px" }} variant="middle" />
-          <Box width={"100%"} height={"80%"} display={"flex"} flexDirection={"column"} gap={'8px'} justifyContent={"start"} alignItems={"center"}>
-            {
-              promotions.length > 0 &&
-              promotions.map((promo) => {
-                return (
-                  <PromotionItem key={`${promo.id}_${promo.code}`} promotion={promo} promoApply={values.couponCode} setPromoApply={setFieldValue} />
-                )
-              })
-            }
-          </Box>
-        </Box>
-      </Modal>
+      <PromotionModal isModalPromotionOpen={isModalPromotionOpen} setModalPromotionOpen={setModalPromotionOpen} setFieldValue={setFieldValue} counponCode={values.couponCode} isMobile={isMobile} />
+
+      {/*modal confirm booking*/}
+      <ConfirmMotorbikeBookingModal
+        isModalConfirmBookingOpen={isModalConfirmBookingOpen}
+        setModalConfirmBookingOpen={setModalConfirmBookingOpen}
+        values={values}
+        isMobile={isMobile}
+        motorbikes={[motorbike!]}
+        previewBookingData={previewBookingData}
+        isProcessingBooking={isProcessingBooking}
+        handleSubmit={handleSubmit}
+      />
     </>
   );
 
@@ -1033,30 +1001,4 @@ function EquipmentItem({ icon, label }: any) {
     </Box>);
 }
 
-function PromotionItem({ promotion, promoApply, setPromoApply }: { promotion: Promotion, promoApply: string, setPromoApply: any }) {
-  const { t } = usei18next();
-  const { isMobile } = useThemePage();
-  const [isShow, setShow] = useState<boolean>(false);
 
-  return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
-        <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-          <img src={PromotionImage} width={48} height={48} alt='promo' />
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setShow((prev) => !prev)}>
-            <Typography fontSize={isMobile ? '12px' : '16px'} textTransform={'uppercase'}>{promotion.code}</Typography>
-            <Typography fontSize={isMobile ? '10px' : '14px'} sx={{ textDecoration: 'underline' }}>{promotion.title}</Typography>
-            <Typography fontSize={isMobile ? '10px' : '12px'} >{getCountdownTime(promotion.endDate, t)}</Typography>
-          </Box>
-        </Box>
-        <MyCustomButton disabled={promotion.code === promoApply} fontColor={promotion.code === promoApply ? "white" : ""} height='40px' fontSize={isMobile ? 12 : 16} onClick={() => setPromoApply("couponCode", promotion.code)} content={promotion.code === promoApply ?  t("booking.buttonApplyPromotionOk") : t("booking.buttonApplyPromotion")} variant='outlined' />
-      </Box >
-      {
-        isShow &&
-        <Box sx={{ p: '8px', border: '1px solid', borderRadius: '8px' }}>
-          <Typography>{promotion.description}</Typography>
-        </Box>
-      }
-    </Box>
-  )
-}

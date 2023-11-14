@@ -243,6 +243,7 @@ export interface BookingResponse {
     feeOfService: number,
     totalAmountTemp: number,
     couponCode: string,
+    couponPrice: number,
     totalAmount: number
 }
 
@@ -273,7 +274,14 @@ export interface Notification {
     detail: string,
     isRead: boolean,
     createDatetime: string,
-    updateDatetime: string
+    updateDatetime: string,
+    category: NotificationCategory
+}
+
+export interface NotificationCategory {
+    categoryId: number,
+    categoryName: string,
+    image: string
 }
 
 export interface News {

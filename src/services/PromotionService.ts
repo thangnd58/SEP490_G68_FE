@@ -1,11 +1,11 @@
 import { Promotion } from "../utils/type"
 import api from "./BaseService"
 
-const apiGetAllPromotion = '/promotions'
+const apiGetAllPromotionValid = '/promotion/current'
 
 export const PromotionService = {
-    getAllPromotion: async (): Promise<Promotion[]> => {
-        const response = await api.get(apiGetAllPromotion)
+    getAllPromotionValid: async (): Promise<Promotion[]> => {
+        const response = await api.get(apiGetAllPromotionValid)
         return response.data
     },
 }

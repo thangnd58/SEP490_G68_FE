@@ -276,7 +276,8 @@
       "columnAccountNumber": "Account number",
       "columnAmount": "Amount",
       "columnViewQr": "QR CODE",
-      "buttonConfirmProcess": "Confirm successful transfer"
+      "buttonConfirmProcess": "Confirm successful transfer",
+      "buttonReject": "Refused due to incorrect information"
     },
     "brand": {
       "brandName": "Brand Name",
@@ -493,8 +494,10 @@
     "promotionCode": "Promotion code",
     "totalPrice": "Total price",
     "bookMotorbikeButton": "Book",
+    "cancelBook": "Cancel",
     "buttonApplyPromotion": "Apply",
-    "buttonApplyPromotionOk": "Applied"
+    "buttonApplyPromotionOk": "Applied",
+    "confirmInforBook": "Confirm booking information"
   },
   "helper": {
     "secondAgo": "seconds ago",

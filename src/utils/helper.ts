@@ -10,7 +10,7 @@ export const formatMoneyNew = (money: number | undefined) => {
   if (money) {
     return (money * 1000).toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
   }
-  return 0;
+  return '0 VND';
 }
 
 export const getPreviousTimeRelative = (dateString: string, t: any) => {

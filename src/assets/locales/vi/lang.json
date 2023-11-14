@@ -276,7 +276,8 @@
             "columnAccountNumber": "Số tài khoản",
             "columnAmount": "Số tiền",
             "columnViewQr": "QR CODE",
-            "buttonConfirmProcess": "Xác nhận là đã chuyển khoản thành công"
+            "buttonConfirmProcess": "Xác nhận là đã chuyển khoản thành công",
+            "buttonReject": "Từ chối do sai thông tin"
         },
         "brand": {
             "brandName": "Tên hãng",
@@ -493,8 +494,10 @@
         "promotionCode": "Mã khuyến mãi",
         "totalPrice": "Tổng tiền",
         "bookMotorbikeButton": "Đặt xe",
+        "cancelBook": "Hủy đặt xe",
         "buttonApplyPromotion": "Áp dụng",
-        "buttonApplyPromotionOk": "Đã áp dụng"
+        "buttonApplyPromotionOk": "Đã áp dụng",
+        "confirmInforBook": "Xác nhận thông tin đặt xe"
     },
     "helper": {
         "secondAgo": "giây trước",
