@@ -465,12 +465,14 @@
       "brand": "Brand",
       "price": "Price"
     },
-    "item": {
-      "ship": "Delivery to your location",
-      "unlike": "Unlike",
-      "view": "View Detail",
-      "gasoline": "Gasoline",
-      "electric": "Electric "
+    "item":{
+      "ship" : "Delivery to your location",
+      "unlike" : "Unlike",
+      "view" : "View Detail",
+      "gasoline" : "Gasoline",
+      "electric" : "Electric ",
+      "day" : "1 day",
+      "addToCart" : "Add To Cart"
     }
   },
   "booking": {
