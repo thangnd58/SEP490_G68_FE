@@ -1,27 +1,57 @@
-import {
-    BusinessCenterOutlined,
-    StarPurple500Outlined,
-} from "@mui/icons-material";
 import useThemePage from "../../hooks/useThemePage";
 import {
-    Avatar,
     Typography,
-    Divider,
     Box,
-    Tooltip,
-    Chip,
-    Checkbox,
+    Divider,
+    FormControlLabel,
+    RadioGroup,
 } from "@mui/material";
-import theme from "../../utils/theme";
-import PlaceIcon from "@mui/icons-material/Place";
 import usei18next from "../../hooks/usei18next";
-import DeleteIcon from "@mui/icons-material/Delete";
-import MyIcon from "../../components/common/MyIcon";
 import MyCustomButton from "../../components/common/MyButton";
+import MotorbikeCartInfo from "./components/MotorbikeCartInfo";
+import { useAppDispatch, useAppSelector } from "../../hooks/useAction";
+import { useEffect, useState } from "react";
+import { getCartInfo } from "../../redux/reducers/cartReducer";
+import { MotorbikeCart, ShoppingCart } from "../../utils/type";
+import theme from "../../utils/theme";
+import dayjs from "dayjs";
+import { DatePicker } from "antd";
+import { LocationOnOutlined } from "@mui/icons-material";
+import ToastComponent from "../../components/toast/ToastComponent";
 
 function CartPage() {
-    const { isMobile } = useThemePage();
+    const { isMobile, isIpad } = useThemePage();
     const { t } = usei18next();
+    const { shoppingCart } = useAppSelector((state) => state.shoppingCartInfo);
+    const dispatch = useAppDispatch();
+    const { RangePicker } = DatePicker;
+    const [isMapModalOpen, setMapModalOpen] = useState(false);
+    const [isProcessingBooking, setIsProcessingBooking] = useState(false);
+
+    useEffect(() => {
+        dispatch(getCartInfo());
+    }, []);
+
+    
+
+    const formatMoney = (money: number | undefined) => {
+        if (money) {
+            return (money * 1000).toLocaleString("it-IT", {
+                style: "currency",
+                currency: "VND",
+            });
+        }
+        return 0;
+    };
+
+    // ADDRESS MODAL CONTROLLER
+    const openMapModal = () => {
+        setMapModalOpen(true);
+    };
+
+    const closeMapModal = () => {
+        setMapModalOpen(false);
+    };
 
     return (
         <Box
@@ -37,234 +67,11 @@ function CartPage() {
             </Box>
             <Box display={"flex"} width={"100%"} marginBottom={"100px"}>
                 <Box width={"70%"}>
-                    <Box>
-                        <Box
-                            display={"flex"}
-                            flexDirection={isMobile ? "column" : "row"}
-                            justifyContent={
-                                isMobile ? "center" : "space-between"
-                            }
-                            alignItems={"center"}
-                            color={"common.white"}
-                            padding={"0px 16px"}
-                            marginTop={"10px"}
-                            sx={{
-                                backgroundColor: "primary.main",
-                                borderTopLeftRadius: "8px",
-                                borderTopRightRadius: "8px",
-                            }}
-                        >
-                            <Typography variant="h6">Honda Airblade</Typography>
-                            <MyIcon
-                                icon={<DeleteIcon color="warning" />}
-                                position="right"
-                                hasTooltip
-                                tooltipText={t("dashBoardManager.brand.delete")}
-                            />
-                        </Box>
-                        <Box
-                            sx={{
-                                backgroundColor: "#fff",
-                                borderBottomLeftRadius: "8px",
-                                borderBottomRightRadius: "8px",
-                            }}
-                            borderBottom={"1px solid #e0e0e0"}
-                            display={"flex"}
-                            padding={"16px"}
-                            flexDirection={"row"}
-                            justifyContent={"space-between"}
-                            alignItems={"start"}
-                            gap={"16px"}
-                        >
-                            {/* Image */}
-                            <Box
-                                width={"40%"}
-                                sx={{ cursor: "pointer", position: "relative" }}
-                            >
-                                <Avatar
-                                    src="https://sep490g68.s3.ap-southeast-1.amazonaws.com/news/image/5/bike.jpg?X-Amz-Expires=300&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAXUMT2MLG3P6VDD57%2F20231113%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Date=20231113T161333Z&X-Amz-SignedHeaders=host&X-Amz-Signature=f8b448eaa0861f57e713afb74034ca2b9a916de6be25d66cd873b1b146c1cfb8"
-                                    sx={{
-                                        width: "100%",
-                                        height: "200px",
-                                        borderRadius: "8px",
-                                        border: "1px solid #e0e0e0",
-                                    }}
-                                    alt="image"
-                                    // onClick={() => showMotorbikeDetailModal(props.motorbike.id)}
-                                />
-                            </Box>
-                            <Divider orientation="vertical" flexItem />
-                            {/* Content */}
-                            <Box
-                                width={"60%"}
-                                display="flex"
-                                flexDirection="column"
-                                gap="8px"
-                            >
-                                {/* Fuel Consumption and Shipping */}
-                                <Box display="flex" gap="8px">
-                                    <Chip
-                                        sx={{
-                                            "& .MuiChip-label": {
-                                                fontSize: "12px",
-                                            },
-                                            height: "28px",
-                                            fontWeight: "400",
-                                        }}
-                                        color="success"
-                                        label="Nhien Lieu"
-                                        //   {
-                                        //     props.motorbike.fuelConsumption === 1
-                                        //       ? t("favourite.item.gasoline")
-                                        //       : t("favourite.item.electric")
-                                        //   }
-                                    />
-                                    <Chip
-                                        sx={{
-                                            "& .MuiChip-label": {
-                                                fontSize: "12px",
-                                            },
-                                            height: "28px",
-                                            fontWeight: "400",
-                                        }}
-                                        color="warning"
-                                        label={t("favourite.item.ship")}
-                                    />
-                                </Box>
-                                {/* Brand Name and Model */}
-                                <Box
-                                    display="flex"
-                                    flexDirection="column"
-                                    gap="4px"
-                                >
-                                    <Box display={"flex"} alignItems={"center"}>
-                                        <Avatar
-                                            sx={{
-                                                width: "40px",
-                                                height: "40px",
-                                                borderRadius: "50%",
-                                            }}
-                                            src="https://sep490g68.s3.ap-southeast-1.amazonaws.com/news/image/5/bike.jpg?X-Amz-Expires=300&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAXUMT2MLG3P6VDD57%2F20231113%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Date=20231113T161333Z&X-Amz-SignedHeaders=host&X-Amz-Signature=f8b448eaa0861f57e713afb74034ca2b9a916de6be25d66cd873b1b146c1cfb8"
-                                        />
-                                        <Typography
-                                            textOverflow="ellipsis"
-                                            whiteSpace="nowrap"
-                                            overflow="hidden"
-                                            fontWeight="bold"
-                                            fontSize="20px"
-                                            marginLeft={"7px"}
-                                            color={theme.palette.text.primary}
-                                        >
-                                            Nguyễn xuân Trường
-                                        </Typography>
-                                    </Box>
-                                    <Box
-                                        display="flex"
-                                        alignItems="center"
-                                        gap="4px"
-                                    >
-                                        <PlaceIcon
-                                            sx={{ color: "#777E90" }}
-                                            fontSize="small"
-                                        />
-                                        <Tooltip
-                                            placement="bottom"
-                                            title="Hung Yen"
-                                        >
-                                            <Typography
-                                                textOverflow="ellipsis"
-                                                whiteSpace="nowrap"
-                                                overflow="hidden"
-                                                fontSize="12px"
-                                                fontStyle={"italic"}
-                                                color={
-                                                    theme.palette.text.secondary
-                                                }
-                                            >
-                                                323B Thi tran Yen My - Hung Yen
-                                            </Typography>
-                                        </Tooltip>
-                                    </Box>
-                                </Box>
-                                {/* Star Rating and Booking Count */}
-                                <Box display="flex">
-                                    <Box
-                                        width="100%"
-                                        display="flex"
-                                        alignItems="end"
-                                        gap="4px"
-                                    >
-                                        <StarPurple500Outlined
-                                            sx={{ color: "#FBC241" }}
-                                            fontSize="small"
-                                        />
-                                        <Typography
-                                            color={theme.palette.text.secondary}
-                                            fontSize="12px"
-                                            align="center"
-                                            textOverflow="ellipsis"
-                                            whiteSpace="nowrap"
-                                            overflow="hidden"
-                                        >
-                                            4.5
-                                        </Typography>
-                                        <BusinessCenterOutlined
-                                            fontWeight={300}
-                                            sx={{ color: "#8B4513" }}
-                                            fontSize="small"
-                                        />
-                                        <Typography
-                                            color={theme.palette.text.secondary}
-                                            fontSize="12px"
-                                            align="center"
-                                            textOverflow="ellipsis"
-                                            whiteSpace="nowrap"
-                                            overflow="hidden"
-                                        >
-                                            5 lượt đặt
-                                        </Typography>
-                                    </Box>
-                                </Box>
-                                {/* "Xem chi tiết" link and Price */}
-                                <Box
-                                    display="flex"
-                                    justifyContent="flex-end"
-                                    alignItems="center"
-                                    borderTop="1px solid #e0e0e0"
-                                    paddingTop="8px"
-                                >
-                                    <Box
-                                        display="flex"
-                                        flexDirection="row"
-                                        alignItems="flex-end"
-                                        borderRadius="8px"
-                                        padding="0px 8px"
-                                        gap="4px"
-                                        sx={{
-                                            backgroundColor:
-                                                "rgba(139, 69, 19, 0.1)",
-                                        }}
-                                    >
-                                        <Typography
-                                            fontWeight="bold"
-                                            fontSize="20px"
-                                            color={theme.palette.text.primary}
-                                        >
-                                            {Number("500000") + "K"}
-                                            <span
-                                                style={{
-                                                    fontWeight: "400",
-                                                    fontSize: "12px",
-                                                }}
-                                            >
-                                                {" / " + "Ngày"}
-                                            </span>
-                                        </Typography>
-                                    </Box>
-                                </Box>
-                            </Box>
-                        </Box>
-                    </Box>
+                    {shoppingCart
+                        ? shoppingCart.motorbikes.map((item: MotorbikeCart) => (
+                              <MotorbikeCartInfo motorbike={item} />
+                          ))
+                        : null}
                 </Box>
 
                 <Box
@@ -276,9 +83,356 @@ function CartPage() {
                     marginBottom={"20px"}
                 >
                     <Box
+                        sx={{
+                            backgroundColor: "rgba(139, 69, 19, 0.05)",
+                            borderRadius: "8px",
+                            minHeight: "300px",
+                        }}
+                        margin={
+                            isIpad || isMobile
+                                ? "16px 0px"
+                                : "0px 0px 0px 10px"
+                        }
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="start"
+                        padding="16px"
+                    >
+                        <Box
+                            display="flex"
+                            flexDirection="column"
+                            alignItems="start"
+                            width={"100%"}
+                            justifyContent={"space-between"}
+                        >
+                            {/* Line */}
+                            <Divider
+                                sx={{ margin: "16px 0px", width: "100%" }}
+                                variant="fullWidth"
+                            />
+                            {/* Chọn ngày giờ */}
+                            <Box
+                                display={"flex"}
+                                flexDirection={"column"}
+                                alignItems={"center"}
+                                justifyContent={"center"}
+                                sx={{ gap: "4px" }}
+                            >
+                                <Box
+                                    width={"100%"}
+                                    display={"flex"}
+                                    flexDirection={"row"}
+                                    alignItems={"center"}
+                                    justifyContent={"center"}
+                                >
+                                    {/* start date */}
+                                    <Typography
+                                        width={"50%"}
+                                        color={theme.palette.text.primary}
+                                        sx={{
+                                            fontSize: "12px",
+                                            fontWeight: "600",
+                                            fontStyle: "italic",
+                                        }}
+                                    >
+                                        Ngày bắt đầu:
+                                    </Typography>
+                                    {/* end date */}
+                                    <Typography
+                                        width={"50%"}
+                                        color={theme.palette.text.primary}
+                                        sx={{
+                                            fontSize: "12px",
+                                            fontWeight: "600",
+                                            fontStyle: "italic",
+                                        }}
+                                    >
+                                        Ngày kết thúc:
+                                    </Typography>
+                                </Box>
+                                <RangePicker
+                                    className="custom-range-picker"
+                                    style={{
+                                        fontFamily: "Inter",
+                                        fontStyle: "normal",
+                                        fontSize: "20px",
+                                        height: "48px",
+                                    }}
+                                    size="large"
+                                    showTime={{ format: "HH:mm" }}
+                                    format="DD-MM-YYYY HH:mm"
+                                    placeholder={[
+                                        "Ngày bắt đầu",
+                                        "Ngày kết thúc",
+                                    ]}
+                                    // value={[
+                                    //     dayjs(
+                                    //         values.startDate,
+                                    //         "DD-MM-YYYY HH:mm"
+                                    //     ),
+                                    //     dayjs(
+                                    //         values.endDate,
+                                    //         "DD-MM-YYYY HH:mm"
+                                    //     ),
+                                    // ]}
+                                    // onChange={(dates, dateStrings) => {
+                                    //     setFieldValue(
+                                    //         "startDate",
+                                    //         dateStrings[0]
+                                    //     );
+                                    //     setFieldValue(
+                                    //         "endDate",
+                                    //         dateStrings[1]
+                                    //     );
+                                    // }}
+                                    // allowClear={false}
+                                />
+                            </Box>
+                            {/* Chọn vị trí trả xe */}
+                            <Box
+                                width={"100%"}
+                                display={"flex"}
+                                flexDirection={"column"}
+                                alignItems={"center"}
+                                justifyContent={"center"}
+                                sx={{ gap: "4px" }}
+                                marginTop={"8px"}
+                            >
+                                <Box
+                                    width={"100%"}
+                                    display={"flex"}
+                                    flexDirection={"row"}
+                                    alignItems={"center"}
+                                    justifyContent={"start"}
+                                    sx={{ gap: "8px" }}
+                                >
+                                    <Typography
+                                        color={theme.palette.text.primary}
+                                        sx={{
+                                            fontSize: "12px",
+                                            fontWeight: "600",
+                                            fontStyle: "italic",
+                                        }}
+                                    >
+                                        Địa điểm giao xe
+                                    </Typography>
+                                </Box>
+                                <Box
+                                    className="custom-search-box-1"
+                                    width={"100%"}
+                                    display={"flex"}
+                                    flexDirection={"row"}
+                                    alignItems={"center"}
+                                    justifyContent={"start"}
+                                    sx={{ cursor: "pointer", gap: "8px" }}
+                                    onClick={openMapModal}
+                                >
+                                    <LocationOnOutlined
+                                        sx={{
+                                            color: theme.palette.action
+                                                .disabled,
+                                            marginLeft: "8px",
+                                        }}
+                                    />
+                                    <Typography
+                                        color={theme.palette.text.primary}
+                                        sx={{
+                                            fontSize: "16px",
+                                            fontWeight: "400",
+                                            minWidth: "100px",
+                                            width: "100%",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            whiteSpace: "nowrap",
+                                        }}
+                                        padding={"11px 0px"}
+                                        // onChange={handleChange}
+                                    >
+                                        hưng yên
+                                        {/* {values.address} */}
+                                    </Typography>
+                                </Box>
+                            </Box>
+
+                            {/* Line */}
+                            <Divider
+                                sx={{ margin: "16px 0px", width: "100%" }}
+                                variant="fullWidth"
+                            />
+                            {/* Đơn giá */}
+                            <Box
+                                width={"100%"}
+                                display={"flex"}
+                                flexDirection={"column"}
+                                alignItems={"center"}
+                                justifyContent={"center"}
+                                sx={{ gap: "4px" }}
+                            >
+                                {/* Đơn giá thuê */}
+                                <Box
+                                    width={"100%"}
+                                    display={"flex"}
+                                    flexDirection={"row"}
+                                    alignItems={"center"}
+                                    justifyContent={"space-between"}
+                                    sx={{ gap: "8px" }}
+                                >
+                                    <Typography
+                                        color={theme.palette.text.primary}
+                                        sx={{
+                                            fontSize: "16px",
+                                            fontWeight: "400",
+                                        }}
+                                    >
+                                        Đơn giá thuê
+                                    </Typography>
+                                    <Typography
+                                        color={theme.palette.text.primary}
+                                        sx={{
+                                            fontSize: "16px",
+                                            fontWeight: "600",
+                                        }}
+                                    >
+                                        {formatMoney(
+                                            1000
+                                            // motorbike?.priceRent
+                                        )}
+                                        /ngày
+                                    </Typography>
+                                </Box>
+                            </Box>
+                            {/* Line */}
+                            <Divider
+                                sx={{ margin: "16px 0px", width: "100%" }}
+                                variant="fullWidth"
+                            />
+
+                            {/* Tổng tiền và app mã khuyến mãi */}
+                            <Box
+                                width={"100%"}
+                                display={"flex"}
+                                flexDirection={"column"}
+                                alignItems={"center"}
+                                justifyContent={"center"}
+                                sx={{ gap: "8px" }}
+                            >
+                                {/* Tổng tiền */}
+                                <Box
+                                    width={"100%"}
+                                    display={"flex"}
+                                    flexDirection={"row"}
+                                    alignItems={"center"}
+                                    justifyContent={"space-between"}
+                                    sx={{ gap: "8px" }}
+                                >
+                                    <Typography
+                                        color={theme.palette.text.primary}
+                                        sx={{
+                                            fontSize: "16px",
+                                            fontWeight: "400",
+                                        }}
+                                    >
+                                        Tổng phí thuê xe
+                                    </Typography>
+                                    <Typography
+                                        color={theme.palette.text.primary}
+                                        sx={{
+                                            fontSize: "16px",
+                                            fontWeight: "600",
+                                        }}
+                                    >
+                                        {formatMoney(
+                                            1000
+                                            // previewBookingData?.totalAmountTemp
+                                        )}{" "}
+                                        {/* x 
+                                        {previewBookingData?.rentalDays}  */}
+                                        ngày
+                                    </Typography>
+                                </Box>
+                                {/* Phí dịch vụ */}
+                                <Box
+                                    width={"100%"}
+                                    display={"flex"}
+                                    flexDirection={"row"}
+                                    alignItems={"center"}
+                                    justifyContent={"space-between"}
+                                    sx={{ gap: "8px" }}
+                                >
+                                    <Typography
+                                        color={theme.palette.text.primary}
+                                        sx={{
+                                            fontSize: "16px",
+                                            fontWeight: "400",
+                                        }}
+                                    >
+                                        Tổng phí dịch vụ
+                                    </Typography>
+                                    <Typography
+                                        color={theme.palette.text.primary}
+                                        sx={{
+                                            fontSize: "16px",
+                                            fontWeight: "600",
+                                        }}
+                                    >
+                                        {formatMoney(
+                                            1000
+                                            // previewBookingData?.feeOfService
+                                        )}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                            {/* Line */}
+                            <Divider
+                                sx={{ margin: "16px 0px", width: "100%" }}
+                                variant="fullWidth"
+                            />
+
+                            {/* Tổng tiền */}
+                            <Box
+                                width={"100%"}
+                                display={"flex"}
+                                flexDirection={"row"}
+                                alignItems={"center"}
+                                justifyContent={"space-between"}
+                                sx={{ gap: "8px" }}
+                            >
+                                <Typography
+                                    color={theme.palette.text.primary}
+                                    sx={{ fontSize: "16px", fontWeight: "600" }}
+                                >
+                                    Tổng tiền
+                                </Typography>
+                                <Typography
+                                    color={theme.palette.text.primary}
+                                    sx={{ fontSize: "16px", fontWeight: "600" }}
+                                >
+                                    {formatMoney(
+                                        1000
+                                        // previewBookingData?.totalAmount
+                                    )}
+                                </Typography>
+                            </Box>
+                            {/* Line */}
+                            <Divider
+                                sx={{ margin: "16px 0px", width: "100%" }}
+                                variant="fullWidth"
+                            />
+
+                            {/* Button */}
+                            <MyCustomButton
+                                // disabled={isProcessingBooking}
+                                width="100%"
+                                // onClick={handleSubmit}
+                                content={"Đặt xe"}
+                                variant="contained"
+                            />
+                        </Box>
+                    </Box>
+                    {/* <Box
                         width={"95%"}
-                        border={"1px #e0e0e0 solid"}
                         marginBottom={"20px"}
+                        border={"1px #e0e0e0 solid"}
                         borderRadius={"10px"}
                     >
                         <Typography
@@ -324,7 +478,7 @@ function CartPage() {
                         content="Thanh Toán"
                         width="60%"
                         height="auto"
-                    ></MyCustomButton>
+                    ></MyCustomButton> */}
                 </Box>
             </Box>
         </Box>

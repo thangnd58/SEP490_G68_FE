@@ -153,6 +153,18 @@
     "uploadImage": {
       "success": "Upload image successfully",
       "error": "Upload image failed"
+    },
+    "ShoppingCart":{
+        "delete": {
+            "success": "Remove motorbike from cart successfully",
+            "warning": "Remove motorbike from cart failed",
+            "error": "Error when remove motorbike from cart"
+        },
+        "add": {
+            "success": "Add motorbike to cart successfully",
+            "warning": "Add motorbike to cart failed",
+            "error": "Error when add motorbike to cart"
+        }
     }
   },
   "footer": {

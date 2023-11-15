@@ -980,5 +980,3 @@ function EquipmentItem({ icon, label }: any) {
       </Typography>
     </Box>);
 }
-
-
