@@ -114,7 +114,7 @@ export interface Motorbike {
     statusComment: string,
     user: User,
     createDatetime: string,
-    model: Model,
+    model: Model | any,
     miscellaneous: string,
     description: string,
     distance: number,

@@ -36,6 +36,7 @@ import {
     ListAlt,
     Loyalty,
     ManageAccounts,
+    MarkunreadMailboxOutlined,
     Notifications,
     NotificationsActive,
     NotificationsActiveOutlined,
@@ -556,10 +557,20 @@ function Header() {
                                                                 false
                                                             );
                                                             setAnchorEl(null);
-                                                            navigate(
-                                                                ROUTES.user
-                                                                    .favourite
-                                                            );
+                                                            navigate(ROUTES.booking.mybooking);
+                                                        }}
+                                                        //hover to change background color
+                                                        sx={{ textAlign: 'center' }}
+                                                    >
+                                                        <PopoverItem
+                                                            label={t('header.my_booking')}
+                                                            icon={<MarkunreadMailboxOutlined sx={{ color: "#9A9EA5" }} />} />
+                                                    </MenuItem>
+                                                    <MenuItem
+                                                        onClick={() => {
+                                                            setIsAvatarClicked(false);
+                                                            setAnchorEl(null);
+                                                            navigate(ROUTES.user.favourite);
                                                         }}
                                                         //hover to change background color
                                                         sx={{

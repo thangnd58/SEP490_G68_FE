@@ -1,15 +1,16 @@
+import api from "./BaseService"
 import {
     Booking,
     BookingRequest,
     BookingResponse,
     ShoppingCart,
 } from "../utils/type";
-import api from "./BaseService";
 
 const apiGetPreviewBooking = "/preview-booking";
 const apiPostBooking = "/booking";
 const apiGetListBooking = "/user/booking";
 const apiGetListCart = "/booking-cart";
+const apiCancelBooking = '/booking'
 
 export const BookingService = {
     getPreviewBooking: async (
@@ -23,8 +24,16 @@ export const BookingService = {
         return response.data;
     },
     getListBookingCurrentUser: async (): Promise<Booking[]> => {
-        const response = await api.get(apiGetListBooking);
-        return response.data;
+        const response = await api.get(apiGetListBooking)
+        return response.data
+    },
+    getBookingById: async (id: string): Promise<Booking> => {
+        const response = await api.get(`${apiPostBooking}/${id}`)
+        return response.data
+    },
+    cancelBooking: async (id: number) => {
+        const response = await api.put(`${apiPostBooking}/${id}/cancel`)
+        return response.data
     },
     getListShoppingCart: async (
         address: string,
@@ -34,14 +43,14 @@ export const BookingService = {
     ): Promise<ShoppingCart[]> => {
         return await api.get(
             apiGetListCart +
-                "?Address=" +
-                address +
-                "&StartDatetime=" +
-                startDatetime +
-                "&EndDatetime=" +
-                endDatetime +
-                "&CouponCode=" +
-                couponCode
+            "?Address=" +
+            address +
+            "&StartDatetime=" +
+            startDatetime +
+            "&EndDatetime=" +
+            endDatetime +
+            "&CouponCode=" +
+            couponCode
         );
     },
     deleteCart: async (Id: number) => {
@@ -50,4 +59,4 @@ export const BookingService = {
     addCart: async (Id: number) => {
         return await api.post("/booking-cart", { motorbikeId: Id });
     },
-};
+}

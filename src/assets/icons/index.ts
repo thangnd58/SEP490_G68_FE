@@ -12,4 +12,5 @@ export { ReactComponent as ManagementIcon } from "./management-icon.svg";
 export { ReactComponent as OrnamentIcon } from "./ornament.svg";
 export {ReactComponent as UnReadIcon} from "./is-read.svg"
 export {ReactComponent as ClockIcon} from "./clock-icon.svg"
-
+export {ReactComponent as VerifyIcon} from "./verifyIcon.svg"
+export {ReactComponent as WarningIcon} from "./warningIcon.svg"

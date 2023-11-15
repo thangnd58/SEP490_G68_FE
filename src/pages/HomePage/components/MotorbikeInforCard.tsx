@@ -104,13 +104,13 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                   width: "100%",
                                   height: "150px",
                                   borderRadius: "8px",
-                                  border: "1px solid #e0e0e0",
+                                  border: "1px solid #8B4513",
                               }
                             : {
                                   width: "100%",
                                   height: "190px",
                                   borderRadius: "8px",
-                                  border: "1px solid #e0e0e0",
+                                  border: "1px solid #8B4513",
                               }
                     }
                     alt="image"

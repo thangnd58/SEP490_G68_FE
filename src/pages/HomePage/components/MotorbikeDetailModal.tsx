@@ -21,14 +21,11 @@ import { PostMotorbikeService } from '../../../services/PostMotorbikeService';
 import RegisterMotorbikeItem from '../../PostMotorbike/components/RegisterMotorbike/RegisterMotorbikeItem';
 import { BookingService } from '../../../services/BookingService';
 import ToastComponent from '../../../components/toast/ToastComponent';
-import { useNavigate } from 'react-router-dom';
 import { BookingDeliveryMode, BookingPaymentType, ROUTES } from '../../../utils/Constant';
-import ApplyPromotionModal from './ApplyPromotionModal';
-import { PromotionImage } from '../../../assets/images';
-import { PromotionService } from '../../../services/PromotionService';
-import { getCountdownTime } from '../../../utils/helper';
 import { PromotionModal } from '../../MotorbikePage/components/PromotionModal';
 import { ConfirmMotorbikeBookingModal } from '../../MotorbikePage/components/ConfirmMotorbikeBookingModal';
+import { RequireWhenRent } from '../../MotorbikePage/components/RequireWhenRent';
+import UserService from '../../../services/UserService';
 
 export default function MotorbikeDetailModal(props: { motorbikeId: number | undefined, searchedAddress?: string, startDate?: string, endDate?: string }) {
 
@@ -123,21 +120,19 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
           couponCode: values.couponCode || "",
           paymentType: BookingPaymentType.Card
         }
-        await BookingService.postBooking(request)
+        const res = await BookingService.postBooking(request)
         ToastComponent(t("booking.toast.success"), "success")
         // wait 1s to reload page
         setTimeout(() => {
+          window.location.href = `/${ROUTES.booking.detail}/${res}`;
           setIsProcessingBooking(false);
-          window.location.reload();
-        }, 1000);
+        }, 2000);
       } catch (error) {
         ToastComponent(t("booking.toast.error"), "error")
       }
     }
   }
   );
-
-
 
   const {
     values,
@@ -453,49 +448,13 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                       </Box>
                     </Box>
                     {/* Chọn vị trí trả xe */}
-                    <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} marginTop={'8px'}>
+                    {/* <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} marginTop={'8px'}>
                       <Box width={"100%"} display={'flex'} flexDirection={'column'} justifyContent={'start'} sx={{ gap: '8px' }}>
                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
                           {t("booking.paymentType")}
                         </Typography>
-                        <Box>
-                          <RadioGroup
-                            value={values.paymentType}
-                            onChange={(event) => {
-                              setFieldValue("paymentType", event.target.value)
-                            }}
-                            sx={{ display: 'flex', flexDirection: 'row' }}
-                          >
-                            <FormControlLabel
-                              checked={values.paymentType === BookingPaymentType.UserBalance}
-                              value={BookingPaymentType.UserBalance}
-                              control={<Radio />}
-                              label={t("booking.payWallet")}
-                              sx={{
-                                '& .MuiFormControlLabel-label': {
-                                  fontSize: '16px',
-                                  fontWeight: '400',
-                                  color: theme.palette.text.primary,
-                                }
-                              }}
-                            />
-                            <FormControlLabel
-                              checked={values.paymentType === BookingPaymentType.Card}
-                              value={BookingPaymentType.Card}
-                              control={<Radio />}
-                              label={t("booking.payVnPay")}
-                              sx={{
-                                '& .MuiFormControlLabel-label': {
-                                  fontSize: '16px',
-                                  fontWeight: '400',
-                                  color: theme.palette.text.primary,
-                                }
-
-                              }} />
-                          </RadioGroup>
-                        </Box>
                       </Box>
-                    </Box>
+                    </Box> */}
                     {/* Line */}
                     <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
                     {/* Đơn giá */}
@@ -564,8 +523,18 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                     <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
 
                     {/* Button */}
-                    <MyCustomButton disabled={isProcessingBooking}
-                      width='100%' onClick={() => setModalConfirmBookingOpen(true)} content={t("booking.bookMotorbikeButton")} variant='contained' />
+                    {
+                      UserService.isLoggedIn() ?
+                        <MyCustomButton disabled={isProcessingBooking}
+                          width='100%' onClick={() => {
+                            setModalConfirmBookingOpen(true)
+                          }} content={t("booking.bookMotorbikeButton")} variant='contained' />
+                        :
+                        <a style={{ width: '100%' }} href={ROUTES.account.login}>
+                          <MyCustomButton disabled={isProcessingBooking}
+                            width='100%' content={t("booking.loginToContinue")} variant='contained' />
+                        </a>
+                    }
 
                   </Box>
                 </Box>
@@ -578,6 +547,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                   alignItems="start"
                   paddingBottom="16px"
                 >
+
                   <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"} mt={"16px"}>
                     <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
                       {t("postMotorbike.listform.motorbikeFeature")}
@@ -600,6 +570,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                           isMobile={isMobile}
                           t={t}
                         />
+
                         <MotorbikeFeatureItem
                           icon={<GasMeterOutlined color='primary' fontSize='large' />}
                           title={t("postMotorbike.listform.type")}
@@ -648,6 +619,8 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                       </Typography>
                     </Box>
                   </Box>
+                  <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+                  <RequireWhenRent />
                   <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
                   {/* Biển số xe */}
                   <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
@@ -974,7 +947,6 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
       />
     </>
   );
-
 }
 
 function MotorbikeFeatureItem({ icon, title, content, isMobile }: any) {
