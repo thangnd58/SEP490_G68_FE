@@ -14,13 +14,15 @@ import UserService from '../../../services/UserService';
 import { useAppDispatch } from '../../../hooks/useAction';
 import ToastComponent from '../../../components/toast/ToastComponent';
 import { getUserFavouriteInfo } from '../../../redux/reducers/userFavouriteReducer';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../../utils/Constant';
 
 export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean, startDate?: string, endDate?: string, searchedAddress?: string }) {
     const { t } = usei18next();
     const { setContentModal, setShowModal } = useContext(ModalContext);
     const dispatch = useAppDispatch();
     const [isFavorite, setIsFavorite] = React.useState<boolean>(props.motorbike.isFavourite);
-
+    const navigate = useNavigate();
     const showMotorbikeDetailModal = () => {
         setContentModal(
             <MotorbikeDetailModal motorbikeId={props.motorbike.id} startDate={props.startDate} endDate={props.endDate} searchedAddress={props.searchedAddress} />
@@ -161,9 +163,11 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                 overflow="hidden"
                                 fontWeight="bold"
                                 fontSize="20px"
+                                sx={{cursor: 'pointer'}}
                                 color={theme.palette.text.primary}
+                                onClick={() => navigate(`${ROUTES.user.detailmotorbike}/${props.motorbike.id}/${props.searchedAddress}/${props.startDate}/${props.endDate}`)}
                             >
-                                HONDA WAVE ALPHA HONDA WAVE ALPHA
+                                {props.motorbike.model.modelName}
                             </Typography>
                         </Tooltip>
                     </Box>

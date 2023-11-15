@@ -12,6 +12,11 @@ import CancelImage from './cancel.png';
 import WithdrawalMoneyImage from './withdrawal_money.png';
 import ImageSearchBox from './image-search-box.png';
 import NoDataImage from './no_data.png';
+import PromotionImage from './promotion.png'
+import CalendarImage from './calendar.png'
+import LicencePlateImage from './licence-plate.png'
+import LocationImage from './location.png'
+import PriceImage from './price.png'
 
 export {
     SettingIcon,
@@ -27,5 +32,10 @@ export {
     ErrorIcon,
     NotificationIcon,
     ImageSearchBox,
-    NoDataImage
+    NoDataImage,
+    PromotionImage,
+    CalendarImage,
+    LicencePlateImage,
+    PriceImage,
+    LocationImage
 };
