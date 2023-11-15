@@ -167,7 +167,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                 color={theme.palette.text.primary}
                                 onClick={() => navigate(`${ROUTES.user.detailmotorbike}/${props.motorbike.id}/${props.searchedAddress}/${props.startDate}/${props.endDate}`)}
                             >
-                                {props.motorbike.model.modelName}
+                                {props.motorbike.model.brand.brandName} {props.motorbike.model.modelName}
                             </Typography>
                         </Tooltip>
                     </Box>

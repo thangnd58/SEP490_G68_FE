@@ -14,7 +14,7 @@ import ToastComponent from '../../../../components/toast/ToastComponent';
 import MyMapWithSearchBox from '../../../../components/common/MyMapWithSearchBox';
 import MyIcon from '../../../../components/common/MyIcon';
 import { useFormik } from 'formik';
-import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
+import { GoogleMap, Libraries, Marker, useLoadScript } from '@react-google-maps/api';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import usei18next from '../../../../hooks/usei18next';
 import ErrorMessage from '../../../../components/common/ErrorMessage';
@@ -100,6 +100,9 @@ const RegisterMotorbikeForm = () => {
                 setFieldValue("fuel", motorbike.type);
                 setFieldValue("defaultPrice", motorbike.priceRent);
                 setFieldValue("fuelConsumption", motorbike.fuelConsumption);
+                setFieldValue("maxDeliveryDistance", motorbike.maxDeliveryDistance);
+                setFieldValue("freeDeliveryDistance", motorbike.freeDeliveryDistance);
+                setFieldValue("feeDeliveryDistance", motorbike.feeDeliveryDistance);
                 setFieldValue("province", motorbike.provinceId);
                 setFieldValue("district", motorbike.districtId);
                 setFieldValue("ward", motorbike.wardId);
@@ -130,6 +133,9 @@ const RegisterMotorbikeForm = () => {
             year: "",
             fuel: "",
             fuelConsumption: "3",
+            maxDeliveryDistance: 20,
+            freeDeliveryDistance: 10,
+            feeDeliveryDistance: 4000,
             description: "",
             raincoat: false,
             helmet: false,
@@ -169,7 +175,20 @@ const RegisterMotorbikeForm = () => {
             district: Yup.string()
                 .required("Bạn phải chọn quận/huyện"),
             ward: Yup.string()
-                .required("Bạn phải chọn phường/xã")
+                .required("Bạn phải chọn phường/xã"),
+            maxDeliveryDistance: Yup.number()
+                .required("Bạn phải nhập khoảng cách giao xe tối đa")
+                .max(50, "Bạn chỉ có thể nhập tối đa 50 km")
+                .min(1, "Bạn phải nhập ít nhất 1 km"),
+            freeDeliveryDistance: Yup.number()
+                .required("Bạn phải nhập khoảng cách giao xe miễn phí")
+                .max(50, "Bạn chỉ có thể nhập tối đa 50 km")
+                .min(1, "Bạn phải nhập ít nhất 1 km")
+                .concat(Yup.number().max(Yup.ref('maxDeliveryDistance'), "Khoảng cách giao xe miễn phí phải nhỏ hơn khoảng cách giao xe tối đa")),
+            feeDeliveryDistance: Yup.number()
+                .required("Bạn phải nhập phí giao xe /km")
+                .max(10000, "Bạn chỉ có thể nhập tối đa 10000 đ/km")
+                .min(1000, "Bạn phải nhập ít nhất 1000 đ/km"),
         }),
 
         onSubmit: async (values, actions) => {
@@ -184,6 +203,9 @@ const RegisterMotorbikeForm = () => {
                     priceRent: Number(values.defaultPrice),
                     equipments: equipmentsString,
                     fuelConsumption: Number(values.fuelConsumption),
+                    maxDeliveryDistance: Number(values.maxDeliveryDistance),
+                    freeDeliveryDistance: Number(values.freeDeliveryDistance),
+                    feeDeliveryDistance: Number(values.feeDeliveryDistance),
                     provinceId: Number(values.province),
                     districtId: Number(values.district),
                     wardId: Number(values.ward),
@@ -450,7 +472,7 @@ const RegisterMotorbikeForm = () => {
     };
 
     // MAP CONTROLLER
-    // Map with search box
+
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
         libraries: ["places"],
@@ -821,6 +843,121 @@ const RegisterMotorbikeForm = () => {
                         </Box>
                     }
                 />
+
+                <RegisterMotorbikeItem
+                    moreInfo={true}
+                    title={t("postMotorbike.registedForm.advancedInfo")}
+                    marginBottomTitle='0px'
+                    isRequired={true}
+                    item={
+                        <Box sx={{ width: '100%' }}>
+                            <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                                <Grid item xs={isMobile ? 12 : 6}>
+                                    <RegisterMotorbikeItem
+                                        title={t("postMotorbike.registedForm.maxDeliveryDistance")}
+                                        fontSizeTitle='20px'
+                                        fontWeightTitle={500}
+                                        marginBottomTitle='8px'
+                                        isRequired={false}
+                                        secondTitle={t("postMotorbike.registedForm.maxDeliveryDistanceSecondTitle")}
+                                        fontSizeSecondTitle='16px'
+                                        fontWeightSecondTitle={400}
+                                        item={
+                                            <TextField
+                                                sx={{
+                                                    "& .MuiOutlinedInput-root fieldset": { borderRadius: "8px" },
+                                                    "& .MuiOutlinedInput-root:hover fieldset": {
+                                                        borderColor: theme.palette.primary.main,
+                                                    },
+                                                    "& .MuiOutlinedInput-root.Mui-focused fieldset": {
+                                                        borderColor: theme.palette.primary.main,
+                                                    }
+                                                }}
+                                                name='maxDeliveryDistance'
+                                                value={values.maxDeliveryDistance}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                type='number'
+                                                placeholder={t("postMotorbike.registedForm.maxDeliveryDistancePlaceHolder")}
+                                            />
+                                        }
+                                    />
+                                    {errors.maxDeliveryDistance && touched.maxDeliveryDistance && (
+                                        <ErrorMessage message={errors.maxDeliveryDistance} />
+                                    )}
+                                </Grid>
+                                <Grid item xs={isMobile ? 12 : 6}>
+                                    <RegisterMotorbikeItem
+                                        title={t("postMotorbike.registedForm.freeDeliveryDistance")}
+                                        fontSizeTitle='20px'
+                                        fontWeightTitle={500}
+                                        marginBottomTitle='8px'
+                                        isRequired={false}
+                                        secondTitle={t("postMotorbike.registedForm.freeDeliveryDistanceSecondTitle")}
+                                        fontSizeSecondTitle='16px'
+                                        fontWeightSecondTitle={400}
+                                        item={
+                                            <TextField
+                                                sx={{
+                                                    "& .MuiOutlinedInput-root fieldset": { borderRadius: "8px" },
+                                                    "& .MuiOutlinedInput-root:hover fieldset": {
+                                                        borderColor: theme.palette.primary.main,
+                                                    },
+                                                    "& .MuiOutlinedInput-root.Mui-focused fieldset": {
+                                                        borderColor: theme.palette.primary.main,
+                                                    }
+                                                }}
+                                                name='freeDeliveryDistance'
+                                                value={values.freeDeliveryDistance}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                type='number'
+                                                placeholder={t("postMotorbike.registedForm.freeDeliveryDistancePlaceHolder")}
+                                            />
+                                        }
+                                    />
+                                    {errors.freeDeliveryDistance && touched.freeDeliveryDistance && (
+                                        <ErrorMessage message={errors.freeDeliveryDistance} />
+                                    )}
+                                </Grid>
+                                <Grid item xs={isMobile ? 12 : 6}>
+                                    <RegisterMotorbikeItem
+                                        title={t("postMotorbike.registedForm.feeDeliveryDistancePerKilometer")}
+                                        fontSizeTitle='20px'
+                                        fontWeightTitle={500}
+                                        marginBottomTitle='8px'
+                                        isRequired={false}
+                                        secondTitle={t("postMotorbike.registedForm.feeDeliveryDistancePerKilometerSecondTitle")}
+                                        fontSizeSecondTitle='16px'
+                                        fontWeightSecondTitle={400}
+                                        item={
+                                            <TextField
+                                                sx={{
+                                                    "& .MuiOutlinedInput-root fieldset": { borderRadius: "8px" },
+                                                    "& .MuiOutlinedInput-root:hover fieldset": {
+                                                        borderColor: theme.palette.primary.main,
+                                                    },
+                                                    "& .MuiOutlinedInput-root.Mui-focused fieldset": {
+                                                        borderColor: theme.palette.primary.main,
+                                                    }
+                                                }}
+                                                name='feeDeliveryDistance'
+                                                value={values.feeDeliveryDistance}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                type='number'
+                                                placeholder={t("postMotorbike.registedForm.feeDeliveryDistancePerKilometerPlaceHolder")}
+                                            />
+                                        }
+                                    />
+                                    {errors.feeDeliveryDistance && touched.feeDeliveryDistance && (
+                                        <ErrorMessage message={errors.feeDeliveryDistance} />
+                                    )}
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    }
+                />
                 <RegisterMotorbikeItem
                     title={t("postMotorbike.registedForm.description")}
                     isRequired={false}
@@ -855,7 +992,7 @@ const RegisterMotorbikeForm = () => {
                     title={t("postMotorbike.registedForm.equipment")}
                     isRequired={false}
                     item={
-                        <Box sx={{ width: '100%' }}>
+                        <Box sx={{ width: '98%' }}>
                             <Grid container spacing={2} columnSpacing={{ xs: 3, sm: 3, md: 3 }}>
                                 <Grid item xs={isMobile ? 6 : 4}>
                                     <Box key="Raincoat" onClick={() => handleItemClick("Raincoat")}>
@@ -1054,11 +1191,11 @@ const RegisterMotorbikeForm = () => {
                                     value={values.province}
                                     onChange={handleChange}
                                 >
-                                    <MenuItem value={""}>
+                                    <MenuItem value={""} key={0}>
                                         <em>{t("postMotorbike.registedForm.selectProvincePlaceHolder")}</em>
                                     </MenuItem>
                                     {listProvince.map((province) => (
-                                        <MenuItem value={province.code}>{province.name}</MenuItem>
+                                        <MenuItem key={province.code} value={province.code}>{province.name}</MenuItem>
                                     ))}
                                 </Select>
                             }
@@ -1084,12 +1221,15 @@ const RegisterMotorbikeForm = () => {
                                     value={values.district}
                                     onChange={handleChange}
                                 >
-                                    <MenuItem value={""}>
+                                    <MenuItem value={""} key={0}>
                                         <em>{t("postMotorbike.registedForm.selectDistrictPlaceHolder")}</em>
                                     </MenuItem>
                                     {
                                         listDistrict?.districts?.map((district) => (
-                                            <MenuItem value={district.code}>{district.name}</MenuItem>
+                                            <MenuItem
+                                                key={district.code}
+                                                value={district.code}
+                                            >{district.name}</MenuItem>
                                         ))
                                     }
                                 </Select>}
@@ -1115,12 +1255,15 @@ const RegisterMotorbikeForm = () => {
                                     value={values.ward}
                                     onChange={handleChange}
                                 >
-                                    <MenuItem value={""}>
+                                    <MenuItem value={""} key={0}>
                                         <em>{t("postMotorbike.registedForm.selectWardPlaceHolder")}</em>
                                     </MenuItem>
                                     {
                                         listWard?.wards?.map((ward) => (
-                                            <MenuItem value={ward.code}>{ward.name}</MenuItem>
+                                            <MenuItem
+                                                key={ward.code}
+                                                value={ward.code}
+                                            >{ward.name}</MenuItem>
                                         ))
                                     }
                                 </Select>}

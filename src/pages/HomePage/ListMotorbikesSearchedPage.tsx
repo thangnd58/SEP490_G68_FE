@@ -919,7 +919,7 @@ export default function ListMotorbikesSearchedPage() {
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                 {/* tilte */}
                                 <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={600} textAlign={"start"}>
-                                    {"Giới hạn giá / Ngày thuê"}
+                                    {"Giới hạn giá"}
                                 </Typography>
                             </Box>
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
