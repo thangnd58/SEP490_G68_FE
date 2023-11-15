@@ -6,7 +6,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Motorbike } from '../../../utils/type';
 import theme from '../../../utils/theme';
 import { ImageSearchBox } from '../../../assets/images';
-import { AddShoppingCart, BusinessCenterOutlined, FavoriteBorder, FavoriteOutlined, ShoppingCartCheckout, StarPurple500Outlined } from '@mui/icons-material';
+import { AddShoppingCart, BusinessCenterOutlined, FavoriteBorder, FavoriteOutlined, ShoppingCartCheckout, StarPurple500Outlined, Straighten } from '@mui/icons-material';
 import { ModalContext } from '../../../contexts/ModalContext';
 import MotorbikeDetailModal from './MotorbikeDetailModal';
 import MyIcon from '../../../components/common/MyIcon';
@@ -147,7 +147,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                     <Chip
                         sx={{ '& .MuiChip-label': { fontSize: "12px" }, height: '28px', fontWeight: '400' }}
                         color="success"
-                        label={props.motorbike.fuelConsumption == 1 ? t("favourite.item.gasoline") : t("favourite.item.electric")} />
+                        label={props.motorbike.type == "Xăng" ? t("favourite.item.gasoline") : t("favourite.item.electric")} />
                     <Chip
                         sx={{ '& .MuiChip-label': { fontSize: "12px" }, height: '28px', fontWeight: '400' }}
                         color="warning"
@@ -163,7 +163,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                 overflow="hidden"
                                 fontWeight="bold"
                                 fontSize="20px"
-                                sx={{cursor: 'pointer'}}
+                                sx={{ cursor: 'pointer' }}
                                 color={theme.palette.text.primary}
                                 onClick={() => navigate(`${ROUTES.user.detailmotorbike}/${props.motorbike.id}/${props.searchedAddress}/${props.startDate}/${props.endDate}`)}
                             >
@@ -198,6 +198,14 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                         <Typography color={theme.palette.text.secondary} fontSize="12px" align="center" textOverflow="ellipsis" whiteSpace="nowrap" overflow="hidden">
                             5 lượt đặt
                         </Typography>
+                        {props.motorbike.distance && (
+                            <>
+                                <Straighten fontWeight={300} sx={{ color: "#777E90" }} fontSize="small" />
+                                <Typography color={theme.palette.text.secondary} fontSize="12px" align="center" textOverflow="ellipsis" whiteSpace="nowrap" overflow="hidden">
+                                    {props.motorbike.distance} km
+                                </Typography>
+                            </>
+                        )}
                     </Box>
                 </Box>
                 {/* "Xem chi tiết" link and Price */}

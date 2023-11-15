@@ -223,9 +223,22 @@ export interface UserForRent {
 }
 
 export interface SearchMotorbikeRequest {
+    address: string,
     startDate: string,
     endDate: string,
-    address: string
+    minPrice?: number,
+    maxPrice?: number,
+    type?: string,
+    brandId?: number,
+    minReleaseYear?: number,
+    maxReleaseYear?: number,
+    minFuelConsumption?: number,
+    maxFuelConsumption?: number,
+    equipments?: string,
+    minDistance?: number,
+    maxDistance?: number,
+    maximumRating?: boolean,
+    orderBy?: string,
 }
 
 

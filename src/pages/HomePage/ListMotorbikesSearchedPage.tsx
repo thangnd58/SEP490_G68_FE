@@ -1,5 +1,5 @@
-import { Box, CircularProgress, Grid, Icon, IconButton, MenuItem, Modal, Select, Slider, TextField, Typography, styled } from '@mui/material';
-import React, { useEffect, useMemo, useState } from 'react'
+import { Box, CircularProgress, Grid, Icon, IconButton, MenuItem, Modal, Select, SelectChangeEvent, Slider, TextField, Typography, styled } from '@mui/material';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react'
 import usei18next from '../../hooks/usei18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AutoGraph, CheckBox, CheckBoxOutlineBlank, CloseOutlined, ElectricBike, FilterAltOutlined, LocalGasStation, LocationOnOutlined, MyLocation, RestartAltOutlined, SearchOutlined } from '@mui/icons-material';
@@ -15,11 +15,12 @@ import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocom
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 import { ROUTES } from '../../utils/Constant';
-import { Motorbike, SearchMotorbikeRequest } from '../../utils/type';
+import { Brand, Motorbike, SearchMotorbikeRequest } from '../../utils/type';
 import { SearchMotorbikeServices } from '../../services/SearchMotorbikeService';
 import { forEach } from 'jszip';
 import MotorbikeInforCard from './components/MotorbikeInforCard';
 import { NoDataImage, PageNoteFoundImage } from '../../assets/images';
+import { PostMotorbikeService } from '../../services/PostMotorbikeService';
 
 
 export default function ListMotorbikesSearchedPage() {
@@ -28,11 +29,13 @@ export default function ListMotorbikesSearchedPage() {
     const { t } = usei18next();
     const navigate = useNavigate();
     const { isMobile } = useThemePage();
-    const [listMotorbikes, setListMotorbikes] = useState<Motorbike[]>([]);
 
+    const [listMotorbikes, setListMotorbikes] = useState<Motorbike[]>([]);
+    const [listBrand, setListBrand] = useState<Brand[]>([]);
     const [isMapModalOpen, setMapModalOpen] = useState(false);
     const [isAdvancedFilterModalOpen, setAdvancedFilterModalOpen] = useState(false);
     const [isLoadingData, setIsLoadingData] = useState(true);
+    const [equipments, setEquipments] = React.useState<string[]>([]);
     const [defaultlat, setDefaultLat] = useState();
     const [defaultlng, setDefaultLng] = useState();
 
@@ -40,6 +43,17 @@ export default function ListMotorbikesSearchedPage() {
     const convertTimestampToDate = (timestamp: number) => {
         return dayjs(timestamp * 1000).format("DD-MM-YYYY HH:mm");
     }
+
+    // format number * 1000 to type 1.000 VND/ngày
+    const formatMoney = (money: number | undefined) => {
+        if (money) {
+            return (money * 1000).toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+        }
+        return '0 VND';
+    }
+
+    // get current year
+    const currentYear = new Date().getFullYear();
 
     const MyTextFieldCustom = styled(TextField)(({ theme }) => ({
         width: '150px',
@@ -64,63 +78,35 @@ export default function ListMotorbikesSearchedPage() {
     const sortOptions = [
         // tất cả
         {
-            key: 'all',
+            key: '',
             value: 'Tất cả'
         },
         // giá tăng dần
         {
-            key: 'priceAsc',
+            key: 'PRICERENTASC',
             value: 'Giá tăng dần'
         },
         // giá giảm dần
         {
-            key: 'priceDesc',
+            key: 'PRICERENTDESC',
             value: 'Giá giảm dần'
         },
         // đánh giá cao nhất
         {
-            key: 'ratingDesc',
+            key: 'RATINGDESC',
             value: 'Đánh giá cao nhất'
         },
         // số lượt thuê nhiều nhất
         {
-            key: 'rentTimesDesc',
+            key: 'COUNTCOMPLETEDBOOKINGDESC',
             value: 'Số lượt thuê nhiều nhất'
         },
         // khoảng cách gần nhất
         {
-            key: 'distanceAsc',
+            key: 'DISTANCEASC',
             value: 'Khoảng cách gần nhất'
         },
     ]
-
-    useEffect(() => {
-        getMotorbikesByPlaceAndTime(startDate, endDate, address);
-    }, [startDate, endDate, address]);
-
-    const getMotorbikesByPlaceAndTime = async (startDateTimeParam?: string, endDateTimeParam?: string, addressParam?: string) => {
-        setIsLoadingData(true); // Bắt đầu tải dữ liệu
-
-        if (!startDateTimeParam || !endDateTimeParam || !addressParam) {
-            setIsLoadingData(false); // Dừng tải dữ liệu
-            return;
-        }
-
-        const formData: SearchMotorbikeRequest = {
-            startDate: convertTimestampToDate(Number(startDateTimeParam)),
-            endDate: convertTimestampToDate(Number(endDateTimeParam)),
-            address: addressParam,
-        }
-
-        try {
-            const response = await SearchMotorbikeServices.getMotorbikesByPlaceAndTime(formData);
-            setListMotorbikes(response);
-        } catch (error) {
-            // Xử lý lỗi tại đây (nếu cần)
-        }
-
-        setIsLoadingData(false); // Tải dữ liệu hoàn tất
-    }
 
     // FORM CONTROLLER
     const formik = useFormik({
@@ -130,6 +116,24 @@ export default function ListMotorbikesSearchedPage() {
             lng: 105.804817,
             startDate: convertTimestampToDate(Number(startDate)),
             endDate: convertTimestampToDate(Number(endDate)),
+            maximumRating: false,
+            electric: false,
+            brandId: "",
+            minPrice: 0,
+            maxPrice: 200,
+            minReleaseYear: 1990,
+            maxReleaseYear: currentYear,
+            minFuelConsumption: 0,
+            maxFuelConsumption: 10,
+            minDistance: 0,
+            maxDistance: 50,
+            Raincoat: false,
+            Helmet: false,
+            ReflectiveClothes: false,
+            RepairKit: false,
+            CaseTelephone: false,
+            Bagage: false,
+            orderBy: "",
         },
         validationSchema: Yup.object({
             address: Yup.string().required(t("postMotorbike.registedForm.addressRequired")),
@@ -146,7 +150,7 @@ export default function ListMotorbikesSearchedPage() {
             if (values.address) {
                 encodeAddress = encodeURIComponent(values.address);
             }
-            console.log(getMotorbikesByPlaceAndTime(startDate.toString(), endDate.toString(), encodeAddress));
+            getMotorbikesByFilter(startDate.toString(), endDate.toString(), encodeAddress);
         }
     }
     );
@@ -160,7 +164,119 @@ export default function ListMotorbikesSearchedPage() {
         setFieldValue
     } = formik;
 
+    // Get data
+
+    useEffect(() => {
+        getMotorbikesByFilter(startDate, endDate, address);
+    }, [startDate, endDate, address]);
+
+    useEffect(() => {
+        getMotorbikesByFilter(
+            startDate,
+            endDate,
+            address,
+            values.maximumRating,
+            values.electric,
+            values.brandId,
+            values.minPrice,
+            values.maxPrice,
+            values.minReleaseYear,
+            values.maxReleaseYear,
+            values.minFuelConsumption,
+            values.maxFuelConsumption,
+            values.minDistance,
+            values.maxDistance,
+            equipments,
+            values.orderBy,
+        );
+
+    }, [
+        values.maximumRating,
+        values.electric,
+        values.brandId,
+        values.minPrice,
+        values.maxPrice,
+        values.minReleaseYear,
+        values.maxReleaseYear,
+        values.minFuelConsumption,
+        values.maxFuelConsumption,
+        values.minDistance,
+        values.maxDistance,
+        values.orderBy,
+        equipments
+    ]);
+
+    const getMotorbikesByFilter = async (
+        startDateTimeParam?: string,
+        endDateTimeParam?: string,
+        addressParam?: string,
+        maximumRatingParam?: boolean,
+        electricParam?: boolean,
+        brandIdParam?: string,
+        minPriceParam?: number,
+        maxPriceParam?: number,
+        minReleaseYearParam?: number,
+        maxReleaseYearParam?: number,
+        minFuelConsumptionParam?: number,
+        maxFuelConsumptionParam?: number,
+        minDistanceParam?: number,
+        maxDistanceParam?: number,
+        equipmentsParam?: string[],
+        orderByParam?: string,
+    ) => {
+        setIsLoadingData(true); // Bắt đầu tải dữ liệu
+
+        if (!startDateTimeParam || !endDateTimeParam || !addressParam) {
+            setIsLoadingData(false); // Dừng tải dữ liệu
+            return;
+        }
+
+        const formData: SearchMotorbikeRequest = {
+            startDate: convertTimestampToDate(Number(startDateTimeParam)),
+            endDate: convertTimestampToDate(Number(endDateTimeParam)),
+            address: addressParam,
+            minPrice: minPriceParam,
+            maxPrice: maxPriceParam,
+            type: electricParam ? "Điện" : "",
+            brandId: Number(brandIdParam),
+            minReleaseYear: minReleaseYearParam,
+            maxReleaseYear: maxReleaseYearParam,
+            minFuelConsumption: minFuelConsumptionParam,
+            maxFuelConsumption: maxFuelConsumptionParam,
+            equipments: equipmentsParam?.join(','),
+            minDistance: minDistanceParam,
+            maxDistance: maxDistanceParam,
+            maximumRating: maximumRatingParam,
+            orderBy: orderByParam,
+        }
+
+        try {
+            const response = await SearchMotorbikeServices.getMotorbikesByFilter(formData);
+            setListMotorbikes(response);
+        } catch (error) {
+            // Xử lý lỗi tại đây (nếu cần)
+        }
+
+        setIsLoadingData(false); // Dừng tải dữ liệu
+    }
+
     // ADVANCED FILTER MODAL CONTROLLER
+    useEffect(() => {
+        getAllBrand();
+        // getAllProvince();
+    }, []);
+
+    const getAllBrand = async () => {
+        try {
+            const response = await PostMotorbikeService.getAllBrand();
+            if (response) {
+                setListBrand(response);
+            }
+        } catch (error) {
+
+        }
+    }
+
     const openAdvancedFilterModal = () => {
         setAdvancedFilterModalOpen(true);
     };
@@ -173,17 +289,17 @@ export default function ListMotorbikesSearchedPage() {
         {
             key: 'all',
             value: 'Chọn tất cả',
-            isChecked: false
+            isChecked: values.maximumRating && values.electric
         },
         {
             key: '5star',
             value: 'Xe đạt đánh giá 5 sao',
-            isChecked: false
+            isChecked: values.maximumRating
         },
         {
             key: 'electric',
             value: 'Xe điện',
-            isChecked: false
+            isChecked: values.electric
         }
     ];
 
@@ -191,7 +307,7 @@ export default function ListMotorbikesSearchedPage() {
     const [selectOptionsState, setSelectOptionsState] = useState(selectOptions);
 
     const checkSelectOptions: any = (key: string) => {
-        const isAllUnchecked = selectOptionsState.every(option => option.key === 'all' || option.isChecked); // Kiểm tra xem tất cả tùy chọn khác đã được chọn hay chưa (trừ 'all')
+        const isAllUnchecked = selectOptionsState.every(option => option.key === 'all' || option.isChecked);
 
         setSelectOptionsState(prevState => prevState.map(option => {
             if (key === 'all') {
@@ -211,38 +327,38 @@ export default function ListMotorbikesSearchedPage() {
         {
             key: 'all',
             value: 'Tất cả',
-            isChecked: false
+            isChecked: values.Raincoat && values.Helmet && values.ReflectiveClothes && values.RepairKit && values.CaseTelephone && values.Bagage
         },
         {
-            key: 'raincoat',
+            key: 'Raincoat',
             value: 'Áo mưa',
-            isChecked: false
+            isChecked: values.Raincoat
         },
         {
-            key: 'helmet',
+            key: 'Helmet',
             value: 'Mũ bảo hiểm',
-            isChecked: false
+            isChecked: values.Helmet
         },
 
         {
-            key: 'reflectiveClothes',
+            key: 'ReflectiveClothes',
             value: 'Dây đeo phản quang',
-            isChecked: false
+            isChecked: values.ReflectiveClothes
         },
         {
-            key: 'repairKit',
+            key: 'RepairKit',
             value: 'Bộ dụng cụ sửa chữa',
-            isChecked: false
+            isChecked: values.RepairKit
         },
         {
-            key: 'caseTelephone',
+            key: 'CaseTelephone',
             value: 'Giá đỡ điện thoại',
-            isChecked: false
+            isChecked: values.CaseTelephone
         },
         {
-            key: 'bagage',
+            key: 'Bagage',
             value: 'Baga sau',
-            isChecked: false
+            isChecked: values.Bagage
         },
     ];
 
@@ -280,7 +396,6 @@ export default function ListMotorbikesSearchedPage() {
     };
 
     // MAP CONTROLLER
-    // Map with search box
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
         libraries: ["places"],
@@ -370,25 +485,74 @@ export default function ListMotorbikesSearchedPage() {
 
 
     // HANDLE RangeSlider
-    const [price, setPrice] = React.useState<number[]>([0, 200]);
+    const [price, setPrice] = React.useState<number[]>([1, 200]);
 
     const handlePriceChange = (event: Event, newValue: number | number[]) => {
         setPrice(newValue as number[]);
     };
+    useEffect(() => {
+        setFieldValue('minPrice', price[0]);
+        setFieldValue('maxPrice', price[1]);
+    }, [price]);
 
-    const [releaseYear, setReleaseYear] = React.useState<number[]>([1990, 2023]);
+    const [releaseYear, setReleaseYear] = React.useState<number[]>([1990, currentYear]);
     const handleReleaseYearChange = (event: Event, newValue: number | number[]) => {
         setReleaseYear(newValue as number[]);
+        
     }
+    useEffect(() => {
+        setFieldValue('minReleaseYear', releaseYear[0]);
+        setFieldValue('maxReleaseYear', releaseYear[1]);
+    }, [releaseYear]);
 
-    const [fuelConsumption, setFuelConsumption] = React.useState<number[]>([0, 10]);
+    const [fuelConsumption, setFuelConsumption] = React.useState<number[]>([1, 10]);
     const handleFuelConsumptionChange = (event: Event, newValue: number | number[]) => {
         setFuelConsumption(newValue as number[]);
+        setFieldValue('minFuelConsumption', fuelConsumption[0]);
+        setFieldValue('maxFuelConsumption', fuelConsumption[1]);
     }
+    useEffect(() => {
+        setFieldValue('minFuelConsumption', fuelConsumption[0]);
+        setFieldValue('maxFuelConsumption', fuelConsumption[1]);
+    }, [fuelConsumption]);
 
-    const [maxDistance, setMaxDistance] = React.useState<number[]>([0, 100]);
+
+    const [maxDistance, setMaxDistance] = React.useState<number[]>([1, 50]);
     const handleMaxDistanceChange = (event: Event, newValue: number | number[]) => {
         setMaxDistance(newValue as number[]);
+    }
+    useEffect(() => {
+        setFieldValue('minDistance', maxDistance[0]);
+        setFieldValue('maxDistance', maxDistance[1]);
+    }, [maxDistance]);
+
+    // handle click reset filter
+    const handleResetFilter = () => {
+        setFieldValue('maximumRating', false);
+        setFieldValue('electric', false);
+        setFieldValue('brandId', "");
+        setFieldValue('minPrice', 1);
+        setFieldValue('maxPrice', 200);
+        setFieldValue('minReleaseYear', 1990);
+        setFieldValue('maxReleaseYear', currentYear);
+        setFieldValue('minFuelConsumption', 1);
+        setFieldValue('maxFuelConsumption', 10);
+        setFieldValue('minDistance', 1);
+        setFieldValue('maxDistance', 50);
+        setFieldValue('Raincoat', false);
+        setFieldValue('Helmet', false);
+        setFieldValue('ReflectiveClothes', false);
+        setFieldValue('RepairKit', false);
+        setFieldValue('CaseTelephone', false);
+        setFieldValue('Bagage', false);
+        setFieldValue('orderBy', '');
+        checkSelectOptions('');
+        checkFeatureOptions('');
+        setPrice([1, 200]);
+        setReleaseYear([1990, currentYear]);
+        setFuelConsumption([1, 10]);
+        setMaxDistance([1, 50]);
+        setEquipments([]);
     }
 
     return (
@@ -507,7 +671,6 @@ export default function ListMotorbikesSearchedPage() {
                                 iconPosition='left'
                                 content={"Bộ lọc"}
                                 onClick={openAdvancedFilterModal} />
-
                             {/* - */}
                             <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
                                 -
@@ -521,7 +684,6 @@ export default function ListMotorbikesSearchedPage() {
                                 <Select
                                     labelId="demo-select-small-label"
                                     id="demo-select-small"
-                                    // value={selectedStatus}
                                     native
                                     displayEmpty
                                     size='small'
@@ -530,10 +692,22 @@ export default function ListMotorbikesSearchedPage() {
                                         height: '32px',
                                         borderRadius: '8px',
                                     }}
-                                // onChange={handleChangeStatus}
+                                    name='orderBy'
+                                    value={values.orderBy}
+                                    onChange={(e: SelectChangeEvent) => {
+                                        handleChange(e);
+                                        setFieldValue('orderBy', e.target.value);
+                                    }}
                                 >
                                     {sortOptions.map((option) => (
-                                        <option key={option.key} value={option.key}>
+                                        <option
+                                            style={{
+                                                fontFamily: 'Inter',
+                                                fontStyle: 'normal',
+                                                fontWeight: 'normal',
+                                                fontSize: '14px',
+                                            }}
+                                            key={option.key} value={option.key}>
                                             {option.value}
                                         </option>
                                     ))}
@@ -615,10 +789,10 @@ export default function ListMotorbikesSearchedPage() {
 
             </Box>
 
-
             {/* modal address */}
             <Modal
                 open={isMapModalOpen}
+                onClose={closeMapModal}
                 aria-labelledby="map-modal-title"
                 aria-describedby="map-modal-description"
                 sx={{
@@ -803,6 +977,7 @@ export default function ListMotorbikesSearchedPage() {
             {/* modal advanced filter */}
             <Modal
                 open={isAdvancedFilterModalOpen}
+                onClose={closeAdvancedFilterModal}
                 aria-labelledby="map-modal-title"
                 aria-describedby="map-modal-description"
                 sx={{
@@ -849,6 +1024,8 @@ export default function ListMotorbikesSearchedPage() {
                                         onClick={
                                             () => {
                                                 checkSelectOptions('');
+                                                setFieldValue('maximumRating', false);
+                                                setFieldValue('electric', false);
                                             }
                                         } />
                                     <MyCustomButton
@@ -868,6 +1045,15 @@ export default function ListMotorbikesSearchedPage() {
                                         onClick={
                                             () => {
                                                 checkSelectOptions('all');
+                                                // get ischecked of all selectOptions and set setFieldValue for maximumRating and electric follow selectOptionsState of all
+                                                const isAllUnchecked = selectOptionsState.every(option => option.key === 'all' || option.isChecked);
+                                                if (isAllUnchecked) {
+                                                    setFieldValue('maximumRating', true);
+                                                    setFieldValue('electric', true);
+                                                } else {
+                                                    setFieldValue('maximumRating', false);
+                                                    setFieldValue('electric', false);
+                                                }
                                             }
                                         } />
 
@@ -891,6 +1077,7 @@ export default function ListMotorbikesSearchedPage() {
                                     onClick={
                                         () => {
                                             checkSelectOptions('5star');
+                                            setFieldValue('maximumRating', !values.maximumRating);
                                         }
                                     } />
                                 <MyCustomButton
@@ -909,11 +1096,42 @@ export default function ListMotorbikesSearchedPage() {
                                     onClick={
                                         () => {
                                             checkSelectOptions('electric');
+                                            setFieldValue('electric', !values.electric);
                                         }
                                     } />
                             </Box>
                         </Box>
                         {/* Hãng xe và mẫu xe */}
+                        <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
+                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                {/* tilte */}
+                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={600} textAlign={"start"}>
+                                    {"Hãng xe"}
+                                </Typography>
+                            </Box>
+                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
+                                {/* price */}
+                                <Select
+                                    sx={{
+                                        borderRadius: '8px',
+                                    }}
+                                    fullWidth
+                                    displayEmpty
+                                    name="brandId"
+                                    value={values.brandId}
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem key={0} value="">
+                                        <em>{t("postMotorbike.registedForm.brandPlaceHolder")}</em>
+                                    </MenuItem>
+                                    {listBrand.map((brand) => (
+                                        <MenuItem key={brand.id} value={brand.id}>
+                                            {brand.brandName}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </Box>
+                        </Box>
                         {/* box price */}
                         <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
@@ -928,7 +1146,9 @@ export default function ListMotorbikesSearchedPage() {
                                     <Slider
                                         value={price}
                                         max={200}
-                                        min={0}
+                                        step={1}
+                                        min={1}
+                                        valueLabelFormat={formatMoney}
                                         onChange={handlePriceChange}
                                         valueLabelDisplay="auto"
                                     />
@@ -940,7 +1160,7 @@ export default function ListMotorbikesSearchedPage() {
                                         Tối thiểu:
                                     </Typography>
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
-                                        {price[0]}K
+                                        {formatMoney(price[0])}
                                     </Typography>
                                 </Box>
                                 <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
@@ -948,7 +1168,7 @@ export default function ListMotorbikesSearchedPage() {
                                         Tối đa:
                                     </Typography>
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
-                                        {price[1]}K
+                                        {formatMoney(price[1])}
                                     </Typography>
                                 </Box>
                             </Box>
@@ -968,7 +1188,7 @@ export default function ListMotorbikesSearchedPage() {
                                         value={releaseYear}
                                         onChange={handleReleaseYearChange}
                                         valueLabelDisplay="auto"
-                                        max={2023}
+                                        max={currentYear}
                                         min={1990}
                                     />
                                 </Box>
@@ -1008,7 +1228,7 @@ export default function ListMotorbikesSearchedPage() {
                                         onChange={handleFuelConsumptionChange}
                                         valueLabelDisplay="auto"
                                         max={10}
-                                        min={0}
+                                        min={1}
                                     />
                                 </Box>
                             </Box>
@@ -1042,16 +1262,31 @@ export default function ListMotorbikesSearchedPage() {
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
                                 {/* price */}
                                 <Box sx={{ width: "97%" }}>
-                                    <Slider defaultValue={100} aria-label="Default" valueLabelDisplay="auto" />
+                                    <Slider
+                                        aria-label="Default"
+                                        valueLabelDisplay="auto"
+                                        value={maxDistance}
+                                        onChange={handleMaxDistanceChange}
+                                        max={50}
+                                        min={1}
+                                    />
                                 </Box>
                             </Box>
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                 <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                        Tối thiểu:
+                                    </Typography>
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                        {maxDistance[0]}km
+                                    </Typography>
+                                </Box>
+                                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
                                         Tối đa:
                                     </Typography>
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
-                                        20km
+                                        {maxDistance[1]}km
                                     </Typography>
                                 </Box>
                             </Box>
@@ -1078,6 +1313,14 @@ export default function ListMotorbikesSearchedPage() {
                                         onClick={
                                             () => {
                                                 checkFeatureOptions('');
+                                                setFieldValue('Helmet', false);
+                                                setFieldValue('Raincoat', false);
+                                                setFieldValue('ReflectiveClothes', false);
+                                                setFieldValue('RepairKit', false);
+                                                setFieldValue('CaseTelephone', false);
+                                                setFieldValue('Bagage', false);
+                                                // remove all feature options from values.equipments
+                                                setEquipments([]);
                                             }
                                         } />
                                     <MyCustomButton
@@ -1097,6 +1340,12 @@ export default function ListMotorbikesSearchedPage() {
                                         onClick={
                                             () => {
                                                 checkFeatureOptions('all');
+                                                // add or remove all feature options to values.equipments accept first option and setFieldValue
+                                                const updatedEquipments = equipments.includes('Helmet') && equipments.includes('Raincoat') && equipments.includes('ReflectiveClothes') && equipments.includes('RepairKit') && equipments.includes('CaseTelephone') && equipments.includes('Bagage')
+                                                    ? equipments.filter((equipment) => equipment !== 'Helmet' && equipment !== 'Raincoat' && equipment !== 'ReflectiveClothes' && equipment !== 'RepairKit' && equipment !== 'CaseTelephone' && equipment !== 'Bagage')
+                                                    : [...equipments, 'Helmet', 'Raincoat', 'ReflectiveClothes', 'RepairKit', 'CaseTelephone', 'Bagage'];
+
+                                                setEquipments(updatedEquipments);
                                             }
                                         } />
 
@@ -1130,6 +1379,14 @@ export default function ListMotorbikesSearchedPage() {
                                                     onClick={
                                                         () => {
                                                             checkFeatureOptions(option.key);
+                                                            // add or remove feature options to values.equipments
+                                                            if (option.key === 'Helmet' || option.key === 'Raincoat' || option.key === 'ReflectiveClothes') {
+                                                                const updatedEquipments = equipments.includes(option.key)
+                                                                    ? equipments.filter((equipment) => equipment !== option.key)
+                                                                    : [...equipments, option.key];
+
+                                                                setEquipments(updatedEquipments);
+                                                            }
                                                         }
                                                     } />
                                             )))
@@ -1162,6 +1419,14 @@ export default function ListMotorbikesSearchedPage() {
                                                     onClick={
                                                         () => {
                                                             checkFeatureOptions(option.key);
+                                                            // add or remove feature options to values.equipments
+                                                            if (option.key === 'RepairKit' || option.key === 'CaseTelephone' || option.key === 'Bagage') {
+                                                                const updatedEquipments = equipments.includes(option.key)
+                                                                    ? equipments.filter((equipment) => equipment !== option.key)
+                                                                    : [...equipments, option.key];
+
+                                                                setEquipments(updatedEquipments);
+                                                            }
                                                         }
                                                     } />
                                             )))
@@ -1181,7 +1446,7 @@ export default function ListMotorbikesSearchedPage() {
                                 content={"Đặt lại bộ lọc"}
                                 onClick={
                                     () => {
-                                        closeAdvancedFilterModal();
+                                        handleResetFilter();
                                     }
                                 } />
                             <MyCustomButton
