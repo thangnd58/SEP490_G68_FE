@@ -12,7 +12,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
     const { t } = usei18next();
     const [expanded, setExpanded] = useState(true);
     return (
-        <>
+        <Box width={'100%'} display={'flex'} flexDirection={'column'}>
             <Box
                 sx={{
                     backgroundColor: "rgba(139, 69, 19, 0.05)",
@@ -49,6 +49,8 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                     justifyContent={'space-between'}
                     alignItems={'start'}
                     gap={'16px'}
+                    padding={'16px'}
+
                 >
                     {/* Image */}
                     <Box
@@ -56,7 +58,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                         sx={{ cursor: 'pointer', position: 'relative' }}
                     >
                         <Avatar
-                            src={props.motorbike && props.motorbike.imageUrl ?  props.motorbike.imageUrl[0] : ""}
+                            src={props.motorbike && props.motorbike.imageUrl ? props.motorbike.imageUrl[0] : ""}
                             sx={{
                                 width: '100%',
                                 height: '250px',
@@ -84,7 +86,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                         flexDirection="column"
                         gap="8px">
                         {/* Brand Name and Model */}
-                        <Box display="flex" flexDirection="column" gap="4px">
+                        <Box display="flex" flexDirection="column" gap="8px">
                             <Box>
                                 <Typography
                                     textOverflow="ellipsis"
@@ -92,47 +94,45 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                     overflow="hidden"
                                     fontWeight="bold"
                                     fontSize="20px"
-                                    sx={{ cursor: 'pointer' }}
                                     color={theme.palette.text.primary}
                                 >
-                                    {props.motorbike.model.modelName}
+                                    {props.motorbike.model.brand.brandName} {props.motorbike.model.modelName}
                                 </Typography>
                             </Box>
-                            <Box display="flex" alignItems="center" gap="4px">
-                                <img src={LocationImage} alt="licence plate" width={30} height={30} />
+                            <Box display="flex" alignItems="center" gap="8px">
+                                <img src={LocationImage} alt="licence plate" width={24} height={24} />
                                 <Typography
                                     textOverflow="ellipsis"
                                     whiteSpace="nowrap"
                                     overflow="hidden"
                                     fontSize="12px"
+                                    maxWidth={'300px'}
                                     fontStyle={"italic"}
                                     color={theme.palette.text.secondary}
                                 >
                                     {props.motorbike.address}
                                 </Typography>
                             </Box>
-                            <Box display={'flex'} alignItems={'center'} gap={'4px'}>
-                                <img src={LicencePlateImage} alt="licence plate" width={30} height={30} />
+                            <Box display={'flex'} alignItems={'end'} gap={'8px'}>
+                                <img src={LicencePlateImage} alt="licence plate" width={24} height={24} />
                                 <Typography
                                     textOverflow="ellipsis"
                                     whiteSpace="nowrap"
                                     overflow="hidden"
                                     fontSize="14px"
-                                    sx={{ cursor: 'pointer' }}
                                     color={theme.palette.text.primary}
                                 >
                                     {props.motorbike.licensePlate}
                                 </Typography>
                             </Box>
-                            <Box display="flex" alignItems="center" gap="4px">
-                                <img src={PriceImage} alt="licence plate" width={30} height={30} />
+                            <Box display="flex" alignItems="end" gap="8px">
+                                <img src={PriceImage} alt="licence plate" width={24} height={24} />
                                 <Typography
                                     textOverflow="ellipsis"
                                     whiteSpace="nowrap"
                                     overflow="hidden"
-                                    fontSize="14px"
+                                    fontSize="16px"
                                     fontWeight={'bold'}
-                                    sx={{ cursor: 'pointer' }}
                                     color={theme.palette.text.primary}
                                 >
                                     {`${formatMoneyNew(props.motorbike.priceRent)}/${t("booking.perDay")}`}
@@ -156,6 +156,6 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                     </Box>
                 </Box>
             }
-        </>
+        </Box>
     )
 }

@@ -1,25 +1,32 @@
 import React, { useContext } from 'react'
 import { Motorbike } from '../../utils/type'
-import { Box, Modal, Paper, Typography } from '@mui/material';
+import { Box, Divider, Modal, Paper, Typography } from '@mui/material';
 import theme from '../../utils/theme';
 import useThemePage from '../../hooks/useThemePage';
 import MyIcon from '../../components/common/MyIcon';
-import { CloseOutlined } from '@mui/icons-material';
+import { CloseOutlined, LocationOnOutlined, Loyalty } from '@mui/icons-material';
 import { ModalContext } from '../../contexts/ModalContext';
 import usei18next from '../../hooks/usei18next';
-import { Divider } from 'antd';
-
-interface Props {
-  motorbikes: Motorbike[],
-  address: string,
-  startDate: string,
-  endDate: string,
-}
+import { MotorbikeBookingCard } from '../MotorbikePage/components/MotorbikeBookingCard';
+import { RequireWhenRent } from '../MotorbikePage/components/RequireWhenRent';
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
+import MyCustomButton from '../../components/common/MyButton';
+import UserService from '../../services/UserService';
 
 export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike[]; address: string; startDate: string; endDate: string; }) => {
   const { isMobile, isIpad } = useThemePage();
   const { closeModal, setContentModal, setShowModal } = useContext(ModalContext);
   const { t } = usei18next();
+  const { RangePicker } = DatePicker;
+
+  // format number * 1000 to type 1.000 VND/ngày
+  const formatMoney = (money: number | undefined) => {
+    if (money) {
+      return (money * 1000).toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+    }
+    return '0 VND';
+  }
 
   return (
     <>
@@ -35,7 +42,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
           margin: '32px 0px',
           overflowY: 'auto',
         }}>
-        <Box width={"95%"} height={"auto"}
+        <Box width={"80%"} height={"auto"}
           sx={{
             backgroundColor: '#fff',
             borderRadius: '8px',
@@ -78,10 +85,216 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
             flexDirection={"row"}
             justifyContent={"space-between"}
             alignItems={"center"}
-            padding={"32px"}
+            padding={"32px 64px"}
           >
             <Paper elevation={2} sx={{ width: '100%', bgcolor: "#fff" }}>
-              
+              <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} padding={"32px"} gap={"32px"} >
+                <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} gap={"16px"} >
+
+                  {
+                    props.motorbikes && props.motorbikes.length > 0 &&
+                    props.motorbikes.map((motor, index) => {
+                      return (
+                        <MotorbikeBookingCard key={`${index}_motor`} motorbike={motor} isMobile={isMobile} />
+                      )
+                    })
+                  }
+                </Box>
+                <Divider sx={{ width: "100%" }} variant="fullWidth" />
+
+                <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"center"} alignItems={"start"} gap={"16px"} >
+                  <Box width={"60%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} gap={"16px"} >
+                    <RequireWhenRent />
+                  </Box>
+                  {/* Hóa đơn thanh toán */}
+                  <Box width={"40%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"} gap={"8px"} >
+                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "700", }}>
+                      Thanh Toán
+                    </Typography>
+                    <Box
+                      sx={{
+                        backgroundColor: "rgba(139, 69, 19, 0.05)",
+                        borderRadius: "8px",
+                        minHeight: "300px",
+                        width: "90%",
+                      }}
+                      margin={isIpad || isMobile ? "16px 0px" : "0px 0px"}
+                      width={isIpad || isMobile ? "auto" : "35%"}
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="start"
+                      padding="16px"
+                    >
+                      <Box display="flex" flexDirection="row" alignItems="center" width={"100%"} justifyContent={"flex-start"} >
+                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '24px', fontWeight: "600", }}>
+                          {/* {`${formatMoney(props.motorbike?.priceRent)}/${t("booking.perDay")}`} */}
+                        </Typography>
+                      </Box>
+                      <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"}>
+                        {/* Line */}
+                        <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
+                        {/* Chọn ngày giờ */}
+                        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} width={"100%"} justifyContent={'center'} sx={{ gap: '4px' }}>
+                          <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
+                            {/* start date */}
+                            <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                              {t("booking.startDate")}
+                            </Typography>
+                            {/* end date */}
+                            <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                              {t("booking.endDate")}
+                            </Typography>
+                          </Box>
+                          <RangePicker
+                            className="custom-range-picker"
+                            style={{
+                              fontFamily: 'Inter',
+                              fontStyle: 'normal',
+                              fontSize: '20px',
+                              height: '48px',
+                            }}
+                            size='large'
+                            showTime={{ format: 'HH:mm' }}
+                            format="DD-MM-YYYY HH:mm"
+                            placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
+                            // value={[
+                            // dayjs(values.startDate, "DD-MM-YYYY HH:mm"),
+                            // dayjs(values.endDate, "DD-MM-YYYY HH:mm"),
+                            // ]}
+                            onChange={(dates, dateStrings) => {
+                              // setFieldValue('startDate', dateStrings[0]);
+                              // setFieldValue('endDate', dateStrings[1]);
+                            }}
+                            allowClear={false}
+                          />
+                        </Box>
+                        {/* Chọn vị trí trả xe */}
+                        <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} marginTop={'8px'}>
+                          <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
+                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                              {t("booking.addressGetMotorbike")}
+                            </Typography>
+                          </Box>
+                          <Box
+                            className="custom-search-box-1"
+                            width={"100%"}
+                            display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ cursor: 'pointer', gap: '8px' }}
+                          // onClick={openMapModal}
+                          >
+                            <LocationOnOutlined sx={{
+                              color: theme.palette.action.disabled,
+                              marginLeft: '8px',
+                            }} />
+                            <Typography
+                              color={theme.palette.text.primary}
+                              sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                              padding={'11px 0px'}
+                            // onChange={handleChange}
+                            >
+                              {/* {values.address} */}
+                              values.address
+                            </Typography>
+                          </Box>
+                        </Box>
+                        {/* Chọn vị trí trả xe */}
+                        {/* <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} marginTop={'8px'}>
+                      <Box width={"100%"} display={'flex'} flexDirection={'column'} justifyContent={'start'} sx={{ gap: '8px' }}>
+                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                          {t("booking.paymentType")}
+                        </Typography>
+                      </Box>
+                    </Box> */}
+                        {/* Line */}
+                        <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
+                        {/* Đơn giá */}
+                        <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                          {/* Đơn giá thuê */}
+                          <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                              {t("booking.pricePerday")}
+                            </Typography>
+                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                              {/* {`${formatMoney(motorbike?.priceRent)}/${t("booking.perDay")}`} */}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        {/* Line */}
+                        <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
+
+                        {/* Tổng tiền và app mã khuyến mãi */}
+                        <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
+                          {/* Tổng tiền */}
+                          <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                              {t("booking.totalPriceRent")}
+                            </Typography>
+                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                              {/* {formatMoney(previewBookingData?.totalAmountTemp)} x {previewBookingData?.rentalDays} ngày */}
+                            </Typography>
+                          </Box>
+                          {/* Phí dịch vụ */}
+                          <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                              {t("booking.totalPriceService")}
+                            </Typography>
+                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                              {/* {formatMoney(previewBookingData?.feeOfService)} */}
+                            </Typography>
+                          </Box>
+                          {/* Mã khuyến mãi */}
+                          {
+                            // values.couponCode !== "" 
+                            // &&
+                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                              <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                                {/* {t("booking.promotionCode")}: <span style={{ textTransform: 'uppercase', fontWeight: '700' }}>{values.couponCode}</span> */}
+                              </Typography>
+                              <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                                {/* {formatMoney(previewBookingData?.couponPrice)} */}
+                              </Typography>
+                            </Box>
+                          }
+                          <MyCustomButton iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%'
+                            onClick={
+                              () => { }
+                              // () => setModalPromotionOpen(true)
+                            }
+                            content={t("booking.promotionCode")} variant='outlined' />
+
+                        </Box>
+                        {/* Line */}
+                        <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
+
+                        {/* Tổng tiền */}
+                        <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                          <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                            {t("booking.totalPrice")}
+                          </Typography>
+                          <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                            {/* {formatMoney(previewBookingData?.totalAmount)} */}
+                          </Typography>
+                        </Box>
+                        {/* Line */}
+                        <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
+
+                        {/* Button */}
+                        {/* {
+                        UserService.isLoggedIn() ?
+                          <MyCustomButton disabled={isProcessingBooking}
+                            width='100%' onClick={() => {
+                              setModalConfirmBookingOpen(true)
+                            }} content={t("booking.bookMotorbikeButton")} variant='contained' />
+                          :
+                          <a style={{ width: '100%' }} href={ROUTES.account.login}>
+                            <MyCustomButton disabled={isProcessingBooking}
+                              width='100%' content={t("booking.loginToContinue")} variant='contained' />
+                          </a>
+                      } */}
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
 
             </Paper>
           </Box>

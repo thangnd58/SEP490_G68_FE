@@ -49,27 +49,27 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
                 }}
 
             >
-                <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
-                    <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? 16 : 24} fontWeight={600} textAlign={"start"}>
+                <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
+                    <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? 20 : 24} fontWeight={700} textAlign={"start"}>
                         {t("booking.confirmInforBook")}
                     </Typography>
-                    <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
+                    <Box display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
                         <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={() => setModalConfirmBookingOpen(false)} position='bottom' />
                     </Box>
                 </Box>
                 <Divider sx={{ width: "100%", margin: "16px 0px" }} variant="middle" />
                 <Box className="hiddenSroll" width={"100%"} sx={{ overflowY: 'auto', overflowX: 'hidden' }} height={"80%"} display={"flex"} flexDirection={"column"} gap={'16px'} justifyContent={"start"}>
                     <Typography fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>Thời gian thuê xe</Typography>
-                    <Box display={'flex'} gap={'32px'} justifyContent={isMobile ? 'space-between' : 'start'}>
+                    <Box display={'flex'} gap={isMobile ? '16px' :'32px'} justifyContent={isMobile ? 'space-between' : 'start'} flexDirection={isMobile ? 'column' : 'row'}>
                         <Box display={'flex'} gap={'16px'}>
-                            {!isMobile && <img src={CalendarImage} alt="calendar" width={24} height={24} />}
+                            <img src={CalendarImage} alt="calendar" width={isMobile ? 20 : 24} height={isMobile ? 20 : 24} />
                             <Box display={'flex'} flexDirection={'column'} gap={'4px'} justifyContent={"start"}>
                                 <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary}>Thời gian nhận xe</Typography>
                                 <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary}>{values.startDate}</Typography>
                             </Box>
                         </Box>
                         <Box display={'flex'} gap={'16px'}>
-                            {!isMobile && <img src={CalendarImage} alt="calendar" width={24} height={24} />}
+                            <img src={CalendarImage} alt="calendar" width={isMobile ? 20 : 24} height={isMobile ? 20 : 24} />
                             <Box display={'flex'} flexDirection={'column'} gap={'4px'} justifyContent={"start"} >
                                 <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary}>Thời gian trả xe</Typography>
                                 <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary}>{values.endDate}</Typography>
@@ -133,18 +133,20 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
                             )
                         })
                     }
+                        <Divider sx={{ width: "100%" }} variant="fullWidth" />
                     <RequireWhenRent />
-                    <Typography fontSize={isMobile ? 16 : 24} fontWeight={'500'} color={'common.black'} marginTop={'8px'}>{t("booking.totalPriceRent")}</Typography>
+                    <Divider sx={{ width: "100%" }} variant="fullWidth" />
+                    <Typography fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>{t("booking.totalPriceRent")}</Typography>
                     {/* Đơn giá */}
                     <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                         {/* Đơn giá thuê */}
                         {
                             motorbikes && motorbikes.length > 0 &&
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                                <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                                <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: "400", }}>
                                     {t("booking.pricePerday")}
                                 </Typography>
-                                <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                                <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: "600", }}>
                                     {`${formatMoneyNew(motorbikes.reduce((total, mt) => {
                                         if (mt && mt.priceRent !== undefined) {
                                             return total + mt.priceRent;
@@ -157,25 +159,25 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
                         }
                     </Box>
                     {/* Line */}
-                    <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
+                    <Divider sx={{ width: "100%" }} variant="fullWidth" />
 
                     {/* Tổng tiền và app mã khuyến mãi */}
                     <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
                         {/* Tổng tiền */}
                         <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                            <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: "400", }}>
                                 {t("booking.totalPriceRent")}
                             </Typography>
-                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                            <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: "600", }}>
                                 {formatMoneyNew(previewBookingData?.totalAmountTemp)} x {previewBookingData?.rentalDays} {t("booking.perDay")}
                             </Typography>
                         </Box>
                         {/* Phí dịch vụ */}
                         <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                            <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: "400", }}>
                                 {t("booking.totalPriceService")}
                             </Typography>
-                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                            <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: "600", }}>
                                 {formatMoneyNew(previewBookingData?.feeOfService)}
                             </Typography>
                         </Box>
@@ -183,10 +185,10 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
                         {
                             previewBookingData?.couponCode !== "" && previewBookingData?.couponCode !== null &&
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                                <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                                <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: "400", }}>
                                     {t("booking.promotionCode")}: <span style={{ textTransform: 'uppercase', fontWeight: '700' }}>{previewBookingData?.couponCode}</span>
                                 </Typography>
-                                <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                                <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: "600", }}>
                                     {formatMoneyNew(previewBookingData?.couponPrice)}
                                 </Typography>
                             </Box>
@@ -195,11 +197,11 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
 
                     </Box>
                     {/* Line */}
-                    <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
+                    <Divider sx={{ width: "100%" }} variant="fullWidth" />
 
                     {/* Tổng tiền */}
                     <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "700", }}>
                             {t("booking.totalPrice")}
                         </Typography>
                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
@@ -209,15 +211,14 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
 
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', gap: '16px', marginTop: '16px' }}>
                         <MyCustomButton
-                            width='40%' onClick={() => setModalConfirmBookingOpen(false)} content={t("booking.cancelBook")} variant='outlined' />
+                            width='50%' onClick={() => setModalConfirmBookingOpen(false)} content={t("booking.cancelBook")} variant='outlined' />
 
                         <MyCustomButton disabled={isProcessingBooking}
-                            width='40%' onClick={() => {
+                            width='50%' onClick={() => {
                                 handleSubmit()
                                 setModalConfirmBookingOpen(false)
                             }} content={t("booking.bookMotorbikeButton")} variant='contained' />
                     </Box>
-
                 </Box>
             </Box>
         </Modal>

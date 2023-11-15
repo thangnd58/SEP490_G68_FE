@@ -134,8 +134,6 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
   }
   );
 
-
-
   const {
     values,
     errors,
