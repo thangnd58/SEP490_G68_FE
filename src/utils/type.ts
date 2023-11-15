@@ -242,7 +242,7 @@ export interface SearchMotorbikeRequest {
 }
 
 export interface BookingRequest {
-    motorbikeId: number;
+    motorbikeId: string;
     deliveryMode: string;
     address: string;
     startDatetime: string;

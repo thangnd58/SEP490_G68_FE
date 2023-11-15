@@ -33,7 +33,8 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                     fontSize={props.isMobile ? 16 : 20}
                     sx={{ cursor: 'pointer' }}
                     color={theme.palette.text.primary}
-                >{props.motorbike.model.brand.brandName} {props.motorbike.model.modelName}</Typography>
+                >
+                    {props.motorbike.model.modelName || props.motorbike.model}</Typography>
                 {
                     expanded ? <ArrowUpward sx={{ cursor: 'pointer', color: '#000' }} onClick={() => setExpanded(!expanded)} /> : <ArrowDownward sx={{ cursor: 'pointer', color: '#000' }} onClick={() => setExpanded(!expanded)} />
                 }
@@ -96,7 +97,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                     fontSize="20px"
                                     color={theme.palette.text.primary}
                                 >
-                                    {props.motorbike.model.brand.brandName} {props.motorbike.model.modelName}
+                                    {props.motorbike.model.modelName || props.motorbike.model}
                                 </Typography>
                             </Box>
                             <Box display="flex" alignItems="center" gap="8px">
