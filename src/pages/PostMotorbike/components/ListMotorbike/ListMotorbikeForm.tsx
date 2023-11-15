@@ -382,8 +382,10 @@ function ItemMotorbikeModal({ isMobile, isIpad, isItemModalOpen, closeItemModal,
                           fontWeight: '600',
                           fontSize: '20px',
                         },
-
                       },
+                      '& .MuiTableCell-root': {
+                        border: 'none'
+                      }
                     }}
                   >
                     <Table>
