@@ -1,9 +1,8 @@
-import { Box, Chip } from "@mui/material";
-import { Typography } from "antd";
+import { Box, Chip , Typography} from "@mui/material";
 import theme from '../../../utils/theme';
 import usei18next from "../../../hooks/usei18next";
 import { DataGrid } from '@mui/x-data-grid';
-import { CheckCircleOutline, ErrorOutline, WarningAmber } from "@mui/icons-material";
+import { ArrowBack, CheckCircleOutline, ErrorOutline, WarningAmber } from "@mui/icons-material";
 import MyIcon from "../../../components/common/MyIcon";
 import EditIcon from '@mui/icons-material/Edit';
 import { GridToolbar, gridFilteredSortedRowIdsSelector, selectedGridRowsSelector } from '@mui/x-data-grid-pro';
@@ -155,8 +154,8 @@ const BrandManagement = () => {
 
     return (
         <Box >
-            <Box sx={{ backgroundColor: "#8B4513" }}>
-                <Typography color={theme.palette.common.white}>
+            <Box sx={{ backgroundColor: "#8B4513" }} width={'100%'} display={'flex'} flexDirection={'row'} alignItems={'center'} gap={1} >
+                <Typography color={theme.palette.common.white} variant="h1" fontSize={24} fontWeight={700}>
                     {t("dashBoardManager.Navigation.brand")}
                 </Typography>
             </Box>

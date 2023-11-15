@@ -26,9 +26,6 @@ export const userFavouriteReducer = createSlice({
         const userFavouriteInfo = await UserService.getUserFavourite();
         //@ts-ignore
         dispatch(updateUser(userFavouriteInfo.data))
-        //@ts-ignore
-        localStorage.setItem("userFavouriteInfo", JSON.stringify(userFavouriteInfo.data));
-        
       } catch (err) { }
     };
   };

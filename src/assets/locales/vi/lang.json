@@ -12,7 +12,9 @@
     "btn_close": "Đóng",
     "btn_promotion": "Xem khuyến mãi",
     "favourite": "Yêu Thích",
-    "wallet": "Ví của tôi"
+    "wallet": "Ví của tôi",
+    "notification": "Thông báo",
+    "cart": "Giỏ hàng"
   },
   "layout": {
     "admin": "Quản trị viên",
@@ -58,112 +60,112 @@
     "validateString265Char": "Chuỗi không thể vượt quá 256 ký tự"
   },
   "toast": {
-    "login": {
-      "success": "Đăng nhập thành công",
-      "warning": "Email hoặc mật khẩu không hợp lệ",
-      "warning_external": "Đăng nhập Google  thất bại",
-      "error": "Lỗi đăng nhập"
-    },
-    "register": {
-      "success": "Đăng ký thành công",
-      "warning": "Email đã tồn tại",
-      "error": "Lỗi đăng ký"
-    },
-    "logout": {
-      "success": "Đăng xuất thành công"
-    },
-    "resetpassword": {
-      "error": "Gửi yêu cầu khôi phục mật khẩu thất bại, vui lòng thử lại sau"
-    },
-    "changepassword": {
-      "success": "Đổi mật khẩu thành công",
-      "warning": "Đổi mật khẩu thất bại",
-      "error": "Lỗi đổi mật khẩu"
-    },
-    "changeUserProfile": {
-      "success": "Cập nhật thông tin thành công",
-      "warning": "Cập nhật thông tin thất bại",
-      "error": "Lỗi cập nhật thông tin"
-    },
-    "changeLicense": {
-      "success": "Cập nhật bằng lái xe thành công",
-      "warning": "Cập nhật bằng lái xe thất bại",
-      "error": "Lỗi cập nhật bằng lái xe"
-    },
-    "dashboardLicense": {
-      "Arrprove": {
-        "success": "Phê duyệt bằng lái xe thành công",
-        "warning": "Phê duyệt bằng lái xe thất bại",
-        "error": "Lỗi phê duyệt bằng lái xe"
+      "login": {
+          "success": "Đăng nhập thành công",
+          "warning": "Email hoặc mật khẩu không hợp lệ",
+          "warning_external": "Đăng nhập Google  thất bại",
+          "error": "Lỗi đăng nhập"
       },
-      "Reject": {
-        "success": "Hủy đăng ký bằng lái xe thành công",
-        "warning": "Hủy đăng ký bằng lái xe thất bại",
-        "error": "Lỗi hủy đăng ký bằng lái xe"
+      "register": {
+          "success": "Đăng ký thành công",
+          "warning": "Email đã tồn tại",
+          "error": "Lỗi đăng ký"
+      },
+      "logout": {
+          "success": "Đăng xuất thành công"
+      },
+      "resetpassword": {
+          "error": "Gửi yêu cầu khôi phục mật khẩu thất bại, vui lòng thử lại sau"
+      },
+      "changepassword": {
+          "success": "Đổi mật khẩu thành công",
+          "warning": "Đổi mật khẩu thất bại",
+          "error": "Lỗi đổi mật khẩu"
+      },
+      "changeUserProfile": {
+          "success": "Cập nhật thông tin thành công",
+          "warning": "Cập nhật thông tin thất bại",
+          "error": "Lỗi cập nhật thông tin"
+      },
+      "changeLicense": {
+          "success": "Cập nhật bằng lái xe thành công",
+          "warning": "Cập nhật bằng lái xe thất bại",
+          "error": "Lỗi cập nhật bằng lái xe"
+      },
+      "dashboardLicense": {
+          "Arrprove": {
+              "success": "Phê duyệt bằng lái xe thành công",
+              "warning": "Phê duyệt bằng lái xe thất bại",
+              "error": "Lỗi phê duyệt bằng lái xe"
+          },
+          "Reject": {
+              "success": "Hủy đăng ký bằng lái xe thành công",
+              "warning": "Hủy đăng ký bằng lái xe thất bại",
+              "error": "Lỗi hủy đăng ký bằng lái xe"
+          }
+      },
+      "dashboardMotorbike": {
+          "Arrprove": {
+              "success": "Phê duyệt xe máy thành công",
+              "warning": "Phê duyệt xe máy thất bại",
+              "error": "Lỗi phê duyệt xe máy"
+          },
+          "Reject": {
+              "success": "Hủy đăng ký xe máy thành công",
+              "warning": "Hủy đăng ký xe máy thất bại",
+              "error": "Lỗi hủy đăng ký xe máy"
+          }
+      },
+      "sendOtp": {
+          "success": "OTP đã được gửi đến bạn",
+          "warning": "Gửi OTP thất bại",
+          "error": "Lỗi gửi OTP",
+          "Conflict": "Số điện thoại đã tồn tại"
+      },
+      "ConfirmOtp": {
+          "success": "Xác nhận OTP thành công",
+          "warning": "Xác nhận OTP thất bại",
+          "error": "Lỗi xác nhận OTP"
+      },
+      "ChangePhone": {
+          "success": "Cập nhật số điện thoại thành công",
+          "warning": "Cập nhật số điện thoại thất bại",
+          "error": "Lỗi cập nhật số điện thoại"
+      },
+      "VerifyPhone": {
+          "success": "Xác minh số điện thoại thành công",
+          "warning": "Xác minh số điện thoại thất bại",
+          "error": "Lỗi xác minh số điện thoại"
+      },
+      "favourite": {
+          "delete": {
+              "success": "Xóa xe yêu thích thành công",
+              "warning": "Xóa xe yêu thích thất bại",
+              "error": "Lỗi xác xóa xe yêu thích"
+          },
+          "add": {
+              "success": "Thêm xe yêu thích thành công",
+              "warning": "Thêm xe yêu thích thất bại",
+              "error_login": "Bạn cần đăng nhập để thêm xe yêu thích",
+              "error": "Lỗi thêm xe yêu thích"
+          }
+      },
+      "uploadImage": {
+          "success": "Tải ảnh lên thành công",
+          "error": "Tải ảnh lên thất bại"
+      },
+      "ShoppingCart": {
+          "delete": {
+              "success": "Xóa xe máy khỏi giỏ hàng thành công",
+              "warning": "Xóa xe máy khỏi giỏ hàng thất bại",
+              "error": "Lỗi Xóa xe máy khỏi giỏ hàng"
+          },
+          "add": {
+              "success": "Thêm xe vào giỏ hàng thành công",
+              "warning": "Thêm xe vào giỏ hàng thất bại",
+              "error": "Lỗi thêm xe vào giỏ"
+          }
       }
-    },
-    "dashboardMotorbike": {
-      "Arrprove": {
-        "success": "Phê duyệt xe máy thành công",
-        "warning": "Phê duyệt xe máy thất bại",
-        "error": "Lỗi phê duyệt xe máy"
-      },
-      "Reject": {
-        "success": "Hủy đăng ký xe máy thành công",
-        "warning": "Hủy đăng ký xe máy thất bại",
-        "error": "Lỗi hủy đăng ký xe máy"
-      },
-      "BrandManager":{
-        "Delete":{
-          "success": "Xóa thương hiệu thành công",
-          "warning": "Xóa thương hiệu thất bại",
-          "error": "Lỗi xóa thương hiệu"
-        },
-        "Edit":{
-          "success": "Sửa thương hiệu thành công",
-          "warning": "Sửa thương hiệu thất bại",
-          "error": "Lỗi Sửa thương hiệu"
-        },
-        "Add":{
-          "success": "Thêm thương hiệu thành công",
-          "warning": "Thêm thương hiệu thất bại",
-          "error": "Lỗi thêm thương hiệu"
-        }
-      }
-    },
-    "sendOtp": {
-      "success": "OTP đã được gửi đến bạn",
-      "warning": "Gửi OTP thất bại",
-      "error": "Lỗi gửi OTP",
-      "Conflict": "Số điện thoại đã tồn tại"
-    },
-    "ConfirmOtp": {
-      "success": "Xác nhận OTP thành công",
-      "warning": "Xác nhận OTP thất bại",
-      "error": "Lỗi xác nhận OTP"
-    },
-    "ChangePhone": {
-      "success": "Cập nhật số điện thoại thành công",
-      "warning": "Cập nhật số điện thoại thất bại",
-      "error": "Lỗi cập nhật số điện thoại"
-    },
-    "VerifyPhone": {
-      "success": "Xác minh số điện thoại thành công",
-      "warning": "Xác minh số điện thoại thất bại",
-      "error": "Lỗi xác minh số điện thoại"
-    },
-    "favourite" : {
-      "delete":{
-        "success": "Xóa xe yêu thích thành công",
-        "warning": "Xóa xe yêu thích thất bại",
-        "error": "Lỗi xác xóa xe yêu thích"
-      },
-      "add":{
-        "success": "Thêm xe yêu thích thành công",
-        "warning": "Thêm xe yêu thích thất bại",
-        "error": "Lỗi xác thêm xe yêu thích"
-      }
-    }
   },
   "footer": {
     "policyTitle": "Chính sách",
@@ -245,7 +247,8 @@
       "licenseManager": "Quản lý bằng lái xe",
       "motorbikeRentalManager": "Quản lý xe máy cho thuê",
       "withdrawalRequestManager": "Quản lý yêu cầu rút tiền",
-      "brand" : "Quản lý hãng xe"
+      "brand": "Quản lý hãng xe",
+      "news": "Quản lý tin tức"
     },
     "License": "Bằng lái xe",
     "Motobike": {
@@ -285,17 +288,36 @@
       "columnAccountNumber": "Số tài khoản",
       "columnAmount": "Số tiền",
       "columnViewQr": "QR CODE",
-      "buttonConfirmProcess": "Xác nhận là đã chuyển khoản thành công"
+      "buttonConfirmProcess": "Xác nhận là đã chuyển khoản thành công",
+      "buttonReject": "Từ chối do thông tin không chính xác"
     },
-    "brand" : {
-      "brandName" : "Tên hãng",
+    "brand": {
+      "brandName": "Tên hãng",
       "createDate": "Ngày tạo",
       "status" : "Số lượng mẫu xe",
       "action" : "Chỉnh sửa",
       "delete" : "Xóa",
       "confirmDelete" : "Xác nhận xóa thương hiệu",
       "titleConfirmDelete" : "Bạn có muốn xóa thương hiệu : "
-      
+    },
+    "news": {
+      "newsId": "ID",
+      "newsTitle": "Tiêu đề",
+      "newsCategory": "Danh mục",
+      "newsCreateDate": "Ngày tạo",
+      "newsUpdateDate": "Ngày sửa",
+      "columnAction": "Chỉnh sửa",
+      "buttonSave": "Lưu",
+      "statusAddNewsSuccess": "Thêm tin tức thành công",
+      "statusEditNewsSuccess": "Sửa tin tức thành công",
+      "statusAddNewsError": "Cập nhật tin tức thất bại",
+      "statusDeleteNewsSuccess": "Xóa tin tức thành công",
+      "statusDeleteNewsError": "Xóa tin tức thất bại",
+      "viewsMore": "Xem thêm",
+      "buttonDelete": "Xóa",
+      "addNews": "Thêm",
+      "deleteNewsTitle": "Xóa tin tức",
+      "deleteNewsWarn": "Lưu ý: Sau khi xóa sẽ không thể khôi phục. Bạn có muốn xóa không?"
     }
   },
   "component": {
@@ -352,6 +374,16 @@
       "imageSecondTitle": "Hình ảnh xe máy của bạn",
       "imageButton": "Thêm ảnh",
       "basicInfo": "Thông tin cơ bản",
+      "advancedInfo": "Thông tin nâng cao",
+      "maxDeliveryDistance": "Khoảng cách giao xe tối đa",
+      "maxDeliveryDistanceSecondTitle": "Ví dụ : 20 km",
+      "maxDeliveryDistancePlaceHolder": "20",
+      "freeDeliveryDistance": "Khoảng cách giao xe miễn phí",
+      "freeDeliveryDistanceSecondTitle": "Ví dụ : 10 km",
+      "freeDeliveryDistancePlaceHolder": "10",
+      "feeDeliveryDistancePerKilometer": "Phí giao xe",
+      "feeDeliveryDistancePerKilometerSecondTitle": "Ví dụ : 4.000 VNĐ/km",
+      "feeDeliveryDistancePerKilometerPlaceHolder": "4.000",
       "brand": "Hãng xe",
       "brandPlaceHolder": "Chọn hãng xe",
       "model": "Mẫu xe",
@@ -391,7 +423,7 @@
       "miscellaneousSecondTitle": "Nhập các yêu cầu khác cho khách hàng của bạn",
       "miscellaneousPlaceHolder": "Ví dụ: Không cho thuê cho người dưới 18 tuổi",
       "btnSubmit": "Đăng ký",
-      "terms_and_conditions": "1.Yêu cầu tuổi tối thiểu: Người thuê xe phải đủ tuổi theo quy định của công ty cho thuê xe. Thông thường, tuổi tối thiểu là từ 21 đến 25 tuổi.\\n\\n2.Bằng lái hợp lệ: Người thuê xe cần có bằng lái xe hợp lệ và đã qua các bài kiểm tra và kiểm tra định kỳ nếu có.\\n\\n3.Thời gian thuê: Cần xác định thời gian thuê xe, bao gồm ngày và giờ thuê xe cũng như thời gian trả xe.\\n\\n3.Phí thuê và đặt cọc: Cần biết giá thuê xe và nếu có, mức đặt cọc. Đặt cọc thường được trả trước và hoàn lại sau khi trả xe nếu không có thiệt hại.\\n\\n5.Bảo hiểm: Nắm rõ loại bảo hiểm bao gồm trong hợp đồng thuê xe. Bảo hiểm cho xe, người và tài sản khác có thể được yêu cầu hoặc cung cấp riêng biệt.\\n\\n6.Hạn chế quãng đường: Các hạn chế về số dặm hoặc quãng đường có thể được áp dụng. Vi phạm hạn chế này có thể dẫn đến các khoản phí phạt.\\n\\n7.Nhiên liệu: Biết rõ quy định về nhiên liệu, bao gồm việc trả xe với mức nhiên liệu tương đương như khi nhận xe.\\n\\n8.Phí trễ: Hiểu về các phí phạt nếu trả xe muộn hơn thời gian thuê.\\n\\n9.Điều khoản bảo trì và sửa chữa: Xem xét các điều khoản về bảo trì và sửa chữa xe trong trường hợp cần thiết.\\n\\n10.Hủy đặt xe: Nắm rõ quy định về hủy đặt xe và hoàn trả tiền nếu cần.\\n\\n11.Lưu ý về tiền mặt và thẻ tín dụng: Nếu có, kiểm tra phương thức thanh toán được chấp nhận.\\n\\n12.Thiệt hại và trả xe: Xác định trạng thái của xe khi nhận và ghi chú bất kỳ thiệt hại nào. Điều này có thể được kiểm tra trên biểu mẫu kiểm tra xe.\\n\\n13.Sử dụng xe ngoài vùng quy định: Nếu bạn dự định sử dụng xe ngoài khu vùng quy định, cần thông báo và hỏi xin sự cho phép từ công ty cho thuê xe.\\n\\n14.Chấp thuận điều khoản: Người thuê xe cần đọc và chấp thuận tất cả các điều khoản và điều kiện trước khi ký hợp đồng thuê xe.",
+      "terms_and_conditions": "<p>1.Yêu cầu tuổi tối thiểu: Người thuê xe phải đủ tuổi theo quy định của công ty cho thuê xe. Thông thường, tuổi tối thiểu là từ 21 đến 25 tuổi.</p><p>2.Bằng lái hợp lệ: Người thuê xe cần có bằng lái xe hợp lệ và đã qua các bài kiểm tra và kiểm tra định kỳ nếu có.</p><p>3.Thời gian thuê: Cần xác định thời gian thuê xe, bao gồm ngày và giờ thuê xe cũng như thời gian trả xe.</p><p>4.Phí thuê và đặt cọc: Cần biết giá thuê xe và nếu có, mức đặt cọc. Đặt cọc thường được trả trước và hoàn lại sau khi trả xe nếu không có thiệt hại.</p><p>5.Bảo hiểm: Nắm rõ loại bảo hiểm bao gồm trong hợp đồng thuê xe. Bảo hiểm cho xe, người và tài sản khác có thể được yêu cầu hoặc cung cấp riêng biệt.</p><p>6.Hạn chế quãng đường: Các hạn chế về số dặm hoặc quãng đường có thể được áp dụng. Vi phạm hạn chế này có thể dẫn đến các khoản phí phạt.</p><p>7.Nhiên liệu: Biết rõ quy định về nhiên liệu, bao gồm việc trả xe với mức nhiên liệu tương đương như khi nhận xe.</p><p>8.Phí trễ: Hiểu về các phí phạt nếu trả xe muộn hơn thời gian thuê.</p><p>9.Điều khoản bảo trì và sửa chữa: Xem xét các điều khoản về bảo trì và sửa chữa xe trong trường hợp cần thiết.</p><p>10.Hủy đặt xe: Nắm rõ quy định về hủy đặt xe và hoàn trả tiền nếu cần.</p><p>11.Lưu ý về tiền mặt và thẻ tín dụng: Nếu có, kiểm tra phương thức thanh toán được chấp nhận.</p><p>12.Thiệt hại và trả xe: Xác định trạng thái của xe khi nhận và ghi chú bất kỳ thiệt hại nào. Điều này có thể được kiểm tra trên biểu mẫu kiểm tra xe.</p><p>13.Sử dụng xe ngoài vùng quy định: Nếu bạn dự định sử dụng xe ngoài khu vùng quy định, cần thông báo và hỏi xin sự cho phép từ công ty cho thuê xe.</p><p>14.Chấp thuận điều khoản: Người thuê xe cần đọc và chấp thuận tất cả các điều khoản và điều kiện trước khi ký hợp đồng thuê xe.</p>",
       "register_success": "Đăng ký xe thành công",
       "register_fail": "Đăng ký xe thất bại",
       "update_success": "Cập nhật thông tin xe thành công",
@@ -407,6 +439,7 @@
     "title_summary_transaction": "Tổng hợp giao dịch",
     "title_deposit_transaction": "Giao dịch nạp tiền",
     "title_withdrawal_transaction": "Giao dịch rút tiền",
+    "title_history_booking": "Lịch sử đặt xe",
     "title_transaction_code": "Mã giao dịch",
     "title_date_deposit": "Ngày nạp",
     "title_status": "Trạng thái",
@@ -440,7 +473,14 @@
     "content_create_request_withdrawal": "Bạn hãy chờ 1-2 ngày để chúng tôi phê duyệt yêu cầu của bạn",
     "minimum_money_deposit": "Tối thiểu {{min}}",
     "maximum_money_deposit": "Tối đa {{max}}",
-    "title_no_transaction": "Bạn chưa có giao dịch nào"
+    "title_no_transaction": "Bạn chưa có giao dịch nào",
+    "title_booking_id": "Mã đặt",
+    "title_address_get_motorbike": "Địa chỉ nhận",
+    "title_startdate_rent": "Ngày nhận xe",
+    "title_enddate_rent": "Ngày trả xe",
+    "title_type_payment": "Loại thanh toán",
+    "title_total_amount": "Tổng tiền",
+    "title_status_booking": "Trạng thái"
   },
   "favourite": {
     "title": "Xe yêu thích",
@@ -455,7 +495,54 @@
       "unlike": "Bỏ thích",
       "view": "Xem chi tiết",
       "gasoline": "Xăng",
-      "electric": "Điện "
+      "electric": "Điện ",
+      "day": "1 Ngày",
+      "addToCart": "Thêm giỏ hàng"
     }
+  },
+  "booking": {
+    "toast": {
+      "success": "Đặt xe thành công.",
+      "error": "Đặt xe thất bại. Vui lòng thử lại sau"
+    },
+    "perDay": "Ngày",
+    "startDate": "Ngày nhận xe",
+    "endDate": "Ngày trả xe",
+    "addressGetMotorbike": "Địa chỉ giao xe",
+    "paymentType": "Hình thức thanh toán",
+    "payWallet": "Số dư ví",
+    "payVnPay": "Ví điện tử VN Pay",
+    "pricePerday": "Đơn giá thuê",
+    "totalPriceRent": "Tổng phí thuê xe",
+    "totalPriceService": "Tổng phí dịch vụ",
+    "promotionCode": "Mã khuyến mãi",
+    "totalPrice": "Tổng tiền",
+    "bookMotorbikeButton": "Đặt xe",
+    "cancelBook": "Hủy đặt xe",
+    "buttonApplyPromotion": "Áp dụng",
+    "buttonApplyPromotionOk": "Đã áp dụng",
+    "confirmInforBook": "Xác nhận thông tin đặt xe"
+  },
+  "helper": {
+    "secondAgo": "giây trước",
+    "minuteAgo": "phút trước",
+    "hourAgo": "giờ trước",
+    "dayAgo": "ngày trước",
+    "monthAgo": "tháng trước",
+    "yearAgo": "năm trước",
+    "minuteRemaining": "Còn {{minute}} phút nữa",
+    "hourRemaining": "Còn {{hour}} giờ nữa",
+    "dayRemaining": "Còn {{day}} ngày nữa",
+    "monthRemaining": "Còn {{month}} tháng nữa",
+    "yearRemaining": "Còn {{year}} năm nữa"
+  },
+  "notification": {
+    "empty": "Bạn chưa có thông báo nào"
+  },
+  "homepage": {
+    "news": "Tin tức"
+  },
+  "promotion": {
+    "yourPromo": "Danh sách mã giảm giá của bạn"
   }
 }
