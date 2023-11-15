@@ -42,7 +42,8 @@ export const ROUTES = {
     },
     other: {
         pagenotfound: "/page-not-found",
-    }
+    },
+    cart:"/cart"
 
 }
 
