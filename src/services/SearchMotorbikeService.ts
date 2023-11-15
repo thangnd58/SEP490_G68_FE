@@ -32,7 +32,7 @@ export const SearchMotorbikeServices = {
             + releaseYearURL
             + fuelConsumptionURL
             + equipmentURL
-            // + mindistanceURL
+            + mindistanceURL
             + maxdistanceURL
             + maximumRatingURL
             + orderByURL
