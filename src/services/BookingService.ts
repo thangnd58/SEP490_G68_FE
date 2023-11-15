@@ -44,4 +44,10 @@ export const BookingService = {
                 couponCode
         );
     },
+    deleteCart: async (Id: number) => {
+        return await api.delete(`/booking-cart/${Id}`);
+    },
+    addCart: async (Id: number) => {
+        return await api.post("/booking-cart", { motorbikeId: Id });
+    },
 };

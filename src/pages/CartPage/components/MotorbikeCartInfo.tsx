@@ -12,10 +12,35 @@ import {
 import { MotorbikeCart } from "../../../utils/type";
 import BadgeIcon from "@mui/icons-material/Badge";
 import PaidIcon from "@mui/icons-material/Paid";
+import ToastComponent from "../../../components/toast/ToastComponent";
+import { getCartInfo } from "../../../redux/reducers/cartReducer";
+import { useAppDispatch } from "../../../hooks/useAction";
+import { BookingService } from "../../../services/BookingService";
 
 export default function MotorbikeCartInfo(props: { motorbike: MotorbikeCart }) {
     const { isMobile } = useThemePage();
     const { t } = usei18next();
+    const dispatch = useAppDispatch();
+
+    const deleteCart = async (id: number) => {
+        try {
+            const response = await BookingService.deleteCart(id);
+            if (response.status === 200) {
+                dispatch(getCartInfo());
+                ToastComponent(
+                    t("toast.ShoppingCart.delete.success"),
+                    "success"
+                );
+            } else {
+                ToastComponent(
+                    t("toast.ShoppingCart.delete.warning"),
+                    "warning"
+                );
+            }
+        } catch (error) {
+            ToastComponent(t("toast.ShoppingCart.delete.error"), "error");
+        }
+    };
     return (
         <Box>
             <Box
@@ -38,6 +63,7 @@ export default function MotorbikeCartInfo(props: { motorbike: MotorbikeCart }) {
                     position="right"
                     hasTooltip
                     tooltipText={t("dashBoardManager.brand.delete")}
+                    onClick={() => deleteCart(props.motorbike.motorbikeId)}
                 />
             </Box>
             <Box
@@ -91,7 +117,7 @@ export default function MotorbikeCartInfo(props: { motorbike: MotorbikeCart }) {
                             }}
                             color="success"
                             label={
-                                props.motorbike.type === 'Xăng'
+                                props.motorbike.type === "Xăng"
                                     ? t("favourite.item.gasoline")
                                     : t("favourite.item.electric")
                             }

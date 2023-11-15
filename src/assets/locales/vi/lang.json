@@ -60,100 +60,112 @@
     "validateString265Char": "Chuỗi không thể vượt quá 256 ký tự"
   },
   "toast": {
-    "login": {
-      "success": "Đăng nhập thành công",
-      "warning": "Email hoặc mật khẩu không hợp lệ",
-      "warning_external": "Đăng nhập Google  thất bại",
-      "error": "Lỗi đăng nhập"
-    },
-    "register": {
-      "success": "Đăng ký thành công",
-      "warning": "Email đã tồn tại",
-      "error": "Lỗi đăng ký"
-    },
-    "logout": {
-      "success": "Đăng xuất thành công"
-    },
-    "resetpassword": {
-      "error": "Gửi yêu cầu khôi phục mật khẩu thất bại, vui lòng thử lại sau"
-    },
-    "changepassword": {
-      "success": "Đổi mật khẩu thành công",
-      "warning": "Đổi mật khẩu thất bại",
-      "error": "Lỗi đổi mật khẩu"
-    },
-    "changeUserProfile": {
-      "success": "Cập nhật thông tin thành công",
-      "warning": "Cập nhật thông tin thất bại",
-      "error": "Lỗi cập nhật thông tin"
-    },
-    "changeLicense": {
-      "success": "Cập nhật bằng lái xe thành công",
-      "warning": "Cập nhật bằng lái xe thất bại",
-      "error": "Lỗi cập nhật bằng lái xe"
-    },
-    "dashboardLicense": {
-      "Arrprove": {
-        "success": "Phê duyệt bằng lái xe thành công",
-        "warning": "Phê duyệt bằng lái xe thất bại",
-        "error": "Lỗi phê duyệt bằng lái xe"
+      "login": {
+          "success": "Đăng nhập thành công",
+          "warning": "Email hoặc mật khẩu không hợp lệ",
+          "warning_external": "Đăng nhập Google  thất bại",
+          "error": "Lỗi đăng nhập"
       },
-      "Reject": {
-        "success": "Hủy đăng ký bằng lái xe thành công",
-        "warning": "Hủy đăng ký bằng lái xe thất bại",
-        "error": "Lỗi hủy đăng ký bằng lái xe"
-      }
-    },
-    "dashboardMotorbike": {
-      "Arrprove": {
-        "success": "Phê duyệt xe máy thành công",
-        "warning": "Phê duyệt xe máy thất bại",
-        "error": "Lỗi phê duyệt xe máy"
+      "register": {
+          "success": "Đăng ký thành công",
+          "warning": "Email đã tồn tại",
+          "error": "Lỗi đăng ký"
       },
-      "Reject": {
-        "success": "Hủy đăng ký xe máy thành công",
-        "warning": "Hủy đăng ký xe máy thất bại",
-        "error": "Lỗi hủy đăng ký xe máy"
-      }
-    },
-    "sendOtp": {
-      "success": "OTP đã được gửi đến bạn",
-      "warning": "Gửi OTP thất bại",
-      "error": "Lỗi gửi OTP",
-      "Conflict": "Số điện thoại đã tồn tại"
-    },
-    "ConfirmOtp": {
-      "success": "Xác nhận OTP thành công",
-      "warning": "Xác nhận OTP thất bại",
-      "error": "Lỗi xác nhận OTP"
-    },
-    "ChangePhone": {
-      "success": "Cập nhật số điện thoại thành công",
-      "warning": "Cập nhật số điện thoại thất bại",
-      "error": "Lỗi cập nhật số điện thoại"
-    },
-    "VerifyPhone": {
-      "success": "Xác minh số điện thoại thành công",
-      "warning": "Xác minh số điện thoại thất bại",
-      "error": "Lỗi xác minh số điện thoại"
-    },
-    "favourite": {
-      "delete": {
-        "success": "Xóa xe yêu thích thành công",
-        "warning": "Xóa xe yêu thích thất bại",
-        "error": "Lỗi xác xóa xe yêu thích"
+      "logout": {
+          "success": "Đăng xuất thành công"
       },
-      "add": {
-        "success": "Thêm xe yêu thích thành công",
-        "warning": "Thêm xe yêu thích thất bại",
-        "error_login": "Bạn cần đăng nhập để thêm xe yêu thích",
-        "error": "Lỗi thêm xe yêu thích"
+      "resetpassword": {
+          "error": "Gửi yêu cầu khôi phục mật khẩu thất bại, vui lòng thử lại sau"
+      },
+      "changepassword": {
+          "success": "Đổi mật khẩu thành công",
+          "warning": "Đổi mật khẩu thất bại",
+          "error": "Lỗi đổi mật khẩu"
+      },
+      "changeUserProfile": {
+          "success": "Cập nhật thông tin thành công",
+          "warning": "Cập nhật thông tin thất bại",
+          "error": "Lỗi cập nhật thông tin"
+      },
+      "changeLicense": {
+          "success": "Cập nhật bằng lái xe thành công",
+          "warning": "Cập nhật bằng lái xe thất bại",
+          "error": "Lỗi cập nhật bằng lái xe"
+      },
+      "dashboardLicense": {
+          "Arrprove": {
+              "success": "Phê duyệt bằng lái xe thành công",
+              "warning": "Phê duyệt bằng lái xe thất bại",
+              "error": "Lỗi phê duyệt bằng lái xe"
+          },
+          "Reject": {
+              "success": "Hủy đăng ký bằng lái xe thành công",
+              "warning": "Hủy đăng ký bằng lái xe thất bại",
+              "error": "Lỗi hủy đăng ký bằng lái xe"
+          }
+      },
+      "dashboardMotorbike": {
+          "Arrprove": {
+              "success": "Phê duyệt xe máy thành công",
+              "warning": "Phê duyệt xe máy thất bại",
+              "error": "Lỗi phê duyệt xe máy"
+          },
+          "Reject": {
+              "success": "Hủy đăng ký xe máy thành công",
+              "warning": "Hủy đăng ký xe máy thất bại",
+              "error": "Lỗi hủy đăng ký xe máy"
+          }
+      },
+      "sendOtp": {
+          "success": "OTP đã được gửi đến bạn",
+          "warning": "Gửi OTP thất bại",
+          "error": "Lỗi gửi OTP",
+          "Conflict": "Số điện thoại đã tồn tại"
+      },
+      "ConfirmOtp": {
+          "success": "Xác nhận OTP thành công",
+          "warning": "Xác nhận OTP thất bại",
+          "error": "Lỗi xác nhận OTP"
+      },
+      "ChangePhone": {
+          "success": "Cập nhật số điện thoại thành công",
+          "warning": "Cập nhật số điện thoại thất bại",
+          "error": "Lỗi cập nhật số điện thoại"
+      },
+      "VerifyPhone": {
+          "success": "Xác minh số điện thoại thành công",
+          "warning": "Xác minh số điện thoại thất bại",
+          "error": "Lỗi xác minh số điện thoại"
+      },
+      "favourite": {
+          "delete": {
+              "success": "Xóa xe yêu thích thành công",
+              "warning": "Xóa xe yêu thích thất bại",
+              "error": "Lỗi xác xóa xe yêu thích"
+          },
+          "add": {
+              "success": "Thêm xe yêu thích thành công",
+              "warning": "Thêm xe yêu thích thất bại",
+              "error_login": "Bạn cần đăng nhập để thêm xe yêu thích",
+              "error": "Lỗi thêm xe yêu thích"
+          }
+      },
+      "uploadImage": {
+          "success": "Tải ảnh lên thành công",
+          "error": "Tải ảnh lên thất bại"
+      },
+      "ShoppingCart": {
+          "delete": {
+              "success": "Xóa xe máy khỏi giỏ hàng thành công",
+              "warning": "Xóa xe máy khỏi giỏ hàng thất bại",
+              "error": "Lỗi Xóa xe máy khỏi giỏ hàng"
+          },
+          "add": {
+              "success": "Thêm xe vào giỏ hàng thành công",
+              "warning": "Thêm xe vào giỏ hàng thất bại",
+              "error": "Lỗi thêm xe vào giỏ"
+          }
       }
-    },
-    "uploadImage": {
-      "success": "Tải ảnh lên thành công",
-      "error": "Tải ảnh lên thất bại"
-    }
   },
   "footer": {
     "policyTitle": "Chính sách",

@@ -1,6 +1,3 @@
-
-Nguyen
-Huy Nguyen
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { BookingRequest, BookingResponse, Motorbike, Promotion } from '../../../utils/type'
 import MyDialog from '../../../components/common/MyDialog'

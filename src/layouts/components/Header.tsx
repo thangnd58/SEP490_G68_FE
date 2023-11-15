@@ -1,39 +1,82 @@
-import React, { memo, useState, useContext } from 'react';
-import { AppBar, Avatar, Badge, Box, Button, Divider, Drawer, IconButton, InputAdornment, InputLabel, List, ListItem, ListItemText, Menu, MenuItem, OutlinedInput, Popover, Tooltip, Typography, } from '@mui/material';
-import UserService from '../../services/UserService';
-import { AuthContext, useAuth } from '../../contexts/AuthContext';
-import usei18next from '../../hooks/usei18next';
-import { useNavigate } from 'react-router';
-import MenuIcon from '@mui/icons-material/Menu';
-import useThemePage from '../../hooks/useThemePage';
-import { AccountBox, AddShoppingCart, Circle, Close, ExitToApp, Home, ListAlt, Loyalty, ManageAccounts, Notifications, NotificationsActive, NotificationsActiveOutlined, NotificationsOutlined, Search, ShoppingCartCheckout, VpnKey, WalletOutlined } from '@mui/icons-material';
-import { LogoHeader, NotificationIcon, UnitedKingDomFlag, VietNamFlag } from '../../assets/images';
-import { ROUTES } from '../../utils/Constant';
-import MyIcon from '../../components/common/MyIcon';
-import { useAppSelector } from '../../hooks/useAction';
-import MyCustomButton from '../../components/common/MyButton';
-import theme from '../../utils/theme';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import { UnReadIcon } from '../../assets/icons';
-import ErrorMessage from '../../components/common/ErrorMessage';
-import { getPreviousTimeRelative } from '../../utils/helper';
-import { ModalContext } from '../../contexts/ModalContext';
-import MyDialog from '../../components/common/MyDialog';
-import { DetailNotification } from './DetailNotificationModal';
-import store from '../../redux/store';
-import { getUserNotificationInfo } from '../../redux/reducers/notificationReducer';
+import React, { memo, useState, useContext } from "react";
+import {
+    AppBar,
+    Avatar,
+    Badge,
+    Box,
+    Button,
+    Divider,
+    Drawer,
+    IconButton,
+    InputAdornment,
+    InputLabel,
+    List,
+    ListItem,
+    ListItemText,
+    Menu,
+    MenuItem,
+    OutlinedInput,
+    Popover,
+    Tooltip,
+    Typography,
+} from "@mui/material";
+import UserService from "../../services/UserService";
+import { AuthContext, useAuth } from "../../contexts/AuthContext";
+import usei18next from "../../hooks/usei18next";
+import { useNavigate } from "react-router";
+import MenuIcon from "@mui/icons-material/Menu";
+import useThemePage from "../../hooks/useThemePage";
+import {
+    AccountBox,
+    AddShoppingCart,
+    Circle,
+    Close,
+    ExitToApp,
+    Home,
+    ListAlt,
+    Loyalty,
+    ManageAccounts,
+    Notifications,
+    NotificationsActive,
+    NotificationsActiveOutlined,
+    NotificationsOutlined,
+    Search,
+    ShoppingCartCheckout,
+    VpnKey,
+    WalletOutlined,
+} from "@mui/icons-material";
+import {
+    LogoHeader,
+    NotificationIcon,
+    UnitedKingDomFlag,
+    VietNamFlag,
+} from "../../assets/images";
+import { ROUTES } from "../../utils/Constant";
+import MyIcon from "../../components/common/MyIcon";
+import { useAppSelector } from "../../hooks/useAction";
+import MyCustomButton from "../../components/common/MyButton";
+import theme from "../../utils/theme";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { UnReadIcon } from "../../assets/icons";
+import ErrorMessage from "../../components/common/ErrorMessage";
+import { getPreviousTimeRelative } from "../../utils/helper";
+import { ModalContext } from "../../contexts/ModalContext";
+import MyDialog from "../../components/common/MyDialog";
+import { DetailNotification } from "./DetailNotificationModal";
+import store from "../../redux/store";
+import { getUserNotificationInfo } from "../../redux/reducers/notificationReducer";
 
 const LanguageBox = memo(() => {
     const { isVn, changeLang } = usei18next();
 
     return (
         <img
-            alt='language'
-            style={{ cursor: 'pointer', }}
+            alt="language"
+            style={{ cursor: "pointer" }}
             height={32}
             width={32}
             src={isVn ? VietNamFlag : UnitedKingDomFlag}
-            onClick={() => changeLang(isVn ? 'en' : 'vi')}
+            onClick={() => changeLang(isVn ? "en" : "vi")}
         />
     );
 });
@@ -45,17 +88,32 @@ interface IconBoxProps {
     onClick: () => void;
 }
 
-export const IconBox = memo(({ image, width, height, onClick }: IconBoxProps) => {
-    return (
-        <img alt="icon" style={{ cursor: 'pointer', }} src={image} width={width} height={height} onClick={onClick} />
-    );
-});
+export const IconBox = memo(
+    ({ image, width, height, onClick }: IconBoxProps) => {
+        return (
+            <img
+                alt="icon"
+                style={{ cursor: "pointer" }}
+                src={image}
+                width={width}
+                height={height}
+                onClick={onClick}
+            />
+        );
+    }
+);
 
 export const LogoFull = memo(({ size }: { size: number }) => {
     const navigate = useNavigate();
 
     return (
-        <img style={{ cursor: 'pointer', }} alt="logo" src={LogoHeader} width={size} onClick={() => navigate(ROUTES.homepage)} />
+        <img
+            style={{ cursor: "pointer" }}
+            alt="logo"
+            src={LogoHeader}
+            width={size}
+            onClick={() => navigate(ROUTES.homepage)}
+        />
     );
 });
 
@@ -72,9 +130,9 @@ function Header() {
         setDrawerOpen(!drawerOpen);
     };
 
-
-
-    const { userNotification } = useAppSelector((state) => state.userNotificationInfo);
+    const { userNotification } = useAppSelector(
+        (state) => state.userNotificationInfo
+    );
 
     //avatar zone
     const [anchorEl, setAnchorEl] = useState<any>(null);
@@ -86,9 +144,9 @@ function Header() {
 
     const open = Boolean(anchorEl);
 
-
     //notification zone
-    const [anchorElNotify, setAnchorElNotify] = React.useState<HTMLButtonElement | null>(null);
+    const [anchorElNotify, setAnchorElNotify] =
+        React.useState<HTMLButtonElement | null>(null);
 
     const handleClickNotify = (event: React.MouseEvent<any>) => {
         setAnchorElNotify(event.currentTarget);
@@ -221,29 +279,70 @@ function Header() {
                                                     Thông báo
                                                 </Typography>
                                                 <Divider />
-                                                {
-                                                    userNotification.length > 0 ? userNotification.map((notifi) => {
-                                                        return (
-                                                            <MenuItem
-                                                                sx={{ textAlign: 'center' }}
-                                                                key={`NOTIFI${notifi.notificationId}`}
-                                                                onClick={
-                                                                    () => {
-                                                                        setContentModal(<DetailNotification id={notifi.notificationId} />)
-                                                                    }
-                                                                }
-                                                            >
-                                                                <PopoverItem
-                                                                    label={notifi.title.substring(0, 30).concat('...')}
-                                                                    icon={<img width={48} height={48} src={notifi.category.image}/>}
-                                                                    iconRead={!notifi.isRead ? <UnReadIcon /> : undefined}
-                                                                    content={notifi.detail.substring(0, 45).concat('...')}
-                                                                    timeAgo={notifi.createDatetime}
-                                                                />
-                                                            </MenuItem>
-                                                        )
-                                                    }) : (
-                                                        <Typography pt={'8px'}>{t("notification.empty")}</Typography>
+                                                {userNotification.length > 0 ? (
+                                                    userNotification.map(
+                                                        (notifi) => {
+                                                            return (
+                                                                <MenuItem
+                                                                    sx={{
+                                                                        textAlign:
+                                                                            "center",
+                                                                    }}
+                                                                    key={`NOTIFI${notifi.notificationId}`}
+                                                                    onClick={() => {
+                                                                        setContentModal(
+                                                                            <DetailNotification
+                                                                                id={
+                                                                                    notifi.notificationId
+                                                                                }
+                                                                            />
+                                                                        );
+                                                                    }}
+                                                                >
+                                                                    <PopoverItem
+                                                                        label={notifi.title
+                                                                            .substring(
+                                                                                0,
+                                                                                30
+                                                                            )
+                                                                            .concat(
+                                                                                "..."
+                                                                            )}
+                                                                        icon={
+                                                                            <img
+                                                                                width={
+                                                                                    48
+                                                                                }
+                                                                                height={
+                                                                                    48
+                                                                                }
+                                                                                src={
+                                                                                    notifi
+                                                                                        .category
+                                                                                        .image
+                                                                                }
+                                                                            />
+                                                                        }
+                                                                        iconRead={
+                                                                            !notifi.isRead ? (
+                                                                                <UnReadIcon />
+                                                                            ) : undefined
+                                                                        }
+                                                                        content={notifi.detail
+                                                                            .substring(
+                                                                                0,
+                                                                                45
+                                                                            )
+                                                                            .concat(
+                                                                                "..."
+                                                                            )}
+                                                                        timeAgo={
+                                                                            notifi.createDatetime
+                                                                        }
+                                                                    />
+                                                                </MenuItem>
+                                                            );
+                                                        }
                                                     )
                                                 ) : (
                                                     <Typography pt={"8px"}>
@@ -872,28 +971,54 @@ function Header() {
 
 export default Header;
 
-export function PopoverItem({ label, icon, iconRead, timeAgo, content }: { label: string; icon: any; iconRead?: any, timeAgo?: string, content?: string }) {
+export function PopoverItem({
+    label,
+    icon,
+    iconRead,
+    timeAgo,
+    content,
+}: {
+    label: string;
+    icon: any;
+    iconRead?: any;
+    timeAgo?: string;
+    content?: string;
+}) {
     const { t } = usei18next();
     return (
-        <Box sx={{
-            display: 'flex',
-            alignItems: 'center',
-            margin: '8px 0px',
-            position: 'relative',
-            gap: '8px'
-        }}>
+        <Box
+            sx={{
+                display: "flex",
+                alignItems: "center",
+                margin: "8px 0px",
+                position: "relative",
+                gap: "8px",
+            }}
+        >
             {icon}
-            <Box display={'flex'} flexDirection={'column'} alignItems={'start'}>
-                <Typography variant='h4' fontSize={"16px"} sx={{
-                    fontWeight: "500",
-                }}>
+            <Box display={"flex"} flexDirection={"column"} alignItems={"start"}>
+                <Typography
+                    variant="h4"
+                    fontSize={"16px"}
+                    sx={{
+                        fontWeight: "500",
+                    }}
+                >
                     {label}
                 </Typography>
-                <Typography fontSize={'12px'}>{content}</Typography>
-                <Typography fontSize={'10px'} color={'primary.main'}>{timeAgo ? getPreviousTimeRelative(timeAgo, t) : ""}</Typography>
+                <Typography fontSize={"12px"}>{content}</Typography>
+                <Typography fontSize={"10px"} color={"primary.main"}>
+                    {timeAgo ? getPreviousTimeRelative(timeAgo, t) : ""}
+                </Typography>
             </Box>
-            <Box position={'absolute'} right={'0px'} display={'flex'} alignItems={'center'}>{iconRead}</Box>
+            <Box
+                position={"absolute"}
+                right={"0px"}
+                display={"flex"}
+                alignItems={"center"}
+            >
+                {iconRead}
+            </Box>
         </Box>
-
     );
 }
