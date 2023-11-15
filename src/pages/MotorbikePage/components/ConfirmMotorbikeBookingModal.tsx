@@ -127,7 +127,13 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
                                     {t("booking.pricePerday")}
                                 </Typography>
                                 <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                                    {`${motorbikes && motorbikes.length > 0 && formatMoneyNew(motorbikes.reduce((total, mt) => total + mt.priceRent, 0) || 0)}/${t("booking.perDay")}`} x  {motorbikes && motorbikes.length > 0 && motorbikes.length} {t("booking.perMotorbike")}
+                                    {`${formatMoneyNew(motorbikes.reduce((total, mt) => {
+                                        if (mt && mt.priceRent !== undefined) {
+                                            return total + mt.priceRent;
+                                        } else {
+                                            return total;
+                                        }
+                                    }, 0) || 0)}/${t("booking.perDay")}`} x  {motorbikes.length} {t("booking.perMotorbike")}
                                 </Typography>
                             </Box>
                         }
