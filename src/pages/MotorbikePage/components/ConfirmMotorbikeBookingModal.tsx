@@ -25,7 +25,6 @@ interface BookingValue {
 export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen: boolean, setModalConfirmBookingOpen: React.Dispatch<React.SetStateAction<boolean>>, values: BookingValue, isMobile: boolean, motorbikes?: Motorbike[], previewBookingData?: BookingResponse, isProcessingBooking?: boolean, handleSubmit: any }) => {
     const { isModalConfirmBookingOpen, setModalConfirmBookingOpen, values, isMobile, motorbikes, previewBookingData, isProcessingBooking, handleSubmit } = props
     const { t } = usei18next()
-
     return (
         <Modal
             open={isModalConfirmBookingOpen}
@@ -121,14 +120,17 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
                     {/* Đơn giá */}
                     <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                         {/* Đơn giá thuê */}
-                        <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                                {t("booking.pricePerday")}
-                            </Typography>
-                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                                {`${motorbikes && motorbikes[0] && formatMoneyNew(motorbikes.reduce((total, mt) => total + mt.priceRent, 0) || 0)}/${t("booking.perDay")}`} x  {motorbikes && motorbikes[0] && motorbikes.length} {t("booking.perMotorbike")}
-                            </Typography>
-                        </Box>
+                        {
+                            motorbikes && motorbikes.length > 0 &&
+                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                                    {t("booking.pricePerday")}
+                                </Typography>
+                                <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                                    {`${motorbikes && motorbikes.length > 0 && formatMoneyNew(motorbikes.reduce((total, mt) => total + mt.priceRent, 0) || 0)}/${t("booking.perDay")}`} x  {motorbikes && motorbikes.length > 0 && motorbikes.length} {t("booking.perMotorbike")}
+                                </Typography>
+                            </Box>
+                        }
                     </Box>
                     {/* Line */}
                     <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
