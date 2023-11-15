@@ -11,6 +11,7 @@ type Props = {
 const Editor = memo(({ content, onBlur, onChangeData }: Props) => {
   return (
     <CKEditor
+    
       editor={ClassicEditor}
       data={content ?? ""}
       // onReady={(editor) => {
