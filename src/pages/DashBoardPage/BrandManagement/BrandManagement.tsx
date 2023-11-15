@@ -2,83 +2,32 @@ import { Box, Chip , Typography} from "@mui/material";
 import theme from '../../../utils/theme';
 import usei18next from "../../../hooks/usei18next";
 import { DataGrid } from '@mui/x-data-grid';
-import { ArrowBack, CheckCircleOutline, ErrorOutline, WarningAmber } from "@mui/icons-material";
+import { Add, ArrowBack, CheckCircleOutline, ErrorOutline, WarningAmber } from "@mui/icons-material";
 import MyIcon from "../../../components/common/MyIcon";
 import EditIcon from '@mui/icons-material/Edit';
 import { GridToolbar, gridFilteredSortedRowIdsSelector, selectedGridRowsSelector } from '@mui/x-data-grid-pro';
 import { GridPrintGetRowsToExportParams, GridRowId } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ModalContext } from "../../../contexts/ModalContext";
-import ModalDeleteBrand from "./component/ModalDeleteBrand";
 import { useContext, useEffect, useState } from "react";
 import MyDialog from "../../../components/common/MyDialog";
 import { Brand } from "../../../utils/type";
 import { PostMotorbikeService } from "../../../services/PostMotorbikeService";
 import ToastComponent from "../../../components/toast/ToastComponent";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../../utils/Constant";
+import MyCustomButton from "../../../components/common/MyButton";
 const BrandManagement = () => {
     const { t } = usei18next();
     const { closeModal, setShowModal, setContentModal } = useContext(ModalContext);
     const [reload, setReload] = useState<boolean>(false);
     const [listBrand, setListBrand] = useState<Brand[]>([]);
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         getAllBrand();
     },[]);
-    const listBrands = 	
-    [
-      {
-        "id": 1,
-        "brandName": "Honda",
-        "brandImage": "Img"
-      },
-      {
-        "id": 6,
-        "brandName": "Yamaha",
-        "brandImage": "img"
-      },
-      {
-        "id": 7,
-        "brandName": "Suzuki",
-        "brandImage": "img"
-      },
-      {
-        "id": 9,
-        "brandName": "Kawasaki",
-        "brandImage": "img"
-      },
-      {
-        "id": 10,
-        "brandName": "Harley-Davidson",
-        "brandImage": "img"
-      },
-      {
-        "id": 11,
-        "brandName": "Ducati",
-        "brandImage": "img"
-      },
-      {
-        "id": 12,
-        "brandName": "BMW Motorrad",
-        "brandImage": "img"
-      },
-      {
-        "id": 13,
-        "brandName": "KTM",
-        "brandImage": "img"
-      },
-      {
-        "id": 14,
-        "brandName": "Triumph",
-        "brandImage": "img"
-      },
-      {
-        "id": 15,
-        "brandName": "Vespa",
-        "brandImage": "img"
-      }
-    ];
-
+   
     const getAllBrand = async () => {
         try {
             const response = await PostMotorbikeService.getAllBrand();
@@ -142,7 +91,7 @@ const BrandManagement = () => {
             width: 100,
             renderCell: (params: any) => (
                 <Box sx={{ cursor: 'pointer' }} display={'flex'}>
-                    <MyIcon icon={<EditIcon />} position='left' hasTooltip tooltipText={t("userProfile.BtnChange")} />
+                    <MyIcon icon={<EditIcon />} position='left' hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.managerBrand}/${params.value}`)}/>
                     <MyIcon icon={<DeleteIcon />} position='right' hasTooltip tooltipText={t("dashBoardManager.brand.delete")} 
                     onClick={() => {
                         setContentModal(<MyDialog icon={<DeleteIcon/>} onClickAgree={() => deleteBrand(params.id)} title={t("dashBoardManager.brand.confirmDelete")}  content={t("dashBoardManager.brand.titleConfirmDelete") + params.row.brandName}  hasAgreeButton={true} hasCancelButton={true}/>)
@@ -184,7 +133,15 @@ const BrandManagement = () => {
                     disableRowSelectionOnClick
                     getRowId={(row) => row.id}
                     pagination
-                    slots={{ toolbar: GridToolbar }}
+                    // slots={{ toolbar: GridToolbar }}
+                    components={{
+                        Toolbar: () => (
+                            <Box>
+                                <GridToolbar />
+                                <MyCustomButton icon={<Add color='primary' />} content={t("dashBoardManager.news.addNews")} variant='outlined' iconPosition='left' noBorder={true} onClick={() => navigate(`${ROUTES.admin.managerBrand}/add`)} />
+                            </Box>
+                        ),
+                    }}
                     slotProps={{
                         toolbar: { printOptions: { getRowsToExport: getSelectedRowsToExport } },
                     }}

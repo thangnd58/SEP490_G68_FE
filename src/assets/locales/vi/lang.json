@@ -138,6 +138,23 @@
           "warning": "Xác minh số điện thoại thất bại",
           "error": "Lỗi xác minh số điện thoại"
       },
+      "BrandManager":{
+        "Delete":{
+          "success": "Xóa thương hiệu thành công",
+          "warning": "Xóa thương hiệu thất bại",
+          "error": "Lỗi xóa thương hiệu"
+        },
+        "Edit":{
+          "success": "Sửa thương hiệu thành công",
+          "warning": "Sửa thương hiệu thất bại",
+          "error": "Lỗi cập nhật thương hiệu"
+        },
+        "Add":{
+          "success": "Thêm thương hiệu thành công",
+          "warning": "Thêm thương hiệu thất bại",
+          "error": "Lỗi cập nhật thương hiệu"
+        }
+    },
       "favourite": {
           "delete": {
               "success": "Xóa xe yêu thích thành công",
@@ -299,7 +316,11 @@
       "action" : "Chỉnh sửa",
       "delete" : "Xóa",
       "confirmDelete" : "Xác nhận xóa thương hiệu",
-      "titleConfirmDelete" : "Bạn có muốn xóa thương hiệu : "
+      "titleConfirmDelete" : "Bạn có muốn xóa thương hiệu : ",
+      "TitleChange": "Chỉnh sửa thương hiệu",
+      "TitleAdd": "Thêm mới thương hiệu",
+      "Title" : "Thương hiệu"
+
     },
     "news": {
       "newsId": "ID",

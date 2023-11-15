@@ -316,7 +316,10 @@
       "action" : "Action",
       "delete" : "Delete",
       "confirmDelete" : "Confirm Delete Brand",
-      "titleConfirmDelete" : "Do you want to delete brand : "
+      "titleConfirmDelete" : "Do you want to delete brand : ",
+      "TitleChange": "Edit brand",
+      "TitleAdd": "Add new brand",
+      "Title" : "Brand"
     },
     "news": {
       "newsId": "ID",
