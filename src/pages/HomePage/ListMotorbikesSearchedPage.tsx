@@ -143,7 +143,6 @@ export default function ListMotorbikesSearchedPage() {
 
         onSubmit: async (values, actions) => {
             // convert date to timestamp
-            alert(JSON.stringify(equipments.join(','), null, 2));
             const startDate = dayjs(values.startDate, "DD-MM-YYYY HH:mm").unix();
             const endDate = dayjs(values.endDate, "DD-MM-YYYY HH:mm").unix();
             let encodeAddress = '';
