@@ -5,9 +5,6 @@ export const ROUTES = {
     search: {
         filtermotorbike: "/search/filter"
     },
-    booking:{
-        mybooking: "/my-booking", 
-    },
     account: {
         login: "/login",
         register: "/register",
@@ -28,7 +25,8 @@ export const ROUTES = {
         detailmotorbike: "/detail-motorbike",
     },
     booking: {
-        detail: "booking-detail"
+        detail: "booking-detail",
+        mybooking: "/my-booking", 
     },
 
     component: {
