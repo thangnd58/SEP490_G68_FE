@@ -67,6 +67,37 @@ export const getCountdownTime = (endDate: string, t: any) => {
   }
 };
 
+export const countdownTime = (endDate: string, t: any) => {
+  const christmasDate = new Date(endDate);
+
+  const currentDate = new Date();
+
+  const timeRemaining = christmasDate.getTime() - currentDate.getTime();
+
+  const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+  let output = '';
+
+  if (days > 0) {
+      output += `${days} ${t("helper.days")}`;
+  }
+
+  if (hours > 0) {
+      output += ` ${hours} ${t("helper.hours")}`;
+  }
+
+  if (minutes > 0) {
+      output += ` ${minutes} ${t("helper.minutes")}`;
+  }
+  if (seconds > 0) {
+      output += ` ${seconds} ${t("helper.seconds")}`;
+  }
+  return output
+};
+
 
 
 

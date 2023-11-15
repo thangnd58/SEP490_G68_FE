@@ -53,26 +53,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
     const [open, setOpen] = React.useState(false);
     const { t } = usei18next();
     const { isMobile } = useThemePage();
-    const { setShowModal, setContentModal } = React.useContext(ModalContext)
     const navigate = useNavigate();
-
-    const handleProcessPayment = async (booking: Booking) => {
-        try {
-            if (booking.paymentType === BookingPaymentType.UserBalance) {
-                // hanle payment by wallet
-                const res: any = await PaymentService.paymentWithWallet(booking.bookingId, booking.totalAmount * 1000)
-                window.location.reload()
-            } else {
-                //handle payment by vnpay
-                const res: any = await PaymentService.createRequestBooking(booking.bookingId, booking.totalAmount * 1000);
-                if (res) {
-                    window.location.replace(res.data);
-                }
-            }
-        } catch (error) {
-
-        }
-    }
 
     const columnsDeposite = [
         {
@@ -365,7 +346,6 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                                                 if (event.row.status !== BookingStatus.Cancelled) {
                                                     navigate(`/${ROUTES.booking.detail}/${event.row.bookingId}`)
                                                 }
-                                                // setContentModal(<MyDialog title='Thanh toán đơn đặt xe' content='Bạn có đồng ý thanh toán hay không?' hasAgreeButton={true} hasCancelButton={true} onClickAgree={() => handleProcessPayment(event.row)} />)
                                             }}
                                         />
                                     )

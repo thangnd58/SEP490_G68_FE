@@ -1,19 +1,15 @@
 import { Box, Divider, Modal, TextField, Typography } from "@mui/material"
 import theme from "../../../utils/theme"
-import useThemePage from "../../../hooks/useThemePage"
 import MyIcon from "../../../components/common/MyIcon";
 import { CloseOutlined, Loyalty } from "@mui/icons-material";
-import usei18next from "../../../hooks/usei18next";
 import { CalendarImage } from "../../../assets/images";
-import MyCustomTextField from "../../../components/common/MyTextField";
 import { GoogleMap, Marker } from "@react-google-maps/api";
-import { BookingRequest, BookingResponse, Motorbike } from "../../../utils/type";
+import { BookingResponse, Motorbike } from "../../../utils/type";
 import { MotorbikeBookingCard } from "./MotorbikeBookingCard";
 import { formatMoneyNew } from "../../../utils/helper";
 import MyCustomButton from "../../../components/common/MyButton";
-import { useEffect, useState } from "react";
-import { BookingService } from "../../../services/BookingService";
 import { RequireWhenRent } from "./RequireWhenRent";
+import usei18next from "../../../hooks/usei18next";
 
 interface BookingValue {
     address: string | undefined;
@@ -190,7 +186,10 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
                             width='40%' onClick={() => setModalConfirmBookingOpen(false)} content={t("booking.cancelBook")} variant='outlined' />
 
                         <MyCustomButton disabled={isProcessingBooking}
-                            width='40%' onClick={handleSubmit} content={t("booking.bookMotorbikeButton")} variant='contained' />
+                            width='40%' onClick={() => {
+                                handleSubmit()
+                                setModalConfirmBookingOpen(false)
+                            }} content={t("booking.bookMotorbikeButton")} variant='contained' />
                     </Box>
 
                 </Box>

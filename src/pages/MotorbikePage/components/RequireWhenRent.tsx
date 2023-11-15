@@ -58,7 +58,7 @@ export const RequireWhenRent = () => {
                 <Box display={'flex'} flexDirection={isMobile ? 'column' : "row"} justifyContent={'space-between'} width={'100%'}>
                     <TableContainer component={Paper} sx={{ width: isMobile ? '100%' : '70%', boxShadow: '1px 1px #888888' }} >
                         <TableStyle>
-                            <Table sx={{ minWidth: '650px' }} aria-label="simple table">
+                            <Table sx={{ minWidth: '670px' }} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>{t("policy.headerTimeCancel")}</TableCell>

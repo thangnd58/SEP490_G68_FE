@@ -21,12 +21,7 @@ import { PostMotorbikeService } from '../../../services/PostMotorbikeService';
 import RegisterMotorbikeItem from '../../PostMotorbike/components/RegisterMotorbike/RegisterMotorbikeItem';
 import { BookingService } from '../../../services/BookingService';
 import ToastComponent from '../../../components/toast/ToastComponent';
-import { useNavigate } from 'react-router-dom';
 import { BookingDeliveryMode, BookingPaymentType, ROUTES } from '../../../utils/Constant';
-import ApplyPromotionModal from './ApplyPromotionModal';
-import { PromotionImage } from '../../../assets/images';
-import { PromotionService } from '../../../services/PromotionService';
-import { getCountdownTime } from '../../../utils/helper';
 import { PromotionModal } from '../../MotorbikePage/components/PromotionModal';
 import { ConfirmMotorbikeBookingModal } from '../../MotorbikePage/components/ConfirmMotorbikeBookingModal';
 import { RequireWhenRent } from '../../MotorbikePage/components/RequireWhenRent';
@@ -129,9 +124,9 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
         ToastComponent(t("booking.toast.success"), "success")
         // wait 1s to reload page
         setTimeout(() => {
-          setIsProcessingBooking(false);
           window.location.href = `/${ROUTES.booking.detail}/${res}`;
-        }, 1000);
+          setIsProcessingBooking(false);
+        }, 2000);
       } catch (error) {
         ToastComponent(t("booking.toast.error"), "error")
       }
@@ -455,13 +450,13 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
                       </Box>
                     </Box>
                     {/* Chọn vị trí trả xe */}
-                    <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} marginTop={'8px'}>
+                    {/* <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} marginTop={'8px'}>
                       <Box width={"100%"} display={'flex'} flexDirection={'column'} justifyContent={'start'} sx={{ gap: '8px' }}>
                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
                           {t("booking.paymentType")}
                         </Typography>
                       </Box>
-                    </Box>
+                    </Box> */}
                     {/* Line */}
                     <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
                     {/* Đơn giá */}

@@ -501,9 +501,12 @@
   "booking": {
     "toast": {
       "success": "Đặt xe thành công.",
-      "error": "Đặt xe thất bại. Vui lòng thử lại sau"
+      "error": "Đặt xe thất bại. Vui lòng thử lại sau",
+      "cancelBookSuccess": "Hủy đặt xe thành công",
+      "paymentBookSuccess": "Thanh toán thành công"
     },
     "perDay": "Ngày",
+    "perMotorbike": "xe",
     "startDate": "Ngày nhận xe",
     "endDate": "Ngày trả xe",
     "addressGetMotorbike": "Địa chỉ giao xe",
@@ -519,7 +522,45 @@
     "cancelBook": "Hủy đặt xe",
     "buttonApplyPromotion": "Áp dụng",
     "buttonApplyPromotionOk": "Đã áp dụng",
-    "confirmInforBook": "Xác nhận thông tin đặt xe"
+    "confirmInforBook": "Xác nhận thông tin đặt xe",
+    "loginToContinue": "Đăng nhập để tiếp tục",
+    "timeRemainingPay": "Thời gian thanh toán tiền cọc còn lại",
+    "startUsingService": "Bắt đầu chuyến đi",
+    "endUsingService": "Kết thúc chuyến đi",
+    "paymentCol": "Thanh toán cọc",
+    "confirmCancelBook": "Xác nhận hủy chuyến",
+    "contentConfirmCancelBook": "Bạn có muốn hủy chuyến này không?",
+    "detailTitle": "Chi tiết đặt xe",
+    "timeRent": "Thời gian thuê",
+    "paymentBooking": "Thanh toán đơn đặt xe",
+    "confirmPaymentBooking": "Bạn có đồng ý thanh toán hay không?"
+  },
+  "policy": {
+    "documentRental": "Giấy tờ thuê xe",
+    "collateral": "Tài sản thế chấp",
+    "driveLicence": "GPLX & CCCD gắn chip (đối chiếu)",
+    "passport": "GPLX(đối chiếu) và Passport(giữ lại)",
+    "otherCollateral": "Không yêu cầu thế chấp Tiền mặt hoặc vật dụng khác",
+    "titlePolicy": "Điều khoản thuê xe",
+    "requireYearOld": "Bạn phải đủ 18 tuổi trở lên và có giấy phép lái xe hợp lệ.",
+    "requireLicence": "Bạn phải có giấy tờ tùy thân (CMND hoặc hộ chiếu) và đặt cọc tùy theo quy định của từng đơn vị cho thuê xe máy.",
+    "requireReadPolicy": "Bạn phải đọc và hiểu rõ các điều khoản trong hợp đồng thuê xe máy trước khi ký kết.",
+    "policyCancelBooking": "Chính sách hủy chuyến",
+    "headerTimeCancel": "Thời điểm hủy chuyến",
+    "headerCustomerCancel": "Khách hủy chuyến",
+    "headerMotorbikeOwnerCancel": "Chủ xe hủy chuyến",
+    "in1Hour": "Trong vòng 1h sau khi cọc",
+    "before3DayStart": "Trước chuyến đi 3 ngày",
+    "in3Day": "Trong vòng 3 ngày trước chuyến đi",
+    "refundAll": "Hoàn tiền 100%",
+    "refund70": "Hoàn tiền 70%",
+    "noRefund": "Không hoàn tiền",
+    "noRefundOwner": "Không đền cọc",
+    "refund30Owner": "Đền cọc 30%",
+    "refund100Owner": "Đền cọc 100%",
+    "freeCancel1hour": "Miễn phí hủy chuyến trong vòng 1 giờ sau khi đặt cọc",
+    "customerNotGetMotorbike": "Khách thuê không nhận xe sẽ đền 100% tiền cọc",
+    "moneyReturn": "Tiền cọc sẽ được hoàn trả trong vòng 1-3 ngày "
   },
   "helper": {
     "secondAgo": "giây trước",
@@ -532,7 +573,11 @@
     "hourRemaining": "Còn {{hour}} giờ nữa",
     "dayRemaining": "Còn {{day}} ngày nữa",
     "monthRemaining": "Còn {{month}} tháng nữa",
-    "yearRemaining": "Còn {{year}} năm nữa"
+    "yearRemaining": "Còn {{year}} năm nữa",
+    "days": "Ngày",
+    "hours": "Giờ",
+    "minutes": "Phút",
+    "seconds": "Giây"
   },
   "notification": {
     "empty": "Bạn chưa có thông báo nào"

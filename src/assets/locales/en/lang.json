@@ -501,8 +501,11 @@
   "booking": {
     "toast": {
       "success": "Successful booking.",
-      "error": "Motorbike booking failed. Please try again later"
+      "error": "Motorbike booking failed. Please try again later",
+      "cancelBookSuccess": "Cancel motorbike booking successfully",
+      "paymentBookSuccess": "Payment success"
     },
+    "detailTitle": "Motorbike booking details",
     "perDay": "Day",
     "perMotorbike": "motorbike",
     "startDate": "Start date",
@@ -526,7 +529,11 @@
     "timeRemainingPay": "Time to pay remaining deposit",
     "startUsingService": "Start your trip",
     "endUsingService": "End your trip",
-    "paymentCol": "Deposit payment"
+    "paymentCol": "Deposit payment",
+    "confirmCancelBook": "Confirm cancellation", 
+    "contentConfirmCancelBook": "Do you want to cancel this trip?",
+    "paymentBooking": "Payment for motorbike order", 
+    "confirmPaymentBooking": "Do you agree to pay or not?"
   },
   "policy": {
     "documentRental": "Motorbike rental documents",
@@ -566,7 +573,11 @@
     "hourRemaining": "{{hour}} hours left",
     "dayRemaining": "{{day}} days left",
     "monthRemaining": "{{month}} months left",
-    "yearRemaining": "{{year}} years left"
+    "yearRemaining": "{{year}} years left",
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds"
   },
   "notification": {
     "empty": "You don't have any notifications yet"
