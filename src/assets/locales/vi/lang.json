@@ -14,7 +14,8 @@
     "favourite": "Yêu Thích",
     "wallet": "Ví của tôi",
     "notification": "Thông báo",
-    "cart": "Giỏ hàng"
+    "cart": "Giỏ hàng",
+    "my_booking": "Chuyến đi của tôi"
   },
   "layout": {
     "admin": "Quản trị viên",
@@ -542,5 +543,9 @@
   },
   "promotion": {
     "yourPromo": "Danh sách mã giảm giá của bạn"
+  },
+  "myBooking": {
+    "currentBooking": "Chuyến đi hiện tại",
+    "historyBooking": "Lịch sử chuyến đi"
   }
 }

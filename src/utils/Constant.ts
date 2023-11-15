@@ -5,6 +5,9 @@ export const ROUTES = {
     search: {
         filtermotorbike: "/search/filter"
     },
+    booking:{
+        mybooking: "/my-booking", 
+    },
     account: {
         login: "/login",
         register: "/register",

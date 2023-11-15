@@ -36,6 +36,7 @@ import NewsManagementForm from '../pages/DashBoardPage/NewsManagement/NewsManage
 import { DetailNews } from '../pages/NewsPage/DetailNews';
 import { NewsPage } from '../pages/NewsPage/NewsPage';
 import MotorbikeDetailPage from '../pages/MotorbikePage/MotorbikeDetailPage';
+import MyBooking from '../pages/BookMotorbike/MyBooking';
 
 export type Route = {
     path: string;
@@ -88,4 +89,7 @@ export const routes: Route[] = [
 
     //Wallet Page
     { path: `${ROUTES.user.wallet}`, component: Wallet, role: ["Admin", "Staff", "Customer"] },
+
+    //Booking Page
+    { path: ROUTES.booking.mybooking, component: MyBooking, role: ["Customer"] },
 ];

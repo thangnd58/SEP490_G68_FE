@@ -14,7 +14,8 @@
     "favourite": "My Favourite",
     "wallet": "My Wallet",
     "notification": "Notification",
-    "cart": "My cart"
+    "cart": "My cart",
+    "my_booking": "My Booking"
   },
   "layout": {
     "admin": "Adminstrator",
@@ -542,5 +543,9 @@
   },
   "promotion": {
     "yourPromo": "List promotion code"
+  },
+  "myBooking": {
+    "currentBooking": "Current booking",
+    "historyBooking": "History booking"
   }
 }
