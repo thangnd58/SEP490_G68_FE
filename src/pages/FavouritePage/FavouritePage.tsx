@@ -24,6 +24,9 @@ const FavouritePage = () => {
         address: "Hà Nội",
         description: "Xe đẹp",
         fuelConsumption: 1,
+        maxDeliveryDistance: 0,
+        freeDeliveryDistance: 0,
+        feeDeliveryDistance: 0,
         imageUrl: ["https://i.ytimg.com/vi/6JiWnYmVjWU/maxresdefault.jpg"],
         model: {
             brand: {
