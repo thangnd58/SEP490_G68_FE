@@ -1,0 +1,19 @@
+/* CSS file */
+@keyframes throwAnimation {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0);
+  }
+  25% {
+    opacity: 1;
+    transform: translate(50px, -100px) rotate(45deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(100px, -200px) rotate(90deg);
+  }
+}
+
+.throwAnimation {
+  animation: throwAnimation 0.8s ease-out;
+}

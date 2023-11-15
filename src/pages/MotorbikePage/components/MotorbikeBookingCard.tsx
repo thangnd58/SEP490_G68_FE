@@ -15,11 +15,11 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
         <>
             <Box
                 sx={{
-                    backgroundColor: '#fff',
+                    backgroundColor: "rgba(139, 69, 19, 0.05)",
                 }}
                 display={'flex'}
                 padding={'8px'}
-                border={'1px solid'}
+                border={'1px solid #e0e0e0'}
                 justifyContent={'space-between'}
                 alignItems={'center'}
                 gap={'16px'}
@@ -29,13 +29,13 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                     textOverflow="ellipsis"
                     whiteSpace="nowrap"
                     overflow="hidden"
-                    fontWeight="500"
-                    fontSize={props.isMobile ? 16 : 24}
+                    fontWeight="700"
+                    fontSize={props.isMobile ? 16 : 20}
                     sx={{ cursor: 'pointer' }}
                     color={theme.palette.text.primary}
-                >{props.motorbike.model.modelName || props.motorbike.model}</Typography>
+                >{props.motorbike.model.brand.brandName} {props.motorbike.model.modelName}</Typography>
                 {
-                    expanded ? <ArrowUpward sx={{ cursor: 'pointer' }} onClick={() => setExpanded(!expanded)} /> : <ArrowDownward sx={{ cursor: 'pointer' }} onClick={() => setExpanded(!expanded)} />
+                    expanded ? <ArrowUpward sx={{ cursor: 'pointer', color: '#000' }} onClick={() => setExpanded(!expanded)} /> : <ArrowDownward sx={{ cursor: 'pointer', color: '#000' }} onClick={() => setExpanded(!expanded)} />
                 }
             </Box>
             {
@@ -45,7 +45,6 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                         backgroundColor: '#fff',
                     }}
                     display={'flex'}
-                    padding={'16px'}
                     flexDirection={props.isMobile ? 'column' : 'row'}
                     justifyContent={'space-between'}
                     alignItems={'start'}

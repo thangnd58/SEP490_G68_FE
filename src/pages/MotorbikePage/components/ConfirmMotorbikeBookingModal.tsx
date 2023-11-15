@@ -39,7 +39,7 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
             }}
         >
             <Box
-                width={isMobile ? "80%" : "60%"}
+                width={isMobile ? "80%" : "50%"}
                 height={"90vh"}
                 sx={{
                     padding: "16px 32px",
@@ -58,30 +58,48 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
                     </Box>
                 </Box>
                 <Divider sx={{ width: "100%", margin: "16px 0px" }} variant="middle" />
-                <Box className="hiddenSroll" width={"100%"} sx={{ overflowY: 'auto', overflowX: 'hidden' }} height={"80%"} display={"flex"} flexDirection={"column"} gap={'8px'} justifyContent={"start"}>
-                    <Typography fontSize={isMobile ? 16 : 24} fontWeight={'500'} color={'common.black'}>{t("booking.timeRent")}</Typography>
+                <Box className="hiddenSroll" width={"100%"} sx={{ overflowY: 'auto', overflowX: 'hidden' }} height={"80%"} display={"flex"} flexDirection={"column"} gap={'16px'} justifyContent={"start"}>
+                    <Typography fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>Thời gian thuê xe</Typography>
                     <Box display={'flex'} gap={'32px'} justifyContent={isMobile ? 'space-between' : 'start'}>
-                        <Box display={'flex'} gap={'8px'}>
-                            {!isMobile && <img src={CalendarImage} alt="calendar" width={36} height={36} />}
-                            <Box>
-                                <Typography fontSize={isMobile ? 14 : 16}>{t("booking.startDate")}</Typography>
-                                <Typography fontSize={isMobile ? 14 : 16}>{values.startDate}</Typography>
+                        <Box display={'flex'} gap={'16px'}>
+                            {!isMobile && <img src={CalendarImage} alt="calendar" width={24} height={24} />}
+                            <Box display={'flex'} flexDirection={'column'} gap={'4px'} justifyContent={"start"}>
+                                <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary}>Thời gian nhận xe</Typography>
+                                <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary}>{values.startDate}</Typography>
                             </Box>
                         </Box>
-                        <Box display={'flex'} gap={'8px'}>
-                            {!isMobile && <img src={CalendarImage} alt="calendar" width={36} height={36} />}
-                            <Box>
-                                <Typography fontSize={isMobile ? 14 : 16}>{t("booking.endDate")}</Typography>
-                                <Typography fontSize={isMobile ? 14 : 16}>{values.endDate}</Typography>
+                        <Box display={'flex'} gap={'16px'}>
+                            {!isMobile && <img src={CalendarImage} alt="calendar" width={24} height={24} />}
+                            <Box display={'flex'} flexDirection={'column'} gap={'4px'} justifyContent={"start"} >
+                                <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary}>Thời gian trả xe</Typography>
+                                <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary}>{values.endDate}</Typography>
                             </Box>
                         </Box>
                     </Box>
-                    <Typography fontSize={isMobile ? 16 : 24} fontWeight={'500'} color={'common.black'}>{t("booking.addressGetMotorbike")}</Typography>
-                    <TextField value={values.address} disabled />
+                    <Typography fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>Địa chỉ giao nhận xe</Typography>
+                    <TextField
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    borderRadius: "8px",
+                                    border: "1px solid #e0e0e0",
+                                },
+                                '&:hover fieldset': {
+                                    border: "1px solid #8b4513"
+                                },
+                                '&.Mui-focused fieldset': {
+                                    border: "1px solid #8b4513"
+                                },
+                            },
+                        }}
+                        value={values.address}
+                        inputProps={{
+                            readOnly: true,
+                        }} />
 
                     <Box
                         borderRadius={"10px"}
-                        border={"3px solid"}
+                        border={"2px solid"}
                         margin={"0px auto"}
                         width={isMobile ? "98%" : "99%"}
                         justifyContent={"center"}

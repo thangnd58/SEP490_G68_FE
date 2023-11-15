@@ -949,7 +949,6 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
       />
     </>
   );
-
 }
 
 function MotorbikeFeatureItem({ icon, title, content, isMobile }: any) {
