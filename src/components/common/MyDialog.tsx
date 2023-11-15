@@ -4,6 +4,7 @@ import React, { useContext } from 'react'
 import { ModalContext } from '../../contexts/ModalContext';
 import MyCustomButton from './MyButton';
 import { LogoHeader } from '../../assets/images';
+import usei18next from '../../hooks/usei18next';
 
 interface MyDialogProps {
     title?: string;
@@ -27,7 +28,7 @@ const Transition = React.forwardRef(function Transition(
 
 export default function MyDialog(props: MyDialogProps) {
     const { closeModal } = useContext(ModalContext);
-
+    const {t} = usei18next();
     return (
         <>
             <Dialog
@@ -80,7 +81,7 @@ export default function MyDialog(props: MyDialogProps) {
                                 borderRadius={8}
                                 fontSize={16}
                                 fontWeight={500}
-                                content={"Hủy"}
+                                content={t("licenseInfo.BtnCancel")}
                                 onClick={closeModal}
                             />
                         }
@@ -89,7 +90,7 @@ export default function MyDialog(props: MyDialogProps) {
                                 borderRadius={8}
                                 fontSize={16}
                                 fontWeight={500}
-                                content={"Xác nhận"}
+                                content={t("VerifyPhone.BtnConfirm")}
                                 onClick={() => {
                                     if (props.onClickAgree) {
                                         props.onClickAgree();

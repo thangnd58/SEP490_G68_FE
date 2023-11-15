@@ -1,30 +1,35 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
+import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
+import { Box, Chip, CircularProgress, Divider, FormControl, FormLabel, RadioGroup, Radio, FormControlLabel, Grid, IconButton, MenuItem, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, Button } from '@mui/material';
+import { CloseOutlined, FormatBoldRounded, GasMeterOutlined, LocalDrinkOutlined, LocationOn, LocationOnOutlined, Loyalty, MyLocation, NewReleasesOutlined } from '@mui/icons-material';
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
+import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
+import { useFormik } from 'formik';
+import * as Yup from "yup";
+import { useNavigate, useParams } from 'react-router-dom';
+import useThemePage from '../../hooks/useThemePage';
 import usei18next from '../../hooks/usei18next';
 import { ModalContext } from '../../contexts/ModalContext';
-import { DatePicker } from 'antd';
 import { BookingRequest, BookingResponse, Motorbike } from '../../utils/type';
 import { PostMotorbikeService } from '../../services/PostMotorbikeService';
-import dayjs from 'dayjs';
-import useThemePage from '../../hooks/useThemePage';
-import { useFormik } from 'formik';
-import { BookingDeliveryMode, BookingPaymentType } from '../../utils/Constant';
-import * as Yup from "yup";
+import { BookingDeliveryMode, BookingPaymentType, ROUTES } from '../../utils/Constant';
 import { BookingService } from '../../services/BookingService';
 import ToastComponent from '../../components/toast/ToastComponent';
-import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
-import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import MyDialog from '../../components/common/MyDialog';
-import { Box, CircularProgress, Divider, FormControlLabel, Grid, IconButton, MenuItem, Modal, Radio, RadioGroup, TextField, Typography } from '@mui/material';
-import MyIcon from '../../components/common/MyIcon';
-import { CloseOutlined, GasMeterOutlined, LocalDrinkOutlined, LocationOn, LocationOnOutlined, Loyalty, MyLocation, NewReleasesOutlined } from '@mui/icons-material';
-import MySlideShowImage from '../../components/common/MySlideShowImage';
 import theme from '../../utils/theme';
+import MyIcon from '../../components/common/MyIcon';
+import MySlideShowImage from '../../components/common/MySlideShowImage';
 import MyCustomButton from '../../components/common/MyButton';
+import UserService from '../../services/UserService';
+import { RequireWhenRent } from './components/RequireWhenRent';
 import { CartIcon, HelmetIcon, ProtectClothesIcon, RainCoatIcon, RepairIcon, TelephoneIcon } from '../../assets/icons';
 import RegisterMotorbikeItem from '../PostMotorbike/components/RegisterMotorbike/RegisterMotorbikeItem';
-import { useParams } from 'react-router-dom';
+import { PromotionModal } from './components/PromotionModal';
+import { ConfirmMotorbikeBookingModal } from './components/ConfirmMotorbikeBookingModal';
 
-export default function MotorbikeDetailPage() {
+
+export default function MotorbikeDetailModal() {
     const { motorbikeId, searchedAddress, startDate, endDate } = useParams();
     const { isMobile, isIpad } = useThemePage();
     const { t } = usei18next();
@@ -33,9 +38,12 @@ export default function MotorbikeDetailPage() {
     const { closeModal, setContentModal, setShowModal } = useContext(ModalContext);
     const { RangePicker } = DatePicker;
     const [isMapModalOpen, setMapModalOpen] = useState(false);
+    const [isModalPromotionOpen, setModalPromotionOpen] = useState(false);
+    const [isModalConfirmBookingOpen, setModalConfirmBookingOpen] = useState(false);
     const [motorbike, setMotorbike] = useState<Motorbike>();
     const [previewBookingData, setPreviewBookingData] = useState<BookingResponse>();
     const [isProcessingBooking, setIsProcessingBooking] = useState(false);
+
     interface Location {
         lat: number,
         lng: number,
@@ -64,7 +72,7 @@ export default function MotorbikeDetailPage() {
         if (money) {
             return (money * 1000).toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
         }
-        return 0;
+        return '0 VND';
     }
     // convert timestamp to date
     const convertTimestampToDate = (timestamp: number) => {
@@ -93,7 +101,8 @@ export default function MotorbikeDetailPage() {
             startDate: startDate,
             endDate: endDate,
             paymentType: BookingPaymentType.UserBalance,
-            deliveryMode: BookingDeliveryMode.DeliveryService
+            deliveryMode: BookingDeliveryMode.DeliveryService,
+            couponCode: ""
         },
         validationSchema: Yup.object({
             address: Yup.string().required(t("postMotorbike.registedForm.addressRequired")),
@@ -104,16 +113,16 @@ export default function MotorbikeDetailPage() {
         onSubmit: async (values) => {
             try {
                 setIsProcessingBooking(true);
-                const request = {
+                const request : any = {
                     motorbikeId: motorbikeId || 0,
                     address: values.address || "",
                     deliveryMode: values.deliveryMode,
                     startDatetime: values.startDate || "",
                     endDatetime: values.endDate || "",
-                    couponCode: "",
-                    paymentType: BookingPaymentType.Card
+                    couponCode: values.couponCode || "",
+                    paymentType: BookingPaymentType.Card || ""
                 }
-                // await BookingService.postBooking(request)
+                await BookingService.postBooking(request)
                 ToastComponent(t("booking.toast.success"), "success")
                 // wait 1s to reload page
                 setTimeout(() => {
@@ -145,12 +154,12 @@ export default function MotorbikeDetailPage() {
             deliveryMode: values.deliveryMode,
             startDatetime: values.startDate || "",
             endDatetime: values.endDate || "",
-            couponCode: ""
+            couponCode: values.couponCode || ""
         }
         BookingService.getPreviewBooking(bookingPreview).then((data) => {
             setPreviewBookingData(data)
         })
-    }, [motorbikeId, values.address, values.startDate, values.endDate])
+    }, [motorbikeId, values.address, values.startDate, values.endDate, values.couponCode])
 
     // MAP CONTROLLER
     const { isLoaded } = useLoadScript({
@@ -257,12 +266,45 @@ export default function MotorbikeDetailPage() {
 
     return (
         <>
-            
-                <Box width={"100%"} height={"auto"}
+            <Box
+                className='hiddenSroll'
+                sx={{
+                    display: 'flex',
+                    alignItems: 'start',
+                    justifyContent: 'center',
+                    margin: '32px 0px',
+                    overflowY: 'auto',
+                }}>
+                <Box width={"90%"} height={"auto"}
                     sx={{
                         backgroundColor: '#fff',
                         borderRadius: '8px'
-                    }}>
+                    }}
+                >
+                    <Box
+                        sx={{
+                            borderTopLeftRadius: "8px",
+                            borderTopRightRadius: "8px",
+                            backgroundColor: '#fff',
+                            borderBottom: '1px solid #E0E0E0',
+                        }}
+                        height={"10%"}
+                        display={"flex"}
+                        flexDirection={"row"}
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
+                        padding={"32px"}
+                        position={"sticky"}
+                        top={0}
+                        zIndex={1000}
+                    >
+                        <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "24px" : "32px"} fontWeight={600} textAlign={"start"}>
+                            {t("postMotorbike.listform.motorbikeInfo")}
+                        </Typography>
+                        <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
+                            <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeModal} position='bottom' />
+                        </Box>
+                    </Box>
                     <Box
                         margin={isMobile ? "32px 32px" : "32px 64px"}
                         height={"100%"}
@@ -338,22 +380,22 @@ export default function MotorbikeDetailPage() {
                                 >
                                     <Box display="flex" flexDirection="row" alignItems="center" width={"100%"} justifyContent={"flex-start"} >
                                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '24px', fontWeight: "600", }}>
-                                            {formatMoney(motorbike?.priceRent) + "/ngày"}
+                                            {`${formatMoney(motorbike?.priceRent)}/${t("booking.perDay")}`}
                                         </Typography>
                                     </Box>
                                     <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"}>
                                         {/* Line */}
                                         <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
                                         {/* Chọn ngày giờ */}
-                                        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} width={"100%"}  justifyContent={'center'} sx={{ gap: '4px' }}>
+                                        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} width={"100%"} justifyContent={'center'} sx={{ gap: '4px' }}>
                                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
                                                 {/* start date */}
                                                 <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                    Ngày bắt đầu:
+                                                    {t("booking.startDate")}
                                                 </Typography>
                                                 {/* end date */}
                                                 <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                    Ngày kết thúc:
+                                                    {t("booking.endDate")}
                                                 </Typography>
                                             </Box>
                                             <RangePicker
@@ -362,7 +404,7 @@ export default function MotorbikeDetailPage() {
                                                     fontFamily: 'Inter',
                                                     fontStyle: 'normal',
                                                     fontSize: '20px',
-                                                    height: '48px'
+                                                    height: '48px',
                                                 }}
                                                 size='large'
                                                 showTime={{ format: 'HH:mm' }}
@@ -383,7 +425,7 @@ export default function MotorbikeDetailPage() {
                                         <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} marginTop={'8px'}>
                                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
                                                 <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                    Địa điểm giao xe
+                                                    {t("booking.addressGetMotorbike")}
                                                 </Typography>
                                             </Box>
                                             <Box
@@ -410,7 +452,7 @@ export default function MotorbikeDetailPage() {
                                         <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} marginTop={'8px'}>
                                             <Box width={"100%"} display={'flex'} flexDirection={'column'} justifyContent={'start'} sx={{ gap: '8px' }}>
                                                 <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                    Loại thanh toán
+                                                    {t("booking.paymentType")}
                                                 </Typography>
                                                 <Box>
                                                     <RadioGroup
@@ -424,7 +466,7 @@ export default function MotorbikeDetailPage() {
                                                             checked={values.paymentType === BookingPaymentType.UserBalance}
                                                             value={BookingPaymentType.UserBalance}
                                                             control={<Radio />}
-                                                            label="Số dư ví"
+                                                            label={t("booking.payWallet")}
                                                             sx={{
                                                                 '& .MuiFormControlLabel-label': {
                                                                     fontSize: '16px',
@@ -433,7 +475,11 @@ export default function MotorbikeDetailPage() {
                                                                 }
                                                             }}
                                                         />
-                                                        <FormControlLabel checked={values.paymentType === BookingPaymentType.Card} value={BookingPaymentType.Card} control={<Radio />} label="Ví điện tử VN Pay"
+                                                        <FormControlLabel
+                                                            checked={values.paymentType === BookingPaymentType.Card}
+                                                            value={BookingPaymentType.Card}
+                                                            control={<Radio />}
+                                                            label={t("booking.payVnPay")}
                                                             sx={{
                                                                 '& .MuiFormControlLabel-label': {
                                                                     fontSize: '16px',
@@ -453,23 +499,12 @@ export default function MotorbikeDetailPage() {
                                             {/* Đơn giá thuê */}
                                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                                 <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                                                    Đơn giá thuê
+                                                    {t("booking.pricePerday")}
                                                 </Typography>
                                                 <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                                                    {formatMoney(motorbike?.priceRent)}/ngày
+                                                    {`${formatMoney(motorbike?.priceRent)}/${t("booking.perDay")}`}
                                                 </Typography>
                                             </Box>
-
-
-                                            {/* Phí bảo hiểm */}
-                                            {/* <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                          Phí bảo hiểm
-                        </Typography>
-                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                          {formatMoney(motorbike?.priceRent)}/ ngày
-                        </Typography>
-                      </Box> */}
                                         </Box>
                                         {/* Line */}
                                         <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
@@ -479,7 +514,7 @@ export default function MotorbikeDetailPage() {
                                             {/* Tổng tiền */}
                                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                                 <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                                                    Tổng phí thuê xe
+                                                    {t("booking.totalPriceRent")}
                                                 </Typography>
                                                 <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                                                     {formatMoney(previewBookingData?.totalAmountTemp)} x {previewBookingData?.rentalDays} ngày
@@ -488,22 +523,26 @@ export default function MotorbikeDetailPage() {
                                             {/* Phí dịch vụ */}
                                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                                 <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                                                    Tổng phí dịch vụ
+                                                    {t("booking.totalPriceService")}
                                                 </Typography>
                                                 <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                                                     {formatMoney(previewBookingData?.feeOfService)}
                                                 </Typography>
                                             </Box>
                                             {/* Mã khuyến mãi */}
-                                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                                                {/* <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                        Mã khuyến mãi
-                      </Typography>
-                      <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                        -120.000VND
-                      </Typography> */}
-                                                <MyCustomButton iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick={showModalPromotion} content={"Mã khuyến mãi"} variant='outlined' />
-                                            </Box>
+                                            {
+                                                values.couponCode !== "" &&
+                                                <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                                                        {t("booking.promotionCode")}: <span style={{ textTransform: 'uppercase', fontWeight: '700' }}>{values.couponCode}</span>
+                                                    </Typography>
+                                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                                                        {formatMoney(previewBookingData?.couponPrice)}
+                                                    </Typography>
+                                                </Box>
+                                            }
+                                            <MyCustomButton iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick={() => setModalPromotionOpen(true)} content={t("booking.promotionCode")} variant='outlined' />
+
                                         </Box>
                                         {/* Line */}
                                         <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
@@ -511,7 +550,7 @@ export default function MotorbikeDetailPage() {
                                         {/* Tổng tiền */}
                                         <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                             <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                                                Tổng tiền
+                                                {t("booking.totalPrice")}
                                             </Typography>
                                             <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                                                 {formatMoney(previewBookingData?.totalAmount)}
@@ -521,11 +560,22 @@ export default function MotorbikeDetailPage() {
                                         <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
 
                                         {/* Button */}
-                                        <MyCustomButton disabled={isProcessingBooking}
-                                            width='100%' onClick={handleSubmit} content={"Đặt xe"} variant='contained' />
+                                        {
+                                            UserService.isLoggedIn() ?
+                                                <MyCustomButton disabled={isProcessingBooking}
+                                                    width='100%' onClick={() => {
+                                                        setModalConfirmBookingOpen(true)
+                                                    }} content={t("booking.bookMotorbikeButton")} variant='contained' />
+                                                :
+                                                <a style={{ width: '100%' }} href={ROUTES.account.login}>
+                                                    <MyCustomButton disabled={isProcessingBooking}
+                                                        width='100%' content={t("booking.loginToContinue")} variant='contained' />
+                                                </a>
+                                        }
 
                                     </Box>
                                 </Box>
+
                                 {/* Thông tin xe */}
                                 <Box
                                     width={isIpad || isMobile ? "100%" : "60%"}
@@ -534,6 +584,7 @@ export default function MotorbikeDetailPage() {
                                     alignItems="start"
                                     paddingBottom="16px"
                                 >
+
                                     <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"} mt={"16px"}>
                                         <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
                                             {t("postMotorbike.listform.motorbikeFeature")}
@@ -556,6 +607,7 @@ export default function MotorbikeDetailPage() {
                                                     isMobile={isMobile}
                                                     t={t}
                                                 />
+
                                                 <MotorbikeFeatureItem
                                                     icon={<GasMeterOutlined color='primary' fontSize='large' />}
                                                     title={t("postMotorbike.listform.type")}
@@ -604,6 +656,8 @@ export default function MotorbikeDetailPage() {
                                             </Typography>
                                         </Box>
                                     </Box>
+                                    <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+                                    <RequireWhenRent />
                                     <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
                                     {/* Biển số xe */}
                                     <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
@@ -725,6 +779,9 @@ export default function MotorbikeDetailPage() {
                     </Box>
                 </Box>
 
+            </Box>
+
+
             {/* modal address */}
             <Modal
                 open={isMapModalOpen}
@@ -736,7 +793,8 @@ export default function MotorbikeDetailPage() {
                     justifyContent: 'center',
                     overflowY: 'auto',
                     zIndex: 10000
-                }}>
+                }}
+            >
                 <Box width={isMobile ? "70%" : "50%"} height={"auto"} sx={{
                     padding: "16px 32px",
                     backgroundColor: 'white',
@@ -909,6 +967,21 @@ export default function MotorbikeDetailPage() {
                     </Box>
                 </Box>
             </Modal>
+
+            {/* modal promotion */}
+            <PromotionModal isModalPromotionOpen={isModalPromotionOpen} setModalPromotionOpen={setModalPromotionOpen} setFieldValue={setFieldValue} counponCode={values.couponCode} isMobile={isMobile} />
+
+            {/*modal confirm booking*/}
+            <ConfirmMotorbikeBookingModal
+                isModalConfirmBookingOpen={isModalConfirmBookingOpen}
+                setModalConfirmBookingOpen={setModalConfirmBookingOpen}
+                values={values}
+                isMobile={isMobile}
+                motorbikes={[motorbike!]}
+                previewBookingData={previewBookingData}
+                isProcessingBooking={isProcessingBooking}
+                handleSubmit={handleSubmit}
+            />
         </>
     );
 
@@ -927,6 +1000,7 @@ function MotorbikeFeatureItem({ icon, title, content, isMobile }: any) {
         </Box>
     </Box>);
 }
+
 function EquipmentItem({ icon, label }: any) {
     return (
         <Box display="flex" flexDirection="row" alignItems="center" justifyContent={"center"} padding={"16px 0px"} border={"2px solid #8B4513"} borderRadius={"8px"} gap={"16px"}>
@@ -936,3 +1010,5 @@ function EquipmentItem({ icon, label }: any) {
             </Typography>
         </Box>);
 }
+
+

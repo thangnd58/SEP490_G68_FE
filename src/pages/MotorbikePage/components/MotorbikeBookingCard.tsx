@@ -11,7 +11,6 @@ import { useState } from "react";
 export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: boolean }) => {
     const { t } = usei18next();
     const [expanded, setExpanded] = useState(true);
-    console.log(props.motorbike.user)
     return (
         <>
             <Box
@@ -34,7 +33,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                     fontSize={props.isMobile ? 16 : 24}
                     sx={{ cursor: 'pointer' }}
                     color={theme.palette.text.primary}
-                >{props.motorbike.model.modelName}</Typography>
+                >{props.motorbike.model.modelName || props.motorbike.model}</Typography>
                 {
                     expanded ? <ArrowUpward sx={{ cursor: 'pointer' }} onClick={() => setExpanded(!expanded)} /> : <ArrowDownward sx={{ cursor: 'pointer' }} onClick={() => setExpanded(!expanded)} />
                 }
@@ -58,10 +57,11 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                         sx={{ cursor: 'pointer', position: 'relative' }}
                     >
                         <Avatar
-                            src={props.motorbike.imageUrl[0]}
+                            src={props.motorbike && props.motorbike.imageUrl ?  props.motorbike.imageUrl[0] : ""}
                             sx={{
                                 width: '100%',
-                                height: '190px',
+                                height: '250px',
+                                objectFit: 'cover',
                                 borderRadius: '8px',
                                 border: '1px solid #e0e0e0',
                             }} alt="image"

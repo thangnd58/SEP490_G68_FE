@@ -21,10 +21,11 @@ import { CheckCircleOutline, ErrorOutline, WarningAmber } from '@mui/icons-mater
 import dayjs from 'dayjs';
 import useThemePage from '../../../hooks/useThemePage';
 import { BookingService } from '../../../services/BookingService';
-import { BookingPaymentType, BookingStatus } from '../../../utils/Constant';
+import { BookingPaymentType, BookingStatus, ROUTES } from '../../../utils/Constant';
 import { ModalContext } from '../../../contexts/ModalContext';
 import MyDialog from '../../../components/common/MyDialog';
 import { PaymentService } from '../../../services/PaymentService';
+import { useNavigate } from 'react-router-dom';
 
 
 function createData(
@@ -52,25 +53,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
     const [open, setOpen] = React.useState(false);
     const { t } = usei18next();
     const { isMobile } = useThemePage();
-    const { setShowModal, setContentModal } = React.useContext(ModalContext)
-
-    const handleProcessPayment = async (booking: Booking) => {
-        try {
-            if (booking.paymentType === BookingPaymentType.UserBalance) {
-                // hanle payment by wallet
-                const res: any = await PaymentService.paymentWithWallet(booking.bookingId, booking.totalAmount * 1000)
-                window.location.reload()
-            } else {
-                //handle payment by vnpay
-                const res: any = await PaymentService.createRequestBooking(booking.bookingId, booking.totalAmount * 1000);
-                if (res) {
-                    window.location.replace(res.data);
-                }
-            }
-        } catch (error) {
-
-        }
-    }
+    const navigate = useNavigate();
 
     const columnsDeposite = [
         {
@@ -360,8 +343,8 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                                             disableRowSelectionOnClick
                                             pagination
                                             onRowClick={(event) => {
-                                                if (event.row.status === BookingStatus.PendingPayment) {
-                                                    setContentModal(<MyDialog title='Thanh toán đơn đặt xe' content='Bạn có đồng ý thanh toán hay không?' hasAgreeButton={true} hasCancelButton={true} onClickAgree={() => handleProcessPayment(event.row)} />)
+                                                if (event.row.status !== BookingStatus.Cancelled) {
+                                                    navigate(`/${ROUTES.booking.detail}/${event.row.bookingId}`)
                                                 }
                                             }}
                                         />

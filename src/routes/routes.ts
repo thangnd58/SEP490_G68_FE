@@ -37,6 +37,7 @@ import { DetailNews } from '../pages/NewsPage/DetailNews';
 import { NewsPage } from '../pages/NewsPage/NewsPage';
 import MotorbikeDetailPage from '../pages/MotorbikePage/MotorbikeDetailPage';
 import MyBooking from '../pages/BookMotorbike/MyBooking';
+import { BookingDetailPage } from '../pages/MotorbikePage/BookingDetailPage';
 
 export type Route = {
     path: string;
@@ -66,6 +67,7 @@ export const routes: Route[] = [
     { path: `${ROUTES.user.updateregistermotorbike}/:id`, component: UpdateRegisterMotorbike, role: ["Customer"] },
     { path: ROUTES.user.favourite, component: Favourite, role: ["Customer"] },
     { path: `${ROUTES.user.detailmotorbike}/:motorbikeId/:searchedAddress/:startDate/:endDate`, component: MotorbikeDetailPage },
+    { path: `${ROUTES.booking.detail}/:bookingId`, component: BookingDetailPage, role: ["Customer"] },
 
     // Auth Page
     { path: ROUTES.account.login, component: Login, layout: LayoutWithoutFooter },
