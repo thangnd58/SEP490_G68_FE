@@ -36,7 +36,7 @@ export default function MotorbikeFavouriteInforCard(props: {
     const dispatch = useAppDispatch();
 
     const showMotorbikeDetailModal = (id: number) => {
-        setContentModal(<MotorbikeDetailModal motorbikeId={id} />);
+        setContentModal(<MotorbikeDetailModal motorbikeId={id.toString()} />);
         setShowModal(true);
     };
 

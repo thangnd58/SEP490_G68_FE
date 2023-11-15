@@ -1,10 +1,10 @@
-import React, { useContext } from 'react'
-import { Motorbike } from '../../utils/type'
-import { Box, Divider, Modal, Paper, Typography } from '@mui/material';
+import React, { useContext, useEffect, useMemo, useState } from 'react'
+import { BookingRequest, BookingResponse, Motorbike } from '../../utils/type'
+import { Box, CircularProgress, Divider, IconButton, MenuItem, Modal, Paper, TextField, Typography } from '@mui/material';
 import theme from '../../utils/theme';
 import useThemePage from '../../hooks/useThemePage';
 import MyIcon from '../../components/common/MyIcon';
-import { CloseOutlined, LocationOnOutlined, Loyalty } from '@mui/icons-material';
+import { CloseOutlined, LocationOnOutlined, Loyalty, MyLocation } from '@mui/icons-material';
 import { ModalContext } from '../../contexts/ModalContext';
 import usei18next from '../../hooks/usei18next';
 import { MotorbikeBookingCard } from '../MotorbikePage/components/MotorbikeBookingCard';
@@ -13,12 +13,35 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import MyCustomButton from '../../components/common/MyButton';
 import UserService from '../../services/UserService';
+import { useFormik } from 'formik';
+import * as Yup from "yup";
+import { BookingDeliveryMode, BookingPaymentType, ROUTES } from '../../utils/Constant';
+import { BookingService } from '../../services/BookingService';
+import ToastComponent from '../../components/toast/ToastComponent';
+import { formatMoneyNew } from '../../utils/helper';
+import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
+import RegisterMotorbikeItem from '../PostMotorbike/components/RegisterMotorbike/RegisterMotorbikeItem';
+import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
+import { PromotionModal } from '../MotorbikePage/components/PromotionModal';
+import { ConfirmMotorbikeBookingModal } from '../MotorbikePage/components/ConfirmMotorbikeBookingModal';
+
+interface Location {
+  lat: number,
+  lng: number,
+}
+
 
 export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike[]; address: string; startDate: string; endDate: string; }) => {
   const { isMobile, isIpad } = useThemePage();
   const { closeModal, setContentModal, setShowModal } = useContext(ModalContext);
   const { t } = usei18next();
   const { RangePicker } = DatePicker;
+  const [isProcessingBooking, setIsProcessingBooking] = useState(false);
+  const [previewBookingData, setPreviewBookingData] = useState<BookingResponse>();
+  const [isMapModalOpen, setMapModalOpen] = useState(false);
+  const [location, setLocation] = useState<Location>();
+  const [isModalPromotionOpen, setModalPromotionOpen] = useState(false);
+  const [isModalConfirmBookingOpen, setModalConfirmBookingOpen] = useState(false);
 
   // format number * 1000 to type 1.000 VND/ngày
   const formatMoney = (money: number | undefined) => {
@@ -27,6 +50,157 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
     }
     return '0 VND';
   }
+
+  const formik = useFormik({
+    initialValues: {
+      address: props?.address,
+      lat: 21.028511,
+      lng: 105.804817,
+      startDate: props?.startDate,
+      endDate: props?.endDate,
+      paymentType: BookingPaymentType.UserBalance,
+      deliveryMode: BookingDeliveryMode.DeliveryService,
+      couponCode: ""
+    },
+    validationSchema: Yup.object({
+      address: Yup.string().required(t("postMotorbike.registedForm.addressRequired")),
+      startDate: Yup.string().required(t("postMotorbike.registedForm.startDateRequired")),
+      endDate: Yup.string().required(t("postMotorbike.registedForm.endDateRequired")),
+    }),
+
+    onSubmit: async (values) => {
+      try {
+        setIsProcessingBooking(true);
+        const request = {
+          motorbikeId: props?.motorbikes.map((mt) => mt.id).join(",") || "0",
+          address: values.address || "",
+          deliveryMode: values.deliveryMode,
+          startDatetime: values.startDate || "",
+          endDatetime: values.endDate || "",
+          couponCode: values.couponCode || "",
+          paymentType: BookingPaymentType.Card
+        }
+        const res = await BookingService.postBooking(request)
+        ToastComponent(t("booking.toast.success"), "success")
+        // wait 1s to reload page
+        setTimeout(() => {
+          window.location.href = `/${ROUTES.booking.detail}/${res}`;
+          setIsProcessingBooking(false);
+        }, 2000);
+      } catch (error) {
+        ToastComponent(t("booking.toast.error"), "error")
+      }
+    }
+  }
+  );
+
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleSubmit,
+    setFieldValue
+  } = formik;
+
+  // MAP CONTROLLER
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
+    libraries: ["places"],
+  });
+
+  // declare vaiables
+  const defaultDeliveryLoction = useMemo(() => ({ lat: values.lat, lng: values.lng }), []);
+  const [selected, setSelected] = useState<Location>(defaultDeliveryLoction);
+  const [showMenu, setShowMenu] = useState(false);
+  const defaultLoctionMotorbike = useMemo(() => ({ lat: location?.lat || 10.762622, lng: location?.lng || 106.660172 }), [location]);
+
+  // ADDRESS MODAL CONTROLLER
+  const openMapModal = () => {
+    setMapModalOpen(true);
+  };
+
+  const closeMapModal = () => {
+    setMapModalOpen(false);
+  };
+
+
+
+  useEffect(() => {
+    const bookingPreview: BookingRequest = {
+      motorbikeId: props?.motorbikes.map((mt) => mt.id).join(",") || "0",
+      address: values.address || "",
+      deliveryMode: values.deliveryMode,
+      startDatetime: values.startDate || "",
+      endDatetime: values.endDate || "",
+      couponCode: values.couponCode || ""
+    }
+    BookingService.getPreviewBooking(bookingPreview).then((data) => {
+      setPreviewBookingData(data)
+    })
+  }, [props?.motorbikes, values.address, values.startDate, values.endDate, values.couponCode])
+
+  // handle change address
+  const {
+    value,
+    setValue,
+    suggestions: { status, data },
+    clearSuggestions,
+  } = usePlacesAutocomplete();
+
+  useEffect(() => {
+    if (values.address)
+      setValue(values.address);
+    if (values.deliveryMode === BookingDeliveryMode.SelfPickup) {
+      setFieldValue("deliveryMode", BookingDeliveryMode.DeliveryService)
+    }
+  }, [values.address]);
+
+  // handle select address
+  const handleSelect = async (address: any) => {
+    setValue(address, false);
+    clearSuggestions();
+    const results = await getGeocode({ address });
+    const { lat, lng } = await getLatLng(results[0]);
+    setSelected({ lat, lng });
+    setFieldValue("lat", lat);
+    setFieldValue("lng", lng);
+    setFieldValue("address", address);
+    setShowMenu(false);
+  };
+
+  // handle get location click then set default location motorbike
+  const handleGetLocationClick = () => {
+    setFieldValue("deliveryMode", BookingDeliveryMode.SelfPickup)
+    if (props.address) {
+      setValue(props.address);
+      setFieldValue("address", props.address);
+      setFieldValue("lat", location?.lat);
+      setFieldValue("lng", location?.lng);
+      setShowMenu(false);
+    }
+  };
+
+  // handle double click on map
+  const handleDoubleClick = (e: any) => {
+    setSelected({
+      lat: e.latLng.lat(),
+      lng: e.latLng.lng(),
+    });
+
+    getGeocode({
+      location: {
+        lat: e.latLng.lat(),
+        lng: e.latLng.lng(),
+      },
+    }).then((results) => {
+      setValue(results[0].formatted_address, false);
+      setFieldValue("address", results[0].formatted_address);
+      setFieldValue("lat", e.latLng.lat());
+      setFieldValue("lng", e.latLng.lng());
+      setShowMenu(false);
+    });
+  };
 
   return (
     <>
@@ -124,12 +298,20 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                       flexDirection="column"
                       alignItems="start"
                       padding="16px"
-                    >
-                      <Box display="flex" flexDirection="row" alignItems="center" width={"100%"} justifyContent={"flex-start"} >
-                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '24px', fontWeight: "600", }}>
-                          {/* {`${formatMoney(props.motorbike?.priceRent)}/${t("booking.perDay")}`} */}
-                        </Typography>
-                      </Box>
+                    >{
+                        props.motorbikes && props.motorbikes.length > 0 &&
+                        <Box display="flex" flexDirection="row" alignItems="center" width={"100%"} justifyContent={"flex-start"} >
+                          <Typography color={theme.palette.text.primary} sx={{ fontSize: '24px', fontWeight: "600", }}>
+                            {`${formatMoneyNew(props.motorbikes.reduce((total, mt) => {
+                              if (mt && mt.priceRent !== undefined) {
+                                return total + mt.priceRent;
+                              } else {
+                                return total;
+                              }
+                            }, 0) || 0)}/${t("booking.perDay")}`} x  {props.motorbikes.length} {t("booking.perMotorbike")}
+                          </Typography>
+                        </Box>
+                      }
                       <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"}>
                         {/* Line */}
                         <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
@@ -157,13 +339,13 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                             showTime={{ format: 'HH:mm' }}
                             format="DD-MM-YYYY HH:mm"
                             placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
-                            // value={[
-                            // dayjs(values.startDate, "DD-MM-YYYY HH:mm"),
-                            // dayjs(values.endDate, "DD-MM-YYYY HH:mm"),
-                            // ]}
+                            value={[
+                              dayjs(values.startDate, "DD-MM-YYYY HH:mm"),
+                              dayjs(values.endDate, "DD-MM-YYYY HH:mm"),
+                            ]}
                             onChange={(dates, dateStrings) => {
-                              // setFieldValue('startDate', dateStrings[0]);
-                              // setFieldValue('endDate', dateStrings[1]);
+                              setFieldValue('startDate', dateStrings[0]);
+                              setFieldValue('endDate', dateStrings[1]);
                             }}
                             allowClear={false}
                           />
@@ -179,7 +361,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                             className="custom-search-box-1"
                             width={"100%"}
                             display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ cursor: 'pointer', gap: '8px' }}
-                          // onClick={openMapModal}
+                            onClick={openMapModal}
                           >
                             <LocationOnOutlined sx={{
                               color: theme.palette.action.disabled,
@@ -189,10 +371,9 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                               color={theme.palette.text.primary}
                               sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
                               padding={'11px 0px'}
-                            // onChange={handleChange}
+                              onChange={handleChange}
                             >
-                              {/* {values.address} */}
-                              values.address
+                              {values.address}
                             </Typography>
                           </Box>
                         </Box>
@@ -214,7 +395,13 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                               {t("booking.pricePerday")}
                             </Typography>
                             <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                              {/* {`${formatMoney(motorbike?.priceRent)}/${t("booking.perDay")}`} */}
+                              {`${formatMoneyNew(props.motorbikes.reduce((total, mt) => {
+                                if (mt && mt.priceRent !== undefined) {
+                                  return total + mt.priceRent;
+                                } else {
+                                  return total;
+                                }
+                              }, 0) || 0)}/${t("booking.perDay")}`} {props.motorbikes.length} {t("booking.perMotorbike")}
                             </Typography>
                           </Box>
                         </Box>
@@ -229,7 +416,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                               {t("booking.totalPriceRent")}
                             </Typography>
                             <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                              {/* {formatMoney(previewBookingData?.totalAmountTemp)} x {previewBookingData?.rentalDays} ngày */}
+                              {formatMoney(previewBookingData?.totalAmountTemp)} x {previewBookingData?.rentalDays} {t("booking.perDay")}
                             </Typography>
                           </Box>
                           {/* Phí dịch vụ */}
@@ -238,26 +425,25 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                               {t("booking.totalPriceService")}
                             </Typography>
                             <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                              {/* {formatMoney(previewBookingData?.feeOfService)} */}
+                              {formatMoney(previewBookingData?.feeOfService)}
                             </Typography>
                           </Box>
                           {/* Mã khuyến mãi */}
                           {
-                            // values.couponCode !== "" 
-                            // &&
+                            values.couponCode !== ""
+                            &&
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                               <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                                {/* {t("booking.promotionCode")}: <span style={{ textTransform: 'uppercase', fontWeight: '700' }}>{values.couponCode}</span> */}
+                                {t("booking.promotionCode")}: <span style={{ textTransform: 'uppercase', fontWeight: '700' }}>{values.couponCode}</span>
                               </Typography>
                               <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                                {/* {formatMoney(previewBookingData?.couponPrice)} */}
+                                {formatMoney(previewBookingData?.couponPrice)}
                               </Typography>
                             </Box>
                           }
                           <MyCustomButton iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%'
                             onClick={
-                              () => { }
-                              // () => setModalPromotionOpen(true)
+                              () => setModalPromotionOpen(true)
                             }
                             content={t("booking.promotionCode")} variant='outlined' />
 
@@ -271,14 +457,14 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                             {t("booking.totalPrice")}
                           </Typography>
                           <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                            {/* {formatMoney(previewBookingData?.totalAmount)} */}
+                            {formatMoney(previewBookingData?.totalAmount)}
                           </Typography>
                         </Box>
                         {/* Line */}
                         <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
 
                         {/* Button */}
-                        {/* {
+                        {
                         UserService.isLoggedIn() ?
                           <MyCustomButton disabled={isProcessingBooking}
                             width='100%' onClick={() => {
@@ -289,7 +475,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                             <MyCustomButton disabled={isProcessingBooking}
                               width='100%' content={t("booking.loginToContinue")} variant='contained' />
                           </a>
-                      } */}
+                      }
                       </Box>
                     </Box>
                   </Box>
@@ -304,7 +490,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
 
 
       {/* modal address */}
-      {/* <Modal
+      <Modal
         open={isMapModalOpen}
         aria-labelledby="map-modal-title"
         aria-describedby="map-modal-description"
@@ -487,22 +673,22 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
             />
           </Box>
         </Box>
-      </Modal> */}
+      </Modal>
 
       {/* modal promotion */}
-      {/* <PromotionModal isModalPromotionOpen={isModalPromotionOpen} setModalPromotionOpen={setModalPromotionOpen} setFieldValue={setFieldValue} counponCode={values.couponCode} isMobile={isMobile} /> */}
+      <PromotionModal isModalPromotionOpen={isModalPromotionOpen} setModalPromotionOpen={setModalPromotionOpen} setFieldValue={setFieldValue} counponCode={values.couponCode} isMobile={isMobile} />
 
       {/*modal confirm booking*/}
-      {/* <ConfirmMotorbikeBookingModal
+      <ConfirmMotorbikeBookingModal
         isModalConfirmBookingOpen={isModalConfirmBookingOpen}
         setModalConfirmBookingOpen={setModalConfirmBookingOpen}
         values={values}
         isMobile={isMobile}
-        motorbikes={[motorbike!]}
+        motorbikes={props.motorbikes}
         previewBookingData={previewBookingData}
         isProcessingBooking={isProcessingBooking}
         handleSubmit={handleSubmit}
-      /> */}
+      />
     </>
   );
 }

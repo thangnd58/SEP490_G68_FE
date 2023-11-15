@@ -27,7 +27,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
     const navigate = useNavigate();
     const showMotorbikeDetailModal = () => {
         setContentModal(
-            <MotorbikeDetailModal motorbikeId={props.motorbike.id} startDate={props.startDate} endDate={props.endDate} searchedAddress={props.searchedAddress} />
+            <MotorbikeDetailModal motorbikeId={props.motorbike.id?.toString()} startDate={props.startDate} endDate={props.endDate} searchedAddress={props.searchedAddress} />
         )
         setShowModal(true)
     }

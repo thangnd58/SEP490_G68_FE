@@ -27,7 +27,7 @@ import { ConfirmMotorbikeBookingModal } from '../../MotorbikePage/components/Con
 import { RequireWhenRent } from '../../MotorbikePage/components/RequireWhenRent';
 import UserService from '../../../services/UserService';
 
-export default function MotorbikeDetailModal(props: { motorbikeId: number | undefined, searchedAddress?: string, startDate?: string, endDate?: string }) {
+export default function MotorbikeDetailModal(props: { motorbikeId: string | undefined, searchedAddress?: string, startDate?: string, endDate?: string }) {
 
   const { isMobile, isIpad } = useThemePage();
   const { t } = usei18next();
@@ -112,7 +112,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
       try {
         setIsProcessingBooking(true);
         const request = {
-          motorbikeId: props?.motorbikeId || 0,
+          motorbikeId: props?.motorbikeId || "0",
           address: values.address || "",
           deliveryMode: values.deliveryMode,
           startDatetime: values.startDate || "",
@@ -145,7 +145,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: number | unde
 
   useEffect(() => {
     const bookingPreview: BookingRequest = {
-      motorbikeId: props?.motorbikeId || 0,
+      motorbikeId: props?.motorbikeId || "0",
       address: values.address || "",
       deliveryMode: values.deliveryMode,
       startDatetime: values.startDate || "",

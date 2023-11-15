@@ -264,7 +264,7 @@ function Header() {
                                                 horizontal: "right",
                                             }}
                                             color="primary"
-                                            // PaperProps={{ sx: { borderRadius: "16px" } }}
+                                        // PaperProps={{ sx: { borderRadius: "16px" } }}
                                         >
                                             <Box
                                                 sx={{
@@ -304,7 +304,7 @@ function Header() {
                                                                         label={notifi.title
                                                                             .substring(
                                                                                 0,
-                                                                                30
+                                                                                55
                                                                             )
                                                                             .concat(
                                                                                 "..."
@@ -332,7 +332,7 @@ function Header() {
                                                                         content={notifi.detail
                                                                             .substring(
                                                                                 0,
-                                                                                45
+                                                                                55
                                                                             )
                                                                             .concat(
                                                                                 "..."
@@ -461,7 +461,7 @@ function Header() {
                                                 />
                                             </MenuItem>
                                             {user?.role.roleName === "Admin" ||
-                                            user?.role.roleName === "Staff" ? (
+                                                user?.role.roleName === "Staff" ? (
                                                 <MenuItem
                                                     onClick={() => {
                                                         setIsAvatarClicked(
@@ -520,7 +520,7 @@ function Header() {
                                             )}
 
                                             {user?.role.roleName ===
-                                            "Customer" ? (
+                                                "Customer" ? (
                                                 <Box>
                                                     <MenuItem
                                                         onClick={() => {
@@ -737,7 +737,7 @@ function Header() {
                                     </Typography>
                                 </Box>
                                 {user?.role.roleName === "Admin" ||
-                                user?.role.roleName === "Staff" ? (
+                                    user?.role.roleName === "Staff" ? (
                                     <MyCustomButton
                                         iconPosition="left"
                                         icon={
@@ -961,12 +961,12 @@ function Header() {
                                     onClick={() =>
                                         isLogin
                                             ? navigate(
-                                                  ROUTES.user.registermotorbike
-                                              )
+                                                ROUTES.user.registermotorbike
+                                            )
                                             : navigate(
-                                                  ROUTES.user
-                                                      .introductionmotorbike
-                                              )
+                                                ROUTES.user
+                                                    .introductionmotorbike
+                                            )
                                     }
                                     content={t("header.registermotorbike")}
                                     variant="outlined"
@@ -1002,7 +1002,6 @@ export function PopoverItem({
                 display: "flex",
                 alignItems: "center",
                 margin: "8px 0px",
-                position: "relative",
                 gap: "8px",
             }}
         >

@@ -7,7 +7,7 @@ import { ArrowRightIcon } from "@mui/x-date-pickers";
 import useThemePage from "../../hooks/useThemePage";
 import { CalendarImage, ClockImage, MotorbikeImage } from "../../assets/images";
 import usei18next from "../../hooks/usei18next";
-import { GoogleMap, Marker } from "@react-google-maps/api";
+import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { MotorbikeBookingCard } from "./components/MotorbikeBookingCard";
 import { RequireWhenRent } from "./components/RequireWhenRent";
 import theme from "../../utils/theme";
@@ -151,6 +151,11 @@ export const BookingDetailPage = () => {
         setShowModal(true)
     }
 
+    // MAP CONTROLLER
+    const { isLoaded } = useLoadScript({
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
+        libraries: ["places"],
+    });
 
     return (
         <>
@@ -209,7 +214,7 @@ export const BookingDetailPage = () => {
                                     </Box>
                                 </Box>
                                 <Typography fontSize={isMobile ? 16 : 24} fontWeight={'500'} color={'common.black'}>{t("booking.addressGetMotorbike")}</Typography>
-                                <TextField value={booking?.address} disabled />
+                                <TextField value={booking?.address} inputProps={{readonly: 'true' }} />
 
                                 <Box
                                     borderRadius={"10px"}
@@ -220,20 +225,20 @@ export const BookingDetailPage = () => {
                                     alignItems={"center"}
                                     flexDirection={"column"}
                                 >
-                                    {/* <GoogleMap
-                            zoom={18}
-                            center={{ lat: 21.028511, lng: 105.804817 }}
-                            mapContainerStyle={{
-                                width: "100%",
-                                height: "40vh",
-                                borderRadius: "8px",
-                            }}
+                                    <GoogleMap
+                                        zoom={18}
+                                        center={{ lat: 21.028511, lng: 105.804817 }}
+                                        mapContainerStyle={{
+                                            width: "100%",
+                                            height: "40vh",
+                                            borderRadius: "8px",
+                                        }}
 
-                        >
-                            {booking &&
-                                <Marker position={{ lat: 21.028511, lng: 105.804817 }} />
-                            }
-                        </GoogleMap> */}
+                                    >
+                                        {booking &&
+                                            <Marker position={{ lat: 21.028511, lng: 105.804817 }} />
+                                        }
+                                    </GoogleMap>
                                 </Box>
                             </Box>
                             <Box width={isMobile ? '100%' : '45%'} sx={{ background: isMobile ? 'none' : 'rgba(139, 69, 19, 0.10)', borderRadius: '8px', padding: isMobile ? '0px' : '32px' }}>

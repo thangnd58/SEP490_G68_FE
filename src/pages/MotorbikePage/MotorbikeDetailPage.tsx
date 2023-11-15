@@ -149,7 +149,7 @@ export default function MotorbikeDetailModal() {
 
     useEffect(() => {
         const bookingPreview: BookingRequest = {
-            motorbikeId: Number(motorbikeId) || 0,
+            motorbikeId: motorbikeId || "0",
             address: values.address || "",
             deliveryMode: values.deliveryMode,
             startDatetime: values.startDate || "",
