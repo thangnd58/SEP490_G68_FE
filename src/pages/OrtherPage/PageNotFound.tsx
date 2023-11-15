@@ -22,7 +22,7 @@ function PageNotFound() {
           <Typography variant="h6" color="textSecondary" textAlign="center" mt={2} mb={2} fontWeight={500} flexWrap={'wrap'} sx={{ fontSize: isMobile ? '16px' : '20px' }}>
             {t("404.message")}
           </Typography>
-          <Button variant="contained" color="primary" onClick={() => navigate(-1)} sx={{ fontSize: isMobile ? '16px' : '20px' }}>
+          <Button variant="contained" color="primary" onClick={() => navigate(ROUTES.homepage)} sx={{ fontSize: isMobile ? '16px' : '20px' }}>
           {t("404.back")}
           </Button>
         </Box>

@@ -21,10 +21,11 @@ import { CheckCircleOutline, ErrorOutline, WarningAmber } from '@mui/icons-mater
 import dayjs from 'dayjs';
 import useThemePage from '../../../hooks/useThemePage';
 import { BookingService } from '../../../services/BookingService';
-import { BookingPaymentType, BookingStatus } from '../../../utils/Constant';
+import { BookingPaymentType, BookingStatus, ROUTES } from '../../../utils/Constant';
 import { ModalContext } from '../../../contexts/ModalContext';
 import MyDialog from '../../../components/common/MyDialog';
 import { PaymentService } from '../../../services/PaymentService';
+import { useNavigate } from 'react-router-dom';
 
 
 function createData(
@@ -53,6 +54,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
     const { t } = usei18next();
     const { isMobile } = useThemePage();
     const { setShowModal, setContentModal } = React.useContext(ModalContext)
+    const navigate = useNavigate();
 
     const handleProcessPayment = async (booking: Booking) => {
         try {
@@ -360,9 +362,10 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                                             disableRowSelectionOnClick
                                             pagination
                                             onRowClick={(event) => {
-                                                if (event.row.status === BookingStatus.PendingPayment) {
-                                                    setContentModal(<MyDialog title='Thanh toán đơn đặt xe' content='Bạn có đồng ý thanh toán hay không?' hasAgreeButton={true} hasCancelButton={true} onClickAgree={() => handleProcessPayment(event.row)} />)
+                                                if (event.row.status !== BookingStatus.Cancelled) {
+                                                    navigate(`/${ROUTES.booking.detail}/${event.row.bookingId}`)
                                                 }
+                                                // setContentModal(<MyDialog title='Thanh toán đơn đặt xe' content='Bạn có đồng ý thanh toán hay không?' hasAgreeButton={true} hasCancelButton={true} onClickAgree={() => handleProcessPayment(event.row)} />)
                                             }}
                                         />
                                     )

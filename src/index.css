@@ -45,6 +45,16 @@ body {
   display: none  
 }
 
+.motorcycle-container {
+  position: relative;
+  transition: left 0.1s linear; /* Animation transition */
+}
+
+.motorcycle-image {
+  width: 100px; /* Adjust the width as needed */
+  height: auto;
+}
+
 
 @import url("./utils/ckEditor.css");
 
