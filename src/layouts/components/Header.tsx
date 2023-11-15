@@ -221,67 +221,29 @@ function Header() {
                                                     Thông báo
                                                 </Typography>
                                                 <Divider />
-                                                {userNotification.length > 0 ? (
-                                                    userNotification.map(
-                                                        (notifi) => {
-                                                            return (
-                                                                <MenuItem
-                                                                    sx={{
-                                                                        textAlign:
-                                                                            "center",
-                                                                    }}
-                                                                    key={`NOTIFI${notifi.notificationId}`}
-                                                                    onClick={() => {
-                                                                        setContentModal(
-                                                                            <DetailNotification
-                                                                                id={
-                                                                                    notifi.notificationId
-                                                                                }
-                                                                            />
-                                                                        );
-                                                                    }}
-                                                                >
-                                                                    <PopoverItem
-                                                                        label={notifi.title
-                                                                            .substring(
-                                                                                0,
-                                                                                30
-                                                                            )
-                                                                            .concat(
-                                                                                "..."
-                                                                            )}
-                                                                        icon={
-                                                                            <NotificationsActiveOutlined
-                                                                                scale={
-                                                                                    2
-                                                                                }
-                                                                                sx={{
-                                                                                    color: notifi.isRead
-                                                                                        ? "#9A9EA5"
-                                                                                        : "primary.main",
-                                                                                }}
-                                                                            />
-                                                                        }
-                                                                        iconRead={
-                                                                            !notifi.isRead ? (
-                                                                                <UnReadIcon />
-                                                                            ) : undefined
-                                                                        }
-                                                                        content={notifi.detail
-                                                                            .substring(
-                                                                                0,
-                                                                                45
-                                                                            )
-                                                                            .concat(
-                                                                                "..."
-                                                                            )}
-                                                                        timeAgo={
-                                                                            notifi.createDatetime
-                                                                        }
-                                                                    />
-                                                                </MenuItem>
-                                                            );
-                                                        }
+                                                {
+                                                    userNotification.length > 0 ? userNotification.map((notifi) => {
+                                                        return (
+                                                            <MenuItem
+                                                                sx={{ textAlign: 'center' }}
+                                                                key={`NOTIFI${notifi.notificationId}`}
+                                                                onClick={
+                                                                    () => {
+                                                                        setContentModal(<DetailNotification id={notifi.notificationId} />)
+                                                                    }
+                                                                }
+                                                            >
+                                                                <PopoverItem
+                                                                    label={notifi.title.substring(0, 30).concat('...')}
+                                                                    icon={<img width={48} height={48} src={notifi.category.image}/>}
+                                                                    iconRead={!notifi.isRead ? <UnReadIcon /> : undefined}
+                                                                    content={notifi.detail.substring(0, 45).concat('...')}
+                                                                    timeAgo={notifi.createDatetime}
+                                                                />
+                                                            </MenuItem>
+                                                        )
+                                                    }) : (
+                                                        <Typography pt={'8px'}>{t("notification.empty")}</Typography>
                                                     )
                                                 ) : (
                                                     <Typography pt={"8px"}>

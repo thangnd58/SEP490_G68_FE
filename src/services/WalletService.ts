@@ -10,6 +10,7 @@ const historyWithdrawal = '/payment/history/withdraw'
 const requestWithdrawal = '/payment/requestwithdraw'
 const listRequestWithdrawal = '/payment/list/requestwithdraw'
 const changeStatusRequestWithdrawal = '/payment/approverequestwithdraw'
+const rejectRequestBooking = '/payment/rejectrequestwithdraw'
 
 const WalletService = {
     depositeMoney: async (amount: string) => {
@@ -32,7 +33,10 @@ const WalletService = {
     },
     changeStatusRequestWithdrawal: async (id: number) => {
         return await api.post(`${changeStatusRequestWithdrawal}/${id}`)
-    }
+    },
+    rejectRequestWithdrawal: async (id: number) => {
+        return await api.post(`${rejectRequestBooking}/${id}`)
+    },
 }
 
 export default WalletService

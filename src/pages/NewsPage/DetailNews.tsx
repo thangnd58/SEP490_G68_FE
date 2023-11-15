@@ -42,7 +42,7 @@ export const DetailNews = () => {
                         />
                     </Box>
                     <Typography>
-                        <div style={{textAlign: 'justify'}} dangerouslySetInnerHTML={{ __html: news.detail || "" }}></div>
+                        <div style={{ textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: news.detail || "" }}></div>
                     </Typography>
                 </Box>
             }

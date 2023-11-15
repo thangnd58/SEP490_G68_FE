@@ -41,6 +41,10 @@ body {
   -webkit-background-clip: content-box;
 }
 
+.hiddenSroll::-webkit-scrollbar {
+  display: none  
+}
+
 
 @import url("./utils/ckEditor.css");
 

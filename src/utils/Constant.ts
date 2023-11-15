@@ -21,7 +21,8 @@ export const ROUTES = {
         shoppingCart: "/cart",
         updateregistermotorbike: "/update-register-motorbike",
         wallet: "/my-wallet",
-        favourite: "/my-favourite"
+        favourite: "/my-favourite",
+        detailmotorbike: "/detail-motorbike"
     },
 
     component: {

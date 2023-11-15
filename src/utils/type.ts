@@ -90,48 +90,55 @@ export interface Ward {
 }
 
 export interface Motorbike {
-    id?: number;
-    licensePlate: string;
-    releaseYear: number;
-    type: string;
-    priceRent: number;
-    equipments: string;
-    fuelConsumption: number;
-    provinceId: number;
-    districtId: number;
-    wardId: number;
-    image: string;
-    imageUrl: string[];
-    address: string;
-    location: string;
-    status: string;
-    statusComment: string;
-    user: User;
-    createDatetime: string;
-    model: Model;
-    miscellaneous: string;
-    description: string;
-    distance: number;
-    isFavourite: boolean;
+    id?: number,
+    licensePlate: string,
+    releaseYear: number,
+    type: string,
+    priceRent: number,
+    equipments: string,
+    fuelConsumption: number,
+    maxDeliveryDistance: number,
+    freeDeliveryDistance: number,
+    feeDeliveryDistance: number,
+    provinceId: number,
+    districtId: number,
+    wardId: number,
+    image: string,
+    imageUrl: string[],
+    address: string,
+    location: string,
+    status: string,
+    statusComment: string,
+    user: User,
+    createDatetime: string,
+    model: Model,
+    miscellaneous: string,
+    description: string,
+    distance: number,
+    isFavourite: boolean,
 }
 
 export interface MotorbikeRequest {
-    id?: number;
-    licensePlate: string;
-    releaseYear: number;
-    type: string;
-    priceRent: number;
-    equipments: string;
-    fuelConsumption: number;
-    provinceId: number;
-    districtId: number;
-    wardId: number;
-    image: string;
-    address: string;
-    location: string;
-    modelId: number;
-    description: string;
-    miscellaneous: string;
+    id?: number,
+    licensePlate: string,
+    releaseYear: number,
+    type: string,
+    priceRent: number,
+    equipments: string,
+    fuelConsumption: number,
+    maxDeliveryDistance: number,
+    freeDeliveryDistance: number,
+    feeDeliveryDistance: number,
+    provinceId: number,
+    districtId: number,
+    wardId: number,
+    image: string,
+    address: string,
+    location: string,
+    modelId: number,
+    description: string,
+    miscellaneous: string,
+
 }
 
 export interface Bank {
@@ -213,9 +220,22 @@ export interface UserForRent {
 }
 
 export interface SearchMotorbikeRequest {
-    startDate: string;
-    endDate: string;
-    address: string;
+    address: string,
+    startDate: string,
+    endDate: string,
+    minPrice?: number,
+    maxPrice?: number,
+    type?: string,
+    brandId?: number,
+    minReleaseYear?: number,
+    maxReleaseYear?: number,
+    minFuelConsumption?: number,
+    maxFuelConsumption?: number,
+    equipments?: string,
+    minDistance?: number,
+    maxDistance?: number,
+    maximumRating?: boolean,
+    orderBy?: string,
 }
 
 export interface BookingRequest {
@@ -228,17 +248,18 @@ export interface BookingRequest {
 }
 
 export interface BookingResponse {
-    motorbikeId: number;
-    deliveryMode: string;
-    address: string;
-    startDatetime: string;
-    endDatetime: string;
-    rentalDays: number;
-    motorbikes: Motorbike[];
-    feeOfService: number;
-    totalAmountTemp: number;
-    couponCode: string;
-    totalAmount: number;
+    motorbikeId: number,
+    deliveryMode: string,
+    address: string,
+    startDatetime: string,
+    endDatetime: string,
+    rentalDays: number,
+    motorbikes: Motorbike[],
+    feeOfService: number,
+    totalAmountTemp: number,
+    couponCode: string,
+    couponPrice: number,
+    totalAmount: number
 }
 
 export interface Booking {
@@ -262,13 +283,20 @@ export interface Booking {
 }
 
 export interface Notification {
-    notificationId: number;
-    userId: number;
-    title: string;
-    detail: string;
-    isRead: boolean;
-    createDatetime: string;
-    updateDatetime: string;
+    notificationId: number,
+    userId: number,
+    title: string,
+    detail: string,
+    isRead: boolean,
+    createDatetime: string,
+    updateDatetime: string,
+    category: NotificationCategory
+}
+
+export interface NotificationCategory {
+    categoryId: number,
+    categoryName: string,
+    image: string
 }
 
 export interface News {
@@ -322,4 +350,23 @@ export interface MotorbikeCart {
     totalPriceRent: number;
     status: string;
     statusComment: string[];
+}
+
+
+export interface Promotion {
+    id: number,
+    code: string,
+    title: string,
+    description: string,
+    image: string,
+    startDate: string,
+    endDate: string,
+    type: string,
+    maxValue: number,
+    minValue: number,
+    value: number,
+    numberLeft: number,
+    status: true,
+    userCreated: number,
+    dateCreated: string
 }

@@ -35,6 +35,7 @@ import NewsManagement from '../pages/DashBoardPage/NewsManagement/NewsManagement
 import NewsManagementForm from '../pages/DashBoardPage/NewsManagement/NewsManagementForm';
 import { DetailNews } from '../pages/NewsPage/DetailNews';
 import { NewsPage } from '../pages/NewsPage/NewsPage';
+import MotorbikeDetailPage from '../pages/MotorbikePage/MotorbikeDetailPage';
 
 export type Route = {
     path: string;
@@ -63,6 +64,7 @@ export const routes: Route[] = [
     { path: ROUTES.user.shoppingCart, component: CartPage, role: ["Customer"] },
     { path: `${ROUTES.user.updateregistermotorbike}/:id`, component: UpdateRegisterMotorbike, role: ["Customer"] },
     { path: ROUTES.user.favourite, component: Favourite, role: ["Customer"] },
+    { path: `${ROUTES.user.detailmotorbike}/:motorbikeId/:searchedAddress/:startDate/:endDate`, component: MotorbikeDetailPage },
 
     // Auth Page
     { path: ROUTES.account.login, component: Login, layout: LayoutWithoutFooter },

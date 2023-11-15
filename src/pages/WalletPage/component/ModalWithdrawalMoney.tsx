@@ -170,7 +170,7 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
                 </Typography>
                 <TextField
                     placeholder={t("wallet.placeholder_bank_number")}
-                    type="number"
+                    type="text"
                     name="bankNumber"
                     value={values.bankNumber}
                     onChange={handleChange}
@@ -178,7 +178,7 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
                         "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
                             display: "none",
                         },
-                        "& input[type=number]": {
+                        "& input[type=text]": {
                             MozAppearance: "textfield",
                         },
                     }}

@@ -92,11 +92,10 @@ const ListMotorbikeForm = () => {
       ),
     },
     {
-      field: "model.modelName",
+      field: "model.modelName" || "model.brand.brandName",
       headerName: t("postMotorbike.listform.table-cell-model"),
       width: 150,
-      valueGetter: ({ row }: any) => row.model.modelName
-
+      valueGetter: ({ row }: any) => row.model.brand.brandName + " " + row.model.modelName,
     },
     { field: 'licensePlate', headerName: t("postMotorbike.listform.table-cell-plate"), width: 150 },
     {
@@ -331,7 +330,7 @@ function ItemMotorbikeModal({ isMobile, isIpad, isItemModalOpen, closeItemModal,
                 fontWeight="600"
                 fontSize={isMobile ? "32px" : "48px"}
                 textTransform={"uppercase"}>
-                {motorbike?.model.modelName}
+                {motorbike?.model.brand.brandName} {motorbike?.model.modelName}
               </Typography>
               <Box display="flex" flexDirection="row" alignItems="center" width={"100%"} mb={"32px"}>
                 <MyIcon icon={<LocationOn />} hasTooltip tooltipText={t("postMotorbike.listform.badge-location")} onClick={() => { }} position='left' />
