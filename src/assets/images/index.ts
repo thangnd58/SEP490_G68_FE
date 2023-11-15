@@ -17,8 +17,16 @@ import CalendarImage from './calendar.png'
 import LicencePlateImage from './licence-plate.png'
 import LocationImage from './location.png'
 import PriceImage from './price.png'
+import DirveLicenceImage from './drive-licence.png'
+import PassportImage from './passport.png'
+import ClockImage from './clock.png'
+import MotorbikeImage from './motorbike.png'
 
 export {
+    MotorbikeImage,
+    ClockImage,
+    DirveLicenceImage,
+    PassportImage,
     SettingIcon,
     WithdrawalMoneyImage,
     CancelImage,

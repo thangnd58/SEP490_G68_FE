@@ -22,7 +22,11 @@ export const ROUTES = {
         updateregistermotorbike: "/update-register-motorbike",
         wallet: "/my-wallet",
         favourite: "/my-favourite",
-        detailmotorbike: "/detail-motorbike"
+        detailmotorbike: "/detail-motorbike",
+    },
+    booking: {
+        detail: "booking-detail",
+        mybooking: "/my-booking", 
     },
 
     component: {

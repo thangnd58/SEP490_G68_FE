@@ -14,7 +14,8 @@
     "favourite": "My Favourite",
     "wallet": "My Wallet",
     "notification": "Notification",
-    "cart": "My cart"
+    "cart": "My cart",
+    "my_booking": "My Booking"
   },
   "layout": {
     "admin": "Adminstrator",
@@ -475,7 +476,7 @@
     "title_booking_id": "Booking code",
     "title_address_get_motorbike": "Receive address",
     "title_startdate_rent": "Vehicle pick-up date",
-    "title_enddate_rent": "Car return date",
+    "title_enddate_rent": "Motorbike return date",
     "title_type_payment": "Payment type",
     "title_total_amount": "Total amount",
     "title_status_booking": "Status"
@@ -501,17 +502,22 @@
   "booking": {
     "toast": {
       "success": "Successful booking.",
-      "error": "Motorbike booking failed. Please try again later"
+      "error": "Motorbike booking failed. Please try again later",
+      "cancelBookSuccess": "Cancel motorbike booking successfully",
+      "paymentBookSuccess": "Payment success"
     },
+    "detailTitle": "Motorbike booking details",
     "perDay": "Day",
+    "perMotorbike": "motorbike",
     "startDate": "Start date",
     "endDate": "End date",
+    "timeRent": "Time rental",
     "addressGetMotorbike": "Motorbike delivery location",
     "paymentType": "Payment type",
     "payWallet": "Wallet balance",
     "payVnPay": "VN Pay e-wallet",
     "pricePerday": "Rental unit price",
-    "totalPriceRent": "Total car rental fee",
+    "totalPriceRent": "Total motorbike rental fee",
     "totalPriceService": "Total service fee",
     "promotionCode": "Promotion code",
     "totalPrice": "Total price",
@@ -519,7 +525,43 @@
     "cancelBook": "Cancel",
     "buttonApplyPromotion": "Apply",
     "buttonApplyPromotionOk": "Applied",
-    "confirmInforBook": "Confirm booking information"
+    "confirmInforBook": "Confirm booking information",
+    "loginToContinue": "Login to continue",
+    "timeRemainingPay": "Time to pay remaining deposit",
+    "startUsingService": "Start your trip",
+    "endUsingService": "End your trip",
+    "paymentCol": "Deposit payment",
+    "confirmCancelBook": "Confirm cancellation", 
+    "contentConfirmCancelBook": "Do you want to cancel this trip?",
+    "paymentBooking": "Payment for motorbike order", 
+    "confirmPaymentBooking": "Do you agree to pay or not?"
+  },
+  "policy": {
+    "documentRental": "Motorbike rental documents",
+    "collateral": "Collateral",
+    "driveLicence": "GPLX & CCCD with chip (compare)",
+    "passport": "GPLX(compare) and Passport(retain)",
+    "otherCollateral": "No collateral required for Cash or other items",
+    "titlePolicy": "Motorbike rental terms",
+    "requireYearOld": "You must be 18 years of age or older and have a valid driver's license.",
+    "requireLicence": "You must have identification documents (ID card or passport) and a deposit depending on the regulations of each motorbike rental unit.",
+    "requireReadPolicy": "You must read and understand the terms of the motorbike rental contract before signing.",
+    "policyCancelBooking": "Cancelation policy",
+    "headerTimeCancel": "Time of flight cancellation",
+    "headerCustomerCancel": "Customer canceled trip",
+    "headerMotorbikeOwnerCancel": "Motorbike owner canceled the trip",
+    "in1Hour": "Within 1 hour after deposit",
+    "before3DayStart": "Before the trip 3 days",
+    "in3Day": "Within 3 days before trip",
+    "refundAll": "100% refund",
+    "refund70": "Refund 70%",
+    "noRefund": "No refund",
+    "noRefundOwner": "No deposit refund",
+    "refund30Owner": "30% deposit",
+    "refund100Owner": "100% deposit",
+    "freeCancel1hour": "Free cancellation within 1 hour after deposit",
+    "customerNotGetMotorbike": "Renters who do not receive the motorbike will pay 100% of the deposit",
+    "moneyReturn": "Deposit will be refunded within 1-3 days"
   },
   "helper": {
     "secondAgo": "seconds ago",
@@ -532,7 +574,11 @@
     "hourRemaining": "{{hour}} hours left",
     "dayRemaining": "{{day}} days left",
     "monthRemaining": "{{month}} months left",
-    "yearRemaining": "{{year}} years left"
+    "yearRemaining": "{{year}} years left",
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds"
   },
   "notification": {
     "empty": "You don't have any notifications yet"
@@ -542,5 +588,9 @@
   },
   "promotion": {
     "yourPromo": "List promotion code"
+  },
+  "myBooking": {
+    "currentBooking": "Current booking",
+    "historyBooking": "History booking"
   }
 }
