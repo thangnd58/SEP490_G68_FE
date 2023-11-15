@@ -18,8 +18,9 @@ import MyCustomButton from "../../components/common/MyButton";
 import { ModalContext } from "../../contexts/ModalContext";
 import MyDialog from "../../components/common/MyDialog";
 import { PaymentService } from "../../services/PaymentService";
-import { useAppSelector } from "../../hooks/useAction";
+import { useAppDispatch, useAppSelector } from "../../hooks/useAction";
 import ToastComponent from "../../components/toast/ToastComponent";
+import { getUserInfo } from "../../redux/reducers/authReducer";
 
 export const BookingDetailPage = () => {
     const { bookingId } = useParams();
@@ -35,6 +36,7 @@ export const BookingDetailPage = () => {
     ];
     const [paymentType, setPaymentType] = useState<string>(BookingPaymentType.Card)
     const { user } = useAppSelector((state) => state.userInfo);
+    const dispatch = useAppDispatch();
     const [reloadBooking, setReloadBooking] = useState<boolean>(false)
 
     useEffect(() => {
@@ -67,6 +69,7 @@ export const BookingDetailPage = () => {
                 await PaymentService.paymentWithWallet(booking.bookingId, booking.totalAmount * 1000)
                 ToastComponent(t("booking.toast.paymentBookSuccess"), "success")
                 setReloadBooking(!reloadBooking)
+                dispatch(getUserInfo())
             } else {
                 const res: any = await PaymentService.createRequestBooking(booking.bookingId, booking.totalAmount * 1000);
                 if (res) {
