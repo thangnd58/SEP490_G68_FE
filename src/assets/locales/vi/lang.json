@@ -58,7 +58,8 @@
     "back_to_home_page": "Trở về trang chủ",
     "verifySuceessLabel": "Chúc mừng",
     "verifyErrorLabel": "Rất tiếc",
-    "validateString265Char": "Chuỗi không thể vượt quá 256 ký tự"
+    "validateString265Char": "Chuỗi không thể vượt quá 256 ký tự",
+    "invalidPromoCode": "Nhập sai định dạng mã khuyến mãi"
   },
   "toast": {
       "login": {
@@ -266,7 +267,8 @@
       "motorbikeRentalManager": "Quản lý xe máy cho thuê",
       "withdrawalRequestManager": "Quản lý yêu cầu rút tiền",
       "brand": "Quản lý hãng xe",
-      "news": "Quản lý tin tức"
+      "news": "Quản lý tin tức",
+      "promotions": "Quản lý khuyến mãi"
     },
     "License": "Bằng lái xe",
     "Motobike": {
@@ -338,8 +340,29 @@
       "viewsMore": "Xem thêm",
       "buttonDelete": "Xóa",
       "addNews": "Thêm",
-      "deleteNewsTitle": "Xóa tin tức",
+      "deleteNewsTitle": "Xóa tin tức này",
       "deleteNewsWarn": "Lưu ý: Sau khi xóa sẽ không thể khôi phục. Bạn có muốn xóa không?"
+    },
+    "promotions": {
+      "promotionTitle": "Tiêu đề",
+      "promotionCode": "Code",
+      "promotionStartDate": "Ngày bắt đầu",
+      "promotionEndDate": "Ngày kết thúc",
+      "promotionLeft": "Còn lại",
+      "promotionStatus": "Trạng thái",
+      "statusDeletePromotionSuccess": "Xóa mã khuyến mãi thành công",
+      "statusDeletePromotionError": "Xóa mã khuyến mãi thất bại",
+      "deletePromotionTitle": "Kết thúc chương trình giảm giá này",
+      "deletePromotionWarn": "Lưu ý: Sau khi kết thúc sẽ không thể mở lại. Bạn có đồng ý không?",
+      "buttonEnd": "Kết thúc giảm giá",
+      "titleTimeStart": "Thời gian diễn ra",
+      "typePromo": "Loại giảm giá",
+      "byMoney": "Theo số tiền",
+      "byPercent": "Theo phần trăm",
+      "valuePromo": "Giá trị giảm",
+      "minValuePromo": "Giá trị tối thiểu để được dùng mã",
+      "maxValuePromo": "Giảm tối đa",
+      "numberLeft": "Số lượng khuyến mãi"
     }
   },
   "component": {

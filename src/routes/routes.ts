@@ -39,6 +39,8 @@ import MotorbikeDetailPage from '../pages/MotorbikePage/MotorbikeDetailPage';
 import MyBooking from '../pages/BookMotorbike/MyBooking';
 import { BookingDetailPage } from '../pages/MotorbikePage/BookingDetailPage';
 import BrandManagementForm from '../pages/DashBoardPage/BrandManagement/BrandManagementForm';
+import PromotionManagement from '../pages/DashBoardPage/PromotionManagement/PromotionManagement';
+import PromotionManagementForm from '../pages/DashBoardPage/PromotionManagement/PromotionManagementForm';
 
 export type Route = {
     path: string;
@@ -90,6 +92,8 @@ export const routes: Route[] = [
     { path: `${ROUTES.admin.licenceregister}/:id`, component: LicenceRegisterDetail, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.motorbikeregister}/:id`, component: MotorbikeRegisterDetail, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.manageNews}/:id`, component: NewsManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"] },
+    { path: `${ROUTES.admin.managePromotion}`, component: PromotionManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
+    { path: `${ROUTES.admin.managePromotion}/:id`, component: PromotionManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"] },
 
     //Wallet Page
     { path: `${ROUTES.user.wallet}`, component: Wallet, role: ["Admin", "Staff", "Customer"] },

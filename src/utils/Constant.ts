@@ -42,7 +42,8 @@ export const ROUTES = {
         motorbikeregister: "/manage-motorbikes/motorbike-detail",
         managerequestwithdraw: "/manage-withdrawals",
         managerBrand: "/manage-brands",
-        manageNews: "/manage-news"
+        manageNews: "/manage-news",
+        managePromotion: "/manage-promotions"
     },
     other: {
         pagenotfound: "/page-not-found",
