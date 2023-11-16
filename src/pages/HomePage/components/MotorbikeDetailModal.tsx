@@ -77,6 +77,10 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
     return dayjs(timestamp * 1000).format("DD-MM-YYYY HH:mm");
   }
 
+  // get today date and tomorrow
+  const today = dayjs().format("DD-MM-YYYY HH:mm");
+  const tomorrow = dayjs().add(1, 'day').format("DD-MM-YYYY HH:mm");
+
   useEffect(() => {
     if (motorbike) {
       const tempEquipmentList = motorbike.equipments.split(",");
@@ -144,12 +148,20 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
   } = formik;
 
   useEffect(() => {
+    if (!props.startDate || !props.endDate) {
+      setFieldValue("startDate", today);
+      setFieldValue("endDate", tomorrow);
+    }
+    if (!props.searchedAddress) {
+      setFieldValue("address", "Hà Nội");
+    }
+
     const bookingPreview: BookingRequest = {
       motorbikeId: props?.motorbikeId || "0",
-      address: values.address || "",
+      address: values.address || "Hà Nội",
       deliveryMode: values.deliveryMode,
-      startDatetime: values.startDate || "",
-      endDatetime: values.endDate || "",
+      startDatetime: values.startDate || today,
+      endDatetime: values.endDate || tomorrow,
       couponCode: values.couponCode || ""
     }
     BookingService.getPreviewBooking(bookingPreview).then((data) => {
@@ -549,7 +561,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                 >
 
                   <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"} mt={"16px"}>
-                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={isMobile ? "14px" : "16px"}>
                       {t("postMotorbike.listform.motorbikeFeature")}
                     </Typography>
 
@@ -589,10 +601,10 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     </Box>
                   </Box>
 
-                  <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+                  <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
                   {/* Mô tả */}
                   <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={isMobile ? "14px" : "16px"}>
                       {t("postMotorbike.listform.description")}
                     </Typography>
                     <Box width={"100%"}>
@@ -601,30 +613,30 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                           style={{ whiteSpace: "pre-wrap", fontSize: isMobile ? "12px" : "16px", fontWeight: "400" }}
                           dangerouslySetInnerHTML={{ __html: motorbike?.description || "" }}></div>
                       </Typography> */}
-                      <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
+                      <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "14px" : "16px"} fontWeight={400}>
                         <div style={{ textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: motorbike?.description || "" }}></div>
                       </Typography>
                     </Box>
                   </Box>
-                  <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+                  <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
 
                   {/* Điều khoản khác */}
                   <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                    <Typography variant="h6" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                    <Typography variant="h6" color={theme.palette.text.primary} fontWeight="700" fontSize={isMobile ? "14px" : "16px"}>
                       {t("postMotorbike.listform.miscellaneous")}
                     </Typography>
                     <Box width={"100%"}>
-                      <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
+                      <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "14px" : "16px"} fontWeight={400}>
                         <div style={{ textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: motorbike?.miscellaneous || "" }}></div>
                       </Typography>
                     </Box>
                   </Box>
-                  <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+                  <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
                   <RequireWhenRent />
-                  <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+                  <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
                   {/* Biển số xe */}
                   <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={isMobile ? "14px" : "16px"}>
                       {t("postMotorbike.listform.licensePlate")}
                     </Typography>
                     <Box width={"100%"}>
@@ -640,7 +652,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
 
                   {/* Trang bị */}
                   <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={isMobile ? "14px" : "16px"}>
                       {t("postMotorbike.listform.equipments")}
                     </Typography>
 
@@ -690,7 +702,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
 
                   {/* Hiển thị bản đồ vị trí xe */}
                   <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={isMobile ? "14px" : "16px"}>
                       {t("postMotorbike.listform.address")}
                     </Typography>
                     {isLoaded ? (
@@ -866,7 +878,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                         borderRadius={"10px"}
                         border={"3px solid"}
                         margin={"0px auto"}
-                        width={"100%"}
+                        width={"99%"}
                         justifyContent={"center"}
                         alignItems={"center"}
                         flexDirection={"column"}

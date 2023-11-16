@@ -26,12 +26,13 @@ import UserService from "../../../services/UserService";
 import { useAppDispatch } from "../../../hooks/useAction";
 import { getUserFavouriteInfo } from "../../../redux/reducers/userFavouriteReducer";
 import ToastComponent from "../../../components/toast/ToastComponent";
+import useThemePage from "../../../hooks/useThemePage";
 
 export default function MotorbikeFavouriteInforCard(props: {
     motorbike: MotorbikeFavourite;
-    isFavoritePage: boolean;
 }) {
     const { t } = usei18next();
+    const { isMobile } = useThemePage();
     const { setContentModal, setShowModal } = useContext(ModalContext);
     const dispatch = useAppDispatch();
 
@@ -58,24 +59,24 @@ export default function MotorbikeFavouriteInforCard(props: {
             sx={{
                 backgroundColor: "#fff",
             }}
-            width={"575px"}
-            border={"1px solid #e0e0e0"}
+            width={isMobile ? "300px" : "520px"}
+            border={"1px solid #8B4513"}
             borderRadius={"8px"}
             display={"flex"}
             padding={"16px"}
-            flexDirection={"row"}
+            flexDirection={isMobile ? 'column' : "row"}
             justifyContent={"space-between"}
             alignItems={"start"}
             gap={"16px"}
             marginTop={"25px"}
         >
             {/* Image */}
-            <Box width={"40%"} sx={{ cursor: "pointer", position: "relative" }}>
+            <Box width={isMobile ? "100%" : "40%"} sx={{ cursor: "pointer", position: "relative" }}>
                 <Avatar
                     src={props.motorbike.imageUrl}
                     sx={{
                         width: "100%",
-                        height: "150px",
+                        height: isMobile ? "200px":"150px",
                         borderRadius: "8px",
                         border: "1px solid #e0e0e0",
                     }}
@@ -118,7 +119,7 @@ export default function MotorbikeFavouriteInforCard(props: {
             </Box>
             <Divider orientation="vertical" flexItem />
             {/* Content */}
-            <Box width={"60%"} display="flex" flexDirection="column" gap="8px">
+            <Box width={isMobile ? "100%" :"60%"} display="flex" flexDirection="column" gap="8px">
                 {/* Fuel Consumption and Shipping */}
                 <Box display="flex" gap="8px">
                     <Chip

@@ -559,6 +559,10 @@ export default function ListMotorbikesSearchedPage() {
         <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
             {/* filter motorbikes */}
             <Box
+                width={"100%"}
+                position={'sticky'}
+                top={0}
+                zIndex={1}
                 sx={{
                     backgroundColor: '#fff'
                 }}
@@ -567,11 +571,8 @@ export default function ListMotorbikesSearchedPage() {
                 alignItems={'center'}
                 justifyContent={'center'}
                 gap={'8px'}
-                position={'sticky'}
-                top={0}
                 borderBottom={'1px solid #e0e0e0'}
                 padding={isMobile ? "8px 16px" : "16px 0px"}
-                zIndex={1}
                 boxShadow={
                     "0px 4px 4px rgba(0, 0, 0, 0.01)"
                 }
@@ -733,7 +734,7 @@ export default function ListMotorbikesSearchedPage() {
             </Box>
             {/* list motorbikes */}
             <Box
-                zIndex={0}
+                zIndex={1}
                 sx={{
                     backgroundColor: '#f1f1f1',
                 }}
@@ -1008,7 +1009,8 @@ export default function ListMotorbikesSearchedPage() {
                         backgroundColor: 'white',
                         borderRadius: '8px',
                     }}>
-                    <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} pb={"8px"} borderBottom={"1px solid #e0e0e0"}>
+                    <Box
+                        top={16} width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} pb={"8px"} borderBottom={"1px solid #e0e0e0"}>
                         <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "20px" : "24px"} ml={isMobile ? "8px" : "0px"} fontWeight={600} textAlign={"start"}>
                             {"Bộ lọc nâng cao"}
                         </Typography>
