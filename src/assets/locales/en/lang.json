@@ -58,7 +58,8 @@
     "back_to_home_page": "Back to home page",
     "verifySuceessLabel": "Congratulations",
     "verifyErrorLabel": "Sorry",
-    "validateString265Char": "The string cannot exceed 256 characters"
+    "validateString265Char": "The string cannot exceed 256 characters",
+    "invalidPromoCode": "Input the wrong promo code format"
   },
   "toast": {
     "login": {
@@ -138,42 +139,42 @@
       "warning": "Verify phone failed",
       "error": "Error when verify phone"
     },
-    "BrandManager":{
-      "Delete":{
+    "BrandManager": {
+      "Delete": {
         "success": "Delete brand successfully",
         "warning": "Delete brand failed",
         "error": "Error when delete brand"
       },
-      "Edit":{
+      "Edit": {
         "success": "Edit brand successfully",
         "warning": "Edit brand failed",
         "error": "Error when edit brand"
       },
-      "Add":{
+      "Add": {
         "success": "Add brand successfully",
         "warning": "Add brand failed",
         "error": "Error when add brand"
       }
     },
-    "ModelManager":{
-      "Delete":{
+    "ModelManager": {
+      "Delete": {
         "success": "Delete model successfully",
         "warning": "Delete model failed",
         "error": "Error when delete model"
       },
-      "Edit":{
+      "Edit": {
         "success": "Edit model successfully",
         "warning": "Edit model failed",
         "error": "Error when edit model"
       },
-      "Add":{
+      "Add": {
         "success": "Add model successfully",
         "warning": "Add model failed",
         "error": "Error when add model"
       }
     },
-    "favourite" : {
-      "delete":{
+    "favourite": {
+      "delete": {
         "success": "Unlike motorbike successfully",
         "warning": "Unlike motorbike failed",
         "error": "Error when unlike motorbike"
@@ -189,17 +190,17 @@
       "success": "Upload image successfully",
       "error": "Upload image failed"
     },
-    "ShoppingCart":{
-        "delete": {
-            "success": "Remove motorbike from cart successfully",
-            "warning": "Remove motorbike from cart failed",
-            "error": "Error when remove motorbike from cart"
-        },
-        "add": {
-            "success": "Add motorbike to cart successfully",
-            "warning": "Add motorbike to cart failed",
-            "error": "Error when add motorbike to cart"
-        }
+    "ShoppingCart": {
+      "delete": {
+        "success": "Remove motorbike from cart successfully",
+        "warning": "Remove motorbike from cart failed",
+        "error": "Error when remove motorbike from cart"
+      },
+      "add": {
+        "success": "Add motorbike to cart successfully",
+        "warning": "Add motorbike to cart failed",
+        "error": "Error when add motorbike to cart"
+      }
     }
   },
   "footer": {
@@ -284,7 +285,8 @@
       "withdrawalRequestManager": "Manage Withdrawal Requests",
       "brand": "Manage Brands",
       "news": "Manage News",
-      "model": "Manage Model" 
+      "promotions": "Manage Promotions",
+      "model": "Manage Model"
     },
     "License": "License",
     "Motobike": {
@@ -330,14 +332,14 @@
     "brand": {
       "brandName": "Brand Name",
       "createDate": "Create Date",
-      "status" : "Number of motorbike models",
-      "action" : "Action",
-      "delete" : "Delete",
-      "confirmDelete" : "Confirm Delete Brand",
-      "titleConfirmDelete" : "Do you want to delete brand : ",
+      "status": "Number of motorbike models",
+      "action": "Action",
+      "delete": "Delete",
+      "confirmDelete": "Confirm Delete Brand",
+      "titleConfirmDelete": "Do you want to delete brand : ",
       "TitleChange": "Edit brand",
       "TitleAdd": "Add new brand",
-      "Title" : "Brand"
+      "Title": "Brand"
     },
     "news": {
       "newsId": "ID",
@@ -358,18 +360,39 @@
       "deleteNewsTitle": "Delete this news",
       "deleteNewsWarn": "Note: Once deleted, cannot be restored. Do you want to delete?"
     },
-    "model":{
+    "promotions": {
+      "promotionTitle": "Title",
+      "promotionCode": "Code",
+      "promotionStartDate": "Start Date",
+      "promotionEndDate": "End Date",
+      "promotionLeft": "Number Left",
+      "promotionStatus": "Status",
+      "statusDeletePromotionSuccess": "Remove promotion successfully",
+      "statusDeletePromotionError": "Remove promotion failed",
+      "deletePromotionTitle": "Promotion program ends now?",
+      "deletePromotionWarn": "Note: Once closed, it cannot be reopened",
+      "buttonEnd": "End promotion",
+      "titleTimeStart": "Start time",
+      "typePromo": "Promo type",
+      "byMoney": "By amount",
+      "byPercent": "By percentage",
+      "valuePromo": "Reduced value",
+      "minValuePromo": "Minimum value for the code to be used",
+      "maxValuePromo": "Maximum reduction",
+      "numberLeft": "Number promotion"
+    },
+    "model": {
       "modelName": "Model Name",
       "createDate": "Create Date",
       "updateDate": "Update Date",
-      "status" : "Number of motorbike",
-      "action" : "Action",
-      "delete" : "Delete",
-      "confirmDelete" : "Confirm Delete model",
-      "titleConfirmDelete" : "Do you want to delete model : ",
+      "status": "Number of motorbike",
+      "action": "Action",
+      "delete": "Delete",
+      "confirmDelete": "Confirm Delete model",
+      "titleConfirmDelete": "Do you want to delete model : ",
       "TitleChange": "Edit model",
       "TitleAdd": "Add new model",
-      "Title" : "Model"
+      "Title": "Model"
     }
   },
   "component": {
@@ -584,9 +607,9 @@
     "startUsingService": "Start your trip",
     "endUsingService": "End your trip",
     "paymentCol": "Deposit payment",
-    "confirmCancelBook": "Confirm cancellation", 
+    "confirmCancelBook": "Confirm cancellation",
     "contentConfirmCancelBook": "Do you want to cancel this trip?",
-    "paymentBooking": "Payment for motorbike order", 
+    "paymentBooking": "Payment for motorbike order",
     "confirmPaymentBooking": "Do you agree to pay or not?"
   },
   "policy": {

@@ -367,6 +367,7 @@ export interface Promotion {
     title: string,
     description: string,
     image: string,
+    imageUrl: string,
     startDate: string,
     endDate: string,
     type: string,
@@ -377,4 +378,18 @@ export interface Promotion {
     status: true,
     userCreated: number,
     dateCreated: string
+}
+
+export interface PromotionRequest {
+    code: string,
+    title: string,
+    description: string,
+    image: string,
+    startDate: string,
+    endDate: string,
+    type: string,
+    maxValue: number,
+    minValue: number,
+    value: number,
+    numberLeft: number,
 }

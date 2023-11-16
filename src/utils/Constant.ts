@@ -43,6 +43,7 @@ export const ROUTES = {
         managerequestwithdraw: "/manage-withdrawals",
         managerBrand: "/manage-brands",
         manageNews: "/manage-news",
+        managePromotion: "/manage-promotions",
         managerModel : "/manage-models"
     },
     other: {

@@ -30,7 +30,7 @@ const NewsManagementForm = () => {
     const [fileImage, setFileImage] = useState<File>()
     const [isSave, setIsSave] = useState<boolean>(false);
     useEffect(() => {
-        getMotobikeById(Number(id))
+        getNewsById(Number(id))
     }, [id])
 
     const formik = useFormik({
@@ -151,7 +151,7 @@ const NewsManagementForm = () => {
         }
     };
 
-    const getMotobikeById = async (id: number) => {
+    const getNewsById = async (id: number) => {
         try {
             const response = await NewsManagementService.getNewsById(id.toString());
             if (response) {
