@@ -367,8 +367,11 @@
       "promotionEndDate": "Ngày kết thúc",
       "promotionLeft": "Còn lại",
       "promotionStatus": "Trạng thái",
-      "statusDeletePromotionSuccess": "Xóa mã khuyến mãi thành công",
-      "statusDeletePromotionError": "Xóa mã khuyến mãi thất bại",
+      "statusAddPromotionSuccess": "Thêm mã khuyến mãi thành công",
+      "statusEditPromotionSuccess": "Cập nhật mã khuyến mãi thành công",
+      "statusAddPromotionError": "Thêm mã khuyến mãi thất bại",
+      "statusDeletePromotionSuccess": "Kết thúc khuyến mãi thành công",
+      "statusDeletePromotionError": "Kết thúc khuyến mãi thất bại",
       "deletePromotionTitle": "Kết thúc chương trình giảm giá này",
       "deletePromotionWarn": "Lưu ý: Sau khi kết thúc sẽ không thể mở lại. Bạn có đồng ý không?",
       "buttonEnd": "Kết thúc giảm giá",
@@ -379,7 +382,10 @@
       "valuePromo": "Giá trị giảm",
       "minValuePromo": "Giá trị tối thiểu để được dùng mã",
       "maxValuePromo": "Giảm tối đa",
-      "numberLeft": "Số lượng khuyến mãi"
+      "numberLeft": "Số lượng khuyến mãi",
+      "inPromotionTime": "Đang diễn ra",
+      "endPromotionTime": "Đã kết thúc",
+      "beforePromotionTime": "Chưa diễn ra"
     },
     "model": {
       "brandName": "Tên mẫu xe",

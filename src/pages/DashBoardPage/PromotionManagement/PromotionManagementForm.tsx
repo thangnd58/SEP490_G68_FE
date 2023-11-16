@@ -1,10 +1,9 @@
 
-import { Box, Button, Typography, TextareaAutosize, TextField, RadioGroup, FormControlLabel, Radio, InputAdornment } from "@mui/material";
+import { Box, Typography, TextField, RadioGroup, FormControlLabel, Radio, InputAdornment } from "@mui/material";
 import usei18next from "../../../hooks/usei18next";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
-import MotorbikeManagementService from "../../../services/MotorbikeManagementService";
-import { ImageUpload, News, NewsRequest, Promotion, PromotionRequest } from "../../../utils/type";
+import { ImageUpload, Promotion, PromotionRequest } from "../../../utils/type";
 import MyCustomButton from "../../../components/common/MyButton";
 import ToastComponent from "../../../components/toast/ToastComponent";
 import { useFormik } from "formik";
@@ -12,7 +11,6 @@ import MyIcon from "../../../components/common/MyIcon";
 import { ArrowBack } from "@mui/icons-material";
 import theme from "../../../utils/theme";
 import useThemePage from "../../../hooks/useThemePage";
-import NewsManagementService from "../../../services/NewsManagementService";
 import UploadImageService from "../../../services/UploadImageService";
 import Editor from "../../../components/common/Editor";
 import * as Yup from 'yup';
@@ -20,7 +18,6 @@ import ErrorMessage from "../../../components/common/ErrorMessage";
 import { PromotionService } from "../../../services/PromotionService";
 import dayjs from 'dayjs';
 import { DatePicker } from "antd";
-import MyCustomTextField from "../../../components/common/MyTextField";
 
 const PromotionManagementForm = () => {
     const { t } = usei18next()
@@ -45,8 +42,8 @@ const PromotionManagementForm = () => {
             title: "",
             description: "",
             image: "",
-            startDate: dayjs("2023-08-09T13:26:26.765").format("MM-DD-YYYY HH:mm"),
-            endDate: dayjs("2023-09-09T13:26:26.765").format("MM-DD-YYYY HH:mm"),
+            startDate: dayjs("2023-01-01T13:26:26.765").format("MM-DD-YYYY HH:mm"),
+            endDate: dayjs("2023-09-01T13:26:26.765").format("MM-DD-YYYY HH:mm"),
             type: "0",
             maxValue: 0,
             minValue: 0,
@@ -109,7 +106,7 @@ const PromotionManagementForm = () => {
                         }
                     }
                     await PromotionService.putPromotion(promotion.id.toString(), promotionRequest)
-                    ToastComponent(t('dashBoardManager.news.statusEditNewsSuccess'), 'success');
+                    ToastComponent(t('dashBoardManager.promotions.statusEditPromotionSuccess'), 'success');
                 } else {
                     const newRes = await PromotionService.postPromotion(promotionRequest)
                     if (fileImage) {
@@ -134,13 +131,13 @@ const PromotionManagementForm = () => {
                             return;
                         }
                     }
-                    ToastComponent(t('dashBoardManager.news.statusAddNewsSuccess'), 'success');
+                    ToastComponent(t('dashBoardManager.promotions.statusAddPromotionSuccess'), 'success');
                 }
                 setTimeout(() => {
                     navigate(-1)
                 }, 2000);
             } catch (error) {
-                ToastComponent(t('dashBoardManager.news.statusEditNewsError'), 'error');
+                ToastComponent(t('dashBoardManager.promotions.statusAddPromotionError'), 'error');
             }
         }
     });
@@ -195,7 +192,7 @@ const PromotionManagementForm = () => {
                 setFieldValue("type", response.type)
                 setFieldValue("maxValue", response.maxValue * 1000)
                 setFieldValue("minValue", response.minValue  * 1000)
-                setFieldValue("value", response.value  * 1000)
+                setFieldValue("value", response.type === "0" ? response.value  * 1000 : response.value  * 100)
                 setFieldValue("numberLeft", response.numberLeft)
                 setFieldValue("image", response.image)
             }
@@ -326,8 +323,8 @@ const PromotionManagementForm = () => {
                         value={values.code}
                         onChange={handleChange}
                     />
-                    {errors.title && touched.title && (
-                        <ErrorMessage message={errors.title} />
+                    {errors.code && touched.code && (
+                        <ErrorMessage message={errors.code} />
                     )}
                     <Typography style={{
                         fontFamily: 'Inter',
@@ -494,7 +491,7 @@ const PromotionManagementForm = () => {
                             borderRadius={8}
                             fontSize={16}
                             fontWeight={400}
-                            // disabled={isSave}
+                            disabled={isSave}
                             content={t("dashBoardManager.news.buttonSave")}
                             onClick={handleSubmit} />
                     </Box>

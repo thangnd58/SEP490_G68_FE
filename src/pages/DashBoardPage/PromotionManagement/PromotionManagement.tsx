@@ -11,9 +11,7 @@ import { Button, ButtonGroup, Chip, IconButton, Typography } from '@mui/material
 import theme from '../../../utils/theme';
 import MyIcon from '../../../components/common/MyIcon';
 import EditIcon from '@mui/icons-material/Edit';
-import NewsManagementService from '../../../services/NewsManagementService';
 import MyCustomButton from '../../../components/common/MyButton';
-import useThemePage from '../../../hooks/useThemePage';
 import { ModalContext } from '../../../contexts/ModalContext';
 import MyDialog from '../../../components/common/MyDialog';
 import ToastComponent from '../../../components/toast/ToastComponent';
@@ -44,7 +42,7 @@ const PromotionManagement = () => {
     const checkExpiredPromotion = (date: string) => {
         const dateCheck = new Date(date);
         const dateNow = Date.now()
-        return dateCheck.getTime() >= dateNow
+        return dateCheck.getTime() < dateNow
     }
 
     const handleDeletePromotion = async (id: string) => {
@@ -86,38 +84,33 @@ const PromotionManagement = () => {
         {
             field: 'status', headerName: t("dashBoardManager.promotions.promotionStatus"), width: 200,
             renderCell: (params: any) => (
-                checkExpiredPromotion(params.row.endDate) === false ?
+                checkExpiredPromotion(params.row.endDate) === true ?
                     (
                         <Chip
                             sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
                             color="error"
                             icon={<ErrorOutline />}
-                            label={"Đã kết thúc"} />)
-                    : checkExpiredPromotion(params.row.endDate) === true ?
+                            label={t("dashBoardManager.promotions.endPromotionTime")} />)
+                    : checkExpiredPromotion(params.row.startDate) === false ?
                         (
                             <Chip
                                 sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
                                 color="warning"
                                 icon={<WarningAmber />}
-                                label={"Chưa diễn ra"} />)
+                                label={t("dashBoardManager.promotions.beforePromotionTime")} />)
                         : params.value === false ? (
                             <Chip
                                 sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
                                 color="error"
                                 icon={<ErrorOutline />}
-                                label={"Đã kết thúc"} />)
+                                label={t("dashBoardManager.promotions.endPromotionTime")} />)
                             : params.value === true ? (
                                 <Chip
                                     sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
                                     color="success"
                                     icon={<CheckCircleOutline />}
-                                    label={"Đang diễn ra"} />)
-                                : (
-                                    <Chip
-                                        sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
-                                        color="warning"
-                                        icon={<WarningAmber />}
-                                        label={"Chưa diễn ra"} />)
+                                    label={t("dashBoardManager.promotions.inPromotionTime")} />)
+                                : (<></>)
             )
         },
         {
