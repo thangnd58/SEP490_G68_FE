@@ -51,10 +51,15 @@ export interface ImageUpload {
 }
 
 export interface Model {
-    id: number;
-    modelName: string;
-    modelImage: string;
-    brand: Brand;
+    id: number,
+    modelName: string,
+    modelImage: string,
+    brand: Brand,
+    numberOfMotorbike : number,
+    createdDate : string,
+    updatedDate : string,
+    brandId : number,
+    brandName : string,
 }
 
 export interface Brand {

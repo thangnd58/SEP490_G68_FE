@@ -41,6 +41,8 @@ import { BookingDetailPage } from '../pages/MotorbikePage/BookingDetailPage';
 import BrandManagementForm from '../pages/DashBoardPage/BrandManagement/BrandManagementForm';
 import PromotionManagement from '../pages/DashBoardPage/PromotionManagement/PromotionManagement';
 import PromotionManagementForm from '../pages/DashBoardPage/PromotionManagement/PromotionManagementForm';
+import ModelManagement from '../pages/DashBoardPage/ModelManagement/ModelManagement';
+import ModelManagementForm from '../pages/DashBoardPage/ModelManagement/ModelManagementForm';
 
 export type Route = {
     path: string;
@@ -88,6 +90,8 @@ export const routes: Route[] = [
     { path: `${ROUTES.admin.managelicences}`, component: LicenceManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managerBrand}`, component: BrandManagement, layout: LayoutAdmin, role: ["Admin", "Staff"]},
     { path: `${ROUTES.admin.managerBrand}/:id`, component: BrandManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"] },
+    { path: `${ROUTES.admin.managerModel}`, component: ModelManagement, layout: LayoutAdmin, role: ["Admin", "Staff"]},
+    { path: `${ROUTES.admin.managerModel}/:id`, component: ModelManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.manageNews}`, component: NewsManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.licenceregister}/:id`, component: LicenceRegisterDetail, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.motorbikeregister}/:id`, component: MotorbikeRegisterDetail, layout: LayoutAdmin, role: ["Admin", "Staff"] },

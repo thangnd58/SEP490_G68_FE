@@ -156,6 +156,23 @@
         "error": "Error when add brand"
       }
     },
+    "ModelManager": {
+      "Delete": {
+        "success": "Delete model successfully",
+        "warning": "Delete model failed",
+        "error": "Error when delete model"
+      },
+      "Edit": {
+        "success": "Edit model successfully",
+        "warning": "Edit model failed",
+        "error": "Error when edit model"
+      },
+      "Add": {
+        "success": "Add model successfully",
+        "warning": "Add model failed",
+        "error": "Error when add model"
+      }
+    },
     "favourite": {
       "delete": {
         "success": "Unlike motorbike successfully",
@@ -268,7 +285,8 @@
       "withdrawalRequestManager": "Manage Withdrawal Requests",
       "brand": "Manage Brands",
       "news": "Manage News",
-      "promotions": "Manage Promotions"
+      "promotions": "Manage Promotions",
+      "model": "Manage Model"
     },
     "License": "License",
     "Motobike": {
@@ -362,6 +380,19 @@
       "minValuePromo": "Minimum value for the code to be used",
       "maxValuePromo": "Maximum reduction",
       "numberLeft": "Number promotion"
+    },
+    "model": {
+      "modelName": "Model Name",
+      "createDate": "Create Date",
+      "updateDate": "Update Date",
+      "status": "Number of motorbike",
+      "action": "Action",
+      "delete": "Delete",
+      "confirmDelete": "Confirm Delete model",
+      "titleConfirmDelete": "Do you want to delete model : ",
+      "TitleChange": "Edit model",
+      "TitleAdd": "Add new model",
+      "Title": "Model"
     }
   },
   "component": {

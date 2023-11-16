@@ -43,7 +43,8 @@ export const ROUTES = {
         managerequestwithdraw: "/manage-withdrawals",
         managerBrand: "/manage-brands",
         manageNews: "/manage-news",
-        managePromotion: "/manage-promotions"
+        managePromotion: "/manage-promotions",
+        managerModel : "/manage-models"
     },
     other: {
         pagenotfound: "/page-not-found",
