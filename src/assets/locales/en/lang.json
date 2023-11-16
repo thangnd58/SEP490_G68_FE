@@ -138,8 +138,25 @@
       "warning": "Verify phone failed",
       "error": "Error when verify phone"
     },
-    "favourite": {
-      "delete": {
+    "BrandManager":{
+      "Delete":{
+        "success": "Delete brand successfully",
+        "warning": "Delete brand failed",
+        "error": "Error when delete brand"
+      },
+      "Edit":{
+        "success": "Edit brand successfully",
+        "warning": "Edit brand failed",
+        "error": "Error when edit brand"
+      },
+      "Add":{
+        "success": "Add brand successfully",
+        "warning": "Add brand failed",
+        "error": "Error when add brand"
+      }
+    },
+    "favourite" : {
+      "delete":{
         "success": "Unlike motorbike successfully",
         "warning": "Unlike motorbike failed",
         "error": "Error when unlike motorbike"
@@ -295,9 +312,14 @@
     "brand": {
       "brandName": "Brand Name",
       "createDate": "Create Date",
-      "status": "Status",
-      "action": "Action",
-      "delete": "Delete"
+      "status" : "Number of motorbike models",
+      "action" : "Action",
+      "delete" : "Delete",
+      "confirmDelete" : "Confirm Delete Brand",
+      "titleConfirmDelete" : "Do you want to delete brand : ",
+      "TitleChange": "Edit brand",
+      "TitleAdd": "Add new brand",
+      "Title" : "Brand"
     },
     "news": {
       "newsId": "ID",

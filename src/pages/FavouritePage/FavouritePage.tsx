@@ -19,65 +19,65 @@ const FavouritePage = () => {
     const { isMobile } = useThemePage();
     const { userFavourite } = useAppSelector((state) => state.userFavouriteInfo);
     const dispatch = useAppDispatch();
-    const motorbike: Motorbike = {
-        id: 1,
-        address: "Hà Nội",
-        description: "Xe đẹp",
-        fuelConsumption: 1,
-        maxDeliveryDistance: 0,
-        freeDeliveryDistance: 0,
-        feeDeliveryDistance: 0,
-        imageUrl: ["https://i.ytimg.com/vi/6JiWnYmVjWU/maxresdefault.jpg"],
-        model: {
-            brand: {
-                brandName: "Honda",
-                id: 1,
-                brandImage: ''
-            },
-            id: 1,
-            modelName: "Air Blade",
-            modelImage: ''
-        },
-        priceRent: 100,
-        user: {
-            avatarUrl: "https://i.ytimg.com/vi/6JiWnYmVjWU/maxresdefault.jpg",
-            name: "Nguyễn Văn A",
-            userId: 0,
-            email: '',
-            phone: '',
-            gender: '',
-            dob: '',
-            address: '',
-            avatar: '',
-            phoneVerified: false,
-            balance: 0,
-            googleIdentity: '',
-            role: {
-                roleId: 0,
-                roleName: '',
-                deleted: false,
-                createDatetime: '',
-                updateDatetime: '',
-                createUserId: 0,
-                updateUserId: 0
-            }
-        },
-        licensePlate: '',
-        releaseYear: 0,
-        type: '',
-        equipments: '',
-        provinceId: 0,
-        districtId: 0,
-        wardId: 0,
-        image: '',
-        location: '',
-        status: '',
-        statusComment: '',
-        createDatetime: '',
-        miscellaneous: '',
-        distance: 0,
-        isFavourite: false
-    }
+    // const motorbike: Motorbike = {
+    //     id: 1,
+    //     address: "Hà Nội",
+    //     description: "Xe đẹp",
+    //     fuelConsumption: 1,
+    //     maxDeliveryDistance: 0,
+    //     freeDeliveryDistance: 0,
+    //     feeDeliveryDistance: 0,
+    //     imageUrl: ["https://i.ytimg.com/vi/6JiWnYmVjWU/maxresdefault.jpg"],
+    //     model: {
+    //         brand: {
+    //             brandName: "Honda",
+    //             id: 1,
+    //             brandImage: ''
+    //         },
+    //         id: 1,
+    //         modelName: "Air Blade",
+    //         modelImage: ''
+    //     },
+    //     priceRent: 100,
+    //     user: {
+    //         avatarUrl: "https://i.ytimg.com/vi/6JiWnYmVjWU/maxresdefault.jpg",
+    //         name: "Nguyễn Văn A",
+    //         userId: 0,
+    //         email: '',
+    //         phone: '',
+    //         gender: '',
+    //         dob: '',
+    //         address: '',
+    //         avatar: '',
+    //         phoneVerified: false,
+    //         balance: 0,
+    //         googleIdentity: '',
+    //         role: {
+    //             roleId: 0,
+    //             roleName: '',
+    //             deleted: false,
+    //             createDatetime: '',
+    //             updateDatetime: '',
+    //             createUserId: 0,
+    //             updateUserId: 0
+    //         }
+    //     },
+    //     licensePlate: '',
+    //     releaseYear: 0,
+    //     type: '',
+    //     equipments: '',
+    //     provinceId: 0,
+    //     districtId: 0,
+    //     wardId: 0,
+    //     image: '',
+    //     location: '',
+    //     status: '',
+    //     statusComment: '',
+    //     createDatetime: '',
+    //     miscellaneous: '',
+    //     distance: 0,
+    //     isFavourite: false
+    // }
 
     useEffect(() => {
         dispatch(getUserFavouriteInfo());

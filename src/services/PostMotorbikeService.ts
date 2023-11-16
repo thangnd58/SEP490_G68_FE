@@ -43,6 +43,20 @@ export const PostMotorbikeService = {
         const response = await api.put(`${apiUpdateMotorbike}/${motorbike.id}`, motorbike)
         return response.data
     },
+    deleteBrand: async (id: number) => {
+        return await api.delete(`/brand/${id}`);
+    },
+    getBrandId: async (brandId: string): Promise<Brand> => {
+        const response = await api.get('/brand' + '/' + brandId)
+        return response.data
+    },
+    updateBrand: async (id: number, brandName : string, brandImage : string) => {
+        return await api.put(`/brand/${id}`, {brandName : brandName , brandImage: brandImage})
+
+    },
+    postBrand: async (brandName : string, brandImage : string) => {
+        return await api.post('/brand', {brandName : brandName , brandImage: brandImage})
+    }
 
     
 }
