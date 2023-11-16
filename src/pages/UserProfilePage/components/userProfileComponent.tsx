@@ -25,11 +25,11 @@ function UserProfileComponent() {
   };
 
   return (
-    <Box width={"100%%"} padding={"32px"} >
+    <Box width={"100%%"} padding={isMobile ? "16px":"32px"} >
       {showButtons && (
         <Box width={"100%"} display={"flex"} flexDirection={isMobile ? "column" : "row"} alignItems={'center'} justifyContent={isMobile ? "center" : "space-between"} gap={2}>
           <Box width={isMobile ? "100%" : "50%"} display={"flex"} flexDirection={"row"} justifyContent={isMobile ? "center" : "start"}>
-            <Typography variant="h5" fontWeight="600" fontSize={"32px"} >{t("userProfile.Title")}</Typography>
+            <Typography variant="h5" fontWeight="600" fontSize={isMobile ?"24px":"32px"} >{t("userProfile.Title")}</Typography>
           </Box>
           <Box width={isMobile ? "100%" : "50%"} display={"flex"} flexDirection={"row"} justifyContent={isMobile ? "center" : "end"} gap={2}>
             <MyCustomButton

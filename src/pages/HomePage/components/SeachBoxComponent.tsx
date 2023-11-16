@@ -171,20 +171,24 @@ const SeachBoxComponent = () => {
 
 
     return (
-        <Box display={'flex'} alignItems={'center'} justifyContent={'center'} padding={'32px 64px'} gap={'32px'} flexDirection={isMobile ? 'column' : 'row'} width={'100%'} minHeight={'481px'}>
+        <Box display={'flex'} alignItems={'center'} justifyContent={'center'}
+            padding={isMobile ? '16px 0px' : '32px 64px'}
+            gap={isMobile ? '16px' : '32px'}
+            flexDirection={isMobile ? 'column' : 'row'} width={'100%'}>
             {/* search box input */}
             <Box
                 display={'flex'}
                 flexDirection={'column'}
                 alignItems={'center'}
                 justifyContent={'center'}
-                minWidth={'30%'}
-                width={'30%'}>
+                minWidth={isMobile ? "90%" : "30%"}
+                width={isMobile ? "90%" : "30%"}
+            >
                 <Typography
                     width={'100%'}
                     variant={'h6'}
                     fontWeight={'700'}
-                    fontSize={'50px'}
+                    fontSize={isMobile ? '40px' : '50px'}
                     color={(theme) => theme.palette.text.primary}
                 >
                     Đồng hành cùng
@@ -193,7 +197,7 @@ const SeachBoxComponent = () => {
                     <Typography
                         variant={'h6'}
                         fontWeight={'700'}
-                        fontSize={'50px'}
+                        fontSize={isMobile ? '40px' : '50px'}
                         color={(theme) => theme.palette.text.primary}
                     >
                         bạn
@@ -204,7 +208,7 @@ const SeachBoxComponent = () => {
                     <Typography
                         variant={'h6'}
                         fontWeight={'700'}
-                        fontSize={'50px'}
+                        fontSize={isMobile ? '40px' : '50px'}
                         color={(theme) => theme.palette.primary.main}
                     >
                         WANDRO
@@ -275,6 +279,7 @@ const SeachBoxComponent = () => {
                         allowClear={false}
                     />
                     <MyCustomButton
+                        width={isMobile ? "100%" : "auto"}
                         borderRadius={8}
                         fontSize={16}
                         fontWeight={600}
@@ -289,8 +294,8 @@ const SeachBoxComponent = () => {
                 flexDirection={'row'}
                 alignItems={'center'}
                 justifyContent={'center'}
-                minWidth={"60%"}
-                width={'60%'}>
+                minWidth={isMobile ? "90%" : "60%"}
+                width={isMobile ? "90%" : "60%"}>
                 <img
                     alt="search box"
                     style={{
