@@ -10,6 +10,8 @@ import { Promotion } from "../../../utils/type";
 import { PromotionImage } from "../../../assets/images";
 import MyCustomButton from "../../../components/common/MyButton";
 import { getCountdownTime } from "../../../utils/helper";
+import dayjs from 'dayjs';
+
 
 export const PromotionModal = (props: { isModalPromotionOpen: boolean, setModalPromotionOpen: React.Dispatch<React.SetStateAction<boolean>>, counponCode: string, setFieldValue: any, isMobile: boolean }) => {
     const { isModalPromotionOpen, setModalPromotionOpen, counponCode, setFieldValue, isMobile } = props
@@ -33,27 +35,41 @@ export const PromotionModal = (props: { isModalPromotionOpen: boolean, setModalP
             aria-describedby="map-modal-description"
             sx={{
                 display: 'flex',
-                alignItems: 'center',
+                alignItems: 'start',
                 justifyContent: 'center',
                 overflowY: 'auto',
-                zIndex: 10000
+                margin: "64px 0px",
+                borderRadius: '8px',
             }}
         >
             <Box width={isMobile ? "75%" : "30%"} height={"auto"} sx={{
-                padding: "16px 32px",
                 backgroundColor: 'white',
                 borderRadius: '8px',
             }}>
-                <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
-                    <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "24px"} fontWeight={600} textAlign={"start"}>
+                <Box
+                    position={'sticky'}
+                    top={0}
+                    sx={{ backgroundColor: '#fff' }}
+                    height={"10%"}
+                    display={"flex"}
+                    flexDirection={"row"}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                    padding={"16px 32px"}
+                    borderRadius={"8px 8px 0px 0px"}
+                    zIndex={1}
+                >
+                    <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"} fontWeight={700} textAlign={"start"}>
                         {t("promotion.yourPromo")}
                     </Typography>
                     <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
                         <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={() => setModalPromotionOpen(false)} position='bottom' />
                     </Box>
                 </Box>
-                <Divider sx={{ width: "100%", margin: "16px 0px" }} variant="middle" />
-                <Box width={"100%"} height={"80%"} display={"flex"} flexDirection={"column"} gap={'8px'} justifyContent={"start"} alignItems={"center"}>
+                <Divider
+                    sx={{ margin: "0px 16px" }} variant="middle" />
+                <Box padding={"16px 32px"}
+                    height={"80%"} display={"flex"} flexDirection={"column"} gap={'8px'} justifyContent={"start"} alignItems={"center"}>
                     {
                         promotions.length > 0 &&
                         promotions.map((promo) => {
@@ -79,17 +95,24 @@ function PromotionItem({ promotion, promoApply, setPromoApply }: { promotion: Pr
                 <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                     <img src={PromotionImage} width={48} height={48} alt='promo' />
                     <Box sx={{ cursor: 'pointer' }} onClick={() => setShow((prev) => !prev)}>
-                        <Typography fontSize={isMobile ? '12px' : '16px'} textTransform={'uppercase'}>{promotion.code}</Typography>
-                        <Typography fontSize={isMobile ? '10px' : '14px'} sx={{ textDecoration: 'underline' }}>{promotion.title}</Typography>
+                        <Typography fontWeight={700} color={theme.palette.text.primary} fontSize={isMobile ? '14px' : '16px'} textTransform={'uppercase'}>{promotion.code}</Typography>
+                        <Typography fontWeight={400} color={theme.palette.text.primary} fontSize={isMobile ? '12px' : '14px'} sx={{}}>{promotion.title}</Typography>
                         <Typography fontSize={isMobile ? '10px' : '12px'} >{getCountdownTime(promotion.endDate, t)}</Typography>
                     </Box>
                 </Box>
-                <MyCustomButton disabled={promotion.code === promoApply} fontColor={promotion.code === promoApply ? "white" : ""} height='40px' fontSize={isMobile ? 12 : 16} onClick={() => setPromoApply("couponCode", promotion.code)} content={promotion.code === promoApply ? t("booking.buttonApplyPromotionOk") : t("booking.buttonApplyPromotion")} variant='outlined' />
+                <MyCustomButton disabled={promotion.code === promoApply} fontColor={promotion.code === promoApply ? "white" : ""} height='40px' fontSize={isMobile ? 12 : 16} onClick={() => setPromoApply("couponCode", promotion.code)} content={promotion.code === promoApply ? t("booking.buttonApplyPromotionOk") : t("booking.buttonApplyPromotion")} />
             </Box >
             {
                 isShow &&
-                <Box sx={{ p: '8px', border: '1px solid', borderRadius: '8px' }}>
-                    <Typography fontSize={isMobile ? '10px' : '14px'}>{promotion.description}</Typography>
+                <Box sx={{ p: '8px', border: '3px solid #e0e0e0', borderRadius: '8px', margin: "16px 0px" }} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
+                    <img src={PromotionImage} width={48} height={48} alt='promo' />
+                    <Typography fontWeight={700} color={theme.palette.text.primary} fontSize={isMobile ? '14px' : '16px'} textTransform={'uppercase'}>{promotion.code}</Typography>
+                    {/* Thời gian áp dụng từ ngày ... - ... */}
+                    <Typography fontWeight={400} color={theme.palette.text.primary} fontSize={isMobile ? '12px' : '14px'} sx={{}}>{t("promotion.applyTime")}: {dayjs(promotion.startDate).format("DD/MM/YYYY")} - {dayjs(promotion.endDate).format("DD/MM/YYYY")}</Typography>
+                    {/* title */}
+                    <Typography fontWeight={400} color={theme.palette.text.primary} fontSize={isMobile ? '12px' : '14px'} sx={{}}>{promotion.title}</Typography>
+                    {/* description */}
+                    <Typography color={theme.palette.text.primary} fontSize={isMobile ? '12px' : '14px'}>{promotion.description}</Typography>
                 </Box>
             }
         </Box>

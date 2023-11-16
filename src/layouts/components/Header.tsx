@@ -677,7 +677,10 @@ function Header() {
                 onClose={toggleDrawer}
             >
                 <Box
-                    style={{ width: "100%", height: "100%" }}
+
+                    style={{
+                        width: "100%", height: "100%"
+                    }}
                     role="presentation"
                     onClick={toggleDrawer}
                     onKeyDown={toggleDrawer}
@@ -768,12 +771,10 @@ function Header() {
                                         position="bottom"
                                     />
                                 </Box>
+                                {/* list admin */}
                                 {user?.role.roleName === "Admin" ||
                                     user?.role.roleName === "Staff" ? (
                                     <AnimatedBox width={"100%"} isOpen={isShowMore} display={"flex"} flexDirection={"column"} gap={"16px"}
-                                        sx={{
-                                            overflowY: "auto",
-                                        }}
                                     >
                                         <MyCustomButton
                                             iconPosition="left"
@@ -793,10 +794,8 @@ function Header() {
                                         />
                                     </AnimatedBox>
                                 ) : (
+                                    // list customer
                                     <AnimatedBox width={"100%"} isOpen={isShowMore} display={"flex"} flexDirection={"column"} gap={"16px"}
-                                        sx={{
-                                            overflowY: "auto",
-                                        }}
                                     >
                                         <MyCustomButton
                                             iconPosition="left"

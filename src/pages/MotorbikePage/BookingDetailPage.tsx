@@ -216,14 +216,24 @@ export const BookingDetailPage = () => {
                             <Box display={"flex"} flexDirection={"column"} gap={'8px'} width={isMobile ? '100%' : '50%'}>
                                 <Box sx={{ background: 'rgba(139, 69, 19, 0.10)', borderRadius: '8px', padding: '32px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                     <Typography fontWeight={600} fontSize={"16px"} color={'common.black'}>{activeStep === 0 ? t("booking.timeRemainingPay") : activeStep === 1 ? t("booking.startUsingService") : activeStep === 2 ? t("booking.endUsingService") : ""}</Typography>
-                                    <Box display={'flex'} gap={'8px'} alignItems={'center'} className="motorcycle-container" style={{ left: position }} >
-                                        {
-                                            activeStep === 0 ? <Box display={'flex'} gap={'8px'} alignItems={'center'} >
+                                    <Box
+                                        display={'flex'}
+                                        gap={'8px'}
+                                        alignItems={'center'}
+                                        // className="motorcycle-container"
+                                        style={{
+                                            transform: `translateX(-50%) translateX(${position}px)`,
+                                            transition: 'transform 0.2s ease-in-out'
+                                        }}
+                                    >
+                                        {activeStep === 0 ? (
+                                            <Box display={'flex'} gap={'8px'} alignItems={'center'}>
                                                 {!isMobile && <img src={ClockImage} width={36} height={36} />}
                                                 <Typography color={'common.black'}>{countdown}</Typography>
-                                            </Box> : <img src={MotorbikeImage} width={128} height={128} className="motorcycle-image" />
-                                        }
-
+                                            </Box>
+                                        ) : (
+                                            <img src={MotorbikeImage} width={128} height={128} className="motorcycle-image" />
+                                        )}
                                     </Box>
                                 </Box>
                                 <Typography mt={'8px'} fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>{t("booking.timeRent")}</Typography>
