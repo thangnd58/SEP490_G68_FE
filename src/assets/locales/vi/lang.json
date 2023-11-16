@@ -154,7 +154,24 @@
           "warning": "Thêm thương hiệu thất bại",
           "error": "Lỗi cập nhật thương hiệu"
         }
-    },
+      },
+      "ModelManager":{
+        "Delete":{
+          "success": "Xóa mẫu xe thành công",
+          "warning": "Xóa mẫu xe thất bại",
+          "error": "Lỗi xóa mẫu xe"
+        },
+        "Edit":{
+          "success": "Sửa mẫu xe thành công",
+          "warning": "Sửa mẫu xe thất bại",
+          "error": "Lỗi cập nhật mẫu xe"
+        },
+        "Add":{
+          "success": "Thêm mẫu xe thành công",
+          "warning": "Thêm mẫu xe thất bại",
+          "error": "Lỗi cập nhật mẫu xe"
+        }
+      },
       "favourite": {
           "delete": {
               "success": "Xóa xe yêu thích thành công",
@@ -266,7 +283,8 @@
       "motorbikeRentalManager": "Quản lý xe máy cho thuê",
       "withdrawalRequestManager": "Quản lý yêu cầu rút tiền",
       "brand": "Quản lý hãng xe",
-      "news": "Quản lý tin tức"
+      "news": "Quản lý tin tức",
+      "model": "Quản lý mẫu xe" 
     },
     "License": "Bằng lái xe",
     "Motobike": {
@@ -340,6 +358,20 @@
       "addNews": "Thêm",
       "deleteNewsTitle": "Xóa tin tức",
       "deleteNewsWarn": "Lưu ý: Sau khi xóa sẽ không thể khôi phục. Bạn có muốn xóa không?"
+    },
+    "model": {
+      "brandName": "Tên mẫu xe",
+      "createDate": "Ngày tạo",
+      "updateDate": "Ngày cập nhật",
+      "status" : "Số lượng xe",
+      "action" : "Chỉnh sửa",
+      "delete" : "Xóa",
+      "confirmDelete" : "Xác nhận xóa mẫu xe",
+      "titleConfirmDelete" : "Bạn có muốn xóa mẫu xe : ",
+      "TitleChange": "Chỉnh sửa  mẫu xe",
+      "TitleAdd": "Thêm mới  mẫu xe",
+      "Title" : "Mẫu xe"
+
     }
   },
   "component": {
