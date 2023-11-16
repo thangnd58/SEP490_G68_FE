@@ -21,6 +21,8 @@ import DirveLicenceImage from './drive-licence.png'
 import PassportImage from './passport.png'
 import ClockImage from './clock.png'
 import MotorbikeImage from './motorbike.png'
+import VNPay from './vnpay.png'
+import MyWallet from './my-wallet.png'
 
 export {
     MotorbikeImage,
@@ -45,5 +47,7 @@ export {
     CalendarImage,
     LicencePlateImage,
     PriceImage,
-    LocationImage
+    LocationImage,
+    VNPay,
+    MyWallet
 };

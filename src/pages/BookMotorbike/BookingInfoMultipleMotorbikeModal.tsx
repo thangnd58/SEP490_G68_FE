@@ -216,7 +216,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
           margin: '32px 0px',
           overflowY: 'auto',
         }}>
-        <Box width={"80%"} height={"auto"}
+        <Box width={"85%"} height={"auto"}
           sx={{
             backgroundColor: '#fff',
             borderRadius: '8px',

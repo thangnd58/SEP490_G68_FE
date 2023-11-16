@@ -153,30 +153,36 @@ const ListMotorbikeForm = () => {
 
   return (
     <Box width={"95%"} margin={"32px auto"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignContent={"flex-end"}>
-      <Box display={"flex"} flexDirection={"row"} justifyContent={"end"} alignContent={"center"} marginBottom={"8px"}>
-        <Typography fontSize={"18px"} fontWeight={"400"}
-          margin={"auto 8px"}>{t("postMotorbike.listform.status")}</Typography>
-        <FormControl sx={{ minWidth: 120 }} size="small">
-          <Select
-            labelId="demo-select-small-label"
-            id="demo-select-small"
-            value={selectedStatus}
-            native
-            displayEmpty
-            onChange={handleChangeStatus}
-          >
-            <option value={"All"}>
-              <em>{t("postMotorbike.listform.all")}</em>
-            </option>
-            {setUniqueStatus.map((status) => (
-              <option value={status.key}>
-                {status.value}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
+      <Box display={"flex"} flexDirection={"row"} justifyContent={"start"} alignContent={"center"}>
+        <Typography margin={"auto 0px"} fontSize={"18px"} fontWeight={"600"}>Lịch sử đơn đặt xe</Typography>
       </Box>
-      <Box >
+      <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignContent={"center"} >
+        <Typography margin={"auto 0px"} fontSize={"18px"} fontWeight={"600"}>Tất cả xe của bạn</Typography>
+        <Box display={"flex"} flexDirection={"row"} justifyContent={"end"} alignContent={"center"}>
+          <Typography fontSize={"18px"} fontWeight={"400"}
+            margin={"auto 8px"}>{t("postMotorbike.listform.status")}</Typography>
+          <FormControl sx={{ minWidth: 120 }} size="small">
+            <Select
+              labelId="demo-select-small-label"
+              id="demo-select-small"
+              value={selectedStatus}
+              native
+              displayEmpty
+              onChange={handleChangeStatus}
+            >
+              <option value={"All"}>
+                <em>{t("postMotorbike.listform.all")}</em>
+              </option>
+              {setUniqueStatus.map((status) => (
+                <option value={status.key}>
+                  {status.value}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+      </Box>
+      <Box>
         <Box sx={{ borderRadius: "8px" }}>
           <DataGrid
             sx={{

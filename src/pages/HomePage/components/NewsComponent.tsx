@@ -24,16 +24,24 @@ export default function NewsComponent() {
     }, [])
 
     return (
-        <Box display={'flex'} flexDirection={'column'} gap={'16px'} alignItems={'center'} justifyContent={'center'} width={'100%'} >
-            <h1>{t("homepage.news")}</h1>
+        <Box display={'flex'} flexDirection={'column'} gap={'16px'} alignItems={'center'} justifyContent={'center'} width={'100%'} sx={{
+            backgroundColor: '#F1F1F1',
+            padding: isMobile ? '16px 0px' : '32px 0px',
+        }}>
+            <Typography sx={{
+                fontSize: isMobile ? '20px' : '32px',
+                fontWeight: 'bold',
+                margin: '0px',
+                color: '#000000',
+            }}>{t("homepage.news")}</Typography>
             {
                 listNews && listNews.length > 0 &&
-                <Box mx={isMobile ? '10px' : '50px'} display={'flex'} alignItems={'center'}>
-                    <Grid container spacing={2}>
+                <Box mx={isMobile ? '20px' : '56px'} display={'flex'} alignItems={'center'}>
+                    <Grid container spacing={isMobile ? 2 : 4} >
                         <Grid item xs={8} >
                             <Box position={'relative'}
                                 onClick={() => navigate(`${ROUTES.newspage}/${listNews[0].newsId}`)}
-                                height={'100%'} 
+                                height={'100%'}
 
                             >
                                 <img src={listNews[0].imageUrl} width={'100%'} alt={listNews[0].image}
@@ -162,7 +170,10 @@ export default function NewsComponent() {
                     </Grid>
                 </Box>
             }
-            <MyCustomButton content={(t("dashBoardManager.news.viewsMore"))} icon={<ArrowRightAlt style={{ color: '#FFFFFF' }} />} iconPosition='right' onClick={() => navigate(ROUTES.newspage)} />
+            <MyCustomButton content={(t("dashBoardManager.news.viewsMore"))}
+                fontWeight={600}
+                fontSize={isMobile ? 12 : 16}
+                onClick={() => navigate(ROUTES.newspage)} />
         </Box>
     )
 }

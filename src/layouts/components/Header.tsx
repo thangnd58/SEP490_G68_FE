@@ -29,6 +29,8 @@ import useThemePage from "../../hooks/useThemePage";
 import {
     AccountBox,
     AddShoppingCart,
+    ArrowDownward,
+    ArrowDropDown,
     Circle,
     Close,
     ExitToApp,
@@ -37,6 +39,7 @@ import {
     Loyalty,
     ManageAccounts,
     MarkunreadMailboxOutlined,
+    MoreVert,
     Notifications,
     NotificationsActive,
     NotificationsActiveOutlined,
@@ -66,6 +69,7 @@ import MyDialog from "../../components/common/MyDialog";
 import { DetailNotification } from "./DetailNotificationModal";
 import store from "../../redux/store";
 import { getUserNotificationInfo } from "../../redux/reducers/notificationReducer";
+import styled from "@emotion/styled";
 
 const LanguageBox = memo(() => {
     const { isVn, changeLang } = usei18next();
@@ -77,7 +81,11 @@ const LanguageBox = memo(() => {
             height={32}
             width={32}
             src={isVn ? VietNamFlag : UnitedKingDomFlag}
-            onClick={() => changeLang(isVn ? "en" : "vi")}
+            onClick={(e) => {
+                e.stopPropagation(); // Ngăn chặn sự kiện click từ lan tỏa ra ngoài
+                changeLang(isVn ? "en" : "vi")
+            }
+            }
         />
     );
 });
@@ -118,6 +126,18 @@ export const LogoFull = memo(({ size }: { size: number }) => {
     );
 });
 
+interface AnimatedBoxProps {
+    isOpen: boolean;
+}
+
+const AnimatedBox = styled(Box) <AnimatedBoxProps>`
+    transition: all 2s ease;
+    overflow: hidden;
+    height: ${(props) => (props.isOpen ? 'auto' : '0')};
+    opacity: ${(props) => (props.isOpen ? '1' : '0')};
+  `;
+
+
 function Header() {
     const { isLogin, logout } = useAuth();
     const { user } = useAppSelector((state) => state.userInfo);
@@ -127,6 +147,7 @@ function Header() {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [isAvatarClicked, setIsAvatarClicked] = useState(false);
     const { setContentModal, setShowModal } = useContext(ModalContext);
+    const [isShowMore, setIsShowMore] = useState(false);
     const toggleDrawer = () => {
         setDrawerOpen(!drawerOpen);
     };
@@ -578,9 +599,7 @@ function Header() {
                                                         }}
                                                     >
                                                         <PopoverItem
-                                                            label={t(
-                                                                "header.favourite"
-                                                            )}
+                                                            label={t("header.favourite")}
                                                             icon={
                                                                 <FavoriteIcon
                                                                     sx={{
@@ -710,52 +729,75 @@ function Header() {
                                     sx={{
                                         cursor: "pointer",
                                         display: "flex",
-                                        justifyContent: "center",
+                                        justifyContent: "space-between",
                                         gap: "16px",
                                         alignItems: "center",
-                                        padding: "0px 16px",
-                                    }}
-                                    onClick={() => {
-                                        setAnchorEl(null);
-                                        navigate(ROUTES.user.userprofile);
                                     }}
                                 >
                                     <Avatar
-                                        sx={{ width: 75, height: 75 }}
+                                        sx={{ width: 50, height: 50 }}
                                         src={
                                             user && user.avatarUrl
                                                 ? user.avatarUrl
                                                 : ""
                                         }
+                                        onClick={() => {
+                                            setAnchorEl(null);
+                                            navigate(ROUTES.user.userprofile);
+                                        }}
                                     />
                                     <Typography
                                         variant="h3"
-                                        fontSize={"24px"}
+                                        fontSize={"20px"}
                                         sx={{ fontWeight: "500" }}
                                     >
                                         {user?.name}
                                     </Typography>
+                                    <MyIcon
+                                        icon={
+                                            <MoreVert
+                                                sx={{ color: "#777E90" }}
+                                                onClick={(e) => {
+                                                    e.stopPropagation(); // Ngăn chặn sự kiện click từ lan tỏa ra ngoài
+                                                    setIsShowMore(!isShowMore);
+                                                }}
+                                            />
+                                        }
+                                        hasTooltip
+                                        tooltipText={t("header.cart")}
+                                        position="bottom"
+                                    />
                                 </Box>
                                 {user?.role.roleName === "Admin" ||
                                     user?.role.roleName === "Staff" ? (
-                                    <MyCustomButton
-                                        iconPosition="left"
-                                        icon={
-                                            <ManageAccounts
-                                                sx={{ color: "#8B4513" }}
-                                            />
-                                        }
-                                        width="100%"
-                                        onClick={() =>
-                                            navigate(
-                                                ROUTES.admin.managemotorbikes
-                                            )
-                                        }
-                                        content={t("header.dashboard")}
-                                        variant="outlined"
-                                    />
+                                    <AnimatedBox width={"100%"} isOpen={isShowMore} display={"flex"} flexDirection={"column"} gap={"16px"}
+                                        sx={{
+                                            overflowY: "auto",
+                                        }}
+                                    >
+                                        <MyCustomButton
+                                            iconPosition="left"
+                                            icon={
+                                                <ManageAccounts
+                                                    sx={{ color: "#8B4513" }}
+                                                />
+                                            }
+                                            width="100%"
+                                            onClick={() =>
+                                                navigate(
+                                                    ROUTES.admin.managemotorbikes
+                                                )
+                                            }
+                                            content={t("header.dashboard")}
+                                            variant="outlined"
+                                        />
+                                    </AnimatedBox>
                                 ) : (
-                                    <>
+                                    <AnimatedBox width={"100%"} isOpen={isShowMore} display={"flex"} flexDirection={"column"} gap={"16px"}
+                                        sx={{
+                                            overflowY: "auto",
+                                        }}
+                                    >
                                         <MyCustomButton
                                             iconPosition="left"
                                             icon={
@@ -777,6 +819,54 @@ function Header() {
                                         <MyCustomButton
                                             iconPosition="left"
                                             icon={
+                                                <MarkunreadMailboxOutlined
+                                                    sx={{ color: "#8B4513" }}
+                                                />
+                                            }
+                                            width="100%"
+                                            onClick={() =>
+                                                navigate(
+                                                    ROUTES.booking.mybooking
+                                                )
+                                            }
+                                            content={t('header.my_booking')}
+                                            variant="outlined"
+                                        />
+                                        <MyCustomButton
+                                            iconPosition="left"
+                                            icon={
+                                                <FavoriteIcon
+                                                    sx={{ color: "#8B4513" }}
+                                                />
+                                            }
+                                            width="100%"
+                                            onClick={() =>
+                                                navigate(
+                                                    ROUTES.user.favourite
+                                                )
+                                            }
+                                            content={t("header.favourite")}
+                                            variant="outlined"
+                                        />
+                                        <MyCustomButton
+                                            iconPosition="left"
+                                            icon={
+                                                <WalletOutlined
+                                                    sx={{ color: "#8B4513" }}
+                                                />
+                                            }
+                                            width="100%"
+                                            onClick={() =>
+                                                navigate(
+                                                    ROUTES.user.wallet
+                                                )
+                                            }
+                                            content={t("header.wallet")}
+                                            variant="outlined"
+                                        />
+                                        <MyCustomButton
+                                            iconPosition="left"
+                                            icon={
                                                 <Loyalty
                                                     sx={{ color: "#8B4513" }}
                                                 />
@@ -790,7 +880,7 @@ function Header() {
                                             content={t("header.btn_promotion")}
                                             variant="outlined"
                                         />
-                                    </>
+                                    </AnimatedBox>
                                 )}
                                 <Box
                                     width={"100%"}

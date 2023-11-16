@@ -9,16 +9,19 @@ import EasyToRentalMotorbikeComponent from './components/EasyToRentalMotorbikeCo
 import DoYouWantToBeAOwner from './components/DoYouWantToBeAOwner'
 
 function Home() {
+  const components = [
+    <SeachBoxComponent key="search" />,
+    <NewsComponent key="news" />,
+    <PromotionComponent key="promotion" />,
+    <HotMotorbikesOfMonthComponent key="hotMotorbikes" />,
+    <HotPlacesComponent key="hotPlaces" />,
+    <EasyToRentalMotorbikeComponent key="easyToRentalMotorbike" />,
+    <DoYouWantToBeAOwner key="beAOwner" />,
+  ];
 
   return (
     <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
-      <SeachBoxComponent />
-      <NewsComponent />
-      <PromotionComponent />
-      <HotMotorbikesOfMonthComponent />
-      <HotPlacesComponent />
-      <EasyToRentalMotorbikeComponent />
-      <DoYouWantToBeAOwner />
+      {components.map(component => component)}
     </Box>
   )
 }
