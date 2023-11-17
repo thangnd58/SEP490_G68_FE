@@ -669,7 +669,8 @@
     "news": "Tin tức"
   },
   "promotion": {
-    "yourPromo": "Danh sách mã giảm giá của bạn"
+    "yourPromo": "Danh sách mã giảm giá của bạn",
+    "applyTime": "Thời gian áp dụng"
   },
   "myBooking": {
     "currentBooking": "Chuyến đi hiện tại",

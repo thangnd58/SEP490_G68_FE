@@ -2,10 +2,10 @@ import { useEffect, useState, useContext } from "react"
 import { Booking, BookingResponse } from "../../utils/type"
 import { useNavigate, useParams } from "react-router-dom";
 import { BookingService } from "../../services/BookingService";
-import { Box, Divider, FormControlLabel, Radio, RadioGroup, Step, StepLabel, Stepper, styled, TextField, Typography } from "@mui/material";
+import { Box, Divider, FormControlLabel, IconButton, Radio, RadioGroup, Step, StepLabel, Stepper, styled, TextField, Typography } from "@mui/material";
 import { ArrowRightIcon } from "@mui/x-date-pickers";
 import useThemePage from "../../hooks/useThemePage";
-import { CalendarImage, ClockImage, MotorbikeImage } from "../../assets/images";
+import { CalendarImage, ClockImage, MotorbikeImage, MyWallet, VNPay } from "../../assets/images";
 import usei18next from "../../hooks/usei18next";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { MotorbikeBookingCard } from "./components/MotorbikeBookingCard";
@@ -21,6 +21,8 @@ import { PaymentService } from "../../services/PaymentService";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAction";
 import ToastComponent from "../../components/toast/ToastComponent";
 import { getUserInfo } from "../../redux/reducers/authReducer";
+import MyIcon from "../../components/common/MyIcon";
+import { ArrowBack, CloseOutlined } from "@mui/icons-material";
 
 export const BookingDetailPage = () => {
     const { bookingId } = useParams();
@@ -170,52 +172,108 @@ export const BookingDetailPage = () => {
                         margin: '32px 0px',
                         width: '100%',
                     }}>
-                    <Box display={'flex'} justifyContent={'center'} alignItems={'center'} width={isMobile ? "100%" : "70%"} position={'relative'}>
-                        <ArrowRightIcon sx={{ position: 'absolute', left: '0', width: '36px', height: '36px', rotate: '180deg' }} />
-                        <Typography sx={{ fontSize: isMobile ? '24px' : '40px', fontWeight: '700', textAlign: 'center' }}>{t("booking.detailTitle")}</Typography>
+                    <Box display={'flex'} justifyContent={'start'} alignItems={'center'} width={isMobile ? "100%" : "70%"} position={'relative'} mb={'16px'}>
+                        <MyIcon icon={<ArrowBack style={{ color: theme.palette.common.black }} />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-back")} onClick={() => navigate(ROUTES.booking.mybooking)} position='bottom' />
+                        <Typography sx={{ color: "#000", fontSize: isMobile ? '24px' : '32px', fontWeight: '600', textAlign: 'center', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
+                            {t("booking.detailTitle")}
+                        </Typography>
                     </Box>
                     <Stepper sx={{ width: isMobile ? "100%" : "70%" }} activeStep={activeStep} alternativeLabel>
                         {steps.map((label) => (
-                            <Step key={label}>
+                            <Step
+                                sx={{
+                                    alignContent: 'center',
+                                    justifyContent: 'center',
+                                    '& .MuiStepLabel-label': {
+                                        fontSize: '16px',
+                                        fontWeight: '600',
+                                        color: theme.palette.text.primary,
+                                    },
+                                    '& .MuiStepIcon-root': {
+                                        fontSize: '48px',
+                                        zIndex: 1,
+                                    },
+                                    '& .MuiStepConnector-root': {
+                                        flex: 1,
+                                    },
+                                    '& .MuiStepConnector-line': {
+                                        marginTop: '12px', // Điều chỉnh vị trí của đường dẫn
+                                        borderColor: '#e0e0e0', // Màu sắc của đường dẫn
+                                        width: '98%', // Chiều rộng của đường dẫn
+                                    },
+                                    '& .MuiStepConnector-alternativeLabel': {
+                                        top: '12px', // Điều chỉnh vị trí của đường dẫn khi sử dụng alternativeLabel
+                                    },
+                                }}
+
+                                key={label}>
                                 <StepLabel>{label}</StepLabel>
                             </Step>
                         ))}
                     </Stepper>
-                    <Box className="hiddenSroll" width={isMobile ? "100%" : "70%"} sx={{ overflowY: 'auto', overflowX: 'hidden' }} height={"80%"} display={"flex"} flexDirection={"column"} gap={'8px'} justifyContent={"start"}>
+                    <Box className="hiddenSroll" width={isMobile ? "90%" : "65%"} sx={{ overflowY: 'auto', overflowX: 'hidden' }} height={"80%"} display={"flex"} flexDirection={"column"} gap={'8px'} justifyContent={"start"} padding={"0px 8px"}>
                         <Box display={'flex'} gap={'16px'} flexDirection={isMobile ? 'column' : 'row'} marginTop={'16px'}>
                             <Box display={"flex"} flexDirection={"column"} gap={'8px'} width={isMobile ? '100%' : '50%'}>
                                 <Box sx={{ background: 'rgba(139, 69, 19, 0.10)', borderRadius: '8px', padding: '32px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                    <Typography fontWeight={600} color={'common.black'}>{activeStep === 0 ? t("booking.timeRemainingPay") : activeStep === 1 ? t("booking.startUsingService") : activeStep === 2 ? t("booking.endUsingService") : ""}</Typography>
-                                    <Box display={'flex'} gap={'8px'} alignItems={'center'} className="motorcycle-container" style={{ left: position }} >
-                                        {
-                                            activeStep === 0 ? <Box display={'flex'} gap={'8px'} alignItems={'center'} >
+                                    <Typography fontWeight={600} fontSize={"16px"} color={'common.black'}>{activeStep === 0 ? t("booking.timeRemainingPay") : activeStep === 1 ? t("booking.startUsingService") : activeStep === 2 ? t("booking.endUsingService") : ""}</Typography>
+                                    <Box
+                                        display={'flex'}
+                                        gap={'8px'}
+                                        alignItems={'center'}
+                                        // className="motorcycle-container"
+                                        style={{
+                                            transform: `translateX(-50%) translateX(${position}px)`,
+                                            transition: 'transform 0.2s ease-in-out'
+                                        }}
+                                    >
+                                        {activeStep === 0 ? (
+                                            <Box display={'flex'} gap={'8px'} alignItems={'center'}>
                                                 {!isMobile && <img src={ClockImage} width={36} height={36} />}
-                                                <Typography>{countdown}</Typography>
-                                            </Box> : <img src={MotorbikeImage} width={128} height={128} className="motorcycle-image" />
-                                        }
-
+                                                <Typography color={'common.black'}>{countdown}</Typography>
+                                            </Box>
+                                        ) : (
+                                            <img src={MotorbikeImage} width={128} height={128} className="motorcycle-image" />
+                                        )}
                                     </Box>
                                 </Box>
-                                <Typography fontSize={isMobile ? 16 : 24} fontWeight={'500'} color={'common.black'}>{t("booking.timeRent")}</Typography>
-                                <Box display={'flex'} gap={'32px'} justifyContent={isMobile ? 'space-between' : 'start'}>
-                                    <Box display={'flex'} gap={'8px'}>
-                                        {!isMobile && <img src={CalendarImage} alt="calendar" width={36} height={36} />}
-                                        <Box>
-                                            <Typography fontSize={isMobile ? 14 : 16}>{t("booking.startDate")}</Typography>
-                                            <Typography fontSize={isMobile ? 14 : 16}>{dayjs(booking?.startDatetime).format("DD-MM-YYYY HH:mm")}</Typography>
+                                <Typography mt={'8px'} fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>{t("booking.timeRent")}</Typography>
+                                <Box display={'flex'} gap={isMobile ? '16px' : '32px'} justifyContent={isMobile ? 'space-between' : 'start'} flexDirection={isMobile ? 'column' : 'row'} mb={'16px'}>
+                                    <Box display={'flex'} gap={'16px'} >
+                                        <img src={CalendarImage} alt="calendar" width={isMobile ? 20 : 24} height={isMobile ? 20 : 24} />
+                                        <Box display={'flex'} flexDirection={'column'} gap={'4px'} justifyContent={"start"}>
+                                            <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary}>{t("booking.startDate")}</Typography>
+                                            <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary}>{dayjs(booking?.startDatetime).format("DD-MM-YYYY HH:mm")}</Typography>
                                         </Box>
                                     </Box>
-                                    <Box display={'flex'} gap={'8px'}>
-                                        {!isMobile && <img src={CalendarImage} alt="calendar" width={36} height={36} />}
-                                        <Box>
-                                            <Typography fontSize={isMobile ? 14 : 16}>{t("booking.endDate")}</Typography>
-                                            <Typography fontSize={isMobile ? 14 : 16}>{dayjs(booking?.endDatetime).format("DD-MM-YYYY HH:mm")}</Typography>
+                                    <Box display={'flex'} gap={'16px'}>
+                                        <img src={CalendarImage} alt="calendar" width={isMobile ? 20 : 24} height={isMobile ? 20 : 24} />
+                                        <Box display={'flex'} flexDirection={'column'} gap={'4px'} justifyContent={"start"} >
+                                            <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary}>{t("booking.endDate")}</Typography>
+                                            <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary}>{dayjs(booking?.endDatetime).format("DD-MM-YYYY HH:mm")}</Typography>
                                         </Box>
                                     </Box>
                                 </Box>
-                                <Typography fontSize={isMobile ? 16 : 24} fontWeight={'500'} color={'common.black'}>{t("booking.addressGetMotorbike")}</Typography>
-                                <TextField value={booking?.address} inputProps={{readonly: 'true' }} />
 
+                                <Typography fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>{t("booking.addressGetMotorbike")}</Typography>
+                                <TextField
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            '& fieldset': {
+                                                borderRadius: "8px",
+                                                border: "1px solid #e0e0e0",
+                                            },
+                                            '&:hover fieldset': {
+                                                border: "1px solid #8b4513"
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                border: "1px solid #8b4513"
+                                            },
+                                        },
+                                    }}
+                                    value={booking?.address}
+                                    inputProps={{
+                                        readOnly: true,
+                                    }} />
                                 <Box
                                     borderRadius={"10px"}
                                     border={"3px solid"}
@@ -241,8 +299,8 @@ export const BookingDetailPage = () => {
                                     </GoogleMap>
                                 </Box>
                             </Box>
-                            <Box width={isMobile ? '100%' : '45%'} sx={{ background: isMobile ? 'none' : 'rgba(139, 69, 19, 0.10)', borderRadius: '8px', padding: isMobile ? '0px' : '32px' }}>
-                                <Typography fontSize={isMobile ? 16 : 24} fontWeight={'500'} color={'common.black'} marginTop={'8px'}>{t("booking.totalPriceRent")}</Typography>
+                            <Box width={isMobile ? '100%' : '45%'} sx={{ background: isMobile ? 'none' : 'rgba(139, 69, 19, 0.10)', borderRadius: '8px', padding: isMobile ? '4px' : '32px' }}>
+                                <Typography fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'} mb={"16px"}>{t("booking.totalPriceRent")}</Typography>
                                 {/* Đơn giá */}
                                 <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                                     {/* Đơn giá thuê */}
@@ -308,20 +366,27 @@ export const BookingDetailPage = () => {
                                 {
                                     activeStep === 0 &&
                                     <Box sx={{ backgroundColor: isMobile ? 'none' : '#FFFFFF', borderRadius: '8px', padding: '8px 16px' }}>
-                                        <Typography fontSize={isMobile ? 16 : 24} fontWeight={'500'} color={'common.black'} marginTop={'8px'}>{t("booking.paymentType")}</Typography>
-                                        <Box>
+                                        <Typography fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'} marginBottom={'8px'}>{t("booking.paymentType")}</Typography>
+                                        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', gap: '16px', my: '8px' }}>
                                             <RadioGroup
                                                 value={paymentType}
                                                 onChange={(event) => {
                                                     setPaymentType(event.target.value)
                                                 }}
-                                                sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+                                                sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '8px' }}
                                             >
                                                 <FormControlLabel
                                                     checked={paymentType === BookingPaymentType.UserBalance}
                                                     value={BookingPaymentType.UserBalance}
                                                     control={<Radio />}
-                                                    label={`${t("booking.payWallet")} (${formatMoney(user!.balance || 0)})`}
+                                                    label={
+                                                        <Box minWidth={'250px'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }} border={'2px solid #8b4513'} borderRadius={'8px'} padding={'8px'}>
+                                                            <img alt="my-wallet" src={MyWallet} width={24} height={24} />
+                                                            {
+                                                                `${t("booking.payWallet")} (${formatMoney(user!.balance || 0)})`
+                                                            }
+                                                        </Box>
+                                                    }
                                                     disabled={user!.balance < booking.totalAmount * 1000}
                                                     sx={{
                                                         '& .MuiFormControlLabel-label': {
@@ -330,14 +395,21 @@ export const BookingDetailPage = () => {
                                                             color: theme.palette.text.primary,
                                                         },
                                                         borderRadius: "10px",
-                                                        padding: '4px'
                                                     }}
                                                 />
                                                 <FormControlLabel
                                                     checked={paymentType === BookingPaymentType.Card}
                                                     value={BookingPaymentType.Card}
                                                     control={<Radio />}
-                                                    label={t("booking.payVnPay")}
+                                                    label={
+                                                        <Box minWidth={'250px'}
+                                                            display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }} border={'2px solid #8b4513'} borderRadius={'8px'} padding={'8px'}>
+                                                            <img alt="my-wallet" src={VNPay} height={24} />
+                                                            {
+                                                                t("booking.payVnPay")
+                                                            }
+                                                        </Box>
+                                                    }
                                                     sx={{
                                                         '& .MuiFormControlLabel-label': {
                                                             fontSize: '16px',
@@ -345,7 +417,6 @@ export const BookingDetailPage = () => {
                                                             color: theme.palette.text.primary,
                                                         },
                                                         borderRadius: "10px",
-                                                        padding: '4px'
                                                     }} />
                                             </RadioGroup>
                                         </Box>

@@ -498,7 +498,7 @@ export default function ListMotorbikesSearchedPage() {
     const [releaseYear, setReleaseYear] = React.useState<number[]>([1990, currentYear]);
     const handleReleaseYearChange = (event: Event, newValue: number | number[]) => {
         setReleaseYear(newValue as number[]);
-        
+
     }
     useEffect(() => {
         setFieldValue('minReleaseYear', releaseYear[0]);
@@ -559,42 +559,42 @@ export default function ListMotorbikesSearchedPage() {
         <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
             {/* filter motorbikes */}
             <Box
+                width={"100%"}
+                position={'sticky'}
+                top={0}
+                zIndex={1}
                 sx={{
                     backgroundColor: '#fff'
                 }}
-                width={"100%"}
                 display={'flex'}
                 flexDirection={'column'}
                 alignItems={'center'}
                 justifyContent={'center'}
                 gap={'8px'}
-                position={'sticky'}
-                top={0}
                 borderBottom={'1px solid #e0e0e0'}
-                padding={"16px 0px"}
-                zIndex={1}
+                padding={isMobile ? "8px 16px" : "16px 0px"}
                 boxShadow={
                     "0px 4px 4px rgba(0, 0, 0, 0.01)"
                 }
             >
                 {/* location and time */}
-                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>
+                <Box display={'flex'} flexDirection={isMobile ? 'column' : 'row'} alignItems={isMobile ? 'start' : 'center'} justifyContent={'center'} sx={{ gap: isMobile ? '8px' : '16px' }}>
                     {/* location */}
-                    <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                    <Box width={isMobile ? "100%" : "auto"} display={'flex'} flexDirection={isMobile ? 'row' : 'column'} alignItems={'center'} justifyContent={isMobile ? 'space-between' : 'center'} sx={{ gap: '4px' }}>
                         <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
-                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                            <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? '12px' : '12px', fontWeight: "600", fontStyle: "italic" }}>
                                 Địa điểm thuê xe:
                             </Typography>
                         </Box>
                         <Box
-                            className="custom-search-box"
+                            className={isMobile ? "custom-search-box-1" : "custom-search-box"}
                             display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ cursor: 'pointer', gap: '8px' }} padding={"4px 0px"}
                             onClick={openMapModal}
                         >
                             <LocationOnOutlined sx={{ color: theme.palette.action.disabled }} />
                             <Typography
                                 color={theme.palette.text.primary}
-                                sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: "400", minWidth: '100px', maxWidth: isMobile ? '175px' : '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
                                 onChange={handleChange}
                             >
                                 {values.address}
@@ -621,7 +621,7 @@ export default function ListMotorbikesSearchedPage() {
                                 fontSize: '20px',
                                 height: '32px',
                             }}
-                            size='large'
+                            size={isMobile ? 'middle' : 'large'}
                             showTime={{ format: 'HH:mm' }}
                             format="DD-MM-YYYY HH:mm"
                             placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
@@ -636,13 +636,18 @@ export default function ListMotorbikesSearchedPage() {
                             allowClear={false}
                         />
                     </Box>
-                    <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                    <Box width={isMobile ? "100%" : "auto"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                         {/* white space */}
-                        <Box minHeight={"18px"} width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} />
+                        {!isMobile &&
+                            (
+                                <Box minHeight={"18px"} width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} />
+                            )
+                        }
                         {/* search icon */}
-                        <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>
+                        <Box width={"100%"} display={'flex'} flexDirection={isMobile ? 'column' : 'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: isMobile ? '8px' : '8px' }}>
 
                             <MyCustomButton
+                                width={isMobile ? "100%" : "20%"}
                                 borderRadius={8}
                                 fontSize={14}
                                 height='32px'
@@ -654,64 +659,74 @@ export default function ListMotorbikesSearchedPage() {
                                 content={"Tìm xe"}
                             />
                             {/* | */}
-                            <Typography color={theme.palette.action.disabled} sx={{ fontSize: '14px', fontWeight: "400" }}>
-                                |
-                            </Typography>
-                            {/* filter icon */}
-                            <MyCustomButton
-                                borderRadius={8}
-                                fontWeight={400}
-                                fontSize={14}
-                                borderWeight={1}
-                                height='32px'
-                                variant='outlined'
-                                borderColor='#e0e0e0'
-                                fontColor='#000'
-                                icon={<FilterAltOutlined style={{ color: theme.palette.common.black, }} />}
-                                iconPosition='left'
-                                content={"Bộ lọc"}
-                                onClick={openAdvancedFilterModal} />
-                            {/* - */}
-                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
-                                -
-                            </Typography>
-
-                            {/* sort field */}
-                            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
-                                <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
-                                    Sắp xếp theo:
-                                </Typography>
-                                <Select
-                                    labelId="demo-select-small-label"
-                                    id="demo-select-small"
-                                    native
-                                    displayEmpty
-                                    size='small'
-                                    sx={{
-                                        fontSize: '14px',
-                                        height: '32px',
-                                        borderRadius: '8px',
-                                    }}
-                                    name='orderBy'
-                                    value={values.orderBy}
-                                    onChange={(e: SelectChangeEvent) => {
-                                        handleChange(e);
-                                        setFieldValue('orderBy', e.target.value);
-                                    }}
-                                >
-                                    {sortOptions.map((option) => (
-                                        <option
-                                            style={{
-                                                fontFamily: 'Inter',
-                                                fontStyle: 'normal',
-                                                fontWeight: 'normal',
-                                                fontSize: '14px',
+                            {!isMobile &&
+                                (
+                                    <Typography color={theme.palette.action.disabled} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                        |
+                                    </Typography>
+                                )
+                            }
+                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '4px' }}>
+                                {/* filter icon */}
+                                <MyCustomButton
+                                    width={isMobile ? "100%" : "auto"}
+                                    borderRadius={8}
+                                    fontWeight={400}
+                                    fontSize={14}
+                                    borderWeight={1}
+                                    height='32px'
+                                    variant='outlined'
+                                    borderColor='#e0e0e0'
+                                    fontColor='#000'
+                                    icon={<FilterAltOutlined style={{ color: theme.palette.common.black, }} />}
+                                    iconPosition='left'
+                                    content={"Bộ lọc"}
+                                    onClick={openAdvancedFilterModal} />
+                                {/* - */}
+                                {!isMobile &&
+                                    (
+                                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                            -
+                                        </Typography>
+                                    )
+                                }
+                                {/* sort field */}
+                                <Box width={isMobile ? "100%" : "auto"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={isMobile ? 'space-between' : 'center'} sx={{ gap: '8px' }}>
+                                    {!isMobile &&
+                                        (
+                                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                                Sắp xếp theo:
+                                            </Typography>
+                                        )
+                                    }
+                                    <Select
+                                        labelId="demo-select-small-label"
+                                        id="demo-select-small"
+                                        native
+                                        displayEmpty
+                                        size='small'
+                                        sx={{
+                                            fontSize: '14px',
+                                            borderRadius: '8px',
+                                        }}
+                                        name='orderBy'
+                                        value={values.orderBy}
+                                        onChange={(e: SelectChangeEvent) => {
+                                            handleChange(e);
+                                            setFieldValue('orderBy', e.target.value);
+                                        }}
+                                    >
+                                        {sortOptions.map((option) => (
+                                            <option style={{
+                                                fontSize: isMobile ? '10px' : '14px',
+                                                lineHeight: isMobile ? '4px' : '14px',
                                             }}
-                                            key={option.key} value={option.key}>
-                                            {option.value}
-                                        </option>
-                                    ))}
-                                </Select>
+                                                key={option.key} value={option.key}>
+                                                {option.value}
+                                            </option>
+                                        ))}
+                                    </Select>
+                                </Box>
                             </Box>
                         </Box>
                     </Box>
@@ -719,7 +734,7 @@ export default function ListMotorbikesSearchedPage() {
             </Box>
             {/* list motorbikes */}
             <Box
-                zIndex={0}
+                zIndex={1}
                 sx={{
                     backgroundColor: '#f1f1f1',
                 }}
@@ -987,15 +1002,16 @@ export default function ListMotorbikesSearchedPage() {
                     margin: '32px 0px',
                     overflowY: 'auto',
                 }}>
-                <Box width={isMobile ? "70%" : "50%"}
+                <Box width={isMobile ? "90%" : "50%"}
                     height={"auto"}
                     sx={{
-                        padding: "16px 32px",
+                        padding: isMobile ? "8px 8px" : "16px 32px",
                         backgroundColor: 'white',
                         borderRadius: '8px',
                     }}>
-                    <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} pb={"8px"} borderBottom={"1px solid #e0e0e0"}>
-                        <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "20px" : "24px"} fontWeight={600} textAlign={"start"}>
+                    <Box
+                        top={16} width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} pb={"8px"} borderBottom={"1px solid #e0e0e0"}>
+                        <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "20px" : "24px"} ml={isMobile ? "8px" : "0px"} fontWeight={600} textAlign={"start"}>
                             {"Bộ lọc nâng cao"}
                         </Typography>
                         <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
@@ -1007,7 +1023,7 @@ export default function ListMotorbikesSearchedPage() {
                         <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"space-between"} alignItems={"center"} sx={{ gap: '8px' }}>
                             <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
                                 {/* tilte */}
-                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={600} textAlign={"start"}>
+                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={"16px"} fontWeight={600} textAlign={"start"}>
                                     {"Các lựa chọn"}
                                 </Typography>
                                 {/* action button */}
@@ -1105,7 +1121,7 @@ export default function ListMotorbikesSearchedPage() {
                         <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                 {/* tilte */}
-                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={600} textAlign={"start"}>
+                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={"16px"} fontWeight={600} textAlign={"start"}>
                                     {"Hãng xe"}
                                 </Typography>
                             </Box>
@@ -1136,7 +1152,7 @@ export default function ListMotorbikesSearchedPage() {
                         <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                 {/* tilte */}
-                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={600} textAlign={"start"}>
+                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={"16px"} fontWeight={600} textAlign={"start"}>
                                     {"Giới hạn giá"}
                                 </Typography>
                             </Box>
@@ -1155,7 +1171,7 @@ export default function ListMotorbikesSearchedPage() {
                                 </Box>
                             </Box>
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
+                                <Box display={'flex'} flexDirection={isMobile ? 'column' : 'row'} alignItems={'start'} justifyContent={'space-between'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
                                         Tối thiểu:
                                     </Typography>
@@ -1163,7 +1179,7 @@ export default function ListMotorbikesSearchedPage() {
                                         {formatMoney(price[0])}
                                     </Typography>
                                 </Box>
-                                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
+                                <Box display={'flex'} flexDirection={isMobile ? 'column' : 'row'} alignItems={'start'} justifyContent={'space-between'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
                                         Tối đa:
                                     </Typography>
@@ -1177,7 +1193,7 @@ export default function ListMotorbikesSearchedPage() {
                         <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                 {/* tilte */}
-                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={600} textAlign={"start"}>
+                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={"16px"} fontWeight={600} textAlign={"start"}>
                                     {"Năm sản xuất"}
                                 </Typography>
                             </Box>
@@ -1216,7 +1232,7 @@ export default function ListMotorbikesSearchedPage() {
                         <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                 {/* tilte */}
-                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={600} textAlign={"start"}>
+                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={"16px"} fontWeight={600} textAlign={"start"}>
                                     {"Mức tiêu thụ nhiên liệu"}
                                 </Typography>
                             </Box>
@@ -1255,7 +1271,7 @@ export default function ListMotorbikesSearchedPage() {
                         <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                 {/* tilte */}
-                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={600} textAlign={"start"}>
+                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={"16px"} fontWeight={600} textAlign={"start"}>
                                     {"Khoảng cách"}
                                 </Typography>
                             </Box>
@@ -1296,7 +1312,7 @@ export default function ListMotorbikesSearchedPage() {
                         <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"space-between"} alignItems={"center"} sx={{ gap: '8px' }}>
                             <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
                                 {/* tilte */}
-                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={600} textAlign={"start"}>
+                                <Typography variant='h2' color={theme.palette.text.primary} fontSize={"16px"} fontWeight={600} textAlign={"start"}>
                                     {"Các tính năng"}
                                 </Typography>
                                 {/* action button */}
@@ -1353,12 +1369,14 @@ export default function ListMotorbikesSearchedPage() {
                             </Box>
                             {/* content */}
                             <Box width={"100%"} display={"flex"} flexDirection={"column"} sx={{ gap: '8px' }}>
-                                <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} sx={{ gap: '8px' }}>
+                                <Box display={"flex"} flexWrap={'wrap'} flexDirection={"row"} justifyContent={"space"} alignItems={"center"} sx={{
+                                    gap: '8px',
+                                }} >
                                     {
-                                        featureOptionsRow1.map((option, index) => (
+                                        featureOptionsState.map((option, index) => (
                                             option.key !== 'all' && (
                                                 <MyCustomButton
-                                                    width='30%'
+                                                    width='210px'
                                                     key={index}
                                                     justifyContent='start'
                                                     isChecked={option.isChecked}
@@ -1380,7 +1398,7 @@ export default function ListMotorbikesSearchedPage() {
                                                         () => {
                                                             checkFeatureOptions(option.key);
                                                             // add or remove feature options to values.equipments
-                                                            if (option.key === 'Helmet' || option.key === 'Raincoat' || option.key === 'ReflectiveClothes') {
+                                                            if (option.key === 'Helmet' || option.key === 'Raincoat' || option.key === 'ReflectiveClothes' || option.key === 'RepairKit' || option.key === 'CaseTelephone' || option.key === 'Bagage') {
                                                                 const updatedEquipments = equipments.includes(option.key)
                                                                     ? equipments.filter((equipment) => equipment !== option.key)
                                                                     : [...equipments, option.key];
@@ -1393,7 +1411,7 @@ export default function ListMotorbikesSearchedPage() {
                                     }
                                 </Box>
 
-                                <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} sx={{ gap: '8px' }}>
+                                {/* <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} sx={{ gap: '8px' }}>
                                     {
                                         featureOptionsRow2.map((option, index) => (
                                             option.key !== 'all' && (
@@ -1431,7 +1449,7 @@ export default function ListMotorbikesSearchedPage() {
                                                     } />
                                             )))
                                     }
-                                </Box>
+                                </Box> */}
                             </Box>
                         </Box>
                         {/* Action Button */}

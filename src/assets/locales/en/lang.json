@@ -669,7 +669,8 @@
     "news": "News"
   },
   "promotion": {
-    "yourPromo": "List promotion code"
+    "yourPromo": "List promotion code",
+    "applyTime": "Apply time"
   },
   "myBooking": {
     "currentBooking": "Current booking",

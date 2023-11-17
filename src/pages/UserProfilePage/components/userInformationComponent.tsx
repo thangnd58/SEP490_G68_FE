@@ -64,7 +64,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
     validationSchema: Yup.object({
       licenceNumber: Yup.string().required(t('form.required')).matches(/^[0-9]{12}$/, t('form.validLicenseNumber')),
       fullName: Yup.string().required(t('form.required')).max(256, t('form.validateString265Char')),
-      dob: Yup.date().required(t('form.required')).max(new Date(),  t('form.validateDOB')),
+      dob: Yup.date().required(t('form.required')).max(new Date(), t('form.validateDOB')),
     }),
     onSubmit: values => {
       changeLisence(values.licenceNumber, values.fullName, values.dob, values.licenceImage);
@@ -288,7 +288,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
 
 
           {/* Right Section (Basic Information) */}
-          <Box sx={{ width: isMobile ? '100%' : '70%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '32px' }}>
+          <Box sx={{ width: isMobile ? '100%' : '70%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: isMobile ? "16px" : "32px" }}>
             <Box sx={{ width: '100%' }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -308,23 +308,29 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Box display={'flex'} alignItems={'center'} alignContent={'center'}>
+                  <Box display={'flex'} flexDirection='column' alignItems={'start'} alignContent={'center'}>
                     <Typography variant="h6" marginRight={1} fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                       {t('userProfile.PhoneNumber')}
                     </Typography>
                     {user.phoneVerified === true && (
                       <Chip
-                        sx={{ '& .MuiChip-label': { fontSize: "15px" }, height: '90%' }}
+                        sx={{ '& .MuiChip-label': { fontSize: isMobile ?"12px":"14px" }, height: '90%' }}
                         color="success"
-                        icon={<CheckCircleOutline />}
+                        icon={<CheckCircleOutline sx={{
+                          width: '16px',
+                          height: '16px',
+                        }}/>}
                         label={t('userProfile.Verified')} />
                     )}
                     {user.phoneVerified === false && (
                       <Tooltip title={t('userProfile.AlertVerify')}>
                         <Chip
-                          sx={{ '& .MuiChip-label': { fontSize: "15px" }, height: '90%', cursor: 'pointer' }}
+                          sx={{ '& .MuiChip-label': { fontSize: isMobile ?"12px":"14px"}, height: '90%', cursor: 'pointer' }}
                           color="warning"
-                          icon={<WarningAmber />}
+                          icon={<WarningAmber sx={{
+                            width: '16px',
+                            height: '16px',
+                          }}/>}
                           label={t('userProfile.notYetVerify')}
                           onClick={() => {
                             setType('verifyPhone');
@@ -332,10 +338,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                           }}
                         />
                       </Tooltip>
-
                     )}
-
-
                   </Box>
                   <Box display={'flex'} alignItems={'center'} alignContent={'center'}>
                     <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600} display={'inline'} marginRight={1}>
