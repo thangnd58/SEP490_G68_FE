@@ -116,7 +116,7 @@ export interface Motorbike {
     address: string,
     location: string,
     status: string,
-    statusComment: string,
+    statusComment: any,
     user: User,
     createDatetime: string,
     model: Model | any,

@@ -30,7 +30,7 @@ import UserService from '../../../services/UserService';
 export default function MotorbikeDetailModal(props: { motorbikeId: string | undefined, searchedAddress?: string, startDate?: string, endDate?: string }) {
 
   const { isMobile, isIpad } = useThemePage();
-  const { t } = usei18next();
+  const { t, isVn } = usei18next();
   const [equipmentList, setEquipmentList] = useState<string[]>([]);
   const [location, setLocation] = useState<Location>();
   const { closeModal, setContentModal, setShowModal } = useContext(ModalContext);
@@ -166,6 +166,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
     }
     BookingService.getPreviewBooking(bookingPreview).then((data) => {
       setPreviewBookingData(data)
+      setIsProcessingBooking(data.motorbikes[0].status === "NotAvailable")
     })
   }, [props?.motorbikeId, values.address, values.startDate, values.endDate, values.couponCode])
 
@@ -546,6 +547,10 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                           <MyCustomButton disabled={isProcessingBooking}
                             width='100%' content={t("booking.loginToContinue")} variant='contained' />
                         </a>
+                    }
+                    {
+                      previewBookingData && previewBookingData.motorbikes.length > 0  && previewBookingData.motorbikes[0].status === "NotAvailable" &&
+                      <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={isMobile ? "14px" : "16px"} textAlign={'justify'}>{isVn ? previewBookingData.motorbikes[0].statusComment[0].vi : previewBookingData.motorbikes[0].statusComment[0].en}</Typography>
                     }
 
                   </Box>

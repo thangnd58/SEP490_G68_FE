@@ -367,8 +367,11 @@
       "promotionEndDate": "End Date",
       "promotionLeft": "Number Left",
       "promotionStatus": "Status",
-      "statusDeletePromotionSuccess": "Remove promotion successfully",
-      "statusDeletePromotionError": "Remove promotion failed",
+      "statusAddPromotionSuccess": "Add promotion successfully",
+      "statusAddPromotionError": "Add promotion failed",
+      "statusEditPromotionSuccess": "Edit promotion successfully",
+      "statusDeletePromotionSuccess": "End promotion successfully",
+      "statusDeletePromotionError": "End promotion failed",
       "deletePromotionTitle": "Promotion program ends now?",
       "deletePromotionWarn": "Note: Once closed, it cannot be reopened",
       "buttonEnd": "End promotion",
@@ -379,7 +382,10 @@
       "valuePromo": "Reduced value",
       "minValuePromo": "Minimum value for the code to be used",
       "maxValuePromo": "Maximum reduction",
-      "numberLeft": "Number promotion"
+      "numberLeft": "Number promotion",
+      "inPromotionTime": "In progress",
+      "endPromotionTime": "Ended",
+      "beforePromotionTime": "Not happening yet"
     },
     "model": {
       "modelName": "Model Name",
@@ -660,7 +666,9 @@
     "empty": "You don't have any notifications yet"
   },
   "homepage": {
-    "news": "News"
+    "news": "News",
+    "promotion": "Promotion",
+    "hotPromotion": "Hot promotion of the month"
   },
   "promotion": {
     "yourPromo": "List promotion code",
