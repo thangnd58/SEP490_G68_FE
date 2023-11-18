@@ -40,6 +40,8 @@ export const BookingDetailPage = () => {
     const { user } = useAppSelector((state) => state.userInfo);
     const dispatch = useAppDispatch();
     const [reloadBooking, setReloadBooking] = useState<boolean>(false)
+    const [endDate, setEndDate] = useState<string>("");
+    const [countdown, setCountdown] = useState<string>("");
 
     useEffect(() => {
         try {
@@ -86,8 +88,12 @@ export const BookingDetailPage = () => {
     const [position, setPosition] = useState(0);
     const navigate = useNavigate();
 
-    const endDate = '2023-11-16T23:00:00'; // Replace with your desired end date
-    const [countdown, setCountdown] = useState(countdownTime(endDate, t));
+    useEffect(() => {
+        if (booking?.createDatetime) {
+          const endDateMilliseconds = new Date(booking.createDatetime).getTime() + 6 * 60 * 60 * 1000;
+          setEndDate(new Date(endDateMilliseconds).toString());
+        }
+      }, [booking]);
 
     useEffect(() => {
         if (activeStep === 0) {
@@ -197,12 +203,12 @@ export const BookingDetailPage = () => {
                                         flex: 1,
                                     },
                                     '& .MuiStepConnector-line': {
-                                        marginTop: '12px', // Điều chỉnh vị trí của đường dẫn
-                                        borderColor: '#e0e0e0', // Màu sắc của đường dẫn
-                                        width: '98%', // Chiều rộng của đường dẫn
+                                        marginTop: '12px',
+                                        borderColor: '#e0e0e0',
+                                        width: '98%',
                                     },
                                     '& .MuiStepConnector-alternativeLabel': {
-                                        top: '12px', // Điều chỉnh vị trí của đường dẫn khi sử dụng alternativeLabel
+                                        top: '12px',
                                     },
                                 }}
 
@@ -222,7 +228,7 @@ export const BookingDetailPage = () => {
                                         alignItems={'center'}
                                         // className="motorcycle-container"
                                         style={{
-                                            transform: `translateX(-50%) translateX(${position}px)`,
+                                            transform: activeStep === 1 ? `translateX(-50%) translateX(${position}px)` : '',
                                             transition: 'transform 0.2s ease-in-out'
                                         }}
                                     >
