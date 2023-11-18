@@ -23,6 +23,12 @@ import ClockImage from './clock.png'
 import MotorbikeImage from './motorbike.png'
 import VNPay from './vnpay.png'
 import MyWallet from './my-wallet.png'
+import BeAOwner from './beaowner.png'
+import EsayToRentalMotorbike from './easyrentalmotorbike.png'
+import Tap from './tap (3).png'
+import Pay from './pay (1) 1.png'
+import Scooter from './scooter 1.png'
+import Feedback from './feedback 1.png'
 
 export {
     MotorbikeImage,
@@ -49,5 +55,11 @@ export {
     PriceImage,
     LocationImage,
     VNPay,
-    MyWallet
+    MyWallet,
+    BeAOwner,
+    EsayToRentalMotorbike,
+    Tap,
+    Pay,
+    Scooter,
+    Feedback
 };

@@ -25,6 +25,7 @@ export default function MySlideShowImage(props: CreateFadeEffectImageProps) {
                 canSwipe={true}
                 pauseOnHover={true}
                 transitionDuration={500}
+                
             >
                 {props.images.map((item) => (
                     <Box key={item} 
