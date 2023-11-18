@@ -3,6 +3,7 @@ import {
     Booking,
     BookingRequest,
     BookingResponse,
+    CartInforResponse,
     ShoppingCart,
 } from "../utils/type";
 
@@ -35,28 +36,14 @@ export const BookingService = {
         const response = await api.put(`${apiPostBooking}/${id}/cancel`)
         return response.data
     },
-    getListShoppingCart: async (
-        address: string,
-        startDatetime: string,
-        endDatetime: string,
-        couponCode: string
-    ): Promise<ShoppingCart[]> => {
-        return await api.get(
-            apiGetListCart +
-            "?Address=" +
-            address +
-            "&StartDatetime=" +
-            startDatetime +
-            "&EndDatetime=" +
-            endDatetime +
-            "&CouponCode=" +
-            couponCode
-        );
+    getListShoppingCart: async (): Promise<CartInforResponse[]> => {
+        const response = await api.get(apiGetListCart);
+        return response.data;
     },
-    deleteCart: async (Id: number) => {
-        return await api.delete(`/booking-cart/${Id}`);
+    deleteMotorbikeInCart: async (motorbikeId: number,bookingCartId: number) => {
+        return await api.delete(`/booking-cart/${bookingCartId}/${motorbikeId}`);
     },
-    addCart: async (Id: number) => {
-        return await api.post("/booking-cart", { motorbikeId: Id });
+    addCart: async (motorbikeId: number, startDatetime: string, endDatetime: string, address?: string) => {
+        return await api.post("/booking-cart", { motorbikeId , startDatetime, endDatetime, address});
     },
 }

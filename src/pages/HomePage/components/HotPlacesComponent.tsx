@@ -1,18 +1,40 @@
 import { Box, Button, IconButton, Typography } from '@mui/material'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import useThemePage from '../../../hooks/useThemePage';
 import { useNavigate } from 'react-router-dom';
 import usei18next from '../../../hooks/usei18next';
 import { ClockIcon } from '@mui/x-date-pickers';
 import { ArrowBack, ArrowForward, NavigateBefore, NavigateNext } from '@mui/icons-material';
 import Slider from 'react-slick';
+import { PopularLocation, PopularProvince } from '../../../utils/type';
+import { HomePageService } from '../../../services/HomePageService';
 
 
 export default function HotPlacesComponent() {
     const { isMobile } = useThemePage();
     const navigate = useNavigate();
     const { t } = usei18next();
+    const [hotProvinces, setHotProvinces] = useState<PopularProvince[]>([]);
+    const [hotStations, setHotStations] = useState<PopularLocation[]>([]);
 
+    useEffect(() => {
+        getData();
+    }, []) ;
+
+    const getData = async () => {
+        try {
+            const dataProvince = await HomePageService.getPopularProvince();
+            const dataStation = await HomePageService.getPopularLocation();
+            if (dataProvince) {
+                setHotProvinces(dataProvince);
+            }
+            if (dataStation) {
+                setHotStations(dataStation);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     const hotPlaces = [
         // Thay thế bằng danh sách các địa điểm nổi bật của bạn
         { id: 1, name: 'Địa điểm 1' },
@@ -165,8 +187,8 @@ export default function HotPlacesComponent() {
 
                     }>
                     <Slider ref={sliderPlaceRef} {...placeSettings}>
-                        {hotPlaces.map((place) => (
-                            <HotPlaceItem key={place.id} namePlace={place.name} isMobile={isMobile} />
+                        {hotProvinces.map((province: PopularProvince, index: number) => (
+                            <HotPlaceItem key={index} namePlace={province.name} isMobile={isMobile} numOfMotorbike={province.count} image={province.imageUrl} />
                         ))}
                     </Slider>
                 </Box>
@@ -205,8 +227,8 @@ export default function HotPlacesComponent() {
                 }
                 <Box alignContent={'center'} width={isMobile ? '275px' : '65%'}>
                     <Slider ref={sliderStationRef} {...stationSettings}>
-                        {hotPlaces.map((place) => (
-                            <HotStationItem key={place.id} namePlace={place.name} isMobile={isMobile} />
+                        {hotStations.map((place: PopularLocation, index: number) => (
+                            <HotStationItem key={index} namePlace={place.name} isMobile={isMobile} numOfMotorbike={place.count} image={place.imageUrl} />
                         ))}
                     </Slider>
                 </Box>
@@ -224,7 +246,7 @@ function HotPlaceItem({ isMobile, namePlace, key, image, numOfMotorbike }: { isM
             cursor: 'pointer'
         }} // onClick={() => navigate(`${ROUTES.newspage}/${listNews[0].newsId}`)}
     >
-        <img src={"https://vcdn1-dulich.vnecdn.net/2022/05/11/hoan-kiem-lake-7673-1613972680-1508-1652253984.jpg?w=0&h=0&q=100&dpr=1&fit=crop&s=2wB1cBTUcNKuk68nrG6LMQ"} width={'100%'} height={"100%"} alt={'ha-noi'} style={{
+        <img src={image} width={'100%'} height={"100%"} alt={'ha-noi'} style={{
             // cursor: 'pointer',
             borderRadius: '8px',
             boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'
@@ -242,7 +264,7 @@ function HotPlaceItem({ isMobile, namePlace, key, image, numOfMotorbike }: { isM
             <Box minHeight={"8px"} width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} />
             <Box display={'flex'} gap={'8px'} alignItems={'center'}>
                 <ClockIcon width={isMobile ? 14 : 24} height={isMobile ? 14 : 24} />
-                <Typography fontStyle={'italic'} fontSize={isMobile ? '10px' : '16px'}>200 xe</Typography>
+                <Typography fontStyle={'italic'} fontSize={isMobile ? '10px' : '16px'}>{`${numOfMotorbike} xe`}</Typography>
             </Box>
         </Box>
     </Box>);
@@ -257,7 +279,7 @@ function HotStationItem({ isMobile, namePlace, key, image, numOfMotorbike }: { i
             cursor: 'pointer'
         }} // onClick={() => navigate(`${ROUTES.newspage}/${listNews[0].newsId}`)}
     >
-        <img src={"https://vcdn1-dulich.vnecdn.net/2022/05/11/hoan-kiem-lake-7673-1613972680-1508-1652253984.jpg?w=0&h=0&q=100&dpr=1&fit=crop&s=2wB1cBTUcNKuk68nrG6LMQ"} width={'100%'} height={"100%"} alt={'ha-noi'} style={{
+        <img src={image} width={'100%'} height={"100%"} alt={'ha-noi'} style={{
             // cursor: 'pointer',
             borderRadius: '8px',
             boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'
@@ -275,7 +297,7 @@ function HotStationItem({ isMobile, namePlace, key, image, numOfMotorbike }: { i
             <Box minHeight={"8px"} width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} />
             <Box display={'flex'} gap={'8px'} alignItems={'center'}>
                 <ClockIcon width={isMobile ? 14 : 24} height={isMobile ? 14 : 24} />
-                <Typography fontStyle={'italic'} fontSize={isMobile ? '10px' : '16px'}>200 xe</Typography>
+                <Typography fontStyle={'italic'} fontSize={isMobile ? '10px' : '16px'}>{`${numOfMotorbike} xe`}</Typography>
             </Box>
         </Box>
     </Box>);

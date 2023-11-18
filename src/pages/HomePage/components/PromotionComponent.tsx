@@ -108,7 +108,7 @@ export default function PromotionComponent() {
           <IconButton sx={{ p: '24px' }} onClick={handlePlaceBack}>
             <ArrowBack />
           </IconButton>}
-        <Box alignContent={'center'} width={isMobile ? '300px' : '70%'}
+        <Box alignContent={'center'} width={isMobile ? '300px' : '69%'}
           padding={
             isMobile ? '0px 0px' : '0px 24px'
 
@@ -144,13 +144,13 @@ function HotPlaceItem({ isMobile, promotion }: { isMobile: boolean, promotion: P
     }} />
     <Box position='absolute' bottom={'0px'} style={{
       cursor: 'pointer',
-      background: 'linear-gradient(rgba(255, 255, 255, 0) 0%, #000000)',
+      background: 'linear-gradient(rgba(139, 69, 19,0.05) 0%, #000000)',
       width: '100%',
-      height: '50%'
+      height: '100%'
     }} borderRadius={'8px'}></Box>
     <Box position={'absolute'} bottom={'10px'} left={'10px'} color={'white'}>
-      {<Typography variant='h6' fontSize={isMobile ? '14px' : '24px'}>
-        {promotion.title.substring(0, 20) + '...'}
+      {<Typography variant='h6' fontSize={isMobile ? '16px' : '20px'}>
+        {promotion.title.substring(0, 50) + '...'}
       </Typography>}
     </Box>
   </Box>);
