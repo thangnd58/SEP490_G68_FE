@@ -244,7 +244,7 @@ function Header() {
                                                 />
                                             }
                                             onClick={handleClickNotify}
-                                            hasBagde = {
+                                            hasBagde={
                                                 userNotification.filter(
                                                     (item) => item.isRead === false
                                                 ).length > 0
@@ -1099,10 +1099,17 @@ export function PopoverItem({
                 alignItems: "center",
                 margin: "8px 0px",
                 gap: "8px",
+                justifyContent: "space-between",
+                width: "100%",
             }}
         >
             {icon}
-            <Box display={"flex"} flexDirection={"column"} alignItems={"start"}>
+            <Box display={"flex"} flexDirection={"column"} alignItems={"start"}
+                sx={{
+                    width: "80%",
+                    gap: "4px",
+                }}
+            >
                 <Typography
                     variant="h4"
                     fontSize={"16px"}
@@ -1112,14 +1119,21 @@ export function PopoverItem({
                 >
                     {label}
                 </Typography>
-                <Typography fontSize={"12px"}>{content}</Typography>
+                <Typography
+                    sx={{
+                        width: "100%",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        textAlign: "start",
+                    }}
+
+                    fontSize={"12px"}>{content}</Typography>
                 <Typography fontSize={"10px"} color={"primary.main"}>
                     {timeAgo ? getPreviousTimeRelative(timeAgo, t) : ""}
                 </Typography>
             </Box>
             <Box
-                position={"absolute"}
-                right={"0px"}
                 display={"flex"}
                 alignItems={"center"}
             >
