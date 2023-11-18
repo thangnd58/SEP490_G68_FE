@@ -667,7 +667,9 @@
     "empty": "Bạn chưa có thông báo nào"
   },
   "homepage": {
-    "news": "Tin tức"
+    "news": "Tin tức",
+    "promotion": "Khuyến mãi",
+    "hotPromotion": "Khuyến mãi hot trong tháng"
   },
   "promotion": {
     "yourPromo": "Danh sách mã giảm giá của bạn",

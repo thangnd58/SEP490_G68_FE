@@ -666,7 +666,9 @@
     "empty": "You don't have any notifications yet"
   },
   "homepage": {
-    "news": "News"
+    "news": "News",
+    "promotion": "Promotion",
+    "hotPromotion": "Hot promotion of the month"
   },
   "promotion": {
     "yourPromo": "List promotion code",
