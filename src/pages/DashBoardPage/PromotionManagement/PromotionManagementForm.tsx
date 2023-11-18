@@ -194,8 +194,8 @@ const PromotionManagementForm = () => {
                 setFieldValue("endDate", dayjs(response.endDate).format("MM-DD-YYYY HH:mm"))
                 setFieldValue("type", response.type)
                 setFieldValue("maxValue", response.maxValue * 1000)
-                setFieldValue("minValue", response.minValue  * 1000)
-                setFieldValue("value", response.value  * 1000)
+                setFieldValue("minValue", response.minValue * 1000)
+                setFieldValue("value", response.value * 1000)
                 setFieldValue("numberLeft", response.numberLeft)
                 setFieldValue("image", response.image)
             }
@@ -240,20 +240,24 @@ const PromotionManagementForm = () => {
                 display: 'flex',
                 flexDirection: isMobile ? 'column' : 'row',
                 alignContent: 'center',
-                padding: isMobile ? '2rem' : '3rem',
-                gap: '3rem',
-                justifyContent: 'space-between',
-                alignItems: 'center'
+                justifyContent: 'center',
+                padding: isMobile ? "16px 0px" : "32px",
+                gap: '16px',
             }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', width: isMobile ? '90%' : '40%', justifyContent: 'center' }}>
+                <Box sx={{ display: 'flex', width: isMobile ? '90%' : '30%', alignItems: isMobile ? 'center' : 'flex-start', justifyContent: 'center' }}
+                    padding={isMobile ? "0px 16px" : "0px"}>
                     <div
                         style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
                             position: 'relative',
                             width: '90%',
                             borderRadius: '16px',
                             overflow: 'hidden',
                             border: '3px solid #8B4513',
-                            padding: '1rem',
+                            padding: '4px',
+                            minHeight: '200px',
                         }}
                         onClick={onClickRef}
                         onMouseEnter={handleMouseEnter}
@@ -263,6 +267,7 @@ const PromotionManagementForm = () => {
                             imagePreviewUrl !== "" &&
                             <img
                                 style={{
+                                    borderRadius: '8px',
                                     width: '100%',
                                     height: '100%',
                                     objectFit: 'cover',
@@ -304,13 +309,36 @@ const PromotionManagementForm = () => {
                         onChange={handleUploadImageBanner}
                     />
                 </Box>
-                <Box sx={{ display: 'flex', flexDirection: 'column', width: isMobile ? '90%' : '60%', justifyContent: 'center' }}>
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: isMobile ? '90%' : '60%',
+                    gap: '16px',
+                    padding: isMobile ? "0px 16px" : "0px",
+                }}>
                     <TextField
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    border: '1px solid #E0E0E0',
+                                    borderRadius: '8px',
+                                },
+                                '&:hover fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                            },
+                            '& .MuiFormControl-root': {
+                                padding: '0px',
+                            },
+                        }}
                         name='title'
                         label={t('dashBoardManager.promotions.promotionTitle')}
                         placeholder={t('dashBoardManager.promotions.promotionTitle')}
                         variant='outlined'
-                        margin='normal'
+                        margin='none'
                         value={values.title}
                         onChange={handleChange}
                     />
@@ -318,11 +346,28 @@ const PromotionManagementForm = () => {
                         <ErrorMessage message={errors.title} />
                     )}
                     <TextField
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    border: '1px solid #E0E0E0',
+                                    borderRadius: '8px',
+                                },
+                                '&:hover fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                            },
+                            '& .MuiFormControl-root': {
+                                padding: '0px',
+                            },
+                        }}
                         name='code'
                         label={t('dashBoardManager.promotions.promotionCode')}
                         placeholder={t('dashBoardManager.promotions.promotionCode')}
                         variant='outlined'
-                        margin='normal'
+                        margin='none'
                         value={values.code}
                         onChange={handleChange}
                     />
@@ -364,56 +409,75 @@ const PromotionManagementForm = () => {
                     {errors.endDate && touched.endDate && (
                         <ErrorMessage message={errors.endDate} />
                     )}
-                    <Typography style={{
-                        fontFamily: 'Inter',
-                        fontStyle: 'normal',
-                        fontSize: '16px',
-                        color: '#000000',
-                        marginTop: '8px',
-                        fontWeight: '600'
-                    }}>{t("dashBoardManager.promotions.typePromo")}</Typography>
-                    <RadioGroup
-                        value={values.type}
-                        onChange={(event) => {
-                            setFieldValue("type", event.target.value)
-                        }}
-                        sx={{ display: 'flex', flexDirection: 'row', gap: '8px' }}
-                    >
-                        <FormControlLabel
-                            checked={values.type === "0"}
-                            value={"0"}
-                            control={<Radio />}
-                            label={t("dashBoardManager.promotions.byMoney")}
-                            sx={{
-                                '& .MuiFormControlLabel-label': {
-                                    fontSize: '16px',
-                                    fontWeight: '400',
-                                    color: theme.palette.text.primary,
-                                },
-                                borderRadius: "10px",
-                                padding: '4px'
+                    <Box display={'flex'} flexDirection={'column'} gap={"4px"}>
+                        <Typography style={{
+                            fontFamily: 'Inter',
+                            fontStyle: 'normal',
+                            fontSize: '16px',
+                            color: '#000000',
+                            marginTop: '8px',
+                            fontWeight: '600'
+                        }}>{t("dashBoardManager.promotions.typePromo")}</Typography>
+                        <RadioGroup
+                            value={values.type}
+                            onChange={(event) => {
+                                setFieldValue("type", event.target.value)
                             }}
-                        />
-                        <FormControlLabel
-                            checked={values.type === "1"}
-                            value={"1"}
-                            control={<Radio />}
-                            label={t("dashBoardManager.promotions.byPercent")}
-                            sx={{
-                                '& .MuiFormControlLabel-label': {
-                                    fontSize: '16px',
-                                    fontWeight: '400',
-                                    color: theme.palette.text.primary,
-                                },
-                                borderRadius: "10px",
-                                padding: '4px'
-                            }} />
-                    </RadioGroup>
-                    {errors.type && touched.type && (
-                        <ErrorMessage message={errors.type} />
-                    )}
+                            sx={{ display: 'flex', flexDirection: 'row', gap: '8px' }}
+                        >
+                            <FormControlLabel
+                                checked={values.type === "0"}
+                                value={"0"}
+                                control={<Radio />}
+                                label={t("dashBoardManager.promotions.byMoney")}
+                                sx={{
+                                    '& .MuiFormControlLabel-label': {
+                                        fontSize: '16px',
+                                        fontWeight: '400',
+                                        color: theme.palette.text.primary,
+                                    },
+                                    borderRadius: "16px",
+                                    padding: '4px'
+                                }}
+                            />
+                            <FormControlLabel
+                                checked={values.type === "1"}
+                                value={"1"}
+                                control={<Radio />}
+                                label={t("dashBoardManager.promotions.byPercent")}
+                                sx={{
+                                    '& .MuiFormControlLabel-label': {
+                                        fontSize: '16px',
+                                        fontWeight: '400',
+                                        color: theme.palette.text.primary,
+                                    },
+                                    borderRadius: "10px",
+                                    padding: '4px'
+                                }} />
+                        </RadioGroup>
+                        {errors.type && touched.type && (
+                            <ErrorMessage message={errors.type} />
+                        )}
+                    </Box>
 
                     <TextField
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    border: '1px solid #E0E0E0',
+                                    borderRadius: '8px',
+                                },
+                                '&:hover fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                            },
+                            '& .MuiFormControl-root': {
+                                padding: '0px',
+                            },
+                        }}
                         InputProps={{
                             startAdornment: <InputAdornment position="start">{values.type === "0" ? "VND" : "%"}</InputAdornment>,
                             inputProps: {
@@ -425,7 +489,7 @@ const PromotionManagementForm = () => {
                         label={t('dashBoardManager.promotions.valuePromo')}
                         placeholder={t('dashBoardManager.promotions.valuePromo')}
                         variant='outlined'
-                        margin='normal'
+                        margin='none'
                         name="value"
                         value={values.value}
                         onChange={handleChangeValue} />
@@ -433,11 +497,27 @@ const PromotionManagementForm = () => {
                         <ErrorMessage message={errors.value} />
                     )}
                     <TextField
-                        sx={{ marginTop: '8px' }}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    border: '1px solid #E0E0E0',
+                                    borderRadius: '8px',
+                                },
+                                '&:hover fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                            },
+                            '& .MuiFormControl-root': {
+                                padding: '0px',
+                            },
+                        }}
                         label={t('dashBoardManager.promotions.minValuePromo')}
                         placeholder={t('dashBoardManager.promotions.minValuePromo')}
                         variant='outlined'
-                        margin='normal'
+                        margin='none'
                         InputProps={{
                             startAdornment: <InputAdornment position="start">VND</InputAdornment>,
                         }}
@@ -449,11 +529,27 @@ const PromotionManagementForm = () => {
                         <ErrorMessage message={errors.minValue} />
                     )}
                     <TextField
-                        sx={{ marginTop: '8px' }}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    border: '1px solid #E0E0E0',
+                                    borderRadius: '8px',
+                                },
+                                '&:hover fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                            },
+                            '& .MuiFormControl-root': {
+                                padding: '0px',
+                            },
+                        }}
                         label={t('dashBoardManager.promotions.maxValuePromo')}
                         placeholder={t('dashBoardManager.promotions.maxValuePromo')}
                         variant='outlined'
-                        margin='normal'
+                        margin='none'
                         type="number"
                         InputProps={{
                             startAdornment: <InputAdornment position="start">VND</InputAdornment>,
@@ -465,11 +561,27 @@ const PromotionManagementForm = () => {
                         <ErrorMessage message={errors.maxValue} />
                     )}
                     <TextField
-                        sx={{ marginTop: '8px' }}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    border: '1px solid #E0E0E0',
+                                    borderRadius: '8px',
+                                },
+                                '&:hover fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                            },
+                            '& .MuiFormControl-root': {
+                                padding: '0px',
+                            },
+                        }}
                         label={t('dashBoardManager.promotions.numberLeft')}
                         placeholder={t('dashBoardManager.promotions.numberLeft')}
                         variant='outlined'
-                        margin='normal'
+                        margin='none'
                         type="number"
                         name="numberLeft"
                         value={values.numberLeft}
@@ -477,7 +589,7 @@ const PromotionManagementForm = () => {
                     {errors.numberLeft && touched.numberLeft && (
                         <ErrorMessage message={errors.numberLeft} />
                     )}
-                    <Box my={'8px'}>
+                    <Box>
                         <Editor onChangeData={(data) => {
                             setFieldValue("description", data);
                         }}

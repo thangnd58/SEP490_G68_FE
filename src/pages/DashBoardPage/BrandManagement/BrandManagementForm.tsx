@@ -6,7 +6,7 @@ import useThemePage from "../../../hooks/useThemePage";
 import usei18next from "../../../hooks/usei18next";
 import { Box, TextField, Typography } from "@mui/material";
 import MyIcon from "../../../components/common/MyIcon";
-import { ArrowBack  } from "@mui/icons-material";
+import { ArrowBack } from "@mui/icons-material";
 import theme from "../../../utils/theme";
 import ErrorMessage from "../../../components/common/ErrorMessage";
 import MyCustomButton from "../../../components/common/MyButton";
@@ -24,34 +24,34 @@ const BrandManagementForm = () => {
 
     useEffect(() => {
         getBrandById(Number(id));
-    }, [id])  
-    
+    }, [id])
+
     const formik = useFormik({
         initialValues: {
             brandName: "",
-            
+
         },
         validationSchema: Yup.object({
             brandName: Yup.string().required(t('form.required')),
-            
+
         }),
         onSubmit: async (values) => {
             try {
                 setIsSave(true)
                 if (brand && brand.id) {
-                    const responseUrl = await PostMotorbikeService.updateBrand(brand.id, values.brandName , "null");
+                    const responseUrl = await PostMotorbikeService.updateBrand(brand.id, values.brandName, "null");
                     if (responseUrl.status === 200) {
                         ToastComponent(t('toast.BrandManager.Edit.success'), 'success');
-                    }else{
+                    } else {
                         ToastComponent(t('toast.BrandManager.Edit.warning'), 'warning');
                         return;
                     }
                 } else {
-                    const responseUrl = await PostMotorbikeService.postBrand(values.brandName , "null");
+                    const responseUrl = await PostMotorbikeService.postBrand(values.brandName, "null");
                     if (responseUrl.status === 200) {
                         ToastComponent(t('toast.BrandManager.Add.success'), 'success');
-                        
-                    }else{
+
+                    } else {
                         ToastComponent(t('toast.BrandManager.Add.warning'), 'warning');
                         return;
                     }
@@ -65,7 +65,7 @@ const BrandManagementForm = () => {
         }
     });
 
-    const getBrandById= async (id: number) => {
+    const getBrandById = async (id: number) => {
         try {
             const response = await PostMotorbikeService.getBrandId(id.toString());
             if (response) {
@@ -77,13 +77,13 @@ const BrandManagementForm = () => {
         }
     }
     const {
-            values,
-            handleChange,
-            handleSubmit,
-            setFieldValue,
-            errors,
-            touched
-        } = formik;
+        values,
+        handleChange,
+        handleSubmit,
+        setFieldValue,
+        errors,
+        touched
+    } = formik;
 
     return (
         <Box width={'100%'} display={'flex'} flexDirection={'column'} gap={"16px"}>
@@ -93,25 +93,41 @@ const BrandManagementForm = () => {
                     {t("dashBoardManager.Navigation.brand")}
                 </Typography>
             </Box>
-            
-            <Box sx={{
-                border: "1px solid #E0E0E0",
-                backgroundColor: "#fff",
-                borderRadius: "8px",
-                display: 'flex',
-                flexDirection: isMobile ? 'column' : 'row',
-                alignContent: 'center',
-                padding: isMobile ? '2rem' : '3rem',
-                gap: '3rem',
-                justifyContent: 'space-between',
-                alignItems: 'center'
-            }}>
-                
-                <Box sx={{ display: 'flex', flexDirection: 'column', width: isMobile ? '90%' : '60%', justifyContent: 'center' }}>
-                    <Typography  variant="h1" fontSize={24} fontWeight={700} marginTop={'-20px'} marginBottom={'15px'}>
-                    {brand ? t("dashBoardManager.brand.TitleChange") : t("dashBoardManager.brand.TitleAdd")}
+
+            <Box
+                sx={{
+                    border: "1px solid #E0E0E0",
+                    backgroundColor: "#fff",
+                    borderRadius: "8px",
+                    display: 'flex',
+                    flexDirection: isMobile ? 'column' : 'row',
+                    alignContent: 'center',
+                    padding: isMobile ? '2rem' : '3rem',
+                    gap: '3rem',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                }}>
+
+                <Box
+                    sx={{ display: 'flex', flexDirection: 'column', width: isMobile ? '90%' : '60%', justifyContent: 'center' }}>
+                    <Typography variant="h1" fontSize={24} fontWeight={700} marginTop={'-20px'} marginBottom={'15px'}>
+                        {brand ? t("dashBoardManager.brand.TitleChange") : t("dashBoardManager.brand.TitleAdd")}
                     </Typography>
                     <TextField
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    border: '1px solid #E0E0E0',
+                                    borderRadius: '8px',
+                                },
+                                '&:hover fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                            },
+                        }}
                         name='brandName'
                         label={t('dashBoardManager.brand.Title')}
                         placeholder={t('dashBoardManager.brand.Title')}
@@ -124,7 +140,7 @@ const BrandManagementForm = () => {
                         <ErrorMessage message={errors.brandName} />
                     )}
 
-                    
+
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: "16px", mt: "16px" }}>
                         <MyCustomButton
                             type="submit"
@@ -133,8 +149,8 @@ const BrandManagementForm = () => {
                             fontWeight={400}
                             disabled={isSave}
                             content={t("dashBoardManager.news.buttonSave")}
-                            onClick={handleSubmit} 
-                            />
+                            onClick={handleSubmit}
+                        />
                     </Box>
                 </Box>
             </Box>

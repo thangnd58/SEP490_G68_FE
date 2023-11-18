@@ -101,8 +101,8 @@ const RegisterMotorbikeForm = () => {
                 setFieldValue("defaultPrice", motorbike.priceRent);
                 setFieldValue("fuelConsumption", motorbike.fuelConsumption);
                 setFieldValue("maxDeliveryDistance", motorbike.maxDeliveryDistance);
-                setFieldValue("freeDeliveryDistance", motorbike.freeDeliveryDistance);
-                setFieldValue("feeDeliveryDistance", motorbike.feeDeliveryDistance);
+                setFieldValue("freeDeliveryRange", motorbike.freeDeliveryRange);
+                setFieldValue("feeOfDeliveryPerKm", motorbike.feeOfDeliveryPerKm);
                 setFieldValue("province", motorbike.provinceId);
                 setFieldValue("district", motorbike.districtId);
                 setFieldValue("ward", motorbike.wardId);
@@ -134,8 +134,8 @@ const RegisterMotorbikeForm = () => {
             fuel: "",
             fuelConsumption: "3",
             maxDeliveryDistance: 20,
-            freeDeliveryDistance: 10,
-            feeDeliveryDistance: 4000,
+            freeDeliveryRange: 10,
+            feeOfDeliveryPerKm: 4000,
             description: "",
             raincoat: false,
             helmet: false,
@@ -180,12 +180,12 @@ const RegisterMotorbikeForm = () => {
                 .required("Bạn phải nhập khoảng cách giao xe tối đa")
                 .max(50, "Bạn chỉ có thể nhập tối đa 50 km")
                 .min(1, "Bạn phải nhập ít nhất 1 km"),
-            freeDeliveryDistance: Yup.number()
+            freeDeliveryRange: Yup.number()
                 .required("Bạn phải nhập khoảng cách giao xe miễn phí")
                 .max(50, "Bạn chỉ có thể nhập tối đa 50 km")
                 .min(1, "Bạn phải nhập ít nhất 1 km")
                 .concat(Yup.number().max(Yup.ref('maxDeliveryDistance'), "Khoảng cách giao xe miễn phí phải nhỏ hơn khoảng cách giao xe tối đa")),
-            feeDeliveryDistance: Yup.number()
+            feeOfDeliveryPerKm: Yup.number()
                 .required("Bạn phải nhập phí giao xe /km")
                 .max(10000, "Bạn chỉ có thể nhập tối đa 10000 đ/km")
                 .min(1000, "Bạn phải nhập ít nhất 1000 đ/km"),
@@ -204,8 +204,8 @@ const RegisterMotorbikeForm = () => {
                     equipments: equipmentsString,
                     fuelConsumption: Number(values.fuelConsumption),
                     maxDeliveryDistance: Number(values.maxDeliveryDistance),
-                    freeDeliveryDistance: Number(values.freeDeliveryDistance),
-                    feeDeliveryDistance: Number(values.feeDeliveryDistance),
+                    freeDeliveryRange: Number(values.freeDeliveryRange),
+                    feeOfDeliveryPerKm: Number(values.feeOfDeliveryPerKm),
                     provinceId: Number(values.province),
                     districtId: Number(values.district),
                     wardId: Number(values.ward),
@@ -907,8 +907,8 @@ const RegisterMotorbikeForm = () => {
                                                         borderColor: theme.palette.primary.main,
                                                     }
                                                 }}
-                                                name='freeDeliveryDistance'
-                                                value={values.freeDeliveryDistance}
+                                                name='freeDeliveryRange'
+                                                value={values.freeDeliveryRange}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 type='number'
@@ -916,8 +916,8 @@ const RegisterMotorbikeForm = () => {
                                             />
                                         }
                                     />
-                                    {errors.freeDeliveryDistance && touched.freeDeliveryDistance && (
-                                        <ErrorMessage message={errors.freeDeliveryDistance} />
+                                    {errors.freeDeliveryRange && touched.freeDeliveryRange && (
+                                        <ErrorMessage message={errors.freeDeliveryRange} />
                                     )}
                                 </Grid>
                                 <Grid item xs={isMobile ? 12 : 6}>
@@ -941,8 +941,8 @@ const RegisterMotorbikeForm = () => {
                                                         borderColor: theme.palette.primary.main,
                                                     }
                                                 }}
-                                                name='feeDeliveryDistance'
-                                                value={values.feeDeliveryDistance}
+                                                name='feeOfDeliveryPerKm'
+                                                value={values.feeOfDeliveryPerKm}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 type='number'
@@ -950,8 +950,8 @@ const RegisterMotorbikeForm = () => {
                                             />
                                         }
                                     />
-                                    {errors.feeDeliveryDistance && touched.feeDeliveryDistance && (
-                                        <ErrorMessage message={errors.feeDeliveryDistance} />
+                                    {errors.feeOfDeliveryPerKm && touched.feeOfDeliveryPerKm && (
+                                        <ErrorMessage message={errors.feeOfDeliveryPerKm} />
                                     )}
                                 </Grid>
                             </Grid>

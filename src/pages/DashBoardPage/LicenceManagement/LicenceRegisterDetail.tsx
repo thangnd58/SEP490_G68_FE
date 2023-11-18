@@ -11,6 +11,7 @@ import theme from "../../../utils/theme";
 import useThemePage from "../../../hooks/useThemePage";
 import MyIcon from "../../../components/common/MyIcon";
 import { ArrowBack } from "@mui/icons-material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper} from '@mui/material';
 
 const LicenceRegisterDetail = () => {
     const { t } = usei18next()
@@ -95,18 +96,19 @@ const LicenceRegisterDetail = () => {
                 display: 'flex',
                 flexDirection: isMobile ? 'column' : 'row',
                 alignContent: 'center',
-                padding: isMobile ? '2rem' : '3rem',
                 justifyContent: 'center',
-                gap: '3rem'
+                padding: isMobile ? "16px 0px" : "32px",
+                gap: '16px',
             }}>
-                <Box sx={{ display: 'flex', width: isMobile ? '90%' : '40%', alignItems: 'center', justifyContent: 'center' }}>
+                <Box sx={{ display: 'flex', width: isMobile ? '90%' : '30%', alignItems: isMobile ? 'center' : 'flex-start', justifyContent: 'center' }}
+                    padding={isMobile ? "0px 16px" : "16px"}
+                >
                     <img
                         style={{
-                            width:'90%',
+                            width: '100%',
                             borderRadius: '16px',
                             objectFit: 'cover',
                             border: '3px solid #8B4513',
-                            padding: '1rem'
                         }}
                         src={licence?.licenceImageUrl}
                         alt={'licence'} />
@@ -115,72 +117,55 @@ const LicenceRegisterDetail = () => {
                     style={{
                         display: 'flex',
                         flexDirection: 'column',
-                        width: isMobile ? '90%' : '40%',
-                        gap: '1rem'
+                        width: isMobile ? '90%' : '60%',
+                        gap: '8px',
+                        padding: isMobile ? "0px 16px" : "16px",
                     }}
                 >
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            marginBottom: '8px',
-                        }}
-                    >
-                        <Typography
-                            variant="h5"
-                            sx={{
-                                color: 'Black',
-                                fontWeight: 'bold',
-                            }}
-                        >
-                            {t("licenseInfo.NumberLicense")} :
-                        </Typography>
-                        <Typography variant="h5" align="left">
-                            {licence?.licenceNumber}
-                        </Typography>
-                    </Box>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            marginBottom: '8px',
-                        }}
-                    >
-                        <Typography
-                            variant="h5"
-                            sx={{
-                                color: 'Black',
-                                fontWeight: 'bold',
-                            }}
-                        >
-                            {t("licenseInfo.Name")} :
-                        </Typography>
-                        <Typography variant="h5" align="left">
-                            {licence?.fullName}
-                        </Typography>
-                    </Box>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Typography
-                            variant="h5"
-                            sx={{
-                                color: 'Black',
-                                fontWeight: 'bold',
-                            }}
-                        >
-                            {t("userProfile.DOB")} :
-                        </Typography>
-                        <Typography variant="h5" align="left">
-                            {licence?.dob}
-                        </Typography>
-                    </Box>
+                    <TableContainer elevation={0.5} component={Paper} sx={{ border: '1px solid #e0e0e0', borderRadius: '8px', marginTop: '16px' }}>
+                        <Table>
+                            <TableBody>
+                                {/* License Number */}
+                                <TableRow>
+                                    <TableCell sx={{ border: '1px solid #e0e0e0', padding: '8px' }}>
+                                        <Typography variant="h5" sx={{ color: 'Black', fontSize: isMobile ? '16px' : '20px',
+                                            fontWeight: '600' }}>
+                                            {t("licenseInfo.NumberLicense")} :
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell sx={{ border: '1px solid #e0e0e0', padding: '8px' }}>
+                                        <Typography fontSize={isMobile ? "16px" : "20px"} fontWeight={400} variant="h5">{licence?.licenceNumber}</Typography>
+                                    </TableCell>
+                                </TableRow>
+
+                                {/* Full Name */}
+                                <TableRow>
+                                    <TableCell sx={{ border: '1px solid #e0e0e0', padding: '8px' }}>
+                                        <Typography variant="h5" sx={{ color: 'Black', fontSize: isMobile ? '16px' : '20px',
+                                            fontWeight: '600' }}>
+                                            {t("licenseInfo.Name")} :
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell sx={{ border: '1px solid #e0e0e0', padding: '8px' }}>
+                                        <Typography fontSize={isMobile ? "16px" : "20px"} fontWeight={400} variant="h5">{licence?.fullName}</Typography>
+                                    </TableCell>
+                                </TableRow>
+
+                                {/* Date of Birth */}
+                                <TableRow>
+                                    <TableCell sx={{ border: '1px solid #e0e0e0', padding: '8px' }}>
+                                        <Typography variant="h5" sx={{ color: 'Black', fontSize: isMobile ? '16px' : '20px',
+                                            fontWeight: '600' }}>
+                                            {t("userProfile.DOB")} :
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell sx={{ border: '1px solid #e0e0e0', padding: '8px' }}>
+                                        <Typography fontSize={isMobile ? "16px" : "20px"} fontWeight={400} variant="h5">{licence?.dob}</Typography>
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                     <form onSubmit={handleSubmit}>
                         <TextField
                             name="statusComment"

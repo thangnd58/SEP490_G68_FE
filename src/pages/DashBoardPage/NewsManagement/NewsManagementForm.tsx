@@ -56,23 +56,23 @@ const NewsManagementForm = () => {
                     image: values.image
                 }
                 if (news && news.newsId) {
-                    if(fileImage) {
+                    if (fileImage) {
                         const params: ImageUpload = {
                             tableName: 'news',
                             columnName: 'image',
                             code: news.newsId.toString(),
                             fileName: fileImage.name,
                         };
-        
+
                         const responseUrl = await UploadImageService.generateUrlUpload(params);
                         if (responseUrl.status !== 200) {
                             ToastComponent(t('toast.uploadImage.error'), 'error');
                             return;
                         }
-        
+
                         const urlUpload = responseUrl.data.uploadUrl;
                         const responseUpload = await UploadImageService.uploadImage(urlUpload, fileImage);
-        
+
                         if (responseUpload.status !== 200) {
                             ToastComponent(t('toast.uploadImage.error'), 'error');
                             return;
@@ -82,23 +82,23 @@ const NewsManagementForm = () => {
                     ToastComponent(t('dashBoardManager.news.statusEditNewsSuccess'), 'success');
                 } else {
                     const newRes = await NewsManagementService.addNews(newsRequest)
-                    if(fileImage) {
+                    if (fileImage) {
                         const params: ImageUpload = {
                             tableName: 'news',
                             columnName: 'image',
                             code: newRes.data,
                             fileName: fileImage.name,
                         };
-        
+
                         const responseUrl = await UploadImageService.generateUrlUpload(params);
                         if (responseUrl.status !== 200) {
                             ToastComponent(t('toast.uploadImage.error'), 'error');
                             return;
                         }
-        
+
                         const urlUpload = responseUrl.data.uploadUrl;
                         const responseUpload = await UploadImageService.uploadImage(urlUpload, fileImage);
-        
+
                         if (responseUpload.status !== 200) {
                             ToastComponent(t('toast.uploadImage.error'), 'error');
                             return;
@@ -194,20 +194,25 @@ const NewsManagementForm = () => {
                 display: 'flex',
                 flexDirection: isMobile ? 'column' : 'row',
                 alignContent: 'center',
-                padding: isMobile ? '2rem' : '3rem',
-                gap: '3rem',
-                justifyContent: 'space-between',
-                alignItems: 'center'
+                justifyContent: 'center',
+                padding: isMobile ? "16px 0px" : "32px",
+                gap: '16px',
             }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', width: isMobile ? '90%' : '40%', justifyContent: 'center' }}>
+                <Box sx={{ display: 'flex', width: isMobile ? '90%' : '30%', alignItems: isMobile ? 'center' : 'flex-start', justifyContent: 'center' }}
+                    padding={isMobile ? "0px 16px" : "0px"}
+                >
                     <div
                         style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
                             position: 'relative',
                             width: '90%',
                             borderRadius: '16px',
                             overflow: 'hidden',
                             border: '3px solid #8B4513',
-                            padding: '1rem',
+                            padding: '4px',
+                            minHeight: '200px',
                         }}
                         onClick={onClickRef}
                         onMouseEnter={handleMouseEnter}
@@ -217,6 +222,7 @@ const NewsManagementForm = () => {
                             imagePreviewUrl !== "" &&
                             <img
                                 style={{
+                                    borderRadius: '8px',
                                     width: '100%',
                                     height: '100%',
                                     objectFit: 'cover',
@@ -258,13 +264,36 @@ const NewsManagementForm = () => {
                         onChange={handleUploadImageBanner}
                     />
                 </Box>
-                <Box sx={{ display: 'flex', flexDirection: 'column', width: isMobile ? '90%' : '60%', justifyContent: 'center' }}>
+                <Box style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: isMobile ? '90%' : '60%',
+                    gap: '16px',
+                    padding: isMobile ? "0px 16px" : "0px",
+                }}>
                     <TextField
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    border: '1px solid #E0E0E0',
+                                    borderRadius: '8px',
+                                },
+                                '&:hover fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                            },
+                            '& .MuiFormControl-root': {
+                                padding: '0px',
+                            },
+                        }}
                         name='title'
                         label={t('dashBoardManager.news.newsTitle')}
                         placeholder={t('dashBoardManager.news.newsTitle')}
                         variant='outlined'
-                        margin='normal'
+                        margin='none'
                         value={values.title}
                         onChange={handleChange}
                     />
@@ -272,11 +301,28 @@ const NewsManagementForm = () => {
                         <ErrorMessage message={errors.title} />
                     )}
                     <TextField
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    border: '1px solid #E0E0E0',
+                                    borderRadius: '8px',
+                                },
+                                '&:hover fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                            },
+                            '& .MuiFormControl-root': {
+                                padding: '0px',
+                            },
+                        }}
                         name='category'
                         label={t('dashBoardManager.news.newsCategory')}
                         placeholder={t('dashBoardManager.news.newsCategory')}
                         variant='outlined'
-                        margin='normal'
+                        margin='none'
                         value={values.category}
                         onChange={handleChange}
                     />

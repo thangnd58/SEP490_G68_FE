@@ -1,4 +1,4 @@
-import { Box, Chip , Typography} from "@mui/material";
+import { Box, Button, Chip , Typography} from "@mui/material";
 import theme from '../../../utils/theme';
 import usei18next from "../../../hooks/usei18next";
 import { DataGrid } from '@mui/x-data-grid';
@@ -137,9 +137,20 @@ const BrandManagement = () => {
                     // slots={{ toolbar: GridToolbar }}
                     components={{
                         Toolbar: () => (
-                            <Box>
+                            <Box sx={{ display: 'flex', alignItems: 'start' }}>
                                 <GridToolbar />
-                                <MyCustomButton icon={<Add color='primary' />} content={t("dashBoardManager.news.addNews")} variant='outlined' iconPosition='left' noBorder={true} onClick={() => navigate(`${ROUTES.admin.managerBrand}/add`)} />
+                                <Button
+                                    variant='text'
+                                    color='primary'
+                                    sx={{ 
+                                        padding: '4px 5px',
+                                        mt: '4px'
+                                    }}
+                                    startIcon={<Add color='primary' />}
+                                    onClick={() => navigate(`${ROUTES.admin.managerBrand}/add`)}
+                                >
+                                    Add
+                                </Button>
                             </Box>
                         ),
                     }}
