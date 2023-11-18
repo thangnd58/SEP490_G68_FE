@@ -382,7 +382,8 @@
       "numberLeft": "Số lượng khuyến mãi"
     },
     "model": {
-      "brandName": "Tên mẫu xe",
+      "modelName": "Tên mẫu xe",
+      "brandName": "Tên hãng xe",
       "createDate": "Ngày tạo",
       "updateDate": "Ngày cập nhật",
       "status": "Số lượng xe",
@@ -592,7 +593,7 @@
     "payVnPay": "Ví điện tử VN Pay",
     "pricePerday": "Đơn giá thuê",
     "totalPriceRent": "Tổng phí thuê xe",
-    "totalPriceService": "Tổng phí dịch vụ",
+    "totalPriceService": "Phí dịch vụ",
     "promotionCode": "Mã khuyến mãi",
     "totalPrice": "Tổng tiền",
     "bookMotorbikeButton": "Đặt xe",

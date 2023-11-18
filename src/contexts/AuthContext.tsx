@@ -32,12 +32,12 @@ const AuthProvider = (props: { children: JSX.Element }) => {
     const navigate = useNavigate();
     const { t } = usei18next();
     const dispatch = useAppDispatch();
-    const { user } = useAppSelector((state: any) => state.userInfo);
+    const { userLoggedIn } = useAppSelector((state: any) => state.userInfo);
 
-    
+
     useEffect(() => {
         const token = UserService.getToken();
-        if (token && user && UserService.isLoggedIn()) {
+        if (token && userLoggedIn && UserService.isLoggedIn()) {
             setIslogin(true);
         }
     }, [])
@@ -71,7 +71,7 @@ const AuthProvider = (props: { children: JSX.Element }) => {
                 }
                 ToastComponent(t("toast.login.success"), "success");
                 setIslogin(true);
-                navigate(ROUTES.homepage);
+                navigate(ROUTES.admin.managemotorbikes);
                 dispatch(getUserInfo())
             }
         } catch (error) {

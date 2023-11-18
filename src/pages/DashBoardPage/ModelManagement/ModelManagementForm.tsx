@@ -4,9 +4,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { PostMotorbikeService } from "../../../services/PostMotorbikeService";
 import useThemePage from "../../../hooks/useThemePage";
 import usei18next from "../../../hooks/usei18next";
-import { Box, TextField, Typography , Select, MenuItem} from "@mui/material";
+import { Box, TextField, Typography, Select, MenuItem } from "@mui/material";
 import MyIcon from "../../../components/common/MyIcon";
-import { ArrowBack  } from "@mui/icons-material";
+import { ArrowBack } from "@mui/icons-material";
 import theme from "../../../utils/theme";
 import ErrorMessage from "../../../components/common/ErrorMessage";
 import MyCustomButton from "../../../components/common/MyButton";
@@ -27,7 +27,7 @@ const ModelManagementForm = () => {
     useEffect(() => {
         getModelById(Number(id));
         getAllBrand();
-    }, [id])  
+    }, [id])
 
     const getAllBrand = async () => {
         try {
@@ -42,31 +42,31 @@ const ModelManagementForm = () => {
     const formik = useFormik({
         initialValues: {
             modelName: "",
-            brandId : ""
-            
+            brandId: ""
+
         },
         validationSchema: Yup.object({
             modelName: Yup.string().required(t('form.required')),
-            brandId : Yup.string().required(t('form.required')),
-            
+            brandId: Yup.string().required(t('form.required')),
+
         }),
         onSubmit: async (values) => {
             try {
                 setIsSave(true)
                 if (model && model.id) {
-                    const responseUrl = await ModelManagementService.editModel(model.id, values.modelName , "null", Number(values.brandId));
+                    const responseUrl = await ModelManagementService.editModel(model.id, values.modelName, "null", Number(values.brandId));
                     if (responseUrl.status === 200) {
                         ToastComponent(t('toast.ModelManager.Edit.success'), 'success');
-                    }else{
+                    } else {
                         ToastComponent(t('toast.ModelManager.Edit.warning'), 'warning');
                         return;
                     }
                 } else {
-                    const responseUrl = await ModelManagementService.addModel(values.modelName , "null", Number(values.brandId));
+                    const responseUrl = await ModelManagementService.addModel(values.modelName, "null", Number(values.brandId));
                     if (responseUrl.status === 200) {
                         ToastComponent(t('toast.ModelManager.Add.success'), 'success');
-                        
-                    }else{
+
+                    } else {
                         ToastComponent(t('toast.ModelManager.Add.warning'), 'warning');
                         return;
                     }
@@ -80,7 +80,7 @@ const ModelManagementForm = () => {
         }
     });
 
-    const getModelById= async (id: number) => {
+    const getModelById = async (id: number) => {
         try {
             const response = await ModelManagementService.getModelById(id);
             if (response) {
@@ -93,13 +93,13 @@ const ModelManagementForm = () => {
         }
     }
     const {
-            values,
-            handleChange,
-            handleSubmit,
-            setFieldValue,
-            errors,
-            touched
-        } = formik;
+        values,
+        handleChange,
+        handleSubmit,
+        setFieldValue,
+        errors,
+        touched
+    } = formik;
 
     return (
         <Box width={'100%'} display={'flex'} flexDirection={'column'} gap={"16px"}>
@@ -109,7 +109,7 @@ const ModelManagementForm = () => {
                     {t("dashBoardManager.Navigation.model")}
                 </Typography>
             </Box>
-            
+
             <Box sx={{
                 border: "1px solid #E0E0E0",
                 backgroundColor: "#fff",
@@ -122,23 +122,11 @@ const ModelManagementForm = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center'
             }}>
-                
+
                 <Box sx={{ display: 'flex', flexDirection: 'column', width: isMobile ? '90%' : '60%', justifyContent: 'center' }}>
-                    <Typography  variant="h1" fontSize={24} fontWeight={700} marginTop={'-20px'} marginBottom={'15px'}>
-                    {model ? t("dashBoardManager.model.TitleChange") : t("dashBoardManager.model.TitleAdd")}
+                    <Typography variant="h1" fontSize={24} fontWeight={700} marginTop={'-20px'} marginBottom={'15px'}>
+                        {model ? t("dashBoardManager.model.TitleChange") : t("dashBoardManager.model.TitleAdd")}
                     </Typography>
-                    <TextField
-                        name='modelName'
-                        label={t('dashBoardManager.model.Title')}
-                        placeholder={t('dashBoardManager.model.Title')}
-                        variant='outlined'
-                        margin='normal'
-                        value={values.modelName}
-                        onChange={handleChange}
-                    />
-                    {errors.modelName && touched.modelName && (
-                        <ErrorMessage message={errors.modelName} />
-                    )}
                     <Select
                         sx={{
                             borderRadius: '8px',
@@ -161,7 +149,33 @@ const ModelManagementForm = () => {
                     {errors.brandId && touched.brandId && (
                         <ErrorMessage message={errors.brandId} />
                     )}
-                    
+                    <TextField
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    border: '1px solid #E0E0E0',
+                                    borderRadius: '8px',
+                                },
+                                '&:hover fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                            },
+                        }}
+                        name='modelName'
+                        label={t('dashBoardManager.model.Title')}
+                        placeholder={t('dashBoardManager.model.Title')}
+                        variant='outlined'
+                        margin='normal'
+                        value={values.modelName}
+                        onChange={handleChange}
+                    />
+                    {errors.modelName && touched.modelName && (
+                        <ErrorMessage message={errors.modelName} />
+                    )}
+
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: "16px", mt: "16px" }}>
                         <MyCustomButton
                             type="submit"
@@ -170,8 +184,8 @@ const ModelManagementForm = () => {
                             fontWeight={400}
                             disabled={isSave}
                             content={t("dashBoardManager.news.buttonSave")}
-                            onClick={handleSubmit} 
-                            />
+                            onClick={handleSubmit}
+                        />
                     </Box>
                 </Box>
             </Box>

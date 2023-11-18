@@ -244,14 +244,21 @@ function Header() {
                                                 />
                                             }
                                             onClick={handleClickNotify}
-                                            badgeContent={userNotification
-                                                .filter(
-                                                    (item) =>
-                                                        item.isRead === false
-                                                )
-                                                .length.toString()}
+                                            hasBagde = {
+                                                userNotification.filter(
+                                                    (item) => item.isRead === false
+                                                ).length > 0
+                                            }
+                                            badgeContent={
+                                                userNotification.filter(
+                                                    (item) => item.isRead === false
+                                                ).length > 0 ? (
+                                                    userNotification.filter(
+                                                        (item) => item.isRead === false
+                                                    ).length.toString()
+                                                ) : ""
+                                            }
                                             badgeColor="primary"
-                                            hasBagde
                                             hasTooltip
                                             aria-describedby={
                                                 openNotify

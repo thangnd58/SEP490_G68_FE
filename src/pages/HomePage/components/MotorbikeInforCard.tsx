@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../utils/Constant';
 import { getCartInfo } from '../../../redux/reducers/cartReducer';
 import { BookingService } from '../../../services/BookingService';
+import useThemePage from '../../../hooks/useThemePage';
 
 export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean, startDate?: string, endDate?: string, searchedAddress?: string }) {
     const { t } = usei18next();
@@ -25,6 +26,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
     const dispatch = useAppDispatch();
     const [isFavorite, setIsFavorite] = React.useState<boolean>(props.motorbike.isFavourite);
     const navigate = useNavigate();
+    const {isMobile} = useThemePage();
     const showMotorbikeDetailModal = () => {
         setContentModal(
             <MotorbikeDetailModal motorbikeId={props.motorbike.id?.toString()} startDate={props.startDate} endDate={props.endDate} searchedAddress={props.searchedAddress} />
@@ -61,7 +63,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
             ToastComponent(t("toast.favourite.add.error_login"), "error");
         }
     }
-    
+
     const addCart = async (id: number) => {
         try {
             const response = await BookingService.addCart(id);
@@ -81,7 +83,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
             sx={{
                 backgroundColor: "#fff",
             }}
-            width={props.isFavoritePage ? "575px" : "270px"}
+            width={props.isFavoritePage ? "575px" : isMobile ? "300px" : "270px"}
             border={"1px solid #e0e0e0"}
             borderRadius={"8px"}
             display={"flex"}
@@ -101,17 +103,17 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                     sx={
                         props.isFavoritePage
                             ? {
-                                  width: "100%",
-                                  height: "150px",
-                                  borderRadius: "8px",
-                                  border: "1px solid #8B4513",
-                              }
+                                width: "100%",
+                                height: "150px",
+                                borderRadius: "8px",
+                                border: "1px solid #8B4513",
+                            }
                             : {
-                                  width: "100%",
-                                  height: "190px",
-                                  borderRadius: "8px",
-                                  border: "1px solid #8B4513",
-                              }
+                                width: "100%",
+                                height: "190px",
+                                borderRadius: "8px",
+                                border: "1px solid #8B4513",
+                            }
                     }
                     alt="image"
                     onClick={showMotorbikeDetailModal}
