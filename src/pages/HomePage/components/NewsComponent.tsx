@@ -38,7 +38,7 @@ export default function NewsComponent() {
                 listNews && listNews.length > 0 &&
                 <Box mx={isMobile ? '20px' : '56px'} display={'flex'} alignItems={'center'}>
                     <Grid container spacing={isMobile ? 2 : 4} >
-                        <Grid item xs={8} >
+                        <Grid item xs={isMobile ? 12 : 8} >
                             <Box position={'relative'}
                                 onClick={() => navigate(`${ROUTES.newspage}/${listNews[0].newsId}`)}
                                 height={'100%'}
@@ -69,21 +69,20 @@ export default function NewsComponent() {
 
                                 >
                                     {
-                                        !isMobile &&
-                                        <Typography variant='h6'>
+                                        <Typography variant='h6' fontSize={isMobile ? '14px' : '24px'} >
                                             {listNews[0].title}
                                         </Typography>
                                     }
                                     <Box display={'flex'} gap={'8px'} alignItems={'center'}>
-                                        <ClockIcon width={isMobile ? 16 : 24} height={isMobile ? 16 : 24} />
-                                        <Typography fontSize={isMobile ? '12px' : '16px'}>{getPreviousTimeRelative(listNews[0].createDatetime, t)}</Typography>
+                                        <ClockIcon width={isMobile ? 14 : 24} height={isMobile ? 14 : 24} />
+                                        <Typography fontStyle={'italic'} fontSize={isMobile ? '10px' : '16px'}>{getPreviousTimeRelative(listNews[0].createDatetime, t)}</Typography>
                                     </Box>
                                 </Box>
                             </Box>
                         </Grid>
-                        <Grid item xs={4} >
+                        <Grid item xs={isMobile ? 12 : 4} >
                             <Grid container spacing={2} >
-                                <Grid item xs={12}>
+                                <Grid item xs={isMobile ? 6 : 12}>
                                     <Box position={'relative'}
                                         onClick={() => navigate(`${ROUTES.newspage}/${listNews[1].newsId}`)}
                                     >
@@ -112,19 +111,18 @@ export default function NewsComponent() {
 
                                         >
                                             {
-                                                !isMobile &&
-                                                <Typography variant='h6'>
+                                                <Typography variant='h6' fontSize={isMobile ? '12px' : '20px'} >
                                                     {listNews[1].title}
                                                 </Typography>
                                             }
                                             <Box display={'flex'} gap={'8px'} alignItems={'center'}>
-                                                <ClockIcon width={isMobile ? 14 : 24} height={isMobile ? 14 : 24} />
-                                                <Typography fontSize={isMobile ? '10px' : '16px'}>{getPreviousTimeRelative(listNews[1].createDatetime, t)}</Typography>
+                                                <ClockIcon width={isMobile ? 12 : 24} height={isMobile ? 12 : 24} />
+                                                <Typography fontStyle={'italic'} fontSize={isMobile ? '10px' : '16px'}>{getPreviousTimeRelative(listNews[1].createDatetime, t)}</Typography>
                                             </Box>
                                         </Box>
                                     </Box>
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid item xs={isMobile ? 6 : 12}>
                                     <Box position={'relative'}
                                         onClick={() => navigate(`${ROUTES.newspage}/${listNews[2].newsId}`)}
                                     >
@@ -153,14 +151,14 @@ export default function NewsComponent() {
 
                                         >
                                             {
-                                                !isMobile &&
-                                                <Typography variant='h6'>
+                                                <Typography variant='h6' fontSize={isMobile ? '12px' : '20px'}
+                                                    >
                                                     {listNews[2].title}
                                                 </Typography>
                                             }
                                             <Box display={'flex'} gap={'8px'} alignItems={'center'}>
-                                                <ClockIcon width={isMobile ? 14 : 24} height={isMobile ? 14 : 24} />
-                                                <Typography fontSize={isMobile ? '10px' : '16px'}>{getPreviousTimeRelative(listNews[2].createDatetime, t)}</Typography>
+                                                <ClockIcon width={isMobile ? 12 : 24} height={isMobile ? 12 : 24} />
+                                                <Typography fontStyle={'italic'} fontSize={isMobile ? '10px' : '16px'}>{getPreviousTimeRelative(listNews[2].createDatetime, t)}</Typography>
                                             </Box>
                                         </Box>
                                     </Box>

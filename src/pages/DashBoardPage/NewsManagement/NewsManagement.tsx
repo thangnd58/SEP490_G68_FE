@@ -138,9 +138,20 @@ const NewsManagement = () => {
                     // slots={{ toolbar: GridToolbar }}
                     components={{
                         Toolbar: () => (
-                            <Box>
+                            <Box sx={{ display: 'flex', alignItems: 'start' }}>
                                 <GridToolbar />
-                                <MyCustomButton icon={<Add color='primary' />} content={t("dashBoardManager.news.addNews")} variant='outlined' iconPosition='left' noBorder={true} onClick={() => navigate(`${ROUTES.admin.manageNews}/add`)} />
+                                <Button
+                                    variant='text'
+                                    color='primary'
+                                    sx={{
+                                        padding: '4px 5px',
+                                        mt: '4px'
+                                    }}
+                                    startIcon={<Add color='primary' />}
+                                    onClick={() => navigate(`${ROUTES.admin.manageNews}/add`)}
+                                >
+                                    Add
+                                </Button>
                             </Box>
                         ),
                     }}

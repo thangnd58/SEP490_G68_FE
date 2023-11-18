@@ -559,7 +559,6 @@ export default function ListMotorbikesSearchedPage() {
         <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
             {/* filter motorbikes */}
             <Box
-                width={"100%"}
                 position={'sticky'}
                 top={0}
                 zIndex={1}
@@ -771,6 +770,7 @@ export default function ListMotorbikesSearchedPage() {
                             <Box sx={{
                                 width: '90%',
                                 minHeight: '65vh',
+                                mx: '',
                             }} alignItems={'center'} justifyContent={'center'}>
                                 <Grid
                                     width={"100%"}
