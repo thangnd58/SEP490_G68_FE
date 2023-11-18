@@ -55,19 +55,19 @@ export interface Model {
     modelName: string,
     modelImage: string,
     brand: Brand,
-    numberOfMotorbike : number,
-    createdDate : string,
-    updatedDate : string,
-    brandId : number,
-    brandName : string,
+    numberOfMotorbike: number,
+    createdDate: string,
+    updatedDate: string,
+    brandId: number,
+    brandName: string,
 }
 
 export interface Brand {
     id: number,
     brandName: string,
     brandImage: string,
-    createDate : string,
-    numberOfModel : number
+    createDate: string,
+    numberOfModel: number
 }
 
 
@@ -124,6 +124,8 @@ export interface Motorbike {
     description: string,
     distance: number,
     isFavourite: boolean,
+    ratingAverage: number,
+    countCompletedBooking : number,
 }
 
 export interface MotorbikeRequest {
@@ -392,4 +394,31 @@ export interface PromotionRequest {
     minValue: number,
     value: number,
     numberLeft: number,
+}
+
+export interface CartInforResponse {
+    bookingCartId: number,
+    address: string,
+    startDatetime: string,
+    endDatetime: string,
+    status: string,
+    motorbikes: Motorbike[]
+}
+
+export interface PopularLocation {
+    code: number,
+    name: string,
+    address: string,
+    location: string,
+    imageUrl: string,
+    count: number
+}
+
+export interface PopularProvince {
+    code: number,
+    name: string,
+    address: string,
+    location: string,
+    imageUrl: string,
+    count: number
 }

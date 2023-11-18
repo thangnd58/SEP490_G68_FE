@@ -6,7 +6,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Motorbike } from '../../../utils/type';
 import theme from '../../../utils/theme';
 import { ImageSearchBox } from '../../../assets/images';
-import { AddShoppingCart, BusinessCenterOutlined, FavoriteBorder, FavoriteOutlined, ShoppingCartCheckout, StarPurple500Outlined, Straighten } from '@mui/icons-material';
+import { AddShoppingCart, BusinessCenterOutlined, Delete, FavoriteBorder, FavoriteOutlined, ShoppingCartCheckout, StarPurple500Outlined, Straighten } from '@mui/icons-material';
 import { ModalContext } from '../../../contexts/ModalContext';
 import MotorbikeDetailModal from './MotorbikeDetailModal';
 import MyIcon from '../../../components/common/MyIcon';
@@ -16,17 +16,17 @@ import ToastComponent from '../../../components/toast/ToastComponent';
 import { getUserFavouriteInfo } from '../../../redux/reducers/userFavouriteReducer';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../utils/Constant';
-import { getCartInfo } from '../../../redux/reducers/cartReducer';
 import { BookingService } from '../../../services/BookingService';
 import useThemePage from '../../../hooks/useThemePage';
+import MyCustomButton from '../../../components/common/MyButton';
 
-export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean, startDate?: string, endDate?: string, searchedAddress?: string }) {
+export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean, startDate?: string, endDate?: string, searchedAddress?: string, isInCart?: boolean, isIntroduced?: boolean, deleteInCart?: () => void }) {
     const { t } = usei18next();
     const { setContentModal, setShowModal } = useContext(ModalContext);
     const dispatch = useAppDispatch();
     const [isFavorite, setIsFavorite] = React.useState<boolean>(props.motorbike.isFavourite);
     const navigate = useNavigate();
-    const {isMobile} = useThemePage();
+    const { isMobile } = useThemePage();
     const showMotorbikeDetailModal = () => {
         setContentModal(
             <MotorbikeDetailModal motorbikeId={props.motorbike.id?.toString()} startDate={props.startDate} endDate={props.endDate} searchedAddress={props.searchedAddress} />
@@ -64,11 +64,10 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
         }
     }
 
-    const addCart = async (id: number) => {
+    const addCart = async (motorbikeId: number, startDatetime: string, endDatetime: string, address: string) => {
         try {
-            const response = await BookingService.addCart(id);
+            const response = await BookingService.addCart(motorbikeId, startDatetime, endDatetime, address);
             if (response.status === 200) {
-                dispatch(getCartInfo());
                 ToastComponent(t("toast.ShoppingCart.add.success"), "success");
             } else {
                 ToastComponent(t("toast.ShoppingCart.add.warning"), "warning");
@@ -261,7 +260,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                             whiteSpace="nowrap"
                             overflow="hidden"
                         >
-                            4.5
+                            {props.motorbike.ratingAverage}
                         </Typography>
                         <BusinessCenterOutlined
                             fontWeight={300}
@@ -276,7 +275,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                             whiteSpace="nowrap"
                             overflow="hidden"
                         >
-                            5 lượt đặt
+                            {props.motorbike.countCompletedBooking} lượt đặt
                         </Typography>
                         {props.motorbike.distance && (
                             <>
@@ -326,13 +325,47 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                             Xem chi tiết
                         </Typography>
                     ) : (
-                        <MyIcon
-                            icon={<AddShoppingCart />}
-                            hasTooltip
-                            position="right"
-                            tooltipText={t("favourite.item.addToCart")}
-                            onClick={() => addCart(props.motorbike.id!)}
-                        />
+                        props.isInCart ? (
+                            <MyCustomButton
+                                icon={<Delete sx={{color: 'main'}} />}
+                                iconPosition='left'
+                                content={"Xóa"}
+                                onClick={props.deleteInCart!} 
+                                width="auto"
+                                height='32px'
+                                variant='outlined'
+                                fontSize={16}
+                                fontWeight={500}
+                                borderRadius={8} />
+                        ) : (
+                            props.isIntroduced ? (
+                                <Typography
+                                    sx={{
+                                        cursor: "pointer",
+                                        "&:hover": {
+                                            textDecoration: "underline",
+                                            color: theme.palette.primary.main,
+                                        },
+                                    }}
+                                    color={theme.palette.text.primary}
+                                    fontSize="14px"
+                                    fontWeight={700}
+                                    align="center"
+                                    textOverflow="ellipsis"
+                                    onClick={showMotorbikeDetailModal}
+                                >
+                                    Xem chi tiết
+                                </Typography>
+                            ) : (
+                                < MyIcon
+                                    icon={<AddShoppingCart />}
+                                    hasTooltip
+                                    position="right"
+                                    tooltipText={t("favourite.item.addToCart")}
+                                    onClick={() => addCart(props.motorbike.id!, props.startDate!, props.endDate!, props.searchedAddress!)}
+                                />
+                            )
+                        )
                     )}
                     <Box
                         display="flex"

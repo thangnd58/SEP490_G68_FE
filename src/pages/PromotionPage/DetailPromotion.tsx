@@ -1,4 +1,4 @@
-import { Box, Dialog, DialogContent, DialogTitle, Typography } from "@mui/material"
+import { Avatar, Box, Dialog, DialogContent, DialogTitle, Typography } from "@mui/material"
 import { useNavigate, useParams } from "react-router-dom"
 import { News, Promotion } from "../../utils/type";
 import { useState, useEffect, useContext } from 'react'
@@ -48,9 +48,10 @@ export const DetailPromotion = (props: { id: string }) => {
                     }}
                 >
                     <Box width={"100%"} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'start', justifyContent: 'space-between', gap: '8px' }}>
-                        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center', gap: '8px' }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '8px' }} width={'100%'}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px' }} width={'100%'}>
                                 <Typography fontWeight={'700'}>{promotion?.title}</Typography>
+                                <Avatar src={promotion?.imageUrl} sx={{ width: '200px', height: '200px' }} variant="rounded" />
                             </Box>
                         </Box>
                     </Box>
