@@ -228,6 +228,7 @@ export const BookingDetailPage = () => {
                                         gap={'8px'}
                                         alignItems={'center'}
                                         // className="motorcycle-container"
+                                        mb={'8px'}
                                         style={{
                                             transform: activeStep === 1 ? `translateX(-50%) translateX(${position}px)` : '',
                                             transition: 'transform 0.2s ease-in-out'
@@ -241,7 +242,13 @@ export const BookingDetailPage = () => {
                                         ) : (
                                             <img src={MotorbikeImage} width={128} height={128} className="motorcycle-image" />
                                         )}
+
                                     </Box>
+                                    {
+                                        activeStep === 2 &&
+                                        <MyCustomButton
+                                            width='100%' onClick={() => setContentModal(<ConfirmCompleteTripModal booking={booking} isMobile={isMobile} />)} content={t("booking.returnMotorbikeAndEndTrip")} variant='contained' />
+                                    }
                                 </Box>
                                 <Typography mt={'8px'} fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>{t("booking.timeRent")}</Typography>
                                 <Box display={'flex'} gap={isMobile ? '16px' : '32px'} justifyContent={isMobile ? 'space-between' : 'start'} flexDirection={isMobile ? 'column' : 'row'} mb={'16px'}>
@@ -463,12 +470,8 @@ export const BookingDetailPage = () => {
                                     }
                                     {
                                         activeStep !== 2 &&
-                                        <>
-                                            <MyCustomButton
-                                                width='100%' onClick={() => showModalCancelBooking(booking?.bookingId || 0)} content={t("booking.cancelBook")} variant='outlined' />
-                                            <MyCustomButton
-                                                width='100%' onClick={() => setContentModal(<ConfirmCompleteTripModal booking={booking} isMobile={isMobile} />)} content={t("booking.cancelBook")} variant='outlined' />
-                                        </>
+                                        <MyCustomButton
+                                            width='100%' onClick={() => showModalCancelBooking(booking?.bookingId || 0)} content={t("booking.cancelBook")} variant='outlined' />
                                     }
                                 </Box>
                             </Box>

@@ -132,7 +132,7 @@ export const ConfirmCompleteTripModal = (props: { booking: Booking, isMobile: bo
                         booking && booking.motorbikes.length > 0 &&
                         booking.motorbikes.map((motor, index) => {
                             return (
-                                <MotorbikeBookingCard key={`${index}_motor`} motorbike={motor} isMobile={isMobile} canFeedback={true} />
+                                <MotorbikeBookingCard key={`${index}_motor`} motorbike={motor} isMobile={isMobile} canFeedback={true}  bookingId={booking.bookingId}/>
                             )
                         })
                     }

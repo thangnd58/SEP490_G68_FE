@@ -132,8 +132,8 @@ interface AnimatedBoxProps {
 
 const AnimatedBox = styled(Box) <AnimatedBoxProps>`
     transition: all 2s ease;
-    overflow: hidden;
-    height: ${(props) => (props.isOpen ? 'auto' : '0')};
+    overflow-y: auto;
+    height: ${(props) => (props.isOpen ? '200px' : '0')};
     opacity: ${(props) => (props.isOpen ? '1' : '0')};
   `;
 
@@ -305,7 +305,7 @@ function Header() {
                                                     fontWeight={"700"}
                                                     fontSize={"24px"}
                                                 >
-                                                    Thông báo
+                                                    {t("notification.title")}
                                                 </Typography>
                                                 <Divider />
                                                 {userNotification.length > 0 ? (
@@ -332,7 +332,7 @@ function Header() {
                                                                         label={notifi.title
                                                                             .substring(
                                                                                 0,
-                                                                                55
+                                                                                30
                                                                             )
                                                                             .concat(
                                                                                 "..."
@@ -360,7 +360,7 @@ function Header() {
                                                                         content={notifi.detail
                                                                             .substring(
                                                                                 0,
-                                                                                55
+                                                                                40
                                                                             )
                                                                             .concat(
                                                                                 "..."
@@ -799,6 +799,20 @@ function Header() {
                                             content={t("header.dashboard")}
                                             variant="outlined"
                                         />
+                                        <MyCustomButton
+                                            iconPosition="left"
+                                            icon={
+                                                <NotificationsActiveOutlined
+                                                    sx={{ color: "#8B4513" }}
+                                                />
+                                            }
+                                            width="100%"
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                            }}
+                                            content={t('header.notification')}
+                                            variant="outlined"
+                                        />
                                     </AnimatedBox>
                                 ) : (
                                     // list customer
@@ -836,6 +850,20 @@ function Header() {
                                                 )
                                             }
                                             content={t('header.my_booking')}
+                                            variant="outlined"
+                                        />
+                                        <MyCustomButton
+                                            iconPosition="left"
+                                            icon={
+                                                <NotificationsActiveOutlined
+                                                    sx={{ color: "#8B4513" }}
+                                                />
+                                            }
+                                            width="100%"
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                            }}
+                                            content={t('header.notification')}
                                             variant="outlined"
                                         />
                                         <MyCustomButton

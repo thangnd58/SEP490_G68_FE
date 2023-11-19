@@ -6,7 +6,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
 }));
 
 interface CustomButtonProps {
-  onClick?: () => void;
+  onClick?: (e?: any) => void;
   content: string;
   className?: string;
   width?: string;

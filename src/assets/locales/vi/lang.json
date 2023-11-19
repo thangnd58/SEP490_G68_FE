@@ -611,6 +611,7 @@
     "buttonApplyPromotion": "Áp dụng",
     "buttonApplyPromotionOk": "Đã áp dụng",
     "confirmInforBook": "Xác nhận thông tin đặt xe",
+    "returnMotorbikeAndEndTrip": "Trả xe và kết thúc chuyến đi",
     "confirmCompleteTrip": "Xác nhận hoàn thành chuyến đi",
     "loginToContinue": "Đăng nhập để tiếp tục",
     "timeRemainingPay": "Thời gian thanh toán tiền cọc còn lại",
@@ -622,7 +623,9 @@
     "detailTitle": "Chi tiết đặt xe",
     "timeRent": "Thời gian thuê",
     "paymentBooking": "Thanh toán đơn đặt xe",
-    "confirmPaymentBooking": "Bạn có đồng ý thanh toán hay không?"
+    "confirmPaymentBooking": "Bạn có đồng ý thanh toán hay không?",
+    "rating": "Đánh giá",
+    "comment": "Bình luận"
   },
   "policy": {
     "documentRental": "Giấy tờ thuê xe",
@@ -669,6 +672,7 @@
     "seconds": "Giây"
   },
   "notification": {
+    "title": "Thông báo",
     "empty": "Bạn chưa có thông báo nào"
   },
   "homepage": {
@@ -683,5 +687,9 @@
   "myBooking": {
     "currentBooking": "Chuyến đi hiện tại",
     "historyBooking": "Lịch sử chuyến đi"
+  },
+  "feedback": {
+    "createSuccess": "Đánh giá thành công",
+    "createError": "Đánh giá thất bại"
   }
 }
