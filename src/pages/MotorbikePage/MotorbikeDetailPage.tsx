@@ -537,7 +537,7 @@ export default function MotorbikeDetailModal() {
                                                         {t("booking.promotionCode")}: <span style={{ textTransform: 'uppercase', fontWeight: '700' }}>{values.couponCode}</span>
                                                     </Typography>
                                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                                                        {formatMoney(previewBookingData?.couponPrice)}
+                                                        {formatMoney(previewBookingData?.promotion?.reducedAmount)}
                                                     </Typography>
                                                 </Box>
                                             }

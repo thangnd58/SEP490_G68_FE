@@ -112,7 +112,7 @@ function PromotionItem({ promotion, promoApply, setPromoApply }: { promotion: Pr
                     {/* title */}
                     <Typography fontWeight={400} color={theme.palette.text.primary} fontSize={isMobile ? '12px' : '14px'} sx={{}}>{promotion.title}</Typography>
                     {/* description */}
-                    <Typography color={theme.palette.text.primary} fontSize={isMobile ? '12px' : '14px'}>{promotion.description}</Typography>
+                    <Typography color={theme.palette.text.primary} fontSize={isMobile ? '12px' : '14px'}><div dangerouslySetInnerHTML={{__html: promotion.description}}></div></Typography>
                 </Box>
             }
         </Box>

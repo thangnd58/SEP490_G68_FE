@@ -4,12 +4,14 @@ import MyIcon from "../../../components/common/MyIcon";
 import { CloseOutlined, Loyalty } from "@mui/icons-material";
 import { CalendarImage } from "../../../assets/images";
 import { GoogleMap, Marker } from "@react-google-maps/api";
-import { BookingResponse, Motorbike } from "../../../utils/type";
+import { Booking, BookingResponse, Motorbike } from "../../../utils/type";
 import { MotorbikeBookingCard } from "./MotorbikeBookingCard";
 import { formatMoneyNew } from "../../../utils/helper";
 import MyCustomButton from "../../../components/common/MyButton";
 import { RequireWhenRent } from "./RequireWhenRent";
 import usei18next from "../../../hooks/usei18next";
+import { useContext } from "react";
+import { ModalContext } from "../../../contexts/ModalContext";
 
 interface BookingValue {
     address: string | undefined;
@@ -22,12 +24,13 @@ interface BookingValue {
     couponCode: string;
 }
 
-export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen: boolean, setModalConfirmBookingOpen: React.Dispatch<React.SetStateAction<boolean>>, values: BookingValue, isMobile: boolean, motorbikes?: Motorbike[], previewBookingData?: BookingResponse, isProcessingBooking?: boolean, handleSubmit: any }) => {
-    const { isModalConfirmBookingOpen, setModalConfirmBookingOpen, values, isMobile, motorbikes, previewBookingData, isProcessingBooking, handleSubmit } = props
+export const ConfirmCompleteTripModal = (props: { booking: Booking, isMobile: boolean  }) => {
+    const {  isMobile, booking } = props
     const { t } = usei18next()
+    const {closeModal} = useContext(ModalContext)
     return (
         <Modal
-            open={isModalConfirmBookingOpen}
+            open={closeModal}
             aria-labelledby="map-modal-title"
             aria-describedby="map-modal-description"
             sx={{
@@ -51,10 +54,10 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
             >
                 <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
                     <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? 20 : 24} fontWeight={700} textAlign={"start"}>
-                        {t("booking.confirmInforBook")}
+                        {t("booking.confirmCompleteTrip")}
                     </Typography>
                     <Box display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
-                        <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={() => setModalConfirmBookingOpen(false)} position='bottom' />
+                        <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeModal} position='bottom' />
                     </Box>
                 </Box>
                 <Divider sx={{ width: "100%", margin: "16px 0px" }} variant="middle" />
@@ -65,14 +68,14 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
                             <img src={CalendarImage} alt="calendar" width={isMobile ? 20 : 24} height={isMobile ? 20 : 24} />
                             <Box display={'flex'} flexDirection={'column'} gap={'4px'} justifyContent={"start"}>
                                 <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary}>{t("booking.startDate")}</Typography>
-                                <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary}>{values.startDate}</Typography>
+                                <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary}>{booking.startDatetime}</Typography>
                             </Box>
                         </Box>
                         <Box display={'flex'} gap={'16px'}>
                             <img src={CalendarImage} alt="calendar" width={isMobile ? 20 : 24} height={isMobile ? 20 : 24} />
                             <Box display={'flex'} flexDirection={'column'} gap={'4px'} justifyContent={"start"} >
                                 <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary}>{t("booking.endDate")}</Typography>
-                                <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary}>{values.endDate}</Typography>
+                                <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary}>{booking.endDatetime}</Typography>
                             </Box>
                         </Box>
                     </Box>
@@ -92,7 +95,7 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
                                 },
                             },
                         }}
-                        value={values.address}
+                        value={booking.address}
                         inputProps={{
                             readOnly: true,
                         }} />
@@ -108,7 +111,7 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
                     >
                         <GoogleMap
                             zoom={18}
-                            center={{ lat: values.lat, lng: values.lng }}
+                            center={{ lat: 0, lng: 0 }}
                             mapContainerStyle={{
                                 width: "100%",
                                 height: "40vh",
@@ -116,20 +119,20 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
                             }}
 
                         >
-                            {values &&
+                            {booking &&
                                 (
                                     <>
-                                        <Marker position={{ lat: values.lat, lng: values.lng }} />
+                                        <Marker position={{ lat: 0, lng: 0 }} />
                                     </>
                                 )
                             }
                         </GoogleMap>
                     </Box>
                     {
-                        motorbikes && motorbikes.length > 0 &&
-                        motorbikes.map((motor, index) => {
+                        booking && booking.motorbikes.length > 0 &&
+                        booking.motorbikes.map((motor, index) => {
                             return (
-                                <MotorbikeBookingCard key={`${index}_motor`} motorbike={motor} isMobile={isMobile} />
+                                <MotorbikeBookingCard key={`${index}_motor`} motorbike={motor} isMobile={isMobile} canFeedback={true} />
                             )
                         })
                     }
@@ -141,19 +144,19 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
                     <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                         {/* Đơn giá thuê */}
                         {
-                            motorbikes && motorbikes.length > 0 &&
+                            booking && booking.motorbikes.length > 0 &&
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                 <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: "400", }}>
                                     {t("booking.pricePerday")}
                                 </Typography>
                                 <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: "600", }}>
-                                    {`${formatMoneyNew(motorbikes.reduce((total, mt) => {
+                                    {`${formatMoneyNew(booking.motorbikes.reduce((total, mt) => {
                                         if (mt && mt.priceRent !== undefined) {
                                             return total + mt.priceRent;
                                         } else {
                                             return total;
                                         }
-                                    }, 0) || 0)}/${t("booking.perDay")}`} x  {motorbikes.length} {t("booking.perMotorbike")}
+                                    }, 0) || 0)}/${t("booking.perDay")}`} x  {booking.motorbikes.length} {t("booking.perMotorbike")}
                                 </Typography>
                             </Box>
                         }
@@ -169,7 +172,7 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
                                 {t("booking.totalPriceRent")}
                             </Typography>
                             <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: "600", }}>
-                                {formatMoneyNew(previewBookingData?.totalAmountTemp)} x {previewBookingData?.rentalDays} {t("booking.perDay")}
+                                {formatMoneyNew(booking?.totalAmountTemp)} x {booking?.rentalDays} {t("booking.perDay")}
                             </Typography>
                         </Box>
                         {/* Phí dịch vụ */}
@@ -178,18 +181,18 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
                                 {t("booking.totalPriceService")}
                             </Typography>
                             <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: "600", }}>
-                                {formatMoneyNew(previewBookingData?.feeOfService)}
+                                {formatMoneyNew(booking?.feeOfService)}
                             </Typography>
                         </Box>
                         {/* Mã khuyến mãi */}
                         {
-                            previewBookingData?.couponCode !== "" && previewBookingData?.couponCode !== null &&
+                            booking?.promotion !== null &&
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                 <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: "400", }}>
-                                    {t("booking.promotionCode")}: <span style={{ textTransform: 'uppercase', fontWeight: '700' }}>{previewBookingData?.couponCode}</span>
+                                    {t("booking.promotionCode")}: <span style={{ textTransform: 'uppercase', fontWeight: '700' }}>{booking?.promotion?.code}</span>
                                 </Typography>
                                 <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: "600", }}>
-                                    {formatMoneyNew(previewBookingData?.promotion?.reducedAmount)}
+                                    {formatMoneyNew(booking?.reducedAmount)}
                                 </Typography>
                             </Box>
                         }
@@ -205,20 +208,20 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
                             {t("booking.totalPrice")}
                         </Typography>
                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                            {formatMoneyNew(previewBookingData?.totalAmount)}
+                            {formatMoneyNew(booking?.totalAmount)}
                         </Typography>
                     </Box>
 
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', gap: '16px', marginTop: '16px' }}>
+                    {/* <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', gap: '16px', marginTop: '16px' }}>
                         <MyCustomButton
-                            width='50%' onClick={() => setModalConfirmBookingOpen(false)} content={t("booking.cancelBook")} variant='outlined' />
+                            width='50%' onClick={closeModal} content={t("booking.cancelBook")} variant='outlined' />
 
                         <MyCustomButton disabled={isProcessingBooking}
                             width='50%' onClick={() => {
                                 handleSubmit()
                                 setModalConfirmBookingOpen(false)
                             }} content={t("booking.bookMotorbikeButton")} variant='contained' />
-                    </Box>
+                    </Box> */}
                 </Box>
             </Box>
         </Modal>

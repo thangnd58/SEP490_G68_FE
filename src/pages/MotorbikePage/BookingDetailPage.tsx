@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react"
 import { Booking, BookingResponse } from "../../utils/type"
 import { useNavigate, useParams } from "react-router-dom";
 import { BookingService } from "../../services/BookingService";
-import { Box, Divider, FormControlLabel, IconButton, Radio, RadioGroup, Step, StepLabel, Stepper, styled, TextField, Typography } from "@mui/material";
+import { Box, Divider, FormControlLabel, IconButton, Radio, RadioGroup, Step, StepLabel, Stepper, styled, TextField, Tooltip, Typography } from "@mui/material";
 import { ArrowRightIcon } from "@mui/x-date-pickers";
 import useThemePage from "../../hooks/useThemePage";
 import { CalendarImage, ClockImage, MotorbikeImage, MyWallet, VNPay } from "../../assets/images";
@@ -22,7 +22,8 @@ import { useAppDispatch, useAppSelector } from "../../hooks/useAction";
 import ToastComponent from "../../components/toast/ToastComponent";
 import { getUserInfo } from "../../redux/reducers/authReducer";
 import MyIcon from "../../components/common/MyIcon";
-import { ArrowBack, CloseOutlined } from "@mui/icons-material";
+import { ArrowBack, CloseOutlined, Verified } from "@mui/icons-material";
+import { ConfirmCompleteTripModal } from "./components/ConfirmCompleteTripModal";
 
 export const BookingDetailPage = () => {
     const { bookingId } = useParams();
@@ -70,12 +71,12 @@ export const BookingDetailPage = () => {
     const handleProcessPayment = async (booking: Booking) => {
         try {
             if (paymentType === BookingPaymentType.UserBalance) {
-                await PaymentService.paymentWithWallet(booking.bookingId, booking.totalAmount * 1000)
+                await PaymentService.paymentWithWallet(booking.bookingId, booking.deposit * 1000)
                 ToastComponent(t("booking.toast.paymentBookSuccess"), "success")
                 setReloadBooking(!reloadBooking)
                 dispatch(getUserInfo())
             } else {
-                const res: any = await PaymentService.createRequestBooking(booking.bookingId, booking.totalAmount * 1000);
+                const res: any = await PaymentService.createRequestBooking(booking.bookingId, booking.deposit * 1000);
                 if (res) {
                     window.location.replace(res.data);
                 }
@@ -90,10 +91,10 @@ export const BookingDetailPage = () => {
 
     useEffect(() => {
         if (booking?.createDatetime) {
-          const endDateMilliseconds = new Date(booking.createDatetime).getTime() + 6 * 60 * 60 * 1000;
-          setEndDate(new Date(endDateMilliseconds).toString());
+            const endDateMilliseconds = new Date(booking.createDatetime).getTime() + 6 * 60 * 60 * 1000;
+            setEndDate(new Date(endDateMilliseconds).toString());
         }
-      }, [booking]);
+    }, [booking]);
 
     useEffect(() => {
         if (activeStep === 0) {
@@ -344,14 +345,14 @@ export const BookingDetailPage = () => {
                                     </Box>
                                     {/* Mã khuyến mãi */}
                                     {
-                                        booking?.couponCode !== "" && booking?.couponCode !== null &&
+                                        booking?.promotion &&
                                         <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                             <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                                                {t("booking.promotionCode")}: <span style={{ textTransform: 'uppercase', fontWeight: '700' }}>{booking?.couponCode}</span>
+                                                {t("booking.promotionCode")}: <span style={{ textTransform: 'uppercase', fontWeight: '700' }}>{booking?.promotion?.code}</span>
                                             </Typography>
                                             <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                                                 {/* {formatMoneyNew(booking?.couponPrice)} */}
-                                                {formatMoneyNew(0)}
+                                                {formatMoneyNew(booking.reducedAmount)}
                                             </Typography>
                                         </Box>
                                     }
@@ -365,6 +366,29 @@ export const BookingDetailPage = () => {
                                     </Typography>
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                                         {formatMoneyNew(booking?.totalAmount)}
+                                    </Typography>
+                                </Box>
+
+                                {/* Tiền cọc */}
+                                <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                    <Box display={'flex'} flexDirection={'row'} alignItems={'center'} gap={'2px'}>
+                                        {booking.status !== BookingStatus.PendingPayment && <Tooltip title={t("booking.toolTipPaid")}><Verified /></Tooltip>}
+                                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                                            {t("booking.depositMoney")}
+                                        </Typography>
+                                    </Box>
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                                        {formatMoneyNew(booking?.deposit)}
+                                    </Typography>
+                                </Box>
+
+                                {/* Thanh toán khi nhận xe */}
+                                <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                                        {t("booking.remainingAmount")}
+                                    </Typography>
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                                        {formatMoneyNew(booking?.totalAmount - booking?.deposit)}
                                     </Typography>
                                 </Box>
 
@@ -439,8 +463,12 @@ export const BookingDetailPage = () => {
                                     }
                                     {
                                         activeStep !== 2 &&
-                                        <MyCustomButton
-                                            width='100%' onClick={() => showModalCancelBooking(booking?.bookingId || 0)} content={t("booking.cancelBook")} variant='outlined' />
+                                        <>
+                                            <MyCustomButton
+                                                width='100%' onClick={() => showModalCancelBooking(booking?.bookingId || 0)} content={t("booking.cancelBook")} variant='outlined' />
+                                            <MyCustomButton
+                                                width='100%' onClick={() => setContentModal(<ConfirmCompleteTripModal booking={booking} isMobile={isMobile} />)} content={t("booking.cancelBook")} variant='outlined' />
+                                        </>
                                     }
                                 </Box>
                             </Box>
