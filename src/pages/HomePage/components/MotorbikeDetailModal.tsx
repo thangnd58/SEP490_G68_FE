@@ -167,6 +167,10 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
     BookingService.getPreviewBooking(bookingPreview).then((data) => {
       setPreviewBookingData(data)
       setIsProcessingBooking(data.motorbikes[0].status === "NotAvailable")
+      if(data.promotion && data.promotion.status === "NotAvailable"){
+        ToastComponent(isVn ? data.promotion.statusComment[0].vi : data.promotion.statusComment[0].en, "warning")
+        setFieldValue("couponCode", "")
+      }
     })
   }, [props?.motorbikeId, values.address, values.startDate, values.endDate, values.couponCode])
 
@@ -513,7 +517,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                             {t("booking.promotionCode")}: <span style={{ textTransform: 'uppercase', fontWeight: '700' }}>{values.couponCode}</span>
                           </Typography>
                           <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                            {formatMoney(previewBookingData?.couponPrice)}
+                            {formatMoney(previewBookingData?.promotion?.reducedAmount)}
                           </Typography>
                         </Box>
                       }

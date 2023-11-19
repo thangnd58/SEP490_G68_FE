@@ -589,6 +589,10 @@
       "cancelBookSuccess": "Hủy đặt xe thành công",
       "paymentBookSuccess": "Thanh toán thành công"
     },
+    "depositMoney": "Tiền cọc",
+    "remainingAmount": "Thanh toán khi nhận xe",
+    "toolTipPaid": "Đã thanh toán",
+    "toolTipReport": "Báo cáo",
     "perDay": "Ngày",
     "perMotorbike": "xe",
     "startDate": "Ngày nhận xe",
@@ -607,6 +611,7 @@
     "buttonApplyPromotion": "Áp dụng",
     "buttonApplyPromotionOk": "Đã áp dụng",
     "confirmInforBook": "Xác nhận thông tin đặt xe",
+    "confirmCompleteTrip": "Xác nhận hoàn thành chuyến đi",
     "loginToContinue": "Đăng nhập để tiếp tục",
     "timeRemainingPay": "Thời gian thanh toán tiền cọc còn lại",
     "startUsingService": "Bắt đầu chuyến đi",

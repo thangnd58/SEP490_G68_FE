@@ -34,7 +34,7 @@ interface Location {
 export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike[]; address: string; startDate: string; endDate: string; }) => {
   const { isMobile, isIpad } = useThemePage();
   const { closeModal, setContentModal, setShowModal } = useContext(ModalContext);
-  const { t } = usei18next();
+  const { t, isVn } = usei18next();
   const { RangePicker } = DatePicker;
   const [isProcessingBooking, setIsProcessingBooking] = useState(false);
   const [previewBookingData, setPreviewBookingData] = useState<BookingResponse>();
@@ -137,6 +137,16 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
     }
     BookingService.getPreviewBooking(bookingPreview).then((data) => {
       setPreviewBookingData(data)
+      if(data.motorbikes.filter((m) => m.status === "NotAvailable").length > 0){
+        data.motorbikes.filter((m) => m.status === "NotAvailable").map((m1) => {
+          ToastComponent(isVn ? m1.statusComment.vi : m1.statusComment.en, "warning")
+        })
+        setIsProcessingBooking(true)
+      }
+      if(data.promotion && data.promotion.status === "NotAvailable"){
+        ToastComponent(isVn ? data.promotion.statusComment[0].vi : data.promotion.statusComment[0].en, "warning")
+        setFieldValue("couponCode", "")
+      }
     })
   }, [props?.motorbikes, values.address, values.startDate, values.endDate, values.couponCode])
 
@@ -437,7 +447,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                                 {t("booking.promotionCode")}: <span style={{ textTransform: 'uppercase', fontWeight: '700' }}>{values.couponCode}</span>
                               </Typography>
                               <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                                {formatMoney(previewBookingData?.couponPrice)}
+                                {formatMoney(previewBookingData?.promotion?.reducedAmount)}
                               </Typography>
                             </Box>
                           }

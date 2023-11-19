@@ -69,7 +69,6 @@ function CartPage() {
     useEffect(() => {
         getListCart();
     }, []);
-    console.log(motorbikeCart);
 
     // Get List Cart 
     const getListCart = async () => {

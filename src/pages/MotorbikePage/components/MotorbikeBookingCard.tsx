@@ -2,13 +2,13 @@ import { Avatar, Box, Chip, Collapse, Divider, Tooltip, Typography } from "@mui/
 import { Motorbike } from "../../../utils/type"
 import usei18next from "../../../hooks/usei18next"
 import theme from "../../../utils/theme";
-import { ArrowDownward, ArrowUpward, BusinessCenterOutlined, StarPurple500Outlined } from "@mui/icons-material";
+import { ArrowDownward, ArrowUpward, BusinessCenterOutlined, Info, StarPurple500Outlined } from "@mui/icons-material";
 import { LicencePlateImage, LocationImage, PriceImage } from "../../../assets/images";
 import { formatMoneyNew } from "../../../utils/helper";
 import { useState } from "react";
 
 
-export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: boolean }) => {
+export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: boolean, canFeedback?: boolean }) => {
     const { t } = usei18next();
     const [expanded, setExpanded] = useState(true);
     return (
@@ -88,7 +88,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                         gap="8px">
                         {/* Brand Name and Model */}
                         <Box display="flex" flexDirection="column" gap="8px">
-                            <Box>
+                            <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
                                 <Typography
                                     textOverflow="ellipsis"
                                     whiteSpace="nowrap"
@@ -99,6 +99,9 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                 >
                                     {props.motorbike.model.modelName || props.motorbike.model}
                                 </Typography>
+                                <Tooltip title={t("booking.toolTipReport")}>
+                                    <Info />
+                                </Tooltip>
                             </Box>
                             <Box display="flex" alignItems="center" gap="8px">
                                 <img src={LocationImage} alt="licence plate" width={24} height={24} />
@@ -155,6 +158,12 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                             </Box>
                         </Box>
                     </Box>
+                    {
+                        props.canFeedback === true &&
+                        <Box border={'1px solid'}>
+
+                        </Box>
+                    }
                 </Box>
             }
         </Box>

@@ -268,8 +268,26 @@ export interface BookingResponse {
     feeOfService: number,
     totalAmountTemp: number,
     couponCode: string,
-    couponPrice: number,
-    totalAmount: number
+    totalAmount: number,
+    promotion: PromotionResponse
+}
+
+interface PromotionResponse {
+    id: number,
+    code: string,
+    image: string,
+    startDate: string,
+    endDate: string,
+    type: string,
+    maxValue: number,
+    minValue: number,
+    value: number,
+    numberLeft: number,
+    status: string,
+    statusComment: any,
+    dateCreated: string,
+    originalAmount: number,
+    reducedAmount: number
 }
 
 export interface Booking {
@@ -282,7 +300,7 @@ export interface Booking {
     motorbikes: Motorbike[];
     feeOfService: number;
     totalAmountTemp: number;
-    couponCode: string;
+    reducedAmount: number,
     totalAmount: number;
     paymentType: string;
     status: string;
@@ -290,6 +308,8 @@ export interface Booking {
     updateDatetime: string;
     createUserId: number;
     updateUserId: number;
+    promotion: Promotion,
+    deposit: number
 }
 
 export interface Notification {

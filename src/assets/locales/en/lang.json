@@ -588,6 +588,10 @@
       "cancelBookSuccess": "Cancel motorbike booking successfully",
       "paymentBookSuccess": "Payment success"
     },
+    "depositMoney": "Deposit",
+    "remainingAmount": "Pay upon receiving the motorbike",
+    "toolTipPaid": "Paid",
+    "toolTipReport": "Report",
     "detailTitle": "Motorbike booking details",
     "perDay": "Day",
     "perMotorbike": "motorbike",
@@ -608,6 +612,7 @@
     "buttonApplyPromotion": "Apply",
     "buttonApplyPromotionOk": "Applied",
     "confirmInforBook": "Confirm booking information",
+    "confirmCompleteTrip": "Confirm complete trip",
     "loginToContinue": "Login to continue",
     "timeRemainingPay": "Time to pay remaining deposit",
     "startUsingService": "Start your trip",
