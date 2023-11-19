@@ -84,7 +84,7 @@ export default function PromotionComponent() {
     ],
   };
   return (
-    <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} width={'100%'} gap={'24px'} padding={isMobile ? '32px' : '32px 64px'}>
+    <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} width={'100%'} gap={'24px'} padding={isMobile ? '16px 0px' : '32px 64px'}>
       {/* Title */}
       <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} gap={'8px'} width={'90%'}>
         <Typography
@@ -103,29 +103,38 @@ export default function PromotionComponent() {
           fontSize={isMobile ? 12 : 16}
           onClick={() => navigate(ROUTES.promotionpage)} />
       </Box>
-      <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} width={'100%'}>
-        {!isMobile &&
-          <IconButton sx={{ p: '24px' }} onClick={handlePlaceBack}>
-            <ArrowBack />
-          </IconButton>}
-        <Box alignContent={'center'} width={isMobile ? '300px' : '69%'}
-          padding={
-            isMobile ? '0px 0px' : '0px 24px'
+      <Box  width={'100%'} alignItems={'center'} justifyContent={'center'} >
+        <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{
+          backgroundColor: "rgba(139, 69, 19, 0.1)",
+          margin: isMobile ? '0px auto' : '0px 64px',
+          borderRadius: '8px',
+          width: isMobile ? '90%' : 'auto',
+          padding: isMobile ? '24px 0px' : '24px 0px',
+        }}>
+          {!isMobile &&
+            <IconButton sx={{ p: '24px' }} onClick={handlePlaceBack}>
+              <ArrowBack />
+            </IconButton>}
+          <Box alignContent={'center'} width={isMobile ? '300px' : '79.6%'}
+            padding={
+              isMobile ? '0px 0px' : '0px 24px'
 
-          }>
-          <Slider ref={sliderPlaceRef} {...placeSettings}>
-            {promotions.map((promotion) => (
-              <Box key={promotion.id}  onClick={() => setContentModal(<DetailPromotion id={promotion.id.toString()}/>)}>
-                <HotPlaceItem promotion={promotion} isMobile={isMobile} />
-              </Box>
-            ))}
-          </Slider>
+            }>
+            <Slider ref={sliderPlaceRef} {...placeSettings}>
+              {promotions.map((promotion) => (
+                <Box key={promotion.id} onClick={() => setContentModal(<DetailPromotion id={promotion.id.toString()} />)}>
+                  <HotPlaceItem promotion={promotion} isMobile={isMobile} />
+                </Box>
+              ))}
+            </Slider>
+          </Box>
+          {!isMobile &&
+            <IconButton onClick={handlePlaceNext} >
+              <ArrowForward />
+            </IconButton>}
         </Box>
-        {!isMobile &&
-          <IconButton onClick={handlePlaceNext} >
-            <ArrowForward />
-          </IconButton>}
       </Box>
+
     </Box>
   )
 }

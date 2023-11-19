@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Icon, IconButton, MenuItem, Modal, TextField, Typography } from '@mui/material'
+import { Box, CircularProgress, Icon, IconButton, MenuItem, Modal, Skeleton, TextField, Typography } from '@mui/material'
 import React, { useEffect, useMemo, useState } from 'react'
 import { ImageSearchBox } from '../../../assets/images'
 import { OrnamentIcon } from '../../../assets/icons'
@@ -169,6 +169,13 @@ const SeachBoxComponent = () => {
         setShowMenu(false);
     };
 
+    // handle load ảnh
+    const [imageLoaded, setImageLoaded] = useState(false);
+
+    const handleImageLoad = () => {
+        setImageLoaded(true);
+    };
+
 
     return (
         <Box display={'flex'} alignItems={'center'} justifyContent={'center'}
@@ -294,19 +301,30 @@ const SeachBoxComponent = () => {
                 flexDirection={'row'}
                 alignItems={'center'}
                 justifyContent={'center'}
-                minWidth={isMobile ? "90%" : "60%"}
-                width={isMobile ? "90%" : "60%"}>
+                minWidth={isMobile ? '90%' : '60%'}
+                width={isMobile ? '90%' : '60%'}
+            >
                 <img
                     alt="search box"
                     style={{
                         cursor: 'pointer',
                         borderRadius: '8px',
                         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                        display: imageLoaded ? 'block' : 'none', // Hiển thị ảnh khi đã load xong
                     }}
-                    loading='eager'
+                    loading="eager"
                     src={ImageSearchBox}
-                    width={"100%"}
+                    width={'100%'}
+                    onLoad={handleImageLoad}
                 />
+                {!imageLoaded && (
+                    <Skeleton
+                        variant="rounded"
+                        width={'100%'}
+                        height={isMobile ? 200 : 480.63}
+                        animation="wave"
+                    />
+                )}
             </Box>
             <Modal
                 open={isMapModalOpen}

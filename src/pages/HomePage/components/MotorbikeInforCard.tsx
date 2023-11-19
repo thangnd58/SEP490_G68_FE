@@ -82,7 +82,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
             sx={{
                 backgroundColor: "#fff",
             }}
-            width={props.isFavoritePage ? "575px" : isMobile ? "300px" : "270px"}
+            width={props.isFavoritePage ? "575px" : isMobile ? "82%" : "270px"}
             border={"1px solid #e0e0e0"}
             borderRadius={"8px"}
             display={"flex"}
@@ -103,13 +103,13 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                         props.isFavoritePage
                             ? {
                                 width: "100%",
-                                height: "150px",
+                                height: isMobile ? "200px" : "150px",
                                 borderRadius: "8px",
                                 border: "1px solid #8B4513",
                             }
                             : {
                                 width: "100%",
-                                height: "190px",
+                                height: isMobile ? "250px" : "190px",
                                 borderRadius: "8px",
                                 border: "1px solid #8B4513",
                             }
@@ -327,10 +327,10 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                     ) : (
                         props.isInCart ? (
                             <MyCustomButton
-                                icon={<Delete sx={{color: 'main'}} />}
+                                icon={<Delete sx={{ color: 'main' }} />}
                                 iconPosition='left'
                                 content={"Xóa"}
-                                onClick={props.deleteInCart!} 
+                                onClick={props.deleteInCart!}
                                 width="auto"
                                 height='32px'
                                 variant='outlined'

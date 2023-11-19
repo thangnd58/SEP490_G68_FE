@@ -209,8 +209,6 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
     }
   };
 
-
-
   // handle double click on map
   const handleDoubleClick = (e: any) => {
     setSelected({
@@ -554,7 +552,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     }
                     {
                       previewBookingData && previewBookingData.motorbikes.length > 0  && previewBookingData.motorbikes[0].status === "NotAvailable" &&
-                      <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={isMobile ? "14px" : "16px"} textAlign={'justify'}>{isVn ? previewBookingData.motorbikes[0].statusComment[0].vi : previewBookingData.motorbikes[0].statusComment[0].en}</Typography>
+                      <Typography variant="h5" color={theme.palette.text.secondary} fontWeight="700" fontSize={isMobile ? "14px" : "16px"} textAlign={'justify'}>{isVn ? previewBookingData.motorbikes[0].statusComment[0].vi : previewBookingData.motorbikes[0].statusComment[0].en}</Typography>
                     }
 
                   </Box>
