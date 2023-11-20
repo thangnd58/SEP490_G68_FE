@@ -603,9 +603,23 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                           </Box>
                           {/* Phí dịch vụ */}
                           <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                              {t("booking.totalPriceService")}
-                            </Typography>
+                            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                              <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "400", }}>
+                                {t("booking.totalPriceService")}
+                              </Typography>
+                              <MyIcon icon={
+                                <HelpOutlineOutlined sx={{
+                                  color: theme.palette.text.primary,
+                                  width: "12px",
+                                  height: "12px",
+                                  cursor: "pointer"
+                                }}
+                                />
+                              } hasTooltip tooltipText={
+                                t("booking.totalPriceService_hint")
+                              } onClick={() => {
+                              }} position='right-start' />
+                            </Box>
                             <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                               {formatMoney(previewBookingData?.feeOfService)}
                             </Typography>

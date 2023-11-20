@@ -44,6 +44,8 @@ import PromotionManagementForm from '../pages/DashBoardPage/PromotionManagement/
 import ModelManagement from '../pages/DashBoardPage/ModelManagement/ModelManagement';
 import ModelManagementForm from '../pages/DashBoardPage/ModelManagement/ModelManagementForm';
 import { PromotionPage } from '../pages/PromotionPage/PromotionPage';
+import SearchingHotProvince from '../pages/HomePage/SearchingHotProvince';
+import SearchingHotPlace from '../pages/HomePage/SearchingHotPlace';
 
 export type Route = {
     path: string;
@@ -56,6 +58,8 @@ export const routes: Route[] = [
     // Home Page
     { path: ROUTES.homepage, component: Home },
     { path: `${ROUTES.search.filtermotorbike}/:startDate/:endDate/:address`, component: ListMotorbikesSearchedPage },
+    { path: `${ROUTES.search.searchprovince}/:province/`, component: SearchingHotProvince },
+    { path: `${ROUTES.search.searchplace}/:place/`, component: SearchingHotPlace },
     { path: `${ROUTES.newspage}`, component: NewsPage },
     { path: `${ROUTES.promotionpage}`, component: PromotionPage },
     { path: `${ROUTES.newspage}/:id`, component: DetailNews },
