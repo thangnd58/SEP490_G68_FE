@@ -4,7 +4,9 @@ export const ROUTES = {
     newspage: "/news",
     promotionpage: "/promotion",
     search: {
-        filtermotorbike: "/search/filter"
+        filtermotorbike: "/search/filter",
+        searchprovince: "/search/province",
+        searchplace: "/search/place"
     },
     account: {
         login: "/login",

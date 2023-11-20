@@ -29,6 +29,19 @@ import Tap from './tap (3).png'
 import Pay from './pay (1) 1.png'
 import Scooter from './scooter 1.png'
 import Feedback from './feedback 1.png'
+import HanoiSearch from './hanoisearch.jpg'
+import SaigonSearch from './saigonsearch.jpg'
+import DanangSearch from './danangsearch.jpg'
+import HaiphongSearch from './haiphongsearch.jpg'
+import NinhbinhSearch from './ninhbinhsearch.jpg'
+import HagiangSearch from './hagiangsearch.jpg'
+import GahanoiSearch from './Gahanoi.jpg'
+import GahaiphongSearch from './Gahaiphong.jpg'
+import GalongbienSearch from './Galongbien.jpg'
+import GadalatSearch from './Gadalat.jpg'
+import BenxemydinhSearch from './Benxemydinh.jpg'
+import BenxethuonglyiSearch from './Benxethuongly.jpg'
+
 
 export {
     MotorbikeImage,
@@ -61,5 +74,18 @@ export {
     Tap,
     Pay,
     Scooter,
-    Feedback
+    Feedback,
+    HanoiSearch,
+    SaigonSearch,
+    DanangSearch,
+    HaiphongSearch,
+    NinhbinhSearch,
+    HagiangSearch,
+    GahanoiSearch,
+    GahaiphongSearch,
+    GalongbienSearch,
+    GadalatSearch,
+    BenxemydinhSearch,
+    BenxethuonglyiSearch
+
 };
