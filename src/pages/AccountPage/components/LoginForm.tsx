@@ -192,8 +192,8 @@ const FormStyleModal = styled('form')(({ theme }) => ({
   },
 }));
 
-const LoginForm = (props: { isModal?: boolean, isMobileModal?: boolean }) => {
-  const { isModal, isMobileModal } = props;
+const LoginForm = (props: { isModal?: boolean, isMobileModal?: boolean, setIsOpenLoginModal?: React.Dispatch<React.SetStateAction<boolean>> }) => {
+  const { isModal, isMobileModal, setIsOpenLoginModal } = props;
   const { login, externalLogin } = useAuth();
   const { user } = useAppSelector((state) => state.userInfo);
   const { t } = usei18next();
@@ -218,7 +218,10 @@ const LoginForm = (props: { isModal?: boolean, isMobileModal?: boolean }) => {
         .required(t("form.required")),
     }),
     onSubmit: values => {
-      login({ email: values.email, password: values.password }, !saveAccount)
+      login({ email: values.email, password: values.password }, !saveAccount, isModal)
+      // if(setIsOpenLoginModal){
+      //   setIsOpenLoginModal(false)
+      // }
     }
   });
 
@@ -232,7 +235,10 @@ const LoginForm = (props: { isModal?: boolean, isMobileModal?: boolean }) => {
   } = formik;
 
   const handleGoogleLogin = (credentialResponse: any) => {
-    externalLogin(credentialResponse.credential)
+    externalLogin(credentialResponse.credential, isModal)
+    // if(setIsOpenLoginModal){
+    //   setIsOpenLoginModal(false)
+    // }
   };
 
   const [showPassword, setShowPassword] = useState(false);

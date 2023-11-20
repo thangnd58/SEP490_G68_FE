@@ -153,12 +153,13 @@ export default function MotorbikeDetailModal() {
   } = formik;
 
   useEffect(() => {
-    if (startDate || endDate) {
+    if (startDate && endDate && searchedAddress) {
       setFieldValue("startDate", today);
       setFieldValue("endDate", tomorrow);
-    }
-    if (searchedAddress) {
       setFieldValue("address", "Quận Ba Đình, Hà Nội");
+      navigate(
+        `${ROUTES.user.detailmotorbike}/${motorbikeId}/${encodeURIComponent("Quận Ba Đình, Hà Nội")}/${values.startDate}/${values.endDate}`
+      )
     }
 
     const bookingPreview: BookingRequest = {

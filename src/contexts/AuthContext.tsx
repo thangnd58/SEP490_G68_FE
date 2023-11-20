@@ -10,8 +10,8 @@ import { useAppDispatch, useAppSelector } from '../hooks/useAction';
 
 interface AuthContext {
     isLogin: boolean;
-    externalLogin: (googleToken: string) => void;
-    login: (user: any, saveAccount: boolean) => void;
+    externalLogin: (googleToken: string, isModal?: boolean) => void;
+    login: (user: any, saveAccount: boolean, isModal?: boolean) => void;
     logout: () => void;
     register: (user: any) => void;
     forgotPassword: (email: string) => void;
@@ -42,12 +42,20 @@ const AuthProvider = (props: { children: JSX.Element }) => {
         }
     }, [])
 
-    const externalLogin = async (googleToken: any) => {
+    const externalLogin = async (googleToken: any, isModal?: boolean) => {
         try {
             const response = await UserService.externalLogin({ accessToken: googleToken });
             if (response.status === 200) {
                 ToastComponent(t("toast.login.success"), "success");
-                navigate(ROUTES.homepage);
+                if (!isModal || isModal === undefined) {
+                    if (response.data.userInfo.role.roleName === "Customer") {
+                        navigate(ROUTES.homepage);
+                    } else if (response.data.userInfo.role.roleName === "Admin") {
+                        navigate(ROUTES.admin.managemotorbikes);
+                    } else {
+                        navigate(ROUTES.other.pagenotfound);
+                    }
+                }
                 dispatch(getUserInfo())
                 setIslogin(true);
             }
@@ -56,7 +64,9 @@ const AuthProvider = (props: { children: JSX.Element }) => {
         }
     };
 
-    const login = async (user: any, saveAccount: boolean) => {
+
+    const login = async (user: any, saveAccount: boolean, isModal?: boolean) => {
+        console.log("A")
         try {
             const response = await UserService.login({
                 email: user.email,
@@ -69,15 +79,24 @@ const AuthProvider = (props: { children: JSX.Element }) => {
                 } else {
                     localStorage.removeItem("acccount");
                 }
+                if (!isModal || isModal === undefined) {
+                    if (response.data.userInfo.role.roleName === "Customer") {
+                        navigate(ROUTES.homepage);
+                    } else if (response.data.userInfo.role.roleName === "Admin") {
+                        navigate(ROUTES.admin.managemotorbikes);
+                    } else {
+                        navigate(ROUTES.other.pagenotfound);
+                    }
+                }
                 ToastComponent(t("toast.login.success"), "success");
                 setIslogin(true);
-                navigate(ROUTES.admin.managemotorbikes);
                 dispatch(getUserInfo())
             }
         } catch (error) {
             ToastComponent(t("toast.login.warning"), "warning");
         }
     };
+
 
     const logout = () => {
         setIslogin(false)
