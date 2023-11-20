@@ -30,6 +30,7 @@ export const PromotionModal = (props: { isModalPromotionOpen: boolean, setModalP
     }, [])
     return (
         <Modal
+            onClose={() => setModalPromotionOpen(false)}
             open={isModalPromotionOpen}
             aria-labelledby="map-modal-title"
             aria-describedby="map-modal-description"
@@ -42,7 +43,7 @@ export const PromotionModal = (props: { isModalPromotionOpen: boolean, setModalP
                 borderRadius: '8px',
             }}
         >
-            <Box width={isMobile ? "75%" : "30%"} height={"auto"} sx={{
+            <Box width={isMobile ? "75%" : "40%"} height={"auto"} sx={{
                 backgroundColor: 'white',
                 borderRadius: '8px',
             }}>
@@ -119,7 +120,7 @@ function PromotionItem({ promotion, promoApply, setPromoApply }: { promotion: Pr
                         color={theme.palette.text.primary}
                         fontSize={'12px'}>
                         <div
-                            dangerouslySetInnerHTML={{ __html: promotion.description}}></div>
+                            dangerouslySetInnerHTML={{ __html: promotion.description }}></div>
                     </Typography>
                     {/* <Typography color={theme.palette.text.primary} fontSize={isMobile ? '12px' : '14px'}>{promotion.description}</Typography> */}
                 </Box>

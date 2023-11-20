@@ -161,7 +161,7 @@ export default function HotPlacesComponent() {
             alignItems={'center'}
             justifyContent={'space-between'}
             width={'100%'}
-            gap={isMobile ? '16px' : '24px'}
+            gap={'24px'}
             padding={isMobile ? '16px 0px 32px 0px' : '32px 0px'}
         >
             {/* Title */}

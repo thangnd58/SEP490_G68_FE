@@ -37,7 +37,7 @@ const SeachBoxComponent = () => {
 
     const formik = useFormik({
         initialValues: {
-            address: "Hà Nội",
+            address: "Quận Ba Đình, Hà Nội",
             lat: 21.028511,
             lng: 105.804817,
             startDate: today.format("DD-MM-YYYY HH:mm"),

@@ -14,7 +14,7 @@ function Login() {
 
   const { setContentModal, setShowModal, showModal } = useContext(ModalContext);
 
-  const showModalIsLogin = () => {
+  const showModalIsLoggedin = () => {
     setContentModal(
       <MyDialog
         title="Thông báo"
@@ -30,7 +30,7 @@ function Login() {
 
   useEffect(() => {
     if (user != null) {
-      showModalIsLogin();
+      showModalIsLoggedin();
     }
   }, [user])
 

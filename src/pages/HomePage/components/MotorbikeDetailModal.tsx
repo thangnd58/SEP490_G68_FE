@@ -3,15 +3,15 @@ import { BookingRequest, BookingResponse, Motorbike, Promotion } from '../../../
 import MyDialog from '../../../components/common/MyDialog'
 import usei18next from '../../../hooks/usei18next';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
-import { Box, Chip, CircularProgress, Divider, FormControl, FormLabel, RadioGroup, Radio, FormControlLabel, Grid, IconButton, MenuItem, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, Button } from '@mui/material';
+import { Box, Chip, CircularProgress, Divider, FormControl, FormLabel, RadioGroup, Radio, FormControlLabel, Grid, IconButton, MenuItem, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, Button, Toolbar } from '@mui/material';
 import MyIcon from '../../../components/common/MyIcon';
-import { CloseOutlined, FormatBoldRounded, GasMeterOutlined, LocalDrinkOutlined, LocationOn, LocationOnOutlined, Loyalty, MyLocation, NewReleasesOutlined } from '@mui/icons-material';
+import { BusinessCenterOutlined, CloseOutlined, FormatBoldRounded, GasMeterOutlined, Help, HelpOutlineOutlined, LocalDrinkOutlined, LocationOn, LocationOnOutlined, Loyalty, MyLocation, NewReleasesOutlined, QuestionMark, ReportProblemOutlined, StarPurple500Outlined } from '@mui/icons-material';
 import MySlideShowImage from '../../../components/common/MySlideShowImage';
 import theme from '../../../utils/theme';
 import { CartIcon, HelmetIcon, ProtectClothesIcon, RainCoatIcon, RepairIcon, TelephoneIcon } from '../../../assets/icons';
 import useThemePage from '../../../hooks/useThemePage';
 import { ModalContext } from '../../../contexts/ModalContext';
-import { DatePicker } from 'antd';
+import { DatePicker, Tooltip } from 'antd';
 import dayjs from 'dayjs';
 import MyCustomButton from '../../../components/common/MyButton';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
@@ -26,6 +26,7 @@ import { PromotionModal } from '../../MotorbikePage/components/PromotionModal';
 import { ConfirmMotorbikeBookingModal } from '../../MotorbikePage/components/ConfirmMotorbikeBookingModal';
 import { RequireWhenRent } from '../../MotorbikePage/components/RequireWhenRent';
 import UserService from '../../../services/UserService';
+import { LoginModal } from '../../AccountPage/LoginModal';
 
 export default function MotorbikeDetailModal(props: { motorbikeId: string | undefined, searchedAddress?: string, startDate?: string, endDate?: string }) {
 
@@ -41,6 +42,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
   const [motorbike, setMotorbike] = useState<Motorbike>();
   const [previewBookingData, setPreviewBookingData] = useState<BookingResponse>();
   const [isProcessingBooking, setIsProcessingBooking] = useState(false);
+  const [isOpenLoginModal, setIsOpenLoginModal] = useState<boolean>(false);
 
   interface Location {
     lat: number,
@@ -153,12 +155,12 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
       setFieldValue("endDate", tomorrow);
     }
     if (!props.searchedAddress) {
-      setFieldValue("address", "Hà Nội");
+      setFieldValue("address", "Quận Ba Đình, Hà Nội");
     }
 
     const bookingPreview: BookingRequest = {
       motorbikeId: props?.motorbikeId || "0",
-      address: values.address || "Hà Nội",
+      address: values.address || "Quận Ba Đình, Hà Nội",
       deliveryMode: values.deliveryMode,
       startDatetime: values.startDate || today,
       endDatetime: values.endDate || tomorrow,
@@ -167,7 +169,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
     BookingService.getPreviewBooking(bookingPreview).then((data) => {
       setPreviewBookingData(data)
       setIsProcessingBooking(data.motorbikes[0].status === "NotAvailable")
-      if(data.promotion && data.promotion.status === "NotAvailable"){
+      if (data.promotion && data.promotion.status === "NotAvailable") {
         ToastComponent(isVn ? data.promotion.statusComment[0].vi : data.promotion.statusComment[0].en, "warning")
         setFieldValue("couponCode", "")
       }
@@ -286,10 +288,10 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
           display: 'flex',
           alignItems: 'start',
           justifyContent: 'center',
-          margin: '32px 0px',
+          margin: isMobile ? "8px 0px" : '32px 0px',
           overflowY: 'auto',
         }}>
-        <Box width={"90%"} height={"auto"}
+        <Box width={isMobile ? "95%" : "90%"} height={"auto"}
           sx={{
             backgroundColor: '#fff',
             borderRadius: '8px'
@@ -320,7 +322,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
             </Box>
           </Box>
           <Box
-            margin={isMobile ? "32px 32px" : "32px 64px"}
+            margin={isMobile ? "8px 32px" : "32px 64px"}
             height={"100%"}
             display={"flex"}
             flexDirection={"column"}
@@ -337,11 +339,11 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
               alignItems={"center"}
               mb={"16px"}>
               {motorbike?.imageUrl && motorbike?.imageUrl.length > 0 && (
-                <MySlideShowImage images={motorbike.imageUrl} />)}
+                <MySlideShowImage images={motorbike.imageUrl} isMobile={isMobile} />)}
             </Box>
 
             {/* Divider Line */}
-            <Divider sx={{ width: "100%", margin: "16px 0px" }} variant="middle" />
+            <Divider sx={{ width: "100%", margin: isMobile ? "8px 0px" : "16px 0px" }} variant="middle" />
             {/* Basic Infor List */}
             <Box
               width={"100%"}
@@ -352,22 +354,53 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
               alignItems={"start"}
             >
               {/* Tên xe và địa chỉ */}
-              <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} margin={"16px 0px"}>
+              <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} >
                 <Typography
                   color={theme.palette.text.primary}
                   variant="h5"
                   fontWeight="600"
                   fontSize={isMobile ? "32px" : "48px"}
                   textTransform={"uppercase"}>
-                  {motorbike?.model?.modelName}
+                  {motorbike?.model?.brand.brandName} {motorbike?.model?.modelName}
                 </Typography>
-                <Box display="flex" flexDirection="row" alignItems="center" width={"100%"} mb={"32px"}>
+                <Box display="flex" flexDirection="row" alignItems="center" width={"100%"} >
                   <MyIcon icon={<LocationOn />} hasTooltip tooltipText={t("postMotorbike.listform.badge-location")} onClick={() => { }} position='left' />
-                  <Typography variant="h5" color={theme.palette.text.secondary} fontSize={isMobile ? "16px" : "20px"}>
+                  <Typography variant="h5" color={theme.palette.text.secondary} fontSize={isMobile ? "14px" : "16px"} fontStyle={'italic'}>
                     {motorbike?.address}
                   </Typography>
                 </Box>
-                <Divider sx={{ width: "100%" }} variant="fullWidth" />
+                <Box display="flex" flexDirection="row" alignItems="center" width={"100%"}>
+                  <MyIcon icon={<StarPurple500Outlined
+                    sx={{ color: "#FBC241" }}
+                    fontSize="medium"
+                  />} hasTooltip onClick={() => { }} position='left' />
+
+                  <Typography
+                    color={theme.palette.text.secondary}
+                    fontSize={isMobile ? "14px" : "16px"} align="center"
+                    textOverflow="ellipsis"
+                    whiteSpace="nowrap"
+                    overflow="hidden"
+                  >
+                    4.5{motorbike?.ratingAverage}
+                  </Typography>
+                  <MyIcon icon={<BusinessCenterOutlined
+                    fontWeight={300}
+                    sx={{ color: "#8B4513" }}
+                    fontSize="medium"
+                  />} hasTooltip onClick={() => { }} position='left' />
+
+                  <Typography
+                    color={theme.palette.text.secondary}
+                    fontSize={isMobile ? "14px" : "16px"} align="center"
+                    textOverflow="ellipsis"
+                    whiteSpace="nowrap"
+                    overflow="hidden"
+                  >
+                    5{motorbike?.countCompletedBooking} lượt đặt
+                  </Typography>
+                </Box>
+                <Divider sx={{ margin: isMobile ? "8px 0px" : "16px 0px", width: "100%" }} variant="fullWidth" />
               </Box>
               {/* Infor*/}
               <Box
@@ -420,7 +453,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                           fontSize: '20px',
                           height: '48px',
                         }}
-                        size='large'
+                        size={isMobile ? 'middle' : 'large'}
                         showTime={{ format: 'HH:mm' }}
                         format="DD-MM-YYYY HH:mm"
                         placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
@@ -454,7 +487,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                         }} />
                         <Typography
                           color={theme.palette.text.primary}
-                          sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                          sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "400", minWidth: '100px', width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
                           padding={'11px 0px'}
                           onChange={handleChange}
                         >
@@ -462,28 +495,124 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                         </Typography>
                       </Box>
                     </Box>
-                    {/* Chọn vị trí trả xe */}
-                    {/* <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} marginTop={'8px'}>
-                      <Box width={"100%"} display={'flex'} flexDirection={'column'} justifyContent={'start'} sx={{ gap: '8px' }}>
-                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                          {t("booking.paymentType")}
-                        </Typography>
+                    {/* Cảnh báo */}
+                    {
+                      previewBookingData && previewBookingData.motorbikes.length > 0 && previewBookingData.motorbikes[0].status === "NotAvailable" &&
+
+                      <Box pt={"8px"} display={'flex'} flexDirection={'row'} alignItems={'start'} justifyContent={'center'} sx={{ gap: '8px' }}>
+                        <ReportProblemOutlined sx={{ color: "#f44747" }} />
+                        <Typography variant="h5" color={"#FF0000"} fontWeight="400" fontSize={isMobile ? "12px" : "14px"} textAlign={'justify'}>{isVn ? previewBookingData.motorbikes[0].statusComment[0].vi : previewBookingData.motorbikes[0].statusComment[0].en}</Typography>
                       </Box>
-                    </Box> */}
+                    }
                     {/* Line */}
                     <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
                     {/* Đơn giá */}
                     <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                       {/* Đơn giá thuê */}
                       <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                        <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "400", }}>
                           {t("booking.pricePerday")}
                         </Typography>
-                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                        <Typography color={theme.palette.text.primary} sx={{
+                          fontSize: isMobile ? "14px" : '16px', fontWeight: "600", whiteSpace: 'nowrap',
+                        }}>
                           {`${formatMoney(motorbike?.priceRent)}/${t("booking.perDay")}`}
                         </Typography>
                       </Box>
                     </Box>
+                    {/* Phí vận chuyển */}
+                    {
+                      previewBookingData?.motorbikes[0].totalFeeOfDelivery! > 0 && (
+                        <>
+                          {/* Line */}
+                          <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
+                          <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                              <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "400", }}>
+                                {t("booking.distance")}
+                              </Typography>
+                              <MyIcon icon={
+                                <HelpOutlineOutlined sx={{
+                                  color: theme.palette.text.primary,
+                                  width: "12px",
+                                  height: "12px",
+                                  cursor: "pointer"
+                                }}
+                                />
+                              } hasTooltip tooltipText={
+                                t("booking.distance_hint")
+                              } onClick={() => {
+                              }} position='right-start' />
+
+                            </Box>
+                            <Typography color={theme.palette.text.primary} sx={{
+                              fontSize: isMobile ? "14px" : '16px', fontWeight: "600", whiteSpace: 'nowrap',
+                            }}>
+                              {previewBookingData?.motorbikes[0].distance.toFixed(1)} km
+                            </Typography>
+                          </Box>
+                          <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                              <Typography color={theme.palette.text.primary} sx={{
+                                fontSize: isMobile ? "14px" : '16px',
+                                fontWeight: "400",
+                                flexWrap: 'wrap',
+
+                              }}>
+                                {t("booking.freeDeliveryDistance")}
+                              </Typography>
+                              <MyIcon icon={
+                                <HelpOutlineOutlined sx={{
+                                  color: theme.palette.text.primary,
+                                  width: "12px",
+                                  height: "12px",
+                                  cursor: "pointer"
+                                }}
+                                />
+                              } hasTooltip tooltipText={
+                                t("booking.freeDeliveryDistance_hint")
+                              } onClick={() => {
+                              }} position='right-start' />
+
+                            </Box>
+                            <Typography color={theme.palette.text.primary} sx={{
+                              fontSize: isMobile ? "14px" : '16px',
+                              fontWeight: "600",
+                              whiteSpace: 'nowrap',
+                            }}>
+                              {previewBookingData?.motorbikes[0].freeDeliveryRange.toFixed(1)} km
+                            </Typography>
+                          </Box>
+
+                          <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                              <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "400", }}>
+                                {t("booking.deliveryFee")}
+                              </Typography>
+                              <MyIcon icon={
+                                <HelpOutlineOutlined sx={{
+                                  color: theme.palette.text.primary,
+                                  width: "12px",
+                                  height: "12px",
+                                  cursor: "pointer"
+                                }}
+                                />
+                              } hasTooltip tooltipText={
+                                `${t("booking.deliveryFee_hint")} ${formatMoney(previewBookingData?.motorbikes[0].feeOfDeliveryPerKm)}`
+                              } onClick={() => {
+                              }} position='right-start' />
+
+                            </Box>
+                            <Typography color={theme.palette.text.primary} sx={{
+                              fontSize: isMobile ? "14px" : '16px', fontWeight: "600", whiteSpace: 'nowrap',
+                            }}>
+                              {formatMoney(previewBookingData?.motorbikes[0].totalFeeOfDelivery)} x {previewBookingData?.motorbikes[0].deliveryDistanceChargeable.toFixed(1)
+                              } km
+                            </Typography>
+                          </Box>
+                        </>
+                      )
+                    }
                     {/* Line */}
                     <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
 
@@ -491,19 +620,37 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
                       {/* Tổng tiền */}
                       <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                        <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "400", }}>
                           {t("booking.totalPriceRent")}
                         </Typography>
-                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                          {formatMoney(previewBookingData?.totalAmountTemp)} x {previewBookingData?.rentalDays} ngày
+                        <Typography color={theme.palette.text.primary} sx={{
+                          fontSize: isMobile ? "14px" : '16px', fontWeight: "600", whiteSpace: 'nowrap',
+                        }}>
+                          {formatMoney(previewBookingData?.totalAmountTemp)} x {previewBookingData?.rentalDays} {t("booking.perDay")}
                         </Typography>
                       </Box>
                       {/* Phí dịch vụ */}
                       <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                          {t("booking.totalPriceService")}
-                        </Typography>
-                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                        <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                          <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "400", }}>
+                            {t("booking.totalPriceService")}
+                          </Typography>
+                          <MyIcon icon={
+                            <HelpOutlineOutlined sx={{
+                              color: theme.palette.text.primary,
+                              width: "12px",
+                              height: "12px",
+                              cursor: "pointer"
+                            }}
+                            />
+                          } hasTooltip tooltipText={
+                            t("booking.totalPriceService_hint")
+                          } onClick={() => {
+                          }} position='right-start' />
+                        </Box>
+                        <Typography color={theme.palette.text.primary} sx={{
+                          fontSize: isMobile ? "14px" : '16px', fontWeight: "600", whiteSpace: 'nowrap',
+                        }}>
                           {formatMoney(previewBookingData?.feeOfService)}
                         </Typography>
                       </Box>
@@ -511,15 +658,22 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                       {
                         values.couponCode !== "" &&
                         <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                          <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                            {t("booking.promotionCode")}: <span style={{ textTransform: 'uppercase', fontWeight: '700' }}>{values.couponCode}</span>
-                          </Typography>
-                          <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                          <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'}>
+                            <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "400", }}>
+                              {t("booking.promotionCode")}: <span style={{ textTransform: 'uppercase', fontWeight: '700' }}>{values.couponCode}</span>
+                            </Typography>
+                            <MyIcon icon={<CloseOutlined sx={{ color: "#000", width: "14px", height: "14px" }} />} hasTooltip tooltipText={t("dashBoardManager.brand.delete")} onClick={() => {
+                              setFieldValue("couponCode", "")
+                            }} position='right' />
+                          </Box>
+                          <Typography color={theme.palette.text.primary} sx={{
+                            fontSize: isMobile ? "14px" : '16px', fontWeight: "600", whiteSpace: 'nowrap',
+                          }}>
                             {formatMoney(previewBookingData?.promotion?.reducedAmount)}
                           </Typography>
                         </Box>
                       }
-                      <MyCustomButton iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick={() => setModalPromotionOpen(true)} content={t("booking.promotionCode")} variant='outlined' />
+                      <MyCustomButton fontSize={isMobile ? 14 : 16} iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick={() => setModalPromotionOpen(true)} content={t("booking.promotionCode")} variant='outlined' />
 
                     </Box>
                     {/* Line */}
@@ -530,7 +684,9 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                       <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                         {t("booking.totalPrice")}
                       </Typography>
-                      <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                      <Typography color={theme.palette.text.primary} sx={{
+                        fontSize: '16px', fontWeight: "600", whiteSpace: 'nowrap',
+                      }}>
                         {formatMoney(previewBookingData?.totalAmount)}
                       </Typography>
                     </Box>
@@ -546,15 +702,10 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                           }} content={t("booking.bookMotorbikeButton")} variant='contained' />
                         :
                         <a style={{ width: '100%' }} href={ROUTES.account.login}>
-                          <MyCustomButton disabled={isProcessingBooking}
+                          <MyCustomButton fontSize={isMobile ? 14 : 16} disabled={isProcessingBooking}
                             width='100%' content={t("booking.loginToContinue")} variant='contained' />
                         </a>
                     }
-                    {
-                      previewBookingData && previewBookingData.motorbikes.length > 0  && previewBookingData.motorbikes[0].status === "NotAvailable" &&
-                      <Typography variant="h5" color={theme.palette.text.secondary} fontWeight="700" fontSize={isMobile ? "14px" : "16px"} textAlign={'justify'}>{isVn ? previewBookingData.motorbikes[0].statusComment[0].vi : previewBookingData.motorbikes[0].statusComment[0].en}</Typography>
-                    }
-
                   </Box>
                 </Box>
 
@@ -567,8 +718,10 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                   paddingBottom="16px"
                 >
 
-                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"} mt={"16px"}>
-                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={isMobile ? "14px" : "16px"}>
+                  {isMobile && <Divider sx={{ margin: "0px 0px 16px 0px", width: "100%" }} variant="fullWidth" />}
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"} mt={isMobile ? "0px" : "16px"}>
+
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={"16px"}>
                       {t("postMotorbike.listform.motorbikeFeature")}
                     </Typography>
 
@@ -609,41 +762,9 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                   </Box>
 
                   <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
-                  {/* Mô tả */}
-                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={isMobile ? "14px" : "16px"}>
-                      {t("postMotorbike.listform.description")}
-                    </Typography>
-                    <Box width={"100%"}>
-                      {/* <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={400}>
-                        <div
-                          style={{ whiteSpace: "pre-wrap", fontSize: isMobile ? "12px" : "16px", fontWeight: "400" }}
-                          dangerouslySetInnerHTML={{ __html: motorbike?.description || "" }}></div>
-                      </Typography> */}
-                      <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "14px" : "16px"} fontWeight={400}>
-                        <div style={{ textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: motorbike?.description || "" }}></div>
-                      </Typography>
-                    </Box>
-                  </Box>
-                  <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
-
-                  {/* Điều khoản khác */}
-                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                    <Typography variant="h6" color={theme.palette.text.primary} fontWeight="700" fontSize={isMobile ? "14px" : "16px"}>
-                      {t("postMotorbike.listform.miscellaneous")}
-                    </Typography>
-                    <Box width={"100%"}>
-                      <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "14px" : "16px"} fontWeight={400}>
-                        <div style={{ textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: motorbike?.miscellaneous || "" }}></div>
-                      </Typography>
-                    </Box>
-                  </Box>
-                  <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
-                  <RequireWhenRent />
-                  <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
                   {/* Biển số xe */}
                   <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={isMobile ? "14px" : "16px"}>
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={"16px"}>
                       {t("postMotorbike.listform.licensePlate")}
                     </Typography>
                     <Box width={"100%"}>
@@ -655,11 +776,11 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     </Box>
                   </Box>
 
-                  <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+                  <Divider sx={{ margin: isMobile ? "16px 0px 16px 0px" : "16px 0px", width: "100%" }} variant="fullWidth" />
 
                   {/* Trang bị */}
                   <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={isMobile ? "14px" : "16px"}>
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={"16px"}>
                       {t("postMotorbike.listform.equipments")}
                     </Typography>
 
@@ -705,13 +826,35 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     </Box>
                   </Box>
 
-                  <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+                  <Divider sx={{ margin: isMobile ? "16px 0px 16px 0px" : "16px 0px", width: "100%" }} variant="fullWidth" />
 
                   {/* Hiển thị bản đồ vị trí xe */}
                   <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={isMobile ? "14px" : "16px"}>
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={"16px"}>
                       {t("postMotorbike.listform.address")}
                     </Typography>
+                    <TextField
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          '& fieldset': {
+                            borderRadius: "8px",
+                            border: "1px solid #e0e0e0",
+                          },
+                          '&:hover fieldset': {
+                            border: "1px solid #e0e0e0"
+                          },
+                          '&.Mui-focused fieldset': {
+                            border: "1px solid #e0e0e0"
+                          },
+                        },
+                      }}
+                      size='small'
+                      fullWidth
+                      multiline
+                      value={motorbike?.address}
+                      inputProps={{
+                        readOnly: true,
+                      }} />
                     {isLoaded ? (
                       <Box
                         borderRadius={"10px"}
@@ -747,7 +890,39 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     )}
                   </Box>
 
-                  <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
+                  <Divider sx={{ margin: isMobile ? "16px 0px 16px 0px" : "16px 0px", width: "100%" }} variant="fullWidth" />
+                  {/* Mô tả */}
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} >
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={"16px"}>
+                      {t("postMotorbike.listform.description")}
+                    </Typography>
+                    <Box width={"100%"}>
+                      {/* <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={400}>
+                        <div
+                          style={{ whiteSpace: "pre-wrap", fontSize: isMobile ? "12px" : "16px", fontWeight: "400" }}
+                          dangerouslySetInnerHTML={{ __html: motorbike?.description || "" }}></div>
+                      </Typography> */}
+                      <Typography variant="h6" color={theme.palette.text.primary} fontSize={"14px"} fontWeight={400}>
+                        <div style={{ textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: motorbike?.description || "" }}></div>
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Divider sx={{ margin: isMobile ? "0px 0px 16px 0px" : "0px 0px 16px 0px", width: "100%" }} variant="fullWidth" />
+
+                  {/* Điều khoản khác */}
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"}>
+                    <Typography variant="h6" color={theme.palette.text.primary} fontWeight="700" fontSize={"16px"}>
+                      {t("postMotorbike.listform.miscellaneous")}
+                    </Typography>
+                    <Box width={"100%"}>
+                      <Typography variant="h6" color={theme.palette.text.primary} fontSize={"14px"} fontWeight={400}>
+                        <div style={{ textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: motorbike?.miscellaneous || "" }}></div>
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Divider sx={{ margin: isMobile ? "0px 0px 16px 0px" : "0px 0px 16px 0px", width: "100%" }} variant="fullWidth" />
+                  <RequireWhenRent />
+                  <Divider sx={{ margin: isMobile ? "0px 0px 16px 0px" : "0px 0px 16px 0px", width: "100%" }} variant="fullWidth" />
 
                   {/* Thông tin khác */}
                   <Typography variant="h5" fontWeight="600">
@@ -964,6 +1139,8 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
         isProcessingBooking={isProcessingBooking}
         handleSubmit={handleSubmit}
       />
+      {/* modal login */}
+      <LoginModal isOpenLoginModal={isOpenLoginModal} setIsOpenLoginModal={setIsOpenLoginModal} isMobile={isMobile} />
     </>
   );
 }

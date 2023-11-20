@@ -1,5 +1,5 @@
 import { Avatar, Box, Chip, Divider, Tooltip, Typography } from '@mui/material';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import usei18next from '../../../hooks/usei18next';
 import PlaceIcon from '@mui/icons-material/Place';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -19,10 +19,14 @@ import { ROUTES } from '../../../utils/Constant';
 import { BookingService } from '../../../services/BookingService';
 import useThemePage from '../../../hooks/useThemePage';
 import MyCustomButton from '../../../components/common/MyButton';
+import { LoginModal } from '../../AccountPage/LoginModal';
+import { useAuth } from '../../../contexts/AuthContext';
 
 export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean, startDate?: string, endDate?: string, searchedAddress?: string, isInCart?: boolean, isIntroduced?: boolean, deleteInCart?: () => void }) {
     const { t } = usei18next();
     const { setContentModal, setShowModal } = useContext(ModalContext);
+    const { isLogin, logout } = useAuth();
+    const [isOpenLoginModal, setIsOpenLoginModal] = useState<boolean>(false);
     const dispatch = useAppDispatch();
     const [isFavorite, setIsFavorite] = React.useState<boolean>(props.motorbike.isFavourite);
     const navigate = useNavigate();
@@ -36,6 +40,11 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
 
     const deleteFavourite = async (id: number) => {
         try {
+            // Check login
+            if (!isLogin) {
+                setIsOpenLoginModal(true);
+                return;
+            }
             const response = await UserService.deleteFavourite(id);
             if (response.status === 200) {
                 dispatch(getUserFavouriteInfo());
@@ -51,6 +60,11 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
 
     const addFavourite = async (id: number) => {
         try {
+            // Check login
+            if (!isLogin) {
+                setIsOpenLoginModal(true);
+                return;
+            }
             const response = await UserService.addFavourite(id);
             if (response.status === 200) {
                 dispatch(getUserFavouriteInfo());
@@ -60,12 +74,17 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                 ToastComponent(t("toast.favourite.add.warning"), "warning");
             }
         } catch (error) {
-            ToastComponent(t("toast.favourite.add.error_login"), "error");
+            ToastComponent(t("toast.favourite.add.error"), "error");
         }
     }
 
     const addCart = async (motorbikeId: number, startDatetime: string, endDatetime: string, address: string) => {
         try {
+            // Check login
+            if (!isLogin) {
+                setIsOpenLoginModal(true);
+                return;
+            }
             const response = await BookingService.addCart(motorbikeId, startDatetime, endDatetime, address);
             if (response.status === 200) {
                 ToastComponent(t("toast.ShoppingCart.add.success"), "success");
@@ -217,7 +236,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                 color={theme.palette.text.primary}
                                 onClick={() =>
                                     navigate(
-                                        `${ROUTES.user.detailmotorbike}/${props.motorbike.id}/${props.searchedAddress}/${props.startDate}/${props.endDate}`
+                                        `${ROUTES.user.detailmotorbike}/${props.motorbike.id}/${encodeURIComponent(props.searchedAddress!)}/${props.startDate}/${props.endDate}`
                                     )
                                 }
                             >
@@ -391,6 +410,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                     </Box>
                 </Box>
             </Box>
+            <LoginModal isOpenLoginModal={isOpenLoginModal} setIsOpenLoginModal={setIsOpenLoginModal} isMobile ={isMobile}/>
         </Box>
     );
 }

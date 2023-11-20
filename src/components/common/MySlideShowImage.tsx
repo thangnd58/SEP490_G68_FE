@@ -12,11 +12,10 @@ interface CreateFadeEffectImageProps {
     transitionDuration?: number;
     indicators?: boolean;
     arrows?: boolean;
+    isMobile ?: boolean;
 }
 
 export default function MySlideShowImage(props: CreateFadeEffectImageProps) {
-    const isMobile = useThemePage();
-    const isIpad = useThemePage();
     return (
         <Box className="slide-container" width={"100%"}>
             <Fade
@@ -39,7 +38,7 @@ export default function MySlideShowImage(props: CreateFadeEffectImageProps) {
                                 borderRadius: '8px',
                                 alignContent: 'center',
                                 justifyContent: 'center',
-                                width: '60%',
+                                width: props.isMobile?'100%': '60%',
                                 objectFit: 'cover',
                             }}
                             src={item}

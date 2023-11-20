@@ -286,7 +286,7 @@
       "brand": "Quản lý hãng xe",
       "news": "Quản lý tin tức",
       "promotions": "Quản lý khuyến mãi",
-      "model": "Quản lý mẫu xe" 
+      "model": "Quản lý mẫu xe"
     },
     "License": "Bằng lái xe",
     "Motobike": {
@@ -594,6 +594,10 @@
     "toolTipPaid": "Đã thanh toán",
     "toolTipReport": "Báo cáo",
     "perDay": "Ngày",
+    "distance": "Khoảng cách",
+    "distance_hint": "Đây là khoảng cách từ địa chỉ nhận xe của bạn đến vị trí mặc định của xe.",
+    "freeDeliveryDistance": "Khoảng cách giao xe miễn phí",
+    "freeDeliveryDistance_hint": "Đây là khoảng cách miễn phí giao xe của chủ xe.",
     "perMotorbike": "xe",
     "startDate": "Ngày nhận xe",
     "endDate": "Ngày trả xe",
@@ -602,8 +606,11 @@
     "payWallet": "Số dư ví",
     "payVnPay": "Ví điện tử VN Pay",
     "pricePerday": "Đơn giá thuê",
+    "deliveryFee": "Phí giao xe",
+    "deliveryFee_hint": "Mỗi km vượt quá khoảng cách miễn phí sẽ được tính thêm ",
     "totalPriceRent": "Tổng phí thuê xe",
     "totalPriceService": "Phí dịch vụ",
+    "totalPriceService_hint" : "Đây là phí giúp chúng tôi duy trì hoạt động và phát triển dịch vụ",
     "promotionCode": "Mã khuyến mãi",
     "totalPrice": "Tổng tiền",
     "bookMotorbikeButton": "Đặt xe",
