@@ -1,4 +1,4 @@
-import { Box, Grid, ListItem, Typography } from '@mui/material'
+import { Box, Grid, ListItem, Skeleton, Typography } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { News } from '../../../utils/type'
 import usei18next from '../../../hooks/usei18next'
@@ -13,6 +13,12 @@ import { ArrowRight, ArrowRightAlt } from '@mui/icons-material'
 
 export default function NewsComponent() {
     const [listNews, setListNews] = useState<News[]>([])
+    const [imageLoaded, setImageLoaded] = useState(false);
+
+    const handleImageLoad = () => {
+        setImageLoaded(true);
+    };
+
     const { t } = usei18next();
     const { isMobile } = useThemePage();
     const navigate = useNavigate();
@@ -26,7 +32,7 @@ export default function NewsComponent() {
     return (
         <Box display={'flex'} flexDirection={'column'} gap={'24px'} alignItems={'center'} justifyContent={'center'} width={'100%'} sx={{
             backgroundColor: '#F1F1F1',
-            padding: isMobile ? '16px 0px' : '32px 0px',
+            padding: isMobile ? '16px 0px' : '32px 64px',
         }}>
             <Typography sx={{
                 fontSize: isMobile ? '24px' : '32px',
@@ -36,7 +42,7 @@ export default function NewsComponent() {
             }}>{t("homepage.news")}</Typography>
             {
                 listNews && listNews.length > 0 &&
-                <Box mx={isMobile ? '20px' : '56px'} display={'flex'} alignItems={'center'}>
+                <Box width={isMobile ? '90%' : 'auto'} mx={isMobile ? "0px" : "64px"} display={'flex'} alignItems={'center'}>
                     <Grid container spacing={isMobile ? 2 : 4}>
                         <Grid item xs={isMobile ? 12 : 8} height={isMobile ? '300px' : '600px'}>
                             <Box position={'relative'} height={"100%"}
@@ -48,11 +54,15 @@ export default function NewsComponent() {
                             >
                                 <img src={listNews[0].imageUrl}
                                     width={'100%'} height={"100%"} alt={listNews[0].image}
+
                                     style={{
                                         cursor: 'pointer',
                                         borderRadius: '8px',
                                         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                                        minHeight: '100%',
+                                        minWidth: '100%',
                                     }}
+                                    onLoad={handleImageLoad}
                                 />
                                 <Box
                                     position='absolute'
@@ -99,6 +109,8 @@ export default function NewsComponent() {
                                                 cursor: 'pointer',
                                                 borderRadius: '8px',
                                                 boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                                                minHeight: '100%',
+                                                minWidth: '100%',
                                             }}
                                         />
                                         <Box
@@ -146,6 +158,8 @@ export default function NewsComponent() {
                                                 cursor: 'pointer',
                                                 borderRadius: '8px',
                                                 boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                                                minHeight: '100%',
+                                                minWidth: '100%',
                                             }}
                                         />
                                         <Box

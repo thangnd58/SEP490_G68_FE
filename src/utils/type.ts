@@ -127,6 +127,8 @@ export interface Motorbike {
     isFavourite: boolean,
     ratingAverage: number,
     countCompletedBooking: number,
+    deliveryDistanceChargeable : number,
+    totalFeeOfDelivery : number,
 }
 
 export interface MotorbikeRequest {
@@ -270,7 +272,8 @@ export interface BookingResponse {
     totalAmountTemp: number,
     couponCode: string,
     totalAmount: number,
-    promotion: PromotionResponse
+    promotion: PromotionResponse,
+    status: string,
 }
 
 interface PromotionResponse {

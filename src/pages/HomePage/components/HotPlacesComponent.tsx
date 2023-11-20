@@ -1,13 +1,14 @@
 import { Box, Button, IconButton, Typography } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import useThemePage from '../../../hooks/useThemePage';
-import { useNavigate } from 'react-router-dom';
 import usei18next from '../../../hooks/usei18next';
 import { ClockIcon } from '@mui/x-date-pickers';
 import { ArrowBack, ArrowForward, NavigateBefore, NavigateNext } from '@mui/icons-material';
 import Slider from 'react-slick';
 import { PopularLocation, PopularProvince } from '../../../utils/type';
 import { HomePageService } from '../../../services/HomePageService';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../../utils/Constant';
 
 
 export default function HotPlacesComponent() {
@@ -19,7 +20,7 @@ export default function HotPlacesComponent() {
 
     useEffect(() => {
         getData();
-    }, []) ;
+    }, []);
 
     const getData = async () => {
         try {
@@ -161,8 +162,8 @@ export default function HotPlacesComponent() {
             alignItems={'center'}
             justifyContent={'space-between'}
             width={'100%'}
-            gap={isMobile ? '32px' : '24px'}
-            padding={isMobile ? '32px 0px 48px 0px' : '32px 0px'}
+            gap={'24px'}
+            padding={isMobile ? '16px 0px 32px 0px' : '32px 0px'}
         >
             {/* Title */}
             <Typography
@@ -181,7 +182,7 @@ export default function HotPlacesComponent() {
                     <IconButton sx={{ p: '24px' }} onClick={handlePlaceBack}>
                         <ArrowBack />
                     </IconButton>}
-                <Box alignContent={'center'} width={isMobile ? '300px' : '90%'}
+                <Box alignContent={'center'} width={isMobile ? '340px' : '90%'}
                     padding={
                         isMobile ? '0px 0px' : '0px 24px'
 
@@ -225,8 +226,8 @@ export default function HotPlacesComponent() {
                         </Box>
                     </Box>
                 }
-                <Box alignContent={'center'} width={isMobile ? '275px' : '65%'}>
-                    <Slider ref={sliderStationRef} {...stationSettings}>
+                <Box alignContent={'center'} width={isMobile ? '340px' : '65%'}>
+                    <Slider  ref={sliderStationRef} {...stationSettings}>
                         {hotStations.map((place: PopularLocation, index: number) => (
                             <HotStationItem key={index} namePlace={place.name} isMobile={isMobile} numOfMotorbike={place.count} image={place.imageUrl} />
                         ))}
@@ -237,14 +238,17 @@ export default function HotPlacesComponent() {
     )
 }
 
-function HotPlaceItem({ isMobile, namePlace, key, image, numOfMotorbike }: { isMobile: boolean, namePlace?: string, key?: number, image?: string, numOfMotorbike?: number }) {
+function HotPlaceItem({ isMobile, namePlace, key, image, numOfMotorbike }: { isMobile: boolean, namePlace?: string, key?: number, image?: string, numOfMotorbike?: number }) 
+{
+    const navigate = useNavigate();
     return (<Box position={'relative'}
         key={key}
         sx={{
-            width: '300px',
-            height: '400px',
+            width: isMobile ? "340px" :'300px',
+            height: isMobile ? "440px" :'400px',
             cursor: 'pointer'
-        }} // onClick={() => navigate(`${ROUTES.newspage}/${listNews[0].newsId}`)}
+        }} 
+        onClick={() => navigate(`${ROUTES.search.searchprovince}/${namePlace}`)}
     >
         <img src={image} width={'100%'} height={"100%"} alt={'ha-noi'} style={{
             // cursor: 'pointer',
@@ -271,13 +275,15 @@ function HotPlaceItem({ isMobile, namePlace, key, image, numOfMotorbike }: { isM
 }
 
 function HotStationItem({ isMobile, namePlace, key, image, numOfMotorbike }: { isMobile: boolean, namePlace?: string, key?: number, image?: string, numOfMotorbike?: number }) {
+    const navigate = useNavigate();
     return (<Box position={'relative'}
         key={key}
         sx={{
-            width: '275px',
-            height: '230px',
+            width: isMobile ? "340px" : '275px',
+            height: isMobile ? "250":'230px',
             cursor: 'pointer'
-        }} // onClick={() => navigate(`${ROUTES.newspage}/${listNews[0].newsId}`)}
+        }} // 
+        onClick={() => navigate(`${ROUTES.search.searchplace}/${namePlace}`)}
     >
         <img src={image} width={'100%'} height={"100%"} alt={'ha-noi'} style={{
             // cursor: 'pointer',

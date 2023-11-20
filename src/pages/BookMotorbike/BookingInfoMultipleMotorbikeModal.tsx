@@ -4,7 +4,7 @@ import { Box, CircularProgress, Divider, IconButton, MenuItem, Modal, Paper, Tex
 import theme from '../../utils/theme';
 import useThemePage from '../../hooks/useThemePage';
 import MyIcon from '../../components/common/MyIcon';
-import { CloseOutlined, LocationOnOutlined, Loyalty, MyLocation } from '@mui/icons-material';
+import { ArrowDownward, ArrowUpward, CloseOutlined, HelpOutlineOutlined, LocationOnOutlined, Loyalty, MyLocation, ReportProblemOutlined } from '@mui/icons-material';
 import { ModalContext } from '../../contexts/ModalContext';
 import usei18next from '../../hooks/usei18next';
 import { MotorbikeBookingCard } from '../MotorbikePage/components/MotorbikeBookingCard';
@@ -24,11 +24,23 @@ import RegisterMotorbikeItem from '../PostMotorbike/components/RegisterMotorbike
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { PromotionModal } from '../MotorbikePage/components/PromotionModal';
 import { ConfirmMotorbikeBookingModal } from '../MotorbikePage/components/ConfirmMotorbikeBookingModal';
+import styled from '@emotion/styled';
 
 interface Location {
   lat: number,
   lng: number,
 }
+
+interface AnimatedBoxProps {
+  isOpen: boolean;
+}
+
+const AnimatedBox = styled(Box) <AnimatedBoxProps>`
+  transition: all 2s ease;
+  overflow: hidden;
+  height: ${(props) => (props.isOpen ? 'auto' : '0')};
+  opacity: ${(props) => (props.isOpen ? '1' : '0')};
+`;
 
 
 export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike[]; address: string; startDate: string; endDate: string; }) => {
@@ -42,6 +54,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
   const [location, setLocation] = useState<Location>();
   const [isModalPromotionOpen, setModalPromotionOpen] = useState(false);
   const [isModalConfirmBookingOpen, setModalConfirmBookingOpen] = useState(false);
+  const [openDetailDeliveryFee, setOpenDetailDeliveryFee] = useState(false);
 
   // format number * 1000 to type 1.000 VND/ngày
   const formatMoney = (money: number | undefined) => {
@@ -137,13 +150,13 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
     }
     BookingService.getPreviewBooking(bookingPreview).then((data) => {
       setPreviewBookingData(data)
-      if(data.motorbikes.filter((m) => m.status === "NotAvailable").length > 0){
+      if (data.motorbikes.filter((m) => m.status === "NotAvailable").length > 0) {
         data.motorbikes.filter((m) => m.status === "NotAvailable").map((m1) => {
           ToastComponent(isVn ? m1.statusComment.vi : m1.statusComment.en, "warning")
         })
         setIsProcessingBooking(true)
       }
-      if(data.promotion && data.promotion.status === "NotAvailable"){
+      if (data.promotion && data.promotion.status === "NotAvailable") {
         ToastComponent(isVn ? data.promotion.statusComment[0].vi : data.promotion.statusComment[0].en, "warning")
         setFieldValue("couponCode", "")
       }
@@ -226,7 +239,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
           margin: '32px 0px',
           overflowY: 'auto',
         }}>
-        <Box width={"85%"} height={"auto"}
+        <Box width={"95%"} height={"auto"}
           sx={{
             backgroundColor: '#fff',
             borderRadius: '8px',
@@ -387,14 +400,23 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                             </Typography>
                           </Box>
                         </Box>
-                        {/* Chọn vị trí trả xe */}
-                        {/* <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} marginTop={'8px'}>
-                      <Box width={"100%"} display={'flex'} flexDirection={'column'} justifyContent={'start'} sx={{ gap: '8px' }}>
-                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                          {t("booking.paymentType")}
-                        </Typography>
-                      </Box>
-                    </Box> */}
+                        {/* Cảnh báo */}
+                        {
+                          // kiểm tra bất kỳ xe nào có trạng thái NotAvailable thì hiện cảnh báo                          
+                          previewBookingData && previewBookingData.motorbikes.length > 0 && previewBookingData.status === "NotAvailable" &&
+                          <Box pt={"8px"} display={'flex'} flexDirection={'row'} alignItems={'start'} justifyContent={'center'} sx={{ gap: '8px' }}>
+                            <ReportProblemOutlined sx={{ color: "#f44747" }} />
+                            {/* Lấy ra bất kỳ một xe nào có trạng thái NotAvailable */}
+                            {
+                              previewBookingData.motorbikes.filter((m) => m.status === "NotAvailable").map((m1) => {
+                                return (
+                                  <Typography variant="h5" color={"#FF0000"} fontWeight="400" fontSize={isMobile ? "12px" : "14px"} textAlign={'justify'}>{isVn ? m1.statusComment[0].vi : m1.statusComment[0].en}
+                                  </Typography>
+                                )
+                              })
+                            }
+                          </Box>
+                        }
                         {/* Line */}
                         <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
                         {/* Đơn giá */}
@@ -411,10 +433,160 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                                 } else {
                                   return total;
                                 }
-                              }, 0) || 0)}/${t("booking.perDay")}`} {props.motorbikes.length} {t("booking.perMotorbike")}
+                              }, 0) || 0)}/${t("booking.perDay")}`} x {props.motorbikes.length} {t("booking.perMotorbike")}
                             </Typography>
                           </Box>
                         </Box>
+                        {/* Phí vận chuyển */}
+                        {
+                          // kiểm tra xem có xe nào mất phí vận chuyển không
+                          previewBookingData && previewBookingData.motorbikes.filter((m) => m.totalFeeOfDelivery !== 0).length > 0 && (
+                            <>
+                              {/* Line */}
+                              <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
+                              <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                  <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                                    {t("booking.deliveryFee")}
+                                  </Typography>
+                                </Box>
+                                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'}>
+
+                                  <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                                    {/* hiện tổng số tiền của những xe bị mất phí vận chuyển */}
+                                    {formatMoney(previewBookingData?.motorbikes.filter((m) => m.totalFeeOfDelivery !== 0).reduce((total, mt) => {
+                                      if (mt && mt.totalFeeOfDelivery !== undefined) {
+                                        return total + mt.totalFeeOfDelivery;
+                                      } else {
+                                        return total;
+                                      }
+                                    }, 0))}
+                                  </Typography>
+                                  <MyIcon icon={
+                                    openDetailDeliveryFee ?
+                                      <ArrowUpward sx={{
+                                        color: theme.palette.text.primary,
+                                        width: "16px",
+                                        height: "16px",
+                                        cursor: "pointer"
+                                      }}
+                                      /> : <ArrowDownward sx={{
+                                        color: theme.palette.text.primary,
+                                        width: "16px",
+                                        height: "16px",
+                                        cursor: "pointer"
+                                      }}
+                                      />
+                                  } hasTooltip tooltipText={"Chi tiết"} onClick={() => {
+                                    setOpenDetailDeliveryFee(!openDetailDeliveryFee)
+                                  }} position='right-start' />
+                                </Box>
+                              </Box>
+                              <AnimatedBox isOpen={openDetailDeliveryFee} width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                                {
+                                  // lấy ra list xe mất phí vận chuyển
+                                  previewBookingData.motorbikes.filter((m) => m.totalFeeOfDelivery !== 0).map((motorbike, index) => {
+                                    return (
+                                      <Box width={"95%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} key={`${index}_delivery`}>
+                                        <Divider sx={{ margin: "8px 0px 0px 0px", width: "100%" }} variant="fullWidth" />
+                                        <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                          <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "700", fontStyle: 'italic' }}>
+                                              {motorbike.model}
+                                            </Typography>
+                                            <MyIcon icon={
+                                              <LocationOnOutlined sx={{
+                                                color: theme.palette.text.primary,
+                                                width: "14px",
+                                                height: "14px",
+                                                cursor: "pointer"
+                                              }}
+                                              />
+                                            } hasTooltip tooltipText={
+                                              `${motorbike.address}`
+                                            } onClick={() => {
+                                            }} position='right-start' />
+                                          </Box>
+                                        </Box>
+                                        <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                          <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400", }}>
+                                              {t("booking.distance")}
+                                            </Typography>
+                                            <MyIcon icon={
+                                              <HelpOutlineOutlined sx={{
+                                                color: theme.palette.text.primary,
+                                                width: "12px",
+                                                height: "12px",
+                                                cursor: "pointer"
+                                              }}
+                                              />
+                                            } hasTooltip tooltipText={
+                                              t("booking.distance_hint")
+                                            } onClick={() => {
+                                            }} position='right-start' />
+
+                                          </Box>
+                                          <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "600", }}>
+                                            {motorbike.distance.toFixed(1)} km
+                                          </Typography>
+                                        </Box>
+                                        <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                          <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400", }}>
+                                              {t("booking.freeDeliveryDistance")}
+                                            </Typography>
+                                            <MyIcon icon={
+                                              <HelpOutlineOutlined sx={{
+                                                color: theme.palette.text.primary,
+                                                width: "12px",
+                                                height: "12px",
+                                                cursor: "pointer"
+                                              }}
+                                              />
+                                            } hasTooltip tooltipText={
+                                              t("booking.freeDeliveryDistance_hint")
+                                            } onClick={() => {
+                                            }} position='right-start' />
+
+                                          </Box>
+                                          <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "600", }}>
+                                            {motorbike.freeDeliveryRange.toFixed(1)} km
+                                          </Typography>
+                                        </Box>
+                                        <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                          <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400", }}>
+                                              {t("booking.deliveryFee")}
+                                            </Typography>
+                                            <MyIcon icon={
+                                              <HelpOutlineOutlined sx={{
+                                                color: theme.palette.text.primary,
+                                                width: "12px",
+                                                height: "12px",
+                                                cursor: "pointer"
+                                              }}
+                                              />
+                                            } hasTooltip tooltipText={
+                                              `${t("booking.deliveryFee_hint")} ${formatMoney(motorbike.feeOfDeliveryPerKm)}`
+                                            } onClick={() => {
+                                            }} position='right-start' />
+
+                                          </Box>
+                                          <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "600", }}>
+                                            {formatMoney(motorbike.totalFeeOfDelivery)} x {motorbike.deliveryDistanceChargeable.toFixed(1)
+                                            } km
+                                          </Typography>
+                                        </Box>
+                                      </Box>
+                                    )
+                                  })
+                                }
+                              </AnimatedBox>
+
+                            </>
+                          )
+                        }
                         {/* Line */}
                         <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
 
@@ -431,21 +603,39 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                           </Box>
                           {/* Phí dịch vụ */}
                           <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                              {t("booking.totalPriceService")}
-                            </Typography>
+                            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                              <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "400", }}>
+                                {t("booking.totalPriceService")}
+                              </Typography>
+                              <MyIcon icon={
+                                <HelpOutlineOutlined sx={{
+                                  color: theme.palette.text.primary,
+                                  width: "12px",
+                                  height: "12px",
+                                  cursor: "pointer"
+                                }}
+                                />
+                              } hasTooltip tooltipText={
+                                t("booking.totalPriceService_hint")
+                              } onClick={() => {
+                              }} position='right-start' />
+                            </Box>
                             <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                               {formatMoney(previewBookingData?.feeOfService)}
                             </Typography>
                           </Box>
                           {/* Mã khuyến mãi */}
                           {
-                            values.couponCode !== ""
-                            &&
+                            values.couponCode !== "" &&
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                              <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                                {t("booking.promotionCode")}: <span style={{ textTransform: 'uppercase', fontWeight: '700' }}>{values.couponCode}</span>
-                              </Typography>
+                              <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'}>
+                                <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                                  {t("booking.promotionCode")}: <span style={{ textTransform: 'uppercase', fontWeight: '700' }}>{values.couponCode}</span>
+                                </Typography>
+                                <MyIcon icon={<CloseOutlined sx={{ color: "#000", width: "14px", height: "14px" }} />} hasTooltip tooltipText={t("dashBoardManager.brand.delete")} onClick={() => {
+                                  setFieldValue("couponCode", "")
+                                }} position='right' />
+                              </Box>
                               <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                                 {formatMoney(previewBookingData?.promotion?.reducedAmount)}
                               </Typography>
@@ -475,17 +665,17 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
 
                         {/* Button */}
                         {
-                        UserService.isLoggedIn() ?
-                          <MyCustomButton disabled={isProcessingBooking}
-                            width='100%' onClick={() => {
-                              setModalConfirmBookingOpen(true)
-                            }} content={t("booking.bookMotorbikeButton")} variant='contained' />
-                          :
-                          <a style={{ width: '100%' }} href={ROUTES.account.login}>
+                          UserService.isLoggedIn() ?
                             <MyCustomButton disabled={isProcessingBooking}
-                              width='100%' content={t("booking.loginToContinue")} variant='contained' />
-                          </a>
-                      }
+                              width='100%' onClick={() => {
+                                setModalConfirmBookingOpen(true)
+                              }} content={t("booking.bookMotorbikeButton")} variant='contained' />
+                            :
+                            <a style={{ width: '100%' }} href={ROUTES.account.login}>
+                              <MyCustomButton disabled={isProcessingBooking}
+                                width='100%' content={t("booking.loginToContinue")} variant='contained' />
+                            </a>
+                        }
                       </Box>
                     </Box>
                   </Box>

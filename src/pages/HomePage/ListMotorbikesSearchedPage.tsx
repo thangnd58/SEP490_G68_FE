@@ -571,7 +571,8 @@ export default function ListMotorbikesSearchedPage() {
                 justifyContent={'center'}
                 gap={'8px'}
                 borderBottom={'1px solid #e0e0e0'}
-                padding={isMobile ? "8px 16px" : "16px 0px"}
+                padding={isMobile ? "8px 16px" : "16px"}
+                mx={isMobile ? "0px" : "64px"}
                 boxShadow={
                     "0px 4px 4px rgba(0, 0, 0, 0.01)"
                 }
@@ -768,7 +769,7 @@ export default function ListMotorbikesSearchedPage() {
                     ) : (
                         listMotorbikes.length > 0 ? (
                             <Box sx={{
-                                width: '90%',
+                                width: isMobile ? "80%" : "90%",
                                 minHeight: '65vh',
                                 mx: '',
                             }} alignItems={'center'} justifyContent={'center'}>
@@ -784,7 +785,7 @@ export default function ListMotorbikesSearchedPage() {
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                         }}>
-                                            <MotorbikeInforCard motorbike={item} isFavoritePage={false} startDate={values.startDate} endDate={values.endDate} searchedAddress={address} />
+                                            <MotorbikeInforCard motorbike={item} isFavoritePage={false} startDate={values.startDate} endDate={values.endDate} searchedAddress={values.address} />
                                         </Grid>
                                     ))}
                                 </Grid>
