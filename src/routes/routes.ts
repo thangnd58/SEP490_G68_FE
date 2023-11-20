@@ -24,7 +24,6 @@ import UpdateRegisterMotorbike from '../pages/PostMotorbike/UpdateRegisterMotorb
 import MyMapWithSearchBox from '../components/common/MyMapWithSearchBox';
 import PageNotFound from '../pages/OrtherPage/PageNotFound';
 import LayoutEmpty from '../layouts/LayoutEmpty';
-import IntroductionMotorbike from '../pages/PostMotorbike/IntroductionMotorbike';
 import Wallet from '../pages/WalletPage/WalletPage';
 import WithdrawalRequestManagement from '../pages/DashBoardPage/WithdrawalRequestManagement/WithdrawalRequestManagement';
 import Favourite from '../pages/FavouritePage/FavouritePage';
@@ -46,6 +45,7 @@ import ModelManagementForm from '../pages/DashBoardPage/ModelManagement/ModelMan
 import { PromotionPage } from '../pages/PromotionPage/PromotionPage';
 import SearchingHotProvince from '../pages/HomePage/SearchingHotProvince';
 import SearchingHotPlace from '../pages/HomePage/SearchingHotPlace';
+import PreviewBecomeAnOwner from '../pages/PostMotorbike/PreviewBecomeAnOwner';
 
 export type Route = {
     path: string;
@@ -72,7 +72,7 @@ export const routes: Route[] = [
     // User Page
     { path: ROUTES.user.userprofile, component: UserProfilePage, role: ["Admin", "Staff", "Customer"] },
     { path: ROUTES.user.registermotorbike, component: RegisterMotorbike, role: ["Customer"] },
-    { path: ROUTES.user.introductionmotorbike, component: IntroductionMotorbike },
+    { path: ROUTES.user.previewbecomeanowner, component: PreviewBecomeAnOwner, role: ["Guest","Customer"] },
     { path: ROUTES.user.listmotorbike, component: ListMotorbike, role: ["Customer"] },
     { path: ROUTES.user.shoppingCart, component: CartPage, role: ["Customer"] },
     { path: `${ROUTES.user.updateregistermotorbike}/:id`, component: UpdateRegisterMotorbike, role: ["Customer"] },
@@ -94,9 +94,9 @@ export const routes: Route[] = [
     { path: `${ROUTES.admin.managemotorbikes}`, component: MotorbikeManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managerequestwithdraw}`, component: WithdrawalRequestManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managelicences}`, component: LicenceManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
-    { path: `${ROUTES.admin.managerBrand}`, component: BrandManagement, layout: LayoutAdmin, role: ["Admin", "Staff"]},
+    { path: `${ROUTES.admin.managerBrand}`, component: BrandManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managerBrand}/:id`, component: BrandManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"] },
-    { path: `${ROUTES.admin.managerModel}`, component: ModelManagement, layout: LayoutAdmin, role: ["Admin", "Staff"]},
+    { path: `${ROUTES.admin.managerModel}`, component: ModelManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managerModel}/:id`, component: ModelManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.manageNews}`, component: NewsManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.licenceregister}/:id`, component: LicenceRegisterDetail, layout: LayoutAdmin, role: ["Admin", "Staff"] },

@@ -13,6 +13,7 @@ import Slider from "react-slick";
 import { Box, IconButton, Typography } from '@mui/material';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { ClockIcon } from '@mui/x-date-pickers';
+import MyBookingItem from '../../pages/BookMotorbike/components/MyBookingItem';
 
 
 const Transition = React.forwardRef(function Transition(
@@ -61,20 +62,9 @@ export default function MyMapArea() {
   ];
 
   return (
-    <div>
-      <h2>Previous and Next methods</h2>
-      <IconButton onClick={handleBack}>
-        <ArrowBack />
-      </IconButton>
-      <Slider ref={sliderRef} {...settings}>
-        {hotPlaces.map((item) => (
-          <HotPlaceItem key={item.id} namePlace={item.name} />
-        ))}
-      </Slider>
-      <IconButton  onClick={handleNext} >
-        <ArrowForward />
-      </IconButton>
-    </div>
+    <>
+      {/* <MyBookingItem/> */}
+    </>
   );
 }
 

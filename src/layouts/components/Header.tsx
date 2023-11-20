@@ -558,7 +558,7 @@ function Header() {
                                                             setAnchorEl(null);
                                                             navigate(
                                                                 ROUTES.user
-                                                                    .registermotorbike
+                                                                    .previewbecomeanowner
                                                             );
                                                         }}
                                                         //hover to change background color
@@ -962,7 +962,8 @@ function Header() {
                                     icon={<VpnKey sx={{ color: "#8B4513" }} />}
                                     width="100%"
                                     onClick={() =>
-                                        navigate(ROUTES.user.registermotorbike)
+                                        navigate(ROUTES.user
+                                            .previewbecomeanowner)
                                     }
                                     content={t("header.registermotorbike")}
                                     variant="outlined"
@@ -1083,14 +1084,10 @@ function Header() {
                                     icon={<VpnKey sx={{ color: "#8B4513" }} />}
                                     width="100%"
                                     onClick={() =>
-                                        isLogin
-                                            ? navigate(
-                                                ROUTES.user.registermotorbike
-                                            )
-                                            : navigate(
-                                                ROUTES.user
-                                                    .introductionmotorbike
-                                            )
+
+                                        ROUTES.user
+                                            .previewbecomeanowner
+
                                     }
                                     content={t("header.registermotorbike")}
                                     variant="outlined"

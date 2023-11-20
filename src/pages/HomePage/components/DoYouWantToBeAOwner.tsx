@@ -32,10 +32,10 @@ export default function DoYouWantToBeAOwner() {
                 {/* content */}
                 <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} width={isMobile ? '100%' : '50%'} height={'100%'}>
                     <Typography  sx={{ color: 'common.black', fontWeight: 'bold', fontSize: isMobile ? 32 : 48, textAlign: 'center' }}>
-                        Do you want to be a owner?
+                        {t("header.be_a_owner")}
                     </Typography>
                     <Typography sx={{ color: 'common.black', fontSize: isMobile ? 14 : 16, textAlign: 'center' }}>
-                        Hãy đăng ký trở thành chủ cho thuê xe nếu muốn. Hiện đang có hơn 50 chủ xe đang cho thuê xe trên Wandro
+                        {t("header.be_a_owner_content")}
                     </Typography>
                     {/* Action button */}
                     <Box display={'flex'} alignItems={'center'} justifyContent={'center'} width={'100%'} height={'100%'} marginTop={isMobile ? 2 : 4} gap={2}>
@@ -44,10 +44,10 @@ export default function DoYouWantToBeAOwner() {
                             fontWeight={600}
                             onClick={() =>
                                 navigate(
-                                    ROUTES.user.listmotorbike
+                                    ROUTES.user.registermotorbike
                                 )
                             }
-                            content={t("header.btn_promotion")}
+                            content={t("homepage.btn_registernow")}
                         />
                         <MyCustomButton
                             width={'auto'}
@@ -57,7 +57,7 @@ export default function DoYouWantToBeAOwner() {
                                     ROUTES.user.listmotorbike
                                 )
                             }
-                            content={t("header.btn_promotion")}
+                            content={t("homepage.btn_viewmore")}
                             variant="outlined"
                         />
                     </Box>

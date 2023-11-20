@@ -51,6 +51,7 @@ export default function MotorbikeDetailModal() {
     lat: number,
     lng: number,
   }
+  console.log ("searchedAddress"+ searchedAddress + "startDate" + startDate + "endDate" + endDate)
 
   // get motorbike by id
   useEffect(() => {
@@ -151,6 +152,7 @@ export default function MotorbikeDetailModal() {
     handleSubmit,
     setFieldValue
   } = formik;
+
 
   useEffect(() => {
     if (startDate && endDate && searchedAddress) {
@@ -649,11 +651,11 @@ export default function MotorbikeDetailModal() {
 
                     {/* Button */}
                     {
-                        <MyCustomButton disabled={isProcessingBooking}
-                          width='100%' onClick={() => {
-                            !UserService.isLoggedIn() ? setIsOpenLoginModal(true) :
+                      <MyCustomButton disabled={isProcessingBooking}
+                        width='100%' onClick={() => {
+                          !UserService.isLoggedIn() ? setIsOpenLoginModal(true) :
                             setModalConfirmBookingOpen(true)
-                          }} content={t("booking.bookMotorbikeButton")} variant='contained' />
+                        }} content={t("booking.bookMotorbikeButton")} variant='contained' />
                     }
                   </Box>
                 </Box>
@@ -1089,7 +1091,7 @@ export default function MotorbikeDetailModal() {
         handleSubmit={handleSubmit}
       />
       {/* modal login */}
-      <LoginModal isOpenLoginModal={isOpenLoginModal} setIsOpenLoginModal={setIsOpenLoginModal} isMobile ={isMobile}/>
+      <LoginModal isOpenLoginModal={isOpenLoginModal} setIsOpenLoginModal={setIsOpenLoginModal} isMobile={isMobile} />
     </>
   );
 

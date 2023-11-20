@@ -15,7 +15,9 @@
     "wallet": "My Wallet",
     "notification": "Notification",
     "cart": "My cart",
-    "my_booking": "My Booking"
+    "my_booking": "My Booking",
+    "be_a_owner": "Do you want to be a owner?",
+    "be_a_owner_content": "Apply to be a owner and earn money from your motorbike. Now, we are have more than 50 owners and 100 motorbikes. Join us now!"
   },
   "layout": {
     "admin": "Adminstrator",
@@ -607,11 +609,11 @@
     "payWallet": "Wallet balance",
     "payVnPay": "VN Pay e-wallet",
     "pricePerday": "Rental unit price",
-    "deliveryFee" : "Delivery fee",
+    "deliveryFee": "Delivery fee",
     "deliveryFee_hint": "Each kilometer will be charged ",
     "totalPriceRent": "Total motorbike rental fee",
     "totalPriceService": "Service fee",
-    "totalPriceService_hint" : "This is the service fee help you use the service",
+    "totalPriceService_hint": "This is the service fee help you use the service",
     "promotionCode": "Promotion code",
     "totalPrice": "Total price",
     "bookMotorbikeButton": "Book",
@@ -684,7 +686,9 @@
   "homepage": {
     "news": "News",
     "promotion": "Promotion",
-    "hotPromotion": "Hot promotion of the month"
+    "hotPromotion": "Hot promotion of the month",
+    "btn_registernow": "Register now",
+    "btn_viewmore": "View more"
   },
   "promotion": {
     "yourPromo": "List promotion code",
@@ -692,10 +696,21 @@
   },
   "myBooking": {
     "currentBooking": "Current booking",
-    "historyBooking": "History booking"
-  },
-  "feedback": {
-    "createSuccess": "Evaluate success",
-    "createError": "Evaluation failed"
+    "historyBooking": "History booking",
+    "status": "Status",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "deliveryAddress": "Delivery address",
+    "bookingStatus": {
+      "pendingPayment": "Pending payment",
+      "paid": "Paid",
+      "cancelled": "Cancelled",
+      "pendingDeliveryGuest": "Pending delivery",
+      "pendingDeliveryOwner": "Pending delivery",
+      "deliveredGuest": "Delivered",
+      "deliveredOwner": "Delivered",
+      "pendingReview": "Pending review",
+      "finished": "Finished"
+    }
   }
 }
