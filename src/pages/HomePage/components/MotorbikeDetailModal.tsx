@@ -150,14 +150,17 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
   } = formik;
 
   useEffect(() => {
-    if (!props.startDate || !props.endDate) {
+    if (!props.startDate || !props.endDate || !props.searchedAddress) {
       setFieldValue("startDate", today);
       setFieldValue("endDate", tomorrow);
-    }
-    if (!props.searchedAddress) {
       setFieldValue("address", "Quận Ba Đình, Hà Nội");
+      // navigate(
+      //   `${ROUTES.user.detailmotorbike}/${motorbikeId}/${encodeURIComponent("Quận Ba Đình, Hà Nội")}/${values.startDate}/${values.endDate}`
+      // )
     }
+  }, [])
 
+  useEffect(() => {
     const bookingPreview: BookingRequest = {
       motorbikeId: props?.motorbikeId || "0",
       address: values.address || "Quận Ba Đình, Hà Nội",

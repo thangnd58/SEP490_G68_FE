@@ -153,14 +153,17 @@ export default function MotorbikeDetailModal() {
   } = formik;
 
   useEffect(() => {
-    if (startDate && endDate && searchedAddress) {
+    if (startDate || endDate || searchedAddress) {
       setFieldValue("startDate", today);
       setFieldValue("endDate", tomorrow);
       setFieldValue("address", "Quận Ba Đình, Hà Nội");
-      navigate(
-        `${ROUTES.user.detailmotorbike}/${motorbikeId}/${encodeURIComponent("Quận Ba Đình, Hà Nội")}/${values.startDate}/${values.endDate}`
-      )
+      // navigate(
+      //   `${ROUTES.user.detailmotorbike}/${motorbikeId}/${encodeURIComponent("Quận Ba Đình, Hà Nội")}/${values.startDate}/${values.endDate}`
+      // )
     }
+  }, [])
+
+  useEffect(() => {
 
     const bookingPreview: BookingRequest = {
       motorbikeId: motorbikeId || "0",
@@ -649,11 +652,11 @@ export default function MotorbikeDetailModal() {
 
                     {/* Button */}
                     {
-                        <MyCustomButton disabled={isProcessingBooking}
-                          width='100%' onClick={() => {
-                            !UserService.isLoggedIn() ? setIsOpenLoginModal(true) :
+                      <MyCustomButton disabled={isProcessingBooking}
+                        width='100%' onClick={() => {
+                          !UserService.isLoggedIn() ? setIsOpenLoginModal(true) :
                             setModalConfirmBookingOpen(true)
-                          }} content={t("booking.bookMotorbikeButton")} variant='contained' />
+                        }} content={t("booking.bookMotorbikeButton")} variant='contained' />
                     }
                   </Box>
                 </Box>
@@ -1089,7 +1092,7 @@ export default function MotorbikeDetailModal() {
         handleSubmit={handleSubmit}
       />
       {/* modal login */}
-      <LoginModal isOpenLoginModal={isOpenLoginModal} setIsOpenLoginModal={setIsOpenLoginModal} isMobile ={isMobile}/>
+      <LoginModal isOpenLoginModal={isOpenLoginModal} setIsOpenLoginModal={setIsOpenLoginModal} isMobile={isMobile} />
     </>
   );
 

@@ -127,8 +127,8 @@ export interface Motorbike {
     isFavourite: boolean,
     ratingAverage: number,
     countCompletedBooking: number,
-    deliveryDistanceChargeable : number,
-    totalFeeOfDelivery : number,
+    deliveryDistanceChargeable: number,
+    totalFeeOfDelivery: number,
 }
 
 export interface MotorbikeRequest {
@@ -452,4 +452,15 @@ export interface PopularProvince {
     location: string,
     imageUrl: string,
     count: number
+}
+
+export interface ReportCategory {
+    categoryId: number,
+    categoryName: string,
+    image: string
+}
+
+export interface ReportRequest {
+    categoryId: number,
+    detail: string
 }
