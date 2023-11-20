@@ -89,7 +89,8 @@ function CartPage() {
         try {
             const response = await BookingService.deleteMotorbikeInCart(motorbikeId, bookingCartId);
             if (response) {
-                getListCart();
+                const response = await BookingService.getListShoppingCart();
+                setMotorbikeCart(response);
                 ToastComponent(t("toast.ShoppingCart.delete.success"), "success");
             }
             else {
@@ -130,15 +131,6 @@ function CartPage() {
                     motorbikeCart.length === 0 ? (
                         <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
                             <img src={NoDataImage} alt="image" style={{ width: '400px', height: '400px' }} />
-                            <Typography
-                                variant='h2'
-                                color={theme.palette.text.primary}
-                                fontSize={"24px"}
-                                lineHeight={"36px"}
-                                fontWeight={"600"}
-                                sx={{ textAlign: 'center' }}>
-                                Giỏ hàng trống
-                            </Typography>
                         </Box>
                     ) : (
 
@@ -227,7 +219,6 @@ function CartPage() {
                                                             {item.endDatetime}
                                                         </Typography>
                                                     </Box>
-
                                                 </Box>
                                             </Box>
                                         </Box>

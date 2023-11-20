@@ -19,7 +19,7 @@ export default function HotPlacesComponent() {
 
     useEffect(() => {
         getData();
-    }, []) ;
+    }, []);
 
     const getData = async () => {
         try {
@@ -161,8 +161,8 @@ export default function HotPlacesComponent() {
             alignItems={'center'}
             justifyContent={'space-between'}
             width={'100%'}
-            gap={isMobile ? '32px' : '24px'}
-            padding={isMobile ? '32px 0px 48px 0px' : '32px 0px'}
+            gap={'24px'}
+            padding={isMobile ? '16px 0px 32px 0px' : '32px 0px'}
         >
             {/* Title */}
             <Typography
@@ -181,7 +181,7 @@ export default function HotPlacesComponent() {
                     <IconButton sx={{ p: '24px' }} onClick={handlePlaceBack}>
                         <ArrowBack />
                     </IconButton>}
-                <Box alignContent={'center'} width={isMobile ? '300px' : '90%'}
+                <Box alignContent={'center'} width={isMobile ? '340px' : '90%'}
                     padding={
                         isMobile ? '0px 0px' : '0px 24px'
 
@@ -225,8 +225,8 @@ export default function HotPlacesComponent() {
                         </Box>
                     </Box>
                 }
-                <Box alignContent={'center'} width={isMobile ? '275px' : '65%'}>
-                    <Slider ref={sliderStationRef} {...stationSettings}>
+                <Box alignContent={'center'} width={isMobile ? '340px' : '65%'}>
+                    <Slider  ref={sliderStationRef} {...stationSettings}>
                         {hotStations.map((place: PopularLocation, index: number) => (
                             <HotStationItem key={index} namePlace={place.name} isMobile={isMobile} numOfMotorbike={place.count} image={place.imageUrl} />
                         ))}
@@ -241,8 +241,8 @@ function HotPlaceItem({ isMobile, namePlace, key, image, numOfMotorbike }: { isM
     return (<Box position={'relative'}
         key={key}
         sx={{
-            width: '300px',
-            height: '400px',
+            width: isMobile ? "340px" :'300px',
+            height: isMobile ? "440px" :'400px',
             cursor: 'pointer'
         }} // onClick={() => navigate(`${ROUTES.newspage}/${listNews[0].newsId}`)}
     >
@@ -274,8 +274,8 @@ function HotStationItem({ isMobile, namePlace, key, image, numOfMotorbike }: { i
     return (<Box position={'relative'}
         key={key}
         sx={{
-            width: '275px',
-            height: '230px',
+            width: isMobile ? "340px" : '275px',
+            height: isMobile ? "250":'230px',
             cursor: 'pointer'
         }} // onClick={() => navigate(`${ROUTES.newspage}/${listNews[0].newsId}`)}
     >

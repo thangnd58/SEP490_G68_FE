@@ -40,7 +40,7 @@ export default function HotMotorbikesOfMonthComponent() {
                 justifyContent={'start'}
                 gap={'8px'}
                 width={'100%'}
-                padding={"32px 64px"}
+                padding={isMobile ? "16px 0px" : "32px 64px"}
             >
                 <Typography sx={{
                     fontSize: isMobile ? '24px' : '32px',
@@ -67,7 +67,7 @@ export default function HotMotorbikesOfMonthComponent() {
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                 }}>
-                                    <MotorbikeInforCard motorbike={item} isFavoritePage={false} isIntroduced={true}/>
+                                    <MotorbikeInforCard motorbike={item} isFavoritePage={false} isIntroduced={true} />
                                 </Grid>
                             ))}
                         </Grid>
