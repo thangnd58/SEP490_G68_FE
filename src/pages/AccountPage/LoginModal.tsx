@@ -34,7 +34,7 @@ export const LoginModal = (props: { isOpenLoginModal: boolean, setIsOpenLoginMod
             </Box>
             <DialogTitle
             >
-                <LoginForm isModal={true} isMobileModal={isMobile} />
+                <LoginForm isModal={true} isMobileModal={isMobile} setIsOpenLoginModal={setIsOpenLoginModal} />
             </DialogTitle>
         </Dialog>
     )

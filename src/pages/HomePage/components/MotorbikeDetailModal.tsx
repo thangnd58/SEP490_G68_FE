@@ -694,7 +694,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
 
                     {/* Button */}
-                    {
+                    {/* {
                       UserService.isLoggedIn() ?
                         <MyCustomButton disabled={isProcessingBooking}
                           width='100%' onClick={() => {
@@ -705,6 +705,16 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                           <MyCustomButton fontSize={isMobile ? 14 : 16} disabled={isProcessingBooking}
                             width='100%' content={t("booking.loginToContinue")} variant='contained' />
                         </a>
+                    } */}
+                    {
+                      <MyCustomButton disabled={isProcessingBooking}
+                        width='100%' onClick={() => {
+                          if (!UserService.isLoggedIn()) {
+                            setIsOpenLoginModal(true)
+                          } else {
+                            setModalConfirmBookingOpen(true)
+                          }
+                        }} content={t("booking.bookMotorbikeButton")} variant='contained' />
                     }
                   </Box>
                 </Box>

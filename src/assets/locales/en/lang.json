@@ -619,6 +619,7 @@
     "buttonApplyPromotion": "Apply",
     "buttonApplyPromotionOk": "Applied",
     "confirmInforBook": "Confirm booking information",
+    "returnMotorbikeAndEndTrip": "Return the motorbike and end the trip",
     "confirmCompleteTrip": "Confirm complete trip",
     "loginToContinue": "Login to continue",
     "timeRemainingPay": "Time to pay remaining deposit",
@@ -628,7 +629,9 @@
     "confirmCancelBook": "Confirm cancellation",
     "contentConfirmCancelBook": "Do you want to cancel this trip?",
     "paymentBooking": "Payment for motorbike order",
-    "confirmPaymentBooking": "Do you agree to pay or not?"
+    "confirmPaymentBooking": "Do you agree to pay or not?",
+    "rating": "Rating",
+    "comment": "Comment"
   },
   "policy": {
     "documentRental": "Motorbike rental documents",
@@ -675,6 +678,7 @@
     "seconds": "Seconds"
   },
   "notification": {
+    "title": "Notification",
     "empty": "You don't have any notifications yet"
   },
   "homepage": {
@@ -689,5 +693,9 @@
   "myBooking": {
     "currentBooking": "Current booking",
     "historyBooking": "History booking"
+  },
+  "feedback": {
+    "createSuccess": "Evaluate success",
+    "createError": "Evaluation failed"
   }
 }

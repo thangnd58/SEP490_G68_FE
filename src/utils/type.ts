@@ -99,6 +99,7 @@ export interface Ward {
 
 export interface Motorbike {
     id?: number,
+    motorbikeId?: number,
     licensePlate: string,
     releaseYear: number,
     type: string,
@@ -125,7 +126,7 @@ export interface Motorbike {
     distance: number,
     isFavourite: boolean,
     ratingAverage: number,
-    countCompletedBooking : number,
+    countCompletedBooking: number,
     deliveryDistanceChargeable : number,
     totalFeeOfDelivery : number,
 }
@@ -417,6 +418,13 @@ export interface PromotionRequest {
     minValue: number,
     value: number,
     numberLeft: number,
+}
+
+export interface FeedbackRequest {
+    bookingId: number,
+    motorbikeId: number,
+    rating: number,
+    comment: string
 }
 
 export interface CartInforResponse {
