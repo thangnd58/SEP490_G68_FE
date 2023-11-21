@@ -5,14 +5,7 @@ import ListMotorbikeForm from './components/ListMotorbike/ListMotorbikeForm';
 import usei18next from '../../hooks/usei18next';
 
 const RegisterMotorbikeStyle = styled("form")(({ theme }) => ({
-    '& .MuiPaper-root': {
-        width: '80%',
-        display: 'flex',
-        flexDirection: 'column',
-        margin: '32px auto',
-        padding: '32px',
-        borderRadius: '8px'
-    },
+    
 }));
 
 
@@ -20,12 +13,12 @@ export default function ListMotorbike() {
     const {t} = usei18next();
     return (
         <RegisterMotorbikeStyle className='form'>
-            <Paper elevation={2}>
                 <Box
                     width={"100%"}
                     alignContent={'center'}
                     margin={"auto"}
                     display={"flex"}
+                    padding={"32px 0px"}
                     flexDirection={"column"}>
                     <Typography
                         variant='h1'
@@ -38,7 +31,6 @@ export default function ListMotorbike() {
                     </Typography>
                     <ListMotorbikeForm />
                 </Box>
-            </Paper>
         </RegisterMotorbikeStyle>
     )
 }

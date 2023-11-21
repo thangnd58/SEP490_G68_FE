@@ -18,6 +18,7 @@ import {
 } from '../../assets/icons';
 import { LogoFull } from './Header';
 import usei18next from '../../hooks/usei18next';
+import theme from '../../utils/theme';
 
 function Footer() {
   const { t } = usei18next();
@@ -43,6 +44,14 @@ function Footer() {
   ];
 
   const navigate = useNavigate();
+  const handleMailtoClick = () => {
+    const email = 'wanderonwheels.wandro@gmail.com';
+    const subject = 'Feedback or Inquiry'; // You can customize the subject if needed
+    const mailtoURL = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
+
+    // Open the default email client with the mailto URL
+    window.location.href = mailtoURL;
+  };
 
   return (
     <Container fixed component="footer">
@@ -53,7 +62,7 @@ function Footer() {
           borderTop: (theme) => `1px solid ${theme.palette.divider}`,
         }}
       >
-        <Box className='logo-full' style={{ margin: '16px 0' }}>
+        <Box className='logo-full' display={'flex'} flexDirection={'column'} margin={"16px 0px"}  gap={"16px"}>
           <LogoFull size={200} />
           <Box
             style={{
@@ -63,16 +72,19 @@ function Footer() {
               border: '1px solid #B1B5C3',
               borderRadius: '9px',
               padding: '6px 6px 6px 10px',
-              marginTop: '20px',
             }}
           >
             <input
+              disabled
+              value={"Gửi mail cho chúng tôi"}
               type="email"
-              style={{ fontSize: '16px', border: 'none', outlineStyle: 'none', color: '9A9EA5' }}
+              style={{ fontSize: '16px', border: 'none', outlineStyle: 'none', color: '#9A9EA5' }}
               placeholder={t("footer.footerEmailPlaceholder")}
             />
             <ArrowBack
+              onClick={handleMailtoClick}
               sx={{
+                cursor: 'pointer',
                 backgroundColor: 'primary.main',
                 borderRadius: '20px',
                 padding: '2px',

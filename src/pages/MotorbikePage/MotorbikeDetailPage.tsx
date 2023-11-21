@@ -51,6 +51,7 @@ export default function MotorbikeDetailModal() {
     lat: number,
     lng: number,
   }
+  console.log ("searchedAddress"+ searchedAddress + "startDate" + startDate + "endDate" + endDate)
 
   // get motorbike by id
   useEffect(() => {
@@ -151,6 +152,7 @@ export default function MotorbikeDetailModal() {
     handleSubmit,
     setFieldValue
   } = formik;
+
 
   useEffect(() => {
     if (startDate || endDate || searchedAddress) {

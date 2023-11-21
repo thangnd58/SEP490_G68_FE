@@ -75,7 +75,7 @@ export const PromotionModal = (props: { isModalPromotionOpen: boolean, setModalP
                         promotions.length > 0 &&
                         promotions.map((promo) => {
                             return (
-                                <PromotionItem key={`${promo.id}_${promo.code}`} promotion={promo} promoApply={counponCode} setPromoApply={setFieldValue} />
+                                <PromotionItem key={`${promo.id}_${promo.code}`} promotion={promo} promoApply={counponCode} setPromoApply={setFieldValue} setModalPromotionOpen={setModalPromotionOpen} />
                             )
                         })
                     }
@@ -85,7 +85,7 @@ export const PromotionModal = (props: { isModalPromotionOpen: boolean, setModalP
     )
 }
 
-function PromotionItem({ promotion, promoApply, setPromoApply }: { promotion: Promotion, promoApply: string, setPromoApply: any }) {
+function PromotionItem({ promotion, promoApply, setPromoApply, setModalPromotionOpen }: { promotion: Promotion, promoApply: string, setPromoApply: any,setModalPromotionOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
     const { t } = usei18next();
     const { isMobile } = useThemePage();
     const [isShow, setShow] = useState<boolean>(false);
@@ -103,7 +103,11 @@ function PromotionItem({ promotion, promoApply, setPromoApply }: { promotion: Pr
                         <Typography fontSize={isMobile ? '10px' : '12px'} >{getCountdownTime(promotion.endDate, t)}</Typography>
                     </Box>
                 </Box>
-                <MyCustomButton width="20%" disabled={promotion.code === promoApply} fontColor={promotion.code === promoApply ? "white" : ""} height='40px' fontSize={isMobile ? 12 : 14} onClick={() => setPromoApply("couponCode", promotion.code)} content={promotion.code === promoApply ? t("booking.buttonApplyPromotionOk") : t("booking.buttonApplyPromotion")} />
+                <MyCustomButton width="20%" disabled={promotion.code === promoApply} fontColor={promotion.code === promoApply ? "white" : ""} height='40px' fontSize={isMobile ? 12 : 14} onClick={() => {
+                    setPromoApply("couponCode", promotion.code);
+                    // đóng modal
+                    setModalPromotionOpen(false);
+            }} content={promotion.code === promoApply ? t("booking.buttonApplyPromotionOk") : t("booking.buttonApplyPromotion")} />
             </Box >
             {
                 isShow &&

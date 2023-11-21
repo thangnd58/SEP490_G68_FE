@@ -15,7 +15,9 @@
     "wallet": "My Wallet",
     "notification": "Notification",
     "cart": "My cart",
-    "my_booking": "My Booking"
+    "my_booking": "My Booking",
+    "be_a_owner": "Do you want to be a owner?",
+    "be_a_owner_content": "Apply to be a owner and earn money from your motorbike. Now, we are have more than 50 owners and 100 motorbikes. Join us now!"
   },
   "layout": {
     "admin": "Adminstrator",
@@ -449,7 +451,11 @@
       "description": "Description",
       "defaultPrice": "Default Price",
       "profit": "Profit",
-      "miscellaneous": "Miscellaneous"
+      "miscellaneous": "Miscellaneous",
+      "allmymotorbikes": "All your motorbikes",
+      "historyBooking" : "History booking",
+      "currentBooking" : "Current booking",
+      "bookingInHistory" : "Booking in history"
     },
     "registedForm": {
       "updateTitle": "Update Information",
@@ -626,7 +632,8 @@
     "buttonApplyPromotion": "Apply",
     "buttonApplyPromotionOk": "Applied",
     "confirmInforBook": "Confirm booking information",
-    "returnMotorbikeAndEndTrip": "Return the motorbike and end the trip",
+    "confirmDeliveryMotorbike": "Confirm delivery of motorbike",
+    "returnMotorbikeAndEndTrip": "Confirm return of motorbike and end trip",
     "confirmCompleteTrip": "Confirm complete trip",
     "loginToContinue": "Login to continue",
     "timeRemainingPay": "Time to pay remaining deposit",
@@ -691,7 +698,9 @@
   "homepage": {
     "news": "News",
     "promotion": "Promotion",
-    "hotPromotion": "Hot promotion of the month"
+    "hotPromotion": "Hot promotion of the month",
+    "btn_registernow": "Register now",
+    "btn_viewmore": "View more"
   },
   "promotion": {
     "yourPromo": "List promotion code",
@@ -699,7 +708,22 @@
   },
   "myBooking": {
     "currentBooking": "Current booking",
-    "historyBooking": "History booking"
+    "historyBooking": "History booking",
+    "status": "Status",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "deliveryAddress": "Delivery address",
+    "bookingStatus": {
+      "pendingPayment": "Pending payment",
+      "paid": "Paid",
+      "cancelled": "Cancelled",
+      "pendingDeliveryGuest": "Pending delivery",
+      "pendingDeliveryOwner": "Pending delivery",
+      "deliveredGuest": "Delivered",
+      "deliveredOwner": "Delivered",
+      "pendingReview": "Pending review",
+      "finished": "Finished"
+    }
   },
   "feedback": {
     "createSuccess": "Evaluate success",

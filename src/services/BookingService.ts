@@ -11,7 +11,8 @@ const apiGetPreviewBooking = "/preview-booking";
 const apiPostBooking = "/booking";
 const apiGetListBooking = "/user/booking";
 const apiGetListCart = "/booking-cart";
-const apiCancelBooking = '/booking'
+const apiCancelBooking = '/booking';
+const apiGetListRentalBooking = '/rental-history';
 
 export const BookingService = {
     getPreviewBooking: async (
@@ -40,10 +41,21 @@ export const BookingService = {
         const response = await api.get(apiGetListCart);
         return response.data;
     },
-    deleteMotorbikeInCart: async (motorbikeId: number,bookingCartId: number) => {
+    deleteMotorbikeInCart: async (motorbikeId: number, bookingCartId: number) => {
         return await api.delete(`/booking-cart/${bookingCartId}/${motorbikeId}`);
     },
     addCart: async (motorbikeId: number, startDatetime: string, endDatetime: string, address?: string) => {
-        return await api.post("/booking-cart", { motorbikeId , startDatetime, endDatetime, address});
+        return await api.post("/booking-cart", { motorbikeId, startDatetime, endDatetime, address });
     },
+    getListRentalBooking: async (): Promise<Booking[]> => {
+        const response = await api.get(apiGetListRentalBooking)
+        return response.data
+    },
+    getRentalBookingDetail: async (id: string): Promise<Booking> => {
+        const response = await api.get(`${apiGetListRentalBooking}/${id}`)
+        return response.data
+    },
+    updateStatusBookingDetail : async (bookingId: string,motorbikeid:string, status: string) => {
+        return await api.put(`${apiPostBooking}/${bookingId}/${status}/${motorbikeid}`)
+    }
 }

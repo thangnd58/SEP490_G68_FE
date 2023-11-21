@@ -30,7 +30,7 @@ interface CustomButtonProps {
   justifyContent?: 'start' | 'center' | 'end';
 }
 
-const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, className, width, height, fontSize, fontWeight, uppercase, borderRadius, icon, iconPosition, variant, type, disabled, isWrap, backgroundColor, noBorder, fontColor, borderColor, borderWeight, isChecked,justifyContent }) => {
+const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, className, width, height, fontSize, fontWeight, uppercase, borderRadius, icon, iconPosition, variant, type, disabled, isWrap, backgroundColor, noBorder, fontColor, borderColor, borderWeight, isChecked, justifyContent }) => {
   let borderWeightValue = borderWeight || 2;
   let backgroundColorCheckedValue = isChecked == true ? '#f5e9e1' : (isChecked == false ? '#fff' : (backgroundColor ? backgroundColor : (disabled ? '#777E90' : (variant === 'outlined' ? '#fff' : '#8B4513'))));
   return (
@@ -39,15 +39,22 @@ const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, classNa
       className={className}
       onClick={onClick}
       type={type}
-      style={{
+      sx={{
         justifyContent: justifyContent || 'center',
         width: width || 'auto',
         height: height || 'auto',
         textTransform: uppercase ? 'uppercase' : 'none',
-        borderRadius: borderRadius || 8,
+        borderRadius: "8px",
         background: backgroundColorCheckedValue,
         border: noBorder ? 'none' : (borderColor ? `${borderWeightValue}px solid ${borderColor}` : (disabled ? `${borderWeightValue}px solid #777E90` : `${borderWeightValue}px solid #8B4513`)),
         padding: '8px 8px',
+        "&:hover": {
+          backgroundColor: backgroundColorCheckedValue,
+          opacity: 1,
+          boxShadow: "0 0 16px rgba(0, 0, 0, 0.25)", // Bóng xung quanh cả 4 phía
+          transform: "scale(1.05)", // Hiệu ứng scale (phóng to) khi hover
+          transition: "transform 0.1s ease-in-out",          // Các hiệu ứng khác tùy theo yêu cầu
+        },
       }}
       startIcon={iconPosition === 'left' ? icon : null}
       endIcon={iconPosition === 'right' ? icon : null}

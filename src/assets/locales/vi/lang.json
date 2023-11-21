@@ -15,7 +15,9 @@
     "wallet": "Ví của tôi",
     "notification": "Thông báo",
     "cart": "Giỏ hàng",
-    "my_booking": "Chuyến đi của tôi"
+    "my_booking": "Chuyến đi của tôi",
+    "be_a_owner": "Bạn muốn trở thành chủ xe?",
+    "be_a_owner_content": "Đăng ký ngay để trở thành chủ xe và kiếm thêm thu nhập. Hiện tại chúng tôi đang tìm kiếm các chủ xe có xe máy để hợp tác."
   },
   "layout": {
     "admin": "Quản trị viên",
@@ -450,7 +452,11 @@
       "description": "Mô tả",
       "defaultPrice": "Giá thuê mặc định",
       "profit": "Lợi nhuận",
-      "miscellaneous": "Điều khoản khác"
+      "miscellaneous": "Điều khoản khác",
+      "allmymotorbikes": "Tất cả xe của bạn",
+      "historyBooking" : "Lịch sử đơn đặt xe",
+      "currentBooking" : "Đơn đặt xe hiện tại",
+      "bookingInHistory" : "Đơn đặt xe trong lịch sử"
     },
     "registedForm": {
       "updateTitle": "Cập nhật thông tin xe",
@@ -617,7 +623,7 @@
     "deliveryFee_hint": "Mỗi km vượt quá khoảng cách miễn phí sẽ được tính thêm ",
     "totalPriceRent": "Tổng phí thuê xe",
     "totalPriceService": "Phí dịch vụ",
-    "totalPriceService_hint" : "Đây là phí giúp chúng tôi duy trì hoạt động và phát triển dịch vụ",
+    "totalPriceService_hint": "Đây là phí giúp chúng tôi duy trì hoạt động và phát triển dịch vụ",
     "promotionCode": "Mã khuyến mãi",
     "totalPrice": "Tổng tiền",
     "bookMotorbikeButton": "Đặt xe",
@@ -625,7 +631,8 @@
     "buttonApplyPromotion": "Áp dụng",
     "buttonApplyPromotionOk": "Đã áp dụng",
     "confirmInforBook": "Xác nhận thông tin đặt xe",
-    "returnMotorbikeAndEndTrip": "Trả xe và kết thúc chuyến đi",
+    "confirmDeliveryMotorbike": "Đã giao xe thành công",
+    "returnMotorbikeAndEndTrip": "Đã nhận xe và kết thúc chuyến đi",
     "confirmCompleteTrip": "Xác nhận hoàn thành chuyến đi",
     "loginToContinue": "Đăng nhập để tiếp tục",
     "timeRemainingPay": "Thời gian thanh toán tiền cọc còn lại",
@@ -692,7 +699,9 @@
   "homepage": {
     "news": "Tin tức",
     "promotion": "Khuyến mãi",
-    "hotPromotion": "Khuyến mãi hot trong tháng"
+    "hotPromotion": "Khuyến mãi hot trong tháng",
+    "btn_registernow": "Đăng ký ngay",
+    "btn_viewmore": "Tìm hiểu thêm"
   },
   "promotion": {
     "yourPromo": "Danh sách mã giảm giá của bạn",
@@ -700,7 +709,22 @@
   },
   "myBooking": {
     "currentBooking": "Chuyến đi hiện tại",
-    "historyBooking": "Lịch sử chuyến đi"
+    "historyBooking": "Lịch sử chuyến đi",
+    "status": "Trạng thái",
+    "startDate": "Ngày nhận xe",
+    "endDate": "Ngày trả xe",
+    "deliveryAddress": "Địa chỉ giao xe",
+    "bookingStatus": {
+      "pendingPayment": "Chờ thanh toán",
+      "paid": "Đã thanh toán",
+      "cancelled": "Đã hủy",
+      "pendingDeliveryGuest": "Chờ nhận xe",
+      "pendingDeliveryOwner": "Chờ giao xe",
+      "deliveredGuest": "Đã nhận xe",
+      "deliveredOwner": "Đã giao xe",
+      "pendingReview": "Chờ đánh giá",
+      "finished": "Đã hoàn thành"
+    }
   },
   "feedback": {
     "createSuccess": "Đánh giá thành công",

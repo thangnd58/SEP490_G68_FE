@@ -41,6 +41,7 @@ import GalongbienSearch from './Galongbien.jpg'
 import GadalatSearch from './Gadalat.jpg'
 import BenxemydinhSearch from './Benxemydinh.jpg'
 import BenxethuonglyiSearch from './Benxethuongly.jpg'
+import BecomeAnOwner from './becomeanowner.png'
 
 
 export {
@@ -86,6 +87,7 @@ export {
     GalongbienSearch,
     GadalatSearch,
     BenxemydinhSearch,
-    BenxethuonglyiSearch
+    BenxethuonglyiSearch,
+    BecomeAnOwner
 
 };

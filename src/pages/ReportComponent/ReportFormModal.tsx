@@ -46,7 +46,7 @@ export const ReportFormModal = () => {
         }),
         onSubmit: async (values) => {
             try {
-                const req : ReportRequest = {
+                const req: ReportRequest = {
                     categoryId: Number(values.categoryId),
                     detail: values.detail
                 }
@@ -102,6 +102,21 @@ export const ReportFormModal = () => {
                 }}
                 >
                     <Autocomplete
+                        sx={{
+                            width: '100%',
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    border: '1px solid #E0E0E0',
+                                    borderRadius: '8px',
+                                },
+                                '&:hover fieldset': {
+                                    border: '1px solid #8B4513',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    border: '2px solid #8B4513',
+                                },
+                            },
+                        }}
                         disablePortal
                         options={reportCategories}
                         getOptionLabel={(rp) => `${rp.categoryName}`}
@@ -120,14 +135,27 @@ export const ReportFormModal = () => {
                     {errors.categoryId && touched.categoryId && (
                         <ErrorMessage message={errors.categoryId} />
                     )}
-                    <TextField onChange={handleChange} multiline={true} minRows={5} name="detail" value={values.detail} placeholder={t("report.detailReport")}/>
+                    <TextField sx={{
+                        '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                                border: '1px solid #E0E0E0',
+                                borderRadius: '8px',
+                            },
+                            '&:hover fieldset': {
+                                border: '1px solid #8B4513',
+                            },
+                            '&.Mui-focused fieldset': {
+                                border: '2px solid #8B4513',
+                            },
+                        },
+                    }} onChange={handleChange} multiline={true} minRows={5} name="detail" value={values.detail} placeholder={t("report.detailReport")} />
                     {errors.detail && touched.detail && (
                         <ErrorMessage message={errors.detail} />
                     )}
                 </DialogContent>
                 <DialogActions sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                    <MyCustomButton variant="outlined" content={t("licenseInfo.BtnCancel")} onClick={() => closeModal()} />
-                    <MyCustomButton content={t("VerifyPhone.BtnConfirm")} onClick={() => handleSubmit()} />
+                    <MyCustomButton width="40%" variant="outlined" content={t("licenseInfo.BtnCancel")} onClick={() => closeModal()} />
+                    <MyCustomButton width="40%" content={t("VerifyPhone.BtnConfirm")} onClick={() => handleSubmit()} />
                 </DialogActions>
             </Dialog>
 

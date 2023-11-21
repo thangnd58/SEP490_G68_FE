@@ -316,6 +316,7 @@ function Header() {
                                                                     sx={{
                                                                         textAlign:
                                                                             "center",
+                                                                            borderRadius: "16px",
                                                                     }}
                                                                     key={`NOTIFI${notifi.notificationId}`}
                                                                     onClick={() => {
@@ -329,14 +330,7 @@ function Header() {
                                                                     }}
                                                                 >
                                                                     <PopoverItem
-                                                                        label={notifi.title
-                                                                            .substring(
-                                                                                0,
-                                                                                30
-                                                                            )
-                                                                            .concat(
-                                                                                "..."
-                                                                            )}
+                                                                        label={notifi.title}
                                                                         icon={
                                                                             <img
                                                                                 width={
@@ -357,14 +351,7 @@ function Header() {
                                                                                 <UnReadIcon />
                                                                             ) : undefined
                                                                         }
-                                                                        content={notifi.detail
-                                                                            .substring(
-                                                                                0,
-                                                                                40
-                                                                            )
-                                                                            .concat(
-                                                                                "..."
-                                                                            )}
+                                                                        content={notifi.detail}
                                                                         timeAgo={
                                                                             notifi.createDatetime
                                                                         }
@@ -558,7 +545,7 @@ function Header() {
                                                             setAnchorEl(null);
                                                             navigate(
                                                                 ROUTES.user
-                                                                    .registermotorbike
+                                                                    .previewbecomeanowner
                                                             );
                                                         }}
                                                         //hover to change background color
@@ -962,7 +949,8 @@ function Header() {
                                     icon={<VpnKey sx={{ color: "#8B4513" }} />}
                                     width="100%"
                                     onClick={() =>
-                                        navigate(ROUTES.user.registermotorbike)
+                                        navigate(ROUTES.user
+                                            .previewbecomeanowner)
                                     }
                                     content={t("header.registermotorbike")}
                                     variant="outlined"
@@ -1083,14 +1071,10 @@ function Header() {
                                     icon={<VpnKey sx={{ color: "#8B4513" }} />}
                                     width="100%"
                                     onClick={() =>
-                                        isLogin
-                                            ? navigate(
-                                                ROUTES.user.registermotorbike
-                                            )
-                                            : navigate(
-                                                ROUTES.user
-                                                    .introductionmotorbike
-                                            )
+
+                                        ROUTES.user
+                                            .previewbecomeanowner
+
                                     }
                                     content={t("header.registermotorbike")}
                                     variant="outlined"

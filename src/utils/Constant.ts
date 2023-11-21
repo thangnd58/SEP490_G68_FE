@@ -19,7 +19,7 @@ export const ROUTES = {
     user: {
         userprofile: "/user-profile",
         registermotorbike: "/register-motorbike",
-        introductionmotorbike: "/introduction-motorbike",
+        previewbecomeanowner: "/preview-become-an-owner",
         listmotorbike: "/list-motorbike",
         shoppingCart: "/cart",
         updateregistermotorbike: "/update-register-motorbike",
@@ -29,6 +29,7 @@ export const ROUTES = {
     },
     booking: {
         detail: "booking-detail",
+        detail_owner: "booking-detail-owner",
         mybooking: "/my-booking", 
     },
 
@@ -54,7 +55,13 @@ export const ROUTES = {
     other: {
         pagenotfound: "/page-not-found",
     },
-    cart:"/cart"
+    cart:"/cart",
+    guide :{
+        commonguide: "/common-guide",
+        bookingguide: "/booking-guide",
+        paymentguide: "/payment-guide",
+        regulationguide: "/regulation-guide",
+    }
 
 }
 

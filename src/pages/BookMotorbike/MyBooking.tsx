@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
@@ -6,6 +7,10 @@ import Box from '@mui/material/Box';
 import { Paper } from '@mui/material';
 import usei18next from '../../hooks/usei18next';
 import theme from '../../utils/theme';
+import LoginForm from '../AccountPage/components/LoginForm';
+import { BookingService } from '../../services/BookingService';
+import { Booking } from '../../utils/type';
+import MyBookingItem from './components/MyBookingItem';
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -40,12 +45,47 @@ function a11yProps(index: number) {
 }
 
 export default function MyBooking() {
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
     const { t } = usei18next();
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const [listBooing, setListBooking] = useState<Booking[]>([]);
+    const [isLoad, setIsLoad] = useState<boolean>(false);
+    const getData = async () => {
+        try {
+            setIsLoad(true);
+            const dataBooking = await BookingService.getListBookingCurrentUser();
+            if (dataBooking) {
+                setListBooking(dataBooking);
+                setIsLoad(false);
+            }
+            else {
+                setListBooking([]);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        setIsLoad(false);
+    }
+
+    type StatusOrder = {
+        [key: string]: number;
+    };
+
+    const statusOrder: StatusOrder = {
+        Delivered: 1,
+        PendingDelivery: 2,
+        Paid: 3,
+        PendingPayment: 4,
+    };
+
     return (
         <Box
             sx={{ width: '100%' }}
@@ -97,10 +137,44 @@ export default function MyBooking() {
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
-                    Item One
+                    <MyBookingItem isLoad={isLoad} index={0} bookings={
+                        listBooing
+                            .filter(
+                                (item) =>
+                                    item.status === 'PendingPayment' ||
+                                    item.status === 'Paid' ||
+                                    item.status === 'PendingDelivery' ||
+                                    item.status === 'Delivered'
+                            )
+                            .sort((a, b) => {
+                                // Sort by status order
+                                const statusComparison = statusOrder[a.status] - statusOrder[b.status];
+
+                                // If statuses are different, use the status order
+                                if (statusComparison !== 0) {
+                                    return statusComparison;
+                                }
+
+                                // If statuses are the same, sort by startDatetime
+                                return new Date(a.startDatetime).valueOf() - new Date(b.startDatetime).valueOf();
+                            })
+                    } />
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
-                    Item Two
+                    <MyBookingItem isLoad={isLoad} index={1} bookings={
+                        listBooing
+                            .filter(
+                                (item) =>
+                                    item.status === 'Cancelled' ||
+                                    item.status === 'PendingReview' ||
+                                    item.status === 'Finished'
+                            )
+                            .sort((a, b) => {
+
+                                // If statuses are the same, sort by startDatetime
+                                return new Date(a.updateDatetime).valueOf() - new Date(b.updateDatetime).valueOf();
+                            })
+                    } />
                 </CustomTabPanel>
             </Paper>
         </Box>

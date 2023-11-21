@@ -146,10 +146,17 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                         fontSize="20px"
                                         color={theme.palette.text.primary}
                                     >
-                                        {props.motorbike.model.modelName || props.motorbike.model}
+                                        {props.motorbike.model.modelName || props.motorbike.model} 
                                     </Typography>
                                     <Tooltip title={t("booking.toolTipReport")}>
-                                        <Info onClick={() => setContentModal(<ReportFormModal />)} />
+                                        <Info sx={{
+                                            cursor: 'pointer',
+                                            color: '#8B4513',
+                                            '&:hover': {
+                                                transform: "scale(1.1)",
+                                                transition: "transform 0.1s ease-in-out",          
+                                            },
+                                        }} onClick={() => setContentModal(<ReportFormModal />)} />
                                     </Tooltip>
                                 </Box>
                                 <Box display="flex" alignItems="center" gap="8px">

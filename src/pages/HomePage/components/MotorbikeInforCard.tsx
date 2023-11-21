@@ -22,7 +22,7 @@ import MyCustomButton from '../../../components/common/MyButton';
 import { LoginModal } from '../../AccountPage/LoginModal';
 import { useAuth } from '../../../contexts/AuthContext';
 
-export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean, startDate?: string, endDate?: string, searchedAddress?: string, isInCart?: boolean, isIntroduced?: boolean, deleteInCart?: () => void }) {
+export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean, startDate?: string, endDate?: string, searchedAddress?: string, isInCart?: boolean, isIntroduced?: boolean, deleteInCart?: () => void, isNotFavorite?: boolean }) {
     const { t } = usei18next();
     const { setContentModal, setShowModal } = useContext(ModalContext);
     const { isLogin, logout } = useAuth();
@@ -154,37 +154,38 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                     />
                 </Tooltip>
                 {/* Favorite Icon */}
-                {isFavorite ? (
-                    <FavoriteOutlined
-                        sx={{
-                            position: "absolute",
-                            top: 0,
-                            right: 0,
-                            fontSize: "24px",
-                            color: "#c55f17",
-                            padding: "4px",
-                            margin: "4px",
-                            backgroundColor: "rgba(0, 0, 0, 0.25)",
-                            borderRadius: "50%",
-                        }}
-                        onClick={() => deleteFavourite(props.motorbike.id!)}
-                    />
-                ) : (
-                    <FavoriteBorder
-                        sx={{
-                            position: "absolute",
-                            top: 0,
-                            right: 0,
-                            fontSize: "24px",
-                            color: "#fff",
-                            padding: "4px",
-                            margin: "4px",
-                            backgroundColor: "rgba(0, 0, 0, 0.25)",
-                            borderRadius: "50%",
-                        }}
-                        onClick={() => addFavourite(props.motorbike.id!)}
-                    />
-                )}
+                {!props.isNotFavorite &&
+                    (isFavorite ? (
+                        <FavoriteOutlined
+                            sx={{
+                                position: "absolute",
+                                top: 0,
+                                right: 0,
+                                fontSize: "24px",
+                                color: "#c55f17",
+                                padding: "4px",
+                                margin: "4px",
+                                backgroundColor: "rgba(0, 0, 0, 0.25)",
+                                borderRadius: "50%",
+                            }}
+                            onClick={() => deleteFavourite(props.motorbike.id!)}
+                        />
+                    ) : (
+                        <FavoriteBorder
+                            sx={{
+                                position: "absolute",
+                                top: 0,
+                                right: 0,
+                                fontSize: "24px",
+                                color: "#fff",
+                                padding: "4px",
+                                margin: "4px",
+                                backgroundColor: "rgba(0, 0, 0, 0.25)",
+                                borderRadius: "50%",
+                            }}
+                            onClick={() => addFavourite(props.motorbike.id!)}
+                        />
+                    ))}
             </Box>
             <Divider orientation="vertical" flexItem />
             {/* Content */}
@@ -241,7 +242,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                 }
                             >
                                 {props.motorbike.model.brand.brandName}{" "}
-                                {props.motorbike.model.modelName}
+                                {props.motorbike.model.modelName} {" "} {props.motorbike.id}
                             </Typography>
                         </Tooltip>
                     </Box>
@@ -410,7 +411,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                     </Box>
                 </Box>
             </Box>
-            <LoginModal isOpenLoginModal={isOpenLoginModal} setIsOpenLoginModal={setIsOpenLoginModal} isMobile ={isMobile}/>
+            <LoginModal isOpenLoginModal={isOpenLoginModal} setIsOpenLoginModal={setIsOpenLoginModal} isMobile={isMobile} />
         </Box>
     );
 }

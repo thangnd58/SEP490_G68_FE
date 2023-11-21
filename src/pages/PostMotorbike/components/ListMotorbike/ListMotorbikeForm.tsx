@@ -2,13 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MyIcon from '../../../../components/common/MyIcon';
 import usei18next from '../../../../hooks/usei18next';
-import { Chip, CircularProgress, Divider, FormControl, Grid, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import { Chip, CircularProgress, Divider, FormControl, Grid, Modal, Paper, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { ChangeCircleOutlined, CheckCircleOutline, CloseOutlined, EditOutlined, ErrorOutline, GasMeterOutlined, LocalDrinkOutlined, LocationOn, NewReleasesOutlined, StopCircleOutlined, WarningAmber } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../../utils/Constant';
 import { DataGrid } from '@mui/x-data-grid';
-import { Motorbike } from '../../../../utils/type';
+import { Booking, Motorbike } from '../../../../utils/type';
 import { PostMotorbikeService } from '../../../../services/PostMotorbikeService';
 import { Fade } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
@@ -17,6 +17,60 @@ import theme from '../../../../utils/theme';
 import useThemePage from '../../../../hooks/useThemePage';
 import { CartIcon, HelmetIcon, ProtectClothesIcon, RainCoatIcon, RepairIcon, TelephoneIcon } from '../../../../assets/icons';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
+import MyBookingItem from '../../../BookMotorbike/components/MyBookingItem';
+import { BookingService } from '../../../../services/BookingService';
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function CustomTabPanel1(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 1 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+function CustomTabPanel2(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
 
 const ListMotorbikeForm = () => {
 
@@ -150,74 +204,226 @@ const ListMotorbikeForm = () => {
       ),
     },
   ];
+  const [value1, setValue1] = useState(0);
+  const [value2, setValue2] = useState(0);
+
+  const handleChange1 = (event: React.SyntheticEvent, newValue: number) => {
+    setValue1(newValue);
+  };
+  const handleChange2 = (event: React.SyntheticEvent, newValue: number) => {
+    setValue2(newValue);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const [listBooing, setListBooking] = useState<Booking[]>([]);
+  const [isLoad, setIsLoad] = useState<boolean>(false);
+  const getData = async () => {
+    try {
+      setIsLoad(true);
+      const dataBooking = await BookingService.getListRentalBooking();
+      if (dataBooking) {
+        setListBooking(dataBooking);
+        setIsLoad(false);
+      }
+      else {
+        setListBooking([]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoad(false);
+  }
+
+  type StatusOrder = {
+    [key: string]: number;
+  };
+
+  const statusOrder: StatusOrder = {
+    Delivered: 1,
+    PendingDelivery: 2,
+    Paid: 3,
+    PendingPayment: 4,
+  };
 
   return (
-    <Box width={"95%"} margin={"32px auto"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignContent={"flex-end"}>
-      <Box display={"flex"} flexDirection={"row"} justifyContent={"start"} alignContent={"center"}>
-        <Typography margin={"auto 0px"} fontSize={"18px"} fontWeight={"600"}>Lịch sử đơn đặt xe</Typography>
-      </Box>
-      <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignContent={"center"} >
-        <Typography margin={"auto 0px"} fontSize={"18px"} fontWeight={"600"}>Tất cả xe của bạn</Typography>
-        <Box display={"flex"} flexDirection={"row"} justifyContent={"end"} alignContent={"center"}>
-          <Typography fontSize={"18px"} fontWeight={"400"}
-            margin={"auto 8px"}>{t("postMotorbike.listform.status")}</Typography>
-          <FormControl sx={{ minWidth: 120 }} size="small">
-            <Select
-              labelId="demo-select-small-label"
-              id="demo-select-small"
-              value={selectedStatus}
-              native
-              displayEmpty
-              onChange={handleChangeStatus}
-            >
-              <option value={"All"}>
-                <em>{t("postMotorbike.listform.all")}</em>
-              </option>
-              {setUniqueStatus.map((status) => (
-                <option value={status.key}>
-                  {status.value}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
+    <Box width={"80%"} margin={"32px auto"} display={"flex"} flexDirection={"row"} justifyContent={"center"} alignContent={"center"}>
+      <Paper elevation={2} sx={{ width: '100%', bgcolor: 'background.paper' }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs value={value1} onChange={handleChange1} aria-label="basic tabs example">
+            <Tab
+              sx={{
+                textTransform: 'none',
+                fontSize: '16px',
+                fontWeight: '600',
+                lineHeight: '24px',
+                color: theme.palette.text.primary,
+                '&.Mui-selected': {
+                  color: theme.palette.primary.main
+                }
+              }}
+              label={t("postMotorbike.listform.historyBooking")}
+              {...a11yProps(0)}
+            />
+            <Tab sx={{
+              textTransform: 'none',
+              fontSize: '16px',
+              fontWeight: '600',
+              lineHeight: '24px',
+              color: theme.palette.text.primary,
+              '&.Mui-selected': {
+                color: theme.palette.primary.main,
+              }
+            }} 
+            label={t("postMotorbike.listform.allmymotorbikes")}
+            {...a11yProps(1)} />
+          </Tabs>
         </Box>
-      </Box>
-      <Box>
-        <Box sx={{ borderRadius: "8px" }}>
-          <DataGrid
-            sx={{
-              cursor: "pointer",
-              fontSize: "16px",
-              borderRadius: "8px",
-              '& .MuiDataGrid-columnHeaders': {
-                backgroundColor: "#8B4513",
-              },
-              '& .MuiDataGrid-columnHeaderTitle ': {
-                color: "#fff",
-                fontWeight: "600",
-                fontSize: "18px",
-              },
-              '& .MuiDataGrid-cell:focus-within': {
-                outline: "none",
-              },
+        <CustomTabPanel1 value={value1} index={0}>
+          <Paper elevation={2} sx={{ width: '100%', bgcolor: 'background.paper' }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <Tabs value={value2} onChange={handleChange2} aria-label="basic tabs example">
+                <Tab
+                  sx={{
+                    textTransform: 'none',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    lineHeight: '24px',
+                    color: theme.palette.text.primary,
+                    '&.Mui-selected': {
+                      color: theme.palette.primary.main,
+                      backgroundColor: "rgba(139, 69, 19, 0.05)"
+                    }
+                  }}
+                  label={t("postMotorbike.listform.currentBooking")}
+                  {...a11yProps(0)}
+                />
+                <Tab sx={{
+                  textTransform: 'none',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  lineHeight: '24px',
+                  color: theme.palette.text.primary,
+                  '&.Mui-selected': {
+                    color: theme.palette.primary.main,
+                    backgroundColor: "rgba(139, 69, 19, 0.05)"
 
-            }}
-            rows={listRegisterMotorbike}
-            initialState={{
-              pagination: { paginationModel: { pageSize: 10 } },
-            }}
-            pageSizeOptions={[5, 10, 25]}
-            columns={columns}
-            loading={listRegisterMotorbike.length === 0}
-            disableRowSelectionOnClick
-            rowHeight={150}
-            pagination
-            onRowClick={(params) => {
-              openItemModal(params.row, params.row.imageUrl);
-            }}
-          />
-        </Box>
-      </Box>
+                  }
+                }} 
+                label={t("postMotorbike.listform.bookingInHistory")}
+                {...a11yProps(1)} />
+              </Tabs>
+            </Box>
+            <CustomTabPanel2 value={value2} index={0}>
+              <MyBookingItem isOwner isLoad={isLoad} index={0} bookings={
+                listBooing
+                  .filter(
+                    (item) =>
+                      item.status === 'PendingPayment' ||
+                      item.status === 'Paid' ||
+                      item.status === 'PendingDelivery' ||
+                      item.status === 'Delivered'
+                  )
+                  .sort((a, b) => {
+                    // Sort by status order
+                    const statusComparison = statusOrder[a.status] - statusOrder[b.status];
+
+                    // If statuses are different, use the status order
+                    if (statusComparison !== 0) {
+                      return statusComparison;
+                    }
+
+                    // If statuses are the same, sort by startDatetime
+                    return new Date(a.startDatetime).valueOf() - new Date(b.startDatetime).valueOf();
+                  })
+              } />
+            </CustomTabPanel2>
+            <CustomTabPanel2 value={value2} index={1}>
+              <MyBookingItem isOwner isLoad={isLoad} index={1} bookings={
+                listBooing
+                  .filter(
+                    (item) =>
+                      item.status === 'Cancelled' ||
+                      item.status === 'PendingReview' ||
+                      item.status === 'Finished'
+                  )
+                  .sort((a, b) => {
+
+                    // If statuses are the same, sort by startDatetime
+                    return new Date(a.updateDatetime).valueOf() - new Date(b.updateDatetime).valueOf();
+                  })
+              } />
+            </CustomTabPanel2>
+          </Paper>
+        </CustomTabPanel1>
+        <CustomTabPanel1 value={value1} index={1}>
+          {/* tất cả xe */}
+          <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignContent={"center"} >
+            <Box display={"flex"} flexDirection={"row"} width={"100%"} margin={"8px 0px 16px 0px"} justifyContent={"end"} alignContent={"center"}>
+              <Typography fontSize={"18px"} fontWeight={"400"}
+                margin={"auto 8px"}>{t("postMotorbike.listform.status")}</Typography>
+              <FormControl sx={{ minWidth: 120 }} size="small">
+                <Select
+                  labelId="demo-select-small-label"
+                  id="demo-select-small"
+                  value={selectedStatus}
+                  native
+                  displayEmpty
+                  onChange={handleChangeStatus}
+                >
+                  <option value={"All"}>
+                    <em>{t("postMotorbike.listform.all")}</em>
+                  </option>
+                  {setUniqueStatus.map((status) => (
+                    <option value={status.key}>
+                      {status.value}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          </Box>
+          <Box>
+            <Box sx={{ borderRadius: "8px" }}>
+              <DataGrid
+                sx={{
+                  cursor: "pointer",
+                  fontSize: "16px",
+                  borderRadius: "8px",
+                  '& .MuiDataGrid-columnHeaders': {
+                    backgroundColor: "#8B4513",
+                  },
+                  '& .MuiDataGrid-columnHeaderTitle ': {
+                    color: "#fff",
+                    fontWeight: "600",
+                    fontSize: "18px",
+                  },
+                  '& .MuiDataGrid-cell:focus-within': {
+                    outline: "none",
+                  },
+
+                }}
+                rows={listRegisterMotorbike}
+                initialState={{
+                  pagination: { paginationModel: { pageSize: 10 } },
+                }}
+                pageSizeOptions={[5, 10, 25]}
+                columns={columns}
+                loading={listRegisterMotorbike.length === 0}
+                disableRowSelectionOnClick
+                rowHeight={150}
+                pagination
+                onRowClick={(params) => {
+                  openItemModal(params.row, params.row.imageUrl);
+                }}
+              />
+            </Box>
+          </Box>
+        </CustomTabPanel1>
+      </Paper>
+
       <ItemMotorbikeModal isMobile={isMobile} isIpad={isIpad} isItemModalOpen={isItemMotorbikeModalOpen} closeItemModal={closeItemModal} imageList={modalImageList} motorbike={motorbike} />
     </Box>
   )
