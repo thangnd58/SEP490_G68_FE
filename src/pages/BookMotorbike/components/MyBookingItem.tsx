@@ -150,16 +150,7 @@ function MyBookingItem(props: MyBookingItemProps) {
             ) : (
                 bookings.length === 0 ? (
                     <Box display={"flex"} flexDirection={"column"} alignItems={"center"} justifyContent={"center"} width={"100%"} marginTop={2} gap={2}>
-                        <img src={NoDataImage} alt={"no-data"} width={"100%"} />
-                        <Typography
-                            variant='h1'
-                            color={theme.palette.text.primary}
-                            fontSize={"32px"}
-                            lineHeight={"60px"}
-                            fontWeight={"600"}
-                            sx={{ textAlign: 'center' }}>
-                            {t("postMotorbike.registedForm.noData")}
-                        </Typography>
+                        <img src={NoDataImage} alt={"no-data"} width={"400px"} height={"400px"} />
                     </Box>
                 ) : (
                     // map item

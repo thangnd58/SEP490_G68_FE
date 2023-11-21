@@ -71,7 +71,12 @@ export default function NavigationAdmin() {
     ];
 
     return (
-        <Box role="presentation">
+        <Box
+            className="hiddenSroll"
+            role="presentation" sx={{
+                maxHeight: "50vh",
+                overflowY: "auto",
+            }}>
             {/* <Box sx={{ display: 'flex', gap: '10px', my: 1, mx: 2 }}>
                     <ManagementIcon />
                     <Typography fontSize={18}>{t("dashBoardManager.Navigation.manager")}</Typography>

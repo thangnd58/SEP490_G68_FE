@@ -1,4 +1,4 @@
-import React, { memo, useState, useContext } from "react";
+import React, { memo, useState, useContext, useEffect } from "react";
 import {
     AppBar,
     Avatar,
@@ -57,7 +57,7 @@ import {
 } from "../../assets/images";
 import { ROUTES } from "../../utils/Constant";
 import MyIcon from "../../components/common/MyIcon";
-import { useAppSelector } from "../../hooks/useAction";
+import { useAppDispatch, useAppSelector } from "../../hooks/useAction";
 import MyCustomButton from "../../components/common/MyButton";
 import theme from "../../utils/theme";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -70,6 +70,7 @@ import { DetailNotification } from "./DetailNotificationModal";
 import store from "../../redux/store";
 import { getUserNotificationInfo } from "../../redux/reducers/notificationReducer";
 import styled from "@emotion/styled";
+import { getCartInfo } from "../../redux/reducers/cartReducer";
 
 const LanguageBox = memo(() => {
     const { isVn, changeLang } = usei18next();
@@ -141,6 +142,7 @@ const AnimatedBox = styled(Box) <AnimatedBoxProps>`
 function Header() {
     const { isLogin, logout } = useAuth();
     const { user } = useAppSelector((state) => state.userInfo);
+    const { shoppingCart } = useAppSelector((state) => state.shoppingCartInfo);
     const { isVn, t } = usei18next();
     const navigate = useNavigate();
     const { isMobile } = useThemePage();
@@ -148,6 +150,7 @@ function Header() {
     const [isAvatarClicked, setIsAvatarClicked] = useState(false);
     const { setContentModal, setShowModal } = useContext(ModalContext);
     const [isShowMore, setIsShowMore] = useState(false);
+    const dispatch = useAppDispatch();
     const toggleDrawer = () => {
         setDrawerOpen(!drawerOpen);
     };
@@ -155,6 +158,10 @@ function Header() {
     const { userNotification } = useAppSelector(
         (state) => state.userNotificationInfo
     );
+
+    useEffect(() => {
+        dispatch(getCartInfo());
+    }, []);
 
     //avatar zone
     const [anchorEl, setAnchorEl] = useState<any>(null);
@@ -316,7 +323,7 @@ function Header() {
                                                                     sx={{
                                                                         textAlign:
                                                                             "center",
-                                                                            borderRadius: "16px",
+                                                                        borderRadius: "16px",
                                                                     }}
                                                                     key={`NOTIFI${notifi.notificationId}`}
                                                                     onClick={() => {
@@ -370,20 +377,26 @@ function Header() {
                                             </Box>
                                         </Popover>
                                     </Box>
-
-                                    <MyIcon
-                                        icon={
-                                            <ShoppingCartCheckout
-                                                sx={{ color: "#777E90" }}
-                                                onClick={() =>
-                                                    navigate(ROUTES.cart)
-                                                }
-                                            />
-                                        }
-                                        hasTooltip
-                                        tooltipText={t("header.cart")}
-                                        position="bottom"
-                                    />
+                                    {
+                                        user?.role.roleName === "Customer" &&
+                                        <MyIcon
+                                            icon={
+                                                <ShoppingCartCheckout
+                                                    sx={{ color: "#777E90" }}
+                                                    onClick={() =>
+                                                        navigate(ROUTES.cart)
+                                                    }
+                                                />
+                                            }
+                                            hasBagde={
+                                                shoppingCart.length > 0
+                                            }
+                                            badgeContent={shoppingCart.length.toString()}
+                                            hasTooltip
+                                            tooltipText={t("header.cart")}
+                                            position="bottom"
+                                        />
+                                    }
                                 </>
                             ) : null}
 

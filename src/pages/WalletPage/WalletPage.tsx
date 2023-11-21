@@ -19,10 +19,11 @@ import { useDispatch } from 'react-redux';
 import { getUserInfo } from '../../redux/reducers/authReducer';
 import ModalStatus from './component/ModalStatus';
 import { SuccessIcon } from '../../assets/images';
-import { ArrowDropDown, ArrowDropUp, Info } from '@mui/icons-material';
+import { ArrowDropDown, ArrowDropUp, CheckCircle, Info } from '@mui/icons-material';
 import ModalWithdrawalMoney from './component/ModalWithdrawalMoney';
 import { PaymentService } from '../../services/PaymentService';
 import { ReportFormModal } from '../ReportComponent/ReportFormModal';
+import theme from '../../utils/theme';
 
 const DatePickerStyle = styled('div')(({ theme }) => ({
     '& .MuiTextField-root': {
@@ -95,12 +96,12 @@ const Wallet = () => {
             try {
                 WalletService.updateMoneyToDb(search).then((data) => {
                     dispatch(getUserInfo());
-                    setContentModal(<ModalStatus icon={SuccessIcon} title={t("wallet.title_status_deposite_success")} content={t("wallet.content_status_deposite_success")} handleConfirm={handleConfirmDeposit} />)
+                    setContentModal(<ModalStatus icon={<CheckCircle sx={{width:"128px",height:"128px",color:'primary.main'}}/>} title={t("wallet.title_status_deposite_success")} content={t("wallet.content_status_deposite_success")} handleConfirm={handleConfirmDeposit} />)
                     setShowModal(true)
                 })
                 PaymentService.processPaymentDb(search).then((data) => {
                     dispatch(getUserInfo());
-                    setContentModal(<ModalStatus icon={SuccessIcon} title={t("Thanh toán thành công")} content={"Bạn đã thanh toán đơn đặt xe thành công. Hệ thống sẽ xử lý yêu cầu đặt xe của bạn sớm nhất"} handleConfirm={handleConfirmDeposit} />)
+                    setContentModal(<ModalStatus icon={<CheckCircle  sx={{width:"128px",height:"128px",color:'primary.main'}}/>} title={t("Thanh toán thành công")} content={"Bạn đã thanh toán đơn đặt xe thành công. Hệ thống sẽ xử lý yêu cầu đặt xe của bạn sớm nhất"} handleConfirm={handleConfirmDeposit} />)
                     setShowModal(true)
                 })
             } catch (error) {

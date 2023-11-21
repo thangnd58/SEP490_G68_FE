@@ -21,6 +21,7 @@ import useThemePage from '../../../hooks/useThemePage';
 import MyCustomButton from '../../../components/common/MyButton';
 import { LoginModal } from '../../AccountPage/LoginModal';
 import { useAuth } from '../../../contexts/AuthContext';
+import { getCartInfo } from '../../../redux/reducers/cartReducer';
 
 export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean, startDate?: string, endDate?: string, searchedAddress?: string, isInCart?: boolean, isIntroduced?: boolean, deleteInCart?: () => void, isNotFavorite?: boolean }) {
     const { t } = usei18next();
@@ -88,6 +89,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
             const response = await BookingService.addCart(motorbikeId, startDatetime, endDatetime, address);
             if (response.status === 200) {
                 ToastComponent(t("toast.ShoppingCart.add.success"), "success");
+                dispatch(getCartInfo());
             } else {
                 ToastComponent(t("toast.ShoppingCart.add.warning"), "warning");
             }
