@@ -313,7 +313,8 @@ export interface Booking {
     createUserId: number;
     updateUserId: number;
     promotion: Promotion,
-    deposit: number
+    deposit: number,
+    user: User,
 }
 
 export interface Notification {

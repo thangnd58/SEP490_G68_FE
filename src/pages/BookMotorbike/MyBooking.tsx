@@ -57,11 +57,14 @@ export default function MyBooking() {
     }, []);
 
     const [listBooing, setListBooking] = useState<Booking[]>([]);
+    const [isLoad, setIsLoad] = useState<boolean>(false);
     const getData = async () => {
         try {
+            setIsLoad(true);
             const dataBooking = await BookingService.getListBookingCurrentUser();
             if (dataBooking) {
                 setListBooking(dataBooking);
+                setIsLoad(false);
             }
             else {
                 setListBooking([]);
@@ -69,7 +72,19 @@ export default function MyBooking() {
         } catch (error) {
             console.log(error);
         }
+        setIsLoad(false);
     }
+
+    type StatusOrder = {
+        [key: string]: number;
+    };
+
+    const statusOrder: StatusOrder = {
+        Delivered: 1,
+        PendingDelivery: 2,
+        Paid: 3,
+        PendingPayment: 4,
+    };
 
     return (
         <Box
@@ -122,10 +137,44 @@ export default function MyBooking() {
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
-                    <MyBookingItem index={0} bookings={listBooing} />
+                    <MyBookingItem isLoad={isLoad} index={0} bookings={
+                        listBooing
+                            .filter(
+                                (item) =>
+                                    item.status === 'PendingPayment' ||
+                                    item.status === 'Paid' ||
+                                    item.status === 'PendingDelivery' ||
+                                    item.status === 'Delivered'
+                            )
+                            .sort((a, b) => {
+                                // Sort by status order
+                                const statusComparison = statusOrder[a.status] - statusOrder[b.status];
+
+                                // If statuses are different, use the status order
+                                if (statusComparison !== 0) {
+                                    return statusComparison;
+                                }
+
+                                // If statuses are the same, sort by startDatetime
+                                return new Date(a.startDatetime).valueOf() - new Date(b.startDatetime).valueOf();
+                            })
+                    } />
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
-                    Item Two
+                    <MyBookingItem isLoad={isLoad} index={1} bookings={
+                        listBooing
+                            .filter(
+                                (item) =>
+                                    item.status === 'Cancelled' ||
+                                    item.status === 'PendingReview' ||
+                                    item.status === 'Finished'
+                            )
+                            .sort((a, b) => {
+
+                                // If statuses are the same, sort by startDatetime
+                                return new Date(a.updateDatetime).valueOf() - new Date(b.updateDatetime).valueOf();
+                            })
+                    } />
                 </CustomTabPanel>
             </Paper>
         </Box>

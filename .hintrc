@@ -30,6 +30,12 @@
           "img[loading]"
         ]
       }
+    ],
+    "axe/parsing": [
+      "default",
+      {
+        "duplicate-id-aria": "off"
+      }
     ]
   },
   "browserslist": [

@@ -48,6 +48,7 @@ import SearchingHotPlace from '../pages/HomePage/SearchingHotPlace';
 import PreviewBecomeAnOwner from '../pages/PostMotorbike/PreviewBecomeAnOwner';
 import ReportManagement from '../pages/DashBoardPage/ReportManagement/ReportManagement';
 import ReportManagementForm from '../pages/DashBoardPage/ReportManagement/ReportManagementForm';
+import { BookingDetailPageOwner } from '../pages/MotorbikePage/BookingDetailPageOwner';
 
 export type Route = {
     path: string;
@@ -74,13 +75,14 @@ export const routes: Route[] = [
     // User Page
     { path: ROUTES.user.userprofile, component: UserProfilePage, role: ["Admin", "Staff", "Customer"] },
     { path: ROUTES.user.registermotorbike, component: RegisterMotorbike, role: ["Customer"] },
-    { path: ROUTES.user.previewbecomeanowner, component: PreviewBecomeAnOwner, role: ["Guest","Customer"] },
+    { path: ROUTES.user.previewbecomeanowner, component: PreviewBecomeAnOwner},
     { path: ROUTES.user.listmotorbike, component: ListMotorbike, role: ["Customer"] },
     { path: ROUTES.user.shoppingCart, component: CartPage, role: ["Customer"] },
     { path: `${ROUTES.user.updateregistermotorbike}/:id`, component: UpdateRegisterMotorbike, role: ["Customer"] },
     { path: ROUTES.user.favourite, component: Favourite, role: ["Customer"] },
     { path: `${ROUTES.user.detailmotorbike}/:motorbikeId/:searchedAddress/:startDate/:endDate`, component: MotorbikeDetailPage },
     { path: `${ROUTES.booking.detail}/:bookingId`, component: BookingDetailPage, role: ["Customer"] },
+    { path: `${ROUTES.booking.detail_owner}/:bookingId`, component: BookingDetailPageOwner, role: ["Customer"] },
 
     // Auth Page
     { path: ROUTES.account.login, component: Login, layout: LayoutWithoutFooter },

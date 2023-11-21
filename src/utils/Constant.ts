@@ -29,6 +29,7 @@ export const ROUTES = {
     },
     booking: {
         detail: "booking-detail",
+        detail_owner: "booking-detail-owner",
         mybooking: "/my-booking", 
     },
 

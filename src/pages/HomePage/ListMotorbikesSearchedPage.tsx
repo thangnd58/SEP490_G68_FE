@@ -694,7 +694,7 @@ export default function ListMotorbikesSearchedPage() {
                                 <Box width={isMobile ? "100%" : "auto"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={isMobile ? 'space-between' : 'center'} sx={{ gap: '8px' }}>
                                     {!isMobile &&
                                         (
-                                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
+                                            <Typography color={theme.palette.text.primary} sx={{whiteSpace:"nowrap", fontSize: '14px', fontWeight: "400" }}>
                                                 Sắp xếp theo:
                                             </Typography>
                                         )

@@ -44,7 +44,7 @@ export default function DoYouWantToBeAOwner() {
                             fontWeight={600}
                             onClick={() =>
                                 navigate(
-                                    ROUTES.user.registermotorbike
+                                    ROUTES.user.previewbecomeanowner
                                 )
                             }
                             content={t("homepage.btn_registernow")}

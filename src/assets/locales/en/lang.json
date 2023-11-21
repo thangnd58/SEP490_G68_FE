@@ -445,7 +445,11 @@
       "description": "Description",
       "defaultPrice": "Default Price",
       "profit": "Profit",
-      "miscellaneous": "Miscellaneous"
+      "miscellaneous": "Miscellaneous",
+      "allmymotorbikes": "All your motorbikes",
+      "historyBooking" : "History booking",
+      "currentBooking" : "Current booking",
+      "bookingInHistory" : "Booking in history"
     },
     "registedForm": {
       "updateTitle": "Update Information",
