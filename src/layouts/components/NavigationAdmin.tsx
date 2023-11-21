@@ -19,6 +19,11 @@ export default function NavigationAdmin() {
 
     const RouterManage = [
         {
+            path: ROUTES.admin.dashboard,
+            name: t("dashBoardManager.Navigation.dashboard"),
+            icon: VerifiedUser,
+        },
+        {
             path: ROUTES.admin.managemotorbikes,
             name: t("dashBoardManager.Navigation.motorbikeRentalManager"),
             icon: VerifiedUser,

@@ -51,6 +51,7 @@ import ReportManagementForm from '../pages/DashBoardPage/ReportManagement/Report
 import { BookingDetailPageOwner } from '../pages/MotorbikePage/BookingDetailPageOwner';
 import UserManagement from '../pages/DashBoardPage/UserManagement/UserManagement';
 import UserManagementForm from '../pages/DashBoardPage/UserManagement/UserManagementForm';
+import { DashboardManagement } from '../pages/DashBoardPage/Index/DashboardManagement';
 
 export type Route = {
     path: string;
@@ -97,6 +98,7 @@ export const routes: Route[] = [
     { path: `${ROUTES.account.userverification}/:ticket`, component: VerifyReigsterStatus, layout: LayoutWithoutFooter },
 
     // Admin Page
+    { path: `${ROUTES.admin.dashboard}`, component: DashboardManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managemotorbikes}`, component: MotorbikeManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managerequestwithdraw}`, component: WithdrawalRequestManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managelicences}`, component: LicenceManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
