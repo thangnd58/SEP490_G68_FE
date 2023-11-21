@@ -49,6 +49,8 @@ import PreviewBecomeAnOwner from '../pages/PostMotorbike/PreviewBecomeAnOwner';
 import ReportManagement from '../pages/DashBoardPage/ReportManagement/ReportManagement';
 import ReportManagementForm from '../pages/DashBoardPage/ReportManagement/ReportManagementForm';
 import { BookingDetailPageOwner } from '../pages/MotorbikePage/BookingDetailPageOwner';
+import UserManagement from '../pages/DashBoardPage/UserManagement/UserManagement';
+import UserManagementForm from '../pages/DashBoardPage/UserManagement/UserManagementForm';
 
 export type Route = {
     path: string;
@@ -110,6 +112,8 @@ export const routes: Route[] = [
     { path: `${ROUTES.admin.managePromotion}/:id`, component: PromotionManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.manageReport}`, component: ReportManagement, layout: LayoutAdmin, role: ["Admin", "Staff"]},
     { path: `${ROUTES.admin.manageReport}/:id`, component: ReportManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"]},
+    { path: `${ROUTES.admin.managerUser}`, component: UserManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
+    { path: `${ROUTES.admin.managerUser}/:id`, component: UserManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"] },
 
     //Wallet Page
     { path: `${ROUTES.user.wallet}`, component: Wallet, role: ["Admin", "Staff", "Customer"] },

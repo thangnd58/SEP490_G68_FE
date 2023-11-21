@@ -237,7 +237,8 @@
     "BtnChange": "Thay đổi",
     "notYetVerify": "Chưa xác minh",
     "Verified": "Đã xác minh",
-    "AlertVerify": "Hãy xác minh số điện thoại của bạn"
+    "AlertVerify": "Hãy xác minh số điện thoại của bạn",
+    "Role" : "Vai trò"
   },
   "ChangePhone": {
     "Title": "Thay đổi số điện thoại",
@@ -265,7 +266,7 @@
   "licenseInfo": {
     "Title": "Giấy phép lái xe",
     "NumberLicense": "Số GPLX",
-    "Name": "Họ Tên",
+    "Name": "Họ và Tên",
     "Date": "Ngày hết hạn",
     "BtnEdit": "Chỉnh sửa",
     "BtnCancel": "Hủy",
@@ -289,7 +290,8 @@
       "news": "Quản lý tin tức",
       "promotions": "Quản lý khuyến mãi",
       "model": "Quản lý mẫu xe",
-      "report": "Quản lý báo cáo"
+      "report": "Quản lý báo cáo",
+      "user" : "Quản lý tài khoản"
     },
     "License": "Bằng lái xe",
     "Motobike": {
@@ -403,6 +405,10 @@
       "TitleChange": "Chỉnh sửa  mẫu xe",
       "TitleAdd": "Thêm mới  mẫu xe",
       "Title": "Mẫu xe"
+    },
+    "user":{
+      "confirmDelete": "Xác nhận xóa tài khoản",
+      "titleConfirmDelete": "Bạn có muốn xóa tài khoản : "
     }
   },
   "component": {
