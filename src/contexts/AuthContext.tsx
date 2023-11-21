@@ -50,8 +50,8 @@ const AuthProvider = (props: { children: JSX.Element }) => {
                 if (!isModal || isModal === undefined) {
                     if (response.data.userInfo.role.roleName === "Customer") {
                         navigate(ROUTES.homepage);
-                    } else if (response.data.userInfo.role.roleName === "Admin") {
-                        navigate(ROUTES.admin.managemotorbikes);
+                    } else if (response.data.userInfo.role.roleName === "Admin" || response.data.userInfo.role.roleName === "Staff") {
+                        navigate(ROUTES.admin.dashboard);
                     } else {
                         navigate(ROUTES.other.pagenotfound);
                     }
@@ -81,8 +81,8 @@ const AuthProvider = (props: { children: JSX.Element }) => {
                 if (!isModal || isModal === undefined) {
                     if (response.data.userInfo.role.roleName === "Customer") {
                         navigate(ROUTES.homepage);
-                    } else if (response.data.userInfo.role.roleName === "Admin") {
-                        navigate(ROUTES.admin.managemotorbikes);
+                    } else if (response.data.userInfo.role.roleName === "Admin" || response.data.userInfo.role.roleName === "Staff") {
+                        navigate(ROUTES.admin.dashboard);
                     } else {
                         navigate(ROUTES.other.pagenotfound);
                     }

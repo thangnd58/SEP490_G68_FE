@@ -105,7 +105,7 @@ export const DashboardManagement = () => {
     };
 
     return (
-        <Box >
+        <Box height={"600px"}>
             <Box sx={{ backgroundColor: "#8B4513" }}>
                 <Typography color={theme.palette.common.white} variant="h1" fontSize={24} fontWeight={700} pb={2}>
                     {t("dashBoardManager.Navigation.dashboard")}

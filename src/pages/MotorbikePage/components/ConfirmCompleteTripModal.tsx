@@ -12,6 +12,7 @@ import { RequireWhenRent } from "./RequireWhenRent";
 import usei18next from "../../../hooks/usei18next";
 import { useContext } from "react";
 import { ModalContext } from "../../../contexts/ModalContext";
+import { BookingService } from "../../../services/BookingService";
 
 interface BookingValue {
     address: string | undefined;
@@ -24,10 +25,21 @@ interface BookingValue {
     couponCode: string;
 }
 
-export const ConfirmCompleteTripModal = (props: { booking: Booking, isMobile: boolean  }) => {
-    const {  isMobile, booking } = props
+export const ConfirmCompleteTripModal = (props: { booking: Booking, isMobile: boolean, setReloadBooking: React.Dispatch<React.SetStateAction<boolean>> }) => {
+    const { isMobile, booking, setReloadBooking } = props
     const { t } = usei18next()
-    const {closeModal} = useContext(ModalContext)
+    const { closeModal } = useContext(ModalContext)
+
+    const changeStatusBookingDetail = async (status: string) => {
+        try {
+            const motorbikeIdString = booking?.motorbikes?.map((motorbike) => motorbike.id).join(",");
+            await BookingService.updateStatusBookingDetail(booking!.bookingId, motorbikeIdString, status);
+            closeModal();
+            setReloadBooking(true);
+        } catch (error) {
+            console.log(error);
+        }
+    };
     return (
         <Modal
             open={closeModal}
@@ -54,7 +66,7 @@ export const ConfirmCompleteTripModal = (props: { booking: Booking, isMobile: bo
             >
                 <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
                     <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? 20 : 24} fontWeight={700} textAlign={"start"}>
-                        {t("booking.confirmCompleteTrip")}
+                        { booking.status === "Finished" ? t("booking.detailBooking") : t("booking.confirmCompleteTrip")}
                     </Typography>
                     <Box display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
                         <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeModal} position='bottom' />
@@ -63,7 +75,7 @@ export const ConfirmCompleteTripModal = (props: { booking: Booking, isMobile: bo
                 <Divider sx={{ width: "100%", margin: "16px 0px" }} variant="middle" />
                 <Box className="hiddenSroll" width={"100%"} sx={{ overflowY: 'auto', overflowX: 'hidden' }} height={"80%"} display={"flex"} flexDirection={"column"} gap={'16px'} justifyContent={"start"}>
                     <Typography fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>Thời gian thuê xe</Typography>
-                    <Box display={'flex'} gap={isMobile ? '16px' :'32px'} justifyContent={isMobile ? 'space-between' : 'start'} flexDirection={isMobile ? 'column' : 'row'}>
+                    <Box display={'flex'} gap={isMobile ? '16px' : '32px'} justifyContent={isMobile ? 'space-between' : 'start'} flexDirection={isMobile ? 'column' : 'row'}>
                         <Box display={'flex'} gap={'16px'}>
                             <img src={CalendarImage} alt="calendar" width={isMobile ? 20 : 24} height={isMobile ? 20 : 24} />
                             <Box display={'flex'} flexDirection={'column'} gap={'4px'} justifyContent={"start"}>
@@ -132,11 +144,11 @@ export const ConfirmCompleteTripModal = (props: { booking: Booking, isMobile: bo
                         booking && booking.motorbikes.length > 0 &&
                         booking.motorbikes.map((motor, index) => {
                             return (
-                                <MotorbikeBookingCard key={`${index}_motor`} motorbike={motor} isMobile={isMobile} canFeedback={true}  bookingId={booking.bookingId}/>
+                                <MotorbikeBookingCard key={`${index}_motor`} motorbike={motor} isMobile={isMobile} canFeedback={true} onlyView={booking.status==="Finished"} bookingId={booking.bookingId} />
                             )
                         })
                     }
-                        <Divider sx={{ width: "100%" }} variant="fullWidth" />
+                    <Divider sx={{ width: "100%" }} variant="fullWidth" />
                     <RequireWhenRent />
                     <Divider sx={{ width: "100%" }} variant="fullWidth" />
                     <Typography fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>{t("booking.totalPriceRent")}</Typography>
@@ -212,16 +224,16 @@ export const ConfirmCompleteTripModal = (props: { booking: Booking, isMobile: bo
                         </Typography>
                     </Box>
 
-                    {/* <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', gap: '16px', marginTop: '16px' }}>
-                        <MyCustomButton
-                            width='50%' onClick={closeModal} content={t("booking.cancelBook")} variant='outlined' />
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', gap: '16px', marginTop: '16px' }}>
 
-                        <MyCustomButton disabled={isProcessingBooking}
-                            width='50%' onClick={() => {
-                                handleSubmit()
-                                setModalConfirmBookingOpen(false)
-                            }} content={t("booking.bookMotorbikeButton")} variant='contained' />
-                    </Box> */}
+                        {
+                            booking.status === "Finished" ? null :
+                                <MyCustomButton
+                                    width='50%' onClick={() => {
+                                        changeStatusBookingDetail("Finished")
+                                    }} content={t("booking.confirmCompleteTrip")} variant='contained' />
+                        }
+                    </Box>
                 </Box>
             </Box>
         </Modal>

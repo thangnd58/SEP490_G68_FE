@@ -52,7 +52,7 @@ const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, classNa
           backgroundColor: backgroundColorCheckedValue,
           opacity: 1,
           boxShadow: "0 0 16px rgba(0, 0, 0, 0.25)", // Bóng xung quanh cả 4 phía
-          transform: "scale(1.05)", // Hiệu ứng scale (phóng to) khi hover
+          transform: "scale(1.0005)", // Hiệu ứng scale (phóng to) khi hover
           transition: "transform 0.1s ease-in-out",          // Các hiệu ứng khác tùy theo yêu cầu
         },
       }}

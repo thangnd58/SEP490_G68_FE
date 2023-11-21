@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react"
 import { Booking, BookingResponse } from "../../utils/type"
 import { useNavigate, useParams } from "react-router-dom";
 import { BookingService } from "../../services/BookingService";
-import { Box, Divider, FormControlLabel, IconButton, Radio, RadioGroup, Step, StepLabel, Stepper, styled, TextField, Tooltip, Typography } from "@mui/material";
+import { Box, CircularProgress, Divider, FormControlLabel, IconButton, Radio, RadioGroup, Step, StepLabel, Stepper, styled, TextField, Tooltip, Typography } from "@mui/material";
 import { ArrowRightIcon } from "@mui/x-date-pickers";
 import useThemePage from "../../hooks/useThemePage";
 import { CalendarImage, ClockImage, MotorbikeImage, MyWallet, VNPay } from "../../assets/images";
@@ -22,7 +22,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/useAction";
 import ToastComponent from "../../components/toast/ToastComponent";
 import { getUserInfo } from "../../redux/reducers/authReducer";
 import MyIcon from "../../components/common/MyIcon";
-import { ArrowBack, CloseOutlined, Verified } from "@mui/icons-material";
+import { ArrowBack, CheckCircle, CloseOutlined, Verified } from "@mui/icons-material";
 import { ConfirmCompleteTripModal } from "./components/ConfirmCompleteTripModal";
 
 export const BookingDetailPageOwner = () => {
@@ -39,6 +39,7 @@ export const BookingDetailPageOwner = () => {
     ];
     const [paymentType, setPaymentType] = useState<string>(BookingPaymentType.Card)
     const { user } = useAppSelector((state) => state.userInfo);
+    const { reloadStatus } = useAppSelector((state) => state.bookingInfo);
     const dispatch = useAppDispatch();
     const [reloadBooking, setReloadBooking] = useState<boolean>(false)
     const [endDate, setEndDate] = useState<string>("");
@@ -46,16 +47,18 @@ export const BookingDetailPageOwner = () => {
 
     useEffect(() => {
         try {
-            BookingService.getBookingById(bookingId || "").then((data) => {
+            BookingService.getRentalBookingDetail(bookingId || "").then((data) => {
                 if (data) {
                     if (data.status === BookingStatus.Cancelled) {
                         navigate(ROUTES.other.pagenotfound)
                     } else if (data.status === BookingStatus.PendingPayment) {
                         setActiveStep(0)
-                    } else if (data.status === BookingStatus.Paid || data.status === BookingStatus.PendingDelivery || data.status === BookingStatus.Delivered) {
+                    } else if (data.status === BookingStatus.Paid || data.status === BookingStatus.PendingDelivery) {
                         setActiveStep(1)
-                    } else if (data.status === BookingStatus.Finished) {
+                    } else if (data.status === BookingStatus.Delivered) {
                         setActiveStep(2)
+                    } else if (data.status === BookingStatus.Finished || data.status === BookingStatus.PendingReview) {
+                        setActiveStep(3)
                     } else {
                         navigate(ROUTES.other.pagenotfound)
                     }
@@ -66,25 +69,53 @@ export const BookingDetailPageOwner = () => {
         } catch (error) {
             navigate(ROUTES.other.pagenotfound)
         }
-    }, [bookingId, reloadBooking])
+    }, [bookingId, reloadBooking, reloadStatus])
 
-    const handleProcessPayment = async (booking: Booking) => {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isMovingMotorbike, setIsMovingMotorbike] = useState<boolean>(booking?.status === "Delivered");
+
+    useEffect(() => {
+        setIsMovingMotorbike(booking?.status === "Delivered");
+    }, [booking?.status]);
+
+    const changeStatusBookingDetail = async (status: string) => {
         try {
-            if (paymentType === BookingPaymentType.UserBalance) {
-                await PaymentService.paymentWithWallet(booking.bookingId, booking.deposit * 1000)
-                ToastComponent(t("booking.toast.paymentBookSuccess"), "success")
-                setReloadBooking(!reloadBooking)
-                dispatch(getUserInfo())
-            } else {
-                const res: any = await PaymentService.createRequestBooking(booking.bookingId, booking.deposit * 1000);
-                if (res) {
-                    window.location.replace(res.data);
-                }
+            if (status === "Delivered") {
+                setIsMovingMotorbike(true);
             }
-        } catch (error) {
+            if (status === "PendingReview") {
+                setIsMovingMotorbike(false);
+            }
 
+            const startTime = new Date().getTime();
+            setIsLoading(true);
+
+            const motorbikeIdString = booking?.motorbikes?.map((motorbike) => motorbike.id).join(",");
+
+            await BookingService.updateStatusBookingDetail(booking!.bookingId, motorbikeIdString, status);
+
+            const endTime = new Date().getTime();
+            const elapsedTime = endTime - startTime;
+
+            const minimumWaitTime = 1000;
+            const remainingWaitTime = minimumWaitTime - elapsedTime;
+
+            if (remainingWaitTime > 0) {
+                setTimeout(() => {
+                    setIsLoading(false);
+                    setReloadBooking(!reloadBooking);
+                }, remainingWaitTime);
+            } else {
+                setIsLoading(false);
+                setReloadBooking(!reloadBooking);
+            }
+
+
+        } catch (error) {
+            console.log(error);
+            setIsLoading(false);
         }
-    }
+    };
 
     const [position, setPosition] = useState(0);
     const navigate = useNavigate();
@@ -107,7 +138,7 @@ export const BookingDetailPageOwner = () => {
     }, [endDate]);
 
     useEffect(() => {
-        if (activeStep === 1) {
+        if (booking?.status === "Delivered") {
             const moveMotorcycle = () => {
                 setPosition((prevPosition) => prevPosition + 5);
             };
@@ -166,6 +197,7 @@ export const BookingDetailPageOwner = () => {
         libraries: ["places"],
     });
 
+
     return (
         <>
             {
@@ -218,14 +250,11 @@ export const BookingDetailPageOwner = () => {
                             </Step>
                         ))}
                     </Stepper>
-                    <Box>
-                        {booking.status}
-                    </Box>
-                    <Box className="hiddenSroll" width={isMobile ? "90%" : "65%"} sx={{ overflowY: 'auto', overflowX: 'hidden' }} height={"80%"} display={"flex"} flexDirection={"column"} gap={'8px'} justifyContent={"start"} padding={"0px 8px"}>
-                        <Box display={'flex'} gap={'16px'} flexDirection={isMobile ? 'column' : 'row'} marginTop={'16px'}>
+                    <Box className="hiddenSroll" width={isMobile ? "90%" : "65%"} sx={{ overflowY: 'auto', overflowX: 'hidden' }} height={"80%"} display={"flex"} flexDirection={"column"} gap={'32px'} justifyContent={"start"} padding={"0px 8px"}>
+                        <Box display={'flex'} gap={'32px'} flexDirection={isMobile ? 'column' : 'row'} marginTop={'16px'}>
                             <Box display={"flex"} flexDirection={"column"} gap={'8px'} width={isMobile ? '100%' : '50%'}>
                                 <Box sx={{ background: 'rgba(139, 69, 19, 0.10)', borderRadius: '8px', padding: '32px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                    <Typography fontWeight={600} fontSize={"16px"} color={'common.black'}>{activeStep === 0 ? t("booking.timeRemainingPay") : activeStep === 1 ? t("booking.startUsingService") : activeStep === 2 ? t("booking.endUsingService") : ""}</Typography>
+                                    <Typography fontWeight={600} fontSize={"16px"} color={'common.black'}>{activeStep === 0 ? t("booking.timeRemainingPay") : booking.status === "PendingDelivery" ? t("booking.startUsingService") : booking.status === "Delivered" ? t("booking.startedUsingService") : ""}</Typography>
                                     <Box
                                         display={'flex'}
                                         gap={'8px'}
@@ -240,22 +269,34 @@ export const BookingDetailPageOwner = () => {
                                             </Box>
                                         ) : (
                                             <Box display={'flex'} flexDirection={'column'} alignItems={'center'} gap={'8px'}>
-                                                <img src={MotorbikeImage} width={128} height={128} className="motorcycle-image"
-                                                    style={{
-                                                        transform: activeStep === 1 && booking.status === "Delivered" ? `translateX(-50%) translateX(${position}px)` : '',
-                                                        transition: 'transform 0.2s ease-in-out'
-                                                    }}
-                                                />
+                                                {
+                                                    (booking.status === "PendingDelivery" || booking.status === "Delivered") &&
+                                                    <img src={MotorbikeImage} width={128} height={128} className="motorcycle-image"
+                                                        style={{
+                                                            transform: isMovingMotorbike ? `translateX(-50%) translateX(${position}px)` : '',
+                                                            transition: isMovingMotorbike ? 'transform 0.2s ease-in-out' : '',
+                                                        }}
+                                                    />
+                                                }
+                                                {
+                                                    (booking.status === "PendingReview" || booking.status === "Finished") &&
+                                                    <Box display={'flex'} flexDirection={'row'} alignItems={'center'} gap={'8px'}>
+                                                        <CheckCircle sx={{ color: theme.palette.primary.main, width: "56px", height: "56px" }} />
+                                                        <Typography color={'common.black'}>Chuyến đi đã kết thúc</Typography>
+                                                    </Box>
+                                                }
                                                 <>
                                                     {
-                                                        activeStep === 1 && booking.status === "PendingDelivery" &&
+                                                        !isLoading &&
+                                                        booking.status === "PendingDelivery" &&
                                                         <MyCustomButton
-                                                            width='100%' onClick={() => setContentModal(<ConfirmCompleteTripModal booking={booking} isMobile={isMobile} />)} content={t("booking.confirmDeliveryMotorbike")} variant='contained' />
-                                                    }
-                                                    {
-                                                        activeStep === 1 && booking.status === "Delivered" &&
-                                                        <MyCustomButton
-                                                            width='100%' onClick={() => setContentModal(<ConfirmCompleteTripModal booking={booking} isMobile={isMobile} />)} content={t("booking.returnMotorbikeAndEndTrip")} variant='contained' />
+                                                            width='100%' onClick={
+                                                                () =>
+                                                                    changeStatusBookingDetail("Delivered")
+                                                            }
+                                                            content={t("booking.confirmDeliveryMotorbike")}
+                                                            variant='contained'
+                                                        />
                                                     }
                                                 </>
                                             </Box>
@@ -263,9 +304,15 @@ export const BookingDetailPageOwner = () => {
 
                                     </Box>
                                     {
-                                        activeStep === 2 &&
-                                        <MyCustomButton
-                                            width='100%' onClick={() => setContentModal(<ConfirmCompleteTripModal booking={booking} isMobile={isMobile} />)} content={t("booking.returnMotorbikeAndEndTrip")} variant='contained' />
+                                        isLoading ? (
+                                            <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                                                <CircularProgress />
+                                            </Box>
+                                        ) : (
+                                            activeStep === 2 &&
+                                            <MyCustomButton
+                                                width='100%' onClick={() => changeStatusBookingDetail("PendingReview")} content={t("booking.returnMotorbikeAndEndTrip")} variant='contained' />
+                                        )
                                     }
                                 </Box>
                                 <Typography mt={'8px'} fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>{t("booking.timeRent")}</Typography>
@@ -359,15 +406,6 @@ export const BookingDetailPageOwner = () => {
                                             {formatMoneyNew(booking?.totalAmountTemp)} x {booking?.rentalDays} {t("booking.perDay")}
                                         </Typography>
                                     </Box>
-                                    {/* Phí dịch vụ */}
-                                    <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                                            {t("booking.totalPriceService")}
-                                        </Typography>
-                                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                                            {formatMoneyNew(booking?.feeOfService)}
-                                        </Typography>
-                                    </Box>
                                     {/* Mã khuyến mãi */}
                                     {
                                         booking?.promotion &&
@@ -404,7 +442,7 @@ export const BookingDetailPageOwner = () => {
                                         >
                                             {t("booking.depositMoney")}
                                         </Typography>
-                                        {booking.status !== BookingStatus.PendingPayment && <Tooltip title={t("booking.toolTipPaid")}><Verified /></Tooltip>}
+                                        {booking.status !== BookingStatus.PendingPayment && <Tooltip title={t("booking.toolTipPaid")}><Verified sx={{ cursor: 'pointer', width: '16px', height: '16px' }} /></Tooltip>}
                                     </Box>
                                     <Typography color={theme.palette.text.primary} sx={{
                                         fontSize: '16px', fontWeight: "600", textDecoration: booking.status !== BookingStatus.PendingPayment ? 'line-through' : 'none',
@@ -415,10 +453,14 @@ export const BookingDetailPageOwner = () => {
 
                                 {/* Thanh toán khi nhận xe */}
                                 <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
-                                        {t("booking.remainingAmount")}
-                                    </Typography>
-                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                                    <Box display={'flex'} flexDirection={'row'} alignItems={'center'} gap={'2px'}>
+                                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                                            {t("booking.remainingAmount")}
+                                        </Typography>
+                                        {booking.status !== BookingStatus.PendingPayment && booking.status !== BookingStatus.PendingDelivery && <Tooltip title={t("booking.toolTipPaid")}><Verified sx={{ cursor: 'pointer', width: '16px', height: '16px' }} /></Tooltip>}
+                                    </Box>
+
+                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", textDecoration: booking.status !== BookingStatus.PendingPayment && booking.status !== BookingStatus.PendingDelivery ? 'line-through' : 'none', }}>
                                         {formatMoneyNew(booking?.totalAmount - booking?.deposit)}
                                     </Typography>
                                 </Box>
@@ -427,29 +469,47 @@ export const BookingDetailPageOwner = () => {
                                 {
                                     activeStep === 0 &&
                                     <Box sx={{ backgroundColor: isMobile ? 'none' : '#FFFFFF', borderRadius: '8px', padding: '8px 16px' }}>
-                                        <Typography fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'} marginBottom={'8px'}>{t("booking.paymentType")}</Typography>
-                                        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', gap: '16px', my: '8px' }}>
+                                        <Typography fontSize={isMobile ? 14 : 16} fontWeight={'700'} color={'common.black'} marginBottom={'8px'}>{t("booking.paymentType")}</Typography>
+                                        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-around', gap: '16px', my: '8px' }}>
                                             {/* note, khách thuê chưa tiến hành thanh toán */}
-                                            <Typography fontSize={isMobile ? 14 : 16} fontWeight={'400'}
+                                            <Typography fontSize={isMobile ? 12 : 14} fontWeight={'400'}
                                                 color={"#FF0000"}
                                                 fontStyle={'italic'}
+                                                textAlign={'start'}
                                             >
                                                 *Khách thuê chưa tiến hành thanh toán
                                             </Typography>
                                         </Box>
                                     </Box>
                                 }
+                                {activeStep !== 0 &&
+                                    <Box sx={{ backgroundColor: isMobile ? 'none' : '#FFFFFF', borderRadius: '8px', padding: '8px 16px' }}>
+                                        <Typography fontSize={isMobile ? 14 : 16} fontWeight={'700'} color={'common.black'} marginBottom={'8px'}>{t("booking.paymentType")}</Typography>
+                                        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', gap: '16px', my: '8px' }}>
+                                            {booking?.paymentType === BookingPaymentType.Card ?
+                                                (
+                                                    <Box width={'90%'}
+                                                        display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }} border={'2px solid #8b4513'} borderRadius={'8px'} padding={'8px'}>
+                                                        <img alt="my-wallet" src={VNPay} height={24} />
+                                                        {
+                                                            t("booking.payVnPay")
+                                                        }
+                                                    </Box>
+                                                ) : (
+                                                    <Box width={'90%'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }} border={'2px solid #8b4513'} borderRadius={'8px'} padding={'8px'}>
+                                                        <img alt="my-wallet" src={MyWallet} width={24} height={24} />
+                                                        {
+                                                            `${t("booking.payWallet")}`
+                                                        }
+                                                    </Box>
+                                                )
+                                            }
+                                        </Box>
+                                    </Box>
+                                }
                                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', gap: '16px', my: '16px' }}>
                                     {
-                                        activeStep === 0 &&
-                                        <MyCustomButton disabled={false}
-                                            width='100%' onClick={() => {
-                                                setContentModal(<MyDialog title={t("booking.paymentBooking")} content={t("booking.confirmPaymentBooking")} hasAgreeButton={true} hasCancelButton={true} onClickAgree={() => handleProcessPayment(booking!)} />)
-
-                                            }} content={t("booking.bookMotorbikeButton")} variant='contained' />
-                                    }
-                                    {
-                                        activeStep !== 2 &&
+                                        activeStep !== 2 && activeStep !== 3 &&
                                         <MyCustomButton
                                             width='100%' onClick={() => showModalCancelBooking(booking?.bookingId || 0)} content={t("booking.cancelBook")} variant='outlined' />
                                     }

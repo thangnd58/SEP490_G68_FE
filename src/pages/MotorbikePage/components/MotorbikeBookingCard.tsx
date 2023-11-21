@@ -1,8 +1,8 @@
-import { Avatar, Box, Chip, Collapse, Divider, Tooltip, Typography, Rating, TextField } from "@mui/material"
+import { Avatar, Box, Chip, Collapse, Divider, Tooltip, Typography, Rating, TextField, InputAdornment, IconButton } from "@mui/material"
 import { FeedbackRequest, Motorbike } from "../../../utils/type"
 import usei18next from "../../../hooks/usei18next"
 import theme from "../../../utils/theme";
-import { ArrowDownward, ArrowUpward, BusinessCenterOutlined, Info, StarPurple500Outlined } from "@mui/icons-material";
+import { ArrowDownward, ArrowUpward, BusinessCenterOutlined, Info, ModeEdit, SendOutlined, SendRounded, StarPurple500Outlined } from "@mui/icons-material";
 import { LicencePlateImage, LocationImage, PriceImage } from "../../../assets/images";
 import { formatMoneyNew } from "../../../utils/helper";
 import { useState, useContext } from "react";
@@ -16,15 +16,15 @@ import { ModalContext } from "../../../contexts/ModalContext";
 import { ReportFormModal } from "../../ReportComponent/ReportFormModal";
 
 
-export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: boolean, canFeedback?: boolean, bookingId?: number }) => {
+export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: boolean, canFeedback?: boolean, bookingId?: number, onlyView?: boolean }) => {
     const { t } = usei18next();
     const [expanded, setExpanded] = useState(true);
     const [value, setValue] = useState<number>(5);
-    const [isEdit, setIsEdit] = useState<boolean>(false);
-    const {setContentModal} = useContext(ModalContext)
+    const [isEdit, setIsEdit] = useState<boolean>(props.onlyView ? false : true);
+    const { setContentModal } = useContext(ModalContext)
     const formik = useFormik({
         initialValues: {
-            comment: "",
+            comment: "Xe chạy rất êm và tiết kiệm nhiên liệu",
         },
         validationSchema: Yup.object({
             comment: Yup.string().required(t("form.required")),
@@ -34,7 +34,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
             try {
                 const feedbackReq: FeedbackRequest = {
                     bookingId: props?.bookingId || 0,
-                    motorbikeId: props.motorbike?.motorbikeId || 0,
+                    motorbikeId: props.motorbike?.id || 0,
                     rating: value,
                     comment: values.comment
                 }
@@ -146,7 +146,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                         fontSize="20px"
                                         color={theme.palette.text.primary}
                                     >
-                                        {props.motorbike.model.modelName || props.motorbike.model} 
+                                        {props.motorbike.model.modelName || props.motorbike.model}
                                     </Typography>
                                     <Tooltip title={t("booking.toolTipReport")}>
                                         <Info sx={{
@@ -154,7 +154,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                             color: '#8B4513',
                                             '&:hover': {
                                                 transform: "scale(1.1)",
-                                                transition: "transform 0.1s ease-in-out",          
+                                                transition: "transform 0.1s ease-in-out",
                                             },
                                         }} onClick={() => setContentModal(<ReportFormModal />)} />
                                     </Tooltip>
@@ -220,31 +220,43 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                         props.canFeedback === true &&
                         <Box
                             border={'1px solid #e0e0e0'}
-                            padding={'8px'}
+                            padding={'8px 16px'}
+                            margin={'0px 16px'}
                             justifyContent={'space-between'}
                             borderRadius={'8px'}
                             display={'flex'}
                             flexDirection={'column'}
                             gap={'8px'}
                         >
-                            <Box display={'flex'} flexDirection={'column'} gap={'8px'} alignItems={'start'}>
-                                <Typography
-                                    fontWeight="bold"
-                                    fontSize="20px"
-                                    color={theme.palette.text.primary}
-                                >{t("booking.rating")}:</Typography>
-                                <Rating
-                                    name="simple-controlled"
-                                    value={value}
-                                    disabled={!isEdit}
-                                    onChange={(event, newValue) => {
-                                        setValue(newValue!);
-                                    }}
-                                />
+                            <Box width={"100%"} display={'flex'} flexDirection={'row'} gap={'8px'} justifyContent={'space-between'}>
+                                <Box display={'flex'} flexDirection={'row'} gap={'8px'} alignItems={'start'}>
+                                    <Typography
+                                        fontWeight="600"
+                                        fontSize="20px"
+                                        color={theme.palette.text.primary}
+                                    >{t("booking.rating")}:</Typography>
+                                    <Rating
+                                        size="large"
+                                        name="simple-controlled"
+                                        value={value}
+                                        disabled={!isEdit}
+                                        onChange={(event, newValue) => {
+                                            setValue(newValue!);
+                                        }}
+                                    />
+                                </Box>
+                                {
+                                    props.onlyView ? null :
+                                    !isEdit &&
+                                    <IconButton
+                                        onClick={() => { setIsEdit(true) }}>
+                                        <ModeEdit sx={{ color: "common.black" }} />
+                                    </IconButton>
+                                }
                             </Box>
                             <Box display={'flex'} flexDirection={'column'} gap={'8px'} alignItems={'start'}>
                                 <Typography
-                                    fontWeight="bold"
+                                    fontWeight="600"
                                     fontSize="20px"
                                     color={theme.palette.text.primary}
                                 >{t("booking.comment")}:</Typography>
@@ -252,7 +264,6 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                     fullWidth
                                     name="comment"
                                     value={values.comment}
-                                    disabled={!isEdit}
                                     onChange={handleChange}
                                     sx={{
                                         '& .MuiOutlinedInput-root': {
@@ -268,18 +279,25 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                             },
                                         },
                                     }}
+                                    inputProps={{
+                                        readOnly: !isEdit,
+                                    }}
+                                    InputProps={{
+                                        endAdornment: (
+                                             isEdit ?
+                                                <IconButton onClick={() => {
+                                                    setIsEdit(false)
+                                                    handleSubmit()
+                                                }}>
+                                                    <SendRounded sx={{ color: "common.black", transform: "rotate(-30deg)" }} />
+                                                </IconButton> : null
+                                        ),
+                                    }}
                                 />
                                 {errors.comment && touched.comment && (
                                     <ErrorMessage message={errors.comment} />
                                 )}
                             </Box>
-                            {
-                                isEdit ? <MyCustomButton width={props.isMobile ? '50%' : '20%'} onClick={() => {
-                                    setIsEdit(false)
-                                    handleSubmit()
-                                }} variant="contained" content={t("licenseInfo.BtnSave")} />
-                                    : <MyCustomButton width={props.isMobile ? '50%' : '20%'} onClick={() => setIsEdit(true)} variant="outlined" content={t("licenseInfo.BtnEdit")} />
-                            }
                         </Box>
                     }
                 </Box>

@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import { getUserInfo } from "../../../redux/reducers/authReducer";
 import { useAppSelector } from "../../../hooks/useAction";
 import useThemePage from "../../../hooks/useThemePage";
+import { SettingsOutlined } from "@mui/icons-material";
 
 interface MyDialogProps {
     title: string;
@@ -48,7 +49,7 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
     }, []);
 
     const showModalStatus = () => {
-        setContentModal(<ModalStatus icon={SettingIcon} title={t("wallet.title_create_request_withdrawal")} content={t("wallet.content_create_request_withdrawal")} handleConfirm={() => {
+        setContentModal(<ModalStatus icon={<SettingsOutlined sx={{width:"128px",height:"128px",color:'primary.main'}}/>} title={t("wallet.title_create_request_withdrawal")} content={t("wallet.content_create_request_withdrawal")} handleConfirm={() => {
             dispatch(getUserInfo());
             closeModal();
         }} />)
