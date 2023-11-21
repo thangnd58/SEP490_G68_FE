@@ -46,6 +46,8 @@ import ModelManagementForm from '../pages/DashBoardPage/ModelManagement/ModelMan
 import { PromotionPage } from '../pages/PromotionPage/PromotionPage';
 import SearchingHotProvince from '../pages/HomePage/SearchingHotProvince';
 import SearchingHotPlace from '../pages/HomePage/SearchingHotPlace';
+import ReportManagement from '../pages/DashBoardPage/ReportManagement/ReportManagement';
+import ReportManagementForm from '../pages/DashBoardPage/ReportManagement/ReportManagementForm';
 
 export type Route = {
     path: string;
@@ -104,6 +106,8 @@ export const routes: Route[] = [
     { path: `${ROUTES.admin.manageNews}/:id`, component: NewsManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managePromotion}`, component: PromotionManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managePromotion}/:id`, component: PromotionManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"] },
+    { path: `${ROUTES.admin.manageReport}`, component: ReportManagement, layout: LayoutAdmin, role: ["Admin", "Staff"]},
+    { path: `${ROUTES.admin.manageReport}/:id`, component: ReportManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"]},
 
     //Wallet Page
     { path: `${ROUTES.user.wallet}`, component: Wallet, role: ["Admin", "Staff", "Customer"] },

@@ -1,6 +1,6 @@
 import { Autocomplete, Box, Dialog, DialogContent, DialogTitle, DialogActions, InputLabel, TextareaAutosize, TextField, Typography } from "@mui/material"
 import { useNavigate, useParams } from "react-router-dom"
-import { ReportCategory } from "../../utils/type";
+import { ReportCategory, ReportRequest } from "../../utils/type";
 import { useState, useEffect, useContext } from 'react'
 import { ROUTES } from "../../utils/Constant";
 import useThemePage from "../../hooks/useThemePage";
@@ -14,10 +14,14 @@ import { ModalContext } from "../../contexts/ModalContext";
 import { LogoHeader } from "../../assets/images";
 import { ReportService } from "../../services/ReportService";
 import MyCustomTextField from "../../components/common/MyTextField";
+import MyCustomButton from "../../components/common/MyButton";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import ErrorMessage from "../../components/common/ErrorMessage";
+import ToastComponent from "../../components/toast/ToastComponent";
 
 export const ReportFormModal = () => {
     const [reportCategories, setReportCategories] = useState<ReportCategory[]>([]);
-    const { isMobile } = useThemePage();
     const { t } = usei18next();
     const { closeModal } = useContext(ModalContext);
     const [selectedCategory, setSelectedCategory] = useState<ReportCategory>();
@@ -29,7 +33,40 @@ export const ReportFormModal = () => {
             })
         } catch (error) {
         }
-    }, [])
+    }, []);
+
+    const formik = useFormik({
+        initialValues: {
+            detail: "",
+            categoryId: ""
+        },
+        validationSchema: Yup.object({
+            categoryId: Yup.number().required(t("form.required")),
+            detail: Yup.string().required(t("form.required")),
+        }),
+        onSubmit: async (values) => {
+            try {
+                const req : ReportRequest = {
+                    categoryId: Number(values.categoryId),
+                    detail: values.detail
+                }
+                await ReportService.postReport(req)
+                ToastComponent(t("report.reportSuccess"), "success")
+                closeModal()
+            } catch (error) {
+
+            }
+        }
+    });
+
+    const {
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleSubmit,
+        setFieldValue
+    } = formik;
 
     return (
         <>
@@ -50,7 +87,7 @@ export const ReportFormModal = () => {
                     }}
                 >
                     <Box width={"100%"} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                        <Typography fontWeight={'700'} fontSize={'24px'}>Lý do báo cáo</Typography>
+                        <Typography fontWeight={'700'} fontSize={'24px'}>{t("report.reason")}</Typography>
                     </Box>
                 </DialogTitle>
                 <DialogContent sx={{
@@ -71,18 +108,26 @@ export const ReportFormModal = () => {
                         value={selectedCategory}
                         onChange={(event, newValue) => {
                             setSelectedCategory(newValue || undefined);
+                            setFieldValue("categoryId", newValue?.categoryId)
                         }}
-                        renderInput={(params: any) => <TextField  {...params} label={"Lý do báo cáo"} sx={{mt: '8px'}}/>}
+                        renderInput={(params: any) => <TextField  {...params} label={t("report.reason")} sx={{ mt: '8px' }} />}
                         ListboxProps={{
                             style: {
                                 maxHeight: 250,
                             },
                         }}
                     />
-                    <MyCustomTextField multiline={true} width="100%" placeholder="Lý do khác hoặc lời nhắn"/>
+                    {errors.categoryId && touched.categoryId && (
+                        <ErrorMessage message={errors.categoryId} />
+                    )}
+                    <TextField onChange={handleChange} multiline={true} minRows={5} name="detail" value={values.detail} placeholder={t("report.detailReport")}/>
+                    {errors.detail && touched.detail && (
+                        <ErrorMessage message={errors.detail} />
+                    )}
                 </DialogContent>
-                <DialogActions>
-
+                <DialogActions sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                    <MyCustomButton variant="outlined" content={t("licenseInfo.BtnCancel")} onClick={() => closeModal()} />
+                    <MyCustomButton content={t("VerifyPhone.BtnConfirm")} onClick={() => handleSubmit()} />
                 </DialogActions>
             </Dialog>
 

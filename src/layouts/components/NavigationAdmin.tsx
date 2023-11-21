@@ -52,6 +52,11 @@ export default function NavigationAdmin() {
             path: ROUTES.admin.managePromotion,
             name: t("dashBoardManager.Navigation.promotions"),
             icon: VerifiedUser,
+        },
+        {
+            path: ROUTES.admin.manageReport,
+            name: t("dashBoardManager.Navigation.report"),
+            icon: VerifiedUser,
         }
     ];
 

@@ -464,3 +464,21 @@ export interface ReportRequest {
     categoryId: number,
     detail: string
 }
+
+export interface Report {
+    reportId: number,
+    category: ReportCategory,
+    detail: string,
+    reporter: Reporter,
+    responder: Reporter,
+    status: string,
+    statusComment: string,
+    createDatetime: string,
+    updateDatetime: string
+}
+
+export interface Reporter {
+    userId: number,
+    name: string,
+    avatarUrl: string
+}
