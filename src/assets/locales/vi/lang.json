@@ -300,6 +300,7 @@
   "dashBoardManager": {
     "Navigation": {
       "manager": "Quản lý",
+      "dashboard": "Dashboard",
       "licenseManager": "Quản lý bằng lái xe",
       "motorbikeRentalManager": "Quản lý xe máy cho thuê",
       "withdrawalRequestManager": "Quản lý yêu cầu rút tiền",

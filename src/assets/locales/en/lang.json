@@ -300,6 +300,7 @@
   "dashBoardManager": {
     "Navigation": {
       "manager": "Manager",
+      "dashboard": "Dashboard",
       "licenseManager": "License Manager",
       "motorbikeRentalManager": "Motorbike Rental Manager",
       "withdrawalRequestManager": "Manage Withdrawal Requests",

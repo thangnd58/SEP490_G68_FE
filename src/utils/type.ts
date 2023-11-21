@@ -483,3 +483,16 @@ export interface Reporter {
     name: string,
     avatarUrl: string
 }
+
+export interface MoneyFlow {
+    id: number,
+    moneyIn: number,
+    moneyOut: number,
+    type: string,
+    createDate: string,
+    bookingId: number,
+    transactionId: number,
+    userId: 191,
+    user: User,
+    description: string
+}
