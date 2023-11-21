@@ -108,7 +108,19 @@ const UserService = {
     },
     addFavourite: async (Id: number) => {
         return await api.post('/favourite',{ motorbikeId: Id });
-    }
+    },
+    getAllUserManage: async () : Promise<User[]> => {
+        return (await api.get('/manager/user')).data;
+    },
+    getUserByIdManage: async (userId: number) => {
+        return await api.get(`/manager/user/${userId}`);
+    },
+    updateUserByIdManage: async (userId: number,roleId : number ) => {
+        return await api.put(`/manager/user/${userId}`, { roleId: roleId });
+    },
+    deleteUserByIdManage: async (userId: number) => {
+        return await api.delete(`/manager/user/${userId}`);
+    },
 }
 
 export default UserService 

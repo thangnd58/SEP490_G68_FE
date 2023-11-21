@@ -48,7 +48,8 @@ export const ROUTES = {
         manageNews: "/manage-news",
         managePromotion: "/manage-promotions",
         managerModel : "/manage-models",
-        manageReport: "/manage-reports"
+        manageReport: "/manage-reports",
+        managerUser : "/manage-user"
     },
     other: {
         pagenotfound: "/page-not-found",

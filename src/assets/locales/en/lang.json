@@ -235,7 +235,8 @@
     "BtnChange": "Change",
     "notYetVerify": "Waiting to verify",
     "Verified": "Verified",
-    "AlertVerify": "Please verify your phone number"
+    "AlertVerify": "Please verify your phone number",
+    "Role" : "Role"
   },
   "ChangePhone": {
     "Title": "Change Phone Number",
@@ -287,7 +288,8 @@
       "news": "Manage News",
       "promotions": "Manage Promotions",
       "model": "Manage Model",
-      "report": "Manage Report"
+      "report": "Manage Report",
+      "user" : "Manage User"
     },
     "License": "License",
     "Motobike": {
@@ -400,6 +402,10 @@
       "TitleChange": "Edit model",
       "TitleAdd": "Add new model",
       "Title": "Model"
+    },
+    "user":{
+      "confirmDelete": "Confirm Delete User",
+      "titleConfirmDelete": "Do you want to delete user : "
     }
   },
   "component": {
