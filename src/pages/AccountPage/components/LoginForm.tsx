@@ -219,9 +219,9 @@ const LoginForm = (props: { isModal?: boolean, isMobileModal?: boolean, setIsOpe
     }),
     onSubmit: values => {
       login({ email: values.email, password: values.password }, !saveAccount, isModal)
-      // if(setIsOpenLoginModal){
-      //   setIsOpenLoginModal(false)
-      // }
+      if(setIsOpenLoginModal){
+        setIsOpenLoginModal(false)
+      }
     }
   });
 
@@ -236,9 +236,9 @@ const LoginForm = (props: { isModal?: boolean, isMobileModal?: boolean, setIsOpe
 
   const handleGoogleLogin = (credentialResponse: any) => {
     externalLogin(credentialResponse.credential, isModal)
-    // if(setIsOpenLoginModal){
-    //   setIsOpenLoginModal(false)
-    // }
+    if(setIsOpenLoginModal){
+      setIsOpenLoginModal(false)
+    }
   };
 
   const [showPassword, setShowPassword] = useState(false);

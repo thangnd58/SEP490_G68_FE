@@ -288,7 +288,8 @@
       "brand": "Quản lý hãng xe",
       "news": "Quản lý tin tức",
       "promotions": "Quản lý khuyến mãi",
-      "model": "Quản lý mẫu xe"
+      "model": "Quản lý mẫu xe",
+      "report": "Quản lý báo cáo"
     },
     "License": "Bằng lái xe",
     "Motobike": {
@@ -713,5 +714,21 @@
       "pendingReview": "Chờ đánh giá",
       "finished": "Đã hoàn thành"
     }
+  },
+  "feedback": {
+    "createSuccess": "Đánh giá thành công",
+    "createError": "Đánh giá thất bại"
+  },
+  "report": {
+    "reason": "Lý do báo cáo",
+    "detailReport": "Mô tả chi tiết",
+    "reportSuccess": "Gửi báo cáo thành công vui lòng chờ phản hồi từ hệ thống",
+    "reporter": "Người báo cáo",
+    "responder": "Người phản hồi",
+    "status": "Trạng thái",
+    "category": "Danh mục",
+    "placeholderResponse": "Nhập nội dung phản hồi",
+    "pendingRes": "Chờ phản hồi",
+    "alreadyRes": "Đã phản hồi"
   }
 }

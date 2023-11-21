@@ -155,14 +155,17 @@ export default function MotorbikeDetailModal() {
 
 
   useEffect(() => {
-    if (startDate && endDate && searchedAddress) {
+    if (startDate || endDate || searchedAddress) {
       setFieldValue("startDate", today);
       setFieldValue("endDate", tomorrow);
       setFieldValue("address", "Quận Ba Đình, Hà Nội");
-      navigate(
-        `${ROUTES.user.detailmotorbike}/${motorbikeId}/${encodeURIComponent("Quận Ba Đình, Hà Nội")}/${values.startDate}/${values.endDate}`
-      )
+      // navigate(
+      //   `${ROUTES.user.detailmotorbike}/${motorbikeId}/${encodeURIComponent("Quận Ba Đình, Hà Nội")}/${values.startDate}/${values.endDate}`
+      // )
     }
+  }, [])
+
+  useEffect(() => {
 
     const bookingPreview: BookingRequest = {
       motorbikeId: motorbikeId || "0",

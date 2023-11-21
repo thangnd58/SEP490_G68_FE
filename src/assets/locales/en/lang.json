@@ -288,7 +288,8 @@
       "brand": "Manage Brands",
       "news": "Manage News",
       "promotions": "Manage Promotions",
-      "model": "Manage Model"
+      "model": "Manage Model",
+      "report": "Manage Report"
     },
     "License": "License",
     "Motobike": {
@@ -712,5 +713,21 @@
       "pendingReview": "Pending review",
       "finished": "Finished"
     }
+  },
+  "feedback": {
+    "createSuccess": "Evaluate success",
+    "createError": "Evaluation failed"
+  },
+  "report": {
+    "reason": "Reporting reason",
+    "detailReport": "Detailed description",
+    "reportSuccess": "Sending report successfully, please wait for a response from the system",
+    "reporter": "Reporter",
+    "responder": "Respondent",
+    "status": "Status",
+    "category": "Category",
+    "placeholderResponse": "Enter response content",
+    "pendingRes": "Pending Response",
+    "alreadyRes": "Responded"
   }
 }

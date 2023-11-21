@@ -47,7 +47,8 @@ export const ROUTES = {
         managerBrand: "/manage-brands",
         manageNews: "/manage-news",
         managePromotion: "/manage-promotions",
-        managerModel : "/manage-models"
+        managerModel : "/manage-models",
+        manageReport: "/manage-reports"
     },
     other: {
         pagenotfound: "/page-not-found",
@@ -84,4 +85,10 @@ export const BookingDeliveryMode =
 {
     SelfPickup: "SelfPickup",
     DeliveryService: "DeliveryService",
+}
+
+export const ReportStatus =
+{
+    PendingResponse: "PendingResponse",
+    Responded: "Responded",
 }
