@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, Typography, styled } from '@mui/material';
+import { Box, Typography, styled, Tooltip } from '@mui/material';
 import usei18next from '../../hooks/usei18next';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -19,9 +19,10 @@ import { useDispatch } from 'react-redux';
 import { getUserInfo } from '../../redux/reducers/authReducer';
 import ModalStatus from './component/ModalStatus';
 import { SuccessIcon } from '../../assets/images';
-import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
+import { ArrowDropDown, ArrowDropUp, Info } from '@mui/icons-material';
 import ModalWithdrawalMoney from './component/ModalWithdrawalMoney';
 import { PaymentService } from '../../services/PaymentService';
+import { ReportFormModal } from '../ReportComponent/ReportFormModal';
 
 const DatePickerStyle = styled('div')(({ theme }) => ({
     '& .MuiTextField-root': {
@@ -126,7 +127,12 @@ const Wallet = () => {
                     padding={'0px 16px'}
                     sx={{ backgroundColor: 'primary.main', borderTopLeftRadius: '8px', borderTopRightRadius: '8px' }}
                 >
-                    <Typography variant='h6'>{t('wallet.title_summary_transaction')}</Typography>
+                    <Box display={'flex'} alignItems={'center'} gap={'4px'}>
+                        <Typography variant='h6'>{t('wallet.title_summary_transaction')}</Typography>
+                        <Tooltip title={t("booking.toolTipReport")}>
+                            <Info onClick={() => setContentModal(<ReportFormModal />)} />
+                        </Tooltip>
+                    </Box>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePickerStyle>
                             <DatePicker

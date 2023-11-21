@@ -5,13 +5,15 @@ import theme from "../../../utils/theme";
 import { ArrowDownward, ArrowUpward, BusinessCenterOutlined, Info, StarPurple500Outlined } from "@mui/icons-material";
 import { LicencePlateImage, LocationImage, PriceImage } from "../../../assets/images";
 import { formatMoneyNew } from "../../../utils/helper";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import MyCustomButton from "../../../components/common/MyButton";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 import ErrorMessage from "../../../components/common/ErrorMessage";
 import { FeedbackService } from "../../../services/FeedbackService";
 import ToastComponent from "../../../components/toast/ToastComponent";
+import { ModalContext } from "../../../contexts/ModalContext";
+import { ReportFormModal } from "../../ReportComponent/ReportFormModal";
 
 
 export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: boolean, canFeedback?: boolean, bookingId?: number }) => {
@@ -19,6 +21,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
     const [expanded, setExpanded] = useState(true);
     const [value, setValue] = useState<number>(5);
     const [isEdit, setIsEdit] = useState<boolean>(false);
+    const {setContentModal} = useContext(ModalContext)
     const formik = useFormik({
         initialValues: {
             comment: "",
@@ -146,7 +149,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                         {props.motorbike.model.modelName || props.motorbike.model}
                                     </Typography>
                                     <Tooltip title={t("booking.toolTipReport")}>
-                                        <Info />
+                                        <Info onClick={() => setContentModal(<ReportFormModal />)} />
                                     </Tooltip>
                                 </Box>
                                 <Box display="flex" alignItems="center" gap="8px">

@@ -286,7 +286,8 @@
       "brand": "Manage Brands",
       "news": "Manage News",
       "promotions": "Manage Promotions",
-      "model": "Manage Model"
+      "model": "Manage Model",
+      "report": "Manage Report"
     },
     "License": "License",
     "Motobike": {
@@ -607,11 +608,11 @@
     "payWallet": "Wallet balance",
     "payVnPay": "VN Pay e-wallet",
     "pricePerday": "Rental unit price",
-    "deliveryFee" : "Delivery fee",
+    "deliveryFee": "Delivery fee",
     "deliveryFee_hint": "Each kilometer will be charged ",
     "totalPriceRent": "Total motorbike rental fee",
     "totalPriceService": "Service fee",
-    "totalPriceService_hint" : "This is the service fee help you use the service",
+    "totalPriceService_hint": "This is the service fee help you use the service",
     "promotionCode": "Promotion code",
     "totalPrice": "Total price",
     "bookMotorbikeButton": "Book",
@@ -697,5 +698,17 @@
   "feedback": {
     "createSuccess": "Evaluate success",
     "createError": "Evaluation failed"
+  },
+  "report": {
+    "reason": "Reporting reason",
+    "detailReport": "Detailed description",
+    "reportSuccess": "Sending report successfully, please wait for a response from the system",
+    "reporter": "Reporter",
+    "responder": "Respondent",
+    "status": "Status",
+    "category": "Category",
+    "placeholderResponse": "Enter response content",
+    "pendingRes": "Pending Response",
+    "alreadyRes": "Responded"
   }
 }

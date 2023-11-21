@@ -66,7 +66,6 @@ const AuthProvider = (props: { children: JSX.Element }) => {
 
 
     const login = async (user: any, saveAccount: boolean, isModal?: boolean) => {
-        console.log("A")
         try {
             const response = await UserService.login({
                 email: user.email,
