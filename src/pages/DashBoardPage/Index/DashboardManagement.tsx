@@ -39,9 +39,9 @@ export const DashboardManagement = () => {
     }, [])
 
     // Grouping data by month
-    const groupDataByMonth = (data : any) => {
-        return data.reduce((acc : any, item : any) => {
-            const monthYear = item.createDate.slice(0, 7); // Extracting year and month
+    const groupDataByMonth = (data: any) => {
+        return data.reduce((acc: any, item: any) => {
+            const monthYear = item.createDate.slice(0, 7);
             if (!acc[monthYear]) {
                 acc[monthYear] = { moneyIn: 0, moneyOut: 0 };
             }
@@ -51,27 +51,33 @@ export const DashboardManagement = () => {
         }, {});
     };
 
-    // Process the moneyFlow data to get aggregated data by month
     const aggregatedData = groupDataByMonth(moneyFlow);
 
-    // Extracting labels (months) and values (moneyIn and moneyOut) for the chart
-    const labels = Object.keys(aggregatedData);
-    const moneyInValues = Object.values(aggregatedData).map((item : any) => item.moneyIn);
-    const moneyOutValues = Object.values(aggregatedData).map((item : any) => item.moneyOut);
+    const dataEntries = Object.entries(aggregatedData);
+
+    dataEntries.sort(([monthYearA], [monthYearB]) => {
+        const dateA : any = new Date(`${monthYearA}-01`);
+        const dateB : any = new Date(`${monthYearB}-01`);
+        return dateA - dateB;
+    });
+
+    const labels = dataEntries.map(([monthYear]) => monthYear);
+    const sortedMoneyInValues = dataEntries.map(([_, data] : any) => data.moneyIn);
+    const sortedMoneyOutValues = dataEntries.map(([_, data] : any) => data.moneyOut);
 
     const chartData = {
         labels: labels,
         datasets: [
             {
                 label: 'Money Out',
-                data: moneyOutValues,
+                data: sortedMoneyOutValues,
                 fill: false,
                 borderColor: 'rgba(75,192,192,1)',
                 lineTension: 0.1,
             },
             {
                 label: 'Money In',
-                data: moneyInValues,
+                data: sortedMoneyInValues,
                 fill: false,
                 borderColor: 'rgba(192,75,192,1)',
                 lineTension: 0.1,
