@@ -5,7 +5,7 @@ import { BookingService } from "../../services/BookingService";
 import { Box, Divider, FormControlLabel, IconButton, Radio, RadioGroup, Step, StepLabel, Stepper, styled, TextField, Tooltip, Typography } from "@mui/material";
 import { ArrowRightIcon } from "@mui/x-date-pickers";
 import useThemePage from "../../hooks/useThemePage";
-import { CalendarImage, ClockImage, MotorbikeImage, MyWallet, VNPay } from "../../assets/images";
+import { CalendarImage, ClockImage, MotorbikeImage, MyWallet, SuccessIcon, VNPay } from "../../assets/images";
 import usei18next from "../../hooks/usei18next";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { MotorbikeBookingCard } from "./components/MotorbikeBookingCard";
@@ -24,6 +24,7 @@ import { getUserInfo } from "../../redux/reducers/authReducer";
 import MyIcon from "../../components/common/MyIcon";
 import { ArrowBack, CloseOutlined, Verified } from "@mui/icons-material";
 import { ConfirmCompleteTripModal } from "./components/ConfirmCompleteTripModal";
+import ModalStatus from "../WalletPage/component/ModalStatus";
 
 export const BookingDetailPage = () => {
     const { bookingId } = useParams();
@@ -67,6 +68,33 @@ export const BookingDetailPage = () => {
             navigate(ROUTES.other.pagenotfound)
         }
     }, [bookingId, reloadBooking])
+
+    const handleConfirmDeposit = () => {
+        setReloadBooking((prev) => !prev)
+    }
+
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+
+    const allQueryParameters: any = {};
+
+    for (const [key, value] of params) {
+        allQueryParameters[key] = value;
+    }
+
+    useEffect(() => {
+        if (allQueryParameters.vnp_ResponseCode === "00") {
+            try {
+                PaymentService.processPaymentDb(search).then((data) => {
+                    dispatch(getUserInfo());
+                    setContentModal(<ModalStatus icon={SuccessIcon} title={t("Thanh toán thành công")} content={"Bạn đã thanh toán đơn đặt xe thành công. Hệ thống sẽ xử lý yêu cầu đặt xe của bạn sớm nhất"} handleConfirm={handleConfirmDeposit} />)
+                    setShowModal(true)
+                })
+            } catch (error) {
+
+            }
+        }
+    }, [])
 
     const handleProcessPayment = async (booking: Booking) => {
         try {
