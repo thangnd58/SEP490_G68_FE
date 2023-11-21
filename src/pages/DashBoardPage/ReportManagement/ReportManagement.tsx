@@ -2,7 +2,7 @@ import { Box, Button, Chip, Typography } from "@mui/material";
 import theme from '../../../utils/theme';
 import usei18next from "../../../hooks/usei18next";
 import { DataGrid } from '@mui/x-data-grid';
-import { Add, ArrowBack, CheckCircleOutline, ErrorOutline, WarningAmber } from "@mui/icons-material";
+import { Add, ArrowBack, CheckCircleOutline, ErrorOutline, Info, InfoOutlined, WarningAmber } from "@mui/icons-material";
 import MyIcon from "../../../components/common/MyIcon";
 import EditIcon from '@mui/icons-material/Edit';
 import { GridToolbar, gridFilteredSortedRowIdsSelector, selectedGridRowsSelector } from '@mui/x-data-grid-pro';
@@ -19,6 +19,7 @@ import { ROUTES, ReportStatus } from "../../../utils/Constant";
 import MyCustomButton from "../../../components/common/MyButton";
 import ModelManagementService from "../../../services/ModelManagementService";
 import { ReportService } from "../../../services/ReportService";
+import { ReportFormModal } from "../../ReportComponent/ReportFormModal";
 const ReportManagement = () => {
     const { t } = usei18next();
     const { closeModal, setShowModal, setContentModal } = useContext(ModalContext);
@@ -98,7 +99,7 @@ const ReportManagement = () => {
         {
             field: 'status', headerName: t("report.status"), width: 200,
             renderCell: (params: any) => (
-                params.value === ReportStatus.PendingResponse?
+                params.value === ReportStatus.PendingResponse ?
                     (<Chip
                         sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
                         color="warning"
@@ -162,7 +163,29 @@ const ReportManagement = () => {
                     disableRowSelectionOnClick
                     getRowId={(row) => row.reportId}
                     pagination
-                    slots={{ toolbar: GridToolbar }}
+                    // slots={{
+                    //     toolbar: GridToolbar
+
+                    // }}
+                    components={{
+                        Toolbar: () => (
+                            <Box sx={{ display: 'flex', alignItems: 'start' }}>
+                                <GridToolbar />
+                                <Button
+                                    variant='text'
+                                    color='primary'
+                                    sx={{
+                                        padding: '4px 5px',
+                                        mt: '4px'
+                                    }}
+                                    startIcon={<InfoOutlined color='primary' />}
+                                    onClick={() => setContentModal(<ReportFormModal />)}
+                                >
+                                    Add
+                                </Button>
+                            </Box>
+                        ),
+                    }}
                     slotProps={{
                         toolbar: { printOptions: { getRowsToExport: getSelectedRowsToExport } },
                     }}

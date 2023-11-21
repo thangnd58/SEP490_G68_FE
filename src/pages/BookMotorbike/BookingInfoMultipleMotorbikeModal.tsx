@@ -43,7 +43,7 @@ const AnimatedBox = styled(Box) <AnimatedBoxProps>`
 `;
 
 
-export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike[]; address: string; startDate: string; endDate: string; }) => {
+export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike[]; address: string; startDate: string; endDate: string; bookingCartId: number }) => {
   const { isMobile, isIpad } = useThemePage();
   const { closeModal, setContentModal, setShowModal } = useContext(ModalContext);
   const { t, isVn } = usei18next();
@@ -91,7 +91,8 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
           startDatetime: values.startDate || "",
           endDatetime: values.endDate || "",
           couponCode: values.couponCode || "",
-          paymentType: BookingPaymentType.Card
+          paymentType: BookingPaymentType.Card,
+          bookingCartId: props.bookingCartId
         }
         const res = await BookingService.postBooking(request)
         ToastComponent(t("booking.toast.success"), "success")

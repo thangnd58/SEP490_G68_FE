@@ -24,7 +24,7 @@ export const getCartInfo = (): any => {
         try {
             const shoppingCartInfo = await BookingService.getListShoppingCart();
             //@ts-ignore
-            dispatch(updateCart(shoppingCartInfo.data));
+            dispatch(updateCart(shoppingCartInfo));
         } catch (err) { }
     };
 };

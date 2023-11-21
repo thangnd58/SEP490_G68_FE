@@ -137,7 +137,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                     onClick={showMotorbikeDetailModal}
                 />
                 {/* User Avatar */}
-                {/* <Tooltip
+                <Tooltip
                     title={props.motorbike.user.name}
                     placement="right-end"
                 >
@@ -152,7 +152,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                         }}
                         src={props.motorbike.user.avatarUrl}
                     />
-                </Tooltip> */}
+                </Tooltip>
                 {/* Favorite Icon */}
                 {!props.isNotFavorite &&
                     (isFavorite ? (
@@ -241,8 +241,8 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                     )
                                 }
                             >
-                                {/* {props.motorbike.model.brand.brandName}{" "} */}
-                                {/* {props.motorbike.model.modelName} */}
+                                {props.motorbike.model.brand.brandName}{" "}
+                                {props.motorbike.model.modelName} {" "} {props.motorbike.id}
                             </Typography>
                         </Tooltip>
                     </Box>

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, Chip, FormControl, Paper, Select, Typography, Button, Tooltip } from '@mui/material';
+import { Box, Chip, FormControl, Paper, Select, Typography, Button, Tooltip, CircularProgress } from '@mui/material';
 import usei18next from '../../hooks/usei18next';
 import theme from '../../utils/theme'
 import useThemePage from '../../hooks/useThemePage';
@@ -14,9 +14,10 @@ const FavouritePage = () => {
     const { isMobile } = useThemePage();
     const { userFavourite } = useAppSelector((state) => state.userFavouriteInfo);
     const dispatch = useAppDispatch();
+    const [isLoad, setIsLoad] = useState<boolean>(true);
 
     useEffect(() => {
-        dispatch(getUserFavouriteInfo());
+        dispatch(getUserFavouriteInfo()).then(() => setIsLoad(false));
         console.log(userFavourite);
     }, [])
 
@@ -44,14 +45,20 @@ const FavouritePage = () => {
                     <Box display={'flex'} flexDirection={"row"} flexWrap={'wrap'} justifyContent={'space-evenly'} >
 
                         {/* check rỗng */}
-                        {userFavourite.length === 0 && (
+                        {isLoad ? (
                             <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
-                                <img src={NoDataImage} alt="image" style={{ width: '400px', height: '400px' }} />
+                                <CircularProgress/>
                             </Box>
-                        )}
-                        {userFavourite.map((item: UserFavourite) => (
-                            <MotorbikeFavouriteInforCard motorbike={item.motorbike!} />
-                        ))}
+                        ) : (
+
+                            userFavourite.length === 0 ? (
+                                <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
+                                    <img src={NoDataImage} alt="image" style={{ width: '400px', height: '400px' }} />
+                                </Box>
+                            ) : (
+                                userFavourite.map((item: UserFavourite) => (
+                                    <MotorbikeFavouriteInforCard motorbike={item.motorbike!} />
+                                ))))}
                     </Box>
                 </Box>
             </Paper>

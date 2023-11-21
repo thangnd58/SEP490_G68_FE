@@ -316,6 +316,7 @@ function Header() {
                                                                     sx={{
                                                                         textAlign:
                                                                             "center",
+                                                                            borderRadius: "16px",
                                                                     }}
                                                                     key={`NOTIFI${notifi.notificationId}`}
                                                                     onClick={() => {
@@ -329,14 +330,7 @@ function Header() {
                                                                     }}
                                                                 >
                                                                     <PopoverItem
-                                                                        label={notifi.title
-                                                                            .substring(
-                                                                                0,
-                                                                                30
-                                                                            )
-                                                                            .concat(
-                                                                                "..."
-                                                                            )}
+                                                                        label={notifi.title}
                                                                         icon={
                                                                             <img
                                                                                 width={
@@ -357,14 +351,7 @@ function Header() {
                                                                                 <UnReadIcon />
                                                                             ) : undefined
                                                                         }
-                                                                        content={notifi.detail
-                                                                            .substring(
-                                                                                0,
-                                                                                40
-                                                                            )
-                                                                            .concat(
-                                                                                "..."
-                                                                            )}
+                                                                        content={notifi.detail}
                                                                         timeAgo={
                                                                             notifi.createDatetime
                                                                         }

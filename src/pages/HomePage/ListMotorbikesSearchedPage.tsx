@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Grid, Icon, IconButton, MenuItem, Modal, Select, SelectChangeEvent, Slider, TextField, Typography, styled } from '@mui/material';
+import { Box, CircularProgress, Grid, Icon, IconButton, LinearProgress, MenuItem, Modal, Select, SelectChangeEvent, Slider, TextField, Typography, styled } from '@mui/material';
 import React, { ReactNode, useEffect, useMemo, useState } from 'react'
 import usei18next from '../../hooks/usei18next';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -254,9 +254,8 @@ export default function ListMotorbikesSearchedPage() {
             const response = await SearchMotorbikeServices.getMotorbikesByFilter(formData);
             setListMotorbikes(response);
         } catch (error) {
-            // Xử lý lỗi tại đây (nếu cần)
+            console.log(error);
         }
-
         setIsLoadingData(false); // Dừng tải dữ liệu
     }
 
@@ -763,8 +762,8 @@ export default function ListMotorbikesSearchedPage() {
                 {/* list motorbikes */}
                 {
                     isLoadingData ? (
-                        <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
-                            <CircularProgress />
+                        <Box width={"90%"}>
+                            <LinearProgress />
                         </Box>
                     ) : (
                         listMotorbikes.length > 0 ? (

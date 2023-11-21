@@ -55,4 +55,7 @@ export const BookingService = {
         const response = await api.get(`${apiGetListRentalBooking}/${id}`)
         return response.data
     },
+    updateStatusBookingDetail : async (bookingId: string,motorbikeid:string, status: string) => {
+        return await api.put(`${apiPostBooking}/${bookingId}/${status}/${motorbikeid}`)
+    }
 }

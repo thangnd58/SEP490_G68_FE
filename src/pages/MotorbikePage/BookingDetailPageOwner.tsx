@@ -218,6 +218,9 @@ export const BookingDetailPageOwner = () => {
                             </Step>
                         ))}
                     </Stepper>
+                    <Box>
+                        {booking.status}
+                    </Box>
                     <Box className="hiddenSroll" width={isMobile ? "90%" : "65%"} sx={{ overflowY: 'auto', overflowX: 'hidden' }} height={"80%"} display={"flex"} flexDirection={"column"} gap={'8px'} justifyContent={"start"} padding={"0px 8px"}>
                         <Box display={'flex'} gap={'16px'} flexDirection={isMobile ? 'column' : 'row'} marginTop={'16px'}>
                             <Box display={"flex"} flexDirection={"column"} gap={'8px'} width={isMobile ? '100%' : '50%'}>
@@ -229,10 +232,6 @@ export const BookingDetailPageOwner = () => {
                                         alignItems={'center'}
                                         // className="motorcycle-container"
                                         mb={'8px'}
-                                        style={{
-                                            transform: activeStep === 1 ? `translateX(-50%) translateX(${position}px)` : '',
-                                            transition: 'transform 0.2s ease-in-out'
-                                        }}
                                     >
                                         {activeStep === 0 ? (
                                             <Box display={'flex'} gap={'8px'} alignItems={'center'}>
@@ -240,7 +239,26 @@ export const BookingDetailPageOwner = () => {
                                                 <Typography color={'common.black'}>{countdown}</Typography>
                                             </Box>
                                         ) : (
-                                            <img src={MotorbikeImage} width={128} height={128} className="motorcycle-image" />
+                                            <Box display={'flex'} flexDirection={'column'} alignItems={'center'} gap={'8px'}>
+                                                <img src={MotorbikeImage} width={128} height={128} className="motorcycle-image"
+                                                    style={{
+                                                        transform: activeStep === 1 && booking.status === "Delivered" ? `translateX(-50%) translateX(${position}px)` : '',
+                                                        transition: 'transform 0.2s ease-in-out'
+                                                    }}
+                                                />
+                                                <>
+                                                    {
+                                                        activeStep === 1 && booking.status === "PendingDelivery" &&
+                                                        <MyCustomButton
+                                                            width='100%' onClick={() => setContentModal(<ConfirmCompleteTripModal booking={booking} isMobile={isMobile} />)} content={t("booking.confirmDeliveryMotorbike")} variant='contained' />
+                                                    }
+                                                    {
+                                                        activeStep === 1 && booking.status === "Delivered" &&
+                                                        <MyCustomButton
+                                                            width='100%' onClick={() => setContentModal(<ConfirmCompleteTripModal booking={booking} isMobile={isMobile} />)} content={t("booking.returnMotorbikeAndEndTrip")} variant='contained' />
+                                                    }
+                                                </>
+                                            </Box>
                                         )}
 
                                     </Box>
@@ -379,12 +397,18 @@ export const BookingDetailPageOwner = () => {
                                 {/* Tiền cọc */}
                                 <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                     <Box display={'flex'} flexDirection={'row'} alignItems={'center'} gap={'2px'}>
-                                        {booking.status !== BookingStatus.PendingPayment && <Tooltip title={t("booking.toolTipPaid")}><Verified /></Tooltip>}
-                                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                                        <Typography color={theme.palette.text.primary} sx={{
+                                            fontSize: '16px',
+                                            fontWeight: "600",
+                                        }}
+                                        >
                                             {t("booking.depositMoney")}
                                         </Typography>
+                                        {booking.status !== BookingStatus.PendingPayment && <Tooltip title={t("booking.toolTipPaid")}><Verified /></Tooltip>}
                                     </Box>
-                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                                    <Typography color={theme.palette.text.primary} sx={{
+                                        fontSize: '16px', fontWeight: "600", textDecoration: booking.status !== BookingStatus.PendingPayment ? 'line-through' : 'none',
+                                    }}>
                                         {formatMoneyNew(booking?.deposit)}
                                     </Typography>
                                 </Box>
@@ -405,57 +429,13 @@ export const BookingDetailPageOwner = () => {
                                     <Box sx={{ backgroundColor: isMobile ? 'none' : '#FFFFFF', borderRadius: '8px', padding: '8px 16px' }}>
                                         <Typography fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'} marginBottom={'8px'}>{t("booking.paymentType")}</Typography>
                                         <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', gap: '16px', my: '8px' }}>
-                                            <RadioGroup
-                                                value={paymentType}
-                                                onChange={(event) => {
-                                                    setPaymentType(event.target.value)
-                                                }}
-                                                sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '8px' }}
+                                            {/* note, khách thuê chưa tiến hành thanh toán */}
+                                            <Typography fontSize={isMobile ? 14 : 16} fontWeight={'400'}
+                                                color={"#FF0000"}
+                                                fontStyle={'italic'}
                                             >
-                                                <FormControlLabel
-                                                    checked={paymentType === BookingPaymentType.UserBalance}
-                                                    value={BookingPaymentType.UserBalance}
-                                                    control={<Radio />}
-                                                    label={
-                                                        <Box minWidth={'250px'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }} border={'2px solid #8b4513'} borderRadius={'8px'} padding={'8px'}>
-                                                            <img alt="my-wallet" src={MyWallet} width={24} height={24} />
-                                                            {
-                                                                `${t("booking.payWallet")} (${formatMoney(user!.balance || 0)})`
-                                                            }
-                                                        </Box>
-                                                    }
-                                                    disabled={user!.balance < booking.totalAmount * 1000}
-                                                    sx={{
-                                                        '& .MuiFormControlLabel-label': {
-                                                            fontSize: '16px',
-                                                            fontWeight: '400',
-                                                            color: theme.palette.text.primary,
-                                                        },
-                                                        borderRadius: "10px",
-                                                    }}
-                                                />
-                                                <FormControlLabel
-                                                    checked={paymentType === BookingPaymentType.Card}
-                                                    value={BookingPaymentType.Card}
-                                                    control={<Radio />}
-                                                    label={
-                                                        <Box minWidth={'250px'}
-                                                            display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }} border={'2px solid #8b4513'} borderRadius={'8px'} padding={'8px'}>
-                                                            <img alt="my-wallet" src={VNPay} height={24} />
-                                                            {
-                                                                t("booking.payVnPay")
-                                                            }
-                                                        </Box>
-                                                    }
-                                                    sx={{
-                                                        '& .MuiFormControlLabel-label': {
-                                                            fontSize: '16px',
-                                                            fontWeight: '400',
-                                                            color: theme.palette.text.primary,
-                                                        },
-                                                        borderRadius: "10px",
-                                                    }} />
-                                            </RadioGroup>
+                                                *Khách thuê chưa tiến hành thanh toán
+                                            </Typography>
                                         </Box>
                                     </Box>
                                 }
@@ -478,11 +458,14 @@ export const BookingDetailPageOwner = () => {
                         </Box>
                         {
                             booking && booking.motorbikes && booking.motorbikes.length > 0 &&
-                            booking.motorbikes.map((motor, index) => {
-                                return (
-                                    <MotorbikeBookingCard key={`${index}_motor`} motorbike={motor} isMobile={isMobile} />
-                                )
-                            })
+                            booking.motorbikes.
+                                filter((motor) => motor.user.userId === user?.userId).
+
+                                map((motor, index) => {
+                                    return (
+                                        <MotorbikeBookingCard key={`${index}_motor`} motorbike={motor} isMobile={isMobile} />
+                                    )
+                                })
                         }
                         <Box mb={'8px'}>
                             <RequireWhenRent />

@@ -47,13 +47,14 @@ function CartPage() {
     const [open, setOpen] = useState(Array(shoppingCart?.length).fill(false));
     const [isLoad, setIsLoad] = useState(false);
 
-    const showModalBookingInfoMultipleMotorbike = (motorbikes: Motorbike[], address: string, startDate: string, endDate: string) => {
+    const showModalBookingInfoMultipleMotorbike = (motorbikes: Motorbike[], address: string, startDate: string, endDate: string,bookingCartId:number) => {
         setContentModal(
             <BookingInfoMultipleMotorbikeModal
                 motorbikes={motorbikes}
                 address={address}
                 startDate={startDate}
                 endDate={endDate}
+                bookingCartId={bookingCartId}
             />
         )
         setShowModal(true)
@@ -62,23 +63,6 @@ function CartPage() {
         dispatch(getCartInfo());
         // getListCart();
     }, []);
-    // console.log(shoppingCart);
-
-    // Get List Cart 
-    // const getListCart = async () => {
-    //     try {
-    //         setIsLoad(true);
-    //         const response = await BookingService.getListShoppingCart();
-    //         if (response.length > 0) {
-    //             // setMotorbikeCart(response);
-    //             // console.log(response);
-    //             setIsLoad(false);
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    //     setIsLoad(false);
-    // }
 
     const deleteMotorbikeInCart = async (motorbikeId: number, bookingCartId: number) => {
         try {
@@ -146,7 +130,7 @@ function CartPage() {
                             </Typography>
                             <MyCustomButton
                                 content={"Đặt xe"}
-                                onClick={() => { showModalBookingInfoMultipleMotorbike(item.motorbikes, item.address, item.startDatetime, item.endDatetime) }}
+                                onClick={() => { showModalBookingInfoMultipleMotorbike(item.motorbikes, item.address, item.startDatetime, item.endDatetime,item.bookingCartId) }}
                                 width="auto"
                                 height="36px"
                                 fontSize={16}

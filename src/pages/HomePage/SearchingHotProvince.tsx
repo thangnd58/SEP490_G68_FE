@@ -28,6 +28,7 @@ import RegisterMotorbikeItem from '../PostMotorbike/components/RegisterMotorbike
 import { Motorbike } from '../../utils/type';
 import MotorbikeInforCard from './components/MotorbikeInforCard';
 import { HomePageService } from '../../services/HomePageService';
+import { SearchMotorbikeServices } from '../../services/SearchMotorbikeService';
 
 
 function SearchingHotProvince() {
@@ -57,23 +58,6 @@ function SearchingHotProvince() {
                 return ImageProvince[5];
             default:
                 return ImageProvince[0];
-        }
-    }
-
-    const [hotMotorbikes, setHotMotorbikes] = React.useState<Motorbike[]>([]);
-
-    useEffect(() => {
-        getData();
-    }, []);
-
-    const getData = async () => {
-        try {
-            const dataMotorbike = await HomePageService.getListPopularMotorbike();
-            if (dataMotorbike) {
-                setHotMotorbikes(dataMotorbike);
-            }
-        } catch (error) {
-            console.log(error);
         }
     }
 
@@ -123,6 +107,33 @@ function SearchingHotProvince() {
         handleSubmit,
         setFieldValue
     } = formik;
+
+    const [hotMotorbikes, setHotMotorbikes] = React.useState<Motorbike[]>([]);
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const getData = async () => {
+        try {
+            const dataMotorbike = await SearchMotorbikeServices.getMotorbikesByFilter(
+                {
+                    startDate: values.startDate,
+                    endDate: values.endDate,
+                    address: values.address,
+                    orderBy: "COUNTCOMPLETEDBOOKINGDESC",
+                }
+            );
+            if (dataMotorbike) {
+                // get top 8 motorbikes
+                setHotMotorbikes(
+                    dataMotorbike.filter((item: Motorbike, index: number) => index < 8)
+                );
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
     const openMapModal = () => {
@@ -553,55 +564,61 @@ function SearchingHotProvince() {
                     </Box>
                 </Modal>
             </Box>
-            <Divider sx={{
-                width: '90%'
-            }} variant='middle' />
-            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} width={'100%'}
-            >
-                <Box
-                    display={'flex'}
-                    flexDirection={'column'}
-                    alignItems={'center'}
-                    justifyContent={'start'}
-                    gap={'8px'}
-                    width={'100%'}
-                    padding={isMobile ? "16px 0px" : "32px 64px"}
-                >
-                    <Typography sx={{
-                        padding: isMobile ? "0px 16px" : "0px 0px",
-                        fontSize: isMobile ? '24px' : '32px',
-                        fontWeight: 'bold',
-                        color: 'common.black',
-                        textAlign: 'center',
-                    }}>Xe hot dành cho bạn tại {province}</Typography>
-                    {/* list motorbikes */}
-                    {
-                        <Box sx={{
-                            minHeight: '65vh',
-                            width: '100%',
-                            display: 'flex',
-                        }} alignItems={'center'} justifyContent={'center'}
+            {hotMotorbikes.length > 0 && (
+                <>
+                    <Divider sx={{
+                        width: '90%'
+                    }} variant='middle' />
+                    <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} width={'100%'}
+                    >
+                        <Box
+                            display={'flex'}
+                            flexDirection={'column'}
+                            alignItems={'center'}
+                            justifyContent={'start'}
+                            gap={'8px'}
+                            width={'100%'}
+                            padding={isMobile ? "16px 0px" : "32px 64px"}
                         >
-                            <Grid
-                                width={"100%"}
-                                container
-                                columnSpacing={{ xs: 1, sm: 1, md: 1 }}
-                                rowSpacing={{ xs: 1, sm: 2, md: 3 }}
-                            >
-                                {hotMotorbikes.map((item: Motorbike, index: number) => (
-                                    <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={3} sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                    }}>
-                                        <MotorbikeInforCard motorbike={item} isFavoritePage={false} isIntroduced={true} />
+                            <Typography sx={{
+                                padding: isMobile ? "0px 16px" : "0px 0px",
+                                fontSize: isMobile ? '24px' : '32px',
+                                fontWeight: 'bold',
+                                color: 'common.black',
+                                textAlign: 'center',
+                            }}>Xe hot dành cho bạn tại {province}</Typography>
+                            {/* list motorbikes */}
+                            {
+                                <Box sx={{
+                                    minHeight: '65vh',
+                                    width: '100%',
+                                    display: 'flex',
+                                }} alignItems={'center'} justifyContent={'center'}
+                                >
+                                    <Grid
+                                        width={"100%"}
+                                        container
+                                        columnSpacing={{ xs: 1, sm: 1, md: 1 }}
+                                        rowSpacing={{ xs: 1, sm: 2, md: 3 }}
+                                    >
+                                        {hotMotorbikes.map((item: Motorbike, index: number) => (
+                                            <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={3} sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                            }}>
+                                                <MotorbikeInforCard motorbike={item} isFavoritePage={false} isIntroduced={true}
+                                                    startDate={values.startDate} endDate={values.endDate} searchedAddress={values.address}
+                                                />
+                                            </Grid>
+                                        ))}
                                     </Grid>
-                                ))}
-                            </Grid>
+                                </Box>
+                            }
                         </Box>
-                    }
-                </Box>
-            </Box>
+                    </Box>
+                </>
+            )}
         </Box >
     )
 }
