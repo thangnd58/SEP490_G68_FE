@@ -175,6 +175,23 @@
         "error": "Error when add model"
       }
     },
+    "UserManager": {
+      "Delete": {
+        "success": "Delete user successfully",
+        "warning": "Delete user failed",
+        "error": "Error when user model"
+      },
+      "Edit": {
+        "success": "Edit user successfully",
+        "warning": "Edit user failed",
+        "error": "Error when edit user"
+      },
+      "Add": {
+        "success": "Add user successfully",
+        "warning": "Add user failed",
+        "error": "Error when add user"
+      }
+    },
     "favourite": {
       "delete": {
         "success": "Unlike motorbike successfully",
@@ -407,7 +424,12 @@
     },
     "user":{
       "confirmDelete": "Confirm Delete User",
-      "titleConfirmDelete": "Do you want to delete user : "
+      "titleConfirmDelete": "Do you want to delete user : ",
+      "TitleChange": "Edit user",
+      "chooseRole": "Choose role",
+      "admin": "Admin",
+      "customer" : "Customer",
+      "staff" : "Staff"
     }
   },
   "component": {

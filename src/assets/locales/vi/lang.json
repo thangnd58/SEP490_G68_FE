@@ -175,6 +175,23 @@
         "error": "Lỗi cập nhật mẫu xe"
       }
     },
+    "UserManager": {
+      "Delete": {
+        "success": "Xóa tài khoản thành công",
+        "warning": "Xóa tài khoản thất bại",
+        "error": "Lỗi xóa tài khoản"
+      },
+      "Edit": {
+        "success": "Sửa tài khoản thành công",
+        "warning": "Sửa tài khoản thất bại",
+        "error": "Lỗi cập nhật tài khoản"
+      },
+      "Add": {
+        "success": "Thêm tài khoản thành công",
+        "warning": "Thêm tài khoản thất bại",
+        "error": "Lỗi cập nhật tài khoản"
+      }
+    },
     "favourite": {
       "delete": {
         "success": "Xóa xe yêu thích thành công",
@@ -408,7 +425,12 @@
     },
     "user":{
       "confirmDelete": "Xác nhận xóa tài khoản",
-      "titleConfirmDelete": "Bạn có muốn xóa tài khoản : "
+      "titleConfirmDelete": "Bạn có muốn xóa tài khoản : ",
+      "TitleChange": "Chỉnh sửa tài khoản",
+      "chooseRole": "Chọn vai trò",
+      "admin": "Quản lý",
+      "customer" : "Khách hàng",
+      "staff" : "Nhân viên"
     }
   },
   "component": {

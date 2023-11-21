@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Brand, Model } from "../../../utils/type";
+import { User } from "../../../utils/type";
 import { useNavigate, useParams } from "react-router-dom";
-import { PostMotorbikeService } from "../../../services/PostMotorbikeService";
 import useThemePage from "../../../hooks/useThemePage";
 import usei18next from "../../../hooks/usei18next";
+import { Box, Select, Typography, MenuItem } from "@mui/material";
 import MyIcon from "../../../components/common/MyIcon";
 import { ArrowBack } from "@mui/icons-material";
 import theme from "../../../utils/theme";
@@ -12,86 +12,74 @@ import MyCustomButton from "../../../components/common/MyButton";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import ToastComponent from "../../../components/toast/ToastComponent";
-import ModelManagementService from "../../../services/ModelManagementService";
-import { Box, TextField, Typography, Select, MenuItem } from "@mui/material";
+import UserService from "../../../services/UserService";
 
 const UserManagementForm = () => {
-    const [model, setModel] = useState<Model>();
+    const [user, setUser] = useState<User>();
     const { id } = useParams();
     const { isMobile } = useThemePage();
     const { t } = usei18next()
     const navigate = useNavigate()
     const [isSave, setIsSave] = useState<boolean>(false);
-    const [listBrand, setListBrand] = useState<Brand[]>([]);
 
     useEffect(() => {
-        getModelById(Number(id));
-        getAllBrand();
+        getUserById(Number(id));
     }, [id])
 
-    const getAllBrand = async () => {
-        try {
-            const response = await PostMotorbikeService.getAllBrand();
-            if (response) {
-                setListBrand(response);
-            }
-        } catch (error) {
-
-        }
-    }
     const formik = useFormik({
         initialValues: {
-            modelName: "",
-            brandId: ""
-
+            name: "",
+            email: "",
+            phone: "",
+            gender: "",
+            dob: "",
+            address: "",
+            roleName: "",
+            roleId: ""
         },
         validationSchema: Yup.object({
-            modelName: Yup.string().required(t('form.required')),
-            brandId: Yup.string().required(t('form.required')),
-
+            roleId: Yup.string().required(t('form.required')),
         }),
         onSubmit: async (values) => {
-            try {
-                setIsSave(true)
-                if (model && model.id) {
-                    const responseUrl = await ModelManagementService.editModel(model.id, values.modelName, "null", Number(values.brandId));
+            if(user){
+                try {
+                    setIsSave(true)
+                    const responseUrl = await UserService.updateUserByIdManage(user.userId , user.name , user.password! , user.phone, user.gender, user.dob, user.address, user.avatar, Number(values.roleId));
                     if (responseUrl.status === 200) {
-                        ToastComponent(t('toast.ModelManager.Edit.success'), 'success');
+                        ToastComponent(t('toast.UserManager.Edit.success'), 'success');
                     } else {
-                        ToastComponent(t('toast.ModelManager.Edit.warning'), 'warning');
+                        ToastComponent(t('toast.UserManager.Edit.warning'), 'warning');
                         return;
                     }
-                } else {
-                    const responseUrl = await ModelManagementService.addModel(values.modelName, "null", Number(values.brandId));
-                    if (responseUrl.status === 200) {
-                        ToastComponent(t('toast.ModelManager.Add.success'), 'success');
-
-                    } else {
-                        ToastComponent(t('toast.ModelManager.Add.warning'), 'warning');
-                        return;
-                    }
+                    setTimeout(() => {
+                        navigate(-1)
+                    }, 2000);
+                } catch (error) {
+                    ToastComponent(t('toast.UserManager.Edit.warning'), 'warning');
                 }
-                setTimeout(() => {
-                    navigate(-1)
-                }, 2000);
-            } catch (error) {
-                ToastComponent(t('toast.ModelManager.Edit.warning'), 'warning');
             }
         }
     });
 
-    const getModelById = async (id: number) => {
+    const getUserById = async (id: number) => {
         try {
-            const response = await ModelManagementService.getModelById(id);
+            const response = await UserService.getUserByIdManage(id);
             if (response) {
-                setModel(response)
-                setFieldValue("modelName", response.modelName)
-                setFieldValue("brandId", response.brandId)
+                setUser(response);
+                setFieldValue("name", response.name);
+                setFieldValue("email", response.email);
+                setFieldValue("phone", response.phone);
+                setFieldValue("gender", response.gender);
+                setFieldValue("dob", response.dob);
+                setFieldValue("address", response.address);
+                setFieldValue("roleName", response.role.roleName);
+                setFieldValue("roleId", response.role.roleId);
             }
         } catch (error) {
 
         }
     }
+
     const {
         values,
         handleChange,
@@ -102,94 +90,79 @@ const UserManagementForm = () => {
     } = formik;
 
     return (
-        // <Box width={'100%'} display={'flex'} flexDirection={'column'} gap={"16px"}>
-        //     <Box sx={{ backgroundColor: "#8B4513" }} width={'100%'} display={'flex'} flexDirection={'row'} alignItems={'center'} gap={1} >
-        //         <MyIcon icon={<ArrowBack style={{ color: theme.palette.common.white }} />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-back")} onClick={() => navigate(-1)} position='bottom' />
-        //         <Typography color={theme.palette.common.white} variant="h1" fontSize={24} fontWeight={700}>
-        //             {t("dashBoardManager.Navigation.model")}
-        //         </Typography>
-        //     </Box>
+        <Box width={'100%'} display={'flex'} flexDirection={'column'} gap={"16px"}>
+            <Box sx={{ backgroundColor: "#8B4513" }} width={'100%'} display={'flex'} flexDirection={'row'} alignItems={'center'} gap={1} >
+                <MyIcon icon={<ArrowBack style={{ color: theme.palette.common.white }} />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-back")} onClick={() => navigate(-1)} position='bottom' />
+                <Typography color={theme.palette.common.white} variant="h1" fontSize={24} fontWeight={700}>
+                    {t("dashBoardManager.Navigation.user")}
+                </Typography>
+            </Box>
 
-        //     <Box sx={{
-        //         border: "1px solid #E0E0E0",
-        //         backgroundColor: "#fff",
-        //         borderRadius: "8px",
-        //         display: 'flex',
-        //         flexDirection: isMobile ? 'column' : 'row',
-        //         alignContent: 'center',
-        //         padding: isMobile ? '2rem' : '3rem',
-        //         gap: '3rem',
-        //         justifyContent: 'space-between',
-        //         alignItems: 'center'
-        //     }}>
+            <Box
+                sx={{
+                    border: "1px solid #E0E0E0",
+                    backgroundColor: "#fff",
+                    borderRadius: "8px",
+                    display: 'flex',
+                    flexDirection: isMobile ? 'column' : 'row',
+                    alignContent: 'center',
+                    padding: isMobile ? '2rem' : '3rem',
+                    gap: '3rem',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                }}>
 
-        //         <Box sx={{ display: 'flex', flexDirection: 'column', width: isMobile ? '90%' : '60%', justifyContent: 'center' }}>
-        //             <Typography variant="h1" fontSize={24} fontWeight={700} marginTop={'-20px'} marginBottom={'15px'}>
-        //                 {model ? t("dashBoardManager.model.TitleChange") : t("dashBoardManager.model.TitleAdd")}
-        //             </Typography>
-        //             <Select
-        //                 sx={{
-        //                     borderRadius: '8px',
-        //                 }}
-        //                 fullWidth
-        //                 displayEmpty
-        //                 name="brandId"
-        //                 value={values.brandId}
-        //                 onChange={handleChange}
-        //             >
-        //                 <MenuItem key={0} value="">
-        //                     <em>{t("postMotorbike.registedForm.brandPlaceHolder")}</em>
-        //                 </MenuItem>
-        //                 {listBrand.map((brand) => (
-        //                     <MenuItem key={brand.id} value={brand.id}>
-        //                         {brand.brandName}
-        //                     </MenuItem>
-        //                 ))}
-        //             </Select>
-        //             {errors.brandId && touched.brandId && (
-        //                 <ErrorMessage message={errors.brandId} />
-        //             )}
-        //             <TextField
-        //                 sx={{
-        //                     '& .MuiOutlinedInput-root': {
-        //                         '& fieldset': {
-        //                             border: '1px solid #E0E0E0',
-        //                             borderRadius: '8px',
-        //                         },
-        //                         '&:hover fieldset': {
-        //                             border: '1px solid #8B4513',
-        //                         },
-        //                         '&.Mui-focused fieldset': {
-        //                             border: '1px solid #8B4513',
-        //                         },
-        //                     },
-        //                 }}
-        //                 name='modelName'
-        //                 label={t('dashBoardManager.model.Title')}
-        //                 placeholder={t('dashBoardManager.model.Title')}
-        //                 variant='outlined'
-        //                 margin='normal'
-        //                 value={values.modelName}
-        //                 onChange={handleChange}
-        //             />
-        //             {errors.modelName && touched.modelName && (
-        //                 <ErrorMessage message={errors.modelName} />
-        //             )}
+                <Box
+                    sx={{ display: 'flex', flexDirection: 'column', width: isMobile ? '90%' : '60%', justifyContent: 'center' }}>
+                    <Typography variant="h1" fontSize={24} fontWeight={700} marginTop={'-20px'} marginBottom={'15px'}>
+                        {t("dashBoardManager.user.TitleChange")}
+                    </Typography>
+                    <Typography color={'black'} marginBottom={'5px'}>
+                        {t("userProfile.Role")}
+                    </Typography>
 
-        //             <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: "16px", mt: "16px" }}>
-        //                 <MyCustomButton
-        //                     type="submit"
-        //                     borderRadius={8}
-        //                     fontSize={16}
-        //                     fontWeight={400}
-        //                     disabled={isSave}
-        //                     content={t("dashBoardManager.news.buttonSave")}
-        //                     onClick={handleSubmit}
-        //               z  />
-        //             </Box>
-        //         </Box>
-        //     </Box>
-        // </Box>
-    null );
+                    <Select
+                        sx={{
+                            borderRadius: '8px',
+                        }}
+                        fullWidth
+                        displayEmpty
+                        name="roleId"
+                        value={values.roleId}
+                        onChange={handleChange}
+                    >
+                        <MenuItem key={0} value="">
+                            <em>{t("dashBoardManager.user.chooseRole")}</em>
+                        </MenuItem>
+                        <MenuItem key={1} value={'1'}>
+                            {t("dashBoardManager.user.customer")}
+                        </MenuItem>
+                        <MenuItem key={2} value={'2'}>
+                            {t("dashBoardManager.user.staff")}
+                        </MenuItem>
+                        <MenuItem key={3} value={'3'}>
+                            {t("dashBoardManager.user.admin")}
+                        </MenuItem>
+                    </Select>
+                    {errors.roleId && touched.roleId && (
+                        <ErrorMessage message={errors.roleId} />
+                    )}
+
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: "16px", mt: "16px" }}>
+                        <MyCustomButton
+                            type="submit"
+                            borderRadius={8}
+                            fontSize={16}
+                            fontWeight={400}
+                            disabled={isSave}
+                            content={t("dashBoardManager.news.buttonSave")}
+                            onClick={handleSubmit}
+                        />
+                    </Box>
+                </Box>
+            </Box>
+        </Box>
+
+    );
 }
 export default UserManagementForm;

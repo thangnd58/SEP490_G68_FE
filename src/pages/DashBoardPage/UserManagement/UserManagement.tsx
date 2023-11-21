@@ -45,13 +45,13 @@ const UserManagement = () => {
         try {
             const response = await UserService.deleteUserByIdManage(id);
             if (response.status === 200) {
-                ToastComponent(t('toast.ModelManager.Delete.success'), 'success');
+                ToastComponent(t('toast.UserManager.Delete.success'), 'success');
                 getAllUser();
             } else {
-                ToastComponent(t('toast.ModelManager.Delete.warning'), 'warning');
+                ToastComponent(t('toast.UserManager.Delete.warning'), 'warning');
             }
         } catch (error) {
-            ToastComponent(t('toast.ModelManager.Delete.error'), 'error');
+            ToastComponent(t('toast.UserManager.Delete.error'), 'error');
         }
     }
 
@@ -96,7 +96,7 @@ const UserManagement = () => {
             width: 100,
             renderCell: (params: any) => (
                 <Box sx={{ cursor: 'pointer' }} display={'flex'}>
-                    {/* <MyIcon icon={<EditIcon />} position='left' hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.managerModel}/${params.value}`)}/> */}
+                    <MyIcon icon={<EditIcon />} position='left' hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.managerUser}/${params.value}`)}/>
                     <MyIcon icon={<DeleteIcon />} position='right' hasTooltip tooltipText={t("dashBoardManager.model.delete")} 
                     onClick={() => {
                         setContentModal(<MyDialog icon={<DeleteIcon/>} onClickAgree={() => deleteUser(params.value)} title={t("dashBoardManager.user.confirmDelete")}  content={t("dashBoardManager.user.titleConfirmDelete") + params.row.email}  hasAgreeButton={true} hasCancelButton={true}/>)
@@ -142,27 +142,8 @@ const UserManagement = () => {
                     checkboxSelection
                     disableRowSelectionOnClick
                     getRowId={(row) => row.userId}
-                    pagination
-                    // slots={{ toolbar: GridToolbar }}
-                    components={{
-                        Toolbar: () => (
-                            <Box sx={{ display: 'flex', alignItems: 'start' }}>
-                                <GridToolbar />
-                                <Button
-                                    variant='text'
-                                    color='primary'
-                                    sx={{ 
-                                        padding: '4px 5px',
-                                        mt: '4px'
-                                    }}
-                                    startIcon={<Add color='primary' />}
-                                    onClick={() => navigate(`${ROUTES.admin.managerModel}/add`)}
-                                >
-                                    Add
-                                </Button>
-                            </Box>
-                        ),
-                    }}
+                    pagination                    
+                    slots={{ toolbar: GridToolbar }}
                     slotProps={{
                         toolbar: { printOptions: { getRowsToExport: getSelectedRowsToExport } },
                     }}
