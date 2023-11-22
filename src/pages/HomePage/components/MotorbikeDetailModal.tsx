@@ -69,11 +69,11 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
 
   // get motorbike by id
   useEffect(() => {
-    if (props.motorbikeId){
+    if (props.motorbikeId) {
       getMotorbikeById(props.motorbikeId.toString());
       getFeedbackById(props.motorbikeId.toString());
     }
-      
+
   }, [props.motorbikeId]);
 
   const getMotorbikeById = async (id: string) => {
@@ -317,6 +317,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
     <>
       <Modal
         open={true}
+        onClose={closeModal}
         aria-labelledby="map-modal-title"
         aria-describedby="map-modal-description"
         className='hiddenSroll'
@@ -975,21 +976,21 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     Rating & Feedback: {/* Thêm rating và feedback */}
                   </Typography>
                   <Box display={'flex'} flexDirection={'column'} gap={'8px'} width={'99.5%'} marginTop={'15px'}>
-                  <Box display="flex" flexDirection="column" justifyContent={"center"} gap={"8px"} p={'8px'} border={"1px solid #e0e0e0"} borderRadius={"8px"}  
+                    <Box display="flex" flexDirection="column" justifyContent={"center"} gap={"8px"} p={'8px'} border={"1px solid #e0e0e0"} borderRadius={"8px"}
                     >
                       {listFeedback.length !== 0 ? listFeedback.map((item: Feedback) => (
                         <FeedbackCard feedback={item}></FeedbackCard>
                       ))
-                      :
-                      <Box>
-                        <Typography fontSize={'18px'}>
-                        {t("feedback.nonComment")}
-                      </Typography>
-                      </Box>
+                        :
+                        <Box>
+                          <Typography fontSize={'18px'}>
+                            {t("feedback.nonComment")}
+                          </Typography>
+                        </Box>
                       }
                     </Box>
                   </Box>
-                  
+
                 </Box>
 
 

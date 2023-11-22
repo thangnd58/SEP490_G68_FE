@@ -43,7 +43,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
     const deleteFavourite = async (id: number) => {
         try {
             // Check login
-            if (!isLogin) {
+            if (!UserService.isLoggedIn()) {
                 setIsOpenLoginModal(true);
                 return;
             }
@@ -83,7 +83,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
     const addCart = async (motorbikeId: number, startDatetime: string, endDatetime: string, address: string) => {
         try {
             // Check login
-            if (!isLogin) {
+            if (!UserService.isLoggedIn()) {
                 setIsOpenLoginModal(true);
                 return;
             }

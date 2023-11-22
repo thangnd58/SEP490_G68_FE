@@ -11,6 +11,7 @@ import LoginForm from '../AccountPage/components/LoginForm';
 import { BookingService } from '../../services/BookingService';
 import { Booking } from '../../utils/type';
 import MyBookingItem from './components/MyBookingItem';
+import { transform } from 'typescript';
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -108,7 +109,7 @@ export default function MyBooking() {
                 {t("header.my_booking")}
             </Typography>
             <Paper elevation={2} sx={{ width: '80%', bgcolor: 'background.paper' }}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Box sx={{borderRadius:'8px 8px 0px 0px', borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                         <Tab
                             sx={{
@@ -119,6 +120,11 @@ export default function MyBooking() {
                                 color: theme.palette.text.primary,
                                 '&.Mui-selected': {
                                     color: theme.palette.primary.main
+                                },
+                                '&:hover': {
+                                    color: theme.palette.primary.main,
+                                    transform: 'scale(1.01)',
+                                    transition: 'all 0.3s ease-in-out',
                                 }
                             }}
                             label={t("myBooking.currentBooking")}
@@ -132,6 +138,11 @@ export default function MyBooking() {
                             color: theme.palette.text.primary,
                             '&.Mui-selected': {
                                 color: theme.palette.primary.main
+                            },
+                            '&:hover': {
+                                color: theme.palette.primary.main,
+                                transform: 'scale(1.01)',
+                                transition: 'all 0.3s ease-in-out',
                             }
                         }} label={t("myBooking.historyBooking")} {...a11yProps(1)} />
                     </Tabs>

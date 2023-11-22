@@ -126,6 +126,8 @@ export default function ListMotorbikesSearchedPage() {
         },
     ]
 
+
+
     // FORM CONTROLLER
     const formik = useFormik({
         initialValues: {
@@ -160,15 +162,7 @@ export default function ListMotorbikesSearchedPage() {
         }),
 
         onSubmit: async (values, actions) => {
-            // convert date to timestamp
-            const startDate = dayjs(values.startDate, "DD-MM-YYYY HH:mm").unix();
-            const endDate = dayjs(values.endDate, "DD-MM-YYYY HH:mm").unix();
-            let encodeAddress = '';
-            // encode address
-            if (values.address) {
-                encodeAddress = encodeURIComponent(values.address);
-            }
-            getMotorbikesByFilter(startDate.toString(), endDate.toString(), encodeAddress);
+            getMotorbikesByFilter(values.startDate, values.endDate, values.address);
         }
     }
     );
@@ -181,12 +175,15 @@ export default function ListMotorbikesSearchedPage() {
         handleSubmit,
         setFieldValue
     } = formik;
+    useEffect(() => { 
+        getMotorbikesByFilter(convertTimestampToDate(Number(startDate)),convertTimestampToDate(Number(endDate)),address)
+    }, [startDate, endDate, address])
 
     useEffect(() => {
         getMotorbikesByFilter(
-            startDate,
-            endDate,
-            address,
+            values.startDate,
+            values.endDate,
+            values.address,
             values.maximumRating,
             values.electric,
             values.brandId,
@@ -203,19 +200,7 @@ export default function ListMotorbikesSearchedPage() {
         );
 
     }, [
-        values.maximumRating,
-        values.electric,
-        values.brandId,
-        values.minPrice,
-        values.maxPrice,
-        values.minReleaseYear,
-        values.maxReleaseYear,
-        values.minFuelConsumption,
-        values.maxFuelConsumption,
-        values.minDistance,
-        values.maxDistance,
         values.orderBy,
-        equipments
     ]);
 
     const getMotorbikesByFilter = async (
@@ -236,6 +221,7 @@ export default function ListMotorbikesSearchedPage() {
         equipmentsParam?: string[],
         orderByParam?: string,
     ) => {
+        // alert ("startDateTimeParam: " + startDateTimeParam + "endDateTimeParam: " + endDateTimeParam + "addressParam: " + addressParam) 
         setIsLoadingData(true); // Bắt đầu tải dữ liệu
 
         if (!startDateTimeParam || !endDateTimeParam || !addressParam) {
@@ -244,9 +230,9 @@ export default function ListMotorbikesSearchedPage() {
         }
 
         const formData: SearchMotorbikeRequest = {
-            startDate: convertTimestampToDate(Number(startDateTimeParam)),
-            endDate: convertTimestampToDate(Number(endDateTimeParam)),
-            address: addressParam,
+            startDate: startDateTimeParam,
+            endDate: endDateTimeParam,
+            address: encodeURIComponent(addressParam),
             minPrice: minPriceParam,
             maxPrice: maxPriceParam,
             type: electricParam ? "Điện" : "",
@@ -552,7 +538,7 @@ export default function ListMotorbikesSearchedPage() {
         setFieldValue('RepairKit', false);
         setFieldValue('CaseTelephone', false);
         setFieldValue('Bagage', false);
-        setFieldValue('orderBy', '');
+        // setFieldValue('orderBy', '');
         checkSelectOptions('');
         checkFeatureOptions('');
         setPrice([1, 200]);
@@ -560,6 +546,28 @@ export default function ListMotorbikesSearchedPage() {
         setFuelConsumption([1, 10]);
         setMaxDistance([1, 50]);
         setEquipments([]);
+    }
+
+    const handleSubmitSearch = () => {
+        getMotorbikesByFilter(
+            values.startDate,
+            values.endDate,
+            values.address,
+            values.maximumRating,
+            values.electric,
+            values.brandId,
+            values.minPrice,
+            values.maxPrice,
+            values.minReleaseYear,
+            values.maxReleaseYear,
+            values.minFuelConsumption,
+            values.maxFuelConsumption,
+            values.minDistance,
+            values.maxDistance,
+            equipments,
+            values.orderBy,
+        );
+        closeAdvancedFilterModal();
     }
 
     return (
@@ -933,7 +941,7 @@ export default function ListMotorbikesSearchedPage() {
                                                 borderRadius={"10px"}
                                                 border={"3px solid"}
                                                 margin={"0px auto"}
-                                                width={"100%"}
+                                                width={"99%"}
                                                 justifyContent={"center"}
                                                 alignItems={"center"}
                                                 flexDirection={"column"}
@@ -1482,7 +1490,7 @@ export default function ListMotorbikesSearchedPage() {
                                 content={"Áp dụng bộ lọc"}
                                 onClick={
                                     () => {
-                                        closeAdvancedFilterModal();
+                                        handleSubmitSearch();
                                     }
                                 } />
                         </Box>

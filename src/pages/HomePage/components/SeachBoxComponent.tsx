@@ -446,7 +446,7 @@ const SeachBoxComponent = () => {
                                                 borderRadius={"10px"}
                                                 border={"3px solid"}
                                                 margin={"0px auto"}
-                                                width={"100%"}
+                                                width={"99%"}
                                                 justifyContent={"center"}
                                                 alignItems={"center"}
                                                 flexDirection={"column"}

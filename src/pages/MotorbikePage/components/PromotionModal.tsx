@@ -11,6 +11,7 @@ import { PromotionImage } from "../../../assets/images";
 import MyCustomButton from "../../../components/common/MyButton";
 import { getCountdownTime } from "../../../utils/helper";
 import dayjs from 'dayjs';
+import { useNavigate } from "react-router-dom";
 
 
 export const PromotionModal = (props: { isModalPromotionOpen: boolean, setModalPromotionOpen: React.Dispatch<React.SetStateAction<boolean>>, counponCode: string, setFieldValue: any, isMobile: boolean }) => {
@@ -28,6 +29,7 @@ export const PromotionModal = (props: { isModalPromotionOpen: boolean, setModalP
 
         }
     }, [])
+
     return (
         <Modal
             onClose={() => setModalPromotionOpen(false)}
