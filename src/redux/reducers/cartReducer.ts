@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { CartInforResponse } from "../../utils/type";
 import { AppDispatch, RootState } from "../store";
 import { BookingService } from "../../services/BookingService";
+import UserService from "../../services/UserService";
+import { useSelector } from "react-redux";
 
 export interface ShoppingCartInfo {
     shoppingCart: CartInforResponse[];
@@ -20,11 +22,15 @@ export const shoppingCartReducer = createSlice({
 });
 
 export const getCartInfo = (): any => {
+
+    // const { user } = useSelector((state: RootState) => state.userInfo);
     return async (dispatch: AppDispatch, getState: RootState) => {
         try {
+            // check if user is logged in
+            if (!UserService.isLoggedIn()) return;
             const shoppingCartInfo = await BookingService.getListShoppingCart();
-            //@ts-ignore
             dispatch(updateCart(shoppingCartInfo));
+            //@ts-ignore
         } catch (err) { }
     };
 };

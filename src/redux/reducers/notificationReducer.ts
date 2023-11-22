@@ -4,6 +4,8 @@ import axios from "axios";
 import { AppDispatch, RootState } from "../store";
 import { Notification } from "../../utils/type";
 import { NotificationService } from "../../services/NotificationService";
+import { useSelector } from "react-redux";
+import UserService from "../../services/UserService";
 
 export interface NotificationInfo {
     userNotification: Notification[]
@@ -24,6 +26,8 @@ export const userNotificationReducer = createSlice({
 export const getUserNotificationInfo = (): any => {
     return async (dispatch: AppDispatch, getState: RootState) => {
         try {
+          // check if user is logged in
+          if (!UserService.isLoggedIn()) return;
           const userNotificationInfo = await NotificationService.getAllUserNotification();
           //@ts-ignore
           dispatch(updateNotification(userNotificationInfo.data))
