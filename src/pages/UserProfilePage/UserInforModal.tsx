@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Motorbike, ReportCategory, ReportRequest } from '../../utils/type';
+import { Feedback, Motorbike, ReportCategory, ReportRequest, User } from '../../utils/type';
 import usei18next from '../../hooks/usei18next';
 import { ModalContext } from '../../contexts/ModalContext';
 import { ReportService } from '../../services/ReportService';
@@ -16,47 +16,15 @@ import MotorbikeInforCard from '../HomePage/components/MotorbikeInforCard';
 import { Avatar, Divider } from 'antd';
 import theme from '../../utils/theme';
 import useThemePage from '../../hooks/useThemePage';
+import UserService from '../../services/UserService';
+import dayjs from 'dayjs';
 
-
-export default function UserInforModal() {
+export default function UserInforModal(props : {userId: number}) {
+    const { userId } = props;
     const { t } = usei18next();
     const { closeModal } = useContext(ModalContext);
     const { isMobile } = useThemePage();
-
-    const formik = useFormik({
-        initialValues: {
-            detail: "",
-            categoryId: ""
-        },
-        validationSchema: Yup.object({
-            categoryId: Yup.number().required(t("form.required")),
-            detail: Yup.string().required(t("form.required")),
-        }),
-        onSubmit: async (values) => {
-            try {
-                const req: ReportRequest = {
-                    categoryId: Number(values.categoryId),
-                    detail: values.detail
-                }
-                await ReportService.postReport(req)
-                ToastComponent(t("report.reportSuccess"), "success")
-                closeModal()
-            } catch (error) {
-
-            }
-        }
-    });
-
-    const {
-        values,
-        errors,
-        touched,
-        handleChange,
-        handleSubmit,
-        setFieldValue
-    } = formik;
-
-    const [hotMotorbikes, setHotMotorbikes] = React.useState<Motorbike[]>([]);
+    const [userInformation, setUserInformation] = useState<User>();
 
     useEffect(() => {
         getData();
@@ -64,15 +32,15 @@ export default function UserInforModal() {
 
     const getData = async () => {
         try {
-            const dataMotorbike = await HomePageService.getListPopularMotorbike();
-            if (dataMotorbike) {
-                setHotMotorbikes(dataMotorbike);
+            const dataUser = await UserService.getUserDetailInformation(userId.toString());
+            if (dataUser) {
+                setUserInformation(dataUser);
+            
             }
         } catch (error) {
             console.log(error);
         }
     }
-
 
     return (
         <>
@@ -114,10 +82,11 @@ export default function UserInforModal() {
                             }}
                         >
                             <Typography fontWeight={'600'} fontSize={'20px'}>Thông tin người dùng</Typography>
-                            <Avatar size={100} src={'https://i.pinimg.com/originals/0e/6a/0a/0e6a0a5a0b0b0e0b0e0b0e0b0e0b0e0b.jpg'} />
+                            <Avatar size={100} src={userInformation?.avatarUrl} />
                             <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} width={"100%"} gap={'4px'}>
-                                <Typography fontWeight={'600'} fontSize={'20px'}>Nguyễn Văn A</Typography>
-                                <Typography fontWeight={'400'} fontSize={'14px'} color={theme.palette.text.secondary}>Tham gia từ ngày 12/12/2021</Typography>
+                                <Typography fontWeight={'600'} fontSize={'20px'}>{userInformation?.name}</Typography>
+                                <Typography fontWeight={'400'} fontSize={'14px'} color={theme.palette.text.secondary}>Tham gia từ ngày {dayjs(userInformation?.createDatetime).format('DD/MM/YYYY')}
+                                </Typography>
                             </Box>
                             {/* Lượt đặt và lượt đánh giá */}
                             <Box display={"flex"} flexDirection={"row"} justifyContent={"center"} alignItems={"center"} width={"100%"} gap={'32px'}>
@@ -169,8 +138,8 @@ export default function UserInforModal() {
                                     }}
                                 >
                                     {
-                                        hotMotorbikes.map((item: Motorbike, index: number) => (
-                                            <MotorbikeInforCard isInModal canClickDetailPage motorbike={item} isFavoritePage={false} isIntroduced={true} isNotFavorite />
+                                        userInformation?.motorbikes.map((item: Motorbike, index: number) => (
+                                            <MotorbikeInforCard isInModal canClickDetailPage motorbike={item} isFavoritePage={false} isIntroduced={true} />
                                         ))
                                     }
                                 </Box>
@@ -192,8 +161,8 @@ export default function UserInforModal() {
                                     }}
                                 >
                                     {
-                                        hotMotorbikes.map((item: Motorbike, index: number) => (
-                                            <MotorbikeInforCard canClickDetailPage motorbike={item} isFavoritePage={false} isIntroduced={true} isNotFavorite />
+                                         userInformation?.motorbikes.map((item: Motorbike, index: number) => (
+                                            <MotorbikeInforCard canClickDetailPage motorbike={item} isFavoritePage={false} isIntroduced={true} />
                                         ))
                                     }
                                 </Box>
@@ -224,20 +193,17 @@ export default function UserInforModal() {
                                     borderRadius: '8px',
                                 }}
                             >
+                                {/* {
+                                    userInformation?.motorbikes
+                                } */}
                                 <CommentItem isMobile={isMobile} />
-
-
-
                             </Box>
                         </Box>
-
-
 
                     </DialogContent>
                 </Box >
             </Dialog >
-
-        </>
+            </>
     )
 
 }

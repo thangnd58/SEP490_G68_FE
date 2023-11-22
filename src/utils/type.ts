@@ -12,7 +12,11 @@ export interface User {
     role: Role;
     phoneVerified: boolean;
     balance: number;
+    createDatetime: string;
     googleIdentity: string;
+    motorbikes: Motorbike[];
+    totalBooking: number;
+    averageRating: number;
 }
 
 export interface Role {
@@ -129,6 +133,9 @@ export interface Motorbike {
     countCompletedBooking: number,
     deliveryDistanceChargeable: number,
     totalFeeOfDelivery: number,
+    modelName?: string,
+    brandName?: string,
+    feedbacks: Feedback[];
 }
 
 export interface MotorbikeRequest {
@@ -495,4 +502,19 @@ export interface MoneyFlow {
     userId: 191,
     user: User,
     description: string
+}
+
+export interface Feedback {
+    feedbackId: number,
+    rating: number,
+    comment: string,
+    createDatetime: string,
+    updateDatetime: string,
+    createUserId: number,
+    updateUserId: number,
+    bookingId: number,
+    motorbikeId: number,
+    user: UserForRent,
+    perfomer: string,
+    response: string
 }
