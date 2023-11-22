@@ -618,7 +618,7 @@ export const BookingDetailPage = () => {
                             booking && booking.motorbikes && booking.motorbikes.length > 0 &&
                             booking.motorbikes.map((motor, index) => {
                                 return (
-                                    <MotorbikeBookingCard key={`${index}_motor`} motorbike={motor} isMobile={isMobile} />
+                                    <MotorbikeBookingCard key={`${index}_motor`} motorbike={motor} isMobile={isMobile}/>
                                 )
                             })
                         }

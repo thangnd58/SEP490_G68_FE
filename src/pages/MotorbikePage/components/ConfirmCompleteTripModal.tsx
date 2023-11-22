@@ -39,8 +39,8 @@ export const ConfirmCompleteTripModal = (props: { booking: Booking, isMobile: bo
         try {
             const motorbikeIdString = booking?.motorbikes?.map((motorbike) => motorbike.id).join(",");
             await BookingService.updateStatusBookingDetail(booking!.bookingId, motorbikeIdString, status);
+            setReloadBooking((prev) => !prev);
             closeModal();
-            setReloadBooking(true);
         } catch (error) {
             console.log(error);
         }
@@ -161,7 +161,7 @@ export const ConfirmCompleteTripModal = (props: { booking: Booking, isMobile: bo
                         booking && booking.motorbikes.length > 0 &&
                         booking.motorbikes.map((motor, index) => {
                             return (
-                                <MotorbikeBookingCard key={`${index}_motor`} motorbike={motor} isMobile={isMobile} canFeedback={true} onlyView={booking.status==="Finished"} bookingId={booking.bookingId} />
+                                <MotorbikeBookingCard key={`${index}_motor`} motorbike={motor} isMobile={isMobile} canFeedback={true} onlyView={booking.status==="Finished"} bookingId={booking.bookingId} setReload={setReloadBooking} />
                             )
                         })
                     }
