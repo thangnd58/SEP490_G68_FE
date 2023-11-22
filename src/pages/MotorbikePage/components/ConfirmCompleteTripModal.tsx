@@ -10,7 +10,7 @@ import { formatMoneyNew } from "../../../utils/helper";
 import MyCustomButton from "../../../components/common/MyButton";
 import { RequireWhenRent } from "./RequireWhenRent";
 import usei18next from "../../../hooks/usei18next";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ModalContext } from "../../../contexts/ModalContext";
 import { BookingService } from "../../../services/BookingService";
 
@@ -24,11 +24,16 @@ interface BookingValue {
     deliveryMode: string;
     couponCode: string;
 }
-
+interface Location {
+    lat: number,
+    lng: number,
+  }
+  
 export const ConfirmCompleteTripModal = (props: { booking: Booking, isMobile: boolean, setReloadBooking: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const { isMobile, booking, setReloadBooking } = props
     const { t } = usei18next()
     const { closeModal } = useContext(ModalContext)
+    const [location, setLocation] = useState<Location>({ lat: 21.028511, lng: 105.804817 });
 
     const changeStatusBookingDetail = async (status: string) => {
         try {
@@ -40,6 +45,18 @@ export const ConfirmCompleteTripModal = (props: { booking: Booking, isMobile: bo
             console.log(error);
         }
     };
+
+    useEffect(() => {
+        BookingService.getLatLngByAddress(booking.address || "Hà nội").then((data) => {
+          const location = data.split(',');
+          const result: Location = {
+            lat: Number(location[0]),
+            lng: Number(location[1])
+          }
+          setLocation(result)
+        })
+      }, [booking.address])
+
     return (
         <Modal
             open={closeModal}
@@ -123,7 +140,7 @@ export const ConfirmCompleteTripModal = (props: { booking: Booking, isMobile: bo
                     >
                         <GoogleMap
                             zoom={18}
-                            center={{ lat: 0, lng: 0 }}
+                            center={{ lat: location.lat, lng: location.lng }}
                             mapContainerStyle={{
                                 width: "100%",
                                 height: "40vh",
@@ -134,7 +151,7 @@ export const ConfirmCompleteTripModal = (props: { booking: Booking, isMobile: bo
                             {booking &&
                                 (
                                     <>
-                                        <Marker position={{ lat: 0, lng: 0 }} />
+                                        <Marker position={{ lat: location.lat, lng: location.lng }} />
                                     </>
                                 )
                             }

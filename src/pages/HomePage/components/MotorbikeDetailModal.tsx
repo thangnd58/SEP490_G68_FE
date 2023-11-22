@@ -43,11 +43,26 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
   const [previewBookingData, setPreviewBookingData] = useState<BookingResponse>();
   const [isProcessingBooking, setIsProcessingBooking] = useState(false);
   const [isOpenLoginModal, setIsOpenLoginModal] = useState<boolean>(false);
+  const [defaultLocation, setDefaultLocation] = useState<Location>();
 
   interface Location {
     lat: number,
     lng: number,
   }
+
+  useEffect(() => {
+    BookingService.getLatLngByAddress(props?.searchedAddress || "Hà nội").then((data) => {
+      const location = data.split(',');
+      const result: Location = {
+        lat: Number(location[0]),
+        lng: Number(location[1])
+      }
+      setDefaultLocation(result)
+      setSelected(result)
+      setFieldValue("lat", result.lat);
+      setFieldValue("lng", result.lng);
+    })
+  }, [props?.searchedAddress])
 
   // get motorbike by id
   useEffect(() => {
@@ -100,8 +115,8 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
   const formik = useFormik({
     initialValues: {
       address: props?.searchedAddress,
-      lat: 21.028511,
-      lng: 105.804817,
+      lat: defaultLocation?.lat || 0,
+      lng: defaultLocation?.lng || 0,
       startDate: props?.startDate,
       endDate: props?.endDate,
       paymentType: BookingPaymentType.UserBalance,
@@ -187,7 +202,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
 
   // declare vaiables
   const defaultDeliveryLoction = useMemo(() => ({ lat: values.lat, lng: values.lng }), []);
-  const [selected, setSelected] = useState<Location>(defaultDeliveryLoction);
+  const [selected, setSelected] = useState<Location>(defaultDeliveryLoction!);
   const [showMenu, setShowMenu] = useState(false);
   const defaultLoctionMotorbike = useMemo(() => ({ lat: location?.lat || 10.762622, lng: location?.lng || 106.660172 }), [location]);
 
@@ -400,7 +415,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     whiteSpace="nowrap"
                     overflow="hidden"
                   >
-                    {t("booking.completeBook", {count: previewBookingData && previewBookingData.motorbikes[0].countCompletedBooking})}
+                    {t("booking.completeBook", { count: previewBookingData && previewBookingData.motorbikes[0].countCompletedBooking })}
                   </Typography>
                 </Box>
                 <Divider sx={{ margin: isMobile ? "8px 0px" : "16px 0px", width: "100%" }} variant="fullWidth" />

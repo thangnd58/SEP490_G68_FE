@@ -24,7 +24,10 @@ import { getUserInfo } from "../../redux/reducers/authReducer";
 import MyIcon from "../../components/common/MyIcon";
 import { ArrowBack, CheckCircle, CloseOutlined, Verified } from "@mui/icons-material";
 import { ConfirmCompleteTripModal } from "./components/ConfirmCompleteTripModal";
-
+interface Location {
+    lat: number,
+    lng: number,
+  }
 export const BookingDetailPageOwner = () => {
     const { bookingId } = useParams();
     const [booking, setBooking] = useState<Booking>();
@@ -44,6 +47,7 @@ export const BookingDetailPageOwner = () => {
     const [reloadBooking, setReloadBooking] = useState<boolean>(false)
     const [endDate, setEndDate] = useState<string>("");
     const [countdown, setCountdown] = useState<string>("");
+    const [location, setLocation] = useState<Location>({ lat: 21.028511, lng: 105.804817 });
 
     useEffect(() => {
         try {
@@ -64,6 +68,14 @@ export const BookingDetailPageOwner = () => {
                     }
                     setBooking(data)
                     setPaymentType(data.paymentType)
+                    BookingService.getLatLngByAddress(data.address || "Hà nội").then((d) => {
+                        const location = d.split(',');
+                        const result: Location = {
+                          lat: Number(location[0]),
+                          lng: Number(location[1])
+                        }
+                        setLocation(result)
+                      })
                 }
             })
         } catch (error) {
@@ -364,7 +376,7 @@ export const BookingDetailPageOwner = () => {
                                 >
                                     <GoogleMap
                                         zoom={18}
-                                        center={{ lat: 21.028511, lng: 105.804817 }}
+                                        center={{ lat: location.lat, lng: location.lng }}
                                         mapContainerStyle={{
                                             width: "100%",
                                             height: "40vh",
@@ -373,7 +385,7 @@ export const BookingDetailPageOwner = () => {
 
                                     >
                                         {booking &&
-                                            <Marker position={{ lat: 21.028511, lng: 105.804817 }} />
+                                            <Marker position={{ lat: location.lat, lng: location.lng }} />
                                         }
                                     </GoogleMap>
                                 </Box>
