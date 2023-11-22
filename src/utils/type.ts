@@ -516,5 +516,6 @@ export interface Feedback {
     motorbikeId: number,
     user: UserForRent,
     perfomer: string,
+    // user: User,
     response: string
 }

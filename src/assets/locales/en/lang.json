@@ -756,7 +756,8 @@
   "feedback": {
     "createSuccess": "Evaluate success",
     "createError": "Evaluation failed",
-    "editSuccess": "Upadate evaluate success"
+    "editSuccess": "Upadate evaluate success",
+    "nonComment": "No comments yet"
   },
   "report": {
     "reason": "Reporting reason",
