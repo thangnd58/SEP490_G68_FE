@@ -18,6 +18,7 @@ import theme from '../../utils/theme';
 import useThemePage from '../../hooks/useThemePage';
 import UserService from '../../services/UserService';
 import dayjs from 'dayjs';
+import { getPreviousTimeRelative } from '../../utils/helper';
 
 export default function UserInforModal(props : {userId: number}) {
     const { userId } = props;
@@ -25,6 +26,7 @@ export default function UserInforModal(props : {userId: number}) {
     const { closeModal } = useContext(ModalContext);
     const { isMobile } = useThemePage();
     const [userInformation, setUserInformation] = useState<User>();
+    const [feedback, setFeedback] = useState<Feedback[]>();
 
     useEffect(() => {
         getData();
@@ -35,12 +37,16 @@ export default function UserInforModal(props : {userId: number}) {
             const dataUser = await UserService.getUserDetailInformation(userId.toString());
             if (dataUser) {
                 setUserInformation(dataUser);
-            
+                // get all feedback of user
+                setFeedback(dataUser.motorbikes.map((item: Motorbike) => item.feedbacks).flat());
             }
         } catch (error) {
             console.log(error);
         }
     }
+    console.log(feedback?.length)
+
+    
 
     return (
         <>
@@ -55,7 +61,7 @@ export default function UserInforModal(props : {userId: number}) {
                         borderRadius: "16px",
                         padding: '16px',
                         margin: isMobile ? '0px' : '32px',
-                        maxWidth: isMobile ? '95%' : '70%',
+                        maxWidth: isMobile ? '95%' : '71.5%',
                     }
                 }}
             >
@@ -94,14 +100,14 @@ export default function UserInforModal(props : {userId: number}) {
                                     <Typography fontWeight={'500'} fontSize={'16px'}>Lượt đặt </Typography>
                                     <Box display={"flex"} flexDirection={"row"} justifyContent={"center"} alignItems={"center"}>
                                         <Luggage sx={{ color: theme.palette.text.secondary }} />
-                                        <Typography fontWeight={'400'} fontSize={'14px'} color={theme.palette.text.secondary}>12</Typography>
+                                        <Typography fontWeight={'400'} fontSize={'14px'} color={theme.palette.text.secondary}>{userInformation?.totalBooking}</Typography>
                                     </Box>
                                 </Box>
                                 <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
                                     <Typography fontWeight={'500'} fontSize={'16px'}>Đánh giá </Typography>
                                     <Box display={"flex"} flexDirection={"row"} justifyContent={"center"} alignItems={"center"}>
                                         <Grade sx={{ color: theme.palette.text.secondary }} />
-                                        <Typography fontWeight={'400'} fontSize={'14px'} color={theme.palette.text.secondary}>12</Typography>
+                                        <Typography fontWeight={'400'} fontSize={'14px'} color={theme.palette.text.secondary}>{userInformation?.averageRating}</Typography>
                                     </Box>
                                 </Box>
                             </Box>
@@ -130,7 +136,7 @@ export default function UserInforModal(props : {userId: number}) {
                                 >
                                     <Typography width={"100%"} textAlign={'start'} fontWeight={'600'} fontSize={'20px'}>Danh sách xe</Typography>
                                 </Box>
-                                <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"center"} flexWrap={'wrap'} alignItems={"center"}
+                                <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-evenly"} flexWrap={'wrap'} alignItems={"center"}
                                     sx={{
                                         marginTop: '8px',
                                         gap: '1rem',
@@ -154,7 +160,7 @@ export default function UserInforModal(props : {userId: number}) {
                                 }}
                             >
                                 <Typography width={"100%"} textAlign={'start'} fontWeight={'600'} fontSize={'20px'}>Danh sách xe</Typography>
-                                <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"start"} flexWrap={'wrap'} alignItems={"start"}
+                                <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-evenly"} flexWrap={'wrap'} alignItems={"start"}
                                     sx={{
                                         gap: '1rem',
                                         borderRadius: '8px',
@@ -170,6 +176,7 @@ export default function UserInforModal(props : {userId: number}) {
                         )}
                         {isMobile ? (<Divider style={{ margin: "8px 0px" }} />) : (<Divider />)}
 
+                        {feedback && feedback?.length > 0 && (
                         <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}
                             sx={{
                                 width: isMobile ? '90%' : 'auto',
@@ -183,8 +190,9 @@ export default function UserInforModal(props : {userId: number}) {
                                 <Typography textAlign={'start'} fontWeight={'600'} fontSize={'20px'}>Đánh giá</Typography>
                                 <Box display={"flex"} flexDirection={"row"} justifyContent={"center"} alignItems={"center"} gap={'4px'}>
                                     <Grade sx={{ color: '#FFD700' }} />
-                                    <Typography textAlign={'start'} fontWeight={'500'} fontSize={'16px'}>5.0</Typography>
-                                    <Typography textAlign={'start'} fontWeight={'500'} fontSize={'16px'}>+100 đánh giá</Typography>
+                                    <Typography textAlign={'start'} fontWeight={'500'} fontSize={'16px'}>{userInformation?.averageRating}</Typography>
+                                    <Divider type="vertical" />
+                                    <Typography textAlign={'start'} fontWeight={'500'} fontSize={'16px'}>{feedback.length} đánh giá</Typography>
                                 </Box>
                             </Box>
                             <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"}
@@ -193,13 +201,13 @@ export default function UserInforModal(props : {userId: number}) {
                                     borderRadius: '8px',
                                 }}
                             >
-                                {/* {
-                                    userInformation?.motorbikes
-                                } */}
-                                <CommentItem isMobile={isMobile} />
+                                {
+                                    feedback.map((item: Feedback) => (
+                                        <CommentItem isMobile={isMobile} avatar={item.user.avatarUrl} name={item.user.name} comment={item.comment} dateComment={item.createDatetime} />
+                                    ))
+                                }
                             </Box>
-                        </Box>
-
+                        </Box>)}
                     </DialogContent>
                 </Box >
             </Dialog >
@@ -220,6 +228,7 @@ interface CommentItemProps {
 
 function CommentItem(props: CommentItemProps) {
     const { avatar, dateComment, name, rating, comment, replyComment, isMobile } = props;
+    const { t } = usei18next();
     return (<Box width={isMobile ? '90%' : "95%"} display={"flex"} flexDirection={"column"} justifyContent={"start"} alignItems={"start"} sx={{
         backgroundColor: "#fff",
         borderRadius: '8px',
@@ -239,7 +248,7 @@ function CommentItem(props: CommentItemProps) {
                     {
                         /* Thời gian đăng */
                     }
-                    <Typography textAlign={'start'} fontWeight={'400'} fontSize={'12px'}>{dateComment}123213</Typography>
+                    <Typography textAlign={'start'} fontWeight={'400'} fontSize={'12px'}>{getPreviousTimeRelative(dateComment||"",t)}</Typography>
                 </Box>
                 {
                     /* Comment */
@@ -249,7 +258,6 @@ function CommentItem(props: CommentItemProps) {
                         borderRadius: '8px',
                         border: '1px solid #E0E0E0',
                         padding: '6px' // Adjust padding as needed
-
                     }}>
                         <Typography textAlign={'start'} fontWeight={'400'} fontSize={'14px'}>{comment}</Typography>
                     </Box>
