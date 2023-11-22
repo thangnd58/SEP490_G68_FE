@@ -30,8 +30,8 @@ import { ConfirmMotorbikeBookingModal } from './components/ConfirmMotorbikeBooki
 import { LoginModal } from '../AccountPage/LoginModal';
 
 
-export default function MotorbikeDetailModal() {
-  const { motorbikeId, searchedAddress, startDate, endDate } = useParams();
+export default function MotorbikeDetailPage() {
+  const { motorbikeId } = useParams();
   const { isMobile, isIpad } = useThemePage();
   const { t, isVn } = usei18next();
   const [equipmentList, setEquipmentList] = useState<string[]>([]);
@@ -51,7 +51,6 @@ export default function MotorbikeDetailModal() {
     lat: number,
     lng: number,
   }
-  console.log ("searchedAddress"+ searchedAddress + "startDate" + startDate + "endDate" + endDate)
 
   // get motorbike by id
   useEffect(() => {
@@ -103,11 +102,11 @@ export default function MotorbikeDetailModal() {
   // FORM CONTROLLER
   const formik = useFormik({
     initialValues: {
-      address: searchedAddress,
-      lat: 21.028511,
-      lng: 105.804817,
-      startDate: startDate,
-      endDate: endDate,
+      address: "Quận Ba Đình, Hà Nội",
+      lat: 21.034099,
+      lng: 105.8244301,
+      startDate: today,
+      endDate: tomorrow,
       paymentType: BookingPaymentType.UserBalance,
       deliveryMode: BookingDeliveryMode.DeliveryService,
       couponCode: ""
@@ -153,20 +152,7 @@ export default function MotorbikeDetailModal() {
     setFieldValue
   } = formik;
 
-
   useEffect(() => {
-    if (startDate || endDate || searchedAddress) {
-      setFieldValue("startDate", today);
-      setFieldValue("endDate", tomorrow);
-      setFieldValue("address", "Quận Ba Đình, Hà Nội");
-      // navigate(
-      //   `${ROUTES.user.detailmotorbike}/${motorbikeId}/${encodeURIComponent("Quận Ba Đình, Hà Nội")}/${values.startDate}/${values.endDate}`
-      // )
-    }
-  }, [])
-
-  useEffect(() => {
-
     const bookingPreview: BookingRequest = {
       motorbikeId: motorbikeId || "0",
       address: values.address || "Quận Ba Đình, Hà Nội",

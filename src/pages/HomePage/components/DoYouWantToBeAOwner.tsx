@@ -6,7 +6,7 @@ import MyCustomButton from '../../../components/common/MyButton';
 import { Loyalty } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import usei18next from '../../../hooks/usei18next';
-import { ROUTES } from '../../../utils/Constant';
+import { GuildlineType, ROUTES } from '../../../utils/Constant';
 
 export default function DoYouWantToBeAOwner() {
     const { isMobile } = useThemePage();
@@ -27,11 +27,11 @@ export default function DoYouWantToBeAOwner() {
             >
                 {/* image */}
                 <Box display={'flex'} alignItems={'center'} justifyContent={'center'} width={isMobile ? '100%' : '50%'} height={'100%'}>
-                    <img src={BeAOwner} alt={'owner'} style={{ width: '100%', height: '100%', objectFit: 'cover'}} />
+                    <img src={BeAOwner} alt={'owner'} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </Box>
                 {/* content */}
                 <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} width={isMobile ? '100%' : '50%'} height={'100%'}>
-                    <Typography  sx={{ color: 'common.black', fontWeight: 'bold', fontSize: isMobile ? 32 : 48, textAlign: 'center' }}>
+                    <Typography sx={{ color: 'common.black', fontWeight: 'bold', fontSize: isMobile ? 32 : 48, textAlign: 'center' }}>
                         {t("header.be_a_owner")}
                     </Typography>
                     <Typography sx={{ color: 'common.black', fontSize: isMobile ? 14 : 16, textAlign: 'center' }}>
@@ -53,12 +53,10 @@ export default function DoYouWantToBeAOwner() {
                             width={'auto'}
                             fontWeight={600}
                             onClick={() =>
-                                navigate(
-                                    ROUTES.user.listmotorbike
-                                )
+                                navigate(`${ROUTES.other.guide.generalguide}/${GuildlineType.general}`)
                             }
-                            content={t("homepage.btn_viewmore")}
-                            variant="outlined"
+                        content={t("homepage.btn_viewmore")}
+                        variant="outlined"
                         />
                     </Box>
                 </Box>

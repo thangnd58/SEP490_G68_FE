@@ -31,7 +31,7 @@ export const ROUTES = {
     booking: {
         detail: "booking-detail",
         detail_owner: "booking-detail-owner",
-        mybooking: "/my-booking", 
+        mybooking: "/my-booking",
     },
 
     component: {
@@ -50,21 +50,20 @@ export const ROUTES = {
         managerBrand: "/manage-brands",
         manageNews: "/manage-news",
         managePromotion: "/manage-promotions",
-        managerModel : "/manage-models",
+        managerModel: "/manage-models",
         manageReport: "/manage-reports",
-        managerUser : "/manage-user"
+        managerUser: "/manage-user"
     },
     other: {
         pagenotfound: "/page-not-found",
+        guide: {
+            generalguide: "/general-guide",
+            bookingguide: "/booking-guide",
+            paymentguide: "/payment-guide",
+            regulationguide: "/regulation-guide",
+        }
     },
-    cart:"/cart",
-    guide :{
-        commonguide: "/common-guide",
-        bookingguide: "/booking-guide",
-        paymentguide: "/payment-guide",
-        regulationguide: "/regulation-guide",
-    }
-
+    cart: "/cart",
 }
 
 export const BookingStatus = {
@@ -99,7 +98,14 @@ export const ReportStatus =
 
 
 export const CategoryNews = {
-    news : "NEWS",
+    news: "NEWS",
     policy: "POLICY",
-    seemore: "MORE"
+    guildeline: "GUIDELINE",
+}
+
+export const GuildlineType = {
+    general: "general",
+    booking: "booking",
+    payment: "payment",
+    regulation: "regulation",
 }

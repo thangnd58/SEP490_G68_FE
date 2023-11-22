@@ -22,8 +22,9 @@ import MyCustomButton from '../../../components/common/MyButton';
 import { LoginModal } from '../../AccountPage/LoginModal';
 import { useAuth } from '../../../contexts/AuthContext';
 import { getCartInfo } from '../../../redux/reducers/cartReducer';
+import UserInforModal from '../../UserProfilePage/UserInforModal';
 
-export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean, startDate?: string, endDate?: string, searchedAddress?: string, isInCart?: boolean, isIntroduced?: boolean, deleteInCart?: () => void, isNotFavorite?: boolean }) {
+export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean, startDate?: string, endDate?: string, searchedAddress?: string, isInCart?: boolean, isIntroduced?: boolean, deleteInCart?: () => void, isNotFavorite?: boolean, canClickDetailPage?: boolean, isInModal?: boolean }) {
     const { t } = usei18next();
     const { setContentModal, setShowModal } = useContext(ModalContext);
     const { isLogin, logout } = useAuth();
@@ -103,7 +104,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
             sx={{
                 backgroundColor: "#fff",
             }}
-            width={props.isFavoritePage ? "575px" : isMobile ? "82%" : "270px"}
+            width={props.isFavoritePage ? "575px" : (isMobile && props.isInModal) ? "89%" : (isMobile) ? "82%" : "270px"}
             border={"1px solid #e0e0e0"}
             borderRadius={"8px"}
             display={"flex"}
@@ -153,6 +154,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                             borderRadius: "50%",
                         }}
                         src={props.motorbike.user.avatarUrl}
+                        onClick={() => setContentModal(<UserInforModal />)}
                     />
                 </Tooltip>
                 {/* Favorite Icon */}
@@ -238,13 +240,14 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                 sx={{ cursor: "pointer" }}
                                 color={theme.palette.text.primary}
                                 onClick={() =>
-                                    navigate(
-                                        `${ROUTES.user.detailmotorbike}/${props.motorbike.id}/${encodeURIComponent(props.searchedAddress!)}/${props.startDate}/${props.endDate}`
-                                    )
+                                    props.canClickDetailPage ?
+                                        navigate(
+                                            `${ROUTES.user.detailmotorbike}/${props.motorbike.id}`
+                                        ) : showMotorbikeDetailModal()
                                 }
                             >
                                 {props.motorbike.model.brand.brandName}{" "}
-                                {props.motorbike.model.modelName} {" "} {props.motorbike.id}
+                                {props.motorbike.model.modelName} {" "}
                             </Typography>
                         </Tooltip>
                     </Box>

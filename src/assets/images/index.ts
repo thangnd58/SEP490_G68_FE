@@ -42,7 +42,8 @@ import GadalatSearch from './Gadalat.jpg'
 import BenxemydinhSearch from './Benxemydinh.jpg'
 import BenxethuonglyiSearch from './Benxethuongly.jpg'
 import BecomeAnOwner from './becomeanowner.png'
-
+import GuildLineImage from './guildline.jpg'
+import PolicyImage from './policy.jpg'
 
 export {
     MotorbikeImage,
@@ -88,6 +89,7 @@ export {
     GadalatSearch,
     BenxemydinhSearch,
     BenxethuonglyiSearch,
-    BecomeAnOwner
-
+    BecomeAnOwner,
+    GuildLineImage,
+    PolicyImage
 };

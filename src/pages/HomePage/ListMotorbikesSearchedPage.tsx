@@ -119,13 +119,13 @@ export default function ListMotorbikesSearchedPage() {
             maximumRating: false,
             electric: false,
             brandId: "",
-            minPrice: 0,
+            minPrice: 1,
             maxPrice: 200,
             minReleaseYear: 1990,
             maxReleaseYear: currentYear,
-            minFuelConsumption: 0,
+            minFuelConsumption: 1,
             maxFuelConsumption: 10,
-            minDistance: 0,
+            minDistance: 1,
             maxDistance: 50,
             Raincoat: false,
             Helmet: false,
@@ -163,12 +163,6 @@ export default function ListMotorbikesSearchedPage() {
         handleSubmit,
         setFieldValue
     } = formik;
-
-    // Get data
-
-    useEffect(() => {
-        getMotorbikesByFilter(startDate, endDate, address);
-    }, [startDate, endDate, address]);
 
     useEffect(() => {
         getMotorbikesByFilter(

@@ -21,7 +21,7 @@ import usei18next from '../../hooks/usei18next';
 import theme from '../../utils/theme';
 import { News } from '../../utils/type';
 import NewsManagementService from '../../services/NewsManagementService';
-import { CategoryNews, ROUTES } from '../../utils/Constant';
+import { CategoryNews, GuildlineType, ROUTES } from '../../utils/Constant';
 
 function Footer() {
   const { t } = usei18next();
@@ -46,7 +46,6 @@ function Footer() {
         t("footer.generalInstructions"),
         t("footer.bookingInstructions"),
         t("footer.paymentInstructions"),
-        t("footer.qAndA"),
       ],
     }
   ];
@@ -54,10 +53,9 @@ function Footer() {
   const navigate = useNavigate();
   const handleMailtoClick = () => {
     const email = 'wanderonwheels.wandro@gmail.com';
-    const subject = 'Feedback or Inquiry'; // You can customize the subject if needed
+    const subject = 'Feedback or Inquiry';
     const mailtoURL = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 
-    // Open the default email client with the mailto URL
     window.location.href = mailtoURL;
   };
 
@@ -109,7 +107,18 @@ function Footer() {
             </Typography>
             {footer.description.map((item, index) => (
               <Typography component="div" key={index} color="text.secondary" marginTop={'16px'}>
-                <Box sx={{ fontWeight: 'regular', cursor: 'pointer' }} onClick={() => navigate(`${ROUTES.policy}/${footer.id?.find((i, idx)=> idx === index)}`)}>{item}</Box>
+                <Box sx={{ fontWeight: 'regular', cursor: 'pointer' }} onClick={
+                  () => {
+                    if (footer.title === t("footer.learnMoreTitle")) {
+                      index ===0 && navigate(`${ROUTES.other.guide.generalguide}/${GuildlineType.general}`);
+                      index ===1 && navigate(`${ROUTES.other.guide.generalguide}/${GuildlineType.booking}`);
+                      index ===2 && navigate(`${ROUTES.other.guide.generalguide}/${GuildlineType.payment}`);
+                    } else {
+                      navigate(`${ROUTES.policy}/${footer.id?.find((i, idx) => idx === index)}`)
+                    }
+                  }}
+                >
+                  {item}</Box>
               </Typography>
             ))}
           </Grid>
