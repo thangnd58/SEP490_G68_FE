@@ -6,8 +6,8 @@ import dayjs from 'dayjs';
 const moneyFlow = '/MoneyFlow'
 
 const StatisticService = {
-    moneyFlow: async () : Promise<MoneyFlow[]> => {
-        const res = await api.get(`${moneyFlow}`);
+    moneyFlow: async (startDate: string, endDate: string): Promise<MoneyFlow[]> => {
+        const res = await api.get(`${moneyFlow}?startDate=${startDate}&endDate=${endDate}`);
         return res.data;
     },
 }

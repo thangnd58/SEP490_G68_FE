@@ -3,7 +3,7 @@ import { Box, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { News } from "../../utils/type";
 import NewsManagementService from "../../services/NewsManagementService";
-import { ROUTES } from "../../utils/Constant";
+import { CategoryNews, ROUTES } from "../../utils/Constant";
 import useThemePage from "../../hooks/useThemePage";
 import usei18next from "../../hooks/usei18next";
 import MyCustomButton from '../../components/common/MyButton';
@@ -24,7 +24,7 @@ export const NewsPage = () => {
     useEffect(() => {
         NewsManagementService.getAllNews().then((data) => {
             //@ts-ignore
-            setListNews(data);
+            setListNews(data.filter((n) => n.category === CategoryNews.news));
         });
     }, []);
 

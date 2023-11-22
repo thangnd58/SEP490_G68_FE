@@ -33,6 +33,7 @@ import {
     ArrowDropDown,
     Circle,
     Close,
+    CloseOutlined,
     ExitToApp,
     Home,
     ListAlt,
@@ -147,12 +148,17 @@ function Header() {
     const navigate = useNavigate();
     const { isMobile } = useThemePage();
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [drawerOpenNoti, setDrawerOpenNoti] = useState(false);
     const [isAvatarClicked, setIsAvatarClicked] = useState(false);
     const { setContentModal, setShowModal } = useContext(ModalContext);
     const [isShowMore, setIsShowMore] = useState(false);
     const dispatch = useAppDispatch();
     const toggleDrawer = () => {
         setDrawerOpen(!drawerOpen);
+    };
+
+    const toggleDrawerNoti = () => {
+        setDrawerOpenNoti(!drawerOpenNoti);
     };
 
     const { userNotification } = useAppSelector(
@@ -498,7 +504,7 @@ function Header() {
                                                         setAnchorEl(null);
                                                         navigate(
                                                             ROUTES.admin
-                                                                .managemotorbikes
+                                                                .dashboard
                                                         );
                                                     }}
                                                     //hover to change background color
@@ -793,7 +799,7 @@ function Header() {
                                             width="100%"
                                             onClick={() =>
                                                 navigate(
-                                                    ROUTES.admin.managemotorbikes
+                                                    ROUTES.admin.dashboard
                                                 )
                                             }
                                             content={t("header.dashboard")}
@@ -808,7 +814,7 @@ function Header() {
                                             }
                                             width="100%"
                                             onClick={(e) => {
-                                                e.stopPropagation()
+                                                setDrawerOpenNoti(true)
                                             }}
                                             content={t('header.notification')}
                                             variant="outlined"
@@ -861,7 +867,7 @@ function Header() {
                                             }
                                             width="100%"
                                             onClick={(e) => {
-                                                e.stopPropagation()
+                                                setDrawerOpenNoti(true)
                                             }}
                                             content={t('header.notification')}
                                             variant="outlined"
@@ -1094,6 +1100,93 @@ function Header() {
                                 />
                             </Box>
                         </Box>
+                    )}
+                </Box>
+
+            </Drawer>
+
+            {/* Notification */}
+            <Drawer
+                sx={{ "& .MuiDrawer-paper": { width: "100%" } }}
+                anchor="left"
+                open={drawerOpenNoti}
+                onClose={toggleDrawerNoti}
+            >
+                <Box
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                    }}
+                >
+                    <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+                        <Typography
+                            fontWeight={"700"}
+                            fontSize={"24px"}
+                            style={{ padding: '16px' }}
+                        >
+                            {t("notification.title")}
+                        </Typography>
+                        <CloseOutlined style={{ padding: '16px' }} onClick={() => setDrawerOpenNoti(false)} />
+                    </Box>
+                    <Divider />
+                    {userNotification.length > 0 ? (
+                        userNotification.map(
+                            (notifi) => {
+                                return (
+                                    <MenuItem
+                                        sx={{
+                                            textAlign:
+                                                "center",
+                                            borderRadius: "16px",
+                                        }}
+                                        key={`NOTIFI${notifi.notificationId}`}
+                                        onClick={() => {
+                                            setContentModal(
+                                                <DetailNotification
+                                                    id={
+                                                        notifi.notificationId
+                                                    }
+                                                />
+                                            );
+                                        }}
+                                    >
+                                        <PopoverItem
+                                            label={notifi.title}
+                                            icon={
+                                                <img
+                                                    width={
+                                                        48
+                                                    }
+                                                    height={
+                                                        48
+                                                    }
+                                                    src={
+                                                        notifi
+                                                            .category
+                                                            .image
+                                                    }
+                                                />
+                                            }
+                                            iconRead={
+                                                !notifi.isRead ? (
+                                                    <UnReadIcon />
+                                                ) : undefined
+                                            }
+                                            content={notifi.detail}
+                                            timeAgo={
+                                                notifi.createDatetime
+                                            }
+                                        />
+                                    </MenuItem>
+                                );
+                            }
+                        )
+                    ) : (
+                        <Typography pt={"8px"}>
+                            {t(
+                                "notification.empty"
+                            )}
+                        </Typography>
                     )}
                 </Box>
             </Drawer>

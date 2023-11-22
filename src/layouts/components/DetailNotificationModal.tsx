@@ -11,9 +11,11 @@ import { CloseOutlined } from "@mui/icons-material";
 import usei18next from "../../hooks/usei18next";
 import { LogoHeader } from "../../assets/images";
 import { getPreviousTimeRelative } from "../../utils/helper";
+import useThemePage from "../../hooks/useThemePage";
 
 export const DetailNotification = ({ id }: { id: number }) => {
     const { closeModal } = useContext(ModalContext);
+    const { isMobile } = useThemePage()
     const [notify, setNotify] = useState<Notification>();
     const dispatch = useAppDispatch();
     const { t } = usei18next();
@@ -42,10 +44,10 @@ export const DetailNotification = ({ id }: { id: number }) => {
                     padding: '16px',
                 }}
             >
-                <Box width={"100%"} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'start', justifyContent: 'space-between', gap: '8px' }}>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                <Box width={"100%"} sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'center' : 'start', justifyContent: 'space-between', gap: '8px' }}>
+                    <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                         <img style={{ cursor: 'pointer', }} alt="logo" src={notify?.category.image} width={"50px"} />
-                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center', gap: '8px' }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: isMobile ? 'center' : 'start', justifyContent: 'center', gap: '8px' }}>
                             <Typography variant="h6" fontWeight={'700'}>{notify?.category.categoryName}</Typography>
                             <Typography fontWeight={'700'}>{notify?.title}</Typography>
                         </Box>
@@ -66,8 +68,7 @@ export const DetailNotification = ({ id }: { id: number }) => {
             }}
             >
                 <Typography variant="body1" fontWeight={'400'}
-                    sx={{ textAlign: 'center', pt: '1rem' }}
-                >{notify?.detail}</Typography>
+                    sx={{ textAlign: 'justify', pt: '1rem' }}>{notify?.detail}</Typography>
             </DialogContent>
         </Dialog>
     )
