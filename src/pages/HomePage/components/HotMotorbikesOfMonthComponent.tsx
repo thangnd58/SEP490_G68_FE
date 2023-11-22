@@ -67,7 +67,7 @@ export default function HotMotorbikesOfMonthComponent() {
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                 }}>
-                                    <MotorbikeInforCard motorbike={item} isFavoritePage={false} isIntroduced={true} />
+                                    <MotorbikeInforCard canClickDetailPage motorbike={item} isFavoritePage={false} isIntroduced={true} />
                                 </Grid>
                             ))}
                         </Grid>

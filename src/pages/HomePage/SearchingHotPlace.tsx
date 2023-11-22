@@ -608,6 +608,7 @@ function SearchingHotPlace() {
                                             }}>
                                                 <MotorbikeInforCard motorbike={item} isFavoritePage={false} isIntroduced={true} 
                                                 startDate={values.startDate} endDate={values.endDate} searchedAddress={values.address}
+                                                canClickDetailPage
                                                 />
                                             </Grid>
                                         ))}

@@ -53,6 +53,7 @@ import UserManagement from '../pages/DashBoardPage/UserManagement/UserManagement
 import UserManagementForm from '../pages/DashBoardPage/UserManagement/UserManagementForm';
 import { DashboardManagement } from '../pages/DashBoardPage/Index/DashboardManagement';
 import { PolicyPage } from '../pages/OrtherPage/PolicyPage';
+import GuidelinePage from '../pages/OrtherPage/GuidelinePage';
 
 export type Route = {
     path: string;
@@ -64,18 +65,22 @@ export type Route = {
 export const routes: Route[] = [
     // Home Page
     { path: ROUTES.homepage, component: Home },
-    { path: `${ROUTES.policy}/:id`, component: PolicyPage },
     { path: `${ROUTES.search.filtermotorbike}/:startDate/:endDate/:address`, component: ListMotorbikesSearchedPage },
     { path: `${ROUTES.search.searchprovince}/:province/`, component: SearchingHotProvince },
     { path: `${ROUTES.search.searchplace}/:place/`, component: SearchingHotPlace },
     { path: `${ROUTES.newspage}`, component: NewsPage },
     { path: `${ROUTES.promotionpage}`, component: PromotionPage },
     { path: `${ROUTES.newspage}/:id`, component: DetailNews },
-
+    
     // Components Page
     { path: ROUTES.component.mymaparea, component: MyMapArea },
     { path: ROUTES.component.mymapwithsearch, component: MyMapWithSearchBox },
+    
+    // Other Page
     { path: ROUTES.other.pagenotfound, component: PageNotFound, layout: LayoutEmpty },
+    { path: `${ROUTES.policy}/:id`, component: PolicyPage },
+    { path: `${ROUTES.other.guide.generalguide}/:guideName`, component: GuidelinePage },
+
 
     // User Page
     { path: ROUTES.user.userprofile, component: UserProfilePage, role: ["Admin", "Staff", "Customer"] },
@@ -85,7 +90,7 @@ export const routes: Route[] = [
     { path: ROUTES.user.shoppingCart, component: CartPage, role: ["Customer"] },
     { path: `${ROUTES.user.updateregistermotorbike}/:id`, component: UpdateRegisterMotorbike, role: ["Customer"] },
     { path: ROUTES.user.favourite, component: Favourite, role: ["Customer"] },
-    { path: `${ROUTES.user.detailmotorbike}/:motorbikeId/:searchedAddress/:startDate/:endDate`, component: MotorbikeDetailPage },
+    { path: `${ROUTES.user.detailmotorbike}/:motorbikeId`, component: MotorbikeDetailPage },
     { path: `${ROUTES.booking.detail}/:bookingId`, component: BookingDetailPage, role: ["Customer"] },
     { path: `${ROUTES.booking.detail_owner}/:bookingId`, component: BookingDetailPageOwner, role: ["Customer"] },
 
