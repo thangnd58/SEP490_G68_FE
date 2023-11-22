@@ -11,7 +11,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useThemePage from '../../hooks/useThemePage';
 import usei18next from '../../hooks/usei18next';
 import { ModalContext } from '../../contexts/ModalContext';
-import { BookingRequest, BookingResponse, Motorbike } from '../../utils/type';
+import { BookingRequest, BookingResponse, Feedback, Motorbike } from '../../utils/type';
 import { PostMotorbikeService } from '../../services/PostMotorbikeService';
 import { BookingDeliveryMode, BookingPaymentType, ROUTES } from '../../utils/Constant';
 import { BookingService } from '../../services/BookingService';
@@ -28,6 +28,8 @@ import RegisterMotorbikeItem from '../PostMotorbike/components/RegisterMotorbike
 import { PromotionModal } from './components/PromotionModal';
 import { ConfirmMotorbikeBookingModal } from './components/ConfirmMotorbikeBookingModal';
 import { LoginModal } from '../AccountPage/LoginModal';
+import { FeedbackService } from '../../services/FeedbackService';
+import FeedbackCard from '../HomePage/components/FeedbackCard';
 
 
 export default function MotorbikeDetailPage() {
@@ -46,6 +48,7 @@ export default function MotorbikeDetailPage() {
   const [isProcessingBooking, setIsProcessingBooking] = useState(false);
   const navigate = useNavigate();
   const [isOpenLoginModal, setIsOpenLoginModal] = useState<boolean>(false);
+  const [listFeedback, setlistFeedback] = useState<Feedback[]>([]);
 
   interface Location {
     lat: number,
@@ -72,8 +75,11 @@ export default function MotorbikeDetailPage() {
 
   // get motorbike by id
   useEffect(() => {
-    if (motorbikeId)
+    if (motorbikeId){
       getMotorbikeById(motorbikeId.toString());
+      getFeedbackById(motorbikeId.toString());
+    }
+      
   }, [motorbikeId]);
 
   const getMotorbikeById = async (id: string) => {
@@ -87,6 +93,19 @@ export default function MotorbikeDetailPage() {
       console.log(error);
     }
   }
+
+  const getFeedbackById = async (id: string) => {
+    try {
+      const response = await FeedbackService.getFeedbackById(id);
+      if (response) {
+        setlistFeedback(response);
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
 
   // format number * 1000 to type 1.000 VND/ngày
   const formatMoney = (money: number | undefined) => {
@@ -886,6 +905,17 @@ export default function MotorbikeDetailPage() {
                   <Typography variant="h5" fontWeight="600">
                     Rating & Feedback: {/* Thêm rating và feedback */}
                   </Typography>
+                  <Box display={'flex'} flexDirection={'column'} gap={'8px'} width={'99.5%'} marginTop={'15px'}>
+                  <Box display="flex" flexDirection="column" justifyContent={"center"} gap={"8px"} p={'8px'} border={"1px solid #e0e0e0"} borderRadius={"8px"}  
+                    >
+                      {listFeedback.length !== 0 ? listFeedback.map((item: Feedback) => (
+                        <FeedbackCard feedback={item}></FeedbackCard>
+                      )):
+                      <Typography fontSize={'18px'}>
+                        {t("feedback.nonComment")}
+                      </Typography>}
+                    </Box>
+                  </Box>
                 </Box>
 
 

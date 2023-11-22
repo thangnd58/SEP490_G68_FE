@@ -429,8 +429,8 @@ export interface PromotionRequest {
 }
 
 export interface FeedbackRequest {
-    bookingId: number,
-    motorbikeId: number,
+    bookingId?: number,
+    motorbikeId?: number,
     rating: number,
     comment: string
 }
@@ -516,5 +516,6 @@ export interface Feedback {
     motorbikeId: number,
     user: UserForRent,
     perfomer: string,
+    // user: User,
     response: string
 }

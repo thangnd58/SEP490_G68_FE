@@ -756,7 +756,9 @@
   },
   "feedback": {
     "createSuccess": "Đánh giá thành công",
-    "createError": "Đánh giá thất bại"
+    "createError": "Đánh giá thất bại",
+    "editSuccess": "Cật nhật đánh giá thành công",
+    "nonComment": "Chưa có nhận xét"
   },
   "report": {
     "reason": "Lý do báo cáo",

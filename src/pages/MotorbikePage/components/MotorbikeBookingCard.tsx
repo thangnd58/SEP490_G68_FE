@@ -1,11 +1,11 @@
 import { Avatar, Box, Chip, Collapse, Divider, Tooltip, Typography, Rating, TextField, InputAdornment, IconButton } from "@mui/material"
-import { FeedbackRequest, Motorbike } from "../../../utils/type"
+import { Feedback, FeedbackRequest, Motorbike } from "../../../utils/type"
 import usei18next from "../../../hooks/usei18next"
 import theme from "../../../utils/theme";
 import { ArrowDownward, ArrowUpward, BusinessCenterOutlined, Info, ModeEdit, SendOutlined, SendRounded, StarPurple500Outlined } from "@mui/icons-material";
 import { LicencePlateImage, LocationImage, PriceImage } from "../../../assets/images";
 import { formatMoneyNew } from "../../../utils/helper";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect, Dispatch, SetStateAction } from "react";
 import MyCustomButton from "../../../components/common/MyButton";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
@@ -16,33 +16,56 @@ import { ModalContext } from "../../../contexts/ModalContext";
 import { ReportFormModal } from "../../ReportComponent/ReportFormModal";
 
 
-export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: boolean, canFeedback?: boolean, bookingId?: number, onlyView?: boolean }) => {
+export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: boolean, canFeedback?: boolean, bookingId?: number, onlyView?: boolean, setReload?: Dispatch<SetStateAction<boolean>>, reload?: boolean }) => {
     const { t } = usei18next();
     const [expanded, setExpanded] = useState(true);
     const [value, setValue] = useState<number>(5);
     const [isEdit, setIsEdit] = useState<boolean>(props.onlyView ? false : true);
     const { setContentModal } = useContext(ModalContext)
+    const [feedback, setFeedback] = useState<Feedback | null>(null); // Initially set to null
+
+    useEffect(() => {
+        if (props.motorbike && props.motorbike.feedbacks && props.bookingId) {
+            const foundFeedback = props.motorbike.feedbacks.find((f) => f.bookingId === props.bookingId);
+            // Update state with the found feedback, if any
+            if (foundFeedback) {
+                setFeedback(foundFeedback);
+                setValue(foundFeedback.rating);
+                setFieldValue("comment", foundFeedback.comment)
+                setIsEdit(false)
+            }
+        }
+    }, [props.motorbike, props.bookingId, props.motorbike?.feedbacks]);
 
     const formik = useFormik({
         initialValues: {
-            comment: "Xe chạy rất êm và tiết kiệm nhiên liệu",
+            comment: feedback?.comment || "Xe chạy rất êm và tiết kiệm nhiên liệu",
         },
         validationSchema: Yup.object({
             comment: Yup.string().required(t("form.required")),
         }),
-        
-
         onSubmit: async (values) => {
             try {
-                const feedbackReq: FeedbackRequest = {
-                    bookingId: props?.bookingId || 0,
-                    motorbikeId: props.motorbike?.id || 0,
-                    rating: value,
-                    comment: values.comment
+                if (feedback) {
+                    const feedbackReq: FeedbackRequest = {
+                        rating: value,
+                        comment: values.comment
+                    }
+                    const res = await FeedbackService.putFeedback(feedback.feedbackId.toString(), feedbackReq)
+                    ToastComponent(t("feedback.editSuccess"), "success")
+                } else {
+                    const feedbackReq: FeedbackRequest = {
+                        bookingId: props?.bookingId || 0,
+                        motorbikeId: props.motorbike?.id || 0,
+                        rating: value,
+                        comment: values.comment
+                    }
+                    const res = await FeedbackService.postFeedback(feedbackReq)
+                    ToastComponent(t("feedback.createSuccess"), "success")
                 }
-                const res = await FeedbackService.postFeedback(feedbackReq)
-                 
-                ToastComponent(t("feedback.createSuccess"), "success")
+                if (props.setReload) {
+                    props.setReload((prev) => !prev)
+                }
             } catch (error) {
                 ToastComponent(t("feedback.createError"), "error")
             }
@@ -212,7 +235,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                     </Typography>
                                     <BusinessCenterOutlined fontWeight={300} sx={{ color: "#8B4513" }} fontSize="small" />
                                     <Typography color={theme.palette.text.secondary} fontSize="12px" align="center" textOverflow="ellipsis" whiteSpace="nowrap" overflow="hidden">
-                                        {t("booking.completeBook", {count: props.motorbike.countCompletedBooking})}
+                                        {t("booking.completeBook", { count: props.motorbike.countCompletedBooking })}
                                     </Typography>
                                 </Box>
                             </Box>
