@@ -23,17 +23,6 @@ import { NoDataImage, PageNoteFoundImage } from '../../assets/images';
 import { PostMotorbikeService } from '../../services/PostMotorbikeService';
 import { BookingService } from '../../services/BookingService';
 
-export const getLatLngByAddress = async (address: string) => {
-    const response = await BookingService.getLatLngByAddress(address);
-    //@ts-ignore
-    let location = Array.from(response);
-    let result: Location = {
-        lat: Number(location[0]),
-        lng: Number(location[1])
-    }
-    return result
-}
-
 export interface Location {
     lat: number;
     lng: number;
@@ -52,12 +41,26 @@ export default function ListMotorbikesSearchedPage() {
     const [isAdvancedFilterModalOpen, setAdvancedFilterModalOpen] = useState(false);
     const [isLoadingData, setIsLoadingData] = useState(true);
     const [equipments, setEquipments] = React.useState<string[]>([]);
-    const [defaultLocation, setDefaultLocation] = useState<Location>(null);
+    const [defaultLocation, setDefaultLocation] = useState<Location>();
 
     // convert timestamp to date
     const convertTimestampToDate = (timestamp: number) => {
         return dayjs(timestamp * 1000).format("DD-MM-YYYY HH:mm");
     }
+
+    useEffect(() => {
+        BookingService.getLatLngByAddress(address!).then((data) => {
+            const location = data.split(',');
+            const result: Location = {
+                lat: Number(location[0]),
+                lng: Number(location[1])
+            }
+            setDefaultLocation(result)
+            setSelected(result)
+            setFieldValue("lat", result.lat);
+            setFieldValue("lng", result.lng);
+        })
+    }, [address])
 
     // format number * 1000 to type 1.000 VND/ngày
     const formatMoney = (money: number | undefined) => {
@@ -127,8 +130,8 @@ export default function ListMotorbikesSearchedPage() {
     const formik = useFormik({
         initialValues: {
             address: address,
-            lat: defaultLocation.then((res) => res.lat),
-            lng: defaultLocation.then((res) => res.lng),
+            lat: defaultLocation?.lat,
+            lng: defaultLocation?.lng,
             startDate: convertTimestampToDate(Number(startDate)),
             endDate: convertTimestampToDate(Number(endDate)),
             maximumRating: false,
@@ -411,8 +414,8 @@ export default function ListMotorbikesSearchedPage() {
 
 
     // declare vaiables
-    const defaultLoction = useMemo(() => ({ lat: values.lat, lng: values.lng }), []);
-    const [selected, setSelected] = useState<Location>(defaultLoction);
+    const defaultLoction = useMemo(() => ({ lat: values.lat || 0, lng: values.lng || 0 }), []);
+    const [selected, setSelected] = useState<Location>(defaultLoction!);
     const [showMenu, setShowMenu] = useState(false);
 
     // handle get location click

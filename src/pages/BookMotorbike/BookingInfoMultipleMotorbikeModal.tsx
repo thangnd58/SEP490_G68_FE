@@ -64,11 +64,24 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
     return '0 VND';
   }
 
+  useEffect(() => {
+    BookingService.getLatLngByAddress(props?.address || "Hà nội").then((data) => {
+      const location = data.split(',');
+      const result: Location = {
+        lat: Number(location[0]),
+        lng: Number(location[1])
+      }
+      setSelected(result)
+      setFieldValue("lat", result.lat);
+      setFieldValue("lng", result.lng);
+    })
+  }, [props?.address])
+
   const formik = useFormik({
     initialValues: {
       address: props?.address,
-      lat: 21.028511,
-      lng: 105.804817,
+      lat: 0,
+      lng: 0,
       startDate: props?.startDate,
       endDate: props?.endDate,
       paymentType: BookingPaymentType.UserBalance,

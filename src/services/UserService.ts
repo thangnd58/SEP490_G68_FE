@@ -12,7 +12,6 @@ const apiForgotPassword = '/forgot-password'
 const apiSetPassword = '/set-password'
 const apiUserFavourite = '/favourite';
 
-
 const UserService = {
     login: async (user: any) => {
         return await api.post(apiUserLogin, user).then((response) => {
@@ -122,6 +121,10 @@ const UserService = {
     deleteUserByIdManage: async (userId: number) => {
         return await api.delete(`/manager/user/${userId}`);
     },
+    getUserDetailInformation: async (userId: string) : Promise<User> => {
+        const res = await api.get(`${apiUser}/${userId}`);
+        return res.data;
+    }
 }
 
 export default UserService 

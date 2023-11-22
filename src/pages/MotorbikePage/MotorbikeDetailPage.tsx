@@ -52,6 +52,24 @@ export default function MotorbikeDetailPage() {
     lng: number,
   }
 
+  interface Location {
+    lat: number,
+    lng: number,
+  }
+
+  useEffect(() => {
+    BookingService.getLatLngByAddress("Quận Ba Đình, Hà Nội").then((data) => {
+      const location = data.split(',');
+      const result: Location = {
+        lat: Number(location[0]),
+        lng: Number(location[1])
+      }
+      setSelected(result)
+      setFieldValue("lat", result.lat);
+      setFieldValue("lng", result.lng);
+    })
+  }, [])
+
   // get motorbike by id
   useEffect(() => {
     if (motorbikeId)
@@ -103,8 +121,8 @@ export default function MotorbikeDetailPage() {
   const formik = useFormik({
     initialValues: {
       address: "Quận Ba Đình, Hà Nội",
-      lat: 21.034099,
-      lng: 105.8244301,
+      lat: 0,
+      lng: 0,
       startDate: today,
       endDate: tomorrow,
       paymentType: BookingPaymentType.UserBalance,

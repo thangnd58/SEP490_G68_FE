@@ -63,7 +63,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
     const addFavourite = async (id: number) => {
         try {
             // Check login
-            if (!isLogin) {
+            if (!UserService.isLoggedIn()) {
                 setIsOpenLoginModal(true);
                 return;
             }
@@ -140,6 +140,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                     onClick={showMotorbikeDetailModal}
                 />
                 {/* User Avatar */}
+                {props.motorbike.user &&
                 <Tooltip
                     title={props.motorbike.user.name}
                     placement="right-end"
@@ -154,9 +155,10 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                             borderRadius: "50%",
                         }}
                         src={props.motorbike.user.avatarUrl}
-                        onClick={() => setContentModal(<UserInforModal />)}
+                        onClick={() => setContentModal(<UserInforModal userId={props.motorbike.user.userId!} />)}
                     />
                 </Tooltip>
+                }
                 {/* Favorite Icon */}
                 {!props.isNotFavorite &&
                     (isFavorite ? (
@@ -246,8 +248,10 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                         ) : showMotorbikeDetailModal()
                                 }
                             >
-                                {props.motorbike.model.brand.brandName}{" "}
-                                {props.motorbike.model.modelName} {" "}
+                                {props.motorbike.model ? (
+                                props.motorbike.model.brand.brandName +" "+ props.motorbike.model.modelName):(
+                                    props.motorbike.brandName +" "+props.motorbike.modelName
+                                )}
                             </Typography>
                         </Tooltip>
                     </Box>

@@ -26,7 +26,11 @@ import { ArrowBack, CheckCircle, CloseOutlined, Feedback, Verified } from "@mui/
 import { ConfirmCompleteTripModal } from "./components/ConfirmCompleteTripModal";
 import ModalStatus from "../WalletPage/component/ModalStatus";
 import { getBookingInfo } from "../../redux/reducers/bookingReducer";
-
+interface Location {
+    lat: number,
+    lng: number,
+  }
+  
 export const BookingDetailPage = () => {
     const { bookingId } = useParams();
     const [booking, setBooking] = useState<Booking>();
@@ -46,6 +50,7 @@ export const BookingDetailPage = () => {
     const [reloadBooking, setReloadBooking] = useState<boolean>(false)
     const [endDate, setEndDate] = useState<string>("");
     const [countdown, setCountdown] = useState<string>("");
+    const [location, setLocation] = useState<Location>({ lat: 21.028511, lng: 105.804817 });
 
     useEffect(() => {
         try {
@@ -66,6 +71,14 @@ export const BookingDetailPage = () => {
                     }
                     setBooking(data)
                     setPaymentType(data.paymentType)
+                    BookingService.getLatLngByAddress(data.address || "Hà nội").then((d) => {
+                        const location = d.split(',');
+                        const result: Location = {
+                          lat: Number(location[0]),
+                          lng: Number(location[1])
+                        }
+                        setLocation(result)
+                      })
                 }
             })
         } catch (error) {
@@ -395,7 +408,7 @@ export const BookingDetailPage = () => {
                                 >
                                     <GoogleMap
                                         zoom={18}
-                                        center={{ lat: 21.028511, lng: 105.804817 }}
+                                        center={{ lat: location.lat, lng: location.lng }}
                                         mapContainerStyle={{
                                             width: "100%",
                                             height: "40vh",
@@ -404,7 +417,7 @@ export const BookingDetailPage = () => {
 
                                     >
                                         {booking &&
-                                            <Marker position={{ lat: 21.028511, lng: 105.804817 }} />
+                                            <Marker position={{ lat: location.lat, lng: location.lng }} />
                                         }
                                     </GoogleMap>
                                 </Box>

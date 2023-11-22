@@ -22,6 +22,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
     const [value, setValue] = useState<number>(5);
     const [isEdit, setIsEdit] = useState<boolean>(props.onlyView ? false : true);
     const { setContentModal } = useContext(ModalContext)
+
     const formik = useFormik({
         initialValues: {
             comment: "Xe chạy rất êm và tiết kiệm nhiên liệu",
@@ -29,6 +30,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
         validationSchema: Yup.object({
             comment: Yup.string().required(t("form.required")),
         }),
+        
 
         onSubmit: async (values) => {
             try {
@@ -38,7 +40,8 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                     rating: value,
                     comment: values.comment
                 }
-                await FeedbackService.postFeedback(feedbackReq)
+                const res = await FeedbackService.postFeedback(feedbackReq)
+                 
                 ToastComponent(t("feedback.createSuccess"), "success")
             } catch (error) {
                 ToastComponent(t("feedback.createError"), "error")
