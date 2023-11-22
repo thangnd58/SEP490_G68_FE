@@ -496,3 +496,14 @@ export interface MoneyFlow {
     user: User,
     description: string
 }
+export interface Feedback {
+    feedbackId: number,
+    bookingId: number,
+    user: User,
+    rating: number,
+    comment: string,
+    perfomer: string,
+    createDatetime: string,
+    updateDatetime: string,
+    response: string
+}

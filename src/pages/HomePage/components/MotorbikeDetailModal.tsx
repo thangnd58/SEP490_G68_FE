@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
-import { BookingRequest, BookingResponse, Motorbike, Promotion } from '../../../utils/type'
+import { BookingRequest, BookingResponse, Feedback, Motorbike } from '../../../utils/type'
 import MyDialog from '../../../components/common/MyDialog'
 import usei18next from '../../../hooks/usei18next';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
-import { Box, Chip, CircularProgress, Divider, FormControl, FormLabel, RadioGroup, Radio, FormControlLabel, Grid, IconButton, MenuItem, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, Button, Toolbar } from '@mui/material';
+import { Box, CircularProgress, Divider, Grid, IconButton, MenuItem, Modal, TextField, Typography, Rating, Avatar } from '@mui/material';
 import MyIcon from '../../../components/common/MyIcon';
-import { BusinessCenterOutlined, CloseOutlined, FormatBoldRounded, GasMeterOutlined, Help, HelpOutlineOutlined, LocalDrinkOutlined, LocationOn, LocationOnOutlined, Loyalty, MyLocation, NewReleasesOutlined, QuestionMark, ReportProblemOutlined, StarPurple500Outlined } from '@mui/icons-material';
+import { BusinessCenterOutlined, CloseOutlined, GasMeterOutlined, HelpOutlineOutlined, LocalDrinkOutlined, LocationOn, LocationOnOutlined, Loyalty, MyLocation, NewReleasesOutlined, ReportProblemOutlined, StarPurple500Outlined } from '@mui/icons-material';
 import MySlideShowImage from '../../../components/common/MySlideShowImage';
 import theme from '../../../utils/theme';
 import { CartIcon, HelmetIcon, ProtectClothesIcon, RainCoatIcon, RepairIcon, TelephoneIcon } from '../../../assets/icons';
 import useThemePage from '../../../hooks/useThemePage';
 import { ModalContext } from '../../../contexts/ModalContext';
-import { DatePicker, Tooltip } from 'antd';
+import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import MyCustomButton from '../../../components/common/MyButton';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
@@ -27,6 +27,8 @@ import { ConfirmMotorbikeBookingModal } from '../../MotorbikePage/components/Con
 import { RequireWhenRent } from '../../MotorbikePage/components/RequireWhenRent';
 import UserService from '../../../services/UserService';
 import { LoginModal } from '../../AccountPage/LoginModal';
+import { FeedbackService } from '../../../services/FeedbackService';
+import FeedbackCard from './FeedbackCard';
 
 export default function MotorbikeDetailModal(props: { motorbikeId: string | undefined, searchedAddress?: string, startDate?: string, endDate?: string }) {
 
@@ -40,6 +42,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
   const [isModalPromotionOpen, setModalPromotionOpen] = useState(false);
   const [isModalConfirmBookingOpen, setModalConfirmBookingOpen] = useState(false);
   const [motorbike, setMotorbike] = useState<Motorbike>();
+  const [listFeedback, setlistFeedback] = useState<Feedback[]>([]);
   const [previewBookingData, setPreviewBookingData] = useState<BookingResponse>();
   const [isProcessingBooking, setIsProcessingBooking] = useState(false);
   const [isOpenLoginModal, setIsOpenLoginModal] = useState<boolean>(false);
@@ -51,8 +54,11 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
 
   // get motorbike by id
   useEffect(() => {
-    if (props.motorbikeId)
+    if (props.motorbikeId){
       getMotorbikeById(props.motorbikeId.toString());
+      getFeedbackById(props.motorbikeId.toString());
+    }
+      
   }, [props.motorbikeId]);
 
   const getMotorbikeById = async (id: string) => {
@@ -60,6 +66,18 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
       const response = await PostMotorbikeService.getMotorbikeById(id);
       if (response) {
         setMotorbike(response);
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getFeedbackById = async (id: string) => {
+    try {
+      const response = await FeedbackService.getFeedbackById(id);
+      if (response) {
+        setlistFeedback(response);
       }
     }
     catch (error) {
@@ -941,6 +959,22 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                   <Typography variant="h5" fontWeight="600">
                     Rating & Feedback: {/* Thêm rating và feedback */}
                   </Typography>
+                  <Box display={'flex'} flexDirection={'column'} gap={'8px'} width={'99.5%'} marginTop={'15px'}>
+                  <Box display="flex" flexDirection="column" justifyContent={"center"} gap={"8px"} p={'8px'} border={"1px solid #e0e0e0"} borderRadius={"8px"}  
+                    >
+                      {listFeedback.length !== 0 ? listFeedback.map((item: Feedback) => (
+                        <FeedbackCard feedback={item}></FeedbackCard>
+                      ))
+                      :
+                      <Box>
+                        <Typography fontSize={'18px'}>
+                        {t("feedback.nonComment")}
+                      </Typography>
+                      </Box>
+                      }
+                    </Box>
+                  </Box>
+                  
                 </Box>
 
 

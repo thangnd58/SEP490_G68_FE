@@ -755,7 +755,8 @@
   },
   "feedback": {
     "createSuccess": "Evaluate success",
-    "createError": "Evaluation failed"
+    "createError": "Evaluation failed",
+    "nonComment": "No comments yet"
   },
   "report": {
     "reason": "Reporting reason",
