@@ -364,7 +364,7 @@ export default function MotorbikeDetailModal() {
                     whiteSpace="nowrap"
                     overflow="hidden"
                   >
-                    4.5{motorbike?.ratingAverage}
+                    {previewBookingData && previewBookingData.motorbikes[0].ratingAverage}
                   </Typography>
                   <MyIcon icon={<BusinessCenterOutlined
                     fontWeight={300}
@@ -379,7 +379,7 @@ export default function MotorbikeDetailModal() {
                     whiteSpace="nowrap"
                     overflow="hidden"
                   >
-                    5{motorbike?.countCompletedBooking} lượt đặt
+                    {t("booking.completeBook", {count: previewBookingData && previewBookingData.motorbikes[0].countCompletedBooking})}
                   </Typography>
                 </Box>
                 <Divider sx={{ margin: isMobile ? "8px 0px" : "16px 0px", width: "100%" }} variant="fullWidth" />

@@ -673,7 +673,8 @@
     "paymentBooking": "Thanh toán đơn đặt xe",
     "confirmPaymentBooking": "Bạn có đồng ý thanh toán hay không?",
     "rating": "Đánh giá",
-    "comment": "Bình luận"
+    "comment": "Bình luận",
+    "completeBook": "{{count}} lượt đặt"
   },
   "policy": {
     "documentRental": "Giấy tờ thuê xe",

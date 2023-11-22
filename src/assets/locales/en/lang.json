@@ -672,7 +672,8 @@
     "paymentBooking": "Payment for motorbike order",
     "confirmPaymentBooking": "Do you agree to pay or not?",
     "rating": "Rating",
-    "comment": "Comment"
+    "comment": "Comment",
+    "completeBook": "{{count}} bookings"
   },
   "policy": {
     "documentRental": "Motorbike rental documents",
