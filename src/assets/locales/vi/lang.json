@@ -305,7 +305,7 @@
       "motorbikeRentalManager": "Quản lý xe máy cho thuê",
       "withdrawalRequestManager": "Quản lý yêu cầu rút tiền",
       "brand": "Quản lý hãng xe",
-      "news": "Quản lý tin tức",
+      "news": "Quản lý tin tức, chính sách, hướng dẫn",
       "promotions": "Quản lý khuyến mãi",
       "model": "Quản lý mẫu xe",
       "report": "Quản lý báo cáo",
@@ -673,7 +673,8 @@
     "paymentBooking": "Thanh toán đơn đặt xe",
     "confirmPaymentBooking": "Bạn có đồng ý thanh toán hay không?",
     "rating": "Đánh giá",
-    "comment": "Bình luận"
+    "comment": "Bình luận",
+    "completeBook": "{{count}} lượt đặt"
   },
   "policy": {
     "documentRental": "Giấy tờ thuê xe",

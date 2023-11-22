@@ -385,7 +385,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     whiteSpace="nowrap"
                     overflow="hidden"
                   >
-                    4.5{motorbike?.ratingAverage}
+                    {previewBookingData && previewBookingData.motorbikes[0].ratingAverage}
                   </Typography>
                   <MyIcon icon={<BusinessCenterOutlined
                     fontWeight={300}
@@ -400,7 +400,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     whiteSpace="nowrap"
                     overflow="hidden"
                   >
-                    5{motorbike?.countCompletedBooking} lượt đặt
+                    {t("booking.completeBook", {count: previewBookingData && previewBookingData.motorbikes[0].countCompletedBooking})}
                   </Typography>
                 </Box>
                 <Divider sx={{ margin: isMobile ? "8px 0px" : "16px 0px", width: "100%" }} variant="fullWidth" />
@@ -1147,7 +1147,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
         setModalConfirmBookingOpen={setModalConfirmBookingOpen}
         values={values}
         isMobile={isMobile}
-        motorbikes={[motorbike!]}
+        motorbikes={previewBookingData && previewBookingData!.motorbikes}
         previewBookingData={previewBookingData}
         isProcessingBooking={isProcessingBooking}
         handleSubmit={handleSubmit}

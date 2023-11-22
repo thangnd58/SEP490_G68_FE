@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   Grid,
@@ -19,18 +19,26 @@ import {
 import { LogoFull } from './Header';
 import usei18next from '../../hooks/usei18next';
 import theme from '../../utils/theme';
+import { News } from '../../utils/type';
+import NewsManagementService from '../../services/NewsManagementService';
+import { CategoryNews, ROUTES } from '../../utils/Constant';
 
 function Footer() {
   const { t } = usei18next();
+  const [listNews, setListNews] = useState<News[]>([]);
+
+  useEffect(() => {
+    NewsManagementService.getAllNews().then((data) => {
+      //@ts-ignore
+      setListNews(data.filter((n) => n.category === CategoryNews.policy));
+    });
+  }, []);
+
   const footers = [
     {
       title: t("footer.policyTitle"),
-      description: [
-        t("footer.policyAndRegulations"),
-        t("footer.operatingRegulations"),
-        t("footer.informationSecurity"),
-        t("footer.disputeResolution"),
-      ],
+      id: listNews.map((newsItem) => newsItem.newsId),
+      description: listNews.map((newsItem) => newsItem.title),
     },
     {
       title: t("footer.learnMoreTitle"),
@@ -62,7 +70,7 @@ function Footer() {
           borderTop: (theme) => `1px solid ${theme.palette.divider}`,
         }}
       >
-        <Box className='logo-full' display={'flex'} flexDirection={'column'} margin={"16px 0px"}  gap={"16px"}>
+        <Box className='logo-full' display={'flex'} flexDirection={'column'} margin={"16px 0px"} gap={"16px"}>
           <LogoFull size={200} />
           <Box
             style={{
@@ -101,7 +109,7 @@ function Footer() {
             </Typography>
             {footer.description.map((item, index) => (
               <Typography component="div" key={index} color="text.secondary" marginTop={'16px'}>
-                <Box sx={{ fontWeight: 'regular' }}>{item}</Box>
+                <Box sx={{ fontWeight: 'regular', cursor: 'pointer' }} onClick={() => navigate(`${ROUTES.policy}/${footer.id?.find((i, idx)=> idx === index)}`)}>{item}</Box>
               </Typography>
             ))}
           </Grid>

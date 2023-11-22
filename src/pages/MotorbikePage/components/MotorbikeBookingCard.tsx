@@ -205,11 +205,11 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                 <Box width="100%" display="flex" alignItems="end" gap="4px">
                                     <StarPurple500Outlined sx={{ color: "#FBC241" }} fontSize="small" />
                                     <Typography color={theme.palette.text.secondary} fontSize="12px" align="center" textOverflow="ellipsis" whiteSpace="nowrap" overflow="hidden">
-                                        4.5
+                                        {props.motorbike.ratingAverage}
                                     </Typography>
                                     <BusinessCenterOutlined fontWeight={300} sx={{ color: "#8B4513" }} fontSize="small" />
                                     <Typography color={theme.palette.text.secondary} fontSize="12px" align="center" textOverflow="ellipsis" whiteSpace="nowrap" overflow="hidden">
-                                        5 lượt đặt
+                                        {t("booking.completeBook", {count: props.motorbike.countCompletedBooking})}
                                     </Typography>
                                 </Box>
                             </Box>
@@ -247,11 +247,11 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                 </Box>
                                 {
                                     props.onlyView ? null :
-                                    !isEdit &&
-                                    <IconButton
-                                        onClick={() => { setIsEdit(true) }}>
-                                        <ModeEdit sx={{ color: "common.black" }} />
-                                    </IconButton>
+                                        !isEdit &&
+                                        <IconButton
+                                            onClick={() => { setIsEdit(true) }}>
+                                            <ModeEdit sx={{ color: "common.black" }} />
+                                        </IconButton>
                                 }
                             </Box>
                             <Box display={'flex'} flexDirection={'column'} gap={'8px'} alignItems={'start'}>
@@ -284,7 +284,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                     }}
                                     InputProps={{
                                         endAdornment: (
-                                             isEdit ?
+                                            isEdit ?
                                                 <IconButton onClick={() => {
                                                     setIsEdit(false)
                                                     handleSubmit()

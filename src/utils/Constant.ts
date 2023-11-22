@@ -3,6 +3,7 @@ export const ROUTES = {
     homepage: "/",
     newspage: "/news",
     promotionpage: "/promotion",
+    policy: "/policy",
     search: {
         filtermotorbike: "/search/filter",
         searchprovince: "/search/province",
@@ -94,4 +95,11 @@ export const ReportStatus =
 {
     PendingResponse: "PendingResponse",
     Responded: "Responded",
+}
+
+
+export const CategoryNews = {
+    news : "NEWS",
+    policy: "POLICY",
+    seemore: "MORE"
 }

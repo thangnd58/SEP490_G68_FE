@@ -52,6 +52,7 @@ import { BookingDetailPageOwner } from '../pages/MotorbikePage/BookingDetailPage
 import UserManagement from '../pages/DashBoardPage/UserManagement/UserManagement';
 import UserManagementForm from '../pages/DashBoardPage/UserManagement/UserManagementForm';
 import { DashboardManagement } from '../pages/DashBoardPage/Index/DashboardManagement';
+import { PolicyPage } from '../pages/OrtherPage/PolicyPage';
 
 export type Route = {
     path: string;
@@ -63,6 +64,7 @@ export type Route = {
 export const routes: Route[] = [
     // Home Page
     { path: ROUTES.homepage, component: Home },
+    { path: `${ROUTES.policy}/:id`, component: PolicyPage },
     { path: `${ROUTES.search.filtermotorbike}/:startDate/:endDate/:address`, component: ListMotorbikesSearchedPage },
     { path: `${ROUTES.search.searchprovince}/:province/`, component: SearchingHotProvince },
     { path: `${ROUTES.search.searchplace}/:place/`, component: SearchingHotPlace },

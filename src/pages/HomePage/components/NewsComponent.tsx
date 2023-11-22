@@ -7,7 +7,7 @@ import useThemePage from '../../../hooks/useThemePage'
 import { ClockIcon } from '../../../assets/icons'
 import { getPreviousTimeRelative } from '../../../utils/helper'
 import { useNavigate } from 'react-router-dom'
-import { ROUTES } from '../../../utils/Constant'
+import { CategoryNews, ROUTES } from '../../../utils/Constant'
 import MyCustomButton from '../../../components/common/MyButton'
 import { ArrowRight, ArrowRightAlt } from '@mui/icons-material'
 
@@ -25,7 +25,7 @@ export default function NewsComponent() {
     useEffect(() => {
         NewsManagementService.getAllNews().then((data) => {
             //@ts-ignore
-            setListNews(data)
+            setListNews(data.filter((n) => n.category === CategoryNews.news))
         })
     }, [])
 
