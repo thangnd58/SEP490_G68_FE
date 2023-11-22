@@ -13,6 +13,7 @@ const apiGetListBooking = "/user/booking";
 const apiGetListCart = "/booking-cart";
 const apiCancelBooking = '/booking';
 const apiGetListRentalBooking = '/rental-history';
+const apiGetLatLng = '/location/get-lat-lng-by-address';
 
 export const BookingService = {
     getPreviewBooking: async (
@@ -57,5 +58,9 @@ export const BookingService = {
     },
     updateStatusBookingDetail: async (bookingId: number |undefined, motorbikeid: string |undefined, status: string |undefined) => {
         return await api.put(`${apiPostBooking}/${bookingId}/${status}/${motorbikeid}`)
+    },
+    getLatLngByAddress: async (address: string) => {
+        const res = await api.get(`${apiGetLatLng}/${address}`)
+        return res.data
     }
 }

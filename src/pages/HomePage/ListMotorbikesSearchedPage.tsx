@@ -21,7 +21,23 @@ import { forEach } from 'jszip';
 import MotorbikeInforCard from './components/MotorbikeInforCard';
 import { NoDataImage, PageNoteFoundImage } from '../../assets/images';
 import { PostMotorbikeService } from '../../services/PostMotorbikeService';
+import { BookingService } from '../../services/BookingService';
 
+export const getLatLngByAddress = async (address: string) => {
+    const response = await BookingService.getLatLngByAddress(address);
+    //@ts-ignore
+    let location = Array.from(response);
+    let result: Location = {
+        lat: Number(location[0]),
+        lng: Number(location[1])
+    }
+    return result
+}
+
+export interface Location {
+    lat: number;
+    lng: number;
+}
 
 export default function ListMotorbikesSearchedPage() {
     const { startDate, endDate, address } = useParams();
@@ -36,8 +52,7 @@ export default function ListMotorbikesSearchedPage() {
     const [isAdvancedFilterModalOpen, setAdvancedFilterModalOpen] = useState(false);
     const [isLoadingData, setIsLoadingData] = useState(true);
     const [equipments, setEquipments] = React.useState<string[]>([]);
-    const [defaultlat, setDefaultLat] = useState();
-    const [defaultlng, setDefaultLng] = useState();
+    const [defaultLocation, setDefaultLocation] = useState<Location>(null);
 
     // convert timestamp to date
     const convertTimestampToDate = (timestamp: number) => {
@@ -112,8 +127,8 @@ export default function ListMotorbikesSearchedPage() {
     const formik = useFormik({
         initialValues: {
             address: address,
-            lat: 21.028511,
-            lng: 105.804817,
+            lat: defaultLocation.then((res) => res.lat),
+            lng: defaultLocation.then((res) => res.lng),
             startDate: convertTimestampToDate(Number(startDate)),
             endDate: convertTimestampToDate(Number(endDate)),
             maximumRating: false,
@@ -394,10 +409,6 @@ export default function ListMotorbikesSearchedPage() {
         libraries: ["places"],
     });
 
-    interface Location {
-        lat: number;
-        lng: number;
-    }
 
     // declare vaiables
     const defaultLoction = useMemo(() => ({ lat: values.lat, lng: values.lng }), []);
@@ -687,7 +698,7 @@ export default function ListMotorbikesSearchedPage() {
                                 <Box width={isMobile ? "100%" : "auto"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={isMobile ? 'space-between' : 'center'} sx={{ gap: '8px' }}>
                                     {!isMobile &&
                                         (
-                                            <Typography color={theme.palette.text.primary} sx={{whiteSpace:"nowrap", fontSize: '14px', fontWeight: "400" }}>
+                                            <Typography color={theme.palette.text.primary} sx={{ whiteSpace: "nowrap", fontSize: '14px', fontWeight: "400" }}>
                                                 Sắp xếp theo:
                                             </Typography>
                                         )
