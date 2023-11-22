@@ -38,7 +38,7 @@ function CustomTabPanel1(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 1 }}>
+        <Box sx={{ p: 3 }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -57,7 +57,7 @@ function CustomTabPanel2(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -282,39 +282,55 @@ const ListMotorbikeForm = () => {
           </Tabs>
         </Box>
         <CustomTabPanel1 value={value1} index={0}>
-          <Paper elevation={2} sx={{ width: '100%', bgcolor: 'background.paper' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom:"16px" }}>
               <Tabs value={value2} onChange={handleChange2} aria-label="basic tabs example">
                 <Tab
                   sx={{
+                    backgroundColor: value2 === 0 ? 'rgb(139,69,13,0.1)' : 'none',
+                    borderRadius: '16px 16px 0px 0px',
+                    color: value2 === 0 ? '#8B4513' : '#000',
+                    fontWeight: value2 === 0 ? 700 : 500,
                     textTransform: 'none',
                     fontSize: '16px',
-                    fontWeight: '600',
                     lineHeight: '24px',
-                    color: theme.palette.text.primary,
                     '&.Mui-selected': {
                       color: theme.palette.primary.main,
                       backgroundColor: "rgba(139, 69, 19, 0.05)"
-                    }
+                    },
+                    "&:hover": {
+                      transform: "scale(1.02)",
+                      fontWeight: 700,
+                      // transition: "all 0.3s ease-in-out",
+                    },
+                    // marginLeft: 'auto', // Đặt tab ở bên phải
                   }}
                   label={t("postMotorbike.listform.currentBooking")}
                   {...a11yProps(0)}
                 />
                 <Tab sx={{
+                  backgroundColor: value2 === 1 ? 'rgb(139,69,13,0.1)' : 'none',
+                  borderRadius: '16px 16px 0px 0px',
+                  color: value2 === 1 ? '#8B4513' : '#000',
+                  fontWeight: value2 === 1 ? 700 : 500,
                   textTransform: 'none',
                   fontSize: '16px',
-                  fontWeight: '600',
                   lineHeight: '24px',
-                  color: theme.palette.text.primary,
                   '&.Mui-selected': {
                     color: theme.palette.primary.main,
                     backgroundColor: "rgba(139, 69, 19, 0.05)"
-
-                  }
+                  },
+                  "&:hover": {
+                    transform: "scale(1.02)",
+                    fontWeight: 700,
+                    // transition: "all 0.3s ease-in-out",
+                  },
+                  // marginLeft: 'auto', // Đặt tab ở bên phải
                 }} 
                 label={t("postMotorbike.listform.bookingInHistory")}
                 {...a11yProps(1)} />
               </Tabs>
+              </div>
             </Box>
             <CustomTabPanel2 value={value2} index={0}>
               <MyBookingItem isOwner isLoad={isLoad} index={0} bookings={
@@ -356,7 +372,6 @@ const ListMotorbikeForm = () => {
                   })
               } />
             </CustomTabPanel2>
-          </Paper>
         </CustomTabPanel1>
         <CustomTabPanel1 value={value1} index={1}>
           {/* tất cả xe */}

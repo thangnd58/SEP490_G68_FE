@@ -44,7 +44,7 @@ function CartPage() {
     const { shoppingCart } = useAppSelector((state) => state.shoppingCartInfo);
     const dispatch = useAppDispatch();
     const { setContentModal, setShowModal } = useContext(ModalContext);
-    const [open, setOpen] = useState(Array(shoppingCart?.length).fill(false));
+    const [open, setOpen] = useState(Array(shoppingCart?.length).fill(true));
     const [isLoad, setIsLoad] = useState(false);
 
     const showModalBookingInfoMultipleMotorbike = (motorbikes: Motorbike[], address: string, startDate: string, endDate: string, bookingCartId: number) => {
@@ -112,7 +112,7 @@ function CartPage() {
                         </Box>
                     ) : (
 
-                        shoppingCart.map((item: CartInforResponse, index: number) => (
+                        shoppingCart.slice().reverse().map((item: CartInforResponse, index: number) => (
                             <Paper key={index} elevation={2} sx={{ width: '80%', bgcolor: 'background.paper' }}>
                                 <Box display={"flex"} flexDirection={"column"} gap={"16px"} p={3}>
                                     <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"}>
@@ -222,12 +222,12 @@ function CartPage() {
                                         flexDirection: 'row',
                                         flexWrap: 'wrap',
                                         justifyContent: 'space-evenly',
+                                        gap: '16px',
                                     }}
                                         alignItems={'center'}
                                         justifyContent={'center'}
                                         isOpen={open[index]}
                                     >
-
                                         {item.motorbikes.map((motorbike: Motorbike, index: number) => (
                                             <MotorbikeInforCard key={index} motorbike={motorbike} isInCart={true} isFavoritePage={false} startDate={item.startDatetime} endDate={item.endDatetime} searchedAddress={item.address} deleteInCart={
                                                 () => {

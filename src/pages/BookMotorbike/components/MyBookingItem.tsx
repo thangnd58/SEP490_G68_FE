@@ -95,7 +95,7 @@ function MyBookingItem(props: MyBookingItemProps) {
                         icon={<WarningAmber />}
                         label={
                             isOwner ? t('myBooking.bookingStatus.pendingDeliveryOwner') :
-                            t('myBooking.bookingStatus.pendingDeliveryGuest')}
+                                t('myBooking.bookingStatus.pendingDeliveryGuest')}
                     />
                 );
             case BookingStatus.Delivered:
@@ -106,7 +106,7 @@ function MyBookingItem(props: MyBookingItemProps) {
                         icon={<CheckCircleOutline />}
                         label={
                             isOwner ? t('myBooking.bookingStatus.deliveredOwner') :
-                            t('myBooking.bookingStatus.deliveredGuest')}
+                                t('myBooking.bookingStatus.deliveredGuest')}
                     />
                 );
             case BookingStatus.PendingReview:
@@ -270,8 +270,6 @@ function MyBookingItem(props: MyBookingItemProps) {
                                     <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '32px' }}>
                                         {/* khách thuê */}
                                         {
-                                            isOwner &&
-
                                             <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                                                 <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
                                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
@@ -287,13 +285,15 @@ function MyBookingItem(props: MyBookingItemProps) {
                                                             height: "40px",
                                                             borderRadius: "50%",
                                                         }}
-                                                        src={booking.user.avatarUrl}
+                                                        src={
+                                                            isOwner ? booking.user.avatarUrl : booking.motorbikes[0].user.avatarUrl
+                                                        }
                                                     />
                                                     <Typography
                                                         color={theme.palette.text.primary}
                                                         sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
                                                     >
-                                                        {booking.user.name}
+                                                        {isOwner ? booking.user.name : booking.motorbikes[0].user.name}
                                                     </Typography>
                                                 </Box>
                                             </Box>
