@@ -890,7 +890,7 @@ export default function ListMotorbikesSearchedPage() {
                             }}
                         >
                             <GoogleMap
-                                zoom={11}
+                                zoom={13}
                                 center={selected ? selected : defaultLocation}
                                 mapContainerStyle={{
                                     width: "100%",
