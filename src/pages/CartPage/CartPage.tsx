@@ -61,7 +61,7 @@ function CartPage() {
     }
     useEffect(() => {
         dispatch(getCartInfo());
-    }, [shoppingCart]);
+    }, []);
 
     const deleteMotorbikeInCart = async (motorbikeId: number, bookingCartId: number) => {
         try {
