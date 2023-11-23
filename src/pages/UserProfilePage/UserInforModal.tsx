@@ -203,7 +203,7 @@ export default function UserInforModal(props : {userId: number}) {
                             >
                                 {
                                     feedback.map((item: Feedback) => (
-                                        <CommentItem isMobile={isMobile} avatar={item.user.avatarUrl} name={item.user.name} comment={item.comment} dateComment={item.createDatetime} />
+                                        <CommentItem isMobile={isMobile} avatar={item.user.avatarUrl} name={item.user.name} rating={item.rating} comment={item.comment} dateComment={item.createDatetime} />
                                     ))
                                 }
                             </Box>
@@ -243,7 +243,7 @@ function CommentItem(props: CommentItemProps) {
                         {
                             /* Rating */
                         }
-                        <Rating name="read-only" value={5} readOnly />
+                        <Rating name="read-only" value={rating} readOnly />
                     </Box>
                     {
                         /* Thời gian đăng */
