@@ -422,12 +422,20 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                             <ReportProblemOutlined sx={{ color: "#f44747" }} />
                             {/* Lấy ra bất kỳ một xe nào có trạng thái NotAvailable */}
                             {
-                              previewBookingData.motorbikes.filter((m) => m.status === "NotAvailable").map((m1) => {
-                                return (
-                                  <Typography variant="h5" color={"#FF0000"} fontWeight="400" fontSize={isMobile ? "12px" : "14px"} textAlign={'justify'}>{isVn ? m1.statusComment[0].vi : m1.statusComment[0].en}
+                              previewBookingData.motorbikes
+                                .filter((m) => m.status === "NotAvailable")
+                                .slice(0, 1) // Chỉ lấy phần tử đầu tiên
+                                .map((m1) => (
+                                  <Typography
+                                    variant="h5"
+                                    color={"#FF0000"}
+                                    fontWeight="400"
+                                    fontSize={isMobile ? "12px" : "14px"}
+                                    textAlign={"justify"}
+                                  >
+                                    {isVn ? m1.statusComment[0].vi : m1.statusComment[0].en}
                                   </Typography>
-                                )
-                              })
+                                ))
                             }
                           </Box>
                         }
@@ -597,7 +605,6 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                                   })
                                 }
                               </AnimatedBox>
-
                             </>
                           )
                         }

@@ -255,7 +255,7 @@ export default function MotorbikeFavouriteInforCard(props: {
                                 fontSize="20px"
                                 color={theme.palette.text.primary}
                             >
-                                {props.motorbike.model.brand.brandName + " " + props.isListForm ? props.motorbike.model.modelName : props.motorbike.brandName + " " + props.motorbike.modelName}
+                                {props.isListForm ? props.motorbike.model.brand.brandName + " " +  props.motorbike.model.modelName : props.motorbike.brandName + " " + props.motorbike.modelName}
                             </Typography>
                         </Tooltip>
                     </Box>
