@@ -14,6 +14,7 @@ import { FeedbackService } from "../../../services/FeedbackService";
 import ToastComponent from "../../../components/toast/ToastComponent";
 import { ModalContext } from "../../../contexts/ModalContext";
 import { ReportFormModal } from "../../ReportComponent/ReportFormModal";
+import UserInforModal from "../../UserProfilePage/UserInforModal";
 
 
 export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: boolean, canFeedback?: boolean, bookingId?: number, onlyView?: boolean, setReload?: Dispatch<SetStateAction<boolean>>, reload?: boolean }) => {
@@ -152,7 +153,9 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                     width: '40px',
                                     height: '40px',
                                     borderRadius: '50%',
-                                }} src={props.motorbike.user.avatarUrl} />
+                                }} src={props.motorbike.user.avatarUrl} 
+                                onClick={() => setContentModal(<UserInforModal userId={props.motorbike.user.userId} />)}
+                                />
                             </Tooltip>
                         </Box>
                         {/* Content */}
@@ -231,7 +234,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                 <Box width="100%" display="flex" alignItems="end" gap="4px">
                                     <StarPurple500Outlined sx={{ color: "#FBC241" }} fontSize="small" />
                                     <Typography color={theme.palette.text.secondary} fontSize="12px" align="center" textOverflow="ellipsis" whiteSpace="nowrap" overflow="hidden">
-                                        {props.motorbike.ratingAverage}
+                                        {props.motorbike.ratingAverage.toFixed(1)}
                                     </Typography>
                                     <BusinessCenterOutlined fontWeight={300} sx={{ color: "#8B4513" }} fontSize="small" />
                                     <Typography color={theme.palette.text.secondary} fontSize="12px" align="center" textOverflow="ellipsis" whiteSpace="nowrap" overflow="hidden">

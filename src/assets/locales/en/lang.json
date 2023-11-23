@@ -447,6 +447,8 @@
     "listform": {
       "title": "List Motorbike",
       "status": "Status :",
+      "updateStatusSuccess" : "Update status successfully",
+      "updateStatusError" : "Update status failed",
       "all": "All",
       "table-cell-#": "#",
       "table-cell-image": "Image",
@@ -478,7 +480,8 @@
       "allmymotorbikes": "All your motorbikes",
       "historyBooking" : "History booking",
       "currentBooking" : "Current booking",
-      "bookingInHistory" : "Booking in history"
+      "bookingInHistory" : "Booking in history",
+      "myMotorbikeFeedback" : "My motorbike feedback"
     },
     "registedForm": {
       "updateTitle": "Update Information",
@@ -737,6 +740,7 @@
   "myBooking": {
     "currentBooking": "Current booking",
     "historyBooking": "History booking",
+    "myfeedback" : "My feedback",
     "status": "Status",
     "startDate": "Start date",
     "endDate": "End date",

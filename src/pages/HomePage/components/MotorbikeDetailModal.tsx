@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { BookingRequest, BookingResponse, Feedback, Motorbike } from '../../../utils/type'
 import MyDialog from '../../../components/common/MyDialog'
 import usei18next from '../../../hooks/usei18next';
-import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
-import { Box, CircularProgress, Divider, Grid, IconButton, MenuItem, Modal, TextField, Typography, Rating, Avatar } from '@mui/material';
+import { Circle, GoogleMap, InfoWindow, InfoWindowF, Marker, useLoadScript } from '@react-google-maps/api';
+import { Box, CircularProgress, Divider, Grid, IconButton, MenuItem, Modal, TextField, Typography, Rating, Avatar, Popover } from '@mui/material';
 import MyIcon from '../../../components/common/MyIcon';
-import { BusinessCenterOutlined, CloseOutlined, GasMeterOutlined, HelpOutlineOutlined, LocalDrinkOutlined, LocationOn, LocationOnOutlined, Loyalty, MyLocation, NewReleasesOutlined, ReportProblemOutlined, StarPurple500Outlined } from '@mui/icons-material';
+import { BusinessCenterOutlined, CloseOutlined, GasMeterOutlined, HelpOutlineOutlined, LocalDrinkOutlined, LocationOn, LocationOnOutlined, Loyalty, MyLocation, NewReleasesOutlined, ReportProblemOutlined, Room, StarPurple500Outlined } from '@mui/icons-material';
 import MySlideShowImage from '../../../components/common/MySlideShowImage';
 import theme from '../../../utils/theme';
 import { CartIcon, HelmetIcon, ProtectClothesIcon, RainCoatIcon, RepairIcon, TelephoneIcon } from '../../../assets/icons';
@@ -29,6 +29,7 @@ import UserService from '../../../services/UserService';
 import { LoginModal } from '../../AccountPage/LoginModal';
 import { FeedbackService } from '../../../services/FeedbackService';
 import FeedbackCard from './FeedbackCard';
+import { PinImage } from '../../../assets/images';
 
 export default function MotorbikeDetailModal(props: { motorbikeId: string | undefined, searchedAddress?: string, startDate?: string, endDate?: string }) {
 
@@ -243,6 +244,9 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
       setFieldValue("address", motorbike?.address);
       setFieldValue("lat", location?.lat);
       setFieldValue("lng", location?.lng);
+      if (location) {
+        setSelected({ lat: location?.lat, lng: location?.lng });
+      }
       setShowMenu(false);
     }
   };
@@ -313,6 +317,24 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
     setShowModal(true)
   }
 
+  const [anchorEl, setAnchorEl] = useState<any>(null);
+
+  const handleMarkerClick = (event: google.maps.MapMouseEvent) => {
+    // Hiển thị Popover khi click vào Marker
+    setAnchorEl(event.domEvent.currentTarget);
+  };
+
+  const handleClosePopover = () => {
+    // Đóng Popover khi click bên ngoài
+    setAnchorEl(null);
+  };
+
+  const handleDragMap = () => {
+    // không cho nguời dùng kéo map
+  }
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
   return (
     <>
       <Modal
@@ -419,7 +441,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     whiteSpace="nowrap"
                     overflow="hidden"
                   >
-                    {previewBookingData && previewBookingData.motorbikes[0].ratingAverage}
+                    {previewBookingData && previewBookingData.motorbikes[0].ratingAverage.toFixed(1)}
                   </Typography>
                   <MyIcon icon={<BusinessCenterOutlined
                     fontWeight={300}
@@ -559,7 +581,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     </Box>
                     {/* Phí vận chuyển */}
                     {
-                      previewBookingData?.motorbikes[0].totalFeeOfDelivery! > 0 && (
+                      previewBookingData?.motorbikes[0].totalFeeOfDelivery! > 0 ? (
                         <>
                           {/* Line */}
                           <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
@@ -645,6 +667,47 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                             }}>
                               {formatMoney(previewBookingData?.motorbikes[0].totalFeeOfDelivery)} x {previewBookingData?.motorbikes[0].deliveryDistanceChargeable.toFixed(1)
                               } km
+                            </Typography>
+                          </Box>
+                        </>
+                      ) : (
+                        <>
+                          <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
+                          <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                              <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "400", }}>
+                                {t("booking.distance")}
+                              </Typography>
+                              <MyIcon icon={
+                                <HelpOutlineOutlined sx={{
+                                  color: theme.palette.text.primary,
+                                  width: "12px",
+                                  height: "12px",
+                                  cursor: "pointer"
+                                }}
+                                />
+                              } hasTooltip tooltipText={
+                                t("booking.distance_hint")
+                              } onClick={() => {
+                              }} position='right-start' />
+
+                            </Box>
+                            <Typography color={theme.palette.text.primary} sx={{
+                              fontSize: isMobile ? "14px" : '16px', fontWeight: "600", whiteSpace: 'nowrap',
+                            }}>
+                              {previewBookingData?.motorbikes[0].distance.toFixed(1)} km
+                            </Typography>
+                          </Box>
+                          <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                              <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "400", }}>
+                                {t("booking.freeDeliveryDistance")}
+                              </Typography>
+                            </Box>
+                            <Typography color={theme.palette.text.primary} sx={{
+                              fontSize: isMobile ? "14px" : '16px', fontWeight: "600", whiteSpace: 'nowrap',
+                            }}>
+                              {previewBookingData?.motorbikes[0].freeDeliveryRange.toFixed(1)} km
                             </Typography>
                           </Box>
                         </>
@@ -914,16 +977,66 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                         flexDirection={"column"}
                       >
                         <GoogleMap
-                          zoom={18}
+                          zoom={10}
                           center={defaultLoctionMotorbike}
                           mapContainerStyle={{
                             width: "100%",
                             height: "40vh",
                             borderRadius: "8px",
                           }}
-                          clickableIcons={false}
+                          onDrag={handleDragMap}
                         >
-                          <Marker position={defaultLoctionMotorbike} />
+                          <Marker
+                            position={defaultLoctionMotorbike}
+                            icon={PinImage}
+                          // onClick={handleMarkerClick}
+                          />
+                          {/* Circle with 8km radius */}
+                          <Circle
+                            center={defaultLoctionMotorbike}
+                            radius={motorbike && motorbike?.maxDeliveryDistance * 1000}
+                            options={{
+                              fillColor: "rbga(255, 0, 0, 0.1)",
+                              fillOpacity: 0.35,
+                              strokeColor: "#8B4513",
+                              strokeOpacity: 0.8,
+                              strokeWeight: 2,
+                            }}
+                          />
+                          {/* Hiển thị thông tin trong Popover */}
+                          <Popover
+                            id={id}
+                            open={open}
+                            anchorEl={anchorEl}
+                            onClose={handleClosePopover}
+                            anchorOrigin={{
+                              vertical: "bottom",
+                              horizontal: "center",
+                            }}
+                            transformOrigin={{
+                              vertical: "top",
+                              horizontal: "center",
+                            }}
+                          >
+                            <Box
+                              m={3}
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                gap: "8px",
+                                padding: "8px",
+                                borderRadius: "8px",
+                                backgroundColor: 'rgba(139, 69, 19, 0.05)',
+                                border: "1px solid #8B4513",
+                              }}
+                            >
+                              {/* Thêm thông tin của motorbike tại đây */}
+                              <Typography>Tầm hoạt động: {motorbike && motorbike?.maxDeliveryDistance} km</Typography>
+                              {/* Thêm các thông tin khác nếu cần */}
+                            </Box>
+                          </Popover>
                         </GoogleMap>
                       </Box>
                     ) : (
@@ -1060,7 +1173,6 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                           // disabled={values.province === "" || values.district === "" || values.ward === ""}
                           placeholder={t("component.MyMapWithSearchBox.searchPlaceholder")}
                           fullWidth
-                          name="address"
                           value={value}
                           SelectProps={{
                             native: true,
@@ -1189,7 +1301,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
       </Modal>
 
       {/* modal promotion */}
-      <PromotionModal isModalPromotionOpen={isModalPromotionOpen} setModalPromotionOpen={setModalPromotionOpen} setFieldValue={setFieldValue} counponCode={values.couponCode} isMobile={isMobile} />
+      <PromotionModal minValue={previewBookingData?.totalAmount!} isModalPromotionOpen={isModalPromotionOpen} setModalPromotionOpen={setModalPromotionOpen} setFieldValue={setFieldValue} counponCode={values.couponCode} isMobile={isMobile} />
 
       {/*modal confirm booking*/}
       <ConfirmMotorbikeBookingModal

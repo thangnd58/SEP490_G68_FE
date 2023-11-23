@@ -8,7 +8,7 @@ import { ChangeCircleOutlined, CheckCircleOutline, CloseOutlined, EditOutlined, 
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../../utils/Constant';
 import { DataGrid } from '@mui/x-data-grid';
-import { Booking, Motorbike } from '../../../../utils/type';
+import { Booking, Feedback, Motorbike } from '../../../../utils/type';
 import { PostMotorbikeService } from '../../../../services/PostMotorbikeService';
 import { Fade } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
@@ -19,6 +19,12 @@ import { CartIcon, HelmetIcon, ProtectClothesIcon, RainCoatIcon, RepairIcon, Tel
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 import MyBookingItem from '../../../BookMotorbike/components/MyBookingItem';
 import { BookingService } from '../../../../services/BookingService';
+import MotorbikeFavouriteInforCard from '../../../FavouritePage/components/MotorbikeFavouriteInforCard';
+import { NoDataImage } from '../../../../assets/images';
+import { CommentItem } from '../../../UserProfilePage/UserInforModal';
+import MotorbikeInforCard from '../../../HomePage/components/MotorbikeInforCard';
+import { getUserInfo } from '../../../../redux/reducers/authReducer';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/useAction';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -216,16 +222,39 @@ const ListMotorbikeForm = () => {
 
   useEffect(() => {
     getData();
+    dispatch(getUserInfo());
+
   }, []);
 
+  const { user } = useAppSelector((state) => state.userInfo);
+  const dispatch = useAppDispatch();
   const [listBooing, setListBooking] = useState<Booking[]>([]);
   const [isLoad, setIsLoad] = useState<boolean>(false);
+  const [listMotorbikeWithFeedback, setListMotorbikeWithFeedback] = useState<Motorbike[]>([]);
+
   const getData = async () => {
     try {
       setIsLoad(true);
       const dataBooking = await BookingService.getListRentalBooking();
       if (dataBooking) {
         setListBooking(dataBooking);
+        const allFeedbacks = dataBooking
+          .flatMap((booking) => booking.motorbikes)
+          .flatMap((motorbike) => motorbike.feedbacks);
+
+        const filteredBookings = dataBooking.filter((booking) =>
+          booking.motorbikes.some((motorbike) =>
+            motorbike.feedbacks.some((feedback) => feedback.user.userId === user?.userId)
+          )
+        );
+        const motorbikesWithFeedback = filteredBookings.flatMap((booking) => booking.motorbikes);
+        // Remove duplicates based on motorbikeId
+        const uniqueMotorbikeIds = Array.from(new Set(motorbikesWithFeedback.map((motorbike) => motorbike.id)));
+        // Filter out duplicate motorbikes
+        const uniqueMotorbikes = uniqueMotorbikeIds.map((motorbikeId) =>
+          motorbikesWithFeedback.find((motorbike) => motorbike.id === motorbikeId)
+        ) as Motorbike[];
+        setListMotorbikeWithFeedback(uniqueMotorbikes);
         setIsLoad(false);
       }
       else {
@@ -276,14 +305,26 @@ const ListMotorbikeForm = () => {
               '&.Mui-selected': {
                 color: theme.palette.primary.main,
               }
-            }} 
-            label={t("postMotorbike.listform.allmymotorbikes")}
-            {...a11yProps(1)} />
+            }}
+              label={t("postMotorbike.listform.allmymotorbikes")}
+              {...a11yProps(1)} />
+            <Tab sx={{
+              textTransform: 'none',
+              fontSize: '16px',
+              fontWeight: '600',
+              lineHeight: '24px',
+              color: theme.palette.text.primary,
+              '&.Mui-selected': {
+                color: theme.palette.primary.main,
+              }
+            }}
+              label={t("postMotorbike.listform.myMotorbikeFeedback")}
+              {...a11yProps(2)} />
           </Tabs>
         </Box>
         <CustomTabPanel1 value={value1} index={0}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom:"16px" }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: "16px" }}>
               <Tabs value={value2} onChange={handleChange2} aria-label="basic tabs example">
                 <Tab
                   sx={{
@@ -326,56 +367,56 @@ const ListMotorbikeForm = () => {
                     // transition: "all 0.3s ease-in-out",
                   },
                   // marginLeft: 'auto', // Đặt tab ở bên phải
-                }} 
-                label={t("postMotorbike.listform.bookingInHistory")}
-                {...a11yProps(1)} />
+                }}
+                  label={t("postMotorbike.listform.bookingInHistory")}
+                  {...a11yProps(1)} />
               </Tabs>
-              </div>
-            </Box>
-            <CustomTabPanel2 value={value2} index={0}>
-              <MyBookingItem isOwner isLoad={isLoad} index={0} bookings={
-                listBooing
-                  .filter(
-                    (item) =>
-                      item.status === 'PendingPayment' ||
-                      item.status === 'Paid' ||
-                      item.status === 'PendingDelivery' ||
-                      item.status === 'Delivered'
-                  )
-                  .sort((a, b) => {
-                    // Sort by status order
-                    const statusComparison = statusOrder[a.status] - statusOrder[b.status];
+            </div>
+          </Box>
+          <CustomTabPanel2 value={value2} index={0}>
+            <MyBookingItem isOwner isLoad={isLoad} index={0} bookings={
+              listBooing
+                .filter(
+                  (item) =>
+                    item.status === 'PendingPayment' ||
+                    item.status === 'Paid' ||
+                    item.status === 'PendingDelivery' ||
+                    item.status === 'Delivered'
+                )
+                .sort((a, b) => {
+                  // Sort by status order
+                  const statusComparison = statusOrder[a.status] - statusOrder[b.status];
 
-                    // If statuses are different, use the status order
-                    if (statusComparison !== 0) {
-                      return statusComparison;
-                    }
+                  // If statuses are different, use the status order
+                  if (statusComparison !== 0) {
+                    return statusComparison;
+                  }
 
-                    // If statuses are the same, sort by startDatetime
-                    return new Date(a.startDatetime).valueOf() - new Date(b.startDatetime).valueOf();
-                  })
-              } />
-            </CustomTabPanel2>
-            <CustomTabPanel2 value={value2} index={1}>
-              <MyBookingItem isOwner isLoad={isLoad} index={1} bookings={
-                listBooing
-                  .filter(
-                    (item) =>
-                      item.status === 'Cancelled' ||
-                      item.status === 'PendingReview' ||
-                      item.status === 'Finished'
-                  )
-                  .sort((a, b) => {
+                  // If statuses are the same, sort by startDatetime
+                  return new Date(a.startDatetime).valueOf() - new Date(b.startDatetime).valueOf();
+                })
+            } />
+          </CustomTabPanel2>
+          <CustomTabPanel2 value={value2} index={1}>
+            <MyBookingItem isOwner isLoad={isLoad} index={1} bookings={
+              listBooing
+                .filter(
+                  (item) =>
+                    item.status === 'Cancelled' ||
+                    item.status === 'PendingReview' ||
+                    item.status === 'Finished'
+                )
+                .sort((a, b) => {
 
-                    // If statuses are the same, sort by startDatetime
-                    return new Date(a.updateDatetime).valueOf() - new Date(b.updateDatetime).valueOf();
-                  })
-              } />
-            </CustomTabPanel2>
+                  // If statuses are the same, sort by startDatetime
+                  return new Date(a.updateDatetime).valueOf() - new Date(b.updateDatetime).valueOf();
+                })
+            } />
+          </CustomTabPanel2>
         </CustomTabPanel1>
         <CustomTabPanel1 value={value1} index={1}>
           {/* tất cả xe */}
-          <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignContent={"center"} >
+          <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignContent={"center"} >
             <Box display={"flex"} flexDirection={"row"} width={"100%"} margin={"8px 0px 16px 0px"} justifyContent={"end"} alignContent={"center"}>
               <Typography fontSize={"18px"} fontWeight={"400"}
                 margin={"auto 8px"}>{t("postMotorbike.listform.status")}</Typography>
@@ -400,42 +441,79 @@ const ListMotorbikeForm = () => {
               </FormControl>
             </Box>
           </Box>
-          <Box>
-            <Box sx={{ borderRadius: "8px" }}>
-              <DataGrid
-                sx={{
-                  cursor: "pointer",
-                  fontSize: "16px",
-                  borderRadius: "8px",
-                  '& .MuiDataGrid-columnHeaders': {
-                    backgroundColor: "#8B4513",
-                  },
-                  '& .MuiDataGrid-columnHeaderTitle ': {
-                    color: "#fff",
-                    fontWeight: "600",
-                    fontSize: "18px",
-                  },
-                  '& .MuiDataGrid-cell:focus-within': {
-                    outline: "none",
-                  },
-
-                }}
-                rows={listRegisterMotorbike}
-                initialState={{
-                  pagination: { paginationModel: { pageSize: 10 } },
-                }}
-                pageSizeOptions={[5, 10, 25]}
-                columns={columns}
-                loading={listRegisterMotorbike.length === 0}
-                disableRowSelectionOnClick
-                rowHeight={150}
-                pagination
-                onRowClick={(params) => {
-                  openItemModal(params.row, params.row.imageUrl);
-                }}
-              />
-            </Box>
+          <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-evenly"} alignItems={"center"} flexWrap={"wrap"} gap={"16px"}>
+            {
+              listRegisterMotorbike.length === 0 ? (
+                <Box display={"flex"} flexDirection={"column"} alignItems={"center"} justifyContent={"center"} width={"100%"} marginTop={2} gap={2}>
+                  <img src={NoDataImage} alt={"no-data"} width={"400px"} height={"400px"} />
+                </Box>
+              ) : (
+                listRegisterMotorbike.slice().reverse().map((motorbike: Motorbike) => (
+                  <MotorbikeFavouriteInforCard motorbike={motorbike} isListForm openItemDetailModal={() => openItemModal(motorbike, motorbike.imageUrl)} />
+                ))
+              )
+            }
           </Box>
+        </CustomTabPanel1>
+        <CustomTabPanel1 value={value1} index={2}>
+          {
+            listMotorbikeWithFeedback.length > 0 ?
+              (
+                listMotorbikeWithFeedback.map((item: Motorbike, index1: number) => {
+                  return (
+                    <Box key={index1} sx={{
+                      backgroundColor: "rgb(5, 69, 19, 0.1)",
+                      borderRadius: '8px',
+                      padding: '16px',
+                      alignItems: 'start',
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      marginTop: index1 === 0 ? "0px" : "16px",
+                    }}>
+                      <Box>
+                        <MotorbikeInforCard isInModal canClickDetailPage motorbike={item} isFavoritePage={false} isNotFavorite isIntroduced={true} />
+                      </Box>
+                      {/* motorbike card */}
+                      {/* Box comment */}
+                      <Box sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'start',
+                        alignItems: 'center',
+                        marginLeft: '16px',
+                        width: '100%',
+                      }}>
+                        {
+                          item.feedbacks.length > 0 ?
+                            (
+                              item.feedbacks.map((feedback: Feedback, index2: number) => {
+                                return (
+                                  <Box key={index2} sx={{
+                                    width: '100%',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'start',
+                                    alignItems: 'center',
+                                    marginTop: index2 === 0 ? "0px" : "16px",
+                                  }}>
+                                    <CommentItem isDetail bookingId={feedback.bookingId} avatar={feedback.user.avatarUrl} dateComment={feedback.createDatetime} name={feedback.user.name} rating={feedback.rating} comment={feedback.comment} replyComment={feedback.response} isMobile={isMobile} />
+                                  </Box>
+                                )
+
+                              })
+                            ) : (null)
+                        }
+                      </Box>
+                    </Box>
+                  )
+                })
+              ) : (
+                <Box display={"flex"} flexDirection={"column"} alignItems={"center"} justifyContent={"center"} width={"100%"} marginTop={2} gap={2}>
+                  <img src={NoDataImage} alt={"no-data"} width={"400px"} height={"400px"} />
+                </Box>
+              )
+          }
         </CustomTabPanel1>
       </Paper>
 

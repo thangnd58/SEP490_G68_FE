@@ -9,7 +9,7 @@ import ToastComponent from '../../components/toast/ToastComponent';
 import { Box, Dialog, DialogContent, Rating, Typography } from '@mui/material';
 import { Transition } from '../WalletPage/common/Transition';
 import MyIcon from '../../components/common/MyIcon';
-import { CloseOutlined, Grade, Luggage } from '@mui/icons-material';
+import { CloseOutlined, Grade, Luggage, ReadMore } from '@mui/icons-material';
 import { LogoHeader } from '../../assets/images';
 import { HomePageService } from '../../services/HomePageService';
 import MotorbikeInforCard from '../HomePage/components/MotorbikeInforCard';
@@ -19,8 +19,10 @@ import useThemePage from '../../hooks/useThemePage';
 import UserService from '../../services/UserService';
 import dayjs from 'dayjs';
 import { getPreviousTimeRelative } from '../../utils/helper';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../utils/Constant';
 
-export default function UserInforModal(props : {userId: number}) {
+export default function UserInforModal(props: { userId: number }) {
     const { userId } = props;
     const { t } = usei18next();
     const { closeModal } = useContext(ModalContext);
@@ -46,7 +48,7 @@ export default function UserInforModal(props : {userId: number}) {
     }
     console.log(feedback?.length)
 
-    
+
 
     return (
         <>
@@ -61,7 +63,7 @@ export default function UserInforModal(props : {userId: number}) {
                         borderRadius: "16px",
                         padding: '16px',
                         margin: isMobile ? '0px' : '32px',
-                        maxWidth: isMobile ? '95%' : '71.5%',
+                        maxWidth: isMobile ? '95%' : '75%',
                     }
                 }}
             >
@@ -107,7 +109,7 @@ export default function UserInforModal(props : {userId: number}) {
                                     <Typography fontWeight={'500'} fontSize={'16px'}>Đánh giá </Typography>
                                     <Box display={"flex"} flexDirection={"row"} justifyContent={"center"} alignItems={"center"}>
                                         <Grade sx={{ color: theme.palette.text.secondary }} />
-                                        <Typography fontWeight={'400'} fontSize={'14px'} color={theme.palette.text.secondary}>{userInformation?.averageRating}</Typography>
+                                        <Typography fontWeight={'400'} fontSize={'14px'} color={theme.palette.text.secondary}>{userInformation?.averageRating.toFixed(1)}</Typography>
                                     </Box>
                                 </Box>
                             </Box>
@@ -167,7 +169,7 @@ export default function UserInforModal(props : {userId: number}) {
                                     }}
                                 >
                                     {
-                                         userInformation?.motorbikes.map((item: Motorbike, index: number) => (
+                                        userInformation?.motorbikes.map((item: Motorbike, index: number) => (
                                             <MotorbikeInforCard canClickDetailPage motorbike={item} isFavoritePage={false} isIntroduced={true} />
                                         ))
                                     }
@@ -176,42 +178,62 @@ export default function UserInforModal(props : {userId: number}) {
                         )}
                         {isMobile ? (<Divider style={{ margin: "8px 0px" }} />) : (<Divider />)}
 
-                        {feedback && feedback?.length > 0 && (
-                        <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}
-                            sx={{
-                                width: isMobile ? '90%' : 'auto',
-                                gap: '16px',
-                                borderRadius: '8px',
-                                backgroundColor: 'rgb(5, 69, 19, 0.1)',
-                                padding: '1rem',
-                            }}
-                        >
-                            <Box display={"flex"} flexDirection={isMobile ? 'column' : "row"} justifyContent={"space-between"} alignItems={isMobile ? 'start' : "center"} width={"100%"}>
-                                <Typography textAlign={'start'} fontWeight={'600'} fontSize={'20px'}>Đánh giá</Typography>
-                                <Box display={"flex"} flexDirection={"row"} justifyContent={"center"} alignItems={"center"} gap={'4px'}>
-                                    <Grade sx={{ color: '#FFD700' }} />
-                                    <Typography textAlign={'start'} fontWeight={'500'} fontSize={'16px'}>{userInformation?.averageRating}</Typography>
-                                    <Divider type="vertical" />
-                                    <Typography textAlign={'start'} fontWeight={'500'} fontSize={'16px'}>{feedback.length} đánh giá</Typography>
-                                </Box>
-                            </Box>
-                            <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"}
+                        {feedback && feedback?.length > 0 ? (
+                            <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}
                                 sx={{
-                                    gap: '1rem',
+                                    width: isMobile ? '90%' : 'auto',
+                                    gap: '16px',
                                     borderRadius: '8px',
+                                    backgroundColor: 'rgb(5, 69, 19, 0.1)',
+                                    padding: '1rem',
                                 }}
                             >
-                                {
-                                    feedback.map((item: Feedback) => (
-                                        <CommentItem isMobile={isMobile} avatar={item.user.avatarUrl} name={item.user.name} rating={item.rating} comment={item.comment} dateComment={item.createDatetime} />
-                                    ))
-                                }
-                            </Box>
-                        </Box>)}
+                                <Box display={"flex"} flexDirection={isMobile ? 'column' : "row"} justifyContent={"space-between"} alignItems={isMobile ? 'start' : "center"} width={"100%"}>
+                                    <Typography textAlign={'start'} fontWeight={'600'} fontSize={'20px'}>Đánh giá</Typography>
+                                    <Box display={"flex"} flexDirection={"row"} justifyContent={"center"} alignItems={"center"} gap={'4px'}>
+                                        <Grade sx={{ color: '#FFD700' }} />
+                                        <Typography textAlign={'start'} fontWeight={'500'} fontSize={'16px'}>{userInformation?.averageRating.toFixed(1)}</Typography>
+                                        <Divider type="vertical" />
+                                        <Typography textAlign={'start'} fontWeight={'500'} fontSize={'16px'}>{feedback.length} đánh giá</Typography>
+                                    </Box>
+                                </Box>
+                                <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"}
+                                    sx={{
+                                        gap: '1rem',
+                                        borderRadius: '8px',
+                                    }}
+                                >
+                                    {
+                                        feedback.map((item: Feedback) => (
+                                            <CommentItem isMobile={isMobile} rating={item.rating} avatar={item.user.avatarUrl} name={item.user.name} comment={item.comment} dateComment={item.createDatetime} />
+                                        ))
+                                    }
+                                </Box>
+                            </Box>) :
+                            (
+                                <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}
+                                    sx={{
+                                        width: isMobile ? '90%' : 'auto',
+                                        gap: '16px',
+                                        borderRadius: '8px',
+                                        backgroundColor: 'rgb(5, 69, 19, 0.1)',
+                                        padding: '1rem',
+                                    }}
+                                >
+                                    <Box display={"flex"} flexDirection={isMobile ? 'column' : "row"} justifyContent={"space-between"} alignItems={isMobile ? 'start' : "center"} width={"100%"}>
+                                        <Typography textAlign={'start'} fontWeight={'600'} fontSize={'20px'}>Đánh giá</Typography>
+                                        <Box display={"flex"} flexDirection={"row"} justifyContent={"center"} alignItems={"center"} gap={'4px'}>
+                                            <Typography textAlign={'start'} fontWeight={'500'} fontSize={'16px'}>
+                                                Chưa có đánh giá
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                </Box>)
+                        }
                     </DialogContent>
                 </Box >
             </Dialog >
-            </>
+        </>
     )
 
 }
@@ -223,12 +245,16 @@ interface CommentItemProps {
     comment?: string;
     replyComment?: string;
     isMobile?: boolean;
+    isDetail?: boolean;
+    isOwner?: boolean;
+    bookingId?: number;
 }
 
 
-function CommentItem(props: CommentItemProps) {
+export function CommentItem(props: CommentItemProps) {
     const { avatar, dateComment, name, rating, comment, replyComment, isMobile } = props;
     const { t } = usei18next();
+    const  navigate  = useNavigate();
     return (<Box width={isMobile ? '90%' : "95%"} display={"flex"} flexDirection={"column"} justifyContent={"start"} alignItems={"start"} sx={{
         backgroundColor: "#fff",
         borderRadius: '8px',
@@ -245,10 +271,32 @@ function CommentItem(props: CommentItemProps) {
                         }
                         <Rating name="read-only" value={rating} readOnly />
                     </Box>
-                    {
-                        /* Thời gian đăng */
-                    }
-                    <Typography textAlign={'start'} fontWeight={'400'} fontSize={'12px'}>{getPreviousTimeRelative(dateComment||"",t)}</Typography>
+                    <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"end"} gap={'4px'}>
+                        {
+                            /* Thời gian đăng */
+                        }
+                        <Typography textAlign={'start'} fontWeight={'400'} fontSize={'12px'}>{getPreviousTimeRelative(dateComment || "", t)}</Typography>                        {
+                            /* Read more */
+                        }
+                        {props.isDetail &&
+                        <MyIcon
+                            icon={
+                                <ReadMore />
+                            }
+                            position='bottom'
+                            hasTooltip
+                            tooltipText={t("favourite.item.view")}
+                            onClick={() => {
+
+                                props.isOwner ?
+                                    navigate(`/${ROUTES.booking.detail_owner}/${props.bookingId}`) :
+                                    navigate(`/${ROUTES.booking.detail}/${props.bookingId}`)
+
+                            }}
+                        />}
+
+                    </Box>
+
                 </Box>
                 {
                     /* Comment */

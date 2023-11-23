@@ -1,4 +1,4 @@
-import { Avatar, Box, Chip, Divider, Tooltip, Typography } from '@mui/material';
+import { Avatar, Box, Chip, CircularProgress, Divider, Tooltip, Typography } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import usei18next from '../../../hooks/usei18next';
 import PlaceIcon from '@mui/icons-material/Place';
@@ -23,8 +23,10 @@ import { LoginModal } from '../../AccountPage/LoginModal';
 import { useAuth } from '../../../contexts/AuthContext';
 import { getCartInfo } from '../../../redux/reducers/cartReducer';
 import UserInforModal from '../../UserProfilePage/UserInforModal';
+import { green } from '@mui/material/colors';
+import { number } from 'yup';
 
-export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean, startDate?: string, endDate?: string, searchedAddress?: string, isInCart?: boolean, isIntroduced?: boolean, deleteInCart?: () => void, isNotFavorite?: boolean, canClickDetailPage?: boolean, isInModal?: boolean }) {
+export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean, startDate?: string, endDate?: string, searchedAddress?: string, isInCart?: boolean, isIntroduced?: boolean, deleteInCart?: () => void, isNotFavorite?: boolean, canClickDetailPage?: boolean, isInModal?: boolean, isLoadDelete?: boolean, isHorizontal?: boolean }) {
     const { t } = usei18next();
     const { setContentModal, setShowModal } = useContext(ModalContext);
     const { isLogin, logout } = useAuth();
@@ -99,6 +101,14 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
         }
     };
 
+    const [loadingCard, setLoadingCard] = useState<string>();
+
+    // const handleDeleteClick = (cardId: string) => {
+    //     setLoadingCard(cardId);
+    //     props.deleteInCart(cardId);
+    //     // Đặt setLoadingCard(null) tại đây nếu cần
+    //   };
+
     return (
         <Box
             sx={{
@@ -131,6 +141,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                             }
                             : {
                                 width: "100%",
+                                minWidth: "100%",
                                 height: isMobile ? "250px" : "190px",
                                 borderRadius: "8px",
                                 border: "1px solid #8B4513",
@@ -141,23 +152,23 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                 />
                 {/* User Avatar */}
                 {props.motorbike.user &&
-                <Tooltip
-                    title={props.motorbike.user.name}
-                    placement="right-end"
-                >
-                    <Avatar
-                        sx={{
-                            position: "absolute",
-                            bottom: -20,
-                            left: 12,
-                            width: "40px",
-                            height: "40px",
-                            borderRadius: "50%",
-                        }}
-                        src={props.motorbike.user.avatarUrl}
-                        onClick={() => setContentModal(<UserInforModal userId={props.motorbike.user.userId!} />)}
-                    />
-                </Tooltip>
+                    <Tooltip
+                        title={props.motorbike.user.name}
+                        placement="right-end"
+                    >
+                        <Avatar
+                            sx={{
+                                position: "absolute",
+                                bottom: -20,
+                                left: 12,
+                                width: "40px",
+                                height: "40px",
+                                borderRadius: "50%",
+                            }}
+                            src={props.motorbike.user.avatarUrl}
+                            onClick={() => setContentModal(<UserInforModal userId={props.motorbike.user.userId!} />)}
+                        />
+                    </Tooltip>
                 }
                 {/* Favorite Icon */}
                 {!props.isNotFavorite &&
@@ -173,6 +184,11 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                 margin: "4px",
                                 backgroundColor: "rgba(0, 0, 0, 0.25)",
                                 borderRadius: "50%",
+                                // hover
+                                "&:hover": {
+                                    transform: "scale(1.1)",
+                                    transition: "all 0.3s ease-in-out",
+                                },
                             }}
                             onClick={() => deleteFavourite(props.motorbike.id!)}
                         />
@@ -188,6 +204,10 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                 margin: "4px",
                                 backgroundColor: "rgba(0, 0, 0, 0.25)",
                                 borderRadius: "50%",
+                                "&:hover": {
+                                    transform: "scale(1.1)",
+                                    transition: "all 0.3s ease-in-out",
+                                },
                             }}
                             onClick={() => addFavourite(props.motorbike.id!)}
                         />
@@ -249,8 +269,8 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                 }
                             >
                                 {props.motorbike.model ? (
-                                props.motorbike.model.brand.brandName +" "+ props.motorbike.model.modelName):(
-                                    props.motorbike.brandName +" "+props.motorbike.modelName
+                                    props.motorbike.model.brand.brandName + " " + props.motorbike.model.modelName) : (
+                                    props.motorbike.brandName + " " + props.motorbike.modelName
                                 )}
                             </Typography>
                         </Tooltip>
@@ -289,7 +309,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                             whiteSpace="nowrap"
                             overflow="hidden"
                         >
-                            {props.motorbike.ratingAverage}
+                            {props.motorbike.ratingAverage.toFixed(1)}
                         </Typography>
                         <BusinessCenterOutlined
                             fontWeight={300}
@@ -335,25 +355,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                     borderTop="1px solid #e0e0e0"
                     paddingTop="8px"
                 >
-                    {props.isFavoritePage ? (
-                        <Typography
-                            sx={{
-                                cursor: "pointer",
-                                "&:hover": {
-                                    textDecoration: "underline",
-                                    color: theme.palette.primary.main,
-                                },
-                            }}
-                            color={theme.palette.text.primary}
-                            fontSize="14px"
-                            fontWeight={700}
-                            align="center"
-                            textOverflow="ellipsis"
-                            onClick={showMotorbikeDetailModal}
-                        >
-                            Xem chi tiết
-                        </Typography>
-                    ) : (
+                    {
                         props.isInCart ? (
                             <MyCustomButton
                                 icon={<Delete sx={{ color: 'main' }} />}
@@ -362,7 +364,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                 onClick={props.deleteInCart!}
                                 width="auto"
                                 height='32px'
-                                variant='outlined'
+                                variant={'outlined'}
                                 fontSize={16}
                                 fontWeight={500}
                                 borderRadius={8} />
@@ -395,7 +397,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                 />
                             )
                         )
-                    )}
+                    }
                     <Box
                         display="flex"
                         flexDirection="row"

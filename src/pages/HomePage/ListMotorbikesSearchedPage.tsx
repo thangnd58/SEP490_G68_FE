@@ -1,14 +1,14 @@
-import { Box, CircularProgress, Grid, Icon, IconButton, LinearProgress, MenuItem, Modal, Select, SelectChangeEvent, Slider, TextField, Typography, styled } from '@mui/material';
+import { Box, CircularProgress, Grid, Icon, IconButton, LinearProgress, MenuItem, Modal, Popover, Select, SelectChangeEvent, Slider, TextField, Typography, styled } from '@mui/material';
 import React, { ReactNode, useEffect, useMemo, useState } from 'react'
 import usei18next from '../../hooks/usei18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AutoGraph, CheckBox, CheckBoxOutlineBlank, CloseOutlined, ElectricBike, FilterAltOutlined, LocalGasStation, LocationOnOutlined, MyLocation, RestartAltOutlined, SearchOutlined } from '@mui/icons-material';
+import { AutoGraph, CheckBox, CheckBoxOutlineBlank, CloseOutlined, ElectricBike, FilterAltOutlined, FormatListBulletedOutlined, LocalGasStation, LocationOnOutlined, MapOutlined, MyLocation, RestartAltOutlined, SearchOutlined } from '@mui/icons-material';
 import theme from '../../utils/theme';
 import { Avatar, DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import MyIcon from '../../components/common/MyIcon';
 import RegisterMotorbikeItem from '../PostMotorbike/components/RegisterMotorbike/RegisterMotorbikeItem';
-import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
+import { GoogleMap, InfoWindow, Marker, useLoadScript } from '@react-google-maps/api';
 import MyCustomButton from '../../components/common/MyButton';
 import useThemePage from '../../hooks/useThemePage';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
@@ -19,7 +19,7 @@ import { Brand, Motorbike, SearchMotorbikeRequest } from '../../utils/type';
 import { SearchMotorbikeServices } from '../../services/SearchMotorbikeService';
 import { forEach } from 'jszip';
 import MotorbikeInforCard from './components/MotorbikeInforCard';
-import { NoDataImage, PageNoteFoundImage } from '../../assets/images';
+import { NoDataImage, PageNoteFoundImage, PinImage } from '../../assets/images';
 import { PostMotorbikeService } from '../../services/PostMotorbikeService';
 import { BookingService } from '../../services/BookingService';
 
@@ -175,9 +175,9 @@ export default function ListMotorbikesSearchedPage() {
         handleSubmit,
         setFieldValue
     } = formik;
-    useEffect(() => { 
-        getMotorbikesByFilter(convertTimestampToDate(Number(startDate)),convertTimestampToDate(Number(endDate)),address)
-    }, [startDate, endDate, address])
+    // useEffect(() => { 
+    //     getMotorbikesByFilter(convertTimestampToDate(Number(startDate)),convertTimestampToDate(Number(endDate)),address)
+    // }, [startDate, endDate, address])
 
     useEffect(() => {
         getMotorbikesByFilter(
@@ -570,8 +570,51 @@ export default function ListMotorbikesSearchedPage() {
         closeAdvancedFilterModal();
     }
 
+
+
+    const [anchorEls, setAnchorEls] = useState<Record<string, HTMLElement | null>>({});
+    const [multipleMotorbikes, setMultipleMotorbikes] = useState<{ location: google.maps.LatLng; motorbikes: Motorbike[] } | null>(null);
+
+    const handleMarkerClick = (motorbikeId: string, event: google.maps.MapMouseEvent) => {
+        // Find all motorbikes at the clicked location
+        const motorbikesAtLocation = listMotorbikes.filter((motorbike) => {
+            const motorbikeLocation = motorbike.location.split(',');
+            const clickedLocation = event.latLng?.toJSON();
+            return (
+                Number(motorbikeLocation[0]) === clickedLocation?.lat &&
+                Number(motorbikeLocation[1]) === clickedLocation?.lng
+            );
+        });
+
+        // If there is more than one motorbike at the location, set the state
+        // if (motorbikesAtLocation.length > 1) {
+        //     setMultipleMotorbikes({ location: event.latLng!, motorbikes: motorbikesAtLocation });
+        //     alert("Có nhiều xe ở địa điểm này");
+        // } else {
+        setAnchorEls((prev) => ({ ...prev, [motorbikeId]: event.domEvent.currentTarget } as Record<string, HTMLElement | null>));
+        // }
+    };
+
+    const handleClosePopover = (motorbikeId: string) => {
+        // Đóng Popover khi click bên ngoài
+        setAnchorEls((prev) => ({ ...prev, [motorbikeId]: null } as Record<string, HTMLElement | null>));
+    };
+
+    const open = (motorbikeId: string) => Boolean(anchorEls[motorbikeId]);
+    const id = (motorbikeId: string) => open(motorbikeId) ? `popover-${motorbikeId}` : undefined;
+
+    const [modeMap, setSetModeMap] = useState(false);
+    const handleChangeMode = () => {
+        setSetModeMap(!modeMap);
+        window.scrollTo({
+            top: 86,
+            behavior: 'smooth', // Optional: Adds smooth scrolling animation
+        });
+    }
+    const [hoveredMarkerId, setHoveredMarkerId] = useState<number | null>(null);
+
     return (
-        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
+        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} height={modeMap ? "100vh" : "auto"}>
             {/* filter motorbikes */}
             <Box
                 position={'sticky'}
@@ -741,84 +784,260 @@ export default function ListMotorbikesSearchedPage() {
                                             </option>
                                         ))}
                                     </Select>
+                                    {/* map mode */}
+                                    <IconButton
+                                        onClick={handleChangeMode}
+                                    >
+                                        {modeMap ?
+                                            <FormatListBulletedOutlined style={{ color: theme.palette.primary.main, }} /> : <MapOutlined style={{ color: theme.palette.primary.main, }} />}
+                                    </IconButton>
+
                                 </Box>
                             </Box>
                         </Box>
                     </Box>
                 </Box>
             </Box>
-            {/* list motorbikes */}
-            <Box
-                zIndex={1}
-                sx={{
-                    backgroundColor: '#f1f1f1',
-                }}
-                display={'flex'}
-                flexDirection={'column'}
-                alignItems={'center'}
-                justifyContent={'start'}
-                gap={'16px'}
-                minHeight={'65vh'}
-                minWidth={"100%"}
-                padding={"16px 0px 32px 0px"}
-            >
-                {/* title */}
-                <Box
-                    width={"100%"}
-                    display={'flex'}
-                    flexDirection={'row'}
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    sx={{ gap: '8px' }}
-                >
-                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '24px', fontWeight: "600" }}>
-                        Danh sách xe tìm kiếm
-                    </Typography>
-                </Box>
-                {/* list motorbikes */}
-                {
-                    isLoadingData ? (
-                        <Box width={"90%"}>
-                            <LinearProgress />
-                        </Box>
-                    ) : (
-                        listMotorbikes.length > 0 ? (
-                            <Box sx={{
-                                width: isMobile ? "80%" : "90%",
-                                minHeight: '65vh',
-                                mx: '',
-                            }} alignItems={'center'} justifyContent={'center'}>
-                                <Grid
-                                    width={"100%"}
-                                    container
-                                    columnSpacing={{ xs: 1, sm: 1, md: 1 }}
-                                    rowSpacing={{ xs: 1, sm: 2, md: 3 }}
-                                >
-                                    {listMotorbikes.map((item: Motorbike, index: number) => (
-                                        <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={3} sx={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                        }}>
-                                            <MotorbikeInforCard motorbike={item} isFavoritePage={false} startDate={values.startDate} endDate={values.endDate} searchedAddress={values.address} />
-                                        </Grid>
-                                    ))}
-                                </Grid>
+            {
+                !modeMap ? (
+                    <>
+                        <Box
+                            zIndex={1}
+                            sx={{
+                                backgroundColor: '#f1f1f1',
+                                transition: 'all 1s ease-in-out',
+                            }}
+                            display={'flex'}
+                            flexDirection={'column'}
+                            alignItems={'center'}
+                            justifyContent={'start'}
+                            gap={'16px'}
+                            minHeight={'65vh'}
+                            minWidth={"100%"}
+                            padding={"16px 0px 32px 0px"}
+                        >
+                            {/* title */}
+                            <Box
+                                width={"100%"}
+                                display={'flex'}
+                                flexDirection={'row'}
+                                alignItems={'center'}
+                                justifyContent={'center'}
+                                sx={{ gap: '8px' }}
+                            >
+                                <Typography color={theme.palette.text.primary} sx={{ fontSize: '24px', fontWeight: "600" }}>
+                                    Danh sách xe tìm kiếm
+                                </Typography>
                             </Box>
-                        ) : (
-                            <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
-                                <Avatar
-                                    src={NoDataImage}
-                                    style={{ width: '400px', height: '400px' }}
-                                    shape='square'
-                                    alt="image"
-                                />
-                            </Box>
-                        )
-                    )
-                }
+                            {/* list motorbikes */}
+                            {
+                                isLoadingData ? (
+                                    <Box width={"90%"}>
+                                        <LinearProgress />
+                                    </Box>
+                                ) : (
+                                    listMotorbikes.length > 0 ? (
+                                        <Box sx={{
+                                            width: isMobile ? "80%" : "90%",
+                                            minHeight: '65vh',
+                                            mx: '',
+                                        }} alignItems={'center'} justifyContent={'center'}>
+                                            <Grid
+                                                width={"100%"}
+                                                container
+                                                columnSpacing={{ xs: 1, sm: 1, md: 1 }}
+                                                rowSpacing={{ xs: 1, sm: 2, md: 3 }}
+                                            >
+                                                {listMotorbikes.map((item: Motorbike, index: number) => (
+                                                    <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={3} sx={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                    }}>
+                                                        <MotorbikeInforCard motorbike={item} isFavoritePage={false} startDate={values.startDate} endDate={values.endDate} searchedAddress={values.address} />
+                                                    </Grid>
+                                                ))}
+                                            </Grid>
+                                        </Box>
+                                    ) : (
+                                        <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
+                                            <Avatar
+                                                src={NoDataImage}
+                                                style={{ width: '400px', height: '400px' }}
+                                                shape='square'
+                                                alt="image"
+                                            />
+                                        </Box>
+                                    )
+                                )
+                            }
 
-            </Box>
+                        </Box>
+                    </>
+                ) : (
+                    <>
+                        < Box
+                            flex={1} position="relative"
+                            borderRadius={"10px"}
+                            border={"3px solid"}
+                            margin={"0px auto"}
+                            width={"90%"}
+                            justifyContent={"center"}
+                            alignItems={"center"}
+                            flexDirection={"column"}
+                            sx={{
+                                transition: 'all 1s ease'
+                            }}
+                        >
+                            <GoogleMap
+                                zoom={11}
+                                center={selected ? selected : defaultLocation}
+                                mapContainerStyle={{
+                                    width: "100%",
+                                    height: "100%",
+                                    borderRadius: "8px",
+                                }}
+                                onDblClick={(e) => {
+                                    if (e.latLng) {
+                                        handleDoubleClick(e);
+                                    }
+                                }}
+                                options={{
+                                    disableDefaultUI: true,
+                                    zoomControl: true,
+                                    fullscreenControl: true,
+                                    scrollwheel: true,
+                                    mapTypeControl: true,
+                                    // draggableCursor: "default",
+                                }}
+
+                            >
+                                <Marker position={selected} />
+                                {listMotorbikes && listMotorbikes.map((motorbike: Motorbike, index: number) => (
+                                    <>
+                                        <Marker
+                                            key={motorbike.id}
+                                            position={
+                                                {
+                                                    lat: Number(motorbike.location.split(',')[0]),
+                                                    lng: Number(motorbike.location.split(',')[1])
+                                                }}
+                                            icon={{
+                                                url: PinImage,
+                                                scaledSize: hoveredMarkerId === motorbike.id
+                                                    ? new window.google.maps.Size(64, 64)
+                                                    : new window.google.maps.Size(48, 48),
+                                                // transition
+
+                                            }}
+                                            onMouseOver={() => {
+                                                if (motorbike.id)
+                                                    setHoveredMarkerId(motorbike.id)
+                                            }
+                                            }
+                                            onMouseOut={() => setHoveredMarkerId(null)}
+                                            onClick={(event) => {
+                                                if (motorbike.id)
+                                                    handleMarkerClick(motorbike.id.toString(), event)
+                                            }
+                                            }
+                                        />
+                                        <InfoWindow
+                                            position={
+                                                {
+                                                    lat: Number(motorbike.location.split(',')[0]),
+                                                    lng: Number(motorbike.location.split(',')[1])
+                                                }}
+                                            options={{
+                                                pixelOffset: new window.google.maps.Size(0, -40), // Điều chỉnh độ lệch theo nhu cầu của bạn
+                                                zIndex: 1,
+                                            }}
+                                        >
+                                            <Typography variant="subtitle2"
+                                                sx={{
+                                                    fontWeight: "700",
+                                                    color: "#000"
+                                                }}>
+                                                {motorbike.priceRent}K
+                                            </Typography>
+                                        </InfoWindow>
+
+                                        {/* {multipleMotorbikes ? (
+                <Box
+                    sx={{
+                        tabIndex:"0",
+                        position: "absolute",
+                        bottom:"0",
+                        left: "0",
+                        right: "0",
+                        maxWidth:"80vw",
+                        backgroundColor: "transparent",
+                        padding: "2",
+                        display: "flex",
+                        overflowX: "auto",
+                        gap: "32px",
+                        justifyContent :"center"
+                    }}
+                >
+                    {multipleMotorbikes.motorbikes.map((motorbike, index) => (
+                        <Box>
+                            <MotorbikeInforCard
+                                key={index}
+                                motorbike={motorbike}
+                                isFavoritePage={true}
+                                startDate={values.startDate}
+                                endDate={values.endDate}
+                                searchedAddress={values.address}
+                            />
+                        </Box>
+                    ))}
+                </Box>
+            ) : ( */}
+                                        {motorbike.id &&
+                                            <Popover
+                                                id={id(motorbike.id?.toString())}
+                                                open={open(motorbike.id?.toString())}
+                                                anchorEl={anchorEls[motorbike.id?.toString()]}
+                                                onClose={() => {
+                                                    if (motorbike.id)
+                                                        handleClosePopover(motorbike.id.toString())
+                                                }
+                                                }
+                                                anchorOrigin={{
+                                                    vertical: "bottom",
+                                                    horizontal: "center",
+                                                }}
+                                                transformOrigin={{
+                                                    vertical: "top",
+                                                    horizontal: "center",
+                                                }}
+                                                sx={{
+                                                    "& .MuiPaper-root": {
+                                                        backgroundColor: "transparent",
+                                                        boxShadow: "none",
+                                                        borderRadius: "8px"
+                                                    },
+
+                                                }}
+                                            >
+                                                <Box
+                                                >
+                                                    {/* Thêm thông tin của motorbike tại đây */}
+                                                    <MotorbikeInforCard motorbike={motorbike} isFavoritePage={false} startDate={values.startDate} endDate={values.endDate} searchedAddress={values.address} />
+                                                    {/* Thêm các thông tin khác nếu cần */}
+                                                </Box>
+                                            </Popover>}
+                                        {/* ) */}
+
+                                    </>
+                                ))
+                                }
+                                {/* Hiển thị thông tin trong Popover */}
+                            </GoogleMap>
+                        </Box></>
+                )
+            }
+
 
             {/* modal address */}
             <Modal
@@ -878,7 +1097,6 @@ export default function ListMotorbikesSearchedPage() {
                                                     // disabled={values.province === "" || values.district === "" || values.ward === ""}
                                                     placeholder={t("component.MyMapWithSearchBox.searchPlaceholder")}
                                                     fullWidth
-                                                    name="address"
                                                     value={value}
                                                     SelectProps={{
                                                         native: true,

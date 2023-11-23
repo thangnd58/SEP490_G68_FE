@@ -14,8 +14,8 @@ import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
 
 
-export const PromotionModal = (props: { isModalPromotionOpen: boolean, setModalPromotionOpen: React.Dispatch<React.SetStateAction<boolean>>, counponCode: string, setFieldValue: any, isMobile: boolean }) => {
-    const { isModalPromotionOpen, setModalPromotionOpen, counponCode, setFieldValue, isMobile } = props
+export const PromotionModal = (props: { isModalPromotionOpen: boolean, setModalPromotionOpen: React.Dispatch<React.SetStateAction<boolean>>, counponCode: string, setFieldValue: any, isMobile: boolean, minValue?: number }) => {
+    const { isModalPromotionOpen, setModalPromotionOpen, counponCode, setFieldValue, isMobile, minValue } = props
     const { t } = usei18next()
     const [promotions, setPromotions] = useState<Promotion[]>([])
     useEffect(() => {
@@ -77,7 +77,7 @@ export const PromotionModal = (props: { isModalPromotionOpen: boolean, setModalP
                         promotions.length > 0 &&
                         promotions.map((promo) => {
                             return (
-                                <PromotionItem key={`${promo.id}_${promo.code}`} promotion={promo} promoApply={counponCode} setPromoApply={setFieldValue} setModalPromotionOpen={setModalPromotionOpen} />
+                                <PromotionItem minValue={minValue!} key={`${promo.id}_${promo.code}`} promotion={promo} promoApply={counponCode} setPromoApply={setFieldValue} setModalPromotionOpen={setModalPromotionOpen} />
                             )
                         })
                     }
@@ -87,11 +87,10 @@ export const PromotionModal = (props: { isModalPromotionOpen: boolean, setModalP
     )
 }
 
-function PromotionItem({ promotion, promoApply, setPromoApply, setModalPromotionOpen }: { promotion: Promotion, promoApply: string, setPromoApply: any,setModalPromotionOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
+function PromotionItem({ promotion, promoApply, setPromoApply, setModalPromotionOpen, minValue }: { promotion: Promotion, promoApply: string, setPromoApply: any, setModalPromotionOpen: React.Dispatch<React.SetStateAction<boolean>>, minValue: number }) {
     const { t } = usei18next();
     const { isMobile } = useThemePage();
     const [isShow, setShow] = useState<boolean>(false);
-
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} margin={'8px 0px'}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
@@ -103,13 +102,26 @@ function PromotionItem({ promotion, promoApply, setPromoApply, setModalPromotion
                             {promotion.title.substring(0, 50) + '...'}
                         </Typography>
                         <Typography fontSize={isMobile ? '10px' : '12px'} >{getCountdownTime(promotion.endDate, t)}</Typography>
+                        {/* Thông báo lỗi nếu không thể áp mã giảm giá */}
+                        {
+                            promotion.code === promoApply &&
+                            <Typography fontSize={isMobile ? '10px' : '12px'} color={"red"}>{"Mã đang được bạn sử dụng"}</Typography>
+                        }
+                        {
+                            (minValue < promotion.minValue) &&
+                            <Typography fontSize={isMobile ? '10px' : '12px'} color={"red"}>{"Hóa đơn của bạn chưa đạt giá trị tối thiếu"}</Typography>
+                        }
+                        {
+                            (promotion.statusUse === "Used") && 
+                            <Typography fontSize={isMobile ? '10px' : '12px'} color={"red"}>{"Bạn đã sử dụng mã này trước đó"}</Typography>
+                        }
                     </Box>
                 </Box>
-                <MyCustomButton width="20%" disabled={promotion.code === promoApply} fontColor={promotion.code === promoApply ? "white" : ""} height='40px' fontSize={isMobile ? 12 : 14} onClick={() => {
+                <MyCustomButton width="20%" disabled={promotion.code === promoApply || (minValue < promotion.minValue) || promotion.statusUse === "Used"} fontColor={promotion.code === promoApply ? "white" : ""} height='40px' fontSize={isMobile ? 12 : 14} onClick={() => {
                     setPromoApply("couponCode", promotion.code);
                     // đóng modal
                     setModalPromotionOpen(false);
-            }} content={promotion.code === promoApply ? t("booking.buttonApplyPromotionOk") : t("booking.buttonApplyPromotion")} />
+                }} content={promotion.code === promoApply ? t("booking.buttonApplyPromotionOk") : t("booking.buttonApplyPromotion")} />
             </Box >
             {
                 isShow &&

@@ -136,6 +136,7 @@ export interface Motorbike {
     modelName?: string,
     brandName?: string,
     feedbacks: Feedback[];
+    isDeleting?: boolean;
 }
 
 export interface MotorbikeRequest {
@@ -213,7 +214,7 @@ export interface UserFavourite {
     userId: number;
     motorbikeId: number;
     createDatetime: string;
-    motorbike: MotorbikeFavourite;
+    motorbike: Motorbike;
 }
 export interface MotorbikeFavourite {
     id: number;
@@ -231,6 +232,8 @@ export interface MotorbikeFavourite {
     modelName: string;
     user: UserForRent;
     isFavourite: boolean;
+    ratingAverage: number;
+    countCompletedBooking: number;
 }
 
 export interface UserForRent {
@@ -411,7 +414,8 @@ export interface Promotion {
     numberLeft: number,
     status: true,
     userCreated: number,
-    dateCreated: string
+    dateCreated: string,
+    statusUse: string,
 }
 
 export interface PromotionRequest {

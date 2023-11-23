@@ -30,6 +30,7 @@ import MyIcon from "../../../components/common/MyIcon";
 import MotorbikeInforCard from "../../HomePage/components/MotorbikeInforCard";
 import { BookingStatus, ROUTES } from "../../../utils/Constant";
 import { formatMoneyNew } from "../../../utils/helper";
+import UserInforModal from "../../UserProfilePage/UserInforModal";
 
 interface AnimatedBoxProps {
     isOpen: boolean;
@@ -55,7 +56,7 @@ function MyBookingItem(props: MyBookingItemProps) {
     const { t } = usei18next();
     const navigate = useNavigate();
     const [open, setOpen] = useState(Array(bookings.length).fill(false));
-
+    const { setContentModal, setShowModal } = useContext(ModalContext);
 
     // choose chip for status
     const chooseChip = (status: string) => {
@@ -273,7 +274,7 @@ function MyBookingItem(props: MyBookingItemProps) {
                                             <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                                                 <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
                                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                        Người thuê:
+                                                        {isOwner ? "Khách thuê" : "Chủ xe"}
                                                     </Typography>
                                                 </Box>
                                                 <Box
@@ -288,6 +289,7 @@ function MyBookingItem(props: MyBookingItemProps) {
                                                         src={
                                                             isOwner ? booking.user.avatarUrl : booking.motorbikes[0].user.avatarUrl
                                                         }
+                                                        onClick={() => setContentModal(<UserInforModal userId={isOwner ? booking.user.userId : booking.motorbikes[0].user.userId} />)}
                                                     />
                                                     <Typography
                                                         color={theme.palette.text.primary}
