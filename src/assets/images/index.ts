@@ -44,6 +44,7 @@ import BenxethuonglyiSearch from './Benxethuongly.jpg'
 import BecomeAnOwner from './becomeanowner.png'
 import GuildLineImage from './guildline.jpg'
 import PolicyImage from './policy.jpg'
+import PinImage from './pinMap.png'
 
 export {
     MotorbikeImage,
@@ -91,5 +92,6 @@ export {
     BenxethuonglyiSearch,
     BecomeAnOwner,
     GuildLineImage,
-    PolicyImage
+    PolicyImage,
+    PinImage
 };

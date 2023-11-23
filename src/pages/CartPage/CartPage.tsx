@@ -9,6 +9,7 @@ import {
     Grid,
     Avatar,
     CircularProgress,
+    LinearProgress,
 } from "@mui/material";
 import usei18next from "../../hooks/usei18next";
 import MyCustomButton from "../../components/common/MyButton";
@@ -45,6 +46,7 @@ function CartPage() {
     const dispatch = useAppDispatch();
     const { setContentModal, setShowModal } = useContext(ModalContext);
     const [open, setOpen] = useState(Array(shoppingCart?.length).fill(true));
+    const [isDeleting, setIsDeleting] = useState(Array(shoppingCart?.length).fill(false));
     const [isLoad, setIsLoad] = useState(false);
 
     const showModalBookingInfoMultipleMotorbike = (motorbikes: Motorbike[], address: string, startDate: string, endDate: string, bookingCartId: number) => {
@@ -63,11 +65,20 @@ function CartPage() {
         dispatch(getCartInfo());
     }, []);
 
-    const deleteMotorbikeInCart = async (motorbikeId: number, bookingCartId: number) => {
+    const deleteMotorbikeInCart = async (index: number, motorbikeId: number, bookingCartId: number) => {
         try {
+            // set is load of cart is deleting
+            const newIsDeleting = [...isDeleting];
+            newIsDeleting[index] = true;
+            setIsDeleting(newIsDeleting);
+
             const response = await BookingService.deleteMotorbikeInCart(motorbikeId, bookingCartId);
             if (response) {
-                dispatch(getCartInfo());
+                dispatch(getCartInfo()).then(() => {
+                    const newIsDeleting = [...isDeleting];
+                    newIsDeleting[index] = false;
+                    setIsDeleting(newIsDeleting);
+                });
                 ToastComponent(t("toast.ShoppingCart.delete.success"), "success");
             }
             else {
@@ -111,9 +122,9 @@ function CartPage() {
                             <img src={NoDataImage} alt="image" style={{ width: '400px', height: '400px' }} />
                         </Box>
                     ) : (
-
                         shoppingCart.slice().reverse().map((item: CartInforResponse, index: number) => (
-                            <Paper key={index} elevation={2} sx={{ width: '80%', bgcolor: 'background.paper' }}>
+                            <Paper key={index} elevation={2} sx={{ width: '80%', bgcolor: 'background.paper', 
+                            }}>
                                 <Box display={"flex"} flexDirection={"column"} gap={"16px"} p={3}>
                                     <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"}>
                                         <Typography
@@ -228,19 +239,24 @@ function CartPage() {
                                         justifyContent={'center'}
                                         isOpen={open[index]}
                                     >
-                                        {item.motorbikes.map((motorbike: Motorbike, index: number) => (
-                                            <MotorbikeInforCard key={index} motorbike={motorbike} isInCart={true} isFavoritePage={false} startDate={item.startDatetime} endDate={item.endDatetime} searchedAddress={item.address} deleteInCart={
-                                                () => {
-                                                    deleteMotorbikeInCart(motorbike.id!, item.bookingCartId)
-                                                }}
-                                                isNotFavorite />
+                                        {
+                                            isDeleting[index] &&
+                                            <LinearProgress sx={{ width: '100%' }} />
+                                        }
+                                        {item.motorbikes.map((motorbike: Motorbike, index1: number) => (
+                                            <Box key={index1} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>
+                                                <MotorbikeInforCard key={index1} motorbike={motorbike} isInCart={true} isFavoritePage={false} startDate={item.startDatetime} endDate={item.endDatetime} searchedAddress={item.address} deleteInCart={
+                                                    () => {
+                                                        deleteMotorbikeInCart(index, motorbike.id!, item.bookingCartId)
+                                                    }}
+                                                    isNotFavorite />
+                                            </Box>
                                         ))}
                                     </AnimatedBox>
                                 </Box>
                             </Paper>
                         ))))}
         </Box>
-        // <></>
     );
 }
 

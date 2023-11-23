@@ -27,7 +27,7 @@ import { ConfirmCompleteTripModal } from "./components/ConfirmCompleteTripModal"
 interface Location {
     lat: number,
     lng: number,
-  }
+}
 export const BookingDetailPageOwner = () => {
     const { bookingId } = useParams();
     const [booking, setBooking] = useState<Booking>();
@@ -53,15 +53,13 @@ export const BookingDetailPageOwner = () => {
         try {
             BookingService.getRentalBookingDetail(bookingId || "").then((data) => {
                 if (data) {
-                    if (data.status === BookingStatus.Cancelled) {
-                        navigate(ROUTES.other.pagenotfound)
-                    } else if (data.status === BookingStatus.PendingPayment) {
+                    if (data.status === BookingStatus.PendingPayment) {
                         setActiveStep(0)
                     } else if (data.status === BookingStatus.Paid || data.status === BookingStatus.PendingDelivery) {
                         setActiveStep(1)
                     } else if (data.status === BookingStatus.Delivered) {
                         setActiveStep(2)
-                    } else if (data.status === BookingStatus.Finished || data.status === BookingStatus.PendingReview) {
+                    } else if (data.status === BookingStatus.Cancelled || data.status === BookingStatus.Finished || data.status === BookingStatus.PendingReview) {
                         setActiveStep(3)
                     } else {
                         navigate(ROUTES.other.pagenotfound)
@@ -71,11 +69,11 @@ export const BookingDetailPageOwner = () => {
                     BookingService.getLatLngByAddress(data.address || "Hà nội").then((d) => {
                         const location = d.split(',');
                         const result: Location = {
-                          lat: Number(location[0]),
-                          lng: Number(location[1])
+                            lat: Number(location[0]),
+                            lng: Number(location[1])
                         }
                         setLocation(result)
-                      })
+                    })
                 }
             })
         } catch (error) {
@@ -229,104 +227,122 @@ export const BookingDetailPageOwner = () => {
                             {t("booking.detailTitle")}
                         </Typography>
                     </Box>
-                    <Stepper sx={{ width: isMobile ? "100%" : "70%" }} activeStep={activeStep} alternativeLabel>
-                        {steps.map((label) => (
-                            <Step
-                                sx={{
-                                    alignContent: 'center',
-                                    justifyContent: 'center',
-                                    '& .MuiStepLabel-label': {
-                                        fontSize: '16px',
-                                        fontWeight: '600',
-                                        color: theme.palette.text.primary,
-                                    },
-                                    '& .MuiStepIcon-root': {
-                                        fontSize: '48px',
-                                        zIndex: 1,
-                                    },
-                                    '& .MuiStepConnector-root': {
-                                        flex: 1,
-                                    },
-                                    '& .MuiStepConnector-line': {
-                                        marginTop: '12px',
-                                        borderColor: '#e0e0e0',
-                                        width: '98%',
-                                    },
-                                    '& .MuiStepConnector-alternativeLabel': {
-                                        top: '12px',
-                                    },
-                                }}
+                    {
+                        booking.status === "Cancelled" ? (
+                            <>
+                                <Box sx={{ background: 'rgba(139, 19, 19, 0.1)', borderRadius: '8px', padding: '32px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }} width={isMobile ? "80%" : "60%"}>
+                                    <Typography fontWeight={600} fontSize={isMobile ? "16px" : "20px"} color={'common.black'}>
+                                        Chuyến xe đã bị hủy
+                                    </Typography>
+                                </Box>
+                            </>
+                        ) : (
+                            <Stepper sx={{ width: isMobile ? "100%" : "70%" }} activeStep={activeStep} alternativeLabel>
+                                {steps.map((label) => (
+                                    <Step
+                                        sx={{
+                                            alignContent: 'center',
+                                            justifyContent: 'center',
+                                            '& .MuiStepLabel-label': {
+                                                fontSize: '16px',
+                                                fontWeight: '600',
+                                                color: theme.palette.text.primary,
+                                            },
+                                            '& .MuiStepIcon-root': {
+                                                fontSize: '48px',
+                                                zIndex: 1,
+                                            },
+                                            '& .MuiStepConnector-root': {
+                                                flex: 1,
+                                            },
+                                            '& .MuiStepConnector-line': {
+                                                marginTop: '12px',
+                                                borderColor: '#e0e0e0',
+                                                width: '98%',
+                                            },
+                                            '& .MuiStepConnector-alternativeLabel': {
+                                                top: '12px',
+                                            },
+                                        }}
 
-                                key={label}>
-                                <StepLabel>{label}</StepLabel>
-                            </Step>
-                        ))}
-                    </Stepper>
+                                        key={label}>
+                                        <StepLabel>{label}</StepLabel>
+                                    </Step>
+                                ))}
+                            </Stepper>
+                        )
+                    }
                     <Box className="hiddenSroll" width={isMobile ? "90%" : "65%"} sx={{ overflowY: 'auto', overflowX: 'hidden' }} height={"80%"} display={"flex"} flexDirection={"column"} gap={'32px'} justifyContent={"start"} padding={"0px 8px"}>
                         <Box display={'flex'} gap={'32px'} flexDirection={isMobile ? 'column' : 'row'} marginTop={'16px'}>
                             <Box display={"flex"} flexDirection={"column"} gap={'8px'} width={isMobile ? '100%' : '50%'}>
-                                <Box sx={{ background: 'rgba(139, 69, 19, 0.10)', borderRadius: '8px', padding: '32px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                    <Typography fontWeight={600} fontSize={"16px"} color={'common.black'}>{activeStep === 0 ? t("booking.timeRemainingPay") : booking.status === "PendingDelivery" ? t("booking.startUsingService") : booking.status === "Delivered" ? t("booking.startedUsingService") : ""}</Typography>
-                                    <Box
-                                        display={'flex'}
-                                        gap={'8px'}
-                                        alignItems={'center'}
-                                        // className="motorcycle-container"
-                                        mb={'8px'}
-                                    >
-                                        {activeStep === 0 ? (
-                                            <Box display={'flex'} gap={'8px'} alignItems={'center'}>
-                                                {!isMobile && <img src={ClockImage} width={36} height={36} />}
-                                                <Typography color={'common.black'}>{countdown}</Typography>
-                                            </Box>
-                                        ) : (
-                                            <Box display={'flex'} flexDirection={'column'} alignItems={'center'} gap={'8px'}>
-                                                {
-                                                    (booking.status === "PendingDelivery" || booking.status === "Delivered") &&
-                                                    <img src={MotorbikeImage} width={128} height={128} className="motorcycle-image"
-                                                        style={{
-                                                            transform: isMovingMotorbike ? `translateX(-50%) translateX(${position}px)` : '',
-                                                            transition: isMovingMotorbike ? 'transform 0.2s ease-in-out' : '',
-                                                        }}
-                                                    />
-                                                }
-                                                {
-                                                    (booking.status === "PendingReview" || booking.status === "Finished") &&
-                                                    <Box display={'flex'} flexDirection={'row'} alignItems={'center'} gap={'8px'}>
-                                                        <CheckCircle sx={{ color: theme.palette.primary.main, width: "56px", height: "56px" }} />
-                                                        <Typography color={'common.black'}>Chuyến đi đã kết thúc</Typography>
+                                {
+                                    booking.status === "Cancelled" ? (
+                                        <></>
+                                    ) : (
+                                        <Box sx={{ background: 'rgba(139, 69, 19, 0.10)', borderRadius: '8px', padding: '32px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                            <Typography fontWeight={600} fontSize={"16px"} color={'common.black'}>{activeStep === 0 ? t("booking.timeRemainingPay") : booking.status === "PendingDelivery" ? t("booking.startUsingService") : booking.status === "Delivered" ? t("booking.startedUsingService") : ""}</Typography>
+                                            <Box
+                                                display={'flex'}
+                                                gap={'8px'}
+                                                alignItems={'center'}
+                                                // className="motorcycle-container"
+                                                mb={'8px'}
+                                            >
+                                                {activeStep === 0 ? (
+                                                    <Box display={'flex'} gap={'8px'} alignItems={'center'}>
+                                                        {!isMobile && <img src={ClockImage} width={36} height={36} />}
+                                                        <Typography color={'common.black'}>{countdown}</Typography>
                                                     </Box>
-                                                }
-                                                <>
-                                                    {
-                                                        !isLoading &&
-                                                        booking.status === "PendingDelivery" &&
-                                                        <MyCustomButton
-                                                            width='100%' onClick={
-                                                                () =>
-                                                                    changeStatusBookingDetail("Delivered")
+                                                ) : (
+                                                    <Box display={'flex'} flexDirection={'column'} alignItems={'center'} gap={'8px'}>
+                                                        {
+                                                            (booking.status === "PendingDelivery" || booking.status === "Delivered") &&
+                                                            <img src={MotorbikeImage} width={128} height={128} className="motorcycle-image"
+                                                                style={{
+                                                                    transform: isMovingMotorbike ? `translateX(-50%) translateX(${position}px)` : '',
+                                                                    transition: isMovingMotorbike ? 'transform 0.2s ease-in-out' : '',
+                                                                }}
+                                                            />
+                                                        }
+                                                        {
+                                                            (booking.status === "PendingReview" || booking.status === "Finished") &&
+                                                            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} gap={'8px'}>
+                                                                <CheckCircle sx={{ color: theme.palette.primary.main, width: "56px", height: "56px" }} />
+                                                                <Typography color={'common.black'}>Chuyến đi đã kết thúc</Typography>
+                                                            </Box>
+                                                        }
+                                                        <>
+                                                            {
+                                                                !isLoading &&
+                                                                booking.status === "PendingDelivery" &&
+                                                                <MyCustomButton
+                                                                    width='100%' onClick={
+                                                                        () =>
+                                                                            changeStatusBookingDetail("Delivered")
+                                                                    }
+                                                                    content={t("booking.confirmDeliveryMotorbike")}
+                                                                    variant='contained'
+                                                                />
                                                             }
-                                                            content={t("booking.confirmDeliveryMotorbike")}
-                                                            variant='contained'
-                                                        />
-                                                    }
-                                                </>
-                                            </Box>
-                                        )}
+                                                        </>
+                                                    </Box>
+                                                )}
 
-                                    </Box>
-                                    {
-                                        isLoading ? (
-                                            <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                                                <CircularProgress />
                                             </Box>
-                                        ) : (
-                                            activeStep === 2 &&
-                                            <MyCustomButton
-                                                width='100%' onClick={() => changeStatusBookingDetail("PendingReview")} content={t("booking.returnMotorbikeAndEndTrip")} variant='contained' />
-                                        )
-                                    }
-                                </Box>
+                                            {
+                                                isLoading ? (
+                                                    <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                                                        <CircularProgress />
+                                                    </Box>
+                                                ) : (
+                                                    activeStep === 2 &&
+                                                    <MyCustomButton
+                                                        width='100%' onClick={() => changeStatusBookingDetail("PendingReview")} content={t("booking.returnMotorbikeAndEndTrip")} variant='contained' />
+                                                )
+                                            }
+                                        </Box>
+                                    )
+                                }
                                 <Typography mt={'8px'} fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>{t("booking.timeRent")}</Typography>
                                 <Box display={'flex'} gap={isMobile ? '16px' : '32px'} justifyContent={isMobile ? 'space-between' : 'start'} flexDirection={isMobile ? 'column' : 'row'} mb={'16px'}>
                                     <Box display={'flex'} gap={'16px'} >

@@ -9,13 +9,20 @@ import {
     UserFavourite,
 } from "../../../utils/type";
 import theme from "../../../utils/theme";
-import { ImageSearchBox } from "../../../assets/images";
+import { ImageSearchBox, LicencePlateImage } from "../../../assets/images";
 import {
     BusinessCenterOutlined,
+    ChangeCircleOutlined,
+    CheckCircleOutline,
+    ErrorOutline,
     FavoriteBorder,
     FavoriteOutlined,
+    ManageHistory,
     ShoppingCartCheckout,
     StarPurple500Outlined,
+    StopCircleOutlined,
+    VpnKey,
+    WarningAmber,
 } from "@mui/icons-material";
 import { ModalContext } from "../../../contexts/ModalContext";
 import MyIcon from "../../../components/common/MyIcon";
@@ -27,9 +34,16 @@ import { useAppDispatch } from "../../../hooks/useAction";
 import { getUserFavouriteInfo } from "../../../redux/reducers/userFavouriteReducer";
 import ToastComponent from "../../../components/toast/ToastComponent";
 import useThemePage from "../../../hooks/useThemePage";
+import UserInforModal from "../../UserProfilePage/UserInforModal";
+import dayjs from 'dayjs';
+import MyCustomButton from "../../../components/common/MyButton";
+import { UpdateStatusFormModal } from "../../PostMotorbike/components/ListMotorbike/UpdateStatusFormModal";
 
 export default function MotorbikeFavouriteInforCard(props: {
-    motorbike: MotorbikeFavourite;
+    motorbike: Motorbike;
+    isListForm?: boolean;
+    openItemDetailModal?: () => void;
+    setIsDeleting?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const { t } = usei18next();
     const { isMobile } = useThemePage();
@@ -43,9 +57,10 @@ export default function MotorbikeFavouriteInforCard(props: {
 
     const deleteFavourite = async (id: number) => {
         try {
+            props.setIsDeleting && props.setIsDeleting(true);
             const response = await UserService.deleteFavourite(id);
             if (response.status === 200) {
-                dispatch(getUserFavouriteInfo());
+                dispatch(getUserFavouriteInfo()).then(() => props.setIsDeleting && props.setIsDeleting(false));
                 ToastComponent(t("toast.favourite.delete.success"), "success");
             } else {
                 ToastComponent(t("toast.favourite.delete.warning"), "warning");
@@ -59,7 +74,7 @@ export default function MotorbikeFavouriteInforCard(props: {
             sx={{
                 backgroundColor: "#fff",
             }}
-            width={isMobile ? "300px" : "520px"}
+            width={isMobile ? "300px" : "500px"}
             border={"1px solid #8B4513"}
             borderRadius={"8px"}
             display={"flex"}
@@ -73,77 +88,157 @@ export default function MotorbikeFavouriteInforCard(props: {
             {/* Image */}
             <Box width={isMobile ? "100%" : "40%"} sx={{ cursor: "pointer", position: "relative" }}>
                 <Avatar
-                    src={props.motorbike.imageUrl}
+                    src={props.motorbike.imageUrl[0]}
                     sx={{
-                        width: "100%",
-                        height: isMobile ? "200px":"150px",
+                        width: isMobile ? "280px" : "180px",
+                        height: isMobile ? "200px" : "150px",
                         borderRadius: "8px",
                         border: "1px solid #e0e0e0",
                     }}
                     alt="image"
-                    onClick={() => showMotorbikeDetailModal(props.motorbike.id)}
+                    onClick={() =>
+                        props.openItemDetailModal ? props.openItemDetailModal() :
+                            showMotorbikeDetailModal(props.motorbike.id!)
+                    }
                 />
                 {/* User Avatar */}
-                <Tooltip
-                    title={props.motorbike.user.name}
-                    placement="right-end"
-                >
-                    <Avatar
+                {
+                    !props.isListForm &&
+                    <Tooltip
+                        title={props.motorbike.user.name}
+                        placement="right-end"
+                    >
+                        <Avatar
+                            sx={{
+                                position: "absolute",
+                                bottom: -20,
+                                left: 12,
+                                width: "40px",
+                                height: "40px",
+                                borderRadius: "50%",
+                            }}
+                            src={props.motorbike.user.avatarUrl}
+                            onClick={() => setContentModal(<UserInforModal userId={props.motorbike.user.userId} />)}
+                        />
+                    </Tooltip>
+                }
+                {/* Favorite Icon */}
+                {
+                    !props.isListForm &&
+                    <FavoriteOutlined
                         sx={{
                             position: "absolute",
-                            bottom: -20,
-                            left: 12,
-                            width: "40px",
-                            height: "40px",
+                            top: 0,
+                            right: 0,
+                            fontSize: "24px",
+                            color: "#c55f17",
+                            padding: "4px",
+                            margin: "4px",
+                            backgroundColor: "rgba(0, 0, 0, 0.25)",
                             borderRadius: "50%",
+                            "&:hover": {
+                                transform: "scale(1.1)",
+                                transition: "all 0.3s ease-in-out",
+                            },
                         }}
-                        src={props.motorbike.user.avatarUrl}
-                    />
-                </Tooltip>
-                {/* Favorite Icon */}
-
-                <FavoriteOutlined
-                    sx={{
-                        position: "absolute",
-                        top: 0,
-                        right: 0,
-                        fontSize: "24px",
-                        color: "#c55f17",
-                        padding: "4px",
-                        margin: "4px",
-                        backgroundColor: "rgba(0, 0, 0, 0.25)",
-                        borderRadius: "50%",
-                    }}
-                    onClick={() => deleteFavourite(props.motorbike.id)}
-                />
+                        onClick={() => deleteFavourite(props.motorbike.id!)}
+                    />}
             </Box>
             <Divider orientation="vertical" flexItem />
             {/* Content */}
-            <Box width={isMobile ? "100%" :"60%"} display="flex" flexDirection="column" gap="8px">
+            <Box width={isMobile ? "100%" : "60%"} display="flex" flexDirection="column" gap="8px">
                 {/* Fuel Consumption and Shipping */}
-                <Box display="flex" gap="8px">
-                    <Chip
-                        sx={{
-                            "& .MuiChip-label": { fontSize: "12px" },
-                            height: "28px",
-                            fontWeight: "400",
-                        }}
-                        color="success"
-                        label={
-                            props.motorbike.fuelConsumption === 1
-                                ? t("favourite.item.gasoline")
-                                : t("favourite.item.electric")
-                        }
-                    />
-                    <Chip
-                        sx={{
-                            "& .MuiChip-label": { fontSize: "12px" },
-                            height: "28px",
-                            fontWeight: "400",
-                        }}
-                        color="warning"
-                        label={t("favourite.item.ship")}
-                    />
+                <Box width={"100%"} display="flex" gap="8px" justifyContent={'space-between'} alignItems="center">
+                    {props.isListForm ? (
+                        <>
+                            {
+                                props.motorbike.status === "Processing" ? (
+                                    <Chip
+                                        sx={{
+                                            '& .MuiChip-label': { fontSize: "14px" },
+                                            height: "28px",
+                                            fontWeight: "400",
+                                        }}
+                                        color="warning"
+                                        icon={<WarningAmber />}
+                                        label={t('postMotorbike.listform.status-processing')} />)
+                                    : props.motorbike.status === "Approved" ? (
+                                        <Chip
+                                            sx={{
+                                                '& .MuiChip-label': { fontSize: "14px" },
+                                                height: "28px",
+                                                fontWeight: "400",
+                                            }}
+                                            color="success"
+                                            icon={<CheckCircleOutline />}
+                                            label={t('postMotorbike.listform.status-approved')} />)
+                                        : props.motorbike.status === "Rejected" ? (
+                                            <Chip
+                                                sx={{
+                                                    '& .MuiChip-label': { fontSize: "14px" },
+                                                    height: "28px",
+                                                    fontWeight: "400",
+                                                }}
+                                                color="error"
+                                                icon={<ErrorOutline />}
+                                                label={t('postMotorbike.listform.status-rejected')} />)
+                                            : props.motorbike.status === "On Hiatus" ? (
+                                                <Chip
+                                                    sx={{
+                                                        '& .MuiChip-label': { fontSize: "14px" },
+                                                        height: "28px",
+                                                        fontWeight: "400",
+                                                    }}
+                                                    color="warning"
+                                                    icon={<StopCircleOutlined />}
+                                                    label={t('postMotorbike.listform.status-onhiatus')} />)
+                                                : (
+                                                    <Chip
+                                                        sx={{
+                                                            '& .MuiChip-label': { fontSize: "14px" },
+                                                            height: "28px",
+                                                            fontWeight: "400",
+                                                        }}
+                                                        color="success"
+                                                        icon={<ChangeCircleOutlined />}
+                                                        label={t('postMotorbike.listform.status-inoporation')} />)
+                            }
+                            {props.motorbike.status !== "Rejected" &&props.motorbike.status !== "Processing" && 
+                            <MyIcon
+                                icon={<ManageHistory sx={{ color: 'main' }} />}
+                                hasTooltip
+                                tooltipText={t("favourite.item.rent")}
+                                position="bottom"
+                                onClick={
+                                    () => setContentModal(<UpdateStatusFormModal motorbikeId={props.motorbike.id!} />)
+                                }
+                            />}
+                        </>
+                    ) : (
+                        <>
+                            <Chip
+                                sx={{
+                                    "& .MuiChip-label": { fontSize: "12px" },
+                                    height: "28px",
+                                    fontWeight: "400",
+                                }}
+                                color="success"
+                                label={
+                                    props.motorbike.fuelConsumption === 1
+                                        ? t("favourite.item.gasoline")
+                                        : t("favourite.item.electric")
+                                }
+                            />
+                            <Chip
+                                sx={{
+                                    "& .MuiChip-label": { fontSize: "12px" },
+                                    height: "28px",
+                                    fontWeight: "400",
+                                }}
+                                color="warning"
+                                label={t("favourite.item.ship")}
+                            />
+                        </>)}
                 </Box>
                 {/* Brand Name and Model */}
                 <Box display="flex" flexDirection="column" gap="4px">
@@ -160,7 +255,7 @@ export default function MotorbikeFavouriteInforCard(props: {
                                 fontSize="20px"
                                 color={theme.palette.text.primary}
                             >
-                                {props.motorbike.modelName}
+                                {props.motorbike.model.brand.brandName + " " + props.isListForm ? props.motorbike.model.modelName : props.motorbike.brandName + " " + props.motorbike.modelName}
                             </Typography>
                         </Tooltip>
                     </Box>
@@ -176,6 +271,7 @@ export default function MotorbikeFavouriteInforCard(props: {
                                 overflow="hidden"
                                 fontSize="12px"
                                 fontStyle={"italic"}
+                                maxWidth={isMobile ? "200px" : "250px"}
                                 color={theme.palette.text.secondary}
                             >
                                 {props.motorbike.address}
@@ -185,37 +281,77 @@ export default function MotorbikeFavouriteInforCard(props: {
                 </Box>
                 {/* Star Rating and Booking Count */}
                 <Box display="flex">
-                    <Box width="100%" display="flex" alignItems="end" gap="4px">
-                        <StarPurple500Outlined
-                            sx={{ color: "#FBC241" }}
-                            fontSize="small"
-                        />
-                        <Typography
-                            color={theme.palette.text.secondary}
-                            fontSize="12px"
-                            align="center"
-                            textOverflow="ellipsis"
-                            whiteSpace="nowrap"
-                            overflow="hidden"
-                        >
-                            4.5
-                        </Typography>
-                        <BusinessCenterOutlined
-                            fontWeight={300}
-                            sx={{ color: "#8B4513" }}
-                            fontSize="small"
-                        />
-                        <Typography
-                            color={theme.palette.text.secondary}
-                            fontSize="12px"
-                            align="center"
-                            textOverflow="ellipsis"
-                            whiteSpace="nowrap"
-                            overflow="hidden"
-                        >
-                            5 lượt đặt
-                        </Typography>
-                    </Box>
+                    {!props.isListForm ? (
+                        <Box width="100%" display="flex" alignItems="end" gap="4px">
+                            <StarPurple500Outlined
+                                sx={{ color: "#FBC241" }}
+                                fontSize="small"
+                            />
+                            <Typography
+                                color={theme.palette.text.secondary}
+                                fontSize="12px"
+                                align="center"
+                                textOverflow="ellipsis"
+                                whiteSpace="nowrap"
+                                overflow="hidden"
+                            >
+                                {/* {props.motorbike.ratingAverage.toFixed(1)} */}
+                            </Typography>
+                            <BusinessCenterOutlined
+                                fontWeight={300}
+                                sx={{ color: "#8B4513" }}
+                                fontSize="small"
+                            />
+                            <Typography
+                                color={theme.palette.text.secondary}
+                                fontSize="12px"
+                                align="center"
+                                textOverflow="ellipsis"
+                                whiteSpace="nowrap"
+                                overflow="hidden"
+                            >
+                                {props.motorbike.countCompletedBooking} lượt đặt
+                            </Typography>
+                        </Box>)
+                        : (
+                            <Box width="100%" display="flex" justifyContent={'start'} alignItems="center" gap="16px">
+                                <Box display={"flex"} gap="4px" justifyContent={'center'} alignItems="center">
+                                    <img src={LicencePlateImage} alt="search"
+                                        style={{
+                                            width: "24px",
+                                            height: "24px",
+                                        }}
+                                    />
+                                    <Typography
+                                        color={theme.palette.text.primary}
+                                        fontSize="12px"
+                                        align="center"
+                                        textOverflow="ellipsis"
+                                        whiteSpace="nowrap"
+                                        overflow="hidden"
+                                    >
+                                        {props.motorbike.licensePlate}
+                                    </Typography></Box>
+                                <Box display={"flex"} gap="4px" justifyContent={'center'} alignItems="center">
+                                    <VpnKey
+                                        fontWeight={300}
+                                        sx={{ color: "#8B4513" }}
+                                        fontSize="small"
+                                    />
+                                    <Typography
+                                        color={theme.palette.text.primary}
+                                        fontSize="12px"
+                                        align="center"
+                                        textOverflow="ellipsis"
+                                        whiteSpace="nowrap"
+                                        overflow="hidden"
+                                    >
+                                        {dayjs(props.motorbike.createDatetime as string).format("DD/MM/YYYY HH:mm")}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        )
+                    }
                 </Box>
                 {/* "Xem chi tiết" link and Price */}
                 <Box
@@ -239,7 +375,8 @@ export default function MotorbikeFavouriteInforCard(props: {
                         align="center"
                         textOverflow="ellipsis"
                         onClick={() =>
-                            showMotorbikeDetailModal(props.motorbike.id)
+                            props.openItemDetailModal ? props.openItemDetailModal() :
+                                showMotorbikeDetailModal(props.motorbike.id!)
                         }
                     >
                         Xem chi tiết
@@ -269,6 +406,7 @@ export default function MotorbikeFavouriteInforCard(props: {
                     </Box>
                 </Box>
             </Box>
+            {/* <UpdateStatusFormModal /> */}
         </Box>
     );
 }

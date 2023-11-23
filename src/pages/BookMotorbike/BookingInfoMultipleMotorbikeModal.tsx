@@ -761,7 +761,6 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                           // disabled={values.province === "" || values.district === "" || values.ward === ""}
                           placeholder={t("component.MyMapWithSearchBox.searchPlaceholder")}
                           fullWidth
-                          name="address"
                           value={value}
                           SelectProps={{
                             native: true,
@@ -824,7 +823,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                         borderRadius={"10px"}
                         border={"3px solid"}
                         margin={"0px auto"}
-                        width={"100%"}
+                        width={"99%"}
                         justifyContent={"center"}
                         alignItems={"center"}
                         flexDirection={"column"}
@@ -890,7 +889,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
       </Modal>
 
       {/* modal promotion */}
-      <PromotionModal isModalPromotionOpen={isModalPromotionOpen} setModalPromotionOpen={setModalPromotionOpen} setFieldValue={setFieldValue} counponCode={values.couponCode} isMobile={isMobile} />
+      <PromotionModal minValue={previewBookingData?.totalAmount!} isModalPromotionOpen={isModalPromotionOpen} setModalPromotionOpen={setModalPromotionOpen} setFieldValue={setFieldValue} counponCode={values.couponCode} isMobile={isMobile} />
 
       {/*modal confirm booking*/}
       <ConfirmMotorbikeBookingModal

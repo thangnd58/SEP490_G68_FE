@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
-import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
+import { Circle, GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 import { Box, Chip, CircularProgress, Divider, FormControl, FormLabel, RadioGroup, Radio, FormControlLabel, Grid, IconButton, MenuItem, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, Button } from '@mui/material';
 import { ArrowBack, BusinessCenterOutlined, CloseOutlined, FormatBoldRounded, GasMeterOutlined, HelpOutlineOutlined, LocalDrinkOutlined, LocationOn, LocationOnOutlined, Loyalty, MyLocation, NewReleasesOutlined, ReportProblemOutlined, StarPurple500Outlined } from '@mui/icons-material';
 import { DatePicker } from 'antd';
@@ -30,6 +30,7 @@ import { ConfirmMotorbikeBookingModal } from './components/ConfirmMotorbikeBooki
 import { LoginModal } from '../AccountPage/LoginModal';
 import { FeedbackService } from '../../services/FeedbackService';
 import FeedbackCard from '../HomePage/components/FeedbackCard';
+import { PinImage } from '../../assets/images';
 
 
 export default function MotorbikeDetailPage() {
@@ -75,11 +76,11 @@ export default function MotorbikeDetailPage() {
 
   // get motorbike by id
   useEffect(() => {
-    if (motorbikeId){
+    if (motorbikeId) {
       getMotorbikeById(motorbikeId.toString());
       getFeedbackById(motorbikeId.toString());
     }
-      
+
   }, [motorbikeId]);
 
   const getMotorbikeById = async (id: string) => {
@@ -239,6 +240,9 @@ export default function MotorbikeDetailPage() {
       setFieldValue("address", motorbike?.address);
       setFieldValue("lat", location?.lat);
       setFieldValue("lng", location?.lng);
+      if (location) {
+        setSelected({ lat: location?.lat, lng: location?.lng });
+      }
       setShowMenu(false);
     }
   };
@@ -387,7 +391,7 @@ export default function MotorbikeDetailPage() {
                     whiteSpace="nowrap"
                     overflow="hidden"
                   >
-                    {previewBookingData && previewBookingData.motorbikes[0].ratingAverage}
+                    {previewBookingData && previewBookingData.motorbikes[0].ratingAverage.toFixed(1)}
                   </Typography>
                   <MyIcon icon={<BusinessCenterOutlined
                     fontWeight={300}
@@ -402,7 +406,7 @@ export default function MotorbikeDetailPage() {
                     whiteSpace="nowrap"
                     overflow="hidden"
                   >
-                    {t("booking.completeBook", {count: previewBookingData && previewBookingData.motorbikes[0].countCompletedBooking})}
+                    {t("booking.completeBook", { count: previewBookingData && previewBookingData.motorbikes[0].countCompletedBooking })}
                   </Typography>
                 </Box>
                 <Divider sx={{ margin: isMobile ? "8px 0px" : "16px 0px", width: "100%" }} variant="fullWidth" />
@@ -525,7 +529,7 @@ export default function MotorbikeDetailPage() {
                     </Box>
                     {/* Phí vận chuyển */}
                     {
-                      previewBookingData?.motorbikes[0].totalFeeOfDelivery! > 0 && (
+                      previewBookingData?.motorbikes[0].totalFeeOfDelivery! > 0 ?(
                         <>
                           {/* Line */}
                           <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
@@ -598,6 +602,47 @@ export default function MotorbikeDetailPage() {
                             <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "600", }}>
                               {formatMoney(previewBookingData?.motorbikes[0].totalFeeOfDelivery)} x {previewBookingData?.motorbikes[0].deliveryDistanceChargeable.toFixed(1)
                               } km
+                            </Typography>
+                          </Box>
+                        </>
+                      ): (
+                        <>
+                          <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
+                          <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                              <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "400", }}>
+                                {t("booking.distance")}
+                              </Typography>
+                              <MyIcon icon={
+                                <HelpOutlineOutlined sx={{
+                                  color: theme.palette.text.primary,
+                                  width: "12px",
+                                  height: "12px",
+                                  cursor: "pointer"
+                                }}
+                                />
+                              } hasTooltip tooltipText={
+                                t("booking.distance_hint")
+                              } onClick={() => {
+                              }} position='right-start' />
+
+                            </Box>
+                            <Typography color={theme.palette.text.primary} sx={{
+                              fontSize: isMobile ? "14px" : '16px', fontWeight: "600", whiteSpace: 'nowrap',
+                            }}>
+                              {previewBookingData?.motorbikes[0].distance.toFixed(1)} km
+                            </Typography>
+                          </Box>
+                          <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                              <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "400", }}>
+                                {t("booking.freeDeliveryDistance")}
+                              </Typography>
+                            </Box>
+                            <Typography color={theme.palette.text.primary} sx={{
+                              fontSize: isMobile ? "14px" : '16px', fontWeight: "600", whiteSpace: 'nowrap',
+                            }}>
+                              {previewBookingData?.motorbikes[0].freeDeliveryRange.toFixed(1)} km
                             </Typography>
                           </Box>
                         </>
@@ -844,7 +889,7 @@ export default function MotorbikeDetailPage() {
                         flexDirection={"column"}
                       >
                         <GoogleMap
-                          zoom={18}
+                          zoom={10}
                           center={defaultLoctionMotorbike}
                           mapContainerStyle={{
                             width: "100%",
@@ -853,7 +898,19 @@ export default function MotorbikeDetailPage() {
                           }}
                           clickableIcons={false}
                         >
-                          <Marker position={defaultLoctionMotorbike} />
+                          <Marker position={defaultLoctionMotorbike} icon={PinImage}
+                          />
+                          <Circle
+                            center={defaultLoctionMotorbike}
+                            radius={motorbike && motorbike?.maxDeliveryDistance * 1000}
+                            options={{
+                              fillColor: "rbga(255, 0, 0, 0.1)",
+                              fillOpacity: 0.35,
+                              strokeColor: "#8B4513",
+                              strokeOpacity: 0.8,
+                              strokeWeight: 2,
+                            }}
+                          />
                         </GoogleMap>
                       </Box>
                     ) : (
@@ -906,14 +963,14 @@ export default function MotorbikeDetailPage() {
                     Rating & Feedback: {/* Thêm rating và feedback */}
                   </Typography>
                   <Box display={'flex'} flexDirection={'column'} gap={'8px'} width={'99.5%'} marginTop={'15px'}>
-                  <Box display="flex" flexDirection="column" justifyContent={"center"} gap={"8px"} p={'8px'} border={"1px solid #e0e0e0"} borderRadius={"8px"}  
+                    <Box display="flex" flexDirection="column" justifyContent={"center"} gap={"8px"} p={'8px'} border={"1px solid #e0e0e0"} borderRadius={"8px"}
                     >
                       {listFeedback.length !== 0 ? listFeedback.map((item: Feedback) => (
                         <FeedbackCard feedback={item}></FeedbackCard>
-                      )):
-                      <Typography fontSize={'18px'}>
-                        {t("feedback.nonComment")}
-                      </Typography>}
+                      )) :
+                        <Typography fontSize={'18px'}>
+                          {t("feedback.nonComment")}
+                        </Typography>}
                     </Box>
                   </Box>
                 </Box>
@@ -985,7 +1042,6 @@ export default function MotorbikeDetailPage() {
                           // disabled={values.province === "" || values.district === "" || values.ward === ""}
                           placeholder={t("component.MyMapWithSearchBox.searchPlaceholder")}
                           fullWidth
-                          name="address"
                           value={value}
                           SelectProps={{
                             native: true,
@@ -1114,7 +1170,7 @@ export default function MotorbikeDetailPage() {
       </Modal>
 
       {/* modal promotion */}
-      <PromotionModal isModalPromotionOpen={isModalPromotionOpen} setModalPromotionOpen={setModalPromotionOpen} setFieldValue={setFieldValue} counponCode={values.couponCode} isMobile={isMobile} />
+      <PromotionModal minValue={previewBookingData?.totalAmount!} isModalPromotionOpen={isModalPromotionOpen} setModalPromotionOpen={setModalPromotionOpen} setFieldValue={setFieldValue} counponCode={values.couponCode} isMobile={isMobile} />
 
       {/*modal confirm booking*/}
       <ConfirmMotorbikeBookingModal

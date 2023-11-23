@@ -448,6 +448,8 @@
     "listform": {
       "title": "Danh sách xe của tôi",
       "status": "Trạng thái :",
+      "updateStatusSuccess" : "Cập nhật trạng thái thành công",
+      "updateStatusError" : "Cập nhật trạng thái thất bại",
       "all": "Tất cả",
       "table-cell-#": "#",
       "table-cell-image": "Hình ảnh",
@@ -479,7 +481,8 @@
       "allmymotorbikes": "Tất cả xe của bạn",
       "historyBooking" : "Lịch sử đơn đặt xe",
       "currentBooking" : "Đơn đặt xe hiện tại",
-      "bookingInHistory" : "Đơn đặt xe trong lịch sử"
+      "bookingInHistory" : "Đơn đặt xe trong lịch sử",
+      "myMotorbikeFeedback" : "Đánh giá xe của bạn"
     },
     "registedForm": {
       "updateTitle": "Cập nhật thông tin xe",
@@ -738,6 +741,7 @@
   "myBooking": {
     "currentBooking": "Chuyến đi hiện tại",
     "historyBooking": "Lịch sử chuyến đi",
+    "myfeedback" : "Đánh giá của bạn",
     "status": "Trạng thái",
     "startDate": "Ngày nhận xe",
     "endDate": "Ngày trả xe",

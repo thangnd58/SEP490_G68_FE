@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, Chip, FormControl, Paper, Select, Typography, Button, Tooltip, CircularProgress } from '@mui/material';
+import { Box, Chip, FormControl, Paper, Select, Typography, Button, Tooltip, CircularProgress, LinearProgress } from '@mui/material';
 import usei18next from '../../hooks/usei18next';
 import theme from '../../utils/theme'
 import useThemePage from '../../hooks/useThemePage';
@@ -20,6 +20,7 @@ const FavouritePage = () => {
         dispatch(getUserFavouriteInfo()).then(() => setIsLoad(false));
         console.log(userFavourite);
     }, [])
+    const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
     return (
         <Box display={'flex'} flexDirection={'row'} margin={'32px auto'} borderRadius={'8px'} justifyContent={'center'}>
@@ -43,11 +44,14 @@ const FavouritePage = () => {
 
                     {/* Item List*/}
                     <Box display={'flex'} flexDirection={"row"} flexWrap={'wrap'} justifyContent={'space-evenly'} >
-
+                        {
+                            isDeleting &&
+                            <LinearProgress sx={{ marginTop: isMobile ?"16px":"32px", width: isMobile ? '100%' : '70%' }} />
+                        }
                         {/* check rỗng */}
                         {isLoad ? (
                             <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
-                                <CircularProgress/>
+                                <CircularProgress />
                             </Box>
                         ) : (
 
@@ -57,7 +61,7 @@ const FavouritePage = () => {
                                 </Box>
                             ) : (
                                 userFavourite.map((item: UserFavourite) => (
-                                    <MotorbikeFavouriteInforCard motorbike={item.motorbike!} />
+                                    <MotorbikeFavouriteInforCard setIsDeleting={setIsDeleting} motorbike={item.motorbike!} />
                                 ))))}
                     </Box>
                 </Box>

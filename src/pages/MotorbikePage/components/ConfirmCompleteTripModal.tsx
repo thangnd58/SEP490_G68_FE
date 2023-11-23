@@ -13,6 +13,7 @@ import usei18next from "../../../hooks/usei18next";
 import { useContext, useEffect, useState } from "react";
 import { ModalContext } from "../../../contexts/ModalContext";
 import { BookingService } from "../../../services/BookingService";
+import dayjs from 'dayjs';
 
 interface BookingValue {
     address: string | undefined;
@@ -97,14 +98,18 @@ export const ConfirmCompleteTripModal = (props: { booking: Booking, isMobile: bo
                             <img src={CalendarImage} alt="calendar" width={isMobile ? 20 : 24} height={isMobile ? 20 : 24} />
                             <Box display={'flex'} flexDirection={'column'} gap={'4px'} justifyContent={"start"}>
                                 <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary}>{t("booking.startDate")}</Typography>
-                                <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary}>{booking.startDatetime}</Typography>
+                                <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary}>
+                                    {
+                                    dayjs(booking.startDatetime).format("DD/MM/YYYY HH:mm")   
+                                    }
+                                    </Typography>
                             </Box>
                         </Box>
                         <Box display={'flex'} gap={'16px'}>
                             <img src={CalendarImage} alt="calendar" width={isMobile ? 20 : 24} height={isMobile ? 20 : 24} />
                             <Box display={'flex'} flexDirection={'column'} gap={'4px'} justifyContent={"start"} >
                                 <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary}>{t("booking.endDate")}</Typography>
-                                <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary}>{booking.endDatetime}</Typography>
+                                <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary}>{dayjs(booking.endDatetime).format("DD/MM/YYYY HH:mm")}</Typography>
                             </Box>
                         </Box>
                     </Box>
