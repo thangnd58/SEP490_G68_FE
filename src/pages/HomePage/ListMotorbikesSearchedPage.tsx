@@ -393,9 +393,11 @@ export default function ListMotorbikesSearchedPage() {
     };
 
     // MAP CONTROLLER
+    
+    const [ libraries ] = useState(['places']);
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
-        libraries: ["places"],
+        libraries: libraries as any,
     });
 
 
@@ -785,12 +787,17 @@ export default function ListMotorbikesSearchedPage() {
                                         ))}
                                     </Select>
                                     {/* map mode */}
-                                    <IconButton
-                                        onClick={handleChangeMode}
-                                    >
-                                        {modeMap ?
-                                            <FormatListBulletedOutlined style={{ color: theme.palette.primary.main, }} /> : <MapOutlined style={{ color: theme.palette.primary.main, }} />}
-                                    </IconButton>
+                                    {
+                                        !isMobile && (
+
+                                            <IconButton
+                                                onClick={handleChangeMode}
+                                            >
+                                                {modeMap ?
+                                                    <FormatListBulletedOutlined style={{ color: theme.palette.primary.main, }} /> : <MapOutlined style={{ color: theme.palette.primary.main, }} />}
+                                            </IconButton>
+                                        )
+                                    }
 
                                 </Box>
                             </Box>
@@ -799,7 +806,7 @@ export default function ListMotorbikesSearchedPage() {
                 </Box>
             </Box>
             {
-                !modeMap ? (
+                !modeMap || isMobile ? (
                     <>
                         <Box
                             zIndex={1}
@@ -917,7 +924,9 @@ export default function ListMotorbikesSearchedPage() {
                                             stylers: [{ visibility: "off" }],
                                         },
                                     ],
+                                    
                                 }}
+                                
 
                             >
                                 <Marker position={selected} />
@@ -1201,6 +1210,47 @@ export default function ListMotorbikesSearchedPage() {
                                                             handleDoubleClick(e);
                                                         }
                                                     }}
+                                                    options={{
+                                                        disableDefaultUI: true,
+                                                        zoomControl: true,
+                                                        scrollwheel: true,
+                                                        fullscreenControl: true,
+                                                        zoomControlOptions: {
+                                                          position: window.google.maps.ControlPosition.RIGHT_CENTER,
+                                                        },
+                                                        noClear: true,
+                                                        styles: [
+                                                          {
+                                                            featureType: "poi",
+                                                            elementType: "labels",
+                                                            stylers: [{ visibility: "off" }],
+                                                          },
+                                                        ],
+                                                        backgroundColor: "#fff",
+                                                        clickableIcons: true,
+                                                        scaleControl: true,
+                                                        streetViewControl: true,
+                                                        rotateControl: true,
+                                                        mapTypeControl: true,
+                                                        mapTypeControlOptions: {
+                                                          style: window.google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                                                          position: window.google.maps.ControlPosition.TOP_CENTER,
+                                                          mapTypeIds: [
+                                                            window.google.maps.MapTypeId.ROADMAP,
+                                                            window.google.maps.MapTypeId.SATELLITE,
+                                                            window.google.maps.MapTypeId.HYBRID,
+                                                            window.google.maps.MapTypeId.TERRAIN,
+                                                          ],
+                                                        },
+                                                        panControl: true,
+                                                        fullscreenControlOptions: {
+                                                          position: window.google.maps.ControlPosition.RIGHT_CENTER,
+                                                        },
+                                                        gestureHandling: "greedy",
+                                                        draggableCursor: "default",
+                                                        draggingCursor: "grab",
+                                                        mapId: "f1b7a8a9f0b1f1d",
+                                                      }}
                                                 >
                                                     {selected &&
                                                         (

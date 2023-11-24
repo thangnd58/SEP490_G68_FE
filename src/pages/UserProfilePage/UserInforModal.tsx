@@ -46,9 +46,13 @@ export default function UserInforModal(props: { userId: number }) {
             console.log(error);
         }
     }
-    console.log(feedback?.length)
 
-
+    // auto close modal if user click back button on webrowser
+    useEffect(() => {
+        window.onpopstate = () => {
+            closeModal();
+        };
+    }, []);
 
     return (
         <>
@@ -254,7 +258,7 @@ interface CommentItemProps {
 export function CommentItem(props: CommentItemProps) {
     const { avatar, dateComment, name, rating, comment, replyComment, isMobile } = props;
     const { t } = usei18next();
-    const  navigate  = useNavigate();
+    const navigate = useNavigate();
     return (<Box width={isMobile ? '90%' : "95%"} display={"flex"} flexDirection={"column"} justifyContent={"start"} alignItems={"start"} sx={{
         backgroundColor: "#fff",
         borderRadius: '8px',
@@ -279,21 +283,21 @@ export function CommentItem(props: CommentItemProps) {
                             /* Read more */
                         }
                         {props.isDetail &&
-                        <MyIcon
-                            icon={
-                                <ReadMore />
-                            }
-                            position='bottom'
-                            hasTooltip
-                            tooltipText={t("favourite.item.view")}
-                            onClick={() => {
+                            <MyIcon
+                                icon={
+                                    <ReadMore />
+                                }
+                                position='bottom'
+                                hasTooltip
+                                tooltipText={t("favourite.item.view")}
+                                onClick={() => {
 
-                                props.isOwner ?
-                                    navigate(`/${ROUTES.booking.detail_owner}/${props.bookingId}`) :
-                                    navigate(`/${ROUTES.booking.detail}/${props.bookingId}`)
+                                    props.isOwner ?
+                                        navigate(`/${ROUTES.booking.detail_owner}/${props.bookingId}`) :
+                                        navigate(`/${ROUTES.booking.detail}/${props.bookingId}`)
 
-                            }}
-                        />}
+                                }}
+                            />}
 
                     </Box>
 

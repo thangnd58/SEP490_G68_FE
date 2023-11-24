@@ -60,7 +60,7 @@ export const BookingService = {
         return await api.put(`${apiPostBooking}/${bookingId}/${status}/${motorbikeid}`)
     },
     getLatLngByAddress: async (address: string) => {
-        const res = await api.get(`${apiGetLatLng}/${address}`)
+        const res = await api.get(`${apiGetLatLng}/${encodeURIComponent(address)}`)
         return res.data
     }
 }
