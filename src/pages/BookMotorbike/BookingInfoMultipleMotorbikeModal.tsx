@@ -132,7 +132,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
 
   // MAP CONTROLLER
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
+    googleMapsApiKey: "AIzaSyDsPlUKOh4tEkfCRPNnAgYhFes0zvFCnSc",
     libraries: ["places"],
   });
 

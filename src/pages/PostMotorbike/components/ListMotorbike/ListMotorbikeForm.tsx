@@ -548,7 +548,7 @@ function ItemMotorbikeModal({ isMobile, isIpad, isItemModalOpen, closeItemModal,
   // MAP CONTROLLER
   // Map with search box
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
+    googleMapsApiKey: "AIzaSyDsPlUKOh4tEkfCRPNnAgYhFes0zvFCnSc",
     libraries: ["places"],
   });
 

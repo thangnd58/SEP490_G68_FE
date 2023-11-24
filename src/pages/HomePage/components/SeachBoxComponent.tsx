@@ -84,7 +84,7 @@ const SeachBoxComponent = () => {
     // MAP CONTROLLER
     // Map with search box
     const { isLoaded } = useLoadScript({
-        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
+        googleMapsApiKey: "AIzaSyDsPlUKOh4tEkfCRPNnAgYhFes0zvFCnSc",
         libraries: ["places"],
     });
 
@@ -382,7 +382,6 @@ const SeachBoxComponent = () => {
                                                     // disabled={values.province === "" || values.district === "" || values.ward === ""}
                                                     placeholder={t("component.MyMapWithSearchBox.searchPlaceholder")}
                                                     fullWidth
-                                                    name="address"
                                                     value={value}
                                                     SelectProps={{
                                                         native: true,
