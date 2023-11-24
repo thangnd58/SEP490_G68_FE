@@ -135,7 +135,7 @@ const RegisterMotorbikeForm = () => {
             fuelConsumption: "3",
             maxDeliveryDistance: 20,
             freeDeliveryRange: 10,
-            feeOfDeliveryPerKm: 4000,
+            feeOfDeliveryPerKm: 1,
             description: "",
             raincoat: false,
             helmet: false,
@@ -187,8 +187,8 @@ const RegisterMotorbikeForm = () => {
                 .concat(Yup.number().max(Yup.ref('maxDeliveryDistance'), "Khoảng cách giao xe miễn phí phải nhỏ hơn khoảng cách giao xe tối đa")),
             feeOfDeliveryPerKm: Yup.number()
                 .required("Bạn phải nhập phí giao xe /km")
-                .max(10000, "Bạn chỉ có thể nhập tối đa 10000 đ/km")
-                .min(1000, "Bạn phải nhập ít nhất 1000 đ/km"),
+                .max(10, "Bạn chỉ có thể nhập tối đa 10000 đ/km")
+                .min(1, "Bạn phải nhập ít nhất 1000 đ/km"),
         }),
 
         onSubmit: async (values, actions) => {
@@ -474,7 +474,7 @@ const RegisterMotorbikeForm = () => {
     // MAP CONTROLLER
 
     const { isLoaded } = useLoadScript({
-        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
+        googleMapsApiKey: "AIzaSyDsPlUKOh4tEkfCRPNnAgYhFes0zvFCnSc",
         libraries: ["places"],
     });
 
@@ -808,7 +808,7 @@ const RegisterMotorbikeForm = () => {
                                         <ErrorMessage message={errors.fuel} />
                                     )}
                                 </Grid>
-                                <Grid item xs={isMobile ? 12 : 6}>
+                                <Grid item xs={12}>
                                     <RegisterMotorbikeItem
                                         title={t("postMotorbike.registedForm.fuelConsumption")}
                                         fontSizeTitle='20px'
@@ -920,7 +920,7 @@ const RegisterMotorbikeForm = () => {
                                         <ErrorMessage message={errors.freeDeliveryRange} />
                                     )}
                                 </Grid>
-                                <Grid item xs={isMobile ? 12 : 6}>
+                                <Grid item xs={12}>
                                     <RegisterMotorbikeItem
                                         title={t("postMotorbike.registedForm.feeDeliveryDistancePerKilometer")}
                                         fontSizeTitle='20px'
@@ -931,29 +931,47 @@ const RegisterMotorbikeForm = () => {
                                         fontSizeSecondTitle='16px'
                                         fontWeightSecondTitle={400}
                                         item={
-                                            <TextField
-                                                sx={{
-                                                    "& .MuiOutlinedInput-root fieldset": { borderRadius: "8px" },
-                                                    "& .MuiOutlinedInput-root:hover fieldset": {
-                                                        borderColor: theme.palette.primary.main,
-                                                    },
-                                                    "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-                                                        borderColor: theme.palette.primary.main,
-                                                    }
-                                                }}
-                                                name='feeOfDeliveryPerKm'
-                                                value={values.feeOfDeliveryPerKm}
-                                                onChange={handleChange}
-                                                fullWidth
-                                                type='number'
-                                                placeholder={t("postMotorbike.registedForm.feeDeliveryDistancePerKilometerPlaceHolder")}
-                                            />
+                                            <Box display={"flex"} alignItems={"center"} gap={"16px"}>
+
+                                                <TextField
+                                                    sx={{
+                                                        "& .MuiOutlinedInput-root fieldset": { borderRadius: "8px" },
+                                                        "& .MuiOutlinedInput-root:hover fieldset": {
+                                                            borderColor: theme.palette.primary.main,
+                                                        },
+                                                        "& .MuiOutlinedInput-root.Mui-focused fieldset": {
+                                                            borderColor: theme.palette.primary.main,
+                                                        }
+                                                    }}
+                                                    name='feeOfDeliveryPerKm'
+                                                    value={values.feeOfDeliveryPerKm}
+                                                    onChange={handleChange}
+                                                    fullWidth
+                                                    type='number'
+                                                    placeholder={t("postMotorbike.registedForm.feeDeliveryDistancePerKilometerPlaceHolder")}
+                                                />
+                                            </Box>
                                         }
                                     />
                                     {errors.feeOfDeliveryPerKm && touched.feeOfDeliveryPerKm && (
                                         <ErrorMessage message={errors.feeOfDeliveryPerKm} />
                                     )}
                                 </Grid>
+                                <Grid item xs={6}>
+                                    <Typography
+                                        width={"100%"}
+                                        variant='h3'
+                                        color={theme.palette.text.secondary}
+                                        fontSize={"16px"}
+                                        fontWeight={400}
+                                        sx={{ wordWrap: 'break-word' }}
+                                        textAlign={"start"}
+                                        marginBottom={"16px"}
+                                    >
+                                        {t("postMotorbike.registedForm.defaultRentPriceSecondTitle")}
+                                    </Typography>
+                                </Grid>
+                                
                             </Grid>
                         </Box>
                     }
@@ -1035,7 +1053,7 @@ const RegisterMotorbikeForm = () => {
                     item={
                         <Box sx={{ width: '100%' }}>
                             <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                <Grid item xs={6}>
+                                <Grid item xs={12}>
 
                                     <TextField
                                         sx={{

@@ -147,7 +147,7 @@ function SearchingHotProvince() {
     // MAP CONTROLLER
     // Map with search box
     const { isLoaded } = useLoadScript({
-        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
+        googleMapsApiKey: "AIzaSyDsPlUKOh4tEkfCRPNnAgYhFes0zvFCnSc",
         libraries: ["places"],
     });
 
@@ -435,7 +435,6 @@ function SearchingHotProvince() {
                                                         // disabled={values.province === "" || values.district === "" || values.ward === ""}
                                                         placeholder={t("component.MyMapWithSearchBox.searchPlaceholder")}
                                                         fullWidth
-                                                        name="address"
                                                         value={value}
                                                         SelectProps={{
                                                             native: true,
@@ -499,7 +498,7 @@ function SearchingHotProvince() {
                                                     borderRadius={"10px"}
                                                     border={"3px solid"}
                                                     margin={"0px auto"}
-                                                    width={"100%"}
+                                                    width={"99%"}
                                                     justifyContent={"center"}
                                                     alignItems={"center"}
                                                     flexDirection={"column"}

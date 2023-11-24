@@ -394,7 +394,7 @@ export default function ListMotorbikesSearchedPage() {
 
     // MAP CONTROLLER
     const { isLoaded } = useLoadScript({
-        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
+        googleMapsApiKey: "AIzaSyDsPlUKOh4tEkfCRPNnAgYhFes0zvFCnSc",
         libraries: ["places"],
     });
 
@@ -909,10 +909,34 @@ export default function ListMotorbikesSearchedPage() {
                                     scrollwheel: true,
                                     mapTypeControl: true,
                                     // draggableCursor: "default",
+                                    noClear: true,
+                                    styles: [
+                                        {
+                                            featureType: "poi",
+                                            elementType: "labels",
+                                            stylers: [{ visibility: "off" }],
+                                        },
+                                    ],
                                 }}
 
                             >
                                 <Marker position={selected} />
+                                <InfoWindow
+                                    position={selected}
+                                    options={{
+                                        pixelOffset: new window.google.maps.Size(0, -40), // Điều chỉnh độ lệch theo nhu cầu của bạn
+                                        zIndex: 1,
+                                    }}
+                                >
+                                    <Typography variant="subtitle2"
+                                        sx={{
+                                            fontWeight: "400",
+                                            color: "#000",
+                                            fontSize: "14px"
+                                        }}>
+                                        Vị trí tìm kiếm
+                                    </Typography>
+                                </InfoWindow>
                                 {listMotorbikes && listMotorbikes.map((motorbike: Motorbike, index: number) => (
                                     <>
                                         <Marker
