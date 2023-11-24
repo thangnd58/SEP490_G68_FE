@@ -335,6 +335,14 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
+
+  // auto close modal if user click back button on webrowser
+  useEffect(() => {
+    window.onpopstate = () => {
+      closeModal();
+    };
+  }, []);
+
   return (
     <>
       <Modal
@@ -1252,6 +1260,47 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                             if (e.latLng) {
                               handleDoubleClick(e);
                             }
+                          }}
+                          options={{
+                            disableDefaultUI: true,
+                            zoomControl: true,
+                            scrollwheel: true,
+                            fullscreenControl: true,
+                            zoomControlOptions: {
+                              position: window.google.maps.ControlPosition.RIGHT_CENTER,
+                            },
+                            noClear: true,
+                            styles: [
+                              {
+                                featureType: "poi",
+                                elementType: "labels",
+                                stylers: [{ visibility: "off" }],
+                              },
+                            ],
+                            backgroundColor: "#fff",
+                            clickableIcons: true,
+                            scaleControl: true,
+                            streetViewControl: true,
+                            rotateControl: true,
+                            mapTypeControl: true,
+                            mapTypeControlOptions: {
+                              style: window.google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                              position: window.google.maps.ControlPosition.TOP_CENTER,
+                              mapTypeIds: [
+                                window.google.maps.MapTypeId.ROADMAP,
+                                window.google.maps.MapTypeId.SATELLITE,
+                                window.google.maps.MapTypeId.HYBRID,
+                                window.google.maps.MapTypeId.TERRAIN,
+                              ],
+                            },
+                            panControl: true,
+                            fullscreenControlOptions: {
+                              position: window.google.maps.ControlPosition.RIGHT_CENTER,
+                            },
+                            gestureHandling: "greedy",
+                            draggableCursor: "default",
+                            draggingCursor: "grab",
+                            mapId: "f1b7a8a9f0b1f1d",
                           }}
                         >
                           {selected &&

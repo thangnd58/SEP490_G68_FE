@@ -202,9 +202,10 @@ export const BookingDetailPageOwner = () => {
     }
 
     // MAP CONTROLLER
+    const [ libraries ] = useState(['places']);
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
-        libraries: ["places"],
+        libraries: libraries as any,
     });
 
 
