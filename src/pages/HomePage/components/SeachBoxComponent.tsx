@@ -84,7 +84,7 @@ const SeachBoxComponent = () => {
     // MAP CONTROLLER
     // Map with search box
     const { isLoaded } = useLoadScript({
-        googleMapsApiKey: "AIzaSyDsPlUKOh4tEkfCRPNnAgYhFes0zvFCnSc",
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
         libraries: ["places"],
     });
 
