@@ -14,7 +14,7 @@ import {
 import usei18next from "../../hooks/usei18next";
 import MyCustomButton from "../../components/common/MyButton";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAction";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { CartInforResponse, Motorbike } from "../../utils/type";
 import theme from "../../utils/theme";
 import { CalendarTodayOutlined, KeyboardArrowDown, KeyboardArrowUp, LocationOnOutlined } from "@mui/icons-material";
@@ -65,12 +65,21 @@ function CartPage() {
         dispatch(getCartInfo());
     }, []);
 
+    const linearProgressRef = useRef<HTMLElement>(null);
+
     const deleteMotorbikeInCart = async (index: number, motorbikeId: number, bookingCartId: number) => {
         try {
             // set is load of cart is deleting
             const newIsDeleting = [...isDeleting];
             newIsDeleting[index] = true;
             setIsDeleting(newIsDeleting);
+
+            if (linearProgressRef.current){
+                alert("scroll");
+                linearProgressRef.current?.scrollIntoView({ 
+                    behavior: "smooth"
+                 });
+            }
 
             const response = await BookingService.deleteMotorbikeInCart(motorbikeId, bookingCartId);
             if (response) {
@@ -227,7 +236,7 @@ function CartPage() {
                                         />
                                     </Box>
                                     <Divider />
-                                    {/* <AnimatedBox sx={{
+                                    <AnimatedBox sx={{
                                         width: '100%',
                                         display: 'flex',
                                         flexDirection: 'row',
@@ -239,10 +248,6 @@ function CartPage() {
                                         justifyContent={'center'}
                                         isOpen={open[index]}
                                     >
-                                        {
-                                            isDeleting[index] &&
-                                            <LinearProgress sx={{ width: '100%' }} />
-                                        }
                                         {item.motorbikes.map((motorbike: Motorbike, index1: number) => (
                                             <Box key={index1} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>
                                                 <MotorbikeInforCard key={index1} motorbike={motorbike} isInCart={true} isFavoritePage={false} startDate={item.startDatetime} endDate={item.endDatetime} searchedAddress={item.address} deleteInCart={
@@ -252,7 +257,11 @@ function CartPage() {
                                                     isNotFavorite />
                                             </Box>
                                         ))}
-                                    </AnimatedBox> */}
+                                        {
+                                            isDeleting[index] &&
+                                            <LinearProgress ref={linearProgressRef} sx={{ width: '100%' }} />
+                                        }
+                                    </AnimatedBox>
                                 </Box>
                             </Paper>
                         ))))}

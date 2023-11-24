@@ -314,23 +314,23 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                     </Typography>
                     {user.phoneVerified === true && (
                       <Chip
-                        sx={{ '& .MuiChip-label': { fontSize: isMobile ?"12px":"14px" }, height: '90%' }}
+                        sx={{ '& .MuiChip-label': { fontSize: isMobile ? "12px" : "14px" }, height: '90%' }}
                         color="success"
                         icon={<CheckCircleOutline sx={{
                           width: '16px',
                           height: '16px',
-                        }}/>}
+                        }} />}
                         label={t('userProfile.Verified')} />
                     )}
                     {user.phoneVerified === false && (
                       <Tooltip title={t('userProfile.AlertVerify')}>
                         <Chip
-                          sx={{ '& .MuiChip-label': { fontSize: isMobile ?"12px":"14px"}, height: '90%', cursor: 'pointer' }}
+                          sx={{ '& .MuiChip-label': { fontSize: isMobile ? "12px" : "14px" }, height: '90%', cursor: 'pointer' }}
                           color="warning"
                           icon={<WarningAmber sx={{
                             width: '16px',
                             height: '16px',
-                          }}/>}
+                          }} />}
                           label={t('userProfile.notYetVerify')}
                           onClick={() => {
                             setType('verifyPhone');
@@ -390,164 +390,168 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
         </Box>
 
         {/* Part 2 (Bottom, Driver License) */}
-        <Box sx={{ marginTop: '32px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-          {/* Top Section (Title and Edit Button) */}
-          <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', width: '100%', justifyContent: 'space-between' }}>
-            <Box sx={{ flexBasis: '70%', flexGrow: 1, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: '16px' }}>
-              <Typography variant="h6" fontWeight="bold" fontSize={isMobile ? 16 : 20}>
-                {t('licenseInfo.Title')}
-              </Typography>
-              {lisence?.status !== undefined && (
-                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                  {lisence.status === 0 && (
-                    <Chip
-                      sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
-                      color="warning"
-                      icon={<WarningAmber />}
-                      label={t('licenseInfo.Processing')} />
-                  )}
-                  {lisence.status === 1 && (
-                    <Chip
-                      sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
-                      color="success"
-                      icon={<CheckCircleOutline />}
-                      label={t('licenseInfo.Approve')} />
-                  )}
-                  {lisence.status === 2 && (
-                    <Chip
-                      sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
-                      color="error"
-                      icon={<ErrorOutline />}
-                      label={t('licenseInfo.Reject')} />
+        {
+          user.role.roleName === 'Customer' && (
+            <Box sx={{ marginTop: '32px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+              {/* Top Section (Title and Edit Button) */}
+              <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', width: '100%', justifyContent: 'space-between' }}>
+                <Box sx={{ flexBasis: '70%', flexGrow: 1, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: '16px' }}>
+                  <Typography variant="h6" fontWeight="bold" fontSize={isMobile ? 16 : 20}>
+                    {t('licenseInfo.Title')}
+                  </Typography>
+                  {lisence?.status !== undefined && (
+                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                      {lisence.status === 0 && (
+                        <Chip
+                          sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                          color="warning"
+                          icon={<WarningAmber />}
+                          label={t('licenseInfo.Processing')} />
+                      )}
+                      {lisence.status === 1 && (
+                        <Chip
+                          sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                          color="success"
+                          icon={<CheckCircleOutline />}
+                          label={t('licenseInfo.Approve')} />
+                      )}
+                      {lisence.status === 2 && (
+                        <Chip
+                          sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                          color="error"
+                          icon={<ErrorOutline />}
+                          label={t('licenseInfo.Reject')} />
+                      )}
+                    </Box>
                   )}
                 </Box>
-              )}
-            </Box>
 
-            <Box sx={{ flexBasis: '30%', flexGrow: 1, display: 'flex', marginTop: isMobile ? '16px' : '0px', justifyContent: isMobile ? 'flex-start' : 'flex-end', gap: '16px' }}>
-              {isEditLisence ? (
-                <>
-                  <MyCustomButton
-                    borderRadius={8}
-                    fontSize={isMobile ? 12 : 16}
-                    fontWeight={400}
-                    content={t('licenseInfo.BtnSave')}
-                    onClick={() => handleSubmit()} />
-                  <MyCustomButton
-                    borderRadius={8}
-                    fontSize={isMobile ? 12 : 16}
-                    variant='outlined'
-                    fontWeight={500}
-                    content={t('licenseInfo.BtnCancel')}
-                    onClick={() => {
-                      resetErrors();
-                      cancelEditLisence()
-                    }} />
-                </>
-              ) : (
-                <MyCustomButton
-                  borderRadius={8}
-                  fontSize={isMobile ? 12 : 16}
-                  fontWeight={400}
-                  content={t('licenseInfo.BtnEdit')}
-                  onClick={() => setIsEditLisence(true)} />
-              )}
-            </Box>
-          </Box>
+                <Box sx={{ flexBasis: '30%', flexGrow: 1, display: 'flex', marginTop: isMobile ? '16px' : '0px', justifyContent: isMobile ? 'flex-start' : 'flex-end', gap: '16px' }}>
+                  {isEditLisence ? (
+                    <>
+                      <MyCustomButton
+                        borderRadius={8}
+                        fontSize={isMobile ? 12 : 16}
+                        fontWeight={400}
+                        content={t('licenseInfo.BtnSave')}
+                        onClick={() => handleSubmit()} />
+                      <MyCustomButton
+                        borderRadius={8}
+                        fontSize={isMobile ? 12 : 16}
+                        variant='outlined'
+                        fontWeight={500}
+                        content={t('licenseInfo.BtnCancel')}
+                        onClick={() => {
+                          resetErrors();
+                          cancelEditLisence()
+                        }} />
+                    </>
+                  ) : (
+                    <MyCustomButton
+                      borderRadius={8}
+                      fontSize={isMobile ? 12 : 16}
+                      fontWeight={400}
+                      content={t('licenseInfo.BtnEdit')}
+                      onClick={() => setIsEditLisence(true)} />
+                  )}
+                </Box>
+              </Box>
 
-          {/* Bottom Section (License Details and Image) */}
-          <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', width: '100%', justifyContent: 'space-between', marginTop: '32px', gap: '32px' }}>
-            <Box sx={{ flexBasis: '50%', flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '32px', justifyContent: 'space-between' }}>
-              <Box>
-                <MyCustomeTextField
-                  disabled={!isEditLisence}
-                  name="licenceNumber"
-                  label={t('licenseInfo.NumberLicense')}
-                  placeholder={t('licenseInfo.NumberLicense')}
-                  variant="outlined"
-                  fullWidth
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={handleChange}
-                  value={values.licenceNumber}
-                />
-                {errors.licenceNumber && touched.licenceNumber && <ErrorMessage message={errors.licenceNumber} />}
+              {/* Bottom Section (License Details and Image) */}
+              <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', width: '100%', justifyContent: 'space-between', marginTop: '32px', gap: '32px' }}>
+                <Box sx={{ flexBasis: '50%', flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '32px', justifyContent: 'space-between' }}>
+                  <Box>
+                    <MyCustomeTextField
+                      disabled={!isEditLisence}
+                      name="licenceNumber"
+                      label={t('licenseInfo.NumberLicense')}
+                      placeholder={t('licenseInfo.NumberLicense')}
+                      variant="outlined"
+                      fullWidth
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      onChange={handleChange}
+                      value={values.licenceNumber}
+                    />
+                    {errors.licenceNumber && touched.licenceNumber && <ErrorMessage message={errors.licenceNumber} />}
+                  </Box>
+                  <Box>
+                    <MyCustomeTextField
+                      disabled={!isEditLisence}
+                      name="fullName"
+                      label={t('licenseInfo.Name')}
+                      placeholder={t('licenseInfo.Name')}
+                      variant="outlined"
+                      fullWidth
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      onChange={handleChange}
+                      value={values.fullName}
+                    />
+                    {errors.fullName && touched.fullName && <ErrorMessage message={errors.fullName} />}
+                  </Box>
+                  <Box>
+                    <MyCustomeTextField
+                      onChange={handleChange}
+                      disabled={!isEditLisence}
+                      name="dob"
+                      type="date"
+                      label={t('userProfile.DOB')}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      variant="outlined"
+                      fullWidth
+                      value={values.dob}
+                    />
+                    {errors.dob && touched.dob && <ErrorMessage message={errors.dob} />}
+                  </Box>
+                </Box>
+                <Box sx={{
+                  flexBasis: '50%',
+                  flexGrow: 1,
+                  border: '3px solid #E0E0E0',
+                  borderRadius: '8px',
+                  padding: '16px',
+                  height: '270px',
+                }}>
+                  {lisence ? (
+                    <Avatar variant="rounded" sx={{ width: '100%', height: '100%' }} src={imagePreviewUrl} alt={user.name} />
+                  ) : (
+                    <Typography fontWeight="500" sx={{ width: '100%', margin: '100px 0px' }} align="center">
+                      {t('licenseInfo.Image')}
+                    </Typography>
+                  )}
+                </Box>
               </Box>
-              <Box>
-                <MyCustomeTextField
-                  disabled={!isEditLisence}
-                  name="fullName"
-                  label={t('licenseInfo.Name')}
-                  placeholder={t('licenseInfo.Name')}
-                  variant="outlined"
-                  fullWidth
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={handleChange}
-                  value={values.fullName}
-                />
-                {errors.fullName && touched.fullName && <ErrorMessage message={errors.fullName} />}
-              </Box>
-              <Box>
-                <MyCustomeTextField
-                  onChange={handleChange}
-                  disabled={!isEditLisence}
-                  name="dob"
-                  type="date"
-                  label={t('userProfile.DOB')}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  variant="outlined"
-                  fullWidth
-                  value={values.dob}
-                />
-                {errors.dob && touched.dob && <ErrorMessage message={errors.dob} />}
-              </Box>
-            </Box>
-            <Box sx={{
-              flexBasis: '50%',
-              flexGrow: 1,
-              border: '3px solid #E0E0E0',
-              borderRadius: '8px',
-              padding: '16px',
-              height: '270px',
-            }}>
-              {lisence ? (
-                <Avatar variant="rounded" sx={{ width: '100%', height: '100%' }} src={imagePreviewUrl} alt={user.name} />
-              ) : (
-                <Typography fontWeight="500" sx={{ width: '100%', margin: '100px 0px' }} align="center">
-                  {t('licenseInfo.Image')}
-                </Typography>
-              )}
-            </Box>
-          </Box>
 
-          {/* Upload Button */}
-          <input
-            aria-label='upload license'
-            ref={inputRefLicense}
-            type="file"
-            style={{ display: 'none' }}
-            multiple={false}
-            accept={"image/jpeg, image/png"}
-            onChange={handleUploadLicenseImage}
-          />
-          <>
-            {isEditLisence && (
-              <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%', marginTop: '16px' }}>
-                <MyCustomButton
-                  borderRadius={8}
-                  fontSize={isMobile ? 12 : 16}
-                  fontWeight={400}
-                  content={t('licenseInfo.BtnchooseLicense')}
-                  onClick={onClickRefLicense} />
-              </Box>
-            )}
-          </>
-        </Box>
+              {/* Upload Button */}
+              <input
+                aria-label='upload license'
+                ref={inputRefLicense}
+                type="file"
+                style={{ display: 'none' }}
+                multiple={false}
+                accept={"image/jpeg, image/png"}
+                onChange={handleUploadLicenseImage}
+              />
+              <>
+                {isEditLisence && (
+                  <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%', marginTop: '16px' }}>
+                    <MyCustomButton
+                      borderRadius={8}
+                      fontSize={isMobile ? 12 : 16}
+                      fontWeight={400}
+                      content={t('licenseInfo.BtnchooseLicense')}
+                      onClick={onClickRefLicense} />
+                  </Box>
+                )}
+              </>
+            </Box>
+          )
+        }
       </Box >
 
     ) : (

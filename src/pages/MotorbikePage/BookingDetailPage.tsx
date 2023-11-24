@@ -250,7 +250,7 @@ export const BookingDetailPage = () => {
     }
 
     // MAP CONTROLLER
-    const [ libraries ] = useState(['places']);
+    const [libraries] = useState(['places']);
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
         libraries: libraries as any,
@@ -423,20 +423,24 @@ export const BookingDetailPage = () => {
                                     alignItems={"center"}
                                     flexDirection={"column"}
                                 >
-                                    <GoogleMap
-                                        zoom={18}
-                                        center={{ lat: location.lat, lng: location.lng }}
-                                        mapContainerStyle={{
-                                            width: "100%",
-                                            height: "40vh",
-                                            borderRadius: "8px",
-                                        }}
+                                    {
+                                        isLoaded && booking && booking.address && booking.address !== "" &&
+                                        <GoogleMap
+                                            zoom={18}
+                                            center={{ lat: location.lat, lng: location.lng }}
+                                            mapContainerStyle={{
+                                                width: "100%",
+                                                height: "40vh",
+                                                borderRadius: "8px",
+                                            }}
 
-                                    >
-                                        {booking &&
-                                            <Marker position={{ lat: location.lat, lng: location.lng }} />
-                                        }
-                                    </GoogleMap>
+                                        >
+                                            {booking &&
+                                                <Marker position={{ lat: location.lat, lng: location.lng }} />
+                                            }
+                                        </GoogleMap>
+                                    }
+
                                 </Box>
                             </Box>
                             <Box width={isMobile ? '100%' : '45%'} sx={{ background: isMobile ? 'none' : 'rgba(139, 69, 19, 0.10)', borderRadius: '8px', padding: isMobile ? '4px' : '32px' }}>
