@@ -521,5 +521,16 @@ export interface Feedback {
     user: UserForRent,
     perfomer: string,
     // user: User,
-    response: string
+    response: FeedbackResponse
+}
+
+export interface FeedbackResponse{
+    feedbackId: number,
+    bookingId: number,
+    user: UserForRent,
+    rating: number,
+    comment: string,
+    perfomer: string,
+    createDatetime: string,
+    updateDatetime: string,
 }
