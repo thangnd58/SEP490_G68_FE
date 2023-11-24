@@ -227,7 +227,7 @@ function CartPage() {
                                         />
                                     </Box>
                                     <Divider />
-                                    <AnimatedBox sx={{
+                                    {/* <AnimatedBox sx={{
                                         width: '100%',
                                         display: 'flex',
                                         flexDirection: 'row',
@@ -252,7 +252,7 @@ function CartPage() {
                                                     isNotFavorite />
                                             </Box>
                                         ))}
-                                    </AnimatedBox>
+                                    </AnimatedBox> */}
                                 </Box>
                             </Paper>
                         ))))}

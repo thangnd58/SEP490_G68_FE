@@ -393,8 +393,8 @@ export default function ListMotorbikesSearchedPage() {
     };
 
     // MAP CONTROLLER
-    
-    const [ libraries ] = useState(['places']);
+
+    const [libraries] = useState(['places']);
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
         libraries: libraries as any,
@@ -924,9 +924,9 @@ export default function ListMotorbikesSearchedPage() {
                                             stylers: [{ visibility: "off" }],
                                         },
                                     ],
-                                    
+
                                 }}
-                                
+
 
                             >
                                 <Marker position={selected} />
@@ -1216,15 +1216,15 @@ export default function ListMotorbikesSearchedPage() {
                                                         scrollwheel: true,
                                                         fullscreenControl: true,
                                                         zoomControlOptions: {
-                                                          position: window.google.maps.ControlPosition.RIGHT_CENTER,
+                                                            position: window.google.maps.ControlPosition.RIGHT_CENTER,
                                                         },
                                                         noClear: true,
                                                         styles: [
-                                                          {
-                                                            featureType: "poi",
-                                                            elementType: "labels",
-                                                            stylers: [{ visibility: "off" }],
-                                                          },
+                                                            {
+                                                                featureType: "poi",
+                                                                elementType: "labels",
+                                                                stylers: [{ visibility: "off" }],
+                                                            },
                                                         ],
                                                         backgroundColor: "#fff",
                                                         clickableIcons: true,
@@ -1233,24 +1233,24 @@ export default function ListMotorbikesSearchedPage() {
                                                         rotateControl: true,
                                                         mapTypeControl: true,
                                                         mapTypeControlOptions: {
-                                                          style: window.google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-                                                          position: window.google.maps.ControlPosition.TOP_CENTER,
-                                                          mapTypeIds: [
-                                                            window.google.maps.MapTypeId.ROADMAP,
-                                                            window.google.maps.MapTypeId.SATELLITE,
-                                                            window.google.maps.MapTypeId.HYBRID,
-                                                            window.google.maps.MapTypeId.TERRAIN,
-                                                          ],
+                                                            style: window.google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                                                            position: window.google.maps.ControlPosition.TOP_CENTER,
+                                                            mapTypeIds: [
+                                                                window.google.maps.MapTypeId.ROADMAP,
+                                                                window.google.maps.MapTypeId.SATELLITE,
+                                                                window.google.maps.MapTypeId.HYBRID,
+                                                                window.google.maps.MapTypeId.TERRAIN,
+                                                            ],
                                                         },
                                                         panControl: true,
                                                         fullscreenControlOptions: {
-                                                          position: window.google.maps.ControlPosition.RIGHT_CENTER,
+                                                            position: window.google.maps.ControlPosition.RIGHT_CENTER,
                                                         },
                                                         gestureHandling: "greedy",
                                                         draggableCursor: "default",
                                                         draggingCursor: "grab",
                                                         mapId: "f1b7a8a9f0b1f1d",
-                                                      }}
+                                                    }}
                                                 >
                                                     {selected &&
                                                         (
@@ -1468,6 +1468,7 @@ export default function ListMotorbikesSearchedPage() {
                                 {/* price */}
                                 <Box sx={{ width: "97%" }}>
                                     <Slider
+                                        aria-label='Price'
                                         value={price}
                                         max={200}
                                         step={1}
@@ -1509,6 +1510,7 @@ export default function ListMotorbikesSearchedPage() {
                                 {/* price */}
                                 <Box sx={{ width: "97%" }}>
                                     <Slider
+                                        aria-label="Release year"
                                         value={releaseYear}
                                         onChange={handleReleaseYearChange}
                                         valueLabelDisplay="auto"
@@ -1548,6 +1550,7 @@ export default function ListMotorbikesSearchedPage() {
                                 {/* price */}
                                 <Box sx={{ width: "97%" }}>
                                     <Slider
+                                        aria-label="Fuel consumption"
                                         value={fuelConsumption}
                                         onChange={handleFuelConsumptionChange}
                                         valueLabelDisplay="auto"
@@ -1587,7 +1590,7 @@ export default function ListMotorbikesSearchedPage() {
                                 {/* price */}
                                 <Box sx={{ width: "97%" }}>
                                     <Slider
-                                        aria-label="Default"
+                                        aria-label="Max distance"
                                         valueLabelDisplay="auto"
                                         value={maxDistance}
                                         onChange={handleMaxDistanceChange}
