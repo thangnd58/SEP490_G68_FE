@@ -241,19 +241,13 @@ const ListMotorbikeForm = () => {
         const allFeedbacks = dataBooking
           .flatMap((booking) => booking.motorbikes)
           .flatMap((motorbike) => motorbike.feedbacks);
-
-        const filteredBookings = dataBooking.filter((booking) =>
-          booking.motorbikes.some((motorbike) =>
-            motorbike.feedbacks.some((feedback) => feedback.user.userId === user?.userId)
-          )
-        );
-        const motorbikesWithFeedback = filteredBookings.flatMap((booking) => booking.motorbikes);
+        const motorbikesWithFeedback = dataBooking.flatMap((booking) => booking.motorbikes);
         // Remove duplicates based on motorbikeId
         const uniqueMotorbikeIds = Array.from(new Set(motorbikesWithFeedback.map((motorbike) => motorbike.id)));
         // Filter out duplicate motorbikes
         const uniqueMotorbikes = uniqueMotorbikeIds.map((motorbikeId) =>
           motorbikesWithFeedback.find((motorbike) => motorbike.id === motorbikeId)
-        ) as Motorbike[];
+        ).filter((motorbike) => motorbike && motorbike.feedbacks.length > 0) as Motorbike[];
         setListMotorbikeWithFeedback(uniqueMotorbikes);
         setIsLoad(false);
       }
@@ -394,7 +388,7 @@ const ListMotorbikeForm = () => {
 
                   // If statuses are the same, sort by startDatetime
                   return new Date(a.startDatetime).valueOf() - new Date(b.startDatetime).valueOf();
-                })
+                }).reverse()
             } />
           </CustomTabPanel2>
           <CustomTabPanel2 value={value2} index={1}>
@@ -410,7 +404,7 @@ const ListMotorbikeForm = () => {
 
                   // If statuses are the same, sort by startDatetime
                   return new Date(a.updateDatetime).valueOf() - new Date(b.updateDatetime).valueOf();
-                })
+                }).reverse()
             } />
           </CustomTabPanel2>
         </CustomTabPanel1>
@@ -497,7 +491,7 @@ const ListMotorbikeForm = () => {
                                     alignItems: 'center',
                                     marginTop: index2 === 0 ? "0px" : "16px",
                                   }}>
-                                    <CommentItem isDetail bookingId={feedback.bookingId} avatar={feedback.user.avatarUrl} dateComment={feedback.createDatetime} name={feedback.user.name} rating={feedback.rating} comment={feedback.comment} replyComment={feedback.response} isMobile={isMobile} />
+                                    <CommentItem isDetail bookingId={feedback.bookingId} avatar={feedback.user.avatarUrl} dateComment={feedback.createDatetime} name={feedback.user.name} rating={feedback.rating} comment={feedback.comment} replyComment={feedback.response.comment} isMobile={isMobile} />
                                   </Box>
                                 )
 

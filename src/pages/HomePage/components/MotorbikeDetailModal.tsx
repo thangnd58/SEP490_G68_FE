@@ -1100,7 +1100,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     <Box display="flex" flexDirection="column" justifyContent={"center"} gap={"8px"} p={'8px'} border={"1px solid #e0e0e0"} borderRadius={"8px"}
                     >
                       {listFeedback.length !== 0 ? listFeedback.map((item: Feedback) => (
-                        <FeedbackCard feedback={item} userId={motorbike!.user.userId} motorbikeId={motorbike!.id!.toString()}></FeedbackCard>
+                        <FeedbackCard feedback={item}></FeedbackCard>
                       ))
                         :
                         <Box>
@@ -1111,7 +1111,6 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                       }
                     </Box>
                   </Box>
-
                 </Box>
 
 
