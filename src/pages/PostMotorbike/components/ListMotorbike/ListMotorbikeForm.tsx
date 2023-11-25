@@ -497,7 +497,7 @@ const ListMotorbikeForm = () => {
                                     alignItems: 'center',
                                     marginTop: index2 === 0 ? "0px" : "16px",
                                   }}>
-                                    <CommentItem isDetail bookingId={feedback.bookingId} avatar={feedback.user.avatarUrl} dateComment={feedback.createDatetime} name={feedback.user.name} rating={feedback.rating} comment={feedback.comment} replyComment={feedback.response} isMobile={isMobile} />
+                                    <CommentItem isDetail bookingId={feedback.bookingId} avatar={feedback.user.avatarUrl} dateComment={feedback.createDatetime} name={feedback.user.name} rating={feedback.rating} comment={feedback.comment} replyComment={feedback.response.comment} isMobile={isMobile} />
                                   </Box>
                                 )
 
