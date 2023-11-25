@@ -241,7 +241,7 @@ export default function MyBooking() {
 
                                 // If statuses are the same, sort by startDatetime
                                 return new Date(a.updateDatetime).valueOf() - new Date(b.updateDatetime).valueOf();
-                            })
+                            }).reverse()
                     } />
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={2}>

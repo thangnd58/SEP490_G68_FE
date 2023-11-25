@@ -1111,7 +1111,6 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                       }
                     </Box>
                   </Box>
-
                 </Box>
 
 

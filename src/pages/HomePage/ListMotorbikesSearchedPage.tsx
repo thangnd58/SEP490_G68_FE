@@ -8,7 +8,7 @@ import { Avatar, DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import MyIcon from '../../components/common/MyIcon';
 import RegisterMotorbikeItem from '../PostMotorbike/components/RegisterMotorbike/RegisterMotorbikeItem';
-import { GoogleMap, InfoWindow, Marker, useLoadScript } from '@react-google-maps/api';
+import { GoogleMap, InfoWindow, Marker, MarkerClusterer, MarkerClustererF, useLoadScript } from '@react-google-maps/api';
 import MyCustomButton from '../../components/common/MyButton';
 import useThemePage from '../../hooks/useThemePage';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
@@ -19,7 +19,7 @@ import { Brand, Motorbike, SearchMotorbikeRequest } from '../../utils/type';
 import { SearchMotorbikeServices } from '../../services/SearchMotorbikeService';
 import { forEach } from 'jszip';
 import MotorbikeInforCard from './components/MotorbikeInforCard';
-import { NoDataImage, PageNoteFoundImage, PinImage } from '../../assets/images';
+import { NoDataImage, PageNoteFoundImage, PinImage, SearchIcon } from '../../assets/images';
 import { PostMotorbikeService } from '../../services/PostMotorbikeService';
 import { BookingService } from '../../services/BookingService';
 
@@ -572,8 +572,6 @@ export default function ListMotorbikesSearchedPage() {
         closeAdvancedFilterModal();
     }
 
-
-
     const [anchorEls, setAnchorEls] = useState<Record<string, HTMLElement | null>>({});
     const [multipleMotorbikes, setMultipleMotorbikes] = useState<{ location: google.maps.LatLng; motorbikes: Motorbike[] } | null>(null);
 
@@ -589,12 +587,12 @@ export default function ListMotorbikesSearchedPage() {
         });
 
         // If there is more than one motorbike at the location, set the state
-        // if (motorbikesAtLocation.length > 1) {
-        //     setMultipleMotorbikes({ location: event.latLng!, motorbikes: motorbikesAtLocation });
-        //     alert("Có nhiều xe ở địa điểm này");
-        // } else {
-        setAnchorEls((prev) => ({ ...prev, [motorbikeId]: event.domEvent.currentTarget } as Record<string, HTMLElement | null>));
-        // }
+        if (motorbikesAtLocation.length > 1) {
+            setMultipleMotorbikes({ location: event.latLng!, motorbikes: motorbikesAtLocation });
+            alert("Có nhiều xe ở địa điểm này");
+        } else {
+            setAnchorEls((prev) => ({ ...prev, [motorbikeId]: event.domEvent.currentTarget } as Record<string, HTMLElement | null>));
+        }
     };
 
     const handleClosePopover = (motorbikeId: string) => {
@@ -926,145 +924,148 @@ export default function ListMotorbikesSearchedPage() {
                                     ],
 
                                 }}
-
-
                             >
-                                <Marker position={selected} />
-                                <InfoWindow
-                                    position={selected}
-                                    options={{
-                                        pixelOffset: new window.google.maps.Size(0, -40), // Điều chỉnh độ lệch theo nhu cầu của bạn
-                                        zIndex: 1,
-                                    }}
-                                >
-                                    <Typography variant="subtitle2"
-                                        sx={{
-                                            fontWeight: "400",
-                                            color: "#000",
-                                            fontSize: "14px"
-                                        }}>
-                                        Vị trí tìm kiếm
-                                    </Typography>
-                                </InfoWindow>
-                                {listMotorbikes && listMotorbikes.map((motorbike: Motorbike, index: number) => (
-                                    <>
-                                        <Marker
-                                            key={motorbike.id}
-                                            position={
-                                                {
-                                                    lat: Number(motorbike.location.split(',')[0]),
-                                                    lng: Number(motorbike.location.split(',')[1])
-                                                }}
-                                            icon={{
-                                                url: PinImage,
-                                                scaledSize: hoveredMarkerId === motorbike.id
-                                                    ? new window.google.maps.Size(64, 64)
-                                                    : new window.google.maps.Size(48, 48),
-                                                // transition
+                                <Marker position={selected} icon={SearchIcon} />
+                                {listMotorbikes && (
+                                    <MarkerClusterer
+                                        options={{
+                                            imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+                                        }}
+                                        onClusteringEnd={() => {
+                                            // Đóng tất cả các InfoWindow khi clustering kết thúc
+                                            setHoveredMarkerId(null);
+                                        }}
+                                    >
+                                        {(clusterer) => (
+                                            <div>
+                                                {listMotorbikes.map((motorbike: Motorbike, index: number) => (
+                                                    <>
 
-                                            }}
-                                            onMouseOver={() => {
-                                                if (motorbike.id)
-                                                    setHoveredMarkerId(motorbike.id)
-                                            }
-                                            }
-                                            onMouseOut={() => setHoveredMarkerId(null)}
-                                            onClick={(event) => {
-                                                if (motorbike.id)
-                                                    handleMarkerClick(motorbike.id.toString(), event)
-                                            }
-                                            }
-                                        />
-                                        <InfoWindow
-                                            position={
-                                                {
-                                                    lat: Number(motorbike.location.split(',')[0]),
-                                                    lng: Number(motorbike.location.split(',')[1])
-                                                }}
-                                            options={{
-                                                pixelOffset: new window.google.maps.Size(0, -40), // Điều chỉnh độ lệch theo nhu cầu của bạn
-                                                zIndex: 1,
-                                            }}
-                                        >
-                                            <Typography variant="subtitle2"
-                                                sx={{
-                                                    fontWeight: "700",
-                                                    color: "#000"
-                                                }}>
-                                                {motorbike.priceRent}K
-                                            </Typography>
-                                        </InfoWindow>
+                                                        <Marker
+                                                            key={motorbike.id}
+                                                            position={
+                                                                {
+                                                                    lat: Number(motorbike.location.split(',')[0]),
+                                                                    lng: Number(motorbike.location.split(',')[1])
+                                                                }}
+                                                            icon={{
+                                                                url: PinImage,
+                                                                scaledSize: hoveredMarkerId === motorbike.id
+                                                                    ? new window.google.maps.Size(64, 64)
+                                                                    : new window.google.maps.Size(48, 48),
+                                                                // transition
 
-                                        {/* {multipleMotorbikes ? (
-                <Box
-                    sx={{
-                        tabIndex:"0",
-                        position: "absolute",
-                        bottom:"0",
-                        left: "0",
-                        right: "0",
-                        maxWidth:"80vw",
-                        backgroundColor: "transparent",
-                        padding: "2",
-                        display: "flex",
-                        overflowX: "auto",
-                        gap: "32px",
-                        justifyContent :"center"
-                    }}
-                >
-                    {multipleMotorbikes.motorbikes.map((motorbike, index) => (
-                        <Box>
-                            <MotorbikeInforCard
-                                key={index}
-                                motorbike={motorbike}
-                                isFavoritePage={true}
-                                startDate={values.startDate}
-                                endDate={values.endDate}
-                                searchedAddress={values.address}
-                            />
-                        </Box>
-                    ))}
-                </Box>
-            ) : ( */}
-                                        {motorbike.id &&
-                                            <Popover
-                                                id={id(motorbike.id?.toString())}
-                                                open={open(motorbike.id?.toString())}
-                                                anchorEl={anchorEls[motorbike.id?.toString()]}
-                                                onClose={() => {
-                                                    if (motorbike.id)
-                                                        handleClosePopover(motorbike.id.toString())
-                                                }
-                                                }
-                                                anchorOrigin={{
-                                                    vertical: "bottom",
-                                                    horizontal: "center",
-                                                }}
-                                                transformOrigin={{
-                                                    vertical: "top",
-                                                    horizontal: "center",
-                                                }}
-                                                sx={{
-                                                    "& .MuiPaper-root": {
-                                                        backgroundColor: "transparent",
-                                                        boxShadow: "none",
-                                                        borderRadius: "8px"
-                                                    },
+                                                            }}
+                                                            onMouseOver={() => {
+                                                                if (motorbike.id)
+                                                                    setHoveredMarkerId(motorbike.id)
+                                                            }
+                                                            }
+                                                            onMouseOut={() => setHoveredMarkerId(null)}
+                                                            onClick={(event) => {
+                                                                if (motorbike.id)
+                                                                    handleMarkerClick(motorbike.id.toString(), event)
+                                                            }
+                                                            }
+                                                            clusterer={clusterer}
+                                                        >
+                                                            {/* <InfoWindow
+                                                                position={
+                                                                    {
+                                                                        lat: Number(motorbike.location.split(',')[0]),
+                                                                        lng: Number(motorbike.location.split(',')[1])
+                                                                    }}
+                                                                options={{
+                                                                    pixelOffset: new window.google.maps.Size(0, 0), // Điều chỉnh độ lệch theo nhu cầu của bạn
+                                                                    zIndex: 1,
+                                                                }}
+                                                            >
+                                                                <Typography variant="subtitle2"
+                                                                    sx={{
+                                                                        fontWeight: "700",
+                                                                        color: "#000"
+                                                                    }}>
+                                                                    {motorbike.priceRent}K
+                                                                </Typography>
+                                                            </InfoWindow> */}
+                                                        </Marker>
 
-                                                }}
-                                            >
-                                                <Box
-                                                >
-                                                    {/* Thêm thông tin của motorbike tại đây */}
-                                                    <MotorbikeInforCard motorbike={motorbike} isFavoritePage={false} startDate={values.startDate} endDate={values.endDate} searchedAddress={values.address} />
-                                                    {/* Thêm các thông tin khác nếu cần */}
-                                                </Box>
-                                            </Popover>}
-                                        {/* ) */}
+                                                       
 
-                                    </>
-                                ))
-                                }
+                                                            {
+                                                                 multipleMotorbikes ? (
+                                                                    <Box
+                                                                        sx={{
+                                                                            tabIndex: "0",
+                                                                            position: "absolute",
+                                                                            bottom: "0",
+                                                                            left: "0",
+                                                                            right: "0",
+                                                                            maxWidth: "80vw",
+                                                                            backgroundColor: "transparent",
+                                                                            padding: "2",
+                                                                            display: "flex",
+                                                                            overflowX: "auto",
+                                                                            gap: "32px",
+                                                                            justifyContent: "center"
+                                                                        }}
+                                                                    >
+                                                                        {multipleMotorbikes.motorbikes.map((motorbike, index) => (
+                                                                            <Box>
+                                                                                <MotorbikeInforCard
+                                                                                    key={index}
+                                                                                    motorbike={motorbike}
+                                                                                    isFavoritePage={true}
+                                                                                    startDate={values.startDate}
+                                                                                    endDate={values.endDate}
+                                                                                    searchedAddress={values.address}
+                                                                                />
+                                                                            </Box>
+                                                                        ))}
+                                                                    </Box>
+                                                                ) : (
+                                                                motorbike.id &&
+                                                                    <Popover
+                                                                        id={id(motorbike.id?.toString())}
+                                                                        open={open(motorbike.id?.toString())}
+                                                                        anchorEl={anchorEls[motorbike.id?.toString()]}
+                                                                        onClose={() => {
+                                                                            if (motorbike.id)
+                                                                                handleClosePopover(motorbike.id.toString())
+                                                                        }
+                                                                        }
+                                                                        anchorOrigin={{
+                                                                            vertical: "bottom",
+                                                                            horizontal: "center",
+                                                                        }}
+                                                                        transformOrigin={{
+                                                                            vertical: "top",
+                                                                            horizontal: "center",
+                                                                        }}
+                                                                        sx={{
+                                                                            "& .MuiPaper-root": {
+                                                                                backgroundColor: "transparent",
+                                                                                boxShadow: "none",
+                                                                                borderRadius: "8px"
+                                                                            },
+
+                                                                        }}
+                                                                    >
+                                                                        <Box
+                                                                        >
+                                                                            {/* Thêm thông tin của motorbike tại đây */}
+                                                                            <MotorbikeInforCard motorbike={motorbike} isFavoritePage={false} startDate={values.startDate} endDate={values.endDate} searchedAddress={values.address} />
+                                                                            {/* Thêm các thông tin khác nếu cần */}
+                                                                        </Box>
+                                                                    </Popover>
+                                                            )}
+                                                        {/* ) */}
+                                                    </>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </MarkerClusterer>
+                                )}
                                 {/* Hiển thị thông tin trong Popover */}
                             </GoogleMap>
                         </Box></>

@@ -45,6 +45,7 @@ import BecomeAnOwner from './becomeanowner.png'
 import GuildLineImage from './guildline.jpg'
 import PolicyImage from './policy.jpg'
 import PinImage from './pinMap.png'
+import SearchIcon from './search.png'
 
 export {
     MotorbikeImage,
@@ -93,5 +94,6 @@ export {
     BecomeAnOwner,
     GuildLineImage,
     PolicyImage,
-    PinImage
+    PinImage,
+    SearchIcon
 };

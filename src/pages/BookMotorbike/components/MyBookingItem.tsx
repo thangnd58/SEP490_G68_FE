@@ -166,7 +166,8 @@ function MyBookingItem(props: MyBookingItemProps) {
                                         lineHeight={"36px"}
                                         fontWeight={"600"}
                                         sx={{ textAlign: 'center' }}>
-                                        {index + 1}. Thông tin đơn hàng
+                                        {index + 1}. Thông tin đơn hàng  
+                                        {/* `(${dayjs(booking.updateDatetime).format("DD/MM/YYYY HH:mm:ss")})` */}
                                     </Typography>
                                     {
                                         chooseChip(booking.status)

@@ -51,6 +51,25 @@ export const BookingDetailPageOwner = () => {
 
     useEffect(() => {
         try {
+            getData(bookingId || "", reloadBooking)
+        } catch (error) {
+            navigate(ROUTES.other.pagenotfound)
+        }
+    }, [bookingId])
+
+    useEffect(() => {
+        try {
+            const intervalId = setInterval(() => {
+                getData(bookingId || "", reloadBooking)
+            }, 5000);
+            return () => clearInterval(intervalId);
+        } catch (error) {
+            navigate(ROUTES.other.pagenotfound)
+        }
+    }, [])
+
+    const getData = (bookingId: string, reloadBooking: boolean) => {
+        try {
             BookingService.getRentalBookingDetail(bookingId || "").then((data) => {
                 if (data) {
                     if (data.status === BookingStatus.PendingPayment) {
@@ -66,7 +85,7 @@ export const BookingDetailPageOwner = () => {
                     }
                     setBooking(data)
                     setPaymentType(data.paymentType)
-                    BookingService.getLatLngByAddress(data.address || "Hà nội").then((d) => {
+                    BookingService.getLatLngByAddress(data.address || "Quận Ba Đình, Hà Nội").then((d) => {
                         const location = d.split(',');
                         const result: Location = {
                             lat: Number(location[0]),
@@ -77,9 +96,9 @@ export const BookingDetailPageOwner = () => {
                 }
             })
         } catch (error) {
-            navigate(ROUTES.other.pagenotfound)
+            console.log(error);
         }
-    }, [bookingId, reloadBooking, reloadStatus])
+    }
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isMovingMotorbike, setIsMovingMotorbike] = useState<boolean>(booking?.status === "Delivered");
@@ -202,7 +221,7 @@ export const BookingDetailPageOwner = () => {
     }
 
     // MAP CONTROLLER
-    const [ libraries ] = useState(['places']);
+    const [libraries] = useState(['places']);
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
         libraries: libraries as any,
