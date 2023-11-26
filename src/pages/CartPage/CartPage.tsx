@@ -62,6 +62,11 @@ function CartPage() {
         setShowModal(true)
     }
     useEffect(() => {
+        setIsLoad(true);
+        // wait 1s to show loading
+        setTimeout(() => {
+            setIsLoad(false);
+        }, 200);
         dispatch(getCartInfo());
     }, []);
 
@@ -74,11 +79,11 @@ function CartPage() {
             newIsDeleting[index] = true;
             setIsDeleting(newIsDeleting);
 
-            if (linearProgressRef.current){
+            if (linearProgressRef.current) {
                 alert("scroll");
-                linearProgressRef.current?.scrollIntoView({ 
+                linearProgressRef.current?.scrollIntoView({
                     behavior: "smooth"
-                 });
+                });
             }
 
             const response = await BookingService.deleteMotorbikeInCart(motorbikeId, bookingCartId);
@@ -132,7 +137,9 @@ function CartPage() {
                         </Box>
                     ) : (
                         shoppingCart.slice().reverse().map((item: CartInforResponse, index: number) => (
-                            <Paper key={index} elevation={2} sx={{ width: '80%', bgcolor: 'background.paper', 
+                            <Paper key={index} elevation={2} sx={{
+                                width: '80%', bgcolor: 'background.paper',
+                                animation: "fadeInDown 1s ease-out"
                             }}>
                                 <Box display={"flex"} flexDirection={"column"} gap={"16px"} p={3}>
                                     <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"}>

@@ -76,11 +76,16 @@ export default function PreviewBecomeAnOwner() {
                         sx={{
                             width: isMobile ? "100%" : '40%',
                             height: isMobile ? "100%" : '40%',
+                            animation: "fadeInRight 1s ease-out"
                         }}
                     />
 
                     {/* Back */}
-                    <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} gap={2}>
+                    <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} gap={2}
+                        sx={{
+                            animation: "fadeInLeft 1s ease-out"
+                        }}
+                    >
                         {
                             isMobile ? (
                                 <Typography sx={{ color: 'common.black', fontWeight: '500', fontSize: isMobile ? 16 : 20, textAlign: 'center', width: "100%" }}>

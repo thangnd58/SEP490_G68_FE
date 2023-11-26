@@ -28,9 +28,10 @@ interface CustomButtonProps {
   borderColor?: string;
   borderWeight?: number;
   justifyContent?: 'start' | 'center' | 'end';
+  sx?: any;
 }
 
-const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, className, width, height, fontSize, fontWeight, uppercase, borderRadius, icon, iconPosition, variant, type, disabled, isWrap, backgroundColor, noBorder, fontColor, borderColor, borderWeight, isChecked, justifyContent }) => {
+const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, className, width, height, fontSize, fontWeight, uppercase, borderRadius, icon, iconPosition, variant, type, disabled, isWrap, backgroundColor, noBorder, fontColor, borderColor, borderWeight, isChecked, justifyContent,sx }) => {
   let borderWeightValue = borderWeight || 2;
   let backgroundColorCheckedValue = isChecked == true ? '#f5e9e1' : (isChecked == false ? '#fff' : (backgroundColor ? backgroundColor : (disabled ? '#777E90' : (variant === 'outlined' ? '#fff' : '#8B4513'))));
   return (
@@ -40,6 +41,7 @@ const MyCustomButton: React.FC<CustomButtonProps> = ({ onClick, content, classNa
       onClick={onClick}
       type={type}
       sx={{
+        ...sx,
         justifyContent: justifyContent || 'center',
         width: width || 'auto',
         height: height || 'auto',
