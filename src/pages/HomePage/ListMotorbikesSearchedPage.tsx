@@ -969,14 +969,15 @@ export default function ListMotorbikesSearchedPage() {
                                                             }
                                                             clusterer={clusterer}
                                                         >
-                                                            {/* <InfoWindow
+                                                            {hoveredMarkerId === motorbike.id && (
+                                                                <InfoWindow
                                                                 position={
                                                                     {
                                                                         lat: Number(motorbike.location.split(',')[0]),
                                                                         lng: Number(motorbike.location.split(',')[1])
                                                                     }}
                                                                 options={{
-                                                                    pixelOffset: new window.google.maps.Size(0, 0), // Điều chỉnh độ lệch theo nhu cầu của bạn
+                                                                    pixelOffset: new window.google.maps.Size(0, 20), // Điều chỉnh độ lệch theo nhu cầu của bạn
                                                                     zIndex: 1,
                                                                 }}
                                                             >
@@ -987,77 +988,76 @@ export default function ListMotorbikesSearchedPage() {
                                                                     }}>
                                                                     {motorbike.priceRent}K
                                                                 </Typography>
-                                                            </InfoWindow> */}
+                                                            </InfoWindow>
+                                                            )}
+                                                            {/*  */}
                                                         </Marker>
-
-                                                       
-
-                                                            {
-                                                                 multipleMotorbikes ? (
-                                                                    <Box
-                                                                        sx={{
-                                                                            tabIndex: "0",
-                                                                            position: "absolute",
-                                                                            bottom: "0",
-                                                                            left: "0",
-                                                                            right: "0",
-                                                                            maxWidth: "80vw",
-                                                                            backgroundColor: "transparent",
-                                                                            padding: "2",
-                                                                            display: "flex",
-                                                                            overflowX: "auto",
-                                                                            gap: "32px",
-                                                                            justifyContent: "center"
-                                                                        }}
-                                                                    >
-                                                                        {multipleMotorbikes.motorbikes.map((motorbike, index) => (
-                                                                            <Box>
-                                                                                <MotorbikeInforCard
-                                                                                    key={index}
-                                                                                    motorbike={motorbike}
-                                                                                    isFavoritePage={true}
-                                                                                    startDate={values.startDate}
-                                                                                    endDate={values.endDate}
-                                                                                    searchedAddress={values.address}
-                                                                                />
-                                                                            </Box>
-                                                                        ))}
-                                                                    </Box>
-                                                                ) : (
-                                                                motorbike.id &&
-                                                                    <Popover
-                                                                        id={id(motorbike.id?.toString())}
-                                                                        open={open(motorbike.id?.toString())}
-                                                                        anchorEl={anchorEls[motorbike.id?.toString()]}
-                                                                        onClose={() => {
-                                                                            if (motorbike.id)
-                                                                                handleClosePopover(motorbike.id.toString())
-                                                                        }
-                                                                        }
-                                                                        anchorOrigin={{
-                                                                            vertical: "bottom",
-                                                                            horizontal: "center",
-                                                                        }}
-                                                                        transformOrigin={{
-                                                                            vertical: "top",
-                                                                            horizontal: "center",
-                                                                        }}
-                                                                        sx={{
-                                                                            "& .MuiPaper-root": {
-                                                                                backgroundColor: "transparent",
-                                                                                boxShadow: "none",
-                                                                                borderRadius: "8px"
-                                                                            },
-
-                                                                        }}
-                                                                    >
-                                                                        <Box
-                                                                        >
-                                                                            {/* Thêm thông tin của motorbike tại đây */}
-                                                                            <MotorbikeInforCard motorbike={motorbike} isFavoritePage={false} startDate={values.startDate} endDate={values.endDate} searchedAddress={values.address} />
-                                                                            {/* Thêm các thông tin khác nếu cần */}
+                                                        {
+                                                            multipleMotorbikes ? (
+                                                                <Box
+                                                                    sx={{
+                                                                        tabIndex: "0",
+                                                                        position: "absolute",
+                                                                        bottom: "0",
+                                                                        left: "0",
+                                                                        right: "0",
+                                                                        maxWidth: "80vw",
+                                                                        backgroundColor: "transparent",
+                                                                        padding: "2",
+                                                                        display: "flex",
+                                                                        overflowX: "auto",
+                                                                        gap: "32px",
+                                                                        justifyContent: "center"
+                                                                    }}
+                                                                >
+                                                                    {multipleMotorbikes.motorbikes.map((motorbike, index) => (
+                                                                        <Box>
+                                                                            <MotorbikeInforCard
+                                                                                key={index}
+                                                                                motorbike={motorbike}
+                                                                                isFavoritePage={true}
+                                                                                startDate={values.startDate}
+                                                                                endDate={values.endDate}
+                                                                                searchedAddress={values.address}
+                                                                            />
                                                                         </Box>
-                                                                    </Popover>
+                                                                    ))}
+                                                                </Box>
+                                                            ) : (
+                                                                motorbike.id &&
+                                                                <Popover
+                                                                    id={id(motorbike.id?.toString())}
+                                                                    open={open(motorbike.id?.toString())}
+                                                                    anchorEl={anchorEls[motorbike.id?.toString()]}
+                                                                    onClose={() => {
+                                                                        if (motorbike.id)
+                                                                            handleClosePopover(motorbike.id.toString())
+                                                                    }
+                                                                    }
+                                                                    anchorOrigin={{
+                                                                        vertical: "bottom",
+                                                                        horizontal: "center",
+                                                                    }}
+                                                                    transformOrigin={{
+                                                                        vertical: "top",
+                                                                        horizontal: "center",
+                                                                    }}
+                                                                    sx={{
+                                                                        "& .MuiPaper-root": {
+                                                                            backgroundColor: "transparent",
+                                                                            boxShadow: "none",
+                                                                            borderRadius: "8px"
+                                                                        },
+
+                                                                    }}
+                                                                >
+                                                                    <Box
+                                                                    >
+                                                                        {/* Thêm thông tin của motorbike tại đây */}
+                                                                        <MotorbikeInforCard motorbike={motorbike} isFavoritePage={false} startDate={values.startDate} endDate={values.endDate} searchedAddress={values.address} />
+                                                                        {/* Thêm các thông tin khác nếu cần */}
+                                                                    </Box>
+                                                                </Popover>
                                                             )}
                                                         {/* ) */}
                                                     </>

@@ -41,10 +41,10 @@ const UserManagementForm = () => {
             roleId: Yup.string().required(t('form.required')),
         }),
         onSubmit: async (values) => {
-            if(user){
+            if (user) {
                 try {
                     setIsSave(true)
-                    const responseUrl = await UserService.updateUserByIdManage(user.userId , user.name , user.password! , user.phone, user.gender, user.dob, user.address, user.avatar, Number(values.roleId));
+                    const responseUrl = await UserService.updateRoleUserByIdManage(user.userId, values.roleId);
                     if (responseUrl.status === 200) {
                         ToastComponent(t('toast.UserManager.Edit.success'), 'success');
                     } else {

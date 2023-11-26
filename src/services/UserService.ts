@@ -118,6 +118,9 @@ const UserService = {
         const params = { name, password, phone , gender, dob, address, avatar, roleId}
         return await api.put(`/manager/user/${userId}`, params);
     },
+    updateRoleUserByIdManage: async (userId: number,roleId: string) => {
+        return await api.put(`/manager/user/${userId}/${roleId}`);
+    },
     deleteUserByIdManage: async (userId: number) => {
         return await api.delete(`/manager/user/${userId}`);
     },

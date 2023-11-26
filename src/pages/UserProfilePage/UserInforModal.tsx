@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Feedback, Motorbike, ReportCategory, ReportRequest, User } from '../../utils/type';
+import { Feedback, FeedbackRequest, Motorbike, ReportCategory, ReportRequest, User } from '../../utils/type';
 import usei18next from '../../hooks/usei18next';
 import { ModalContext } from '../../contexts/ModalContext';
 import { ReportService } from '../../services/ReportService';
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 import ToastComponent from '../../components/toast/ToastComponent';
-import { Box, Dialog, DialogContent, Rating, Typography } from '@mui/material';
+import { Box, Dialog, DialogContent, IconButton, Rating, TextField, Typography } from '@mui/material';
 import { Transition } from '../WalletPage/common/Transition';
 import MyIcon from '../../components/common/MyIcon';
-import { CloseOutlined, Grade, Luggage, ReadMore } from '@mui/icons-material';
+import { CloseOutlined, Grade, Luggage, ReadMore, SendRounded } from '@mui/icons-material';
 import { LogoHeader } from '../../assets/images';
 import { HomePageService } from '../../services/HomePageService';
 import MotorbikeInforCard from '../HomePage/components/MotorbikeInforCard';
@@ -21,6 +21,8 @@ import dayjs from 'dayjs';
 import { getPreviousTimeRelative } from '../../utils/helper';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../utils/Constant';
+import MyCustomButton from '../../components/common/MyButton';
+import { FeedbackService } from '../../services/FeedbackService';
 
 export default function UserInforModal(props: { userId: number }) {
     const { userId } = props;
@@ -209,7 +211,7 @@ export default function UserInforModal(props: { userId: number }) {
                                 >
                                     {
                                         feedback.map((item: Feedback) => (
-                                            <CommentItem isMobile={isMobile} rating={item.rating} avatar={item.user.avatarUrl} name={item.user.name} comment={item.comment} dateComment={item.createDatetime} />
+                                            <CommentItem replyComment='' isMobile={isMobile} rating={item.rating} avatar={item.user.avatarUrl} name={item.user.name} comment={item.comment} dateComment={item.createDatetime} />
                                         ))
                                     }
                                 </Box>
@@ -247,11 +249,15 @@ interface CommentItemProps {
     name?: string;
     rating?: number;
     comment?: string;
-    replyComment?: string;
+    replyComment: string;
     isMobile?: boolean;
     isDetail?: boolean;
     isOwner?: boolean;
     bookingId?: number;
+    motorbikeId?: number;
+    feedbackId?: number;
+    dateReplyComment?: string;
+    reload?: () => void;
 }
 
 
@@ -259,6 +265,47 @@ export function CommentItem(props: CommentItemProps) {
     const { avatar, dateComment, name, rating, comment, replyComment, isMobile } = props;
     const { t } = usei18next();
     const navigate = useNavigate();
+
+    const [isReply, setIsReply] = useState(replyComment ? true : false);
+    const [isEdit, setIsEdit] = useState(replyComment ? false : true);
+
+
+    const [replyCommentTextField, setReplyCommentTextField] = useState(replyComment || "");
+
+    const handleReplyCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setReplyCommentTextField(event.target.value);
+    };
+
+    const handleReplyCommentSubmit = async () => {
+        try {
+            if (!replyCommentTextField) {
+                return;
+            }
+            const data: FeedbackRequest = {
+                bookingId: props.bookingId,
+                motorbikeId: props.motorbikeId,
+                rating: 0,
+                comment: replyCommentTextField,
+            }
+            if (replyComment) {
+                const response = await FeedbackService.putFeedback(props.feedbackId?.toString()!, data);
+                if (response) {
+                    setIsEdit(false);
+                    // props.reload && props.reload();
+                }
+            }
+            else {
+                const response = await FeedbackService.postFeedback(data);
+                if (response) {
+                    setIsEdit(false);
+                    // props.reload && props.reload();
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (<Box width={isMobile ? '90%' : "95%"} display={"flex"} flexDirection={"column"} justifyContent={"start"} alignItems={"start"} sx={{
         backgroundColor: "#fff",
         borderRadius: '8px',
@@ -317,19 +364,125 @@ export function CommentItem(props: CommentItemProps) {
                 {
                     /* Reply Comment */
                 }
-                {replyComment &&
-                    <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={'8px'}>
+                {/* {replyComment && */}
+                {
+                    props.isOwner ? (
+                        isReply ? (
+                            <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={'8px'}>
 
-                        <Typography whiteSpace={'nowrap'} textAlign={'start'} fontWeight={'400'} fontSize={'14px'}>Trả lời:</Typography>
-                        <Box width={"90%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"} gap={'4px'} sx={{
-                            borderRadius: '8px',
-                            border: '1px solid #E0E0E0',
-                            padding: '6px' // Adjust padding as needed
-
-                        }}>
-                            <Typography textAlign={'start'} fontWeight={'400'} fontSize={'14px'}>{replyComment}</Typography>
+                                <Typography whiteSpace={'nowrap'} textAlign={'start'} fontWeight={'400'} fontSize={'14px'}>Chủ xe:</Typography>
+                                <TextField
+                                    fullWidth
+                                    value={replyCommentTextField}
+                                    onChange={handleReplyCommentChange}
+                                    size='medium'
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            '& fieldset': {
+                                                borderRadius: "8px",
+                                                border: "1px solid #e0e0e0",
+                                            },
+                                            '&:hover fieldset': {
+                                                border: "1px solid #e0e0e0"
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                border: "1px solid #e0e0e0"
+                                            },
+                                        },
+                                        '& .MuiInputBase-input': {
+                                            fontSize: '14px',
+                                            color: 'common.black',
+                                        }
+                                    }}
+                                    placeholder='Trả lời...'
+                                    inputProps={{
+                                        readOnly: !isEdit,
+                                    }}
+                                    InputProps={{
+                                        endAdornment: (
+                                            isEdit ?
+                                                <MyCustomButton
+                                                    height='30px'
+                                                    backgroundColor={"rgb(5, 69, 19, 0.5)"}
+                                                    borderColor='rgb(5, 69, 19, 0.1)'
+                                                    fontColor='#fff'
+                                                    borderWeight={0.5}
+                                                    fontSize={14}
+                                                    onClick={() =>
+                                                        handleReplyCommentSubmit()
+                                                    }
+                                                    content={"Gửi"}
+                                                /> :
+                                                <MyCustomButton
+                                                    height='30px'
+                                                    backgroundColor={"rgb(139, 69, 19,0.1)"}
+                                                    borderColor='rgb(139, 69, 19,0.1)'
+                                                    fontColor='primary.main'
+                                                    borderWeight={0.5}
+                                                    fontSize={14}
+                                                    onClick={() =>
+                                                        setIsEdit(true)
+                                                    }
+                                                    content={"Sửa"}
+                                                />
+                                        ),
+                                    }}
+                                />
+                            </Box>
+                        ) : (
+                            <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={'8px'}>
+                                <Typography whiteSpace={'nowrap'} fontStyle={"italic"} textAlign={'start'} fontWeight={'400'} fontSize={'12px'}
+                                    sx={{
+                                        cursor: 'pointer',
+                                        '&:hover': {
+                                            textDecoration: 'underline',
+                                        },
+                                    }}
+                                    onClick={() => setIsReply(true)}
+                                >Trả lời</Typography>
+                            </Box>
+                        )
+                    ) : (
+                        replyComment &&
+                        <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={'8px'}>
+                            <Typography whiteSpace={'nowrap'} textAlign={'start'} fontWeight={'400'} fontSize={'14px'}>Chủ xe:</Typography>
+                            <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"flex-start"} alignItems={"center"} gap={'4px'}>
+                                <TextField
+                                    fullWidth
+                                    value={replyCommentTextField}
+                                    onChange={handleReplyCommentChange}
+                                    size='small'
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            '& fieldset': {
+                                                borderRadius: "8px",
+                                                border: "1px solid #e0e0e0",
+                                            },
+                                            '&:hover fieldset': {
+                                                border: "1px solid #e0e0e0"
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                border: "1px solid #e0e0e0"
+                                            },
+                                        },
+                                        '& .MuiInputBase-input': {
+                                            fontSize: '14px',
+                                            color: 'common.black',
+                                        }
+                                    }}
+                                    inputProps={{
+                                        readOnly: true,
+                                    }}
+                                />
+                                {/* thời gian bình luận */}
+                            </Box>
                         </Box>
-                    </Box>
+                    )
+
+                }
+                {
+                    replyComment &&
+                    <Typography textAlign={'end'} width={"100%"} fontWeight={'400'} fontStyle={"italic"} fontSize={'12px'}>{getPreviousTimeRelative(props.dateReplyComment || "", t)}</Typography>
                 }
             </Box>
         </Box>
