@@ -56,7 +56,7 @@ export const BookingService = {
         const response = await api.get(`${apiGetListRentalBooking}/${id}`)
         return response.data
     },
-    updateStatusBookingDetail: async (bookingId: number |undefined, motorbikeid: string |undefined, status: string |undefined) => {
+    updateStatusBookingDetail: async (bookingId: number |undefined, motorbikeid: string |undefined, status: string |undefined) => { // status: 'accept' | 'reject' | 'cancel' | 'return'
         return await api.put(`${apiPostBooking}/${bookingId}/${status}/${motorbikeid}`)
     },
     getLatLngByAddress: async (address: string) => {
