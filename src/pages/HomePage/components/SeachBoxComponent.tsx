@@ -341,6 +341,230 @@ const SeachBoxComponent = () => {
                     />
                 )}
             </Box>
+            <Modal
+                open={isMapModalOpen}
+                aria-labelledby="map-modal-title"
+                aria-describedby="map-modal-description"
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: '32px 0px',
+                    overflowY: 'auto',
+                }}>
+                <Box width={isMobile ? "70%" : "50%"} height={"auto"} sx={{
+                    padding: "16px 32px",
+                    backgroundColor: 'white',
+                    borderRadius: '8px',
+                }}>
+                    <Box width={"100%"} height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
+                        <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "20px" : "24px"} fontWeight={600} textAlign={"start"}>
+                            {t("postMotorbike.registedForm.selectAddress")}
+                        </Typography>
+                        <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
+                            <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeMapModal} position='bottom' />
+                        </Box>
+                    </Box>
+                    <Box width={"100%"} height={"80%"} display={"flex"} flexDirection={"column"} justifyContent={"start"} alignItems={"center"}>
+                        <RegisterMotorbikeItem
+                            fontSizeTitle='16px'
+                            title={t("postMotorbike.registedForm.address")}
+                            isRequired={true}
+                            item={
+                                (!isLoaded)
+                                    ? (
+                                        <Box sx={{
+                                            display: 'flex', justifyContent: "center",
+                                            alignItems: "center",
+                                            flexDirection: "row"
+                                        }}>
+                                            <CircularProgress />
+                                        </Box>
+                                    ) : (
+                                        <>
+                                            <Box style={{ position: "relative", width: "100%" }}>
+                                                <TextField
+                                                    sx={{
+                                                        width: "100%",
+                                                        "& .MuiOutlinedInput-root fieldset": { borderRadius: "8px" },
+                                                        "& .MuiOutlinedInput-root:hover fieldset": {
+                                                            borderColor: theme.palette.primary.main,
+                                                        },
+                                                        "& .MuiOutlinedInput-root.Mui-focused fieldset": {
+                                                            borderColor: theme.palette.primary.main,
+                                                        }
+                                                    }}
+                                                    // disabled={values.province === "" || values.district === "" || values.ward === ""}
+                                                    placeholder={t("component.MyMapWithSearchBox.searchPlaceholder")}
+                                                    fullWidth
+                                                    value={value}
+                                                    SelectProps={{
+                                                        native: true,
+                                                    }}
+                                                    onChange={(e: any) => {
+                                                        setValue(e.target.value);
+                                                        setShowMenu(true);
+                                                        handleChange(e);
+                                                    }}
+                                                ></TextField>
+                                                <Box
+                                                    position="absolute"
+                                                    display={showMenu ? "block" : "none"}
+                                                    margin={"8px auto"}
+                                                    width={"100%"}
+                                                    top="100%"
+                                                    zIndex="1"
+                                                    sx={{ backgroundColor: "#ffffff" }}
+                                                    // border={"3px solid #ebebeb"}
+                                                    borderRadius={"8px"}>
+                                                    {status === "OK" &&
+                                                        data.map(({ place_id, description }) => (
+                                                            <MenuItem
+                                                                dense
+                                                                sx={{
+                                                                    cursor: "pointer",
+                                                                    "&:hover": { backgroundColor: "#ebebeb" },
+                                                                    width: "99%",
+                                                                    borderBottom: "1px solid #ebebeb",
+                                                                    color: "#000000",
+                                                                    whiteSpace: "normal",
+                                                                    wordWrap: "break-word",
+                                                                }}
+                                                                key={place_id}
+                                                                value={description}
+                                                                onClick={() => handleSelect(description)}
+                                                            >
+                                                                <Typography>{description}</Typography>
+                                                            </MenuItem>
+                                                        ))}
+                                                </Box>
+                                            </Box>
+                                            <Box
+                                                display={"flex"}
+                                                justifyContent={"start"}
+                                                alignItems={"center"}
+                                                flexDirection={"row"}
+                                                margin={"8px auto"}
+                                            >
+                                                <IconButton
+                                                    size="small"
+                                                    color="primary"
+                                                    onClick={handleGetLocationClick}
+                                                >
+                                                    <MyLocation />
+                                                </IconButton>
+                                                <Typography variant="caption" fontSize={"12px"} color={theme.palette.text.secondary}>{t("component.MyMapWithSearchBox.getLocationButtonLabel")}</Typography>
+                                            </Box>
+
+                                            <Box
+                                                borderRadius={"10px"}
+                                                border={"3px solid"}
+                                                margin={"0px auto"}
+                                                width={"99%"}
+                                                justifyContent={"center"}
+                                                alignItems={"center"}
+                                                flexDirection={"column"}
+                                            >
+                                                <GoogleMap
+                                                    zoom={18}
+                                                    center={selected ? selected : defaultLoction}
+                                                    mapContainerStyle={{
+                                                        width: "100%",
+                                                        height: "40vh",
+                                                        borderRadius: "8px",
+                                                    }}
+                                                    onDblClick={(e) => {
+                                                        if (e.latLng) {
+                                                            handleDoubleClick(e);
+                                                        }
+                                                    }}
+                                                    options={{
+                                                        disableDefaultUI: true,
+                                                        zoomControl: true,
+                                                        scrollwheel: true,
+                                                        fullscreenControl: true,
+                                                        zoomControlOptions: {
+                                                          position: window.google.maps.ControlPosition.RIGHT_CENTER,
+                                                        },
+                                                        noClear: true,
+                                                        styles: [
+                                                          {
+                                                            featureType: "poi",
+                                                            elementType: "labels",
+                                                            stylers: [{ visibility: "off" }],
+                                                          },
+                                                        ],
+                                                        backgroundColor: "#fff",
+                                                        clickableIcons: true,
+                                                        scaleControl: true,
+                                                        streetViewControl: true,
+                                                        rotateControl: true,
+                                                        mapTypeControl: true,
+                                                        mapTypeControlOptions: {
+                                                          style: window.google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                                                          position: window.google.maps.ControlPosition.TOP_CENTER,
+                                                          mapTypeIds: [
+                                                            window.google.maps.MapTypeId.ROADMAP,
+                                                            window.google.maps.MapTypeId.SATELLITE,
+                                                            window.google.maps.MapTypeId.HYBRID,
+                                                            window.google.maps.MapTypeId.TERRAIN,
+                                                          ],
+                                                        },
+                                                        panControl: true,
+                                                        fullscreenControlOptions: {
+                                                          position: window.google.maps.ControlPosition.RIGHT_CENTER,
+                                                        },
+                                                        gestureHandling: "greedy",
+                                                        draggableCursor: "default",
+                                                        draggingCursor: "grab",
+                                                        mapId: "f1b7a8a9f0b1f1d",
+                                                      }}
+                                                >
+                                                    {selected &&
+                                                        (
+                                                            <>
+                                                                <Marker position={selected} />
+                                                                <TextField
+                                                                    type='hidden'
+                                                                    name="lat"
+                                                                    value={selected.lat}
+                                                                    onChange={handleChange}
+                                                                />
+                                                                <TextField
+                                                                    type='hidden'
+                                                                    name="lng"
+                                                                    value={selected.lng}
+                                                                    onChange={handleChange}
+                                                                />
+                                                            </>
+
+                                                        )
+                                                    }
+                                                </GoogleMap>
+                                            </Box>
+                                        </>
+                                    )
+
+                            }
+                            myButton={
+                                <Box
+                                    width={"100%"}
+                                    display={"flex"}
+                                    flexDirection={"row"}
+                                    justifyContent={"center"}
+                                    margin={"24px 0px 0px 0px"}>
+                                    <MyCustomButton
+                                        borderRadius={8}
+                                        fontSize={16}
+                                        fontWeight={600}
+                                        content={t("postMotorbike.registedForm.btnConfirm")}
+                                        onClick={closeMapModal} />
+                                </Box>
+                            }
+                        />
+                    </Box>
+                </Box>
+            </Modal>
         </Box>
     )
 }
