@@ -810,7 +810,7 @@ export default function ListMotorbikesSearchedPage() {
                             zIndex={1}
                             sx={{
                                 backgroundColor: '#f1f1f1',
-                                transition: 'all 1s ease-in-out',
+                                animation: "fadeInDown 0.5s ease-out"
                             }}
                             display={'flex'}
                             flexDirection={'column'}
