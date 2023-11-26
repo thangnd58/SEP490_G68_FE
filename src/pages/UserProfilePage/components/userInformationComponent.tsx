@@ -10,7 +10,7 @@ import ErrorMessage from '../../../components/common/ErrorMessage';
 import ToastComponent from '../../../components/toast/ToastComponent';
 import UploadImageService from '../../../services/UploadImageService';
 import MyCustomButton from '../../../components/common/MyButton';
-import { CheckCircle, CheckCircleOutline, EditOutlined, Error, ErrorOutline, Warning, WarningAmber } from '@mui/icons-material';
+import { CheckCircle, CheckCircleOutline, CheckCircleOutlineOutlined, EditOutlined, Error, ErrorOutline, Info, InfoOutlined, Warning, WarningAmber } from '@mui/icons-material';
 import theme from '../../../utils/theme';
 import { useAppDispatch, useAppSelector } from '../../../hooks/useAction';
 import { getUserInfo } from '../../../redux/reducers/authReducer';
@@ -308,46 +308,68 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Box display={'flex'} flexDirection='column' alignItems={'start'} alignContent={'center'}>
+                  <Box display={'flex'} flexDirection='row' alignItems={'center'} alignContent={'center'}>
                     <Typography variant="h6" marginRight={1} fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                       {t('userProfile.PhoneNumber')}
                     </Typography>
                     {user.phoneVerified === true && (
-                      <Chip
-                        sx={{ '& .MuiChip-label': { fontSize: isMobile ? "12px" : "14px" }, height: '90%' }}
-                        color="success"
-                        icon={<CheckCircleOutline sx={{
-                          width: '16px',
-                          height: '16px',
-                        }} />}
-                        label={t('userProfile.Verified')} />
-                    )}
-                    {user.phoneVerified === false && (
-                      <Tooltip title={t('userProfile.AlertVerify')}>
-                        <Chip
-                          sx={{ '& .MuiChip-label': { fontSize: isMobile ? "12px" : "14px" }, height: '90%', cursor: 'pointer' }}
-                          color="warning"
-                          icon={<WarningAmber sx={{
+                      <Tooltip title={t('userProfile.Verified')}>
+                        <CheckCircle
+                          sx={{
                             width: '16px',
                             height: '16px',
-                          }} />}
-                          label={t('userProfile.notYetVerify')}
-                          onClick={() => {
-                            setType('verifyPhone');
-                            setShowButtons(false);
+                            color: "#4caf50"
+
                           }}
                         />
                       </Tooltip>
                     )}
+                    {user.phoneVerified === false && (
+                      <Tooltip title={t('userProfile.AlertVerify')}>
+                        <MyIcon icon={
+                          <Info
+                            sx={{
+                              width: '16px',
+                              height: '16px',
+                              color: " #ff9800"
+                            }}
+                          />} onClick={() => {
+                            setType('verifyPhone');
+                            setShowButtons(false);
+                          }} />
+                      </Tooltip>
+                    )}
+                    {/*  <Tooltip title={t('userProfile.AlertVerify')}>
+                           <Chip
+                             sx={{ '& .MuiChip-label': { fontSize: isMobile ? "12px" : "14px" }, height: '90%', cursor: 'pointer' }}
+                             color="warning"
+                             icon={<WarningAmber sx={{
+                               width: '16px',
+                               height: '16px',
+                             }} />}
+                             label={t('userProfile.notYetVerify')}
+                             onClick={() => {
+                               setType('verifyPhone');
+                               setShowButtons(false);
+                             }}
+                           />
+                         </Tooltip> */}
                   </Box>
                   <Box display={'flex'} alignItems={'center'} alignContent={'center'}>
                     <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600} display={'inline'} marginRight={1}>
                       {user.phone ? user.phone : t('userProfile.InputProfile')}
                     </Typography>
-                    <MyIcon icon={<EditIcon />} hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => {
-                      setType('changePhone');
-                      setShowButtons(false);
-                    }} />
+                    {
+                      user.phoneVerified === true && (
+                        <MyIcon icon={<EditIcon sx={{
+                          width: '16px',
+                          height: '16px',
+                        }} />} noPadding hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => {
+                          setType('changePhone');
+                          setShowButtons(false);
+                        }} />
+                      )
+                    }
 
                     {/* <Button onClick={ChangePhone}>{t('userProfile.BtnChange')}</Button> */}
                   </Box>

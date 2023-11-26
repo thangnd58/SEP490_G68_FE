@@ -201,10 +201,10 @@ export const DashboardManagement = () => {
                 flexDirection: isMobile ? 'column' : 'row'
             }}>
                 <Box width={'100%'}>
-                    <Box display={'flex'} flexDirection={isMobile ? 'column' : 'row'} gap={'8px'} justifyContent={'space-between'} color={'common.black'} alignItems={'center'}>
-                        <Typography width={isMobile ? '100%' : '50%'} fontWeight={'bold'} fontSize={isMobile ? '24px' : '36px'}>Thống kê giao dịch</Typography>
+                    <Box display={'flex'} flexDirection={isMobile ? 'column' : 'row'} gap={'8px'} justifyContent={'space-between'} color={'common.black'} alignItems={'start'}>
+                        <Typography width={isMobile ? '100%' : '50%'} fontWeight={'bold'} fontSize={isMobile ? '20px' : '24px'}>Thống kê giao dịch</Typography>
                         <Box width={isMobile ? '100%' : '50%'}>
-                            <Box display={'flex'} width={'100%'} >
+                            <Box display={'flex'} width={'100%'} pb={'8px'} >
                                 <Typography width={'50%'} fontWeight={'bold'} >Thời gian bắt đầu</Typography>
                                 <Typography width={'50%'} fontWeight={'bold'} >Thời gian kết thúc</Typography>
                             </Box>

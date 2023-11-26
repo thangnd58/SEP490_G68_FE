@@ -11,6 +11,7 @@ interface MyIconProps {
     badgeContent?: string;
     badgeColor?: string;
     onClick?: (e:any) => void;
+    noPadding?: boolean;
 }
 
 export default function MyIcon(props: MyIconProps) {
@@ -20,7 +21,11 @@ export default function MyIcon(props: MyIconProps) {
                 <Tooltip title={props.tooltipText} placement={props.position ? props.position : 'bottom'}>
                     <IconButton
                         onClick={props.onClick}
-                    >
+                        sx={{
+                            padding: props.noPadding ? '4px' : '8px',
+                            margin: '0px'
+                        }}
+                        >
                         <Badge
                             color={"primary"}
                             badgeContent={props.badgeContent}

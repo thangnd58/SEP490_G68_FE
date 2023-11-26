@@ -222,8 +222,6 @@ const ListMotorbikeForm = () => {
 
   useEffect(() => {
     getData();
-    dispatch(getUserInfo());
-
   }, []);
 
   const { user } = useAppSelector((state) => state.userInfo);
@@ -270,6 +268,11 @@ const ListMotorbikeForm = () => {
     Paid: 3,
     PendingPayment: 4,
   };
+
+  // reload page
+  const reloadPage = () => {
+    window.location.reload();
+  }
 
   return (
     <Box width={"80%"} margin={"32px auto"} display={"flex"} flexDirection={"row"} justifyContent={"center"} alignContent={"center"}>
@@ -491,10 +494,17 @@ const ListMotorbikeForm = () => {
                                     alignItems: 'center',
                                     marginTop: index2 === 0 ? "0px" : "16px",
                                   }}>
-                                    <CommentItem isDetail bookingId={feedback.bookingId} avatar={feedback.user.avatarUrl} dateComment={feedback.createDatetime} name={feedback.user.name} rating={feedback.rating} comment={feedback.comment} replyComment={feedback.response.comment} isMobile={isMobile} />
+                                    <CommentItem isOwner isDetail bookingId={feedback.bookingId} avatar={feedback.user.avatarUrl} dateComment={feedback.createDatetime} name={feedback.user.name} rating={feedback.rating} comment={feedback.comment} 
+                                    // replyComment={"Cảm ơn bạn"} 
+                                    replyComment={feedback.response ? feedback.response.comment : ""} 
+                                    motorbikeId={item.id}
+                                    feedbackId={feedback.response ? feedback.response.feedbackId : 0}
+                                    dateReplyComment={feedback.response ? feedback.response.createDatetime : ""}
+                                    reload={reloadPage}
+                                    isMobile={isMobile} />
+                                    
                                   </Box>
                                 )
-
                               })
                             ) : (null)
                         }

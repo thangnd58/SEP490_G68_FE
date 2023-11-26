@@ -66,17 +66,53 @@ const UserManagement = () => {
         return gridFilteredSortedRowIdsSelector(apiRef);
     };
     const columns = [
-        { field: 'name', headerName: t("userProfile.Name"), width: 150 },
-        { field: 'email', headerName: t("userProfile.Email"), width: 200 },
-        { field: 'phone', headerName: t("userProfile.PhoneNumber"), width: 150 },
-        { field: 'address', headerName: t("userProfile.Address"), width: 200 },
+        {
+            field: 'name',
+            headerName: t("userProfile.Name"),
+            width: 150,
+            renderCell: (params: any) => (
+                <Box>
+                    {params.value ? params.value : 'No information'}
+                </Box>
+            ),
+        },
+        {
+            field: 'email',
+            headerName: t("userProfile.Email"),
+            width: 200,
+            renderCell: (params: any) => (
+                <Box>
+                    {params.value ? params.value : 'No information'}
+                </Box>
+            ),
+        },
+        {
+            field: 'phone',
+            headerName: t("userProfile.PhoneNumber"),
+            width: 150,
+            renderCell: (params: any) => (
+                <Box>
+                    {params.value ? params.value : 'No information'}
+                </Box>
+            ),
+        },
+        {
+            field: 'address',
+            headerName: t("userProfile.Address"),
+            width: 200,
+            renderCell: (params: any) => (
+                <Box>
+                    {params.value ? params.value : 'No information'}
+                </Box>
+            ),
+        },
         {
             field: 'dob',
             headerName: t("userProfile.DOB"),
             width: 150,
             renderCell: (params: any) => (
                 <Box>
-                    {new Date(params.value).toLocaleDateString()}
+                    {params.value ? new Date(params.value).toLocaleDateString() : 'No information'}
                 </Box>
             ),
         },
@@ -86,7 +122,7 @@ const UserManagement = () => {
             width: 120,
             renderCell: (params: any) => (
                 <Box>
-                    {params.row.role.roleName}
+                    {params.row.role && params.row.role.roleName ? params.row.role.roleName : 'No information'}
                 </Box>
             ),
         },
@@ -99,12 +135,13 @@ const UserManagement = () => {
                     <MyIcon icon={<EditIcon />} position='left' hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.managerUser}/${params.value}`)}/>
                     <MyIcon icon={<DeleteIcon />} position='right' hasTooltip tooltipText={t("dashBoardManager.model.delete")} 
                     onClick={() => {
-                        setContentModal(<MyDialog icon={<DeleteIcon/>} onClickAgree={() => deleteUser(params.value)} title={t("dashBoardManager.user.confirmDelete")}  content={t("dashBoardManager.user.titleConfirmDelete") + params.row.email}  hasAgreeButton={true} hasCancelButton={true}/>)
+                        setContentModal(<MyDialog icon={<DeleteIcon/>} onClickAgree={() => deleteUser(params.value)} title={t("dashBoardManager.user.confirmDelete")}  content={t("dashBoardManager.user.titleConfirmDelete") + (params.row.email || 'No information')}  hasAgreeButton={true} hasCancelButton={true}/>)
                     }}/>
                 </Box>
-            )
+            ),
         },
     ];
+    
 
     const deleteUser = (id: number) =>{
         console.log(id);
@@ -114,7 +151,7 @@ const UserManagement = () => {
     return (
         <Box >
             <Box sx={{ backgroundColor: "#8B4513" }} width={'100%'} display={'flex'} flexDirection={'row'} alignItems={'center'} gap={1} >
-                <Typography color={theme.palette.common.white} variant="h1" fontSize={24} fontWeight={700}>
+                <Typography color={theme.palette.common.white} variant="h1" fontSize={24} fontWeight={700} pb={2}>
                     {t("dashBoardManager.Navigation.user")}
                 </Typography>
             </Box>

@@ -105,7 +105,7 @@ const BrandManagement = () => {
     return (
         <Box >
             <Box sx={{ backgroundColor: "#8B4513" }} width={'100%'} display={'flex'} flexDirection={'row'} alignItems={'center'} gap={1} >
-                <Typography color={theme.palette.common.white} variant="h1" fontSize={24} fontWeight={700}>
+                <Typography color={theme.palette.common.white} variant="h1" fontSize={24} fontWeight={700} pb={2}>
                     {t("dashBoardManager.Navigation.brand")}
                 </Typography>
             </Box>
