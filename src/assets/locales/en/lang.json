@@ -761,7 +761,8 @@
     "createSuccess": "Evaluate success",
     "createError": "Evaluation failed",
     "editSuccess": "Upadate evaluate success",
-    "nonComment": "No comments yet"
+    "nonComment": "No comments yet",
+    "reply" : "Reply"
   },
   "report": {
     "reason": "Reporting reason",
