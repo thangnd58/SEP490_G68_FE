@@ -29,7 +29,7 @@ import { CalendarTodayOutlined, CheckCircleOutline, ErrorOutline, KeyboardArrowD
 import MyIcon from "../../../components/common/MyIcon";
 import MotorbikeInforCard from "../../HomePage/components/MotorbikeInforCard";
 import { BookingStatus, ROUTES } from "../../../utils/Constant";
-import { formatMoneyNew } from "../../../utils/helper";
+import { formatMoneyNew, getPreviousTimeRelative } from "../../../utils/helper";
 import UserInforModal from "../../UserProfilePage/UserInforModal";
 
 interface AnimatedBoxProps {
@@ -55,7 +55,7 @@ function MyBookingItem(props: MyBookingItemProps) {
     const { isMobile } = useThemePage();
     const { t } = usei18next();
     const navigate = useNavigate();
-    const [open, setOpen] = useState(Array(bookings.length).fill(false));
+    const [open, setOpen] = useState(Array(bookings.length).fill(true));
     const { setContentModal, setShowModal } = useContext(ModalContext);
 
     // choose chip for status
@@ -64,36 +64,52 @@ function MyBookingItem(props: MyBookingItemProps) {
             case BookingStatus.PendingPayment:
                 return (
                     <Chip
-                        sx={{ '& .MuiChip-label': { fontSize: isMobile ? "14px" : "16px" } }}
+                        sx={{ '& .MuiChip-label': { fontSize: isMobile ? "12px" : "14px" } }}
                         color="warning"
-                        icon={<WarningAmber />}
+                        icon={<WarningAmber sx={{
+                            pl: "6px",
+                            width: "20px",
+                            height: "20px"
+                        }} />}
                         label={t('myBooking.bookingStatus.pendingPayment')}
                     />
                 );
             case BookingStatus.Paid:
                 return (
                     <Chip
-                        sx={{ '& .MuiChip-label': { fontSize: isMobile ? "14px" : "16px" } }}
+                        sx={{ '& .MuiChip-label': { fontSize: isMobile ? "12px" : "14px" } }}
                         color="success"
-                        icon={<CheckCircleOutline />}
+                        icon={<CheckCircleOutline sx={{
+                            pl: "6px",
+                            width: "20px",
+                            height: "20px"
+                        }} />}
                         label={t('myBooking.bookingStatus.paid')}
                     />
                 );
             case BookingStatus.Cancelled:
                 return (
                     <Chip
-                        sx={{ '& .MuiChip-label': { fontSize: isMobile ? "14px" : "16px" } }}
+                        sx={{ '& .MuiChip-label': { fontSize: isMobile ? "12px" : "14px" } }}
                         color="error"
-                        icon={<ErrorOutline />}
+                        icon={<ErrorOutline sx={{
+                            pl: "6px",
+                            width: "20px",
+                            height: "20px"
+                        }} />}
                         label={t('myBooking.bookingStatus.cancelled')}
                     />
                 );
             case BookingStatus.PendingDelivery:
                 return (
                     <Chip
-                        sx={{ '& .MuiChip-label': { fontSize: isMobile ? "14px" : "16px" } }}
+                        sx={{ '& .MuiChip-label': { fontSize: isMobile ? "12px" : "14px" } }}
                         color="warning"
-                        icon={<WarningAmber />}
+                        icon={<WarningAmber sx={{
+                            pl: "6px",
+                            width: "20px",
+                            height: "20px"
+                        }} />}
                         label={
                             isOwner ? t('myBooking.bookingStatus.pendingDeliveryOwner') :
                                 t('myBooking.bookingStatus.pendingDeliveryGuest')}
@@ -102,9 +118,13 @@ function MyBookingItem(props: MyBookingItemProps) {
             case BookingStatus.Delivered:
                 return (
                     <Chip
-                        sx={{ '& .MuiChip-label': { fontSize: isMobile ? "14px" : "16px" } }}
+                        sx={{ '& .MuiChip-label': { fontSize: isMobile ? "12px" : "14px" } }}
                         color="success"
-                        icon={<CheckCircleOutline />}
+                        icon={<CheckCircleOutline sx={{
+                            pl: "6px",
+                            width: "20px",
+                            height: "20px"
+                        }} />}
                         label={
                             isOwner ? t('myBooking.bookingStatus.deliveredOwner') :
                                 t('myBooking.bookingStatus.deliveredGuest')}
@@ -113,27 +133,39 @@ function MyBookingItem(props: MyBookingItemProps) {
             case BookingStatus.PendingReview:
                 return (
                     <Chip
-                        sx={{ '& .MuiChip-label': { fontSize: isMobile ? "14px" : "16px" } }}
+                        sx={{ '& .MuiChip-label': { fontSize: isMobile ? "12px" : "14px" } }}
                         color="warning"
-                        icon={<WarningAmber />}
+                        icon={<WarningAmber sx={{
+                            pl: "6px",
+                            width: "20px",
+                            height: "20px"
+                        }} />}
                         label={t('myBooking.bookingStatus.pendingReview')}
                     />
                 );
             case BookingStatus.Finished:
                 return (
                     <Chip
-                        sx={{ '& .MuiChip-label': { fontSize: isMobile ? "14px" : "16px" } }}
+                        sx={{ '& .MuiChip-label': { fontSize: isMobile ? "12px" : "14px" } }}
                         color="success"
-                        icon={<CheckCircleOutline />}
+                        icon={<CheckCircleOutline sx={{
+                            pl: "6px",
+                            width: "20px",
+                            height: "20px"
+                        }} />}
                         label={t('myBooking.bookingStatus.finished')}
                     />
                 );
             default:
                 return (
                     <Chip
-                        sx={{ '& .MuiChip-label': { fontSize: isMobile ? "14px" : "16px" } }}
+                        sx={{ '& .MuiChip-label': { fontSize: isMobile ? "12px" : "14px" } }}
                         color="error"
-                        icon={<ErrorOutline />}
+                        icon={<ErrorOutline sx={{
+                            pl: "6px",
+                            width: "20px",
+                            height: "20px"
+                        }} />}
                         label={t('myBooking.bookingStatus.cancelled')}
                     />
                 );
@@ -158,19 +190,59 @@ function MyBookingItem(props: MyBookingItemProps) {
                     bookings.map((booking: Booking, index: number) => (
                         <Paper key={index} elevation={2} sx={{ width: '100%', bgcolor: 'background.paper' }}>
                             <Box display={"flex"} flexDirection={"column"} gap={"16px"} p={3}>
-                                <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"}>
-                                    <Typography
-                                        variant='h2'
-                                        color={theme.palette.text.primary}
-                                        fontSize={"24px"}
-                                        lineHeight={"36px"}
-                                        fontWeight={"600"}
-                                        sx={{ textAlign: 'center' }}>
-                                        {index + 1}. Thông tin đơn hàng  
-                                        {/* `(${dayjs(booking.updateDatetime).format("DD/MM/YYYY HH:mm:ss")})` */}
-                                    </Typography>
+                                <Box display={"flex"} flexDirection={"row"} alignItems={"center"} justifyContent={"space-between"}
+                                    sx={{
+                                        backgroundColor:
+                                            booking.status === BookingStatus.Cancelled ? "rgba(148, 20, 20, 0.05)" :
+                                                booking.status === BookingStatus.Finished ? "rgba(20, 134, 20, 0.05)" :
+                                                    "rgba(194, 92, 19, 0.1)",
+                                        borderRadius: "8px",
+                                        padding: "8px 16px",
+
+                                    }}>
+                                    {/* khách thuê */}
                                     {
-                                        chooseChip(booking.status)
+                                        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                                            <Box
+                                                display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ cursor: 'pointer', gap: '8px' }} padding={"4px 0px"}
+                                            >
+                                                <Avatar
+                                                    sx={{
+                                                        width: "50px",
+                                                        height: "50px",
+                                                        borderRadius: "50%",
+                                                    }}
+                                                    src={
+                                                        isOwner ? booking.user.avatarUrl : booking.motorbikes[0].user.avatarUrl
+                                                    }
+                                                    onClick={() => setContentModal(<UserInforModal userId={isOwner ? booking.user.userId : booking.motorbikes[0].user.userId} />)}
+                                                />
+                                                <Box display={'flex'} flexDirection={'column'} alignItems={'start'} justifyContent={'center'} sx={{ gap: '0px' }}>
+                                                    <Typography
+                                                        color={theme.palette.text.primary}
+                                                        sx={{ fontSize: '16px', fontWeight: "600", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                                    >
+                                                        {!isOwner ? "Chủ xe" : "Khách thuê"}
+                                                    </Typography>
+                                                    <Typography
+                                                        color={theme.palette.text.primary}
+                                                        sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                                    >
+                                                        {isOwner ? booking.user.name : booking.motorbikes[0].user.name}
+                                                    </Typography>
+                                                </Box>
+                                            </Box>
+                                        </Box>
+                                    }
+                                    {
+                                        <Box display={'flex'} flexDirection={'column'} alignItems={'end'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                                            {chooseChip(booking.status)}
+                                            {/* Thời gian đặt xe */}
+                                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "400", fontStyle: "italic", mr: "8px" }}>
+                                                {getPreviousTimeRelative(booking.createDatetime, t)}
+                                            </Typography>
+
+                                        </Box>
                                     }
                                 </Box>
                                 <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
@@ -183,7 +255,7 @@ function MyBookingItem(props: MyBookingItemProps) {
                                                 </Typography>
                                             </Box>
                                             <Box
-                                                display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ cursor: 'pointer', gap: '4px' }} padding={"4px 0px"}
+                                                display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} padding={"4px 0px"}
                                             >
                                                 <LocationOnOutlined sx={{ color: theme.palette.action.disabled }} />
                                                 <Typography
@@ -270,37 +342,6 @@ function MyBookingItem(props: MyBookingItemProps) {
                                 </Box>
                                 <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
                                     <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '32px' }}>
-                                        {/* khách thuê */}
-                                        {
-                                            <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
-                                                <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
-                                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                        {isOwner ? "Khách thuê" : "Chủ xe"}
-                                                    </Typography>
-                                                </Box>
-                                                <Box
-                                                    display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ cursor: 'pointer', gap: '4px' }} padding={"4px 0px"}
-                                                >
-                                                    <Avatar
-                                                        sx={{
-                                                            width: "40px",
-                                                            height: "40px",
-                                                            borderRadius: "50%",
-                                                        }}
-                                                        src={
-                                                            isOwner ? booking.user.avatarUrl : booking.motorbikes[0].user.avatarUrl
-                                                        }
-                                                        onClick={() => setContentModal(<UserInforModal userId={isOwner ? booking.user.userId : booking.motorbikes[0].user.userId} />)}
-                                                    />
-                                                    <Typography
-                                                        color={theme.palette.text.primary}
-                                                        sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
-                                                    >
-                                                        {isOwner ? booking.user.name : booking.motorbikes[0].user.name}
-                                                    </Typography>
-                                                </Box>
-                                            </Box>
-                                        }
                                         {/* tổng tiền */}
                                         <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
@@ -309,7 +350,7 @@ function MyBookingItem(props: MyBookingItemProps) {
                                                 </Typography>
                                             </Box>
                                             <Box
-                                                display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ cursor: 'pointer', gap: '4px' }} padding={"4px 0px"}
+                                                display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} padding={"4px 0px"}
                                             >
                                                 <PriceCheckOutlined sx={{ color: theme.palette.primary.main }} />
                                                 <Typography

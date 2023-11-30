@@ -10,8 +10,10 @@ interface MyIconProps {
     hasBagde?: boolean;
     badgeContent?: string;
     badgeColor?: string;
-    onClick?: (e:any) => void;
+    onClick?: (e: any) => void;
     noPadding?: boolean;
+    noCursor?: boolean;
+    disabled?: boolean;
 }
 
 export default function MyIcon(props: MyIconProps) {
@@ -20,12 +22,14 @@ export default function MyIcon(props: MyIconProps) {
             {props.hasTooltip ? (
                 <Tooltip title={props.tooltipText} placement={props.position ? props.position : 'bottom'}>
                     <IconButton
+                        disabled={props.disabled ? props.disabled : false}
                         onClick={props.onClick}
                         sx={{
+                            cursor: props.noCursor ? 'default' : 'pointer',
                             padding: props.noPadding ? '4px' : '8px',
                             margin: '0px'
                         }}
-                        >
+                    >
                         <Badge
                             color={"primary"}
                             badgeContent={props.badgeContent}
@@ -37,8 +41,12 @@ export default function MyIcon(props: MyIconProps) {
                 </Tooltip>
             ) : (
                 <IconButton
+                    disabled={props.disabled ? props.disabled : false}
                     onClick={props.onClick}
-                    style={{ padding: '0px', margin: '0px' }}
+                    style={{
+                        cursor: props.noCursor ? 'default' : 'pointer',
+                        padding: '0px', margin: '0px'
+                    }}
                 >
                     <Badge
                         color={"primary"}

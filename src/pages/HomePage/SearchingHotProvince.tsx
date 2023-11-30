@@ -146,7 +146,7 @@ function SearchingHotProvince() {
 
     // MAP CONTROLLER
     // Map with search box
-    const [ libraries ] = useState(['places']);
+    const [libraries] = useState(['places']);
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
         libraries: libraries as any,
@@ -534,7 +534,7 @@ function SearchingHotProvince() {
                                                                 },
                                                             ],
                                                             backgroundColor: "#fff",
-                                                            clickableIcons:true,
+                                                            clickableIcons: true,
                                                             scaleControl: true,
                                                             streetViewControl: true,
                                                             rotateControl: true,
@@ -581,6 +581,10 @@ function SearchingHotProvince() {
                                                         }
                                                     </GoogleMap>
                                                 </Box>
+                                                {/* Typography: Bạn có thể nháy đúp chuột vào màn hình để chọn vị trí */}
+                                                <Typography variant="caption" fontSize={"12px"} color={"red"} fontStyle={"italic"}>
+                                                    {"* Nháy đúp chuột để chọn vị trí chính xác hơn"}
+                                                </Typography>
                                             </>
                                         )
 

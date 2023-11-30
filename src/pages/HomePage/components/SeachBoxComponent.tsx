@@ -484,15 +484,15 @@ const SeachBoxComponent = () => {
                                                         scrollwheel: true,
                                                         fullscreenControl: true,
                                                         zoomControlOptions: {
-                                                          position: window.google.maps.ControlPosition.RIGHT_CENTER,
+                                                            position: window.google.maps.ControlPosition.RIGHT_CENTER,
                                                         },
                                                         noClear: true,
                                                         styles: [
-                                                          {
-                                                            featureType: "poi",
-                                                            elementType: "labels",
-                                                            stylers: [{ visibility: "off" }],
-                                                          },
+                                                            {
+                                                                featureType: "poi",
+                                                                elementType: "labels",
+                                                                stylers: [{ visibility: "off" }],
+                                                            },
                                                         ],
                                                         backgroundColor: "#fff",
                                                         clickableIcons: true,
@@ -501,24 +501,24 @@ const SeachBoxComponent = () => {
                                                         rotateControl: true,
                                                         mapTypeControl: true,
                                                         mapTypeControlOptions: {
-                                                          style: window.google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-                                                          position: window.google.maps.ControlPosition.TOP_CENTER,
-                                                          mapTypeIds: [
-                                                            window.google.maps.MapTypeId.ROADMAP,
-                                                            window.google.maps.MapTypeId.SATELLITE,
-                                                            window.google.maps.MapTypeId.HYBRID,
-                                                            window.google.maps.MapTypeId.TERRAIN,
-                                                          ],
+                                                            style: window.google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                                                            position: window.google.maps.ControlPosition.TOP_CENTER,
+                                                            mapTypeIds: [
+                                                                window.google.maps.MapTypeId.ROADMAP,
+                                                                window.google.maps.MapTypeId.SATELLITE,
+                                                                window.google.maps.MapTypeId.HYBRID,
+                                                                window.google.maps.MapTypeId.TERRAIN,
+                                                            ],
                                                         },
                                                         panControl: true,
                                                         fullscreenControlOptions: {
-                                                          position: window.google.maps.ControlPosition.RIGHT_CENTER,
+                                                            position: window.google.maps.ControlPosition.RIGHT_CENTER,
                                                         },
                                                         gestureHandling: "greedy",
                                                         draggableCursor: "default",
                                                         draggingCursor: "grab",
                                                         mapId: "f1b7a8a9f0b1f1d",
-                                                      }}
+                                                    }}
                                                 >
                                                     {selected &&
                                                         (
@@ -542,6 +542,10 @@ const SeachBoxComponent = () => {
                                                     }
                                                 </GoogleMap>
                                             </Box>
+                                            {/* Typography: Bạn có thể nháy đúp chuột vào màn hình để chọn vị trí */}
+                                            <Typography variant="caption" fontSize={"12px"} color={"red"} fontStyle={"italic"}>
+                                                {"* Nháy đúp chuột để chọn vị trí chính xác hơn"}
+                                            </Typography>
                                         </>
                                     )
 

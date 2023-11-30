@@ -431,13 +431,13 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                   {motorbike?.model?.brand.brandName} {motorbike?.model?.modelName}
                 </Typography>
                 <Box display="flex" flexDirection="row" alignItems="center" width={"100%"} >
-                  <MyIcon icon={<LocationOn />} hasTooltip tooltipText={t("postMotorbike.listform.badge-location")} onClick={() => { }} position='left' />
+                  <MyIcon disabled icon={<LocationOn />} hasTooltip tooltipText={""} onClick={() => { }} position='left' />
                   <Typography variant="h5" color={theme.palette.text.secondary} fontSize={isMobile ? "14px" : "16px"} fontStyle={'italic'}>
                     {motorbike?.address}
                   </Typography>
                 </Box>
                 <Box display="flex" flexDirection="row" alignItems="center" width={"100%"}>
-                  <MyIcon icon={<StarPurple500Outlined
+                  <MyIcon disabled icon={<StarPurple500Outlined
                     sx={{ color: "#FBC241" }}
                     fontSize="medium"
                   />} hasTooltip onClick={() => { }} position='left' />
@@ -451,7 +451,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                   >
                     {previewBookingData && previewBookingData.motorbikes[0].ratingAverage.toFixed(1)}
                   </Typography>
-                  <MyIcon icon={<BusinessCenterOutlined
+                  <MyIcon disabled icon={<BusinessCenterOutlined
                     fontWeight={300}
                     sx={{ color: "#8B4513" }}
                     fontSize="medium"
@@ -1324,6 +1324,10 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                           }
                         </GoogleMap>
                       </Box>
+                      {/* Typography: Bạn có thể nháy đúp chuột vào màn hình để chọn vị trí */}
+                      <Typography variant="caption" fontSize={"12px"} color={"red"} fontStyle={"italic"}>
+                        {"* Nháy đúp chuột để chọn vị trí chính xác hơn"}
+                      </Typography>
                     </>
                   )
 

@@ -971,24 +971,24 @@ export default function ListMotorbikesSearchedPage() {
                                                         >
                                                             {hoveredMarkerId === motorbike.id && (
                                                                 <InfoWindow
-                                                                position={
-                                                                    {
-                                                                        lat: Number(motorbike.location.split(',')[0]),
-                                                                        lng: Number(motorbike.location.split(',')[1])
+                                                                    position={
+                                                                        {
+                                                                            lat: Number(motorbike.location.split(',')[0]),
+                                                                            lng: Number(motorbike.location.split(',')[1])
+                                                                        }}
+                                                                    options={{
+                                                                        pixelOffset: new window.google.maps.Size(0, 20), // Điều chỉnh độ lệch theo nhu cầu của bạn
+                                                                        zIndex: 1,
                                                                     }}
-                                                                options={{
-                                                                    pixelOffset: new window.google.maps.Size(0, 20), // Điều chỉnh độ lệch theo nhu cầu của bạn
-                                                                    zIndex: 1,
-                                                                }}
-                                                            >
-                                                                <Typography variant="subtitle2"
-                                                                    sx={{
-                                                                        fontWeight: "700",
-                                                                        color: "#000"
-                                                                    }}>
-                                                                    {motorbike.priceRent}K
-                                                                </Typography>
-                                                            </InfoWindow>
+                                                                >
+                                                                    <Typography variant="subtitle2"
+                                                                        sx={{
+                                                                            fontWeight: "700",
+                                                                            color: "#000"
+                                                                        }}>
+                                                                        {motorbike.priceRent}K
+                                                                    </Typography>
+                                                                </InfoWindow>
                                                             )}
                                                             {/*  */}
                                                         </Marker>
@@ -1068,7 +1068,12 @@ export default function ListMotorbikesSearchedPage() {
                                 )}
                                 {/* Hiển thị thông tin trong Popover */}
                             </GoogleMap>
-                        </Box></>
+                        </Box>
+                        {/* Typography: Bạn có thể nháy đúp chuột vào màn hình để chọn vị trí */}
+                        <Typography variant="caption" fontSize={"12px"} color={"red"} fontStyle={"italic"}>
+                            {"* Nháy đúp chuột để chọn vị trí chính xác hơn"}
+                        </Typography>
+                    </>
                 )
             }
 
@@ -1275,6 +1280,10 @@ export default function ListMotorbikesSearchedPage() {
                                                     }
                                                 </GoogleMap>
                                             </Box>
+                                            {/* Typography: Bạn có thể nháy đúp chuột vào màn hình để chọn vị trí */}
+                                            <Typography variant="caption" fontSize={"12px"} color={"red"} fontStyle={"italic"}>
+                                                {"* Nháy đúp chuột để chọn vị trí chính xác hơn"}
+                                            </Typography>
                                         </>
                                     )
 
@@ -1339,9 +1348,9 @@ export default function ListMotorbikesSearchedPage() {
                                 <Box display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"} sx={{ gap: '8px' }}>
                                     <MyCustomButton
                                         borderRadius={4}
-                                        fontSize={12}
+                                        fontSize={10}
+                                        height='20px'
                                         fontWeight={500}
-                                        height='28px'
                                         variant='outlined'
                                         backgroundColor='#F4EDE8'
                                         noBorder={true}
@@ -1356,12 +1365,12 @@ export default function ListMotorbikesSearchedPage() {
                                     <MyCustomButton
                                         isChecked={selectOptionsState[0].isChecked}
                                         borderRadius={4}
-                                        fontSize={12}
                                         fontWeight={500}
                                         borderWeight={1}
-                                        height='28px'
+                                        fontSize={10}
+                                        height='20px'
                                         icon={
-                                            selectOptionsState[0].isChecked ? <CheckBox style={{ color: "#8B4513", }} /> : <CheckBoxOutlineBlank style={{ color: "#8B4513", }}
+                                            selectOptionsState[0].isChecked ? <CheckBox style={{ color: "#8B4513", width: "14px", height: "14px" }} /> : <CheckBoxOutlineBlank style={{ color: "#8B4513", width: "14px", height: "14px" }}
                                             />
                                         }
                                         iconPosition='left'
@@ -1631,9 +1640,9 @@ export default function ListMotorbikesSearchedPage() {
                                 <Box display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"} sx={{ gap: '8px' }}>
                                     <MyCustomButton
                                         borderRadius={4}
-                                        fontSize={12}
                                         fontWeight={500}
-                                        height='28px'
+                                        fontSize={10}
+                                        height='20px'
                                         variant='outlined'
                                         backgroundColor='#F4EDE8'
                                         noBorder={true}
@@ -1654,12 +1663,12 @@ export default function ListMotorbikesSearchedPage() {
                                     <MyCustomButton
                                         isChecked={featureOptionsState[0].isChecked}
                                         borderRadius={4}
-                                        fontSize={12}
                                         fontWeight={500}
-                                        height='28px'
+                                        fontSize={10}
+                                        height='20px'
                                         borderWeight={1}
                                         icon={
-                                            featureOptionsState[0].isChecked ? <CheckBox style={{ color: "#8B4513", }} /> : <CheckBoxOutlineBlank style={{ color: "#8B4513", }}
+                                            featureOptionsState[0].isChecked ? <CheckBox style={{ color: "#8B4513", width: "14px", height: "14px" }} /> : <CheckBoxOutlineBlank style={{ color: "#8B4513", width: "14px", height: "14px" }}
                                             />
                                         }
                                         iconPosition='left'

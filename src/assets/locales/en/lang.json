@@ -775,5 +775,8 @@
     "placeholderResponse": "Enter response content",
     "pendingRes": "Pending Response",
     "alreadyRes": "Responded"
+  },
+  "editional" :{
+    "hotmotorbikes": "Hot motorbikes"
   }
 }

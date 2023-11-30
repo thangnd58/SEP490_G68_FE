@@ -46,7 +46,7 @@ export default function HotMotorbikesOfMonthComponent() {
                     fontSize: isMobile ? '24px' : '32px',
                     fontWeight: 'bold',
                     color: 'common.black',
-                }}>Xe hot trong tháng</Typography>
+                }}>{t("editional.hotmotorbikes")}</Typography>
                 {/* list motorbikes */}
                 {
                     <Box sx={{
