@@ -156,7 +156,7 @@ export default function FeedbackCard(props: {
                             </Box>
 
                             <Box display={'flex'} flexDirection={'row'} gap={2} alignItems={'center'} marginLeft={'25px'} marginTop={'5px'}>
-                                {!props.feedback.response && motorbike?.user.userId === user.userId ? 
+                                {!props.feedback.response && motorbike?.user.userId === user?.userId ? 
                                 <a onClick={() => setIsEdit(true)} style={{cursor: 'pointer', fontSize : '14px'}} >{t("feedback.reply")} </a>
                                 :
                                 // <Typography color={'#FFFFFF'}>Phản hồi</Typography>
@@ -166,7 +166,7 @@ export default function FeedbackCard(props: {
                             </Box>
                         </Box>
                         <Box width={'5%'}>
-                            {motorbike?.user.userId === user.userId ?
+                            {motorbike?.user.userId === user?.userId ?
                             <Tooltip title={t("booking.toolTipReport")}>
                                             <Info sx={{
                                                 cursor: 'pointer',
@@ -230,7 +230,7 @@ export default function FeedbackCard(props: {
                                 </Box>
                                 
                                 <Box >  
-                                    {motorbike?.user.userId === user.userId ?
+                                    {motorbike?.user.userId === user?.userId ?
                                     <IconButton
                                                 onClick={() => { setIsEdit(true) }}>
                                                 <ModeEdit sx={{ color: "common.black" }} />
@@ -244,7 +244,7 @@ export default function FeedbackCard(props: {
                     </Box>
                     :
 
-                    motorbike?.user.userId === user.userId || isEdit? // nếu chủ xe truy cập vào và chưa có comment trả lời
+                    motorbike?.user.userId === user?.userId || isEdit? // nếu chủ xe truy cập vào và chưa có comment trả lời
 
                     <Box display={'flex'} justifyContent={'flex-end'}>
                         <Box display={'flex'} flexDirection={'column'} width={'90%'}>

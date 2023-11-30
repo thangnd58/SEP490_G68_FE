@@ -1099,8 +1099,8 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                   <Box display={'flex'} flexDirection={'column'} gap={'8px'} width={'99.5%'} marginTop={'15px'}>
                     <Box display="flex" flexDirection="column" justifyContent={"center"} gap={"8px"} p={'8px'} border={"1px solid #e0e0e0"} borderRadius={"8px"}
                     >
-                      {listFeedback.length !== 0 ? listFeedback.map((item: Feedback) => (
-                        <FeedbackCard feedback={item} ></FeedbackCard>
+                      {listFeedback.length !== 0 ? listFeedback.map((item: Feedback, index: number) => (
+                        <FeedbackCard feedback={item} key={index}></FeedbackCard>
                         ))
                         :
                         <Box>
