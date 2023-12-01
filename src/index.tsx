@@ -15,7 +15,7 @@ import ModalProvider, { ModalContext } from './contexts/ModalContext';
 import { getUserFavouriteInfo } from './redux/reducers/userFavouriteReducer';
 import { getUserNotificationInfo } from './redux/reducers/notificationReducer';
 
-const rootElement = document.getElementById('root') as HTMLElement;
+const rootElement = document.getElementById('fb-root') as HTMLElement;
 const root = ReactDOM.createRoot(rootElement);
 store.dispatch(getUserInfo());
 store.dispatch(getUserNotificationInfo())
