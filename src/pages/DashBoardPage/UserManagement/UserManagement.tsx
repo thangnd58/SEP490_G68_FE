@@ -176,7 +176,7 @@ const UserManagement = () => {
                     columns={columns}
                     loading={listUser.length === 0}
                     rowHeight={48}
-                    checkboxSelection
+                    // checkboxSelection
                     disableRowSelectionOnClick
                     getRowId={(row) => row.userId}
                     pagination                    

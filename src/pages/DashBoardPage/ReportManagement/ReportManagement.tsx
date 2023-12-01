@@ -159,7 +159,7 @@ const ReportManagement = () => {
                     columns={columns}
                     loading={listReport.length === 0}
                     rowHeight={48}
-                    checkboxSelection
+                    // checkboxSelection
                     disableRowSelectionOnClick
                     getRowId={(row) => row.reportId}
                     pagination

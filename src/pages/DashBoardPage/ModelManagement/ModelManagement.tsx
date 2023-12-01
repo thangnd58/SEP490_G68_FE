@@ -141,7 +141,7 @@ const ModelManagement = () => {
                     columns={columns}
                     loading={listModel.length === 0}
                     rowHeight={48}
-                    checkboxSelection
+                    // checkboxSelection
                     disableRowSelectionOnClick
                     getRowId={(row) => row.id}
                     pagination

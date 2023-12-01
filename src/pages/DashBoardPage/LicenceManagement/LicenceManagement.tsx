@@ -126,7 +126,7 @@ const LicenceManagement = () => {
                     columns={columns}
                     loading={listLicences.length === 0}
                     rowHeight={48}
-                    checkboxSelection
+                    // checkboxSelection
                     disableRowSelectionOnClick
                     getRowId={(row) => row.licenceId}
                     pagination

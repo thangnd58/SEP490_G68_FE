@@ -132,7 +132,7 @@ const NewsManagement = () => {
                     loading={listNews.length === 0}
                     rowHeight={48}
                     getRowId={(row) => row.newsId}
-                    checkboxSelection
+                    // checkboxSelection
                     disableRowSelectionOnClick
                     pagination
                     // slots={{ toolbar: GridToolbar }}

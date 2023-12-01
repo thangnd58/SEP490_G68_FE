@@ -131,12 +131,11 @@ const MotorbikeManagement = () => {
                     initialState={{
                         pagination: { paginationModel: { pageSize: 7 } },
                     }}
-
                     pageSizeOptions={[7, 10, 25]}
                     columns={columns}
                     loading={listMotorbike.length === 0}
                     rowHeight={48}
-                    checkboxSelection
+                    // checkboxSelection
                     disableRowSelectionOnClick
                     pagination
                     slots={{ toolbar: GridToolbar }}

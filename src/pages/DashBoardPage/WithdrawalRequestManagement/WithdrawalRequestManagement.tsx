@@ -124,7 +124,7 @@ const WithdrawalRequestManagement = () => {
                     columns={columns}
                     loading={listWithdrawal.length === 0}
                     rowHeight={48}
-                    checkboxSelection
+                    // checkboxSelection
                     disableRowSelectionOnClick
                     pagination
                     slots={{ toolbar: GridToolbar }}

@@ -130,7 +130,7 @@ const BrandManagement = () => {
                     columns={columns}
                     loading={listBrand.length === 0}
                     rowHeight={48}
-                    checkboxSelection
+                    // checkboxSelection
                     disableRowSelectionOnClick
                     getRowId={(row) => row.id}
                     pagination
