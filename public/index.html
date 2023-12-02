@@ -50,33 +50,28 @@
 <!-- Messenger Chat Plugin Code -->
 
 <script>
-  function handleRouteChange() {
-    function shouldDisplayChat() {
-      var item = localStorage.getItem('userInfo');
-      var userInfo = JSON.parse(item);
-      if (userInfo) {
-        if (userInfo.role.roleName === "Admin" || userInfo.role.roleName === "Staff") {
-          return false;
-        } else {
-          return true;
-        }
+  function shouldDisplayChat() {
+    var item = localStorage.getItem('userInfo');
+    var userInfo = JSON.parse(item);
+    if (userInfo) {
+      if (userInfo.role.roleName === "Admin" || userInfo.role.roleName === "Staff") {
+        return false;
       } else {
         return true;
       }
-    }
-
-    if (shouldDisplayChat()) {
-      var chatbox = document.getElementById('fb-customer-chat');
-      chatbox.setAttribute("page_id", "180203205175919");
-      chatbox.setAttribute("attribution", "biz_inbox");
     } else {
-      var chatbox = document.getElementById('fb-customer-chat');
-      chatbox.style.display = 'none';
+      return true;
     }
   }
 
-  window.addEventListener('popstate', handleRouteChange);
-
+  if (shouldDisplayChat()) {
+    var chatbox = document.getElementById('fb-customer-chat');
+    chatbox.setAttribute("page_id", "180203205175919");
+    chatbox.setAttribute("attribution", "biz_inbox");
+  } else {
+    var chatbox = document.getElementById('fb-customer-chat');
+    chatbox.style.display = 'none';
+  }
 </script>
 
 <!-- Your SDK code -->
