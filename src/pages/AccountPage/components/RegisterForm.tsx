@@ -9,6 +9,8 @@ import usei18next from '../../../hooks/usei18next';
 import useThemePage from '../../../hooks/useThemePage';
 import MyCustomButton from '../../../components/common/MyButton';
 import ErrorMessage from '../../../components/common/ErrorMessage';
+import ReCAPTCHA from "react-google-recaptcha";
+
 
 const FormStyle = styled('form')(({ theme }) => ({
   width: '100%',
@@ -74,6 +76,7 @@ const RegisterForm = () => {
   const { t } = usei18next();
   const { isMobile } = useThemePage();
   const navigate = useNavigate();
+  const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
 
   const formik = useFormik({
     initialValues: {
@@ -104,7 +107,9 @@ const RegisterForm = () => {
         .oneOf([Yup.ref('password')], t('form.passwordsMustMatch')).required(t('form.required')),
     }),
     onSubmit: values => {
-      register({ name: values.username, email: values.email, password: values.password, phone: values.phone});
+      // kiểm tra recaptcha
+      if (!recaptchaValue) return;
+      register({ name: values.username, email: values.email, password: values.password, phone: values.phone });
     },
   });
 
@@ -238,8 +243,24 @@ const RegisterForm = () => {
                 {t('form.login')}
               </Button>
             </Box>
+            <Box display={"flex"} justifyContent={"center"} alignItems={"center"} flexDirection={"column"}>
+              <ReCAPTCHA
+                sitekey="6LcN_iMpAAAAAF6w-TCwH05qV9viZBwPDeZmzQci"
+                onChange={(value) => setRecaptchaValue(value)}
+              />
+            </Box>
             <Box className='submit-button'>
-              <MyCustomButton className='submit-button' content={t('form.register')} onClick={handleSubmit} width="100%" height="80%" fontSize={16} fontWeight={500} uppercase borderRadius={8} />
+              <MyCustomButton
+                className='submit-button'
+                content={t('form.register')}
+                onClick={handleSubmit}
+                width="100%"
+                height="80%"
+                fontSize={16}
+                disabled={!recaptchaValue}
+                fontWeight={500}
+                uppercase
+                borderRadius={8} />
             </Box>
           </Box>
         </Box>
