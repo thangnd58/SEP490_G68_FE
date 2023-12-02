@@ -52,7 +52,17 @@
 
 <script>
   function shouldDisplayChat() {
-    return !window.location.pathname.includes('/admin');
+    var item = localStorage.getItem('userInfo');
+    var userInfo = JSON.parse(item);
+    if (userInfo) {
+      if (userInfo.role.roleName === "Admin" || userInfo.role.roleName === "Staff") {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
   }
   if (shouldDisplayChat()) {
     var chatbox = document.getElementById('fb-customer-chat');
