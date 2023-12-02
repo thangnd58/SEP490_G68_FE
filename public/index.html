@@ -49,29 +49,33 @@
 </body>
 <!-- Messenger Chat Plugin Code -->
 
-
 <script>
-  function shouldDisplayChat() {
-    var item = localStorage.getItem('userInfo');
-    var userInfo = JSON.parse(item);
-    if (userInfo) {
-      if (userInfo.role.roleName === "Admin" || userInfo.role.roleName === "Staff") {
-        return false;
+  function handleRouteChange() {
+    function shouldDisplayChat() {
+      var item = localStorage.getItem('userInfo');
+      var userInfo = JSON.parse(item);
+      if (userInfo) {
+        if (userInfo.role.roleName === "Admin" || userInfo.role.roleName === "Staff") {
+          return false;
+        } else {
+          return true;
+        }
       } else {
         return true;
       }
+    }
+
+    if (shouldDisplayChat()) {
+      var chatbox = document.getElementById('fb-customer-chat');
+      chatbox.setAttribute("page_id", "180203205175919");
+      chatbox.setAttribute("attribution", "biz_inbox");
     } else {
-      return true;
+      var chatbox = document.getElementById('fb-customer-chat');
+      chatbox.style.display = 'none';
     }
   }
-  if (shouldDisplayChat()) {
-    var chatbox = document.getElementById('fb-customer-chat');
-    chatbox.setAttribute("page_id", "180203205175919");
-    chatbox.setAttribute("attribution", "biz_inbox");
-  } else {
-    var chatbox = document.getElementById('fb-customer-chat');
-    chatbox.style.display = 'none';
-  }
+
+  window.addEventListener('popstate', handleRouteChange);
 
 </script>
 
