@@ -51,13 +51,23 @@
 
 
 <script>
-  var chatbox = document.getElementById('fb-customer-chat');
-  chatbox.setAttribute("page_id", "180203205175919");
-  chatbox.setAttribute("attribution", "biz_inbox");
+  function shouldDisplayChat() {
+    return !window.location.pathname.includes('/admin');
+  }
+  if (shouldDisplayChat()) {
+    var chatbox = document.getElementById('fb-customer-chat');
+    chatbox.setAttribute("page_id", "180203205175919");
+    chatbox.setAttribute("attribution", "biz_inbox");
+  } else {
+    var chatbox = document.getElementById('fb-customer-chat');
+    chatbox.style.display = 'none';
+  }
+
 </script>
 
 <!-- Your SDK code -->
 <script>
+
   window.fbAsyncInit = function () {
     FB.init({
       xfbml: true,
