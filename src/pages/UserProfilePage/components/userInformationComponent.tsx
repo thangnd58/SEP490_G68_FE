@@ -490,12 +490,24 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                       placeholder={t('licenseInfo.NumberLicense')}
                       variant="outlined"
                       fullWidth
+                      type='number'
                       InputLabelProps={{
                         shrink: true,
                       }}
-                      onChange={handleChange}
+                      onInput={(e: any) => {
+                        e.preventDefault();
+                        const value = e.target.value;
+
+                        // Lọc chỉ những ký tự số và giới hạn độ dài là 12
+                        const filteredValue = value.replace(/\D/g, '').slice(0, 12);
+
+                        // Cập nhật giá trị
+                        e.target.value = filteredValue;
+                        handleChange(e);
+                      }}
                       value={values.licenceNumber}
                     />
+
                     {errors.licenceNumber && touched.licenceNumber && <ErrorMessage message={errors.licenceNumber} />}
                   </Box>
                   <Box>
@@ -508,6 +520,9 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                       fullWidth
                       InputLabelProps={{
                         shrink: true,
+                      }}
+                      inputProps={{
+                        style: { textTransform: 'uppercase' },
                       }}
                       onChange={handleChange}
                       value={values.fullName}
@@ -523,6 +538,10 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                       label={t('userProfile.DOB')}
                       InputLabelProps={{
                         shrink: true,
+                      }}
+                      inputProps={{
+                        max: new Date().toISOString().split("T")[0],
+
                       }}
                       variant="outlined"
                       fullWidth

@@ -14,6 +14,7 @@ import {
     BusinessCenterOutlined,
     ChangeCircleOutlined,
     CheckCircleOutline,
+    Edit,
     ErrorOutline,
     FavoriteBorder,
     FavoriteOutlined,
@@ -43,6 +44,7 @@ export default function MotorbikeFavouriteInforCard(props: {
     motorbike: Motorbike;
     isListForm?: boolean;
     openItemDetailModal?: () => void;
+    openUpdateInforPage?: () => void;
     setIsDeleting?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const { t } = usei18next();
@@ -203,16 +205,33 @@ export default function MotorbikeFavouriteInforCard(props: {
                                                         icon={<ChangeCircleOutlined />}
                                                         label={t('postMotorbike.listform.status-inoporation')} />)
                             }
-                            {props.motorbike.status !== "Rejected" &&props.motorbike.status !== "Processing" && 
-                            <MyIcon
-                                icon={<ManageHistory sx={{ color: 'main' }} />}
-                                hasTooltip
-                                tooltipText={t("favourite.item.rent")}
-                                position="bottom"
-                                onClick={
-                                    () => setContentModal(<UpdateStatusFormModal motorbikeId={props.motorbike.id!} />)
-                                }
-                            />}
+                            {
+                                <Box display={"flex"} gap="4px" justifyContent={'center'} alignItems="center">
+                                    {
+                                        props.motorbike.status !== "Rejected" && props.motorbike.status !== "Processing" &&
+                                        <MyIcon
+                                            icon={<ManageHistory sx={{ color: 'main' }} />}
+                                            hasTooltip
+                                            tooltipText={t("favourite.item.rent")}
+                                            position="bottom"
+                                            onClick={
+                                                () => setContentModal(<UpdateStatusFormModal motorbikeId={props.motorbike.id!} />)
+                                            } />
+                                    }
+                                    <MyIcon
+                                        icon={<Edit sx={{
+                                            color: 'main',
+                                            width: "20px",
+                                            height: "20px",
+                                        }} />}
+                                        hasTooltip
+                                        tooltipText={t("favourite.item.rent")}
+                                        position="bottom"
+                                        onClick={
+                                            () => props.openUpdateInforPage && props.openUpdateInforPage()
+                                        } />
+                                </Box>
+                            }
                         </>
                     ) : (
                         <>
@@ -255,7 +274,7 @@ export default function MotorbikeFavouriteInforCard(props: {
                                 fontSize="20px"
                                 color={theme.palette.text.primary}
                             >
-                                {props.isListForm ? props.motorbike.model.brand.brandName + " " +  props.motorbike.model.modelName : props.motorbike.brandName + " " + props.motorbike.modelName}
+                                {props.isListForm ? props.motorbike.model.brand.brandName + " " + props.motorbike.model.modelName : props.motorbike.brandName + " " + props.motorbike.modelName}
                             </Typography>
                         </Tooltip>
                     </Box>

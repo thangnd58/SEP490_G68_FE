@@ -446,7 +446,9 @@ const ListMotorbikeForm = () => {
                 </Box>
               ) : (
                 listRegisterMotorbike.slice().reverse().map((motorbike: Motorbike) => (
-                  <MotorbikeFavouriteInforCard motorbike={motorbike} isListForm openItemDetailModal={() => openItemModal(motorbike, motorbike.imageUrl)} />
+                  <MotorbikeFavouriteInforCard motorbike={motorbike} isListForm openItemDetailModal={() => openItemModal(motorbike, motorbike.imageUrl)} openUpdateInforPage={
+                    () => navigate(`${ROUTES.user.updateregistermotorbike}/${motorbike.id}`)
+                  }/>
                 ))
               )
             }
