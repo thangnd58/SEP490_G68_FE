@@ -43,18 +43,18 @@ export const ROUTES = {
     },
 
     admin: {
-        dashboard: "/admin/dashboard",
-        managemotorbikes: "/admin/manage-motorbikes",
-        managelicences: "/admin/manage-licences",
-        licenceregister: "/admin/manage-licences/licence-detail",
-        motorbikeregister: "/admin/manage-motorbikes/motorbike-detail",
-        managerequestwithdraw: "/admin/manage-withdrawals",
-        managerBrand: "/admin/manage-brands",
-        manageNews: "/admin/manage-news",
-        managePromotion: "/admin/manage-promotions",
-        managerModel: "/admin/manage-models",
-        manageReport: "/admin/manage-reports",
-        managerUser: "/admin/manage-user"
+        dashboard: "/dashboard",
+        managemotorbikes: "/manage-motorbikes",
+        managelicences: "/manage-licences",
+        licenceregister: "/manage-licences/licence-detail",
+        motorbikeregister: "/manage-motorbikes/motorbike-detail",
+        managerequestwithdraw: "/manage-withdrawals",
+        managerBrand: "/manage-brands",
+        manageNews: "/manage-news",
+        managePromotion: "/manage-promotions",
+        managerModel: "/manage-models",
+        manageReport: "/manage-reports",
+        managerUser: "/manage-user"
     },
     other: {
         pagenotfound: "/page-not-found",
