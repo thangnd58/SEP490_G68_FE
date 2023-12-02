@@ -150,7 +150,7 @@ const Wallet = () => {
                     </LocalizationProvider>
                 </Box>
                 <Box>
-                    <Typography variant='h5' fontWeight={'bold'}>
+                    <Typography color={'primary.main'} variant='h5' fontWeight={'bold'}>
                         {formatMoney(user?.balance || 0)}
                     </Typography>
                     <Typography color={'text.secondary'}>
