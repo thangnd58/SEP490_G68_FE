@@ -57,16 +57,16 @@ export const BookingDetailPageOwner = () => {
         }
     }, [bookingId])
 
-    useEffect(() => {
-        try {
-            const intervalId = setInterval(() => {
-                getData(bookingId || "", reloadBooking)
-            }, 5000);
-            return () => clearInterval(intervalId);
-        } catch (error) {
-            navigate(ROUTES.other.pagenotfound)
-        }
-    }, [])
+    // useEffect(() => {
+    //     try {
+    //         const intervalId = setInterval(() => {
+    //             getData(bookingId || "", reloadBooking)
+    //         }, 5000);
+    //         return () => clearInterval(intervalId);
+    //     } catch (error) {
+    //         navigate(ROUTES.other.pagenotfound)
+    //     }
+    // }, [])
 
     const getData = (bookingId: string, reloadBooking: boolean) => {
         try {
