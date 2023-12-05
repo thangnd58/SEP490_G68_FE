@@ -30,7 +30,6 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
   const [showOtp, setShowOtp] = useState<boolean>(user?.phoneVerified ? true : false);
   const dispatch = useDispatch();
 
-
   const formik = useFormik({
     initialValues: {
       otpOld: "",

@@ -207,7 +207,9 @@
     },
     "uploadImage": {
       "success": "Upload image successfully",
-      "error": "Upload image failed"
+      "error": "Upload image failed",
+      "deleteSuccess": "Delete image successfully",
+      "deleteError": "Delete image failed"
     },
     "ShoppingCart": {
       "delete": {
@@ -220,6 +222,17 @@
         "warning": "Add motorbike to cart failed",
         "error": "Error when add motorbike to cart"
       }
+    },
+    "userProfile": {
+      "googleAccount": {
+        "linkSuccess": "Linked Google account successfully",
+        "linkError": "Failed to link Google account",
+        "unlinkSuccess": "Unlinked Google account successfully",
+        "unlinkError": "Failed to unlink Google account"
+      },
+      "btnUnlink": "Unlink",
+      "btnLink": "Link",
+      "confirmUnlink": "Do you want to remove the link from your google account?"
     }
   },
   "footer": {
@@ -252,11 +265,11 @@
     "ChangeProfile": "Change Profile",
     "InputProfile": "Please input Information",
     "BtnChange": "Change",
-    "BtnLink" : "Link",
+    "BtnLink": "Link",
     "notYetVerify": "Waiting to verify",
     "Verified": "Verified",
     "AlertVerify": "Please verify your phone number",
-    "Role" : "Role"
+    "Role": "Role"
   },
   "ChangePhone": {
     "Title": "Change Phone Number",
@@ -310,7 +323,7 @@
       "promotions": "Manage Promotions",
       "model": "Manage Model",
       "report": "Manage Report",
-      "user" : "Manage User"
+      "user": "Manage User"
     },
     "License": "License",
     "Motobike": {
@@ -425,7 +438,7 @@
       "TitleAdd": "Add new model",
       "Title": "Model"
     },
-    "user":{
+    "user": {
       "confirmDelete": "Confirm Deactive User Account",
       "titleConfirmDelete": "Do you want to deactive user account: ",
       "TitleChange": "Edit user",
@@ -461,8 +474,8 @@
     "listform": {
       "title": "List Motorbike",
       "status": "Status :",
-      "updateStatusSuccess" : "Update status successfully",
-      "updateStatusError" : "Update status failed",
+      "updateStatusSuccess": "Update status successfully",
+      "updateStatusError": "Update status failed",
       "all": "All",
       "table-cell-#": "#",
       "table-cell-image": "Image",
@@ -492,10 +505,10 @@
       "profit": "Profit",
       "miscellaneous": "Miscellaneous",
       "allmymotorbikes": "All your motorbikes",
-      "historyBooking" : "History booking",
-      "currentBooking" : "Current booking",
-      "bookingInHistory" : "Booking in history",
-      "myMotorbikeFeedback" : "My motorbike feedback"
+      "historyBooking": "History booking",
+      "currentBooking": "Current booking",
+      "bookingInHistory": "Booking in history",
+      "myMotorbikeFeedback": "My motorbike feedback"
     },
     "registedForm": {
       "updateTitle": "Update Information",
@@ -754,7 +767,7 @@
   "myBooking": {
     "currentBooking": "Current booking",
     "historyBooking": "History booking",
-    "myfeedback" : "My feedback",
+    "myfeedback": "My feedback",
     "status": "Status",
     "startDate": "Start date",
     "endDate": "End date",
@@ -776,7 +789,7 @@
     "createError": "Evaluation failed",
     "editSuccess": "Upadate evaluate success",
     "nonComment": "No comments yet",
-    "reply" : "Reply"
+    "reply": "Reply"
   },
   "report": {
     "reason": "Reporting reason",
@@ -790,7 +803,7 @@
     "pendingRes": "Pending Response",
     "alreadyRes": "Responded"
   },
-  "editional" :{
+  "editional": {
     "hotmotorbikes": "Hot motorbikes"
   }
 }
