@@ -105,7 +105,7 @@ export const routes: Route[] = [
     { path: `${ROUTES.account.userverification}/:ticket`, component: VerifyReigsterStatus, layout: LayoutWithoutFooter },
 
     // Admin Page
-    { path: `${ROUTES.admin.dashboard}`, component: DashboardManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
+    { path: `${ROUTES.admin.dashboard}`, component: DashboardManagement, layout: LayoutAdmin, role: ["Admin"] },
     { path: `${ROUTES.admin.managemotorbikes}`, component: MotorbikeManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managerequestwithdraw}`, component: WithdrawalRequestManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managelicences}`, component: LicenceManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
@@ -121,8 +121,8 @@ export const routes: Route[] = [
     { path: `${ROUTES.admin.managePromotion}/:id`, component: PromotionManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.manageReport}`, component: ReportManagement, layout: LayoutAdmin, role: ["Admin", "Staff"]},
     { path: `${ROUTES.admin.manageReport}/:id`, component: ReportManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"]},
-    { path: `${ROUTES.admin.managerUser}`, component: UserManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
-    { path: `${ROUTES.admin.managerUser}/:id`, component: UserManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"] },
+    { path: `${ROUTES.admin.managerUser}`, component: UserManagement, layout: LayoutAdmin, role: ["Admin"] },
+    { path: `${ROUTES.admin.managerUser}/:id`, component: UserManagementForm, layout: LayoutAdmin, role: ["Admin"] },
 
     //Wallet Page
     { path: `${ROUTES.user.wallet}`, component: Wallet, role: ["Admin", "Staff", "Customer"] },

@@ -2,7 +2,7 @@ import { Box, Button, Chip , Typography} from "@mui/material";
 import theme from '../../../utils/theme';
 import usei18next from "../../../hooks/usei18next";
 import { DataGrid } from '@mui/x-data-grid';
-import { Add, ArrowBack, CheckCircleOutline, ErrorOutline, WarningAmber } from "@mui/icons-material";
+import { Add, ArrowBack, CheckCircleOutline, DisabledByDefault, ErrorOutline, WarningAmber } from "@mui/icons-material";
 import MyIcon from "../../../components/common/MyIcon";
 import EditIcon from '@mui/icons-material/Edit';
 import { GridToolbar, gridFilteredSortedRowIdsSelector, selectedGridRowsSelector } from '@mui/x-data-grid-pro';
@@ -133,9 +133,9 @@ const UserManagement = () => {
             renderCell: (params: any) => (
                 <Box sx={{ cursor: 'pointer' }} display={'flex'}>
                     <MyIcon icon={<EditIcon />} position='left' hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.managerUser}/${params.value}`)}/>
-                    <MyIcon icon={<DeleteIcon />} position='right' hasTooltip tooltipText={t("dashBoardManager.model.delete")} 
+                    <MyIcon icon={<DisabledByDefault />} position='right' hasTooltip tooltipText={t("dashBoardManager.user.deactiveButton")} 
                     onClick={() => {
-                        setContentModal(<MyDialog icon={<DeleteIcon/>} onClickAgree={() => deleteUser(params.value)} title={t("dashBoardManager.user.confirmDelete")}  content={t("dashBoardManager.user.titleConfirmDelete") + (params.row.email || 'No information')}  hasAgreeButton={true} hasCancelButton={true}/>)
+                        setContentModal(<MyDialog onClickAgree={() => deleteUser(params.value)} title={t("dashBoardManager.user.confirmDelete")}  content={t("dashBoardManager.user.titleConfirmDelete") + (params.row.email || 'No information')}  hasAgreeButton={true} hasCancelButton={true}/>)
                     }}/>
                 </Box>
             ),

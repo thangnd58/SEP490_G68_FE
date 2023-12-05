@@ -426,13 +426,14 @@
       "Title": "Mẫu xe"
     },
     "user":{
-      "confirmDelete": "Xác nhận xóa tài khoản",
-      "titleConfirmDelete": "Bạn có muốn xóa tài khoản : ",
+      "confirmDelete": "Xác nhận hủy kích hoạt tài khoản",
+      "titleConfirmDelete": "Bạn có muốn hủy kích hoạt tài khoản: ",
       "TitleChange": "Chỉnh sửa tài khoản",
       "chooseRole": "Chọn vai trò",
       "admin": "Quản lý",
       "customer" : "Khách hàng",
-      "staff" : "Nhân viên"
+      "staff" : "Nhân viên",
+      "deactiveButton": "Hủy kích hoạt"
     }
   },
   "component": {

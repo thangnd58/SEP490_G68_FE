@@ -425,13 +425,14 @@
       "Title": "Model"
     },
     "user":{
-      "confirmDelete": "Confirm Delete User",
-      "titleConfirmDelete": "Do you want to delete user : ",
+      "confirmDelete": "Confirm Deactive User Account",
+      "titleConfirmDelete": "Do you want to deactive user account: ",
       "TitleChange": "Edit user",
       "chooseRole": "Choose role",
       "admin": "Admin",
       "customer" : "Customer",
-      "staff" : "Staff"
+      "staff" : "Staff",
+      "deactiveButton": "Deactive"
     }
   },
   "component": {
