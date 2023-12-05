@@ -33,6 +33,7 @@ export const LoginModal = (props: { isOpenLoginModal: boolean, setIsOpenLoginMod
                 <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={() => setIsOpenLoginModal(false)} position='bottom' />
             </Box>
             <DialogTitle
+            
             >
                 <LoginForm isModal={true} isMobileModal={isMobile} setIsOpenLoginModal={setIsOpenLoginModal} />
             </DialogTitle>

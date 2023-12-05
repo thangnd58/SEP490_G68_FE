@@ -25,17 +25,17 @@ root.render(
       <ModalProvider>
         <div className='rcs-container'>
           <BrowserRouter >
-            <ModalContext.Consumer>
-              {({ contentModal }) => {
-                return (
-                  <>
-                    {contentModal}
-                  </>
-                );
-              }}
-            </ModalContext.Consumer>
             <AuthProvider>
               <>
+              <ModalContext.Consumer>
+                {({ contentModal }) => {
+                  return (
+                    <>
+                      {contentModal}
+                    </>
+                  );
+                }}
+              </ModalContext.Consumer>
                 <ToastContainer
                   bodyStyle={{ color: theme.palette.text.primary }}
                   position="bottom-left"

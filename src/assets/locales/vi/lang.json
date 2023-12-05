@@ -348,6 +348,7 @@
       "columnAccountName": "Chủ tài khoản",
       "columnAccountNumber": "Số tài khoản",
       "columnAmount": "Số tiền",
+      "columnAmountCustomerGet": "Số tiền khách nhận (Đã tính phí)",
       "columnViewQr": "QR CODE",
       "buttonConfirmProcess": "Xác nhận là đã chuyển khoản thành công",
       "buttonReject": "Từ chối do thông tin không chính xác"

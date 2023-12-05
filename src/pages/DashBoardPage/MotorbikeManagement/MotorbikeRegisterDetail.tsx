@@ -48,6 +48,7 @@ const MotorbikeRegisterDetail = () => {
             const response = await MotorbikeManagementService.getMotorbikesById(id);
             if (response) {
                 setMotorbike(response)
+                formik.setFieldValue("statusComment", response.statusComment)
             }
         } catch (error) {
 
@@ -242,24 +243,31 @@ const MotorbikeRegisterDetail = () => {
                                 fontFamily: 'Arial, sans-serif',
                                 fontSize: '16px'
                             }}
+                            InputProps={{
+                                readOnly: motorbike?.status === "Approved",
+                            }}
                         />
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: "16px", mt: "16px" }}>
-                            <MyCustomButton
-                                type="submit"
-                                borderRadius={8}
-                                fontSize={16}
-                                fontWeight={500}
-                                variant='outlined'
-                                content={t("licenseInfo.BtnReject")}
-                                onClick={() => setStatusChange("Rejected")} />
-                            <MyCustomButton
-                                type="submit"
-                                borderRadius={8}
-                                fontSize={16}
-                                fontWeight={400}
-                                content={t("licenseInfo.BtnApprove")}
-                                onClick={() => setStatusChange("Approved")} />
-                        </Box>
+                        {
+                            motorbike?.status !== "Approved"
+                            &&
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: "16px", mt: "16px" }}>
+                                <MyCustomButton
+                                    type="submit"
+                                    borderRadius={8}
+                                    fontSize={16}
+                                    fontWeight={500}
+                                    variant='outlined'
+                                    content={t("licenseInfo.BtnReject")}
+                                    onClick={() => setStatusChange("Rejected")} />
+                                <MyCustomButton
+                                    type="submit"
+                                    borderRadius={8}
+                                    fontSize={16}
+                                    fontWeight={400}
+                                    content={t("licenseInfo.BtnApprove")}
+                                    onClick={() => setStatusChange("Approved")} />
+                            </Box>
+                        }
                     </form>
                 </Box>
 

@@ -348,6 +348,7 @@
       "columnAccountName": "Account owner",
       "columnAccountNumber": "Account number",
       "columnAmount": "Amount",
+      "columnAmountCustomerGet": "Amount received by customer (Charged)",
       "columnViewQr": "QR CODE",
       "buttonConfirmProcess": "Confirm successful transfer",
       "buttonReject": "Refused due to incorrect information"
