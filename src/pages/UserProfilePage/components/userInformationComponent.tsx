@@ -437,11 +437,11 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                           label={t('licenseInfo.Approve')} />
                       )}
                       {lisence.status === 2 && (
-                          <Chip
-                            sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
-                            color="error"
-                            icon={<ErrorOutline />}
-                            label={t('licenseInfo.Reject')} />
+                        <Chip
+                          sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                          color="error"
+                          icon={<ErrorOutline />}
+                          label={t('licenseInfo.Reject')} />
                       )}
                     </Box>
                   )}
@@ -558,7 +558,12 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                   height: '270px',
                 }}>
                   {imagePreviewUrl !== "" ? (
-                    <Avatar variant="rounded" sx={{ width: '100%', height: '100%' }} src={imagePreviewUrl} alt={user.name} />
+                    <img style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'scale-down',
+                      rotate: '-90deg',
+                    }} src={imagePreviewUrl} alt={user.name} />
                   ) : (
                     <Typography fontWeight="500" sx={{ width: '100%', margin: '100px 0px' }} align="center">
                       {t('licenseInfo.Image')}

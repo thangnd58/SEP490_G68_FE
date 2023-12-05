@@ -75,7 +75,7 @@ const MotorbikeManagement = () => {
                                 color="error"
                                 icon={<ErrorOutline />}
                                 label={t('postMotorbike.listform.status-rejected')} />)
-                            : params.value === "On Hiatus" ? (
+                            : params.value === "OnHiatus" ? (
                                 <Chip
                                     sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
                                     color="warning"

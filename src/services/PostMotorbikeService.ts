@@ -9,7 +9,7 @@ const apiGetListRegisterMotorbike = '/motorbikes'
 const apiGetListMotorbikeByUserId = '/motorbikes/userId';
 const apiGetMotorbikeById = '/motorbike'
 const apiUpdateMotorbike = '/motorbike'
-const apiUpdateStatusMotorbike = '/motorbike/handle'
+const apiUpdateStatusMotorbike = '/motorbike/deactive'
 
 
 export const PostMotorbikeService = {
