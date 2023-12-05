@@ -542,6 +542,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                         borderRadius={8}
                         fontSize={isMobile ? 12 : 16}
                         fontWeight={400}
+                        disabled={values.licenceNumber === lisence?.licenceNumber && values.fullName === lisence?.fullName && values.dob === lisence?.dob && values.licenceImage === lisence?.licenceImage}
                         content={t('licenseInfo.BtnSave')}
                         onClick={() => handleSubmit()} />
                       <MyCustomButton
