@@ -12,6 +12,7 @@ export interface User {
     role: Role;
     phoneVerified: boolean;
     balance: number;
+    deleted: boolean;
     createDatetime: string;
     googleIdentity: string;
     motorbikes: Motorbike[];

@@ -434,7 +434,8 @@
       "admin": "Quản lý",
       "customer" : "Khách hàng",
       "staff" : "Nhân viên",
-      "deactiveButton": "Hủy kích hoạt"
+      "deactiveButton": "Hủy kích hoạt",
+      "active": "Kích hoạt"
     },
     "dashboard":{
       "totalMoney": "Tổng tiền giao dịch",
