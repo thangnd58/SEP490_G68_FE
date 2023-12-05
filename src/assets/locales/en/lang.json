@@ -434,6 +434,16 @@
       "customer" : "Customer",
       "staff" : "Staff",
       "deactiveButton": "Deactive"
+    },
+    "dashboard":{
+      "totalMoney": "Total transaction amount",
+      "totalMoneyOut" : "Total money out",
+      "totalMoneyIn" : "Total money in",
+      "income" : "Income",
+      "paymentType": "Payment type",
+      "transactionStatistics": "Transaction statistics",
+      "startDate": "Start Date",
+      "endDate" :"End Date"
     }
   },
   "component": {
