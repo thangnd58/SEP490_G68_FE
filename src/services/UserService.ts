@@ -11,6 +11,7 @@ const apiLisence = '/licence'
 const apiForgotPassword = '/forgot-password'
 const apiSetPassword = '/set-password'
 const apiUserFavourite = '/favourite';
+const apiVerifyGoogle = '/user/google-verify'
 
 const UserService = {
     login: async (user: any) => {
@@ -53,6 +54,14 @@ const UserService = {
             }
             return response
         });
+    },
+
+    linkGoogleAccount: async (accessToken: any) => {
+        return await api.post(apiVerifyGoogle, accessToken);
+    },
+
+    unlinkGoogleAccount: async () => {
+        return await api.delete(apiVerifyGoogle)
     },
 
     getToken: (): any => JSON.parse(localStorage.getItem('token')!),

@@ -207,7 +207,9 @@
     },
     "uploadImage": {
       "success": "Tải ảnh lên thành công",
-      "error": "Tải ảnh lên thất bại"
+      "error": "Tải ảnh lên thất bại",
+      "deleteSuccess": "Xóa ảnh thành công",
+      "deleteError": "Xóa ảnh thất bại"
     },
     "ShoppingCart": {
       "delete": {
@@ -220,6 +222,17 @@
         "warning": "Thêm xe vào giỏ hàng thất bại",
         "error": "Lỗi thêm xe vào giỏ"
       }
+    },
+    "userProfile": {
+      "googleAccount": {
+        "linkSuccess": "Liên kết tài khoản Google thành công",
+        "linkError": "Liên kết tài khoản Google thất bại",
+        "unlinkSuccess": "Đã xóa liên kết tài khoản Google",
+        "unlinkError": "Xóa liên kết tài khoản Google thất bại"
+      },
+      "btnUnlink": "Xóa liên kết",
+      "btnLink": "Liên kết",
+      "confirmUnlink": "Bạn có muốn xóa liên kết với tài khoản google không?"
     }
   },
   "footer": {

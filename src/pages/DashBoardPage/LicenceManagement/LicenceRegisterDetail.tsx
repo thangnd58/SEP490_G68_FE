@@ -20,6 +20,8 @@ const LicenceRegisterDetail = () => {
     const [statusChange, setStatusChange] = useState<Number>();
     const [licence, setLicence] = useState<Lisence>();
     const { isMobile, isIpad } = useThemePage();
+    const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("");
+    const [isRotate, setIsRotate] = useState<boolean>(false)
 
     useEffect(() => {
         getLicenseById(Number(id))
@@ -39,12 +41,44 @@ const LicenceRegisterDetail = () => {
             const response = await LicenceManagementService.getLicenceById(id);
             if (response) {
                 setLicence(response)
+                setImagePreviewUrl(response.licenceImageUrl)
                 formik.setFieldValue("statusComment", response.statusComment)
             }
         } catch (error) {
 
         }
     }
+
+    useEffect(() => {
+        const checkImageSize = () => {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.src = imagePreviewUrl;
+            img.onload = () => {
+                const { naturalWidth, naturalHeight } = img;
+                if (naturalWidth < naturalHeight) {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+
+                    if (ctx) {
+                        canvas.width = naturalHeight;
+                        canvas.height = naturalWidth;
+                        ctx.translate(naturalHeight, 0);
+                        ctx.rotate(Math.PI / 2);
+                        ctx.drawImage(img, 0, 0, naturalWidth, naturalHeight);
+                        setImagePreviewUrl(canvas.toDataURL());
+                        setIsRotate(true)
+                    }
+                } else {
+                    setIsRotate(false)
+                } 
+            };
+        };
+
+        if (imagePreviewUrl !== '') {
+            checkImageSize();
+        }
+    }, [imagePreviewUrl]);
 
     const changeStatus = async (status: number, statusComment: string) => {
         try {
@@ -102,17 +136,18 @@ const LicenceRegisterDetail = () => {
                 padding: isMobile ? "16px 0px" : "32px",
                 gap: '16px',
             }}>
-                <Box sx={{ display: 'flex', width: isMobile ? '90%' : '30%', alignItems: isMobile ? 'center' : 'flex-start', justifyContent: 'center' }}
+                <Box sx={{ display: 'flex', width: isMobile ? '90%' : '30%', alignItems: isMobile ? 'center' : 'flex-start', justifyContent: 'center',rotate: isRotate ? '-90deg' : '0deg' }}
                     padding={isMobile ? "0px 16px" : "16px"}
+                    
                 >
                     <img
                         style={{
                             width: '100%',
                             borderRadius: '16px',
-                            objectFit: 'cover',
+                            objectFit: 'fill',
                             border: '3px solid #8B4513',
                         }}
-                        src={licence?.licenceImageUrl}
+                        src={imagePreviewUrl}
                         alt={'licence'} />
                 </Box>
                 <Box
