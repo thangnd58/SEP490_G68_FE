@@ -12,6 +12,7 @@ import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import { useAppSelector } from '../../../hooks/useAction';
 import { getUserInfo } from '../../../redux/reducers/authReducer';
 import { useDispatch } from 'react-redux';
+import ReactInputVerificationCode from 'react-input-verification-code';
 
 interface ChildComponentProps {
   setType: React.Dispatch<React.SetStateAction<string>>;
@@ -28,7 +29,7 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
   const [showButtonsConfirm2, setShowButtonsConfirm2] = useState<boolean>(false);
   const [showOtp, setShowOtp] = useState<boolean>(user?.phoneVerified ? true : false);
   const dispatch = useDispatch();
-  
+
 
   const formik = useFormik({
     initialValues: {
@@ -39,43 +40,43 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
     validationSchema: Yup.object({
       otpOld: Yup.string().required(t('form.required')).matches(/^[0-9]{6}$/, t('form.validateOtp')),
       phone: Yup.string().required(t('form.required')).matches(/^[0-9]{10}$/, t('form.validatePhone')),
-      otpNew : Yup.string().required(t('form.required')).matches(/^[0-9]{6}$/, t('form.validateOtp')),
+      otpNew: Yup.string().required(t('form.required')).matches(/^[0-9]{6}$/, t('form.validateOtp')),
     }),
     onSubmit: values => {
       verifyOtp(values.phone, values.otpOld, values.otpNew);
     }
   });
-  
-  const getOTP = async (type : number) => {
+
+  const getOTP = async (type: number) => {
     setTypeOtp(type);
     let phoneToSend = ""
-    if(type === 1 && user){
+    if (type === 1 && user) {
       phoneToSend = user.phone;
-      setFieldValue("phone","0000000000");
-      setFieldValue("otpNew","000000");
-    }else{
+      setFieldValue("phone", "0000000000");
+      setFieldValue("otpNew", "000000");
+    } else {
       phoneToSend = values.phone;
     }
-    if(user){
+    if (user) {
       try {
-        const response = await UserService.requestVerifyPhone(phoneToSend,type)
+        const response = await UserService.requestVerifyPhone(phoneToSend, type)
         if (response.status === 200) {
-          if(type === 1 ){
+          if (type === 1) {
             setShowButtonsOtp1(false);
             setShowButtonsConfirm1(true);
             setTimeout(() => {
               setShowButtonsOtp1(true);
             }, 10000);
-          }else{
+          } else {
             setShowButtonsOtp2(false);
             setShowButtonsConfirm2(true);
             setTimeout(() => {
               setShowButtonsOtp2(true);
             }, 10000);
           }
-          
+
           ToastComponent(t("toast.sendOtp.success"), "success");
-        }else if(response.status === 409){
+        } else if (response.status === 409) {
           ToastComponent(t("toast.sendOtp.Conflict"), "warning");
         } else {
           ToastComponent(t("toast.sendOtp.warning"), "warning");
@@ -84,29 +85,29 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
         ToastComponent(t("toast.sendOtp.error"), "error");
       }
     }
-    
+
   };
 
-  const verifyOtp = async (phone: string, otpOld: string, otpNew : string) => {
+  const verifyOtp = async (phone: string, otpOld: string, otpNew: string) => {
     try {
       let phoneToSend = ""
       let otpToSend = ""
-      if(typeOtp === 1 && user){
+      if (typeOtp === 1 && user) {
         phoneToSend = user.phone;
         otpToSend = otpOld;
-        setFieldValue("phone","");
-        setFieldValue("otpNew","");
-      }else{
+        setFieldValue("phone", "");
+        setFieldValue("otpNew", "");
+      } else {
         phoneToSend = phone;
         otpToSend = otpNew;
       }
       const response = await UserService.requestVerifyOtp(phoneToSend, otpToSend);
       if (response.status === 200) {
-        
-        if(typeOtp === 1){
+
+        if (typeOtp === 1) {
           setShowOtp(false);
           ToastComponent(t("toast.ConfirmOtp.success"), "success");
-        }else{
+        } else {
           dispatch(getUserInfo());
           setType('info');
           ToastComponent(t("toast.ChangePhone.success"), "success");
@@ -132,21 +133,15 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
       {showOtp ? (
 
         <Box className='confirm-old-phone-otp' sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <Box display={'flex'} alignItems={'center'}>
-            <PhoneAndroidIcon></PhoneAndroidIcon>
-            <Typography display={'inline'}>{user?.phone}</Typography>
-          </Box>
-
           <form onSubmit={handleSubmit} style={{ width: isMobile ? "100%" : "50%", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Box display={'flex'} justifyContent={'flex-end'} gap={'40px'} alignContent={'center'} alignItems={'center'}>
-              <TextField
-                style={{ marginBottom: '13px', width: '90%' }}
-                name="otpOld"
-                label="OTP"
-                variant="outlined"
-                margin="normal"
-                value={values.otpOld}
-                onChange={handleChange}
+              <ReactInputVerificationCode
+                length={6}
+                onChange={(value) => {
+                  setFieldValue("otpOld", value);
+                }}
+                autoFocus={true}
+                placeholder={"-"}
               />
               <Tooltip title={t("VerifyPhone.TooltipGetOTP")}>
                 <Box>
@@ -174,9 +169,6 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
               type='submit'
               disabled={showButtonsConfirm1 ? false : true}
               isWrap={false}></MyCustomButton>
-
-
-
           </form>
         </Box>)
         : (

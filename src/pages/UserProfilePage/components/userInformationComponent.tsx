@@ -10,7 +10,7 @@ import ErrorMessage from '../../../components/common/ErrorMessage';
 import ToastComponent from '../../../components/toast/ToastComponent';
 import UploadImageService from '../../../services/UploadImageService';
 import MyCustomButton from '../../../components/common/MyButton';
-import { CheckCircle, CheckCircleOutline, CheckCircleOutlineOutlined, EditOutlined, Error, ErrorOutline, Info, InfoOutlined, Warning, WarningAmber } from '@mui/icons-material';
+import { CheckCircle, CheckCircleOutline, CheckCircleOutlineOutlined, EditOutlined, Error, ErrorOutline, Info, InfoOutlined, Link, Warning, WarningAmber } from '@mui/icons-material';
 import theme from '../../../utils/theme';
 import { useAppDispatch, useAppSelector } from '../../../hooks/useAction';
 import { getUserInfo } from '../../../redux/reducers/authReducer';
@@ -341,7 +341,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                          </Tooltip> */}
                   </Box>
                   <Box display={'flex'} alignItems={'center'} alignContent={'center'}>
-                    <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600} display={'inline'} marginRight={1}>
+                    <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600} display={'inline'} marginRight={"4px"}>
                       {user.phone ? user.phone : t('userProfile.InputProfile')}
                     </Typography>
                     {
@@ -387,9 +387,25 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                   <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
                     Google
                   </Typography>
-                  <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
+                  <Box display={'flex'} alignItems={'center'} alignContent={'center'}>
+                  <Typography marginRight={"4px"} fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
                     {user.googleIdentity ? user.googleIdentity : t('userProfile.InputProfile')}
                   </Typography>
+                    {
+                      user.phoneVerified === true && (
+                        <MyIcon icon={<Link sx={{
+                          width: '16px',
+                          height: '16px',
+                          rotate: '-30deg',
+                        }} />} noPadding hasTooltip tooltipText={t("userProfile.BtnLink")} onClick={() => {
+                          setType('changePhone');
+                          setShowButtons(false);
+                        }} />
+                      )
+                    }
+
+                    {/* <Button onClick={ChangePhone}>{t('userProfile.BtnChange')}</Button> */}
+                  </Box>
                 </Box>
               </Box>
             </Box>

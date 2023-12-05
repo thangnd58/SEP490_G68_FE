@@ -252,6 +252,7 @@
     "ChangeProfile": "Change Profile",
     "InputProfile": "Please input Information",
     "BtnChange": "Change",
+    "BtnLink" : "Link",
     "notYetVerify": "Waiting to verify",
     "Verified": "Verified",
     "AlertVerify": "Please verify your phone number",
