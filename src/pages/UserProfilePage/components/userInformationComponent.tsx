@@ -463,7 +463,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                       {user.googleIdentity ? user.googleIdentity : t('toast.userProfile.btnLink')}
                     </Typography>
                     {
-                      user.googleIdentity === "" ? (
+                      user.googleIdentity === "" && user.email !== null ? (
                         <GoogleOAuthProvider clientId="1088937198611-lpsokcekdcethdobpeghbm43nf4fglcl.apps.googleusercontent.com">
                           <Tooltip title={t('toast.userProfile.btnLink')}>
                             <GoogleLogin
