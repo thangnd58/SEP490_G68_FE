@@ -433,7 +433,8 @@
       "admin": "Admin",
       "customer" : "Customer",
       "staff" : "Staff",
-      "deactiveButton": "Deactive"
+      "deactiveButton": "Deactive",
+      "active": "Active"
     },
     "dashboard":{
       "totalMoney": "Total transaction amount",
