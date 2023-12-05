@@ -503,8 +503,8 @@ function Header() {
                                                         );
                                                         setAnchorEl(null);
                                                         navigate(
-                                                            ROUTES.admin
-                                                                .dashboard
+                                                            user?.role.roleName === "Staff" ? ROUTES.admin
+                                                                .managemotorbikes : ROUTES.admin.dashboard
                                                         );
                                                     }}
                                                     //hover to change background color
@@ -799,7 +799,7 @@ function Header() {
                                             width="100%"
                                             onClick={() =>
                                                 navigate(
-                                                    ROUTES.admin.dashboard
+                                                    user?.role.roleName === "Staff" ? ROUTES.admin.managemotorbikes : ROUTES.admin.dashboard
                                                 )
                                             }
                                             content={t("header.dashboard")}

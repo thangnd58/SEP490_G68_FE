@@ -33,6 +33,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
   const inputRef = useRef<HTMLInputElement>(null);
   const inputRefLicense = useRef<HTMLInputElement>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("");
+  const [fileLicence, setFileLicence] = useState<File>();
   const dispatch = useAppDispatch();
   const { isMobile } = useThemePage();
 
@@ -94,6 +95,26 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
     try {
       const response = await UserService.changeLicense(licenceNumber, fullName, dob, licenceImage);
       if (response.status === 200) {
+        const params: ImageUpload = {
+          tableName: 'licence',
+          columnName: 'licenceImage',
+          code: response.data,
+          fileName: fileLicence!.name,
+        };
+        const responseUrl = await UploadImageService.generateUrlUpload(params);
+        if (responseUrl.status !== 200) {
+          ToastComponent(t('toast.uploadImage.error'), 'error');
+          return;
+        }
+        const urlUpload = responseUrl.data.uploadUrl;
+        if (fileLicence) {
+          const responseUpload = await UploadImageService.uploadImage(urlUpload, fileLicence);
+
+          if (responseUpload.status !== 200) {
+            ToastComponent(t('toast.uploadImage.error'), 'error');
+            return;
+          }
+        }
         ToastComponent(t('toast.changeLicense.success'), 'success');
         setIsEditLisence(false);
         getLisence();
@@ -145,7 +166,6 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
           ToastComponent(t('toast.uploadImage.error'), 'error');
           return;
         }
-
         const resultUpdateAvatar = await UserService.updateAvatarUser(user!.userId, file.name);
         if (resultUpdateAvatar.status !== 200) {
           ToastComponent(t('toast.uploadImage.error'), 'error');
@@ -204,32 +224,11 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
           inputRefLicense.current.value = '';
           return;
         }
-
-        const params: ImageUpload = {
-          tableName: 'licence',
-          columnName: 'licenceImage',
-          code: lisence!.licenceId.toString(),
-          fileName: file.name,
-        };
-
-        const responseUrl = await UploadImageService.generateUrlUpload(params);
-        if (responseUrl.status !== 200) {
-          ToastComponent(t('toast.uploadImage.error'), 'error');
-          return;
-        }
-
-        const urlUpload = responseUrl.data.uploadUrl;
-        const responseUpload = await UploadImageService.uploadImage(urlUpload, file);
-
-        if (responseUpload.status !== 200) {
-          ToastComponent(t('toast.uploadImage.error'), 'error');
-          return;
-        }
-
         const newPreview = URL.createObjectURL(file);
         setFieldValue('licenceImage', file.name);
         setImagePreviewUrl(newPreview);
-        ToastComponent("t('toast.uploadImage.success')", 'success');
+        setFileLicence(file);
+        ToastComponent(t('toast.uploadImage.success'), 'success');
       }
     } catch (error) {
     } finally {
@@ -438,11 +437,11 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                           label={t('licenseInfo.Approve')} />
                       )}
                       {lisence.status === 2 && (
-                        <Chip
-                          sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
-                          color="error"
-                          icon={<ErrorOutline />}
-                          label={t('licenseInfo.Reject')} />
+                          <Chip
+                            sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                            color="error"
+                            icon={<ErrorOutline />}
+                            label={t('licenseInfo.Reject')} />
                       )}
                     </Box>
                   )}
@@ -558,7 +557,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                   padding: '16px',
                   height: '270px',
                 }}>
-                  {lisence ? (
+                  {imagePreviewUrl !== "" ? (
                     <Avatar variant="rounded" sx={{ width: '100%', height: '100%' }} src={imagePreviewUrl} alt={user.name} />
                   ) : (
                     <Typography fontWeight="500" sx={{ width: '100%', margin: '100px 0px' }} align="center">

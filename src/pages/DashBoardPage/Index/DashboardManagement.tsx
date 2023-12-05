@@ -38,7 +38,6 @@ export const DashboardManagement = () => {
     const [moneyFlow, setMoneyFlow] = useState<MoneyFlow[]>([])
     const { t, isVn } = usei18next()
     const { isMobile } = useThemePage();
-
     const today = dayjs();
     const sevenDaysBefore = today.subtract(7, 'day');
     const { RangePicker } = DatePicker;
