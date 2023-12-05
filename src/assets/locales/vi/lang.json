@@ -447,7 +447,18 @@
       "admin": "Quản lý",
       "customer" : "Khách hàng",
       "staff" : "Nhân viên",
-      "deactiveButton": "Hủy kích hoạt"
+      "deactiveButton": "Hủy kích hoạt",
+      "active": "Kích hoạt"
+    },
+    "dashboard":{
+      "totalMoney": "Tổng tiền giao dịch",
+      "totalMoneyOut" : "Tổng tiền ra",
+      "totalMoneyIn" : "Tổng tiền vào",
+      "income" : "Doanh thu",
+      "paymentType": "Loại hình thanh toán",
+      "transactionStatistics": "Thống kê giao dịch",
+      "startDate": "Thời gian bắt đầu",
+      "endDate" :"Thời gian kết thúc"
     }
   },
   "component": {

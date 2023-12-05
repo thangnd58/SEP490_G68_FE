@@ -444,9 +444,20 @@
       "TitleChange": "Edit user",
       "chooseRole": "Choose role",
       "admin": "Admin",
-      "customer": "Customer",
-      "staff": "Staff",
-      "deactiveButton": "Deactive"
+      "customer" : "Customer",
+      "staff" : "Staff",
+      "deactiveButton": "Deactive",
+      "active": "Active"
+    },
+    "dashboard":{
+      "totalMoney": "Total transaction amount",
+      "totalMoneyOut" : "Total money out",
+      "totalMoneyIn" : "Total money in",
+      "income" : "Income",
+      "paymentType": "Payment type",
+      "transactionStatistics": "Transaction statistics",
+      "startDate": "Start Date",
+      "endDate" :"End Date"
     }
   },
   "component": {

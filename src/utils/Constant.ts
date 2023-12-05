@@ -143,6 +143,7 @@ export const dummyMotorbike: Motorbike = {
         avatar: "user_avatar.jpg",
         password: "hashed_password",
         avatarUrl: "user_avatar_url.jpg",
+        deleted: true,
         role: {
             roleId: 1,
             roleName: "User",
