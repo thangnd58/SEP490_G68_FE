@@ -51,6 +51,12 @@ const WithdrawalRequestManagement = () => {
             }
         },
         {
+            field: 'userId', headerName: t("dashBoardManager.withdrawalRequest.columnAmountCustomerGet"), width: 300,
+            renderCell: (params: any) => {
+                return formatMoney(params.row.withdraw - 9900)
+            }
+        },
+        {
             field: 'status',
             headerName: t("dashBoardManager.motorbikeRentalManager.columnStatus"),
             width: 200,

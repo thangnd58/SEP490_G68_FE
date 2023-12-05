@@ -8,6 +8,7 @@ import axios from "axios";
 import MyCustomButton from "../../../../components/common/MyButton";
 import WalletService from "../../../../services/WalletService";
 import useThemePage from "../../../../hooks/useThemePage";
+import ErrorMessage from "../../../../components/common/ErrorMessage";
 
 interface MyDialogProps {
     withdrawal: ResponseWithDrawal;
@@ -26,7 +27,7 @@ const ModalQrCode = (props: MyDialogProps) => {
                 accountNo: props.withdrawal.bankNumber,
                 accountName: props.withdrawal.nameInBank,
                 acqId: props.withdrawal.bankCode,
-                amount: props.withdrawal.withdraw,
+                amount: props.withdrawal.withdraw - 9900,
                 template: 'compact2',
             };
             const response: any = await axios.post(

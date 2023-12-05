@@ -38,6 +38,7 @@ export interface Lisence {
     licenceImage: string;
     licenceImageUrl: string;
     status: number;
+    statusComment: string,
     createDateTime: string;
 }
 

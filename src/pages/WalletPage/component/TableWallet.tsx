@@ -22,9 +22,6 @@ import dayjs from 'dayjs';
 import useThemePage from '../../../hooks/useThemePage';
 import { BookingService } from '../../../services/BookingService';
 import { BookingPaymentType, BookingStatus, ROUTES } from '../../../utils/Constant';
-import { ModalContext } from '../../../contexts/ModalContext';
-import MyDialog from '../../../components/common/MyDialog';
-import { PaymentService } from '../../../services/PaymentService';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -382,8 +379,14 @@ export default function CollapsibleTable({ reload, selectedDate }: { reload: boo
                 setWithdrawals(data.data)
             })
             BookingService.getListBookingCurrentUser().then((data) => {
-                //@ts-ignore
-                setBookings(data)
+                const bookingsThisMonthYear = data.filter((booking) => {
+                    const createDatetime = new Date(booking.createDatetime);
+                    const bookingMonth = createDatetime.getMonth();
+                    const bookingYear = createDatetime.getFullYear();
+                    return bookingMonth === selectedDate.month() + 1 && bookingYear === selectedDate.year();
+                });
+
+                setBookings(bookingsThisMonthYear);
             })
         } catch (error) {
 

@@ -11,7 +11,7 @@ import theme from "../../../utils/theme";
 import useThemePage from "../../../hooks/useThemePage";
 import MyIcon from "../../../components/common/MyIcon";
 import { ArrowBack } from "@mui/icons-material";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper} from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 const LicenceRegisterDetail = () => {
     const { t } = usei18next()
@@ -39,11 +39,13 @@ const LicenceRegisterDetail = () => {
             const response = await LicenceManagementService.getLicenceById(id);
             if (response) {
                 setLicence(response)
+                formik.setFieldValue("statusComment", response.statusComment)
             }
         } catch (error) {
 
         }
     }
+
     const changeStatus = async (status: number, statusComment: string) => {
         try {
             const response = await LicenceManagementService.changeStatus(Number(id), status, statusComment)
@@ -128,8 +130,10 @@ const LicenceRegisterDetail = () => {
                                 {/* License Number */}
                                 <TableRow>
                                     <TableCell sx={{ border: '1px solid #e0e0e0', padding: '8px' }}>
-                                        <Typography variant="h5" sx={{ color: 'Black', fontSize: isMobile ? '16px' : '20px',
-                                            fontWeight: '600' }}>
+                                        <Typography variant="h5" sx={{
+                                            color: 'Black', fontSize: isMobile ? '16px' : '20px',
+                                            fontWeight: '600'
+                                        }}>
                                             {t("licenseInfo.NumberLicense")} :
                                         </Typography>
                                     </TableCell>
@@ -141,8 +145,10 @@ const LicenceRegisterDetail = () => {
                                 {/* Full Name */}
                                 <TableRow>
                                     <TableCell sx={{ border: '1px solid #e0e0e0', padding: '8px' }}>
-                                        <Typography variant="h5" sx={{ color: 'Black', fontSize: isMobile ? '16px' : '20px',
-                                            fontWeight: '600' }}>
+                                        <Typography variant="h5" sx={{
+                                            color: 'Black', fontSize: isMobile ? '16px' : '20px',
+                                            fontWeight: '600'
+                                        }}>
                                             {t("licenseInfo.Name")} :
                                         </Typography>
                                     </TableCell>
@@ -154,8 +160,10 @@ const LicenceRegisterDetail = () => {
                                 {/* Date of Birth */}
                                 <TableRow>
                                     <TableCell sx={{ border: '1px solid #e0e0e0', padding: '8px' }}>
-                                        <Typography variant="h5" sx={{ color: 'Black', fontSize: isMobile ? '16px' : '20px',
-                                            fontWeight: '600' }}>
+                                        <Typography variant="h5" sx={{
+                                            color: 'Black', fontSize: isMobile ? '16px' : '20px',
+                                            fontWeight: '600'
+                                        }}>
                                             {t("userProfile.DOB")} :
                                         </Typography>
                                     </TableCell>
@@ -192,24 +200,30 @@ const LicenceRegisterDetail = () => {
                                 fontFamily: 'Arial, sans-serif',
                                 fontSize: '16px'
                             }}
+                            InputProps={{
+                                readOnly: licence?.status === 1,
+                            }}
                         />
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: "16px", mt: "16px" }}>
-                            <MyCustomButton
-                                type="submit"
-                                borderRadius={8}
-                                fontSize={16}
-                                fontWeight={500}
-                                variant='outlined'
-                                content={t("licenseInfo.BtnReject")}
-                                onClick={() => setStatusChange(2)} />
-                            <MyCustomButton
-                                type="submit"
-                                borderRadius={8}
-                                fontSize={16}
-                                fontWeight={400}
-                                content={t("licenseInfo.BtnApprove")}
-                                onClick={() => setStatusChange(1)} />
-                        </Box>
+                        {
+                            licence?.status !== 1 &&
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: "16px", mt: "16px" }}>
+                                <MyCustomButton
+                                    type="submit"
+                                    borderRadius={8}
+                                    fontSize={16}
+                                    fontWeight={500}
+                                    variant='outlined'
+                                    content={t("licenseInfo.BtnReject")}
+                                    onClick={() => setStatusChange(2)} />
+                                <MyCustomButton
+                                    type="submit"
+                                    borderRadius={8}
+                                    fontSize={16}
+                                    fontWeight={400}
+                                    content={t("licenseInfo.BtnApprove")}
+                                    onClick={() => setStatusChange(1)} />
+                            </Box>
+                        }
                     </form>
                 </Box>
 
