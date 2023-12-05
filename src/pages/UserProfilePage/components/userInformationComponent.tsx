@@ -182,34 +182,17 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
     }
   };
 
-  const handleDeleteAvatar = () => {
+  const handleDeleteAvatar = async () => {
     try {
-      // const response = await UserService.deleteAvatarUser(user!.userId);
-
-      // if (response.status === 200) {
-      //   // Avatar deletion is successful
-      //   ToastComponent(t('userProfile.AvatarDeleted'), 'success');
-      //   dispatch(getUserInfo());
-      // } else {
-      //   // Handle error here if the deletion was not successful
-      //   ToastComponent(t('userProfile.AvatarDeleteError'), 'error');
-      // }
-      // alert('ok');
-      // <MyDialog
-      //   open={true}
-      //   title={t('userProfile.DeleteAvatar')}
-      //   content={t('userProfile.DeleteAvatarContent')}
-      //   onClickAgree={() => { alert('ok') }}
-      // />
-      MyDialog(
-        {
-          title: t('userProfile.DeleteAvatar'),
-          content: t('userProfile.DeleteAvatarContent'),
-          onClickAgree: () => {
-            alert('ok');
-          }
-        }
-      );
+      const response = await UserService.deleteAvatarUser(user!.userId);
+      if (response.status === 200) {
+        // Avatar deletion is successful
+        ToastComponent(t('userProfile.AvatarDeleted'), 'success');
+        dispatch(getUserInfo());
+      } else {
+        // Handle error here if the deletion was not successful
+        ToastComponent(t('userProfile.AvatarDeleteError'), 'error');
+      }
     } catch (error) {
       // Handle any unexpected errors here
       ToastComponent(t('userProfile.AvatarDeleteError'), 'error');
@@ -275,13 +258,16 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                 content={t('userProfile.BtnUpload')}
                 onClick={onClickRef} />
 
-              <MyCustomButton
-                borderRadius={8}
-                fontSize={isMobile ? 12 : 16}
-                fontWeight={500}
-                variant='outlined'
-                content={t('userProfile.BtnDelete')}
-                onClick={handleDeleteAvatar} />
+              {
+                user.avatarUrl !== 'https://sep490g68.s3.ap-southeast-1.amazonaws.com/common/no-image/No_Image.jpg' &&
+                <MyCustomButton
+                  borderRadius={8}
+                  fontSize={isMobile ? 12 : 16}
+                  fontWeight={500}
+                  variant='outlined'
+                  content={t('userProfile.BtnDelete')}
+                  onClick={handleDeleteAvatar} />
+              }
             </Box>
           </Box>
 
@@ -561,7 +547,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                     <img style={{
                       width: '100%',
                       height: '100%',
-                      objectFit: 'scale-down',
+                      objectFit: 'contain',
                       rotate: '-90deg',
                     }} src={imagePreviewUrl} alt={user.name} />
                   ) : (
