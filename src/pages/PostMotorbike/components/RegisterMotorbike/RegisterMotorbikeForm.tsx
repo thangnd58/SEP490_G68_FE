@@ -1515,20 +1515,21 @@ const RegisterMotorbikeForm = () => {
                     </Box>
                 </Box>
             </Modal>
-            <ImageModal selectedImages={listImageFiles} selectedImageIndex={selectedImageIndex} closeModal={closeModal} />
+            <ImageModal selectedImages={selectedImages} selectedImageIndex={selectedImageIndex} closeModal={closeModal} />
         </Box>
 
     );
 };
 
 interface ImageModalProps {
-    selectedImages: File[];
+    selectedImages: string[];
     selectedImageIndex: number | null;
     closeModal: () => void;
 }
 
 function ImageModal({ selectedImages, selectedImageIndex, closeModal }: ImageModalProps) {
-    return (<Modal open={selectedImageIndex !== null} onClose={closeModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description" sx={{
+    return (
+    <Modal open={selectedImageIndex !== null} onClose={closeModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description" sx={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -1539,7 +1540,7 @@ function ImageModal({ selectedImages, selectedImageIndex, closeModal }: ImageMod
             maxHeight: '100%',
             borderRadius: '8px',
             border: '3px solid #E0E0E0'
-        }} src={selectedImageIndex !== null ? URL.createObjectURL(selectedImages[selectedImageIndex]) : ''} alt="Selected Image" />
+        }} src={selectedImageIndex !== null ? selectedImages[selectedImageIndex] : ''} alt="Selected Image" />
     </Modal>);
 }
 export default RegisterMotorbikeForm;

@@ -84,11 +84,12 @@ const WithdrawalRequestManagement = () => {
         {
             field: 'id', headerName: t("dashBoardManager.withdrawalRequest.columnViewQr"), width: 200,
             renderCell: (params: any) => (
+                params.row.status === "Processing" ?
                 <Box sx={{ cursor: 'pointer' }}>
                     <MyIcon icon={<Visibility />} hasTooltip position='right' tooltipText={t("favourite.item.view")} onClick={() => {
                         setContentModal(<ModalQrCode setReload={setReload} withdrawal={params.row} />)
                     }} />
-                </Box>
+                </Box> : <></>
             )
         },
     ];

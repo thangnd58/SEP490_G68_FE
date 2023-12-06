@@ -272,7 +272,7 @@
     "Verified": "Verified",
     "AlertVerify": "Please verify your phone number",
     "Role": "Role",
-    "Status" : "Status"
+    "Status": "Status"
   },
   "ChangePhone": {
     "Title": "Change Phone Number",
@@ -447,20 +447,20 @@
       "TitleChange": "Edit user",
       "chooseRole": "Choose role",
       "admin": "Admin",
-      "customer" : "Customer",
-      "staff" : "Staff",
+      "customer": "Customer",
+      "staff": "Staff",
       "deactiveButton": "Deactive",
       "active": "Active"
     },
-    "dashboard":{
+    "dashboard": {
       "totalMoney": "Total transaction amount",
-      "totalMoneyOut" : "Total money out",
-      "totalMoneyIn" : "Total money in",
-      "income" : "Income",
+      "totalMoneyOut": "Total money out",
+      "totalMoneyIn": "Total money in",
+      "income": "Income",
       "paymentType": "Payment type",
       "transactionStatistics": "Transaction statistics",
       "startDate": "Start Date",
-      "endDate" :"End Date"
+      "endDate": "End Date"
     }
   },
   "component": {
@@ -687,7 +687,7 @@
     "promotionCode": "Promotion code",
     "totalPrice": "Total price",
     "bookMotorbikeButton": "Book",
-    "notHavePermission" : "You don't have permission to book motorbike",
+    "notHavePermission": "You don't have permission to book motorbike",
     "cancelBook": "Cancel",
     "buttonApplyPromotion": "Apply",
     "buttonApplyPromotionOk": "Applied",
@@ -708,7 +708,9 @@
     "confirmPaymentBooking": "Do you agree to pay or not?",
     "rating": "Rating",
     "comment": "Comment",
-    "completeBook": "{{count}} bookings"
+    "completeBook": "{{count}} bookings",
+    "userRent": "Renter",
+    "motorbikeOwner": "Motorbike Owner"
   },
   "policy": {
     "documentRental": "Motorbike rental documents",

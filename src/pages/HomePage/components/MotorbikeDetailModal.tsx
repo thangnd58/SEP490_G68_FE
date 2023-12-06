@@ -675,7 +675,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                             <Typography color={theme.palette.text.primary} sx={{
                               fontSize: isMobile ? "14px" : '16px', fontWeight: "600", whiteSpace: 'nowrap',
                             }}>
-                              {formatMoney(previewBookingData?.motorbikes[0].totalFeeOfDelivery)} x {previewBookingData?.motorbikes[0].deliveryDistanceChargeable.toFixed(1)
+                              {formatMoney(previewBookingData?.motorbikes[0].totalFeeOfDelivery)} / {previewBookingData?.motorbikes[0].deliveryDistanceChargeable.toFixed(1)
                               } km
                             </Typography>
                           </Box>

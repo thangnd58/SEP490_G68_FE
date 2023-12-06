@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react"
 import { Booking, BookingResponse } from "../../utils/type"
 import { useNavigate, useParams } from "react-router-dom";
 import { BookingService } from "../../services/BookingService";
-import { Box, CircularProgress, Divider, FormControlLabel, IconButton, Radio, RadioGroup, Step, StepLabel, Stepper, styled, TextField, Tooltip, Typography } from "@mui/material";
+import { Box, CircularProgress, Divider, FormControlLabel, Avatar, Radio, RadioGroup, Step, StepLabel, Stepper, styled, TextField, Tooltip, Typography } from "@mui/material";
 import { ArrowRightIcon } from "@mui/x-date-pickers";
 import useThemePage from "../../hooks/useThemePage";
 import { CalendarImage, ClockImage, MotorbikeImage, MyWallet, VNPay } from "../../assets/images";
@@ -24,6 +24,7 @@ import { getUserInfo } from "../../redux/reducers/authReducer";
 import MyIcon from "../../components/common/MyIcon";
 import { ArrowBack, CheckCircle, CloseOutlined, Verified } from "@mui/icons-material";
 import { ConfirmCompleteTripModal } from "./components/ConfirmCompleteTripModal";
+import UserInforModal from "../UserProfilePage/UserInforModal";
 interface Location {
     lat: number,
     lng: number,
@@ -430,6 +431,33 @@ export const BookingDetailPageOwner = () => {
                                 </Box>
                             </Box>
                             <Box width={isMobile ? '100%' : '45%'} sx={{ background: isMobile ? 'none' : 'rgba(139, 69, 19, 0.10)', borderRadius: '8px', padding: isMobile ? '4px' : '32px' }}>
+                                <Box
+                                    display={'flex'} flexDirection={'row'} alignItems={'center'} sx={{ cursor: 'pointer', gap: '8px', mb: '8px' }}
+                                >
+                                    <Avatar
+                                        sx={{
+                                            width: "50px",
+                                            height: "50px",
+                                            borderRadius: "50%",
+                                        }}
+                                        src={ booking.user.avatarUrl}
+                                        onClick={() => setContentModal(<UserInforModal userId={booking.user.userId}/>)}
+                                    />
+                                    <Box display={'flex'} flexDirection={'column'} alignItems={'start'} justifyContent={'center'} sx={{ gap: '0px' }}>
+                                        <Typography
+                                            color={theme.palette.text.primary}
+                                            sx={{ fontSize: '16px', fontWeight: "600", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                        >
+                                            {t("booking.userRent")}
+                                        </Typography>
+                                        <Typography
+                                            color={theme.palette.text.primary}
+                                            sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                        >
+                                            {booking.user.name}
+                                        </Typography>
+                                    </Box>
+                                </Box>
                                 <Typography fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'} mb={"16px"}>{t("booking.totalPriceRent")}</Typography>
                                 {/* Đơn giá */}
                                 <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>

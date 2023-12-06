@@ -709,7 +709,9 @@
     "confirmPaymentBooking": "Bạn có đồng ý thanh toán hay không?",
     "rating": "Đánh giá",
     "comment": "Bình luận",
-    "completeBook": "{{count}} lượt đặt"
+    "completeBook": "{{count}} lượt đặt",
+    "userRent": "Khách thuê",
+    "motorbikeOwner": "Chủ xe"
   },
   "policy": {
     "documentRental": "Giấy tờ thuê xe",

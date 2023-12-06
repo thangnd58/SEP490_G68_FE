@@ -222,7 +222,7 @@ function MyBookingItem(props: MyBookingItemProps) {
                                                         color={theme.palette.text.primary}
                                                         sx={{ fontSize: '16px', fontWeight: "600", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
                                                     >
-                                                        {!isOwner ? "Chủ xe" : "Khách thuê"}
+                                                        {!isOwner ? t("booking.motorbikeOwner") : t("booking.userRent")}
                                                     </Typography>
                                                     <Typography
                                                         color={theme.palette.text.primary}

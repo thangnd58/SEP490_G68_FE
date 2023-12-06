@@ -22,7 +22,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/useAction";
 import ToastComponent from "../../components/toast/ToastComponent";
 import { getUserInfo } from "../../redux/reducers/authReducer";
 import MyIcon from "../../components/common/MyIcon";
-import { ArrowBack, CheckCircle, CloseOutlined, Feedback, Verified } from "@mui/icons-material";
+import { ArrowBack, CheckCircle, CloseOutlined, Feedback, HelpOutlineOutlined, Verified } from "@mui/icons-material";
 import { ConfirmCompleteTripModal } from "./components/ConfirmCompleteTripModal";
 import ModalStatus from "../WalletPage/component/ModalStatus";
 import { getBookingInfo } from "../../redux/reducers/bookingReducer";
@@ -491,13 +491,40 @@ export const BookingDetailPage = () => {
                                     </Box>
                                     {/* Phí dịch vụ */}
                                     <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                                            {t("booking.totalPriceService")}
-                                        </Typography>
+                                        <Box display={'flex'} alignItems={'center'} gap={1}>
+                                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                                                {t("booking.totalPriceService")}
+                                            </Typography>
+                                            <MyIcon icon={
+                                                <HelpOutlineOutlined sx={{
+                                                    color: theme.palette.text.primary,
+                                                    width: "12px",
+                                                    height: "12px",
+                                                    cursor: "pointer"
+                                                }}
+                                                />
+                                            } hasTooltip tooltipText={
+                                                t("booking.totalPriceService_hint")
+                                            } onClick={() => {
+                                            }} position='right-start' />
+                                        </Box>
                                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                                             {formatMoneyNew(booking?.feeOfService)}
                                         </Typography>
                                     </Box>
+
+                                    {/* Phí giao xe */}
+                                    {/* <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                        <Box display={'flex'} alignItems={'center'} gap={1}>
+                                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                                                {t("booking.deliveryFee")}
+                                            </Typography>
+                                        </Box>
+                                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                                        {`${booking && booking.motorbikes && formatMoneyNew(booking.motorbikes.reduce((total, mt) => total + mt.totalFeeOfDelivery, 0) || 0)}/${t("booking.perDay")}`} x  {booking && booking.motorbikes && booking.motorbikes.length} {t("booking.perMotorbike")}
+                                        </Typography>
+                                    </Box> */}
+
                                     {/* Mã khuyến mãi */}
                                     {
                                         booking?.promotion &&
