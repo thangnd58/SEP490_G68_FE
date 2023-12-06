@@ -170,6 +170,13 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
                         setFieldValue("bankCode", newValue?.bin)
                     }}
                     id="combo-box-demo"
+                    renderOption={(props, option) => (
+                        <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                            <img loading="lazy" height={24} src={option.logo} alt={option.name} />
+                            <Box sx={{ typography: 'body2',fontSize:"16px", fontWeight: 400 }}>{option.name}</Box>
+                        </Box>
+                    
+                    )}
                     renderInput={(params: any) => <TextField {...params} label={t("wallet.placeholder_bank_name")} />}
                     ListboxProps={{
                         style: {

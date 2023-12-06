@@ -345,7 +345,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                     {t('userProfile.Email')}
                   </Typography>
                   <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
-                    {user.email ? user.email : t('userProfile.InputProfile')}
+                    {user.email ? user.email : user.googleIdentity ? user.googleIdentity : t('userProfile.InputProfile')}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -583,16 +583,20 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                       InputLabelProps={{
                         shrink: true,
                       }}
+                      sx={{
+                        "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+                          display: "none",
+                        },
+                      }}
                       onInput={(e: any) => {
                         e.preventDefault();
                         const value = e.target.value;
 
                         // Lọc chỉ những ký tự số và giới hạn độ dài là 12
                         const filteredValue = value.replace(/\D/g, '').slice(0, 12);
-
                         // Cập nhật giá trị
-                        e.target.value = filteredValue;
                         handleChange(e);
+                        setFieldValue('licenceNumber', filteredValue);
                       }}
                       value={values.licenceNumber}
                     />

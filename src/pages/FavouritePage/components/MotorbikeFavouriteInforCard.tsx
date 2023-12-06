@@ -161,7 +161,9 @@ export default function MotorbikeFavouriteInforCard(props: {
                 <Avatar
                     src={props.motorbike.imageUrl[0]}
                     sx={{
-                        width: isMobile ? "280px" : "180px",
+                        width: "100%",
+                        // height: "100%",
+                        // width: isMobile ? "280px" : "180px",
                         height: isMobile ? "200px" : "150px",
                         borderRadius: "8px",
                         border: "1px solid #e0e0e0",
@@ -259,11 +261,12 @@ export default function MotorbikeFavouriteInforCard(props: {
                             }
                         </>
                     ) : (
-                        <>
+                        <Box display="flex" gap="4px">
                             <Chip
                                 sx={{
                                     "& .MuiChip-label": { fontSize: "12px" },
                                     height: "28px",
+                                    lineHeight: "28px",
                                     fontWeight: "400",
                                 }}
                                 color="success"
@@ -277,12 +280,13 @@ export default function MotorbikeFavouriteInforCard(props: {
                                 sx={{
                                     "& .MuiChip-label": { fontSize: "12px" },
                                     height: "28px",
+                                    lineHeight: "28px",
                                     fontWeight: "400",
                                 }}
                                 color="warning"
                                 label={t("favourite.item.ship")}
                             />
-                        </>)}
+                        </Box>)}
                 </Box>
                 {/* Brand Name and Model */}
                 <Box display="flex" flexDirection="column" gap="4px">
@@ -339,7 +343,7 @@ export default function MotorbikeFavouriteInforCard(props: {
                                 whiteSpace="nowrap"
                                 overflow="hidden"
                             >
-                                {/* {props.motorbike.ratingAverage.toFixed(1)} */}
+                                {props.motorbike.ratingAverage.toFixed(1)}
                             </Typography>
                             <BusinessCenterOutlined
                                 fontWeight={300}
