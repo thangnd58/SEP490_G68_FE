@@ -330,7 +330,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                         width: "90%",
                       }}
                       margin={isIpad || isMobile ? "16px 0px" : "0px 0px"}
-                      width={isIpad || isMobile ? "auto" : "35%"}
+                      width={isIpad || isMobile ? "100%" : "35%"}
                       display="flex"
                       flexDirection="column"
                       alignItems="start"
