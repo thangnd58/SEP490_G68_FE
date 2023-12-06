@@ -49,6 +49,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
   const [isProcessingBooking, setIsProcessingBooking] = useState(false);
   const [isOpenLoginModal, setIsOpenLoginModal] = useState<boolean>(false);
   const [defaultLocation, setDefaultLocation] = useState<Location>();
+  const [reloadFeedback, setReloadFeedback] = useState<boolean>(false);
 
   interface Location {
     lat: number,
@@ -76,7 +77,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
       getFeedbackById(props.motorbikeId.toString());
     }
 
-  }, [props.motorbikeId]);
+  }, [props.motorbikeId,reloadFeedback]);
 
   const getMotorbikeById = async (id: string) => {
     try {
@@ -1108,7 +1109,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                       <Box display="flex" flexDirection="column" justifyContent={"center"} gap={"8px"} p={'8px'} border={"1px solid #e0e0e0"} borderRadius={"8px"}
                       >
                         {listFeedback.length !== 0 ? listFeedback.map((item: Feedback, index: number) => (
-                          <FeedbackCard setContentModal={setContentModal} closeModal={closeModal} feedback={item} key={index}></FeedbackCard>
+                          <FeedbackCard setReload={setReloadFeedback} setContentModal={setContentModal} closeModal={closeModal} feedback={item} key={index}></FeedbackCard>
                           ))
                           :
                           <Box>

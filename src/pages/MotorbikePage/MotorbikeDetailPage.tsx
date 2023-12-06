@@ -52,6 +52,7 @@ export default function MotorbikeDetailPage() {
   const [isOpenLoginModal, setIsOpenLoginModal] = useState<boolean>(false);
   const [listFeedback, setlistFeedback] = useState<Feedback[]>([]);
   const { user } = useAppSelector((state) => state.userInfo);
+  const [reloadFeedback, setReloadFeedback] = useState<boolean>(false);
 
   interface Location {
     lat: number,
@@ -83,7 +84,7 @@ export default function MotorbikeDetailPage() {
       getFeedbackById(motorbikeId.toString());
     }
 
-  }, [motorbikeId]);
+  }, [motorbikeId, reloadFeedback]);
 
   const getMotorbikeById = async (id: string) => {
     try {
@@ -989,7 +990,7 @@ export default function MotorbikeDetailPage() {
                       <Box display="flex" flexDirection="column" justifyContent={"center"} gap={"8px"} p={'8px'} border={"1px solid #e0e0e0"} borderRadius={"8px"}
                       >
                         {listFeedback.length !== 0 ? listFeedback.map((item: Feedback, index: number) => (
-                          <FeedbackCard setContentModal={setContentModal} closeModal={closeModal} feedback={item} key={index}></FeedbackCard>
+                          <FeedbackCard setReload={setReloadFeedback} setContentModal={setContentModal} closeModal={closeModal} feedback={item} key={index}></FeedbackCard>
                         ))
                           :
                           <Box>

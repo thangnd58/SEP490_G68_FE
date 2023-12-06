@@ -22,6 +22,7 @@ export default function FeedbackCard(props: {
     feedback: Feedback;
     closeModal?: () => void;
     setContentModal?: (content: any) => void;
+    setReload?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const { user } = useAppSelector((state: any) => state.userInfo);
     const [showEditComment, setShowEditComment] = useState<boolean>(false);
@@ -36,7 +37,6 @@ export default function FeedbackCard(props: {
     useEffect(() => {
         dispatch(getUserInfo());
         getMotobikeById(Number(props.feedback.motorbikeId));
-        console.log(props.feedback.motorbikeId)
     }, []);
 
 
@@ -77,9 +77,14 @@ export default function FeedbackCard(props: {
                     const res = await FeedbackService.postFeedback(feedbackReq)
                     ToastComponent(t("feedback.createSuccess"), "success")
                 }
-                // if (props.setReload) {
-                //     props.setReload((prev) => !prev)
-                // }
+                if (props.setReload) {
+                    props.setReload((prev) => !prev)
+                    // wait 0.5s to reload
+                    setTimeout(() => {
+                        setIsEdit(false)
+                    }, 250);
+
+                }
             } catch (error) {
                 ToastComponent(t("feedback.createError"), "error")
             }
@@ -120,10 +125,10 @@ export default function FeedbackCard(props: {
                             borderRadius: "50%",
                         }}
                         src={props.feedback.user.avatarUrl}
-                        // onClick={() =>
-                        //     props.setContentModal
-                        //         ? props.setContentModal(<UserInforModal userId={props.feedback.user.userId} isOpened closeModal={props.closeModal} />)
-                        //         : setContentModal(<UserInforModal userId={props.feedback.user.userId} isOpened closeModal={props.closeModal} />)}
+                    // onClick={() =>
+                    //     props.setContentModal
+                    //         ? props.setContentModal(<UserInforModal userId={props.feedback.user.userId} isOpened closeModal={props.closeModal} />)
+                    //         : setContentModal(<UserInforModal userId={props.feedback.user.userId} isOpened closeModal={props.closeModal} />)}
                     />
                 </Box>
                 <Box width={'90%'}>
@@ -141,7 +146,7 @@ export default function FeedbackCard(props: {
                                 fontSize={isMobile ? "12px" : "14px"}
                                 color={theme.palette.text.primary}
                             >{props.feedback.user.name}</Typography>
-                            <Typography fontWeight={'400'} marginLeft={'7px'} marginTop={'1px'} color={'black'} fontSize={'10px'}>{getPreviousTimeRelative(props.feedback.createDatetime || "", t)}</Typography>
+                            <Typography fontWeight={'400'} marginLeft={'7px'} marginTop={'1px'} color={'black'} fontSize={'10px'}>{getPreviousTimeRelative(props.feedback.updateDatetime || "", t)}</Typography>
                         </Box>
 
                         <Rating
@@ -165,9 +170,17 @@ export default function FeedbackCard(props: {
 
                     </Box>
 
-                    <Box display={'flex'} flexDirection={'row'} gap={2} alignItems={'center'} marginLeft={'25px'} marginTop={'5px'}>
-                        {!props.feedback.response && motorbike?.user.userId === user?.userId ?
-                            <a onClick={() => setIsEdit(true)} style={{ cursor: 'pointer', fontSize: '14px' }} >{t("feedback.reply")} </a>
+                    <Box display={'flex'} flexDirection={'row'} gap={2} alignItems={'center'} marginTop={'5px'}>
+                        {!props.feedback.response && motorbike?.user.userId === user?.userId && !isEdit ?
+                            <Typography onClick={() => setIsEdit(true)} sx={{
+                                cursor: 'pointer',
+                                ':hover': {
+                                    textDecoration: 'underline',
+                                },
+                                fontSize: '12px',
+                                color: '#8B4513',
+                                fontStyle: 'italic',
+                            }} >{t("feedback.reply")} </Typography>
                             :
                             // <Typography color={'#FFFFFF'}>Phản hồi</Typography>
                             null
@@ -227,7 +240,7 @@ export default function FeedbackCard(props: {
                                         fontSize={isMobile ? "12px" : "14px"}
                                         color={theme.palette.text.primary}
                                     >{props.feedback.response.user.name}</Typography>
-                                    <Typography fontWeight={'400'} marginLeft={'7px'} marginTop={'1px'} color={'black'} fontSize={'10px'}>{getPreviousTimeRelative(props.feedback.response.createDatetime || "", t)}</Typography>
+                                    <Typography fontWeight={'400'} marginLeft={'7px'} marginTop={'1px'} color={'black'} fontSize={'10px'}>{getPreviousTimeRelative(props.feedback.response.updateDatetime || "", t)}</Typography>
                                 </Box>
                                 <Box display={'flex'} flexDirection={'column'} gap={'8px'} alignItems={'start'}>
                                     <Typography
@@ -292,12 +305,15 @@ export default function FeedbackCard(props: {
                                         }}
                                         inputProps={{
                                             readOnly: !isEdit,
+                                            style: {
+                                                fontSize: isMobile ? "12px" : "14px",
+                                                height: isMobile ? "14px" : "18px"
+                                            }
                                         }}
                                         InputProps={{
                                             endAdornment: (
                                                 <IconButton
                                                     onClick={() => {
-                                                        setIsEdit(false)
                                                         handleSubmit()
                                                     }}
                                                 >
