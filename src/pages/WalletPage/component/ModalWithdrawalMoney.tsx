@@ -1,5 +1,5 @@
 import { Autocomplete, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, InputAdornment, MenuItem, Select, Slide, TextField, Typography } from "@mui/material"
-import { CancelImage, DepositeMoneyImage, SettingIcon, VietNamFlag, WithdrawalMoneyImage } from "../../../assets/images"
+import { CancelImage, DepositeMoneyImage, SettingIcon, SuccessIconNew, VietNamFlag, WithdrawalMoneyImage } from "../../../assets/images"
 import React, { useContext, useEffect, useState } from "react";
 import { ModalContext } from "../../../contexts/ModalContext";
 import usei18next from "../../../hooks/usei18next";
@@ -58,7 +58,7 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
     }, []);
 
     const showModalStatus = () => {
-        setContentModal(<ModalStatus icon={<SettingsOutlined sx={{ width: "128px", height: "128px", color: 'primary.main' }} />} title={t("wallet.title_create_request_withdrawal")} content={t("wallet.content_create_request_withdrawal")} handleConfirm={() => {
+        setContentModal(<ModalStatus icon={SuccessIconNew} title={t("wallet.title_create_request_withdrawal")} content={t("wallet.content_create_request_withdrawal")} handleConfirm={() => {
             dispatch(getUserInfo());
             closeModal();
         }} />)

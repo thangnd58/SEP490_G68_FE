@@ -335,6 +335,7 @@ export interface Notification {
     title: string,
     detail: string,
     isRead: boolean,
+    referenceURL: string,
     createDatetime: string,
     updateDatetime: string,
     category: NotificationCategory

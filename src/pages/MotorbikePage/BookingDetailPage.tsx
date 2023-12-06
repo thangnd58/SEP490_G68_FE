@@ -5,7 +5,7 @@ import { BookingService } from "../../services/BookingService";
 import { Box, Divider, FormControlLabel, IconButton, Radio, RadioGroup, Step, StepLabel, Stepper, styled, TextField, Tooltip, Typography } from "@mui/material";
 import { ArrowRightIcon } from "@mui/x-date-pickers";
 import useThemePage from "../../hooks/useThemePage";
-import { CalendarImage, ClockImage, MotorbikeImage, MyWallet, SuccessIcon, VNPay } from "../../assets/images";
+import { CalendarImage, ClockImage, MotorbikeImage, MyWallet, SuccessIconNew, VNPay } from "../../assets/images";
 import usei18next from "../../hooks/usei18next";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { MotorbikeBookingCard } from "./components/MotorbikeBookingCard";
@@ -57,7 +57,7 @@ export const BookingDetailPage = () => {
         } catch (error) {
             navigate(ROUTES.other.pagenotfound)
         }
-    }, [bookingId])
+    }, [bookingId, reloadBooking])
 
     // useEffect(() => {
     //     try {
@@ -166,7 +166,7 @@ export const BookingDetailPage = () => {
             try {
                 PaymentService.processPaymentDb(search).then((data) => {
                     dispatch(getUserInfo());
-                    setContentModal(<ModalStatus icon={SuccessIcon} title={t("Thanh toán thành công")} content={"Bạn đã thanh toán đơn đặt xe thành công. Hệ thống sẽ xử lý yêu cầu đặt xe của bạn sớm nhất"} handleConfirm={handleConfirmDeposit} />)
+                    setContentModal(<ModalStatus icon={SuccessIconNew} title={t("Thanh toán thành công")} content={"Bạn đã thanh toán đơn đặt xe thành công. Hệ thống sẽ xử lý yêu cầu đặt xe của bạn sớm nhất"} handleConfirm={handleConfirmDeposit} />)
                     setShowModal(true)
                 })
             } catch (error) {
