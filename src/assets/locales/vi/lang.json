@@ -512,7 +512,8 @@
       "historyBooking" : "Lịch sử đơn đặt xe",
       "currentBooking" : "Đơn đặt xe hiện tại",
       "bookingInHistory" : "Đơn đặt xe trong lịch sử",
-      "myMotorbikeFeedback" : "Đánh giá xe của bạn"
+      "myMotorbikeFeedback" : "Đánh giá xe của bạn",
+      "rating_comment" : "Đánh giá và bình luận"
     },
     "registedForm": {
       "updateTitle": "Cập nhật thông tin xe",

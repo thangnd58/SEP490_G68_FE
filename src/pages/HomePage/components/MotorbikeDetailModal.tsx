@@ -1099,25 +1099,28 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                   <RequireWhenRent />
                   <Divider sx={{ margin: isMobile ? "0px 0px 16px 0px" : "0px 0px 16px 0px", width: "100%" }} variant="fullWidth" />
 
-                  {/* Thông tin khác */}
-                  <Typography variant="h5" fontWeight="600">
-                    Rating & Feedback: {/* Thêm rating và feedback */}
-                  </Typography>
-                  <Box display={'flex'} flexDirection={'column'} gap={'8px'} width={'99.5%'} marginTop={'15px'}>
-                    <Box display="flex" flexDirection="column" justifyContent={"center"} gap={"8px"} p={'8px'} border={"1px solid #e0e0e0"} borderRadius={"8px"}
-                    >
-                      {listFeedback.length !== 0 ? listFeedback.map((item: Feedback, index: number) => (
-                        <FeedbackCard feedback={item} key={index}></FeedbackCard>
-                      ))
-                        :
-                        <Box>
-                          <Typography fontSize={'18px'}>
-                            {t("feedback.nonComment")}
-                          </Typography>
-                        </Box>
-                      }
+                  {/* Rating and comment */}
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"}>
+                    <Typography variant="h6" color={theme.palette.text.primary} fontWeight="700" fontSize={"16px"}>
+                      {t("postMotorbike.listform.rating_comment")}
+                    </Typography>
+                    <Box display={'flex'} flexDirection={'column'} gap={'8px'} width={'99.5%'} marginTop={'15px'}>
+                      <Box display="flex" flexDirection="column" justifyContent={"center"} gap={"8px"} p={'8px'} border={"1px solid #e0e0e0"} borderRadius={"8px"}
+                      >
+                        {listFeedback.length !== 0 ? listFeedback.map((item: Feedback, index: number) => (
+                          <FeedbackCard setContentModal={setContentModal} closeModal={closeModal} feedback={item} key={index}></FeedbackCard>
+                          ))
+                          :
+                          <Box>
+                            <Typography fontSize={'18px'}>
+                              {t("feedback.nonComment")}
+                            </Typography>
+                          </Box>
+                        }
+                      </Box>
                     </Box>
                   </Box>
+
                 </Box>
 
 

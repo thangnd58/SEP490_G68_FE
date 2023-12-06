@@ -511,7 +511,8 @@
       "historyBooking": "History booking",
       "currentBooking": "Current booking",
       "bookingInHistory": "Booking in history",
-      "myMotorbikeFeedback": "My motorbike feedback"
+      "myMotorbikeFeedback": "My motorbike feedback",
+      "rating_comment": "Rating & Comment"
     },
     "registedForm": {
       "updateTitle": "Update Information",
