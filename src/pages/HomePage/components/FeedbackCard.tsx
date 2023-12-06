@@ -49,7 +49,7 @@ export default function FeedbackCard(props: {
 
     const formik = useFormik({
         initialValues: {
-            comment: props.feedback.response?.comment || "rrrr"
+            comment: props.feedback.response?.comment || ""
         },
         validationSchema: Yup.object({
             comment: Yup.string().required(t("form.required")),
@@ -217,7 +217,7 @@ export default function FeedbackCard(props: {
                                             fontSize="16px"
                                             color={theme.palette.text.primary}
                                         >{props.feedback.response.user.name}</Typography>
-                                        <Typography fontWeight={'400'} marginLeft={'7px'} marginTop={'1px'} fontSize={'12px'}>{getPreviousTimeRelative(props.feedback.createDatetime || "", t)}</Typography>  
+                                        <Typography fontWeight={'400'} marginLeft={'7px'} marginTop={'1px'} fontSize={'12px'}>{getPreviousTimeRelative(props.feedback.response.createDatetime || "", t)}</Typography>  
                                     </Box>
                                     <Box display={'flex'} flexDirection={'column'} gap={'8px'} alignItems={'start'}>
                                         <Typography

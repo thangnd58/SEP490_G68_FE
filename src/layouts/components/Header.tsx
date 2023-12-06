@@ -1233,6 +1233,11 @@ export function PopoverItem({
                     fontSize={"16px"}
                     sx={{
                         fontWeight: "500",
+                        width: "100%",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        textAlign: "start",
                     }}
                 >
                     {label}

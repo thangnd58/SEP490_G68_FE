@@ -1,6 +1,6 @@
 import { Box, Button, Paper, Typography, styled } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { ErrorIcon, SuccessIcon } from "../../assets/images";
+import { ErrorIcon, SuccessIconNew } from "../../assets/images";
 import usei18next from "../../hooks/usei18next";
 import { useNavigate, useParams } from "react-router-dom";
 import UserService from "../../services/UserService";
@@ -72,7 +72,7 @@ const VerifyReigsterStatus = () => {
                             <Typography className='status' gutterBottom>
                                 {t("form.verifySuceessLabel")}
                             </Typography>
-                            <img alt="success-icon" src={SuccessIcon} style={{marginBottom: '2rem'}}/>
+                            <img alt="success-icon" src={SuccessIconNew} style={{marginBottom: '2rem'}}/>
                             <Typography style={{marginBottom: '2rem'}}>
                                 {t("form.verifySuccess")}
                             </Typography>
