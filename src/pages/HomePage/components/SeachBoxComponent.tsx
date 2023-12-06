@@ -336,7 +336,7 @@ const SeachBoxComponent = () => {
                     <Skeleton
                         variant="rounded"
                         width={'100%'}
-                        height={isMobile ? 200 : 480.63}
+                        height={isMobile ? 200 : 573.11}
                         animation="wave"
                     />
                 )}
