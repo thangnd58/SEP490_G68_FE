@@ -227,6 +227,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                         sx={{
                             "& .MuiChip-label": { fontSize: "12px" },
                             height: "28px",
+                            lineHeight: "28px",
                             fontWeight: "400",
                         }}
                         color="success"
@@ -240,6 +241,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                         sx={{
                             "& .MuiChip-label": { fontSize: "12px" },
                             height: "28px",
+                            lineHeight: "28px",
                             fontWeight: "400",
                         }}
                         color="warning"
