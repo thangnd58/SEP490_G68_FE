@@ -269,7 +269,8 @@
     "notYetVerify": "Waiting to verify",
     "Verified": "Verified",
     "AlertVerify": "Please verify your phone number",
-    "Role": "Role"
+    "Role": "Role",
+    "Status" : "Status"
   },
   "ChangePhone": {
     "Title": "Change Phone Number",

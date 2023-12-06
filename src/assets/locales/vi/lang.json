@@ -269,7 +269,8 @@
     "notYetVerify": "Chưa xác minh",
     "Verified": "Đã xác minh",
     "AlertVerify": "Hãy xác minh số điện thoại của bạn",
-    "Role" : "Vai trò"
+    "Role" : "Vai trò",
+    "Status": "Trạng thái"
   },
   "ChangePhone": {
     "Title": "Thay đổi số điện thoại",
