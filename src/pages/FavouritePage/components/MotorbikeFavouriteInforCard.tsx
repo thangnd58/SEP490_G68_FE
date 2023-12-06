@@ -343,7 +343,7 @@ export default function MotorbikeFavouriteInforCard(props: {
                                 whiteSpace="nowrap"
                                 overflow="hidden"
                             >
-                                {/* {props.motorbike.ratingAverage.toFixed(1)} */}
+                                {props.motorbike.ratingAverage.toFixed(1)}
                             </Typography>
                             <BusinessCenterOutlined
                                 fontWeight={300}
