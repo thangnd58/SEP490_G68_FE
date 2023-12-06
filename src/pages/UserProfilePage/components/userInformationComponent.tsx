@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useRef, useState } from 'react';
 import { Avatar, Typography, Button, TextField, Box, Chip, styled, Tooltip } from '@mui/material';
 import usei18next from '../../../hooks/usei18next';
 import { AuthContext, useAuth } from '../../../contexts/AuthContext';
@@ -10,7 +10,7 @@ import ErrorMessage from '../../../components/common/ErrorMessage';
 import ToastComponent from '../../../components/toast/ToastComponent';
 import UploadImageService from '../../../services/UploadImageService';
 import MyCustomButton from '../../../components/common/MyButton';
-import { CheckCircle, CheckCircleOutline, CheckCircleOutlineOutlined, EditOutlined, Error, ErrorOutline, Info, InfoOutlined, Warning, WarningAmber } from '@mui/icons-material';
+import { CheckCircle, CheckCircleOutline, CheckCircleOutlineOutlined, EditOutlined, Error, ErrorOutline, Info, InfoOutlined, Link, LinkOff, Warning, WarningAmber } from '@mui/icons-material';
 import theme from '../../../utils/theme';
 import { useAppDispatch, useAppSelector } from '../../../hooks/useAction';
 import { getUserInfo } from '../../../redux/reducers/authReducer';
@@ -18,6 +18,9 @@ import useThemePage from '../../../hooks/useThemePage';
 import EditIcon from '@mui/icons-material/Edit';
 import MyIcon from '../../../components/common/MyIcon';
 import MyDialog from '../../../components/common/MyDialog';
+import { Image } from 'antd';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { ModalContext } from '../../../contexts/ModalContext';
 
 interface ChildComponentProps {
   setType: React.Dispatch<React.SetStateAction<string>>;
@@ -36,10 +39,40 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
   const [fileLicence, setFileLicence] = useState<File>();
   const dispatch = useAppDispatch();
   const { isMobile } = useThemePage();
-
+  const { setShowModal, setContentModal } = useContext(ModalContext);
   useEffect(() => {
     getLisence();
   }, []);
+
+  // useEffect(() => {
+  //   const checkImageSize = () => {
+  //     const img = new Image();
+  //     img.crossOrigin = 'anonymous';
+  //     img.src = imagePreviewUrl;
+  //     img.onload = () => {
+  //       const { naturalWidth, naturalHeight,  } = img;
+  //       if (naturalWidth < naturalHeight) {
+  //         const canvas = document.createElement('canvas');
+  //         const ctx = canvas.getContext('2d');
+  //         if (ctx) {
+  //           canvas.width = naturalHeight;
+  //           canvas.height = naturalWidth;
+  //           ctx.translate(naturalHeight, 0);
+  //           ctx.rotate(Math.PI/ 2);
+  //           ctx.drawImage(img, 0, 0, naturalWidth, naturalHeight);
+  //           setImagePreviewUrl(canvas.toDataURL());
+  //         }
+  //       }
+  //     };
+  //   };
+
+  //   if (imagePreviewUrl !== '') {
+  //     checkImageSize();
+  //   }
+  // }, [imagePreviewUrl]);
+
+
+
 
   const getLisence = async () => {
     try {
@@ -182,37 +215,17 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
     }
   };
 
-  const handleDeleteAvatar = () => {
+  const handleDeleteAvatar = async () => {
     try {
-      // const response = await UserService.deleteAvatarUser(user!.userId);
-
-      // if (response.status === 200) {
-      //   // Avatar deletion is successful
-      //   ToastComponent(t('userProfile.AvatarDeleted'), 'success');
-      //   dispatch(getUserInfo());
-      // } else {
-      //   // Handle error here if the deletion was not successful
-      //   ToastComponent(t('userProfile.AvatarDeleteError'), 'error');
-      // }
-      // alert('ok');
-      // <MyDialog
-      //   open={true}
-      //   title={t('userProfile.DeleteAvatar')}
-      //   content={t('userProfile.DeleteAvatarContent')}
-      //   onClickAgree={() => { alert('ok') }}
-      // />
-      MyDialog(
-        {
-          title: t('userProfile.DeleteAvatar'),
-          content: t('userProfile.DeleteAvatarContent'),
-          onClickAgree: () => {
-            alert('ok');
-          }
-        }
-      );
+      const response = await UserService.deleteAvatarUser(user!.userId);
+      if (response.status === 200) {
+        ToastComponent(t('toast.uploadImage.deleteSuccess'), 'success');
+        dispatch(getUserInfo());
+      } else {
+        ToastComponent(t('toast.uploadImage.deleteError'), 'error');
+      }
     } catch (error) {
-      // Handle any unexpected errors here
-      ToastComponent(t('userProfile.AvatarDeleteError'), 'error');
+      ToastComponent(t('toast.uploadImage.deleteError'), 'error');
     }
   };
 
@@ -237,6 +250,32 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
       }
     }
   };
+
+  const handleGoogleLink = async (credentialResponse: any) => {
+    try {
+      const res = await UserService.linkGoogleAccount({ accessToken: credentialResponse.credential })
+      if (res) {
+        ToastComponent(t('toast.userProfile.googleAccount.linkSuccess'), 'success');
+        dispatch(getUserInfo());
+      }
+    } catch (error) {
+      ToastComponent(t('toast.userProfile.googleAccount.linkError'), 'error');
+    }
+  };
+
+  const handleConfirmUnlink = () => {
+    setContentModal(<MyDialog content={t("toast.userProfile.confirmUnlink")} title={t("toast.userProfile.btnUnlink")} hasAgreeButton={true} hasCancelButton={true} onClickAgree={() => handleUnlinkGoogle()} />);
+  }
+
+  const handleUnlinkGoogle = async () => {
+    try {
+      await UserService.unlinkGoogleAccount();
+      ToastComponent(t('toast.userProfile.googleAccount.unlinkSuccess'), 'success');
+      dispatch(getUserInfo());
+    } catch (error) {
+      ToastComponent(t('toast.userProfile.googleAccount.unlinkError'), 'error');
+    }
+  }
 
 
   return (
@@ -275,13 +314,16 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                 content={t('userProfile.BtnUpload')}
                 onClick={onClickRef} />
 
-              <MyCustomButton
-                borderRadius={8}
-                fontSize={isMobile ? 12 : 16}
-                fontWeight={500}
-                variant='outlined'
-                content={t('userProfile.BtnDelete')}
-                onClick={handleDeleteAvatar} />
+              {
+                user.avatarUrl !== 'https://sep490g68.s3.ap-southeast-1.amazonaws.com/common/no-image/No_Image.jpg' &&
+                <MyCustomButton
+                  borderRadius={8}
+                  fontSize={isMobile ? 12 : 16}
+                  fontWeight={500}
+                  variant='outlined'
+                  content={t('userProfile.BtnDelete')}
+                  onClick={handleDeleteAvatar} />
+              }
             </Box>
           </Box>
 
@@ -355,7 +397,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                          </Tooltip> */}
                   </Box>
                   <Box display={'flex'} alignItems={'center'} alignContent={'center'}>
-                    <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600} display={'inline'} marginRight={1}>
+                    <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600} display={'inline'} marginRight={"4px"}>
                       {user.phone ? user.phone : t('userProfile.InputProfile')}
                     </Typography>
                     {
@@ -398,12 +440,59 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
-                    Google
-                  </Typography>
-                  <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
-                    {user.googleIdentity ? user.googleIdentity : t('userProfile.InputProfile')}
-                  </Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }} gap={1}>
+                    <Typography variant="h6" fontSize={isMobile ? 14 : 16} color={theme.palette.text.secondary} fontWeight={400}>
+                      Google
+                    </Typography>
+                    {
+                      user.googleIdentity !== "" &&
+                      <Tooltip title={t('userProfile.Verified')}>
+                        <CheckCircle
+                          sx={{
+                            width: '16px',
+                            height: '16px',
+                            color: "#4caf50"
+
+                          }}
+                        />
+                      </Tooltip>
+                    }
+                  </Box>
+                  <Box display={'flex'} alignItems={'center'} alignContent={'center'}>
+                    <Typography marginRight={"4px"} fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600}>
+                      {user.googleIdentity ? user.googleIdentity : t('toast.userProfile.btnLink')}
+                    </Typography>
+                    {
+                      user.googleIdentity === "" ? (
+                        <GoogleOAuthProvider clientId="1088937198611-lpsokcekdcethdobpeghbm43nf4fglcl.apps.googleusercontent.com">
+                          <Tooltip title={t('toast.userProfile.btnLink')}>
+                            <GoogleLogin
+                              size='small'
+                              type='icon'
+                              logo_alignment='center'
+                              shape='circle'
+                              width={100}
+                              text='continue_with'
+                              onSuccess={credentialResponse => {
+                                handleGoogleLink(credentialResponse)
+                              }}
+                              onError={() => {
+                                console.log('Login Failed');
+                              }}
+                            />
+                          </Tooltip>
+                        </GoogleOAuthProvider>
+                      ) : (
+                        user.email !== null &&
+                        <MyIcon icon={<LinkOff sx={{
+                          width: '16px',
+                          height: '16px',
+                        }} />} noPadding hasTooltip tooltipText={t("toast.userProfile.btnUnlink")} onClick={() => handleConfirmUnlink()} />
+                      )
+                    }
+
+                    {/* <Button onClick={ChangePhone}>{t('userProfile.BtnChange')}</Button> */}
+                  </Box>
                 </Box>
               </Box>
             </Box>
@@ -437,11 +526,11 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                           label={t('licenseInfo.Approve')} />
                       )}
                       {lisence.status === 2 && (
-                          <Chip
-                            sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
-                            color="error"
-                            icon={<ErrorOutline />}
-                            label={t('licenseInfo.Reject')} />
+                        <Chip
+                          sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                          color="error"
+                          icon={<ErrorOutline />}
+                          label={t('licenseInfo.Reject')} />
                       )}
                     </Box>
                   )}
@@ -454,6 +543,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                         borderRadius={8}
                         fontSize={isMobile ? 12 : 16}
                         fontWeight={400}
+                        disabled={values.licenceNumber === lisence?.licenceNumber && values.fullName === lisence?.fullName && values.dob === lisence?.dob && values.licenceImage === lisence?.licenceImage}
                         content={t('licenseInfo.BtnSave')}
                         onClick={() => handleSubmit()} />
                       <MyCustomButton
@@ -558,7 +648,16 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                   height: '270px',
                 }}>
                   {imagePreviewUrl !== "" ? (
-                    <Avatar variant="rounded" sx={{ width: '100%', height: '100%' }} src={imagePreviewUrl} alt={user.name} />
+                    // <Im style={{
+                    //   width: '100%',
+                    //   height: '100%',
+                    //   objectFit: 'fill',
+                    // }} src={imagePreviewUrl} alt={user.name} />
+                    <Image
+                      width={'100%'}
+                      height={'100%'}
+                      src={imagePreviewUrl}
+                    />
                   ) : (
                     <Typography fontWeight="500" sx={{ width: '100%', margin: '100px 0px' }} align="center">
                       {t('licenseInfo.Image')}

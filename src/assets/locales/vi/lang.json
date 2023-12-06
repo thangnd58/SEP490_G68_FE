@@ -207,7 +207,9 @@
     },
     "uploadImage": {
       "success": "Tải ảnh lên thành công",
-      "error": "Tải ảnh lên thất bại"
+      "error": "Tải ảnh lên thất bại",
+      "deleteSuccess": "Xóa ảnh thành công",
+      "deleteError": "Xóa ảnh thất bại"
     },
     "ShoppingCart": {
       "delete": {
@@ -220,6 +222,17 @@
         "warning": "Thêm xe vào giỏ hàng thất bại",
         "error": "Lỗi thêm xe vào giỏ"
       }
+    },
+    "userProfile": {
+      "googleAccount": {
+        "linkSuccess": "Liên kết tài khoản Google thành công",
+        "linkError": "Liên kết tài khoản Google thất bại",
+        "unlinkSuccess": "Đã xóa liên kết tài khoản Google",
+        "unlinkError": "Xóa liên kết tài khoản Google thất bại"
+      },
+      "btnUnlink": "Xóa liên kết",
+      "btnLink": "Liên kết",
+      "confirmUnlink": "Bạn có muốn xóa liên kết với tài khoản google không?"
     }
   },
   "footer": {
@@ -252,6 +265,7 @@
     "ChangeProfile": "Chỉnh sửa hồ sơ",
     "InputProfile": "Vui lòng điền thông tin",
     "BtnChange": "Thay đổi",
+    "BtnLink" : "Liên kết tài khoản",
     "notYetVerify": "Chưa xác minh",
     "Verified": "Đã xác minh",
     "AlertVerify": "Hãy xác minh số điện thoại của bạn",
@@ -433,7 +447,18 @@
       "admin": "Quản lý",
       "customer" : "Khách hàng",
       "staff" : "Nhân viên",
-      "deactiveButton": "Hủy kích hoạt"
+      "deactiveButton": "Hủy kích hoạt",
+      "active": "Kích hoạt"
+    },
+    "dashboard":{
+      "totalMoney": "Tổng tiền giao dịch",
+      "totalMoneyOut" : "Tổng tiền ra",
+      "totalMoneyIn" : "Tổng tiền vào",
+      "income" : "Doanh thu",
+      "paymentType": "Loại hình thanh toán",
+      "transactionStatistics": "Thống kê giao dịch",
+      "startDate": "Thời gian bắt đầu",
+      "endDate" :"Thời gian kết thúc"
     }
   },
   "component": {

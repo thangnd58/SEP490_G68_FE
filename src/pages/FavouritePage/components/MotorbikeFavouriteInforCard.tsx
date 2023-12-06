@@ -56,6 +56,7 @@ export default function MotorbikeFavouriteInforCard(props: {
         setContentModal(<MotorbikeDetailModal motorbikeId={id.toString()} />);
         setShowModal(true);
     };
+    const [statusChange, setStatusChange] = useState<string>("");
 
     const deleteFavourite = async (id: number) => {
         try {
@@ -71,6 +72,74 @@ export default function MotorbikeFavouriteInforCard(props: {
             ToastComponent(t("toast.favourite.delete.error"), "error");
         }
     };
+
+    const chooseChip = (status: string) => {
+        switch (status) {
+            case "Processing":
+                return (
+                    <Chip
+                        sx={{
+                            "& .MuiChip-label": { fontSize: "14px" },
+                            height: "28px",
+                            fontWeight: "400",
+                        }}
+                        color="warning"
+                        icon={<WarningAmber />}
+                        label={t('postMotorbike.listform.status-processing')} />
+                )
+            case "Approved":
+                return (
+                    <Chip
+                        sx={{
+                            "& .MuiChip-label": { fontSize: "14px" },
+                            height: "28px",
+                            fontWeight: "400",
+                        }}
+                        color="success"
+                        icon={<CheckCircleOutline />}
+                        label={t('postMotorbike.listform.status-approved')} />
+                )
+            case "Rejected":
+                return (
+                    <Chip
+                        sx={{
+                            "& .MuiChip-label": { fontSize: "14px" },
+                            height: "28px",
+                            fontWeight: "400",
+                        }}
+                        color="error"
+                        icon={<ErrorOutline />}
+                        label={t('postMotorbike.listform.status-rejected')} />
+                )
+            case "OnHiatus":
+                return (
+                    <Chip
+                        sx={{
+                            "& .MuiChip-label": { fontSize: "14px" },
+                            height: "28px",
+                            fontWeight: "400",
+                        }}
+                        color="warning"
+                        icon={<StopCircleOutlined />}
+                        label={t('postMotorbike.listform.status-onhiatus')} />
+                )
+            case "InOperation":
+                return (
+                    <Chip
+                        sx={{
+                            "& .MuiChip-label": { fontSize: "14px" },
+                            height: "28px",
+                            fontWeight: "400",
+                        }}
+                        color="success"
+                        icon={<ChangeCircleOutlined />}
+                        label={t('postMotorbike.listform.status-inoporation')} />
+                )
+            default:
+                break;
+        }
+    }
+
     return (
         <Box
             sx={{
@@ -154,56 +223,8 @@ export default function MotorbikeFavouriteInforCard(props: {
                     {props.isListForm ? (
                         <>
                             {
-                                props.motorbike.status === "Processing" ? (
-                                    <Chip
-                                        sx={{
-                                            '& .MuiChip-label': { fontSize: "14px" },
-                                            height: "28px",
-                                            fontWeight: "400",
-                                        }}
-                                        color="warning"
-                                        icon={<WarningAmber />}
-                                        label={t('postMotorbike.listform.status-processing')} />)
-                                    : props.motorbike.status === "Approved" ? (
-                                        <Chip
-                                            sx={{
-                                                '& .MuiChip-label': { fontSize: "14px" },
-                                                height: "28px",
-                                                fontWeight: "400",
-                                            }}
-                                            color="success"
-                                            icon={<CheckCircleOutline />}
-                                            label={t('postMotorbike.listform.status-approved')} />)
-                                        : props.motorbike.status === "Rejected" ? (
-                                            <Chip
-                                                sx={{
-                                                    '& .MuiChip-label': { fontSize: "14px" },
-                                                    height: "28px",
-                                                    fontWeight: "400",
-                                                }}
-                                                color="error"
-                                                icon={<ErrorOutline />}
-                                                label={t('postMotorbike.listform.status-rejected')} />)
-                                            : props.motorbike.status === "On Hiatus" ? (
-                                                <Chip
-                                                    sx={{
-                                                        '& .MuiChip-label': { fontSize: "14px" },
-                                                        height: "28px",
-                                                        fontWeight: "400",
-                                                    }}
-                                                    color="warning"
-                                                    icon={<StopCircleOutlined />}
-                                                    label={t('postMotorbike.listform.status-onhiatus')} />)
-                                                : (
-                                                    <Chip
-                                                        sx={{
-                                                            '& .MuiChip-label': { fontSize: "14px" },
-                                                            height: "28px",
-                                                            fontWeight: "400",
-                                                        }}
-                                                        color="success"
-                                                        icon={<ChangeCircleOutlined />}
-                                                        label={t('postMotorbike.listform.status-inoporation')} />)
+                                statusChange !== "" ? chooseChip(statusChange) :
+                                    chooseChip(props.motorbike.status)
                             }
                             {
                                 <Box display={"flex"} gap="4px" justifyContent={'center'} alignItems="center">
@@ -215,7 +236,11 @@ export default function MotorbikeFavouriteInforCard(props: {
                                             tooltipText={t("favourite.item.rent")}
                                             position="bottom"
                                             onClick={
-                                                () => setContentModal(<UpdateStatusFormModal motorbikeId={props.motorbike.id!} />)
+                                                () => setContentModal(<UpdateStatusFormModal 
+                                                    setStatusChange={setStatusChange} 
+                                                    motorbikeStatus={statusChange !== "" ? statusChange : props.motorbike.status}
+                                                    motorbikeId={props.motorbike.id!} 
+                                                    />)
                                             } />
                                     }
                                     <MyIcon

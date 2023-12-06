@@ -117,13 +117,22 @@ const UserManagement = () => {
             ),
         },
         {
-            field: 'role',
+            field: 'deleted',
             headerName: t("userProfile.Role"),
-            width: 120,
+            width: 170,
             renderCell: (params: any) => (
-                <Box>
-                    {params.row.role && params.row.role.roleName ? params.row.role.roleName : 'No information'}
-                </Box>
+                params.value === false ?
+                        (<Chip
+                            sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                            color="success"
+                            icon={<CheckCircleOutline />}
+                            label={t("dashBoardManager.user.active")} />)
+                        :
+                        (<Chip
+                            sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
+                            color="error"
+                            icon={<ErrorOutline />}
+                            label={t("dashBoardManager.user.deactiveButton")} />)
             ),
         },
         {
@@ -131,6 +140,7 @@ const UserManagement = () => {
             headerName: t("dashBoardManager.model.action"),
             width: 100,
             renderCell: (params: any) => (
+                params.row.deleted === false ? 
                 <Box sx={{ cursor: 'pointer' }} display={'flex'}>
                     <MyIcon icon={<EditIcon />} position='left' hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.managerUser}/${params.value}`)}/>
                     <MyIcon icon={<DisabledByDefault />} position='right' hasTooltip tooltipText={t("dashBoardManager.user.deactiveButton")} 
@@ -138,6 +148,8 @@ const UserManagement = () => {
                         setContentModal(<MyDialog onClickAgree={() => deleteUser(params.value)} title={t("dashBoardManager.user.confirmDelete")}  content={t("dashBoardManager.user.titleConfirmDelete") + (params.row.email || 'No information')}  hasAgreeButton={true} hasCancelButton={true}/>)
                     }}/>
                 </Box>
+                :
+                null
             ),
         },
     ];
