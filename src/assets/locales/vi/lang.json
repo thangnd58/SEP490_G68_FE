@@ -202,7 +202,8 @@
         "success": "Thêm xe yêu thích thành công",
         "warning": "Thêm xe yêu thích thất bại",
         "error_login": "Bạn cần đăng nhập để thêm xe yêu thích",
-        "error": "Lỗi thêm xe yêu thích"
+        "error": "Lỗi thêm xe yêu thích",
+        "notHavePermission": "Bạn không có quyền thêm xe vào danh sách yêu thích"
       }
     },
     "uploadImage": {
@@ -220,7 +221,8 @@
       "add": {
         "success": "Thêm xe vào giỏ hàng thành công",
         "warning": "Thêm xe vào giỏ hàng thất bại",
-        "error": "Lỗi thêm xe vào giỏ"
+        "error": "Lỗi thêm xe vào giỏ",
+        "notHavePermission": "Bạn không có quyền thêm xe vào giỏ"
       }
     },
     "userProfile": {
@@ -681,6 +683,7 @@
     "promotionCode": "Mã khuyến mãi",
     "totalPrice": "Tổng tiền",
     "bookMotorbikeButton": "Đặt xe",
+    "notHavePermission" : "Bạn không có quyền đặt xe",
     "cancelBook": "Hủy đặt xe",
     "buttonApplyPromotion": "Áp dụng",
     "buttonApplyPromotionOk": "Đã áp dụng",

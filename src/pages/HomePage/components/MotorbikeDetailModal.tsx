@@ -30,6 +30,7 @@ import { LoginModal } from '../../AccountPage/LoginModal';
 import { FeedbackService } from '../../../services/FeedbackService';
 import FeedbackCard from './FeedbackCard';
 import { PinImage } from '../../../assets/images';
+import { useAppSelector } from '../../../hooks/useAction';
 
 export default function MotorbikeDetailModal(props: { motorbikeId: string | undefined, searchedAddress?: string, startDate?: string, endDate?: string }) {
 
@@ -128,7 +129,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
     }
   }, [motorbike])
 
-
+  const { user } = useAppSelector((state) => state.userInfo);
 
   // FORM CONTROLLER
   const formik = useFormik({
@@ -781,7 +782,22 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                           </Typography>
                         </Box>
                       }
-                      <MyCustomButton fontSize={isMobile ? 14 : 16} iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick={() => setModalPromotionOpen(true)} content={t("booking.promotionCode")} variant='outlined' />
+                      <MyCustomButton fontSize={isMobile ? 14 : 16} iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick=
+                        {
+                          () => {
+                            // check role
+                            if (!UserService.isLoggedIn()) {
+                              setIsOpenLoginModal(true)
+                            } else {
+                              if (user?.role.roleName === "Customer") {
+                                setModalPromotionOpen(true)
+                              }
+                              else {
+                                ToastComponent(t("booking.notHavePermission"), "warning")
+                              }
+                            }
+                          }
+                        } content={t("booking.promotionCode")} variant='outlined' />
 
                     </Box>
                     {/* Line */}
@@ -800,27 +816,18 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     </Box>
                     {/* Line */}
                     <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
-
-                    {/* Button */}
-                    {/* {
-                      UserService.isLoggedIn() ?
-                        <MyCustomButton disabled={isProcessingBooking}
-                          width='100%' onClick={() => {
-                            setModalConfirmBookingOpen(true)
-                          }} content={t("booking.bookMotorbikeButton")} variant='contained' />
-                        :
-                        <a style={{ width: '100%' }} href={ROUTES.account.login}>
-                          <MyCustomButton fontSize={isMobile ? 14 : 16} disabled={isProcessingBooking}
-                            width='100%' content={t("booking.loginToContinue")} variant='contained' />
-                        </a>
-                    } */}
                     {
                       <MyCustomButton disabled={isProcessingBooking}
                         width='100%' onClick={() => {
                           if (!UserService.isLoggedIn()) {
                             setIsOpenLoginModal(true)
                           } else {
-                            setModalConfirmBookingOpen(true)
+                            if (user?.role.roleName === "Customer") {
+                              setModalConfirmBookingOpen(true)
+                            }
+                            else {
+                              ToastComponent(t("booking.notHavePermission"), "warning")
+                            }
                           }
                         }} content={t("booking.bookMotorbikeButton")} variant='contained' />
                     }
@@ -1101,7 +1108,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     >
                       {listFeedback.length !== 0 ? listFeedback.map((item: Feedback, index: number) => (
                         <FeedbackCard feedback={item} key={index}></FeedbackCard>
-                        ))
+                      ))
                         :
                         <Box>
                           <Typography fontSize={'18px'}>

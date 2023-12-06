@@ -202,7 +202,8 @@
         "success": "Like motorbike successfully",
         "warning": "Like motorbike failed",
         "error_login": "Please login to like motorbike!",
-        "error": "Error when like motorbike"
+        "error": "Error when like motorbike",
+        "notHavePermission": "You don't have permission to like this motorbike"
       }
     },
     "uploadImage": {
@@ -220,7 +221,8 @@
       "add": {
         "success": "Add motorbike to cart successfully",
         "warning": "Add motorbike to cart failed",
-        "error": "Error when add motorbike to cart"
+        "error": "Error when add motorbike to cart",
+        "notHavePermission": "You don't have permission to add this motorbike to cart"
       }
     },
     "userProfile": {
@@ -684,6 +686,7 @@
     "promotionCode": "Promotion code",
     "totalPrice": "Total price",
     "bookMotorbikeButton": "Book",
+    "notHavePermission" : "You don't have permission to book motorbike",
     "cancelBook": "Cancel",
     "buttonApplyPromotion": "Apply",
     "buttonApplyPromotionOk": "Applied",

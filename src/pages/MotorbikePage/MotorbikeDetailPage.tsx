@@ -31,6 +31,7 @@ import { LoginModal } from '../AccountPage/LoginModal';
 import { FeedbackService } from '../../services/FeedbackService';
 import FeedbackCard from '../HomePage/components/FeedbackCard';
 import { PinImage } from '../../assets/images';
+import { useAppSelector } from '../../hooks/useAction';
 
 
 export default function MotorbikeDetailPage() {
@@ -50,6 +51,7 @@ export default function MotorbikeDetailPage() {
   const navigate = useNavigate();
   const [isOpenLoginModal, setIsOpenLoginModal] = useState<boolean>(false);
   const [listFeedback, setlistFeedback] = useState<Feedback[]>([]);
+  const { user } = useAppSelector((state) => state.userInfo);
 
   interface Location {
     lat: number,
@@ -702,7 +704,19 @@ export default function MotorbikeDetailPage() {
                           </Typography>
                         </Box>
                       }
-                      <MyCustomButton fontSize={isMobile ? 14 : 16} iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick={() => setModalPromotionOpen(true)} content={t("booking.promotionCode")} variant='outlined' />
+                      <MyCustomButton fontSize={isMobile ? 14 : 16} iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick={() => {
+                            // check role
+                            if (!UserService.isLoggedIn()) {
+                              setIsOpenLoginModal(true)
+                            } else {
+                              if (user?.role.roleName === "Customer") {
+                                setModalPromotionOpen(true)
+                              }
+                              else {
+                                ToastComponent(t("booking.notHavePermission"), "warning")
+                              }
+                            }
+                          }} content={t("booking.promotionCode")} variant='outlined' />
 
                     </Box>
                     {/* Line */}
@@ -724,8 +738,16 @@ export default function MotorbikeDetailPage() {
                     {
                       <MyCustomButton disabled={isProcessingBooking}
                         width='100%' onClick={() => {
-                          !UserService.isLoggedIn() ? setIsOpenLoginModal(true) :
-                            setModalConfirmBookingOpen(true)
+                          if (!UserService.isLoggedIn()) {
+                            setIsOpenLoginModal(true)
+                          } else {
+                            if (user?.role.roleName === "Customer") {
+                              setModalConfirmBookingOpen(true)
+                            }
+                            else {
+                              ToastComponent(t("booking.notHavePermission"), "warning")
+                            }
+                          }
                         }} content={t("booking.bookMotorbikeButton")} variant='contained' />
                     }
                   </Box>
