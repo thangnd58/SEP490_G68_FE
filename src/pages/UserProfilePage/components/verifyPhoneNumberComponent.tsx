@@ -14,6 +14,7 @@ import { useAppSelector } from '../../../hooks/useAction';
 import { getUserInfo } from '../../../redux/reducers/authReducer';
 import { useDispatch } from 'react-redux';
 import MyIcon from '../../../components/common/MyIcon';
+import ReactInputVerificationCode from 'react-input-verification-code';
 
 interface ChildComponentProps {
   setType: React.Dispatch<React.SetStateAction<string>>;
@@ -26,14 +27,17 @@ const VerifyPhoneNumberComponent: FunctionComponent<ChildComponentProps> = ({ se
   const [showButtonsOtp1, setShowButtonsOtp1] = useState<boolean>(true);
   const [showButtonsConfirm1, setShowButtonsConfirm1] = useState<boolean>(false);
   const dispatch = useDispatch();
-  
+  const [typeOtp, setTypeOtp] = useState<number>();
+
 
   const formik = useFormik({
     initialValues: {
-      otpOld: ""
+      otpOld: "",
+      phone: ""
     },
     validationSchema: Yup.object({
       otpOld: Yup.string().required(t('form.required')).matches(/^[0-9]{6}$/, t('form.validateOtp')),
+      phone: Yup.string().required(t('form.required')).matches(/^[0-9]{10}$/, t('form.validatePhone')),
     }),
     onSubmit: values => {
       verifyOtp(values.otpOld);
@@ -43,7 +47,15 @@ const VerifyPhoneNumberComponent: FunctionComponent<ChildComponentProps> = ({ se
   const getOTP = async (type : number) => {
     if(user){
       try {
-        const response = await UserService.requestVerifyPhone(user.phone,type)
+        setTypeOtp(type);
+        let phoneToSend = ""
+        if (type === 1 && user) {
+          phoneToSend = user.phone;
+          setFieldValue("phone", "0000000000");
+        } else {
+          phoneToSend = values.phone;
+        }
+        const response = await UserService.requestVerifyPhone(phoneToSend,type)
         if (response.status === 200) {
             ToastComponent(t("toast.sendOtp.success"), "success");
             setShowButtonsOtp1(false);
@@ -66,7 +78,14 @@ const VerifyPhoneNumberComponent: FunctionComponent<ChildComponentProps> = ({ se
   const verifyOtp = async (otpOld: string) => {
     try {
       if(user){
-        const response = await UserService.requestVerifyOtp(user.phone, otpOld);
+        let phoneToSend = ""
+        if (typeOtp === 1 ) {
+          phoneToSend = user.phone;
+          setFieldValue("phone", "");
+        } else {
+          phoneToSend = values.phone;
+        }
+        const response = await UserService.requestVerifyOtp(phoneToSend, otpOld);
         if (response.status === 200) {
             dispatch(getUserInfo());
             setType('info');
@@ -84,11 +103,13 @@ const VerifyPhoneNumberComponent: FunctionComponent<ChildComponentProps> = ({ se
     errors,
     touched,
     handleChange,
-    handleSubmit
+    handleSubmit,
+    setFieldValue
   } = formik;
 
   return (
     <Box width={'100%'}>
+      { user && user.phone && user.phone !== '' ? 
         <Box className='confirm-old-phone-otp' sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Box display={'flex'} alignItems={'center'}>
             <PhoneAndroidIcon></PhoneAndroidIcon>
@@ -136,6 +157,83 @@ const VerifyPhoneNumberComponent: FunctionComponent<ChildComponentProps> = ({ se
               isWrap={false}></MyCustomButton>
           </form>
         </Box>
+        :
+        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <form
+                      onSubmit={handleSubmit}
+                      style={{
+                        width: isMobile ? "100%" : "50%",
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        padding: "0px 64px"
+                      }}>
+                      <Box width={"100%"} display={'flex'} justifyContent={'space-between'} flexDirection={'column'} alignContent={'center'} alignItems={'center'}>
+                        <TextField
+                          sx={
+                            {
+                              width: "100%"
+                            }
+                          }
+                          name="phone"
+                          label={t("ChangePhone.NewPhone")}
+                          variant="outlined"
+                          margin="normal"
+                          value={values.phone}
+                          onChange={handleChange}
+                        />
+                        <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                          {errors.phone && touched.phone && <ErrorMessage message={errors.phone} />}
+                        </Box>
+                      </Box>
+        
+                      <Box width={"100%"} display={'flex'} justifyContent={'space-between'} alignContent={'center'} alignItems={'center'} gap={"32px"}>
+                        <TextField
+                          style={{ marginBottom: '13px', width: '100%' }}
+                          name="otpOld"
+                          label="OTP"
+                          variant="outlined"
+                          margin="normal"
+                          value={values.otpOld}
+                          onChange={handleChange}
+                        />
+                        {/* <ReactInputVerificationCode
+                          length={6}
+                          onChange={(value) => {
+                            setFieldValue("otpOld", value);
+                          }}
+                          autoFocus={true}
+                          placeholder={"-"}
+                        /> */}
+                        <Tooltip title={t("VerifyPhone.TooltipGetOTP")}>
+                          <Box>
+                            <MyCustomButton
+                              borderRadius={8}
+                              fontSize={isMobile ? 12 : 16}
+                              fontWeight={400}
+                              height='67%'
+                              content={t("ChangePhone.GetOTP")}
+                              isWrap={false}
+                              variant='outlined'
+                              onClick={() => getOTP(2)}
+                              disabled={showButtonsOtp1 ? false : true}
+                            ></MyCustomButton>
+                          </Box>
+                        </Tooltip>
+                      </Box>
+        
+                      <MyCustomButton
+                        borderRadius={8}
+                        fontSize={isMobile ? 12 : 16}
+                        fontWeight={400}
+                        content={t("ChangePhone.BtnConfirm")}
+                        type='submit'
+                        disabled={showButtonsConfirm1 ? false : true}
+                        isWrap={false}></MyCustomButton>
+                    </form>
+                  </Box>
+                
+              }
     </Box>
   );
 };
