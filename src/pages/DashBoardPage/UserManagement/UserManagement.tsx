@@ -117,8 +117,18 @@ const UserManagement = () => {
             ),
         },
         {
-            field: 'deleted',
+            field: 'role',
             headerName: t("userProfile.Role"),
+            width: 120,
+            renderCell: (params: any) => (
+                <Box>
+                    {params.row.role.roleName}
+                </Box>
+            ),
+        },
+        {
+            field: 'deleted',
+            headerName: t("userProfile.Status"),
             width: 170,
             renderCell: (params: any) => (
                 params.value === false ?

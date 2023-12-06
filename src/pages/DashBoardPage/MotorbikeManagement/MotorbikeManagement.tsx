@@ -92,9 +92,12 @@ const MotorbikeManagement = () => {
         {
             field: 'id', headerName: t("dashBoardManager.motorbikeRentalManager.columnAction"), width: 100,
             renderCell: (params: any) => (
-                <Box sx={{ cursor: 'pointer' }}>
-                    <MyIcon icon={<EditIcon />} hasTooltip position='right' tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.motorbikeregister}/${params.value}`)} />
-                </Box>
+                params.row.status === "Processing" ?
+                    <Box sx={{ cursor: 'pointer' }}>
+                        <MyIcon icon={<EditIcon />} hasTooltip position='right' tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.motorbikeregister}/${params.value}`)} />
+                    </Box>
+                :
+                null
             )
         },
     ];

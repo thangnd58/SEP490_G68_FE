@@ -91,9 +91,12 @@ const LicenceManagement = () => {
             headerName: t("dashBoardManager.licenseManager.columnAction"),
             width: 100,
             renderCell: (params: any) => (
-                <Box sx={{ cursor: 'pointer' }}>
-                    <MyIcon icon={<EditIcon />} position='right' hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.licenceregister}/${params.value}`)} />
-                </Box>
+                params.row.status === 0 ?
+                    <Box sx={{ cursor: 'pointer' }}>
+                        <MyIcon icon={<EditIcon />} position='right' hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.licenceregister}/${params.value}`)} />
+                    </Box>
+                :
+                null
             )
         },
     ];
