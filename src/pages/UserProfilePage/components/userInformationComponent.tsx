@@ -365,7 +365,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                         />
                       </Tooltip>
                     )}
-                    {user.phoneVerified === false && (
+                    {user.phoneVerified === false && user.phone !== '' && (
                       <Tooltip title={t('userProfile.AlertVerify')}>
                         <MyIcon icon={
                           <Info
@@ -400,8 +400,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                     <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600} display={'inline'} marginRight={"4px"}>
                       {user.phone ? user.phone : t('userProfile.InputProfile')}
                     </Typography>
-                    {
-                      user.phoneVerified === true && (
+
                         <MyIcon icon={<EditIcon sx={{
                           width: '16px',
                           height: '16px',
@@ -409,8 +408,6 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                           setType('changePhone');
                           setShowButtons(false);
                         }} />
-                      )
-                    }
 
                     {/* <Button onClick={ChangePhone}>{t('userProfile.BtnChange')}</Button> */}
                   </Box>

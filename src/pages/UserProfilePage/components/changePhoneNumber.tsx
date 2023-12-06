@@ -55,6 +55,7 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
       setFieldValue("otpNew", "000000");
     } else {
       phoneToSend = values.phone;
+      setFieldValue("otpOld", "000000");
     }
     if (user) {
       try {
@@ -99,6 +100,7 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
       } else {
         phoneToSend = phone;
         otpToSend = otpNew;
+        setFieldValue("otpOld", "");
       }
       const response = await UserService.requestVerifyOtp(phoneToSend, otpToSend);
       if (response.status === 200) {
@@ -201,15 +203,14 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
               </Box>
 
               <Box width={"100%"} display={'flex'} justifyContent={'space-between'} alignContent={'center'} alignItems={'center'} gap={"32px"}>
-                <TextField
-                  style={{ marginBottom: '13px', width: '100%' }}
-                  name="otpNew"
-                  label="OTP"
-                  variant="outlined"
-                  margin="normal"
-                  value={values.otpNew}
-                  onChange={handleChange}
-                />
+                <ReactInputVerificationCode
+                length={6}
+                onChange={(value) => {
+                  setFieldValue("otpNew", value);
+                }}
+                autoFocus={true}
+                placeholder={"-"}
+              />
                 <Tooltip title={t("VerifyPhone.TooltipGetOTP")}>
                   <Box>
                     <MyCustomButton
