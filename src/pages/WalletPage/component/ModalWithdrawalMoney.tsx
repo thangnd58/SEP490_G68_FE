@@ -31,6 +31,15 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
     const dispatch = useDispatch();
     const { user } = useAppSelector((state) => state.userInfo);
     const { isMobile } = useThemePage();
+    const [valueConvert, setValueConvert] = React.useState("");
+
+    const formatCurrency = (value: string) => {
+        if (value === '0') {
+            return '';
+        }
+        const formattedValue = value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return formattedValue === '' ? '' : `${formattedValue}`;
+    };
 
     const fetchBanks = async () => {
         try {
@@ -49,7 +58,7 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
     }, []);
 
     const showModalStatus = () => {
-        setContentModal(<ModalStatus icon={<SettingsOutlined sx={{width:"128px",height:"128px",color:'primary.main'}}/>} title={t("wallet.title_create_request_withdrawal")} content={t("wallet.content_create_request_withdrawal")} handleConfirm={() => {
+        setContentModal(<ModalStatus icon={<SettingsOutlined sx={{ width: "128px", height: "128px", color: 'primary.main' }} />} title={t("wallet.title_create_request_withdrawal")} content={t("wallet.content_create_request_withdrawal")} handleConfirm={() => {
             dispatch(getUserInfo());
             closeModal();
         }} />)
@@ -107,7 +116,7 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
             PaperProps={{ sx: { borderRadius: "16px", padding: '1rem 1.5rem' } }}
         >
             <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap:'8px' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <img width={isMobile ? 20 : 30} height={isMobile ? 20 : 30} src={WithdrawalMoneyImage} />
                     <Typography variant="h5" fontSize={isMobile ? 16 : 24} mb={'8px'} ml={'2px'} fontWeight={700}>{props.title}</Typography>
                 </Box>
@@ -120,10 +129,15 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
                 </Typography>
                 <TextField
                     placeholder={t("wallet.title_placeholder_money_want_withdrawal")}
-                    type="number"
+                    type="text"
                     name="amount"
-                    onChange={handleChange}
-                    value={values.amount}
+                    onChange={(e) => {
+                        handleChange(e);
+                        const formattedValue = formatCurrency(e.target.value);
+                        setFieldValue("amount", e.target.value.replace(/\D/g, ""));
+                        setValueConvert(formattedValue === '' ? "" : formattedValue);
+                    }}
+                    value={valueConvert}
                     sx={{
                         "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
                             display: "none",
@@ -174,12 +188,15 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
                     type="text"
                     name="bankNumber"
                     value={values.bankNumber}
-                    onChange={handleChange}
+                    onChange={(e) => {
+                        handleChange(e);
+                        setFieldValue("bankNumber", e.target.value.replace(/\D/g, ""));
+                    }}
                     sx={{
                         "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
                             display: "none",
                         },
-                        "& input[type=text]": {
+                        "& input[type=number]": {
                             MozAppearance: "textfield",
                         },
                     }}
@@ -196,6 +213,9 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
                     name="nameInBank"
                     value={values.nameInBank}
                     onChange={handleChange}
+                    inputProps={{
+                        style: { textTransform: 'uppercase' },
+                    }}
                 />
                 {errors.nameInBank && touched.nameInBank && (
                     <ErrorMessage message={errors.nameInBank} />

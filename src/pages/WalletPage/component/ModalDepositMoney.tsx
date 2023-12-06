@@ -21,6 +21,15 @@ const ModalDepositMoney = (props: MyDialogProps) => {
     const { closeModal } = useContext(ModalContext);
     const { t } = usei18next();
     const { isMobile } = useThemePage();
+    const [valueConvert, setValueConvert] = React.useState("");
+
+    const formatCurrency = (value: string) => {
+        if (value === '0') {
+            return '';
+        }
+        const formattedValue = value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return formattedValue === '' ? '' : `${formattedValue}`;
+    };
 
     const formik = useFormik({
         initialValues: {
@@ -31,7 +40,7 @@ const ModalDepositMoney = (props: MyDialogProps) => {
         }),
         onSubmit: async (values) => {
             try {
-                const res: any = await WalletService.depositeMoney(values.amount);
+                const res: any = await WalletService.depositeMoney(values.amount.toString());
                 if (res) {
                     window.location.replace(res.data);
                 }
@@ -58,7 +67,7 @@ const ModalDepositMoney = (props: MyDialogProps) => {
             PaperProps={{ sx: { borderRadius: "16px", padding: '1rem 1.5rem' } }}
         >
             <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap:'8px' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <img width={isMobile ? 26 : 36} height={isMobile ? 26 : 36} src={DepositeMoneyImage} />
                     <Typography variant="h5" fontSize={isMobile ? 16 : 24} mt={'0.7rem'} fontWeight={700}>{props.title}</Typography>
                 </Box>
@@ -71,10 +80,15 @@ const ModalDepositMoney = (props: MyDialogProps) => {
                 </Typography>
                 <TextField
                     placeholder={t("wallet.placeholder_amount_want")}
-                    type="number"
+                    type="text"
                     name="amount"
-                    onChange={handleChange}
-                    value={values.amount}
+                    onChange={(e) => {
+                        handleChange(e);
+                        const formattedValue = formatCurrency(e.target.value);
+                        setFieldValue("amount", e.target.value.replace(/\D/g, ""));
+                        setValueConvert(formattedValue === '' ? "" : formattedValue);
+                    }}
+                    value={valueConvert}
                     sx={{
                         "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
                             display: "none",
