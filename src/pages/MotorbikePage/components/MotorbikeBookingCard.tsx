@@ -253,6 +253,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                     </Typography>
                                 </Box>
                             </Box>
+                            
 
                         </Box>
                     </Box>

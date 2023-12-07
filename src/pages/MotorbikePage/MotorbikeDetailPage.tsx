@@ -706,18 +706,18 @@ export default function MotorbikeDetailPage() {
                         </Box>
                       }
                       <MyCustomButton fontSize={isMobile ? 14 : 16} iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick={() => {
-                            // check role
-                            if (!UserService.isLoggedIn()) {
-                              setIsOpenLoginModal(true)
-                            } else {
-                              if (user?.role.roleName === "Customer") {
-                                setModalPromotionOpen(true)
-                              }
-                              else {
-                                ToastComponent(t("booking.notHavePermission"), "warning")
-                              }
-                            }
-                          }} content={t("booking.promotionCode")} variant='outlined' />
+                        // check role
+                        if (!UserService.isLoggedIn()) {
+                          setIsOpenLoginModal(true)
+                        } else {
+                          if (user?.role.roleName === "Customer") {
+                            setModalPromotionOpen(true)
+                          }
+                          else {
+                            ToastComponent(t("booking.notHavePermission"), "warning")
+                          }
+                        }
+                      }} content={t("booking.promotionCode")} variant='outlined' />
 
                     </Box>
                     {/* Line */}
@@ -994,7 +994,13 @@ export default function MotorbikeDetailPage() {
                         ))
                           :
                           <Box>
-                            <Typography fontSize={'18px'}>
+                            <Typography sx={{
+                              backgroundColor: "rgba(140, 126, 126, 0.1)",
+                              borderRadius: "8px",
+                              padding: "8px",
+                              fontSize: isMobile ? "12px" : "14px",
+                              color: 'black'
+                            }}>
                               {t("feedback.nonComment")}
                             </Typography>
                           </Box>

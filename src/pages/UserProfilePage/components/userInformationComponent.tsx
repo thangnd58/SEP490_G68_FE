@@ -44,36 +44,6 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
     getLisence();
   }, []);
 
-  // useEffect(() => {
-  //   const checkImageSize = () => {
-  //     const img = new Image();
-  //     img.crossOrigin = 'anonymous';
-  //     img.src = imagePreviewUrl;
-  //     img.onload = () => {
-  //       const { naturalWidth, naturalHeight,  } = img;
-  //       if (naturalWidth < naturalHeight) {
-  //         const canvas = document.createElement('canvas');
-  //         const ctx = canvas.getContext('2d');
-  //         if (ctx) {
-  //           canvas.width = naturalHeight;
-  //           canvas.height = naturalWidth;
-  //           ctx.translate(naturalHeight, 0);
-  //           ctx.rotate(Math.PI/ 2);
-  //           ctx.drawImage(img, 0, 0, naturalWidth, naturalHeight);
-  //           setImagePreviewUrl(canvas.toDataURL());
-  //         }
-  //       }
-  //     };
-  //   };
-
-  //   if (imagePreviewUrl !== '') {
-  //     checkImageSize();
-  //   }
-  // }, [imagePreviewUrl]);
-
-
-
-
   const getLisence = async () => {
     try {
       const res = await UserService.getLisenceInfo(user?.userId);
@@ -380,21 +350,6 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                           }} />
                       </Tooltip>
                     )}
-                    {/*  <Tooltip title={t('userProfile.AlertVerify')}>
-                           <Chip
-                             sx={{ '& .MuiChip-label': { fontSize: isMobile ? "12px" : "14px" }, height: '90%', cursor: 'pointer' }}
-                             color="warning"
-                             icon={<WarningAmber sx={{
-                               width: '16px',
-                               height: '16px',
-                             }} />}
-                             label={t('userProfile.notYetVerify')}
-                             onClick={() => {
-                               setType('verifyPhone');
-                               setShowButtons(false);
-                             }}
-                           />
-                         </Tooltip> */}
                   </Box>
                   <Box display={'flex'} alignItems={'center'} alignContent={'center'}>
                     <Typography fontSize={isMobile ? 14 : 16} color={theme.palette.text.primary} fontWeight={600} display={'inline'} marginRight={"4px"}>
@@ -408,8 +363,6 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                           setType('changePhone');
                           setShowButtons(false);
                         }} />
-
-                    {/* <Button onClick={ChangePhone}>{t('userProfile.BtnChange')}</Button> */}
                   </Box>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -487,8 +440,6 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                         }} />} noPadding hasTooltip tooltipText={t("toast.userProfile.btnUnlink")} onClick={() => handleConfirmUnlink()} />
                       )
                     }
-
-                    {/* <Button onClick={ChangePhone}>{t('userProfile.BtnChange')}</Button> */}
                   </Box>
                 </Box>
               </Box>
@@ -649,11 +600,6 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                   height: '270px',
                 }}>
                   {imagePreviewUrl !== "" ? (
-                    // <Im style={{
-                    //   width: '100%',
-                    //   height: '100%',
-                    //   objectFit: 'fill',
-                    // }} src={imagePreviewUrl} alt={user.name} />
                     <Image
                       width={'100%'}
                       height={'100%'}

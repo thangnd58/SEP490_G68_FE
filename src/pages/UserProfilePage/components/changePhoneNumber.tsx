@@ -134,7 +134,7 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
       {showOtp ? (
 
         <Box className='confirm-old-phone-otp' sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <form onSubmit={handleSubmit} style={{ width: isMobile ? "100%" : "50%", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <form onSubmit={handleSubmit} style={{ width: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Box display={'flex'} justifyContent={'flex-end'} gap={'40px'} alignContent={'center'} alignItems={'center'}>
               <ReactInputVerificationCode
                 length={6}
@@ -159,7 +159,7 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
                 </Box>
               </Tooltip>
             </Box>
-            <Box sx={{ width: "100%", display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: '13px' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: '13px' }}>
               {errors.otpOld && touched.otpOld && <ErrorMessage message={errors.otpOld} />}
             </Box>
             <MyCustomButton
@@ -177,19 +177,15 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
             <form
               onSubmit={handleSubmit}
               style={{
-                width: isMobile ? "100%" : "50%",
+                width: "100%",
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                padding: "0px 64px"
+                padding: isMobile ? '0px 10px' : '0px 64px'
               }}>
               <Box width={"100%"} display={'flex'} justifyContent={'space-between'} flexDirection={'column'} alignContent={'center'} alignItems={'center'}>
                 <TextField
-                  sx={
-                    {
-                      width: "100%"
-                    }
-                  }
+                  fullWidth
                   name="phone"
                   label={t("ChangePhone.NewPhone")}
                   variant="outlined"
@@ -203,14 +199,16 @@ const ChangePhoneComponent: FunctionComponent<ChildComponentProps> = ({ setType 
               </Box>
 
               <Box width={"100%"} display={'flex'} justifyContent={'space-between'} alignContent={'center'} alignItems={'center'} gap={"32px"}>
-                <ReactInputVerificationCode
-                length={6}
-                onChange={(value) => {
-                  setFieldValue("otpNew", value);
-                }}
-                autoFocus={true}
-                placeholder={"-"}
-              />
+                {/* <div className="custom-styles"> */}
+                  <ReactInputVerificationCode
+                    length={6}
+                    onChange={(value) => {
+                      setFieldValue("otpNew", value);
+                    }}
+                    autoFocus={true}
+                    placeholder={"-"}
+                  />
+                {/* </div> */}
                 <Tooltip title={t("VerifyPhone.TooltipGetOTP")}>
                   <Box>
                     <MyCustomButton

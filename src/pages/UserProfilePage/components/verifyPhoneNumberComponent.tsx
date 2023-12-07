@@ -96,7 +96,7 @@ const VerifyPhoneNumberComponent: FunctionComponent<ChildComponentProps> = ({ se
           </Box>
           
 
-          <form onSubmit={handleSubmit} style={{ width: isMobile ? "100%" : "50%", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <form onSubmit={handleSubmit} style={{ width: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Box display={'flex'} justifyContent={'flex-end'} gap={'40px'} alignContent={'center'} alignItems={'center'}>
               <ReactInputVerificationCode
                 length={6}

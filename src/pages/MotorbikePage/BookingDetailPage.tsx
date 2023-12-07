@@ -596,7 +596,7 @@ export const BookingDetailPage = () => {
                                                     value={BookingPaymentType.UserBalance}
                                                     control={<Radio />}
                                                     label={
-                                                        <Box minWidth={'250px'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }} border={'2px solid #8b4513'} borderRadius={'8px'} padding={'8px'}>
+                                                        <Box minWidth={isMobile?'250px':'290px'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }} border={'2px solid #8b4513'} borderRadius={'8px'} padding={'8px'}>
                                                             <img alt="my-wallet" src={MyWallet} width={24} height={24} />
                                                             {
                                                                 `${t("booking.payWallet")} (${formatMoney(user!.balance || 0)})`
@@ -610,6 +610,7 @@ export const BookingDetailPage = () => {
                                                             fontWeight: '400',
                                                             color: theme.palette.text.primary,
                                                         },
+                                                        margin: "0px",
                                                         borderRadius: "10px",
                                                     }}
                                                 />
@@ -618,7 +619,7 @@ export const BookingDetailPage = () => {
                                                     value={BookingPaymentType.Card}
                                                     control={<Radio />}
                                                     label={
-                                                        <Box minWidth={'250px'}
+                                                        <Box minWidth={isMobile?'250px':'290px'}
                                                             display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }} border={'2px solid #8b4513'} borderRadius={'8px'} padding={'8px'}>
                                                             <img alt="my-wallet" src={VNPay} height={24} />
                                                             {
@@ -632,6 +633,7 @@ export const BookingDetailPage = () => {
                                                             fontWeight: '400',
                                                             color: theme.palette.text.primary,
                                                         },
+                                                        margin: "0px",
                                                         borderRadius: "10px",
                                                     }} />
                                             </RadioGroup>

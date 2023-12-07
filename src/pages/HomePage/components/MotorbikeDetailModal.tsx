@@ -1113,7 +1113,13 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                           ))
                           :
                           <Box>
-                            <Typography fontSize={'18px'}>
+                            <Typography sx={{
+                              backgroundColor: "rgba(140, 126, 126, 0.1)",
+                              borderRadius: "8px",
+                              padding: "8px",
+                              fontSize:isMobile ? "12px" : "14px",
+                              color:'black'
+                            }}>
                               {t("feedback.nonComment")}
                             </Typography>
                           </Box>
