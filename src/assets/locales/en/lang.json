@@ -326,7 +326,8 @@
       "promotions": "Manage Promotions",
       "model": "Manage Model",
       "report": "Manage Report",
-      "user": "Manage User"
+      "user": "Manage User",
+      "feedback" : "Manage Feedback"
     },
     "License": "License",
     "Motobike": {
@@ -451,6 +452,13 @@
       "staff": "Staff",
       "deactiveButton": "Deactive",
       "active": "Active"
+    },
+    "feedback": {
+      "userName": "User Name",
+      "comment": "Comment",
+      "perfomer": "Perfomer",
+      "rating": "Rating",
+      "createDatetime": "Create Date"
     },
     "dashboard": {
       "totalMoney": "Total transaction amount",

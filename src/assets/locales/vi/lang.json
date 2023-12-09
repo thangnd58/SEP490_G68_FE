@@ -326,7 +326,8 @@
       "promotions": "Quản lý khuyến mãi",
       "model": "Quản lý mẫu xe",
       "report": "Quản lý báo cáo",
-      "user" : "Quản lý tài khoản"
+      "user" : "Quản lý tài khoản",
+      "feedback" : "Quản lý đánh giá"
     },
     "License": "Bằng lái xe",
     "Motobike": {
@@ -452,6 +453,13 @@
       "staff" : "Nhân viên",
       "deactiveButton": "Hủy kích hoạt",
       "active": "Kích hoạt"
+    },
+    "feedback": {
+      "userName": "Tên tài khoản",
+      "comment": "Nhận xét",
+      "perfomer": "Vai trò",
+      "rating": "Đánh giá",
+      "createDatetime": "Ngày đánh giá"
     },
     "dashboard":{
       "totalMoney": "Tổng tiền giao dịch",
