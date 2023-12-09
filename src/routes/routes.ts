@@ -54,6 +54,7 @@ import UserManagementForm from '../pages/DashBoardPage/UserManagement/UserManage
 import { DashboardManagement } from '../pages/DashBoardPage/Index/DashboardManagement';
 import { PolicyPage } from '../pages/OrtherPage/PolicyPage';
 import GuidelinePage from '../pages/OrtherPage/GuidelinePage';
+import FeedbackManagement from '../pages/DashBoardPage/FeedbackManagement/FeedbackManagement';
 
 export type Route = {
     path: string;
@@ -123,6 +124,8 @@ export const routes: Route[] = [
     { path: `${ROUTES.admin.manageReport}/:id`, component: ReportManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"]},
     { path: `${ROUTES.admin.managerUser}`, component: UserManagement, layout: LayoutAdmin, role: ["Admin"] },
     { path: `${ROUTES.admin.managerUser}/:id`, component: UserManagementForm, layout: LayoutAdmin, role: ["Admin"] },
+    { path: `${ROUTES.admin.managerFeedback}`, component: FeedbackManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
+
 
     //Wallet Page
     { path: `${ROUTES.user.wallet}`, component: Wallet, role: ["Admin", "Staff", "Customer"] },

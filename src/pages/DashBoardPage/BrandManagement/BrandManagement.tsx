@@ -28,7 +28,7 @@ const BrandManagement = () => {
         getAllBrand();
         
     },[]);
-    console.log(listBrand);
+    // console.log(listBrand);
     const getAllBrand = async () => {
         try {
             const response = await PostMotorbikeService.getAllBrand();
