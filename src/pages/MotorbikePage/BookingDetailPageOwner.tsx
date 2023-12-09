@@ -22,7 +22,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/useAction";
 import ToastComponent from "../../components/toast/ToastComponent";
 import { getUserInfo } from "../../redux/reducers/authReducer";
 import MyIcon from "../../components/common/MyIcon";
-import { ArrowBack, CheckCircle, CloseOutlined, Verified } from "@mui/icons-material";
+import { ArrowBack, CheckCircle, CloseOutlined, Edit, Verified } from "@mui/icons-material";
 import { ConfirmCompleteTripModal } from "./components/ConfirmCompleteTripModal";
 import UserInforModal from "../UserProfilePage/UserInforModal";
 interface Location {
@@ -364,7 +364,28 @@ export const BookingDetailPageOwner = () => {
                                         </Box>
                                     )
                                 }
-                                <Typography mt={'8px'} fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>{t("booking.timeRent")}</Typography>
+                                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} width={'100%'} sx={{ gap: '8px' }}>
+
+                                    <Typography mt={'8px'} fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>{t("booking.timeRent")}</Typography>
+                                    {/* Button change return address */}
+                                    {
+                                        // booking.status === "Delivered" &&
+                                        <MyIcon 
+                                        icon={<Edit
+                                            sx={{
+                                                color: theme.palette.common.black,
+                                                cursor: 'pointer',
+                                                '&:hover': {
+                                                    color: theme.palette.primary.main,
+                                                },
+                                            }}
+                                            />} 
+                                        hasTooltip 
+                                        tooltipText={t("booking.changeReturnAddressAndTime")} 
+                                        // onClick={() => setContentModal(<ConfirmCompleteTripModal bookingId={booking.bookingId} />)} 
+                                        position='bottom' />
+                                    }
+                                </Box>
                                 <Box display={'flex'} gap={isMobile ? '16px' : '32px'} justifyContent={isMobile ? 'space-between' : 'start'} flexDirection={isMobile ? 'column' : 'row'} mb={'16px'}>
                                     <Box display={'flex'} gap={'16px'} >
                                         <img src={CalendarImage} alt="calendar" width={isMobile ? 20 : 24} height={isMobile ? 20 : 24} />
@@ -404,7 +425,7 @@ export const BookingDetailPageOwner = () => {
                                     }} />
                                 <Box
                                     borderRadius={"10px"}
-                                    border={"3px solid"}
+                                    border={"3px solid #8b4513"}
                                     margin={"0px auto"}
                                     width={isMobile ? "98%" : "99%"}
                                     justifyContent={"center"}
@@ -440,8 +461,8 @@ export const BookingDetailPageOwner = () => {
                                             height: "50px",
                                             borderRadius: "50%",
                                         }}
-                                        src={ booking.user.avatarUrl}
-                                        onClick={() => setContentModal(<UserInforModal userId={booking.user.userId}/>)}
+                                        src={booking.user.avatarUrl}
+                                        onClick={() => setContentModal(<UserInforModal userId={booking.user.userId} />)}
                                     />
                                     <Box display={'flex'} flexDirection={'column'} alignItems={'start'} justifyContent={'center'} sx={{ gap: '0px' }}>
                                         <Typography

@@ -682,6 +682,7 @@
     "startDate": "Start date",
     "endDate": "End date",
     "timeRent": "Time rental",
+    "changeReturnAddressAndTime": "Change return address and time",
     "addressGetMotorbike": "Motorbike delivery location",
     "paymentType": "Payment type",
     "payWallet": "Wallet balance",

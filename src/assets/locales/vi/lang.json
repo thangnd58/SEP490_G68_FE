@@ -267,11 +267,11 @@
     "ChangeProfile": "Chỉnh sửa hồ sơ",
     "InputProfile": "Vui lòng điền thông tin",
     "BtnChange": "Thay đổi",
-    "BtnLink" : "Liên kết tài khoản",
+    "BtnLink": "Liên kết tài khoản",
     "notYetVerify": "Chưa xác minh",
     "Verified": "Đã xác minh",
     "AlertVerify": "Hãy xác minh số điện thoại của bạn",
-    "Role" : "Vai trò",
+    "Role": "Vai trò",
     "Status": "Trạng thái"
   },
   "ChangePhone": {
@@ -326,8 +326,8 @@
       "promotions": "Quản lý khuyến mãi",
       "model": "Quản lý mẫu xe",
       "report": "Quản lý báo cáo",
-      "user" : "Quản lý tài khoản",
-      "feedback" : "Quản lý đánh giá"
+      "user": "Quản lý tài khoản",
+      "feedback": "Quản lý đánh giá"
     },
     "License": "Bằng lái xe",
     "Motobike": {
@@ -443,14 +443,14 @@
       "TitleAdd": "Thêm mới  mẫu xe",
       "Title": "Mẫu xe"
     },
-    "user":{
+    "user": {
       "confirmDelete": "Xác nhận hủy kích hoạt tài khoản",
       "titleConfirmDelete": "Bạn có muốn hủy kích hoạt tài khoản: ",
       "TitleChange": "Chỉnh sửa tài khoản",
       "chooseRole": "Chọn vai trò",
       "admin": "Quản lý",
-      "customer" : "Khách hàng",
-      "staff" : "Nhân viên",
+      "customer": "Khách hàng",
+      "staff": "Nhân viên",
       "deactiveButton": "Hủy kích hoạt",
       "active": "Kích hoạt"
     },
@@ -461,15 +461,15 @@
       "rating": "Đánh giá",
       "createDatetime": "Ngày đánh giá"
     },
-    "dashboard":{
+    "dashboard": {
       "totalMoney": "Tổng tiền giao dịch",
-      "totalMoneyOut" : "Tổng tiền ra",
-      "totalMoneyIn" : "Tổng tiền vào",
-      "income" : "Doanh thu",
+      "totalMoneyOut": "Tổng tiền ra",
+      "totalMoneyIn": "Tổng tiền vào",
+      "income": "Doanh thu",
       "paymentType": "Loại hình thanh toán",
       "transactionStatistics": "Thống kê giao dịch",
       "startDate": "Thời gian bắt đầu",
-      "endDate" :"Thời gian kết thúc"
+      "endDate": "Thời gian kết thúc"
     }
   },
   "component": {
@@ -486,8 +486,8 @@
     "listform": {
       "title": "Danh sách xe của tôi",
       "status": "Trạng thái :",
-      "updateStatusSuccess" : "Cập nhật trạng thái thành công",
-      "updateStatusError" : "Cập nhật trạng thái thất bại",
+      "updateStatusSuccess": "Cập nhật trạng thái thành công",
+      "updateStatusError": "Cập nhật trạng thái thất bại",
       "all": "Tất cả",
       "table-cell-#": "#",
       "table-cell-image": "Hình ảnh",
@@ -517,11 +517,11 @@
       "profit": "Lợi nhuận",
       "miscellaneous": "Điều khoản khác",
       "allmymotorbikes": "Tất cả xe của bạn",
-      "historyBooking" : "Lịch sử đơn đặt xe",
-      "currentBooking" : "Đơn đặt xe hiện tại",
-      "bookingInHistory" : "Đơn đặt xe trong lịch sử",
-      "myMotorbikeFeedback" : "Đánh giá xe của bạn",
-      "rating_comment" : "Đánh giá và bình luận"
+      "historyBooking": "Lịch sử đơn đặt xe",
+      "currentBooking": "Đơn đặt xe hiện tại",
+      "bookingInHistory": "Đơn đặt xe trong lịch sử",
+      "myMotorbikeFeedback": "Đánh giá xe của bạn",
+      "rating_comment": "Đánh giá và bình luận"
     },
     "registedForm": {
       "updateTitle": "Cập nhật thông tin xe",
@@ -680,6 +680,7 @@
     "startDate": "Ngày nhận xe",
     "endDate": "Ngày trả xe",
     "addressGetMotorbike": "Địa chỉ giao xe",
+    "changeReturnAddressAndTime": "Thay đổi địa chỉ và thời gian trả xe",
     "paymentType": "Hình thức thanh toán",
     "payWallet": "Số dư ví",
     "payVnPay": "Ví điện tử VN Pay",
@@ -692,7 +693,7 @@
     "promotionCode": "Mã khuyến mãi",
     "totalPrice": "Tổng tiền",
     "bookMotorbikeButton": "Đặt xe",
-    "notHavePermission" : "Bạn không có quyền đặt xe",
+    "notHavePermission": "Bạn không có quyền đặt xe",
     "cancelBook": "Hủy đặt xe",
     "buttonApplyPromotion": "Áp dụng",
     "buttonApplyPromotionOk": "Đã áp dụng",
@@ -783,7 +784,7 @@
   "myBooking": {
     "currentBooking": "Chuyến đi hiện tại",
     "historyBooking": "Lịch sử chuyến đi",
-    "myfeedback" : "Đánh giá của bạn",
+    "myfeedback": "Đánh giá của bạn",
     "status": "Trạng thái",
     "startDate": "Ngày nhận xe",
     "endDate": "Ngày trả xe",
@@ -805,7 +806,7 @@
     "createError": "Đánh giá thất bại",
     "editSuccess": "Cật nhật đánh giá thành công",
     "nonComment": "Chưa có nhận xét",
-    "reply" : "Phản hồi"
+    "reply": "Phản hồi"
   },
   "report": {
     "reason": "Lý do báo cáo",
@@ -819,7 +820,7 @@
     "pendingRes": "Chờ phản hồi",
     "alreadyRes": "Đã phản hồi"
   },
-  "editional" :{
+  "editional": {
     "hotmotorbikes": "Xe hot trong tháng"
   }
 }

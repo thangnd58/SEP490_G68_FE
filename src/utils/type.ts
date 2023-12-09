@@ -327,6 +327,11 @@ export interface Booking {
     promotion: Promotion,
     deposit: number,
     user: User,
+    returnAddress: string,
+    returnDatetime: string,
+    returnManager: string,
+    returnStatus: string,
+    returnStatusComment: string,
 }
 
 export interface Notification {

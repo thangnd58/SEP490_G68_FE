@@ -22,7 +22,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/useAction";
 import ToastComponent from "../../components/toast/ToastComponent";
 import { getUserInfo } from "../../redux/reducers/authReducer";
 import MyIcon from "../../components/common/MyIcon";
-import { ArrowBack, CheckCircle, CloseOutlined, Feedback, HelpOutlineOutlined, Verified } from "@mui/icons-material";
+import { ArrowBack, CheckCircle, CloseOutlined, Edit, Feedback, HelpOutlineOutlined, Verified } from "@mui/icons-material";
 import { ConfirmCompleteTripModal } from "./components/ConfirmCompleteTripModal";
 import ModalStatus from "../WalletPage/component/ModalStatus";
 import { getBookingInfo } from "../../redux/reducers/bookingReducer";
@@ -394,7 +394,28 @@ export const BookingDetailPage = () => {
                                         </Box>
                                     )
                                 }
-                                <Typography mt={'8px'} fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>{t("booking.timeRent")}</Typography>
+                                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} width={'100%'} sx={{ gap: '8px' }}>
+
+                                    <Typography mt={'8px'} fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>{t("booking.timeRent")}</Typography>
+                                    {/* Button change return address */}
+                                    {
+                                        // booking.status === "Delivered" &&
+                                        <MyIcon
+                                            icon={<Edit
+                                                sx={{
+                                                    color: theme.palette.common.black,
+                                                    cursor: 'pointer',
+                                                    '&:hover': {
+                                                        color: theme.palette.primary.main,
+                                                    },
+                                                }}
+                                            />}
+                                            hasTooltip
+                                            tooltipText={t("booking.changeReturnAddressAndTime")}
+                                            // onClick={() => setContentModal(<ConfirmCompleteTripModal bookingId={booking.bookingId} />)} 
+                                            position='bottom' />
+                                    }
+                                </Box>
                                 <Box display={'flex'} gap={isMobile ? '16px' : '32px'} justifyContent={isMobile ? 'space-between' : 'start'} flexDirection={isMobile ? 'column' : 'row'} mb={'16px'}>
                                     <Box display={'flex'} gap={'16px'} >
                                         <img src={CalendarImage} alt="calendar" width={isMobile ? 20 : 24} height={isMobile ? 20 : 24} />
@@ -434,7 +455,7 @@ export const BookingDetailPage = () => {
                                     }} />
                                 <Box
                                     borderRadius={"10px"}
-                                    border={"3px solid"}
+                                    border={"3px solid #8b4513"}
                                     margin={"0px auto"}
                                     width={isMobile ? "98%" : "99%"}
                                     justifyContent={"center"}
@@ -596,7 +617,7 @@ export const BookingDetailPage = () => {
                                                     value={BookingPaymentType.UserBalance}
                                                     control={<Radio />}
                                                     label={
-                                                        <Box minWidth={isMobile?'250px':'290px'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }} border={'2px solid #8b4513'} borderRadius={'8px'} padding={'8px'}>
+                                                        <Box minWidth={isMobile ? '250px' : '290px'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }} border={'2px solid #8b4513'} borderRadius={'8px'} padding={'8px'}>
                                                             <img alt="my-wallet" src={MyWallet} width={24} height={24} />
                                                             {
                                                                 `${t("booking.payWallet")} (${formatMoney(user!.balance || 0)})`
@@ -619,7 +640,7 @@ export const BookingDetailPage = () => {
                                                     value={BookingPaymentType.Card}
                                                     control={<Radio />}
                                                     label={
-                                                        <Box minWidth={isMobile?'250px':'290px'}
+                                                        <Box minWidth={isMobile ? '250px' : '290px'}
                                                             display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }} border={'2px solid #8b4513'} borderRadius={'8px'} padding={'8px'}>
                                                             <img alt="my-wallet" src={VNPay} height={24} />
                                                             {
