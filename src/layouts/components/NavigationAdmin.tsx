@@ -74,6 +74,12 @@ export default function NavigationAdmin() {
             name: t("dashBoardManager.Navigation.feedback"),
             role: "Admin,Staff",
         }
+        ,
+        {
+            path: ROUTES.admin.managerBooking,
+            name: t("dashBoardManager.Navigation.booking"),
+            role: "Admin,Staff",
+        }
     ];
 
     return (

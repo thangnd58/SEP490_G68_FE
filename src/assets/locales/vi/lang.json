@@ -327,7 +327,8 @@
       "model": "Quản lý mẫu xe",
       "report": "Quản lý báo cáo",
       "user": "Quản lý tài khoản",
-      "feedback": "Quản lý đánh giá"
+      "feedback": "Quản lý đánh giá",
+      "booking" : "Quản lý đặt xe"
     },
     "License": "Bằng lái xe",
     "Motobike": {
@@ -470,6 +471,20 @@
       "transactionStatistics": "Thống kê giao dịch",
       "startDate": "Thời gian bắt đầu",
       "endDate": "Thời gian kết thúc"
+    },
+    "booking": {
+      "deliveryMode" : "Phương thức giao xe",
+      "address" : "Địa chỉ",
+      "status": "Trạng thái",
+      "paymentType" : "Hình thức thanh toán",
+      "rentalDays" : "Số ngày thuê",
+      "createDatetime": "Ngày đặt",
+      "DeliveryService" : "Giao xe tận nơi",
+      "Card" : "Thẻ",
+      "UserBalance" : "Số dư tài khoản",
+      "PendingReview" :"Đợi nhận xét",
+      "Finished" :"Kết thúc",
+      "Cancelled" :"Hủy đặt"
     }
   },
   "component": {

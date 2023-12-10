@@ -14,6 +14,7 @@ const apiGetListCart = "/booking-cart";
 const apiCancelBooking = '/booking';
 const apiGetListRentalBooking = '/rental-history';
 const apiGetLatLng = '/location/get-lat-lng-by-address';
+const apiGetAllBooking = '/bookings';
 
 export const BookingService = {
     getPreviewBooking: async (
@@ -28,6 +29,10 @@ export const BookingService = {
     },
     getListBookingCurrentUser: async (): Promise<Booking[]> => {
         const response = await api.get(apiGetListBooking)
+        return response.data
+    },
+    getListBooking: async (): Promise<Booking[]> => {
+        const response = await api.get(apiGetAllBooking)
         return response.data
     },
     getBookingById: async (id: string): Promise<Booking> => {
