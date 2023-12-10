@@ -56,6 +56,7 @@ export const ROUTES = {
         manageReport: "/manage-reports",
         managerUser: "/manage-user",
         managerFeedback: "/manage-feedback",
+        managerBooking: "/manage-booking"
     },
     other: {
         pagenotfound: "/page-not-found",

@@ -327,7 +327,8 @@
       "model": "Manage Model",
       "report": "Manage Report",
       "user": "Manage User",
-      "feedback" : "Manage Feedback"
+      "feedback" : "Manage Feedback",
+      "booking"  : "Manage Booking"
     },
     "License": "License",
     "Motobike": {
@@ -469,6 +470,20 @@
       "transactionStatistics": "Transaction statistics",
       "startDate": "Start Date",
       "endDate": "End Date"
+    },
+    "booking": {
+      "deliveryMode" : "Delivery Mode",
+      "address" : "Address",
+      "status": "Status",
+      "paymentType" : "Payment Type",
+      "rentalDays" : "Rental Days",
+      "createDatetime": "Create Date Time",
+      "DeliveryService" : "Delivery Service",
+      "Card" : "Card",
+      "UserBalance" : "User Balance",
+      "PendingReview" :"Pending Review",
+      "Finished" :"Finished",
+      "Cancelled" :"Cancelled"
     }
   },
   "component": {
