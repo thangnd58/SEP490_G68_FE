@@ -819,7 +819,7 @@
   "feedback": {
     "createSuccess": "Đánh giá thành công",
     "createError": "Đánh giá thất bại",
-    "editSuccess": "Cật nhật đánh giá thành công",
+    "editSuccess": "Cập nhật đánh giá thành công",
     "nonComment": "Chưa có nhận xét",
     "reply": "Phản hồi"
   },

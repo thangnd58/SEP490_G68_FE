@@ -1258,7 +1258,7 @@ export default function MotorbikeDetailPage() {
         setModalConfirmBookingOpen={setModalConfirmBookingOpen}
         values={values}
         isMobile={isMobile}
-        motorbikes={[motorbike!]}
+        motorbikes={previewBookingData && previewBookingData!.motorbikes}
         previewBookingData={previewBookingData}
         isProcessingBooking={isProcessingBooking}
         handleSubmit={handleSubmit}
