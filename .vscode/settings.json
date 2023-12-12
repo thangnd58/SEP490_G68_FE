@@ -15,5 +15,8 @@
             "name": "sep490",
             "password": "sep490g68"
         }
+    ],
+    "i18n-ally.localesPaths": [
+        "src/assets/locales"
     ]
 }
