@@ -235,7 +235,7 @@ export default function MotorbikeFavouriteInforCard(props: {
                                         <MyIcon
                                             icon={<ManageHistory sx={{ color: 'main' }} />}
                                             hasTooltip
-                                            tooltipText={t("favourite.item.rent")}
+                                            tooltipText={t("toast.favourite.item.rent")}
                                             position="bottom"
                                             onClick={
                                                 () => setContentModal(<UpdateStatusFormModal 
@@ -252,7 +252,7 @@ export default function MotorbikeFavouriteInforCard(props: {
                                             height: "20px",
                                         }} />}
                                         hasTooltip
-                                        tooltipText={t("favourite.item.rent")}
+                                        tooltipText={t("toast.favourite.item.rent")}
                                         position="bottom"
                                         onClick={
                                             () => props.openUpdateInforPage && props.openUpdateInforPage()
