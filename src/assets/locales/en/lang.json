@@ -1,4 +1,8 @@
 {
+  "404": {
+    "message": "Sorry, we were unable to find that page.",
+    "back": "Back to Home"
+  },
   "header": {
     "title": "Motobike Rental Services",
     "register": "Register",
@@ -204,6 +208,9 @@
         "error_login": "Please login to like motorbike!",
         "error": "Error when like motorbike",
         "notHavePermission": "You don't have permission to like this motorbike"
+      },
+      "item": {
+        "rent": "Edit"
       }
     },
     "uploadImage": {
@@ -492,10 +499,6 @@
       "getLocationButtonLabel": "Get your location"
     }
   },
-  "404": {
-    "message": "Sorry, we were unable to find that page.",
-    "back": "Back to Home"
-  },
   "postMotorbike": {
     "listform": {
       "title": "List Motorbike",
@@ -518,6 +521,7 @@
       "status-inoporation": "In Oporation",
       "status-rejected": "Rejected",
       "status-onhiatus": "On Hiatus",
+      "status-currentlyrenting": "Currently Renting",
       "motorbikeInfo": "Motorbike Information",
       "motorbikeFeature": "Motorbike Feature",
       "release-year": "Release Year",
@@ -836,5 +840,6 @@
   },
   "editional": {
     "hotmotorbikes": "Hot motorbikes"
-  }
+  },
+  "booking.cancelled": "Cancelled"
 }

@@ -204,6 +204,9 @@
         "error_login": "Bạn cần đăng nhập để thêm xe yêu thích",
         "error": "Lỗi thêm xe yêu thích",
         "notHavePermission": "Bạn không có quyền thêm xe vào danh sách yêu thích"
+      },
+      "item" : {
+        "rent": "Chỉnh sửa"
       }
     },
     "uploadImage": {
@@ -519,6 +522,7 @@
       "status-inoporation": "Đang hoạt động",
       "status-rejected": "Đã từ chối",
       "status-onhiatus": "Tạm ngưng",
+      "status-currentlyrenting": "Được thuê gần đây",
       "motorbikeInfo": "Thông tin xe",
       "motorbikeFeature": "Đặc điểm",
       "release-year": "Năm sản xuất",
