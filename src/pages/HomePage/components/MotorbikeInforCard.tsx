@@ -11,7 +11,7 @@ import { ModalContext } from '../../../contexts/ModalContext';
 import MotorbikeDetailModal from './MotorbikeDetailModal';
 import MyIcon from '../../../components/common/MyIcon';
 import UserService from '../../../services/UserService';
-import { useAppDispatch } from '../../../hooks/useAction';
+import { useAppDispatch, useAppSelector } from '../../../hooks/useAction';
 import ToastComponent from '../../../components/toast/ToastComponent';
 import { getUserFavouriteInfo } from '../../../redux/reducers/userFavouriteReducer';
 import { useNavigate } from 'react-router-dom';
@@ -28,6 +28,7 @@ import { number } from 'yup';
 
 export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean, startDate?: string, endDate?: string, searchedAddress?: string, isInCart?: boolean, isIntroduced?: boolean, deleteInCart?: () => void, isNotFavorite?: boolean, canClickDetailPage?: boolean, isInModal?: boolean, isLoadDelete?: boolean, isHorizontal?: boolean }) {
     const { t } = usei18next();
+    const { user } = useAppSelector((state) => state.userInfo);
     const { setContentModal, setShowModal } = useContext(ModalContext);
     const { isLogin, logout } = useAuth();
     const [isOpenLoginModal, setIsOpenLoginModal] = useState<boolean>(false);
@@ -69,13 +70,21 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                 setIsOpenLoginModal(true);
                 return;
             }
-            const response = await UserService.addFavourite(id);
-            if (response.status === 200) {
-                dispatch(getUserFavouriteInfo());
-                setIsFavorite(true);
-                ToastComponent(t("toast.favourite.add.success"), "success");
-            } else {
-                ToastComponent(t("toast.favourite.add.warning"), "warning");
+            // check role
+            if (user?.role.roleName === "Customer") {
+                const response = await UserService.addFavourite(id);
+                if (response.status === 200) {
+                    dispatch(getUserFavouriteInfo());
+                    setIsFavorite(true);
+                    ToastComponent(t("toast.favourite.add.success"), "success");
+                } else {
+                    ToastComponent(t("toast.favourite.add.warning"), "warning");
+                }
+                return;
+            }
+            else {
+                ToastComponent(t("toast.favourite.add.notHavePermission"), "warning");
+                return;
             }
         } catch (error) {
             ToastComponent(t("toast.favourite.add.error"), "error");
@@ -89,12 +98,20 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                 setIsOpenLoginModal(true);
                 return;
             }
-            const response = await BookingService.addCart(motorbikeId, startDatetime, endDatetime, address);
-            if (response.status === 200) {
-                ToastComponent(t("toast.ShoppingCart.add.success"), "success");
-                dispatch(getCartInfo());
-            } else {
-                ToastComponent(t("toast.ShoppingCart.add.warning"), "warning");
+            // check role
+            if (user?.role.roleName === "Customer") {
+                const response = await BookingService.addCart(motorbikeId, startDatetime, endDatetime, address);
+                if (response.status === 200) {
+                    ToastComponent(t("toast.ShoppingCart.add.success"), "success");
+                    dispatch(getCartInfo());
+                } else {
+                    ToastComponent(t("toast.ShoppingCart.add.warning"), "warning");
+                }
+                return;
+            }
+            else {
+                ToastComponent(t("toast.ShoppingCart.add.notHavePermission"), "warning");
+                return;
             }
         } catch (error) {
             ToastComponent(t("toast.ShoppingCart.add.error"), "error");
@@ -227,6 +244,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                         sx={{
                             "& .MuiChip-label": { fontSize: "12px" },
                             height: "28px",
+                            lineHeight: "28px",
                             fontWeight: "400",
                         }}
                         color="success"
@@ -240,6 +258,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                         sx={{
                             "& .MuiChip-label": { fontSize: "12px" },
                             height: "28px",
+                            lineHeight: "28px",
                             fontWeight: "400",
                         }}
                         color="warning"

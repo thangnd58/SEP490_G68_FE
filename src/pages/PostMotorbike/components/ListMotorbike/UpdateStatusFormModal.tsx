@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import usei18next from "../../../../hooks/usei18next";
 import { ReportCategory, ReportRequest } from "../../../../utils/type";
 import { ModalContext } from "../../../../contexts/ModalContext";
@@ -16,19 +16,24 @@ import MyCustomButton from "../../../../components/common/MyButton";
 import { PostMotorbikeService } from "../../../../services/PostMotorbikeService";
 
 
-export const UpdateStatusFormModal = (props: { motorbikeId: number }) => {
+export const UpdateStatusFormModal = (props: {
+    motorbikeId: number, motorbikeStatus: string, setStatusChange: React.Dispatch<React.SetStateAction<string>>
+}) => {
     const { t } = usei18next();
     const { closeModal } = useContext(ModalContext);
+    const [defaultStatus, setDefaultStatus] = useState<string>(props.motorbikeStatus)
 
-    const StatusCategories = [
+    const StatusDeactiveCategories = [
         {
-            categoryId: "On Hiatus",
+            categoryId: "OnHiatus",
             categoryName: "Xe tạm ngưng hoạt động"
         },
+    ]
+    const StatusActiveCategories = [
         {
-            categoryId: "Other",
-            categoryName: "Khác"
-        }
+            categoryId: "Approved",
+            categoryName: "Xe hoạt động bình thường"
+        },
     ]
     const [selectedCategory, setSelectedCategory] = useState<any>();
 
@@ -45,8 +50,10 @@ export const UpdateStatusFormModal = (props: { motorbikeId: number }) => {
                     statusComment: values.detail
                 }
                 await PostMotorbikeService.updateStatusMotorbike(res.id, res.status, res.statusComment)
+                setDefaultStatus(values.categoryId)
                 ToastComponent(t("postMotorbike.listform.updateStatusSuccess"), "success")
                 closeModal()
+                props.setStatusChange(values.categoryId)
             } catch (error) {
                 console.log(error)
                 ToastComponent(t("postMotorbike.listform.updateStatusError"), "error")
@@ -110,7 +117,7 @@ export const UpdateStatusFormModal = (props: { motorbikeId: number }) => {
                             },
                         }}
                         disablePortal
-                        options={StatusCategories}
+                        options={defaultStatus === "Approved" ? StatusDeactiveCategories : StatusActiveCategories}
                         getOptionLabel={(rp) => `${rp.categoryName}`}
                         value={selectedCategory}
                         onChange={(event, newValue) => {

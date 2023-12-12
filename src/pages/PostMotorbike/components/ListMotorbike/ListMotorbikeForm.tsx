@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MyIcon from '../../../../components/common/MyIcon';
 import usei18next from '../../../../hooks/usei18next';
-import { Chip, CircularProgress, Divider, FormControl, Grid, Modal, Paper, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, Typography } from '@mui/material'
+import { Chip, CircularProgress, Divider, FormControl, Grid, Modal, Paper, Popover, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, TextField, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { ChangeCircleOutlined, CheckCircleOutline, CloseOutlined, EditOutlined, ErrorOutline, GasMeterOutlined, LocalDrinkOutlined, LocationOn, NewReleasesOutlined, StopCircleOutlined, WarningAmber } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
@@ -16,15 +16,19 @@ import MySlideShowImage from '../../../../components/common/MySlideShowImage';
 import theme from '../../../../utils/theme';
 import useThemePage from '../../../../hooks/useThemePage';
 import { CartIcon, HelmetIcon, ProtectClothesIcon, RainCoatIcon, RepairIcon, TelephoneIcon } from '../../../../assets/icons';
-import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
+import { Circle, GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 import MyBookingItem from '../../../BookMotorbike/components/MyBookingItem';
 import { BookingService } from '../../../../services/BookingService';
 import MotorbikeFavouriteInforCard from '../../../FavouritePage/components/MotorbikeFavouriteInforCard';
-import { NoDataImage } from '../../../../assets/images';
+import { NoDataImage, PinImage } from '../../../../assets/images';
 import { CommentItem } from '../../../UserProfilePage/UserInforModal';
 import MotorbikeInforCard from '../../../HomePage/components/MotorbikeInforCard';
 import { getUserInfo } from '../../../../redux/reducers/authReducer';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/useAction';
+import FeedbackCard from '../../../HomePage/components/FeedbackCard';
+import { RequireWhenRent } from '../../../MotorbikePage/components/RequireWhenRent';
+import { FeedbackService } from '../../../../services/FeedbackService';
+import { ModalContext } from '../../../../contexts/ModalContext';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -189,7 +193,7 @@ const ListMotorbikeForm = () => {
                 color="error"
                 icon={<ErrorOutline />}
                 label={t('postMotorbike.listform.status-rejected')} />)
-              : params.value === "On Hiatus" ? (
+              : params.value === "OnHiatus" ? (
                 <Chip
                   sx={{ '& .MuiChip-label': { fontSize: "16px" } }}
                   color="warning"
@@ -446,7 +450,9 @@ const ListMotorbikeForm = () => {
                 </Box>
               ) : (
                 listRegisterMotorbike.slice().reverse().map((motorbike: Motorbike) => (
-                  <MotorbikeFavouriteInforCard motorbike={motorbike} isListForm openItemDetailModal={() => openItemModal(motorbike, motorbike.imageUrl)} />
+                  <MotorbikeFavouriteInforCard motorbike={motorbike} isListForm openItemDetailModal={() => openItemModal(motorbike, motorbike.imageUrl)} openUpdateInforPage={
+                    () => navigate(`${ROUTES.user.updateregistermotorbike}/${motorbike.id}`)
+                  } />
                 ))
               )
             }
@@ -494,15 +500,15 @@ const ListMotorbikeForm = () => {
                                     alignItems: 'center',
                                     marginTop: index2 === 0 ? "0px" : "16px",
                                   }}>
-                                    <CommentItem isOwner isDetail bookingId={feedback.bookingId} avatar={feedback.user.avatarUrl} dateComment={feedback.createDatetime} name={feedback.user.name} rating={feedback.rating} comment={feedback.comment} 
-                                    // replyComment={"Cảm ơn bạn"} 
-                                    replyComment={feedback.response ? feedback.response.comment : ""} 
-                                    motorbikeId={item.id}
-                                    feedbackId={feedback.response ? feedback.response.feedbackId : 0}
-                                    dateReplyComment={feedback.response ? feedback.response.createDatetime : ""}
-                                    reload={reloadPage}
-                                    isMobile={isMobile} />
-                                    
+                                    <CommentItem isOwner isDetail bookingId={feedback.bookingId} avatar={feedback.user.avatarUrl} dateComment={feedback.createDatetime} name={feedback.user.name} rating={feedback.rating} comment={feedback.comment}
+                                      // replyComment={"Cảm ơn bạn"} 
+                                      replyComment={feedback.response ? feedback.response.comment : ""}
+                                      motorbikeId={item.id}
+                                      feedbackId={feedback.response ? feedback.response.feedbackId : 0}
+                                      dateReplyComment={feedback.response ? feedback.response.createDatetime : ""}
+                                      reload={reloadPage}
+                                      isMobile={isMobile} />
+
                                   </Box>
                                 )
                               })
@@ -521,14 +527,14 @@ const ListMotorbikeForm = () => {
         </CustomTabPanel1>
       </Paper>
 
-      <ItemMotorbikeModal isMobile={isMobile} isIpad={isIpad} isItemModalOpen={isItemMotorbikeModalOpen} closeItemModal={closeItemModal} imageList={modalImageList} motorbike={motorbike} />
+      <ItemMotorbikeModal isMobile={isMobile} isIpad={isIpad} isItemModalOpen={isItemMotorbikeModalOpen} closeItemModal={closeItemModal} motorbikeId={motorbike?.id} />
     </Box>
   )
 }
 
 export default ListMotorbikeForm;
 
-function ItemMotorbikeModal({ isMobile, isIpad, isItemModalOpen, closeItemModal, imageList, motorbike }: { isMobile: boolean, isIpad: boolean, isItemModalOpen: boolean, closeItemModal: any, imageList: any, motorbike?: Motorbike }) {
+function ItemMotorbikeModal({ isMobile, isIpad, isItemModalOpen, closeItemModal, motorbikeId }: { isMobile: boolean, isIpad: boolean, isItemModalOpen: boolean, closeItemModal: any, motorbikeId?: number }) {
   interface Location {
     lat: number,
     lng: number,
@@ -537,9 +543,45 @@ function ItemMotorbikeModal({ isMobile, isIpad, isItemModalOpen, closeItemModal,
   const { t } = usei18next();
   const [equipmentList, setEquipmentList] = useState<string[]>([]);
   const [location, setLocation] = useState<Location>();
+  const [motorbike, setMotorbike] = useState<Motorbike>();
+  const [listFeedback, setlistFeedback] = useState<Feedback[]>([]);
+  const [reloadFeedback, setReloadFeedback] = useState<boolean>(false);
+  const {setContentModal } = useContext(ModalContext);
+
+  const getFeedbackById = async (id: string) => {
+    try {
+      const response = await FeedbackService.getFeedbackById(id);
+      if (response) {
+        setlistFeedback(response);
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    if (motorbikeId) {
+      getMotorbikeById(motorbikeId.toString());
+      getFeedbackById(motorbikeId.toString());
+    }
+  }, [motorbikeId,reloadFeedback])
+
+  const getMotorbikeById = async (id: string) => {
+    try {
+      const response = await PostMotorbikeService.getMotorbikeById(id);
+      if (response) {
+        setMotorbike(response);
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     if (motorbike) {
+
       const tempEquipmentList = motorbike.equipments.split(",");
       const location = motorbike.location.split(",");
       const lat = Number(location[0]);
@@ -557,6 +599,32 @@ function ItemMotorbikeModal({ isMobile, isIpad, isItemModalOpen, closeItemModal,
   });
 
   const defaultLoction = useMemo(() => ({ lat: location?.lat || 10.762622, lng: location?.lng || 106.660172 }), [location]);
+
+  const [anchorEl, setAnchorEl] = useState<any>(null);
+
+  const handleMarkerClick = (event: google.maps.MapMouseEvent) => {
+    // Hiển thị Popover khi click vào Marker
+    setAnchorEl(event.domEvent.currentTarget);
+  };
+
+  const handleClosePopover = () => {
+    // Đóng Popover khi click bên ngoài
+    setAnchorEl(null);
+  };
+
+  const handleDragMap = () => {
+    // không cho nguời dùng kéo map
+  }
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
+  // auto close modal if user click back button on webrowser
+  useEffect(() => {
+    window.onpopstate = () => {
+      closeItemModal();
+    };
+  }, []);
 
   return (
     <Modal
@@ -617,7 +685,8 @@ function ItemMotorbikeModal({ isMobile, isIpad, isItemModalOpen, closeItemModal,
             justifyContent={"center"}
             alignItems={"center"}
             mb={"16px"}>
-            <MySlideShowImage images={imageList} />
+            {motorbike?.imageUrl && motorbike?.imageUrl.length > 0 && (
+              <MySlideShowImage images={motorbike.imageUrl} isMobile={isMobile} />)}
           </Box>
 
           {/* Divider Line */}
@@ -666,7 +735,7 @@ function ItemMotorbikeModal({ isMobile, isIpad, isItemModalOpen, closeItemModal,
                   minHeight: "300px",
                 }}
                 margin={isIpad || isMobile ? "16px 0px" : "0px 0px"}
-                width={isIpad || isMobile ? "auto" : "25%"}
+                width={isIpad || isMobile ? "auto" : "30%"}
                 display="flex"
                 flexDirection="column"
                 alignItems="start"
@@ -678,7 +747,7 @@ function ItemMotorbikeModal({ isMobile, isIpad, isItemModalOpen, closeItemModal,
                   </Typography>
                   <Chip
                     style={{ fontSize: "28px", fontWeight: "600", borderRadius: "8px", padding: "16px 8px" }}
-                    color="success" label={Number(motorbike?.priceRent) * 0.85 + "K"} />
+                    color="success" label={Number(motorbike?.priceRent) * 0.9 + "K"} />
                 </Box>
                 <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"}>
                   <TableContainer
@@ -712,212 +781,315 @@ function ItemMotorbikeModal({ isMobile, isIpad, isItemModalOpen, closeItemModal,
                         <TableRow>
                           <TableCell align="left">
                             <>
-                              - Giá giảm
+                              - Phí dịch vụ
                               <Chip
                                 style={{ fontSize: "16px", fontWeight: "600", borderRadius: "8px", marginLeft: "8px" }}
-                                color="error" label={"15%"} />
+                                color="error" label={"10%"} />
                             </>
                           </TableCell>
-                          <TableCell align="right">{Number(motorbike?.priceRent) * 0.15} 000 VND</TableCell>
+                          <TableCell align="right">{Number(motorbike?.priceRent) * 0.1} 000 VND</TableCell>
                         </TableRow>
                         <TableRow>
                           <TableCell align="left">Lợi nhuận</TableCell>
-                          <TableCell align="right">{Number(motorbike?.priceRent) * 0.85} 000 VND</TableCell>
+                          <TableCell align="right">{Number(motorbike?.priceRent) * 0.9} 000 VND</TableCell>
                         </TableRow>
                       </TableBody>
                     </Table>
                   </TableContainer>
                 </Box>
               </Box>
+              {/* Thông tin xe */}
               <Box
-                width={isIpad || isMobile ? "100%" : "70%"}
-                display="flex"
-                flexDirection="column"
-                alignItems="start"
-                paddingBottom="16px"
-              >
-                {/* Thông tin xe */}
-                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"} mt={"16px"}>
-                  <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
-                    {t("postMotorbike.listform.motorbikeFeature")}
-                  </Typography>
+                  width={isIpad || isMobile ? "100%" : "65%"}
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="start"
+                  paddingBottom="16px"
+                >
 
-                  <Box width={"100%"}>
-                    <Box
-                      sx={{ backgroundColor: "rgba(19, 139, 31, 0.05)", borderRadius: "8px" }}
-                      padding={"16px"}
-                      display="flex"
-                      flexDirection={isMobile ? "column" : "row"}
-                      alignItems="center"
-                      gap={"8px"}
-                      justifyContent={"space-between"}>
+                  {isMobile && <Divider sx={{ margin: "0px 0px 16px 0px", width: "100%" }} variant="fullWidth" />}
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"} mt={isMobile ? "0px" : "16px"}>
 
-                      <MotorbikeFeatureItem
-                        icon={<NewReleasesOutlined color='primary' fontSize='large' />}
-                        title={t("postMotorbike.listform.release-year")}
-                        content={motorbike?.releaseYear}
-                        isMobile={isMobile}
-                        t={t}
-                      />
-                      <MotorbikeFeatureItem
-                        icon={<GasMeterOutlined color='primary' fontSize='large' />}
-                        title={t("postMotorbike.listform.type")}
-                        content={motorbike?.type}
-                        isMobile={isMobile}
-                        t={t}
-                      />
-                      <MotorbikeFeatureItem
-                        icon={<LocalDrinkOutlined color='primary' fontSize='large' />}
-                        title={t("postMotorbike.listform.fuel-consumption")}
-                        content={motorbike?.fuelConsumption + "L/100km"}
-                        isMobile={isMobile}
-                        t={t}
-                      />
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={"16px"}>
+                      {t("postMotorbike.listform.motorbikeFeature")}
+                    </Typography>
+
+                    <Box width={"100%"}>
+                      <Box
+                        sx={{ backgroundColor: "rgba(19, 139, 31, 0.05)", borderRadius: "8px" }}
+                        padding={"16px"}
+                        display="flex"
+                        flexDirection={isMobile ? "column" : "row"}
+                        alignItems="center"
+                        gap={"8px"}
+                        justifyContent={"space-between"}>
+
+                        <MotorbikeFeatureItem
+                          icon={<NewReleasesOutlined color='primary' fontSize='large' />}
+                          title={t("postMotorbike.listform.release-year")}
+                          content={motorbike?.releaseYear}
+                          isMobile={isMobile}
+                          t={t}
+                        />
+
+                        <MotorbikeFeatureItem
+                          icon={<GasMeterOutlined color='primary' fontSize='large' />}
+                          title={t("postMotorbike.listform.type")}
+                          content={motorbike?.type}
+                          isMobile={isMobile}
+                          t={t}
+                        />
+                        <MotorbikeFeatureItem
+                          icon={<LocalDrinkOutlined color='primary' fontSize='large' />}
+                          title={t("postMotorbike.listform.fuel-consumption")}
+                          content={motorbike?.fuelConsumption + "L/100km"}
+                          isMobile={isMobile}
+                          t={t}
+                        />
+                      </Box>
                     </Box>
                   </Box>
-                </Box>
 
-                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
-
-                {/* Mô tả */}
-                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                  <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
-                    {t("postMotorbike.listform.description")}
-                  </Typography>
-                  <Box width={"100%"}>
-                    <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
-                      <div dangerouslySetInnerHTML={{ __html: motorbike?.description || "" }}></div>
+                  <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
+                  {/* Biển số xe */}
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={"16px"}>
+                      {t("postMotorbike.listform.licensePlate")}
                     </Typography>
+                    <Box width={"100%"}>
+                      <Box display="flex" flexDirection="row" alignItems="center" justifyContent={"center"} borderRadius={"8px"} margin={"0px 16px"} padding={"16px 0px"} border={"2px solid #8B4513"}>
+                        <Typography variant="h5" fontWeight="600" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
+                          {motorbike?.licensePlate} {/* Thêm biển số xe */}
+                        </Typography>
+                      </Box>
+                    </Box>
                   </Box>
-                </Box>
-                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
 
-                {/* Điều khoản khác */}
-                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                  <Typography variant="h6" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
-                    {t("postMotorbike.listform.miscellaneous")}
-                  </Typography>
-                  <Box width={"100%"}>
-                    <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
-                      <div dangerouslySetInnerHTML={{ __html: motorbike?.miscellaneous || "" }}></div>
+                  <Divider sx={{ margin: isMobile ? "16px 0px 16px 0px" : "16px 0px", width: "100%" }} variant="fullWidth" />
+
+                  {/* Trang bị */}
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={"16px"}>
+                      {t("postMotorbike.listform.equipments")}
                     </Typography>
-                  </Box>
-                </Box>
-                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
 
-                {/* Biển số xe */}
-                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                  <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
-                    {t("postMotorbike.listform.licensePlate")}
-                  </Typography>
-                  <Box width={"100%"}>
-                    <Box display="flex" flexDirection="row" alignItems="center" justifyContent={"center"} borderRadius={"8px"} margin={"0px 16px"} padding={"16px 0px"} border={"2px solid #8B4513"}>
-                      <Typography variant="h5" fontWeight="600" color={theme.palette.text.primary} fontSize={isMobile ? "16px" : "20px"}>
-                        {motorbike?.licensePlate} {/* Thêm biển số xe */}
+                    <Box width={"100%"}>
+                      <Box
+                        sx={{ backgroundColor: "rgba(19, 139, 31, 0.05)", borderRadius: "8px" }}
+                        padding={"16px 16px"}
+                        display="flex" flexDirection="row" alignItems="center" justifyContent={"center"} borderRadius={"8px"}>
+
+                        <Grid container columnSpacing={{ xs: 3, sm: 3, md: 3 }} rowSpacing={3}>
+                          {equipmentList.filter(item => item === "Raincoat").length > 0 && (
+                            <Grid item xs={isMobile ? 12 : 4}>
+                              <EquipmentItem icon={< RainCoatIcon />} label={t("postMotorbike.registedForm.raincoat")} />
+                            </Grid>
+                          )}
+                          {equipmentList.filter(item => item === "Helmet").length > 0 && (
+                            <Grid item xs={isMobile ? 12 : 4}>
+                              <EquipmentItem icon={< HelmetIcon />} label={t("postMotorbike.registedForm.helmet")} />
+                            </Grid>
+                          )}
+                          {equipmentList.filter(item => item === "ReflectiveClothes").length > 0 && (
+                            <Grid item xs={isMobile ? 12 : 4}>
+                              <EquipmentItem icon={< ProtectClothesIcon />} label={t("postMotorbike.registedForm.reflectiveClothes")} />
+                            </Grid>
+                          )}
+                          {equipmentList.filter(item => item === "RepairKit").length > 0 && (
+                            <Grid item xs={isMobile ? 12 : 4}>
+                              <EquipmentItem icon={< RepairIcon />} label={t("postMotorbike.registedForm.repairKit")} />
+                            </Grid>
+                          )}
+                          {equipmentList.filter(item => item === "Bagage").length > 0 && (
+                            <Grid item xs={isMobile ? 12 : 4}>
+                              <EquipmentItem icon={< CartIcon />} label={t("postMotorbike.registedForm.bagage")} />
+                            </Grid>
+                          )}
+                          {equipmentList.filter(item => item === "CaseTelephone").length > 0 && (
+                            <Grid item xs={isMobile ? 12 : 4}>
+                              <EquipmentItem icon={< TelephoneIcon />} label={t("postMotorbike.registedForm.caseTelephone")} />
+                            </Grid>
+                          )}
+                        </Grid>
+                      </Box>
+                    </Box>
+                  </Box>
+
+                  <Divider sx={{ margin: isMobile ? "16px 0px 16px 0px" : "16px 0px", width: "100%" }} variant="fullWidth" />
+
+                  {/* Hiển thị bản đồ vị trí xe */}
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={"16px"}>
+                      {t("postMotorbike.listform.address")}
+                    </Typography>
+                    <TextField
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          '& fieldset': {
+                            borderRadius: "8px",
+                            border: "1px solid #e0e0e0",
+                          },
+                          '&:hover fieldset': {
+                            border: "1px solid #e0e0e0"
+                          },
+                          '&.Mui-focused fieldset': {
+                            border: "1px solid #e0e0e0"
+                          },
+                        },
+                      }}
+                      size='small'
+                      fullWidth
+                      multiline
+                      value={motorbike?.address}
+                      inputProps={{
+                        readOnly: true,
+                      }} />
+                    {isLoaded ? (
+                      <Box
+                        borderRadius={"10px"}
+                        border={"3px solid"}
+                        margin={"0px auto"}
+                        width={"100%"}
+                        display="flex"
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        flexDirection={"column"}
+                      >
+                        <GoogleMap
+                          zoom={10}
+                          center={defaultLoction}
+                          mapContainerStyle={{
+                            width: "100%",
+                            height: "40vh",
+                            borderRadius: "8px",
+                          }}
+                        >
+                          <Marker
+                            position={defaultLoction}
+                            icon={PinImage}
+                          />
+                          {/* Circle with 8km radius */}
+                          <Circle
+                            center={defaultLoction}
+                            radius={motorbike && motorbike?.maxDeliveryDistance * 1000}
+                            options={{
+                              fillColor: "rbga(255, 0, 0, 0.1)",
+                              fillOpacity: 0.35,
+                              strokeColor: "#8B4513",
+                              strokeOpacity: 0.8,
+                              strokeWeight: 2,
+                            }}
+                          />
+                          {/* Hiển thị thông tin trong Popover */}
+                          <Popover
+                            id={id}
+                            open={open}
+                            anchorEl={anchorEl}
+                            onClose={handleClosePopover}
+                            anchorOrigin={{
+                              vertical: "bottom",
+                              horizontal: "center",
+                            }}
+                            transformOrigin={{
+                              vertical: "top",
+                              horizontal: "center",
+                            }}
+                          >
+                            <Box
+                              m={3}
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                gap: "8px",
+                                padding: "8px",
+                                borderRadius: "8px",
+                                backgroundColor: 'rgba(139, 69, 19, 0.05)',
+                                border: "1px solid #8B4513",
+                              }}
+                            >
+                              {/* Thêm thông tin của motorbike tại đây */}
+                              <Typography>Tầm hoạt động: {motorbike && motorbike?.maxDeliveryDistance} km</Typography>
+                              {/* Thêm các thông tin khác nếu cần */}
+                            </Box>
+                          </Popover>
+                        </GoogleMap>
+                      </Box>
+                    ) : (
+                      <Box sx={{
+                        display: 'flex', justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "row"
+                      }}>
+                        <CircularProgress />
+                      </Box>
+                    )}
+                  </Box>
+
+                  <Divider sx={{ margin: isMobile ? "16px 0px 16px 0px" : "16px 0px", width: "100%" }} variant="fullWidth" />
+                  {/* Mô tả */}
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} >
+                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={"16px"}>
+                      {t("postMotorbike.listform.description")}
+                    </Typography>
+                    <Box width={"100%"}>
+                      {/* <Typography variant="h6" color={theme.palette.text.primary} fontSize={isMobile ? "12px" : "16px"} fontWeight={400}>
+                        <div
+                          style={{ whiteSpace: "pre-wrap", fontSize: isMobile ? "12px" : "16px", fontWeight: "400" }}
+                          dangerouslySetInnerHTML={{ __html: motorbike?.description || "" }}></div>
+                      </Typography> */}
+                      <Typography variant="h6" color={theme.palette.text.primary} fontSize={"14px"} fontWeight={400}>
+                        <div style={{ textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: motorbike?.description || "" }}></div>
                       </Typography>
                     </Box>
                   </Box>
-                </Box>
+                  <Divider sx={{ margin: isMobile ? "0px 0px 16px 0px" : "0px 0px 16px 0px", width: "100%" }} variant="fullWidth" />
 
-                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
-
-                {/* Trang bị */}
-                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                  <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
-                    {t("postMotorbike.listform.equipments")}
-                  </Typography>
-
-                  <Box width={"100%"}>
-                    <Box
-                      sx={{ backgroundColor: "rgba(19, 139, 31, 0.05)", borderRadius: "8px" }}
-                      padding={"16px 16px"}
-                      display="flex" flexDirection="row" alignItems="center" justifyContent={"center"} borderRadius={"8px"}>
-
-                      <Grid container columnSpacing={{ xs: 3, sm: 3, md: 3 }} rowSpacing={3}>
-                        {equipmentList.filter(item => item === "Raincoat").length > 0 && (
-                          <Grid item xs={isMobile ? 12 : 4}>
-                            <EquipmentItem icon={< RainCoatIcon />} label={t("postMotorbike.registedForm.raincoat")} />
-                          </Grid>
-                        )}
-                        {equipmentList.filter(item => item === "Helmet").length > 0 && (
-                          <Grid item xs={isMobile ? 12 : 4}>
-                            <EquipmentItem icon={< HelmetIcon />} label={t("postMotorbike.registedForm.helmet")} />
-                          </Grid>
-                        )}
-                        {equipmentList.filter(item => item === "ReflectiveClothes").length > 0 && (
-                          <Grid item xs={isMobile ? 12 : 4}>
-                            <EquipmentItem icon={< ProtectClothesIcon />} label={t("postMotorbike.registedForm.reflectiveClothes")} />
-                          </Grid>
-                        )}
-                        {equipmentList.filter(item => item === "RepairKit").length > 0 && (
-                          <Grid item xs={isMobile ? 12 : 4}>
-                            <EquipmentItem icon={< RepairIcon />} label={t("postMotorbike.registedForm.repairKit")} />
-                          </Grid>
-                        )}
-                        {equipmentList.filter(item => item === "Bagage").length > 0 && (
-                          <Grid item xs={isMobile ? 12 : 4}>
-                            <EquipmentItem icon={< CartIcon />} label={t("postMotorbike.registedForm.bagage")} />
-                          </Grid>
-                        )}
-                        {equipmentList.filter(item => item === "CaseTelephone").length > 0 && (
-                          <Grid item xs={isMobile ? 12 : 4}>
-                            <EquipmentItem icon={< TelephoneIcon />} label={t("postMotorbike.registedForm.caseTelephone")} />
-                          </Grid>
-                        )}
-                      </Grid>
+                  {/* Điều khoản khác */}
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"}>
+                    <Typography variant="h6" color={theme.palette.text.primary} fontWeight="700" fontSize={"16px"}>
+                      {t("postMotorbike.listform.miscellaneous")}
+                    </Typography>
+                    <Box width={"100%"}>
+                      <Typography variant="h6" color={theme.palette.text.primary} fontSize={"14px"} fontWeight={400}>
+                        <div style={{ textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: motorbike?.miscellaneous || "" }}></div>
+                      </Typography>
                     </Box>
                   </Box>
-                </Box>
+                  <Divider sx={{ margin: isMobile ? "0px 0px 16px 0px" : "0px 0px 16px 0px", width: "100%" }} variant="fullWidth" />
+                  <RequireWhenRent />
+                  <Divider sx={{ margin: isMobile ? "0px 0px 16px 0px" : "0px 0px 16px 0px", width: "100%" }} variant="fullWidth" />
 
-                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
-
-                {/* Hiển thị bản đồ vị trí xe */}
-                <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} gap={"16px"}>
-                  <Typography variant="h5" color={theme.palette.text.primary} fontWeight="600" fontSize={isMobile ? "20px" : "24px"}>
-                    {t("postMotorbike.listform.address")}
-                  </Typography>
-                  {isLoaded ? (
-                    <Box
-                      borderRadius={"10px"}
-                      border={"3px solid"}
-                      margin={"0px auto"}
-                      width={"100%"}
-                      display="flex"
-                      justifyContent={"center"}
-                      alignItems={"center"}
-                      flexDirection={"column"}
-                    >
-                      <GoogleMap
-                        zoom={18}
-                        center={defaultLoction}
-                        mapContainerStyle={{
-                          width: "100%",
-                          height: "40vh",
-                          borderRadius: "8px",
-                        }}
-                        clickableIcons={false}
+                  {/* Rating and comment */}
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"}>
+                    <Typography variant="h6" color={theme.palette.text.primary} fontWeight="700" fontSize={"16px"}>
+                      {t("postMotorbike.listform.rating_comment")}
+                    </Typography>
+                    <Box display={'flex'} flexDirection={'column'} gap={'8px'} width={'99.5%'} marginTop={'15px'}>
+                      <Box display="flex" flexDirection="column" justifyContent={"center"} gap={"8px"} p={'8px'} border={"1px solid #e0e0e0"} borderRadius={"8px"}
                       >
-                        <Marker position={defaultLoction} />
-                      </GoogleMap>
+                        {listFeedback.length !== 0 ? listFeedback.map((item: Feedback, index: number) => (
+                          <FeedbackCard setReload={setReloadFeedback} setContentModal={setContentModal} closeModal={closeItemModal} feedback={item} key={index}></FeedbackCard>
+                          ))
+                          :
+                          <Box>
+                            <Typography sx={{
+                              backgroundColor: "rgba(140, 126, 126, 0.1)",
+                              borderRadius: "8px",
+                              padding: "8px",
+                              fontSize:isMobile ? "12px" : "14px",
+                              color:'black'
+                            }}>
+                              {t("feedback.nonComment")}
+                            </Typography>
+                          </Box>
+                        }
+                      </Box>
                     </Box>
-                  ) : (
-                    <Box sx={{
-                      display: 'flex', justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "row"
-                    }}>
-                      <CircularProgress />
-                    </Box>
-                  )}
+                  </Box>
+
                 </Box>
-
-                <Divider sx={{ margin: "32px 0px", width: "100%" }} variant="fullWidth" />
-
-                {/* Thông tin khác */}
-                <Typography variant="h5" fontWeight="600">
-                  Rating & Feedback: {/* Thêm rating và feedback */}
-                </Typography>
-              </Box>
 
 
             </Box>

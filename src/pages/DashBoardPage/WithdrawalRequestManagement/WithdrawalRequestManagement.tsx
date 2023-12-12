@@ -45,9 +45,15 @@ const WithdrawalRequestManagement = () => {
             field: 'bankNumber', headerName: t("dashBoardManager.withdrawalRequest.columnAccountNumber"), width: 200
         },
         {
-            field: 'withdraw', headerName: t("dashBoardManager.withdrawalRequest.columnAmount"), width: 200,
+            field: 'withdraw', headerName: t("dashBoardManager.withdrawalRequest.columnAmount"), width: 150,
             renderCell: (params: any) => {
                 return formatMoney(params.value)
+            }
+        },
+        {
+            field: 'userId', headerName: t("dashBoardManager.withdrawalRequest.columnAmountCustomerGet"), width: 150,
+            renderCell: (params: any) => {
+                return formatMoney(params.row.withdraw - 9900)
             }
         },
         {
@@ -78,11 +84,12 @@ const WithdrawalRequestManagement = () => {
         {
             field: 'id', headerName: t("dashBoardManager.withdrawalRequest.columnViewQr"), width: 200,
             renderCell: (params: any) => (
+                params.row.status === "Processing" ?
                 <Box sx={{ cursor: 'pointer' }}>
                     <MyIcon icon={<Visibility />} hasTooltip position='right' tooltipText={t("favourite.item.view")} onClick={() => {
                         setContentModal(<ModalQrCode setReload={setReload} withdrawal={params.row} />)
                     }} />
-                </Box>
+                </Box> : <></>
             )
         },
     ];
@@ -124,7 +131,7 @@ const WithdrawalRequestManagement = () => {
                     columns={columns}
                     loading={listWithdrawal.length === 0}
                     rowHeight={48}
-                    checkboxSelection
+                    // checkboxSelection
                     disableRowSelectionOnClick
                     pagination
                     slots={{ toolbar: GridToolbar }}

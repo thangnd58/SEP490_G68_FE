@@ -12,11 +12,13 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import useThemePage from '../../../hooks/useThemePage';
 import ChangePhoneComponent from './changePhoneNumber';
 import VerifyPhoneNumberComponent from './verifyPhoneNumberComponent';
+import { useAppSelector } from '../../../hooks/useAction';
 
 function UserProfileComponent() {
 
   const [type, setType] = useState<string>('info');
   const { t } = usei18next();
+  const { user } = useAppSelector((state: any) => state.userInfo);
   const [showButtons, setShowButtons] = useState(true);
   const { isMobile } = useThemePage();
   const handleShowButtons = () => {
@@ -25,11 +27,11 @@ function UserProfileComponent() {
   };
 
   return (
-    <Box width={"100%%"} padding={isMobile ? "16px":"32px"} >
+    <Box width={"100%%"} padding={isMobile ? "16px" : "32px"} >
       {showButtons && (
         <Box width={"100%"} display={"flex"} flexDirection={isMobile ? "column" : "row"} alignItems={'center'} justifyContent={isMobile ? "center" : "space-between"} gap={2}>
           <Box width={isMobile ? "100%" : "50%"} display={"flex"} flexDirection={"row"} justifyContent={isMobile ? "center" : "start"}>
-            <Typography variant="h5" fontWeight="600" fontSize={isMobile ?"24px":"32px"} >{t("userProfile.Title")}</Typography>
+            <Typography variant="h5" fontWeight="600" fontSize={isMobile ? "24px" : "32px"} >{t("userProfile.Title")}</Typography>
           </Box>
           <Box width={isMobile ? "100%" : "50%"} display={"flex"} flexDirection={"row"} justifyContent={isMobile ? "center" : "end"} gap={2}>
             <MyCustomButton
@@ -42,16 +44,19 @@ function UserProfileComponent() {
                 setShowButtons(false);
               }}
             />
-            <MyCustomButton
-              borderRadius={8}
-              fontSize={isMobile ? 12 : 16}
-              fontWeight={400}
-              content={t("userProfile.ChangePassword")}
-              onClick={() => {
-                setType('changePass');
-                setShowButtons(false);
-              }}
-            />
+            {
+              user.email !== null &&
+              <MyCustomButton
+                borderRadius={8}
+                fontSize={isMobile ? 12 : 16}
+                fontWeight={400}
+                content={t("userProfile.ChangePassword")}
+                onClick={() => {
+                  setType('changePass');
+                  setShowButtons(false);
+                }}
+              />
+            }
           </Box>
         </Box>
       )}

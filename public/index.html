@@ -22,16 +22,21 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+    rel="stylesheet" />
   <title>Wandro - Phiêu lưu trên những bánh xe</title>
+
 </head>
+<!-- Messenger Chat Plugin Code -->
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root"></div>
+  <div id="fb-root"></div>
+
+  <!-- Your Chat Plugin code -->
+  <div id="fb-customer-chat" class="fb-customerchat"></div>
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -43,5 +48,52 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 </body>
+<script>
+  function shouldDisplayChat() {
+    var item = localStorage.getItem("userInfo");
+    var userInfo = JSON.parse(item);
+    if (userInfo) {
+      if (
+        userInfo.role.roleName === "Admin" ||
+        userInfo.role.roleName === "Staff"
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
+  }
+
+  if (shouldDisplayChat()) {
+    var chatbox = document.getElementById("fb-customer-chat");
+    chatbox.setAttribute("page_id", "180203205175919");
+    chatbox.setAttribute("attribution", "biz_inbox");
+  } else {
+    var chatbox = document.getElementById("fb-customer-chat");
+    chatbox.style.display = "none";
+  }
+</script>
+
+<!-- Your SDK code -->
+<script>
+  window.fbAsyncInit = function () {
+    FB.init({
+      xfbml: true,
+      version: "v18.0",
+    });
+  };
+
+  (function (d, s, id) {
+    var js,
+      fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  })(document, "script", "facebook-jssdk");
+</script>
 
 </html>

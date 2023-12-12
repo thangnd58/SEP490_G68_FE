@@ -30,6 +30,7 @@ import { LoginModal } from '../../AccountPage/LoginModal';
 import { FeedbackService } from '../../../services/FeedbackService';
 import FeedbackCard from './FeedbackCard';
 import { PinImage } from '../../../assets/images';
+import { useAppSelector } from '../../../hooks/useAction';
 
 export default function MotorbikeDetailModal(props: { motorbikeId: string | undefined, searchedAddress?: string, startDate?: string, endDate?: string }) {
 
@@ -48,6 +49,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
   const [isProcessingBooking, setIsProcessingBooking] = useState(false);
   const [isOpenLoginModal, setIsOpenLoginModal] = useState<boolean>(false);
   const [defaultLocation, setDefaultLocation] = useState<Location>();
+  const [reloadFeedback, setReloadFeedback] = useState<boolean>(false);
 
   interface Location {
     lat: number,
@@ -75,7 +77,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
       getFeedbackById(props.motorbikeId.toString());
     }
 
-  }, [props.motorbikeId]);
+  }, [props.motorbikeId,reloadFeedback]);
 
   const getMotorbikeById = async (id: string) => {
     try {
@@ -128,7 +130,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
     }
   }, [motorbike])
 
-
+  const { user } = useAppSelector((state) => state.userInfo);
 
   // FORM CONTROLLER
   const formik = useFormik({
@@ -486,7 +488,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     minHeight: "300px",
                   }}
                   margin={isIpad || isMobile ? "16px 0px" : "0px 0px"}
-                  width={isIpad || isMobile ? "auto" : "35%"}
+                  width={isIpad || isMobile ? "100%" : "35%"}
                   display="flex"
                   flexDirection="column"
                   alignItems="start"
@@ -673,7 +675,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                             <Typography color={theme.palette.text.primary} sx={{
                               fontSize: isMobile ? "14px" : '16px', fontWeight: "600", whiteSpace: 'nowrap',
                             }}>
-                              {formatMoney(previewBookingData?.motorbikes[0].totalFeeOfDelivery)} x {previewBookingData?.motorbikes[0].deliveryDistanceChargeable.toFixed(1)
+                              {formatMoney(previewBookingData?.motorbikes[0].totalFeeOfDelivery)} / {previewBookingData?.motorbikes[0].deliveryDistanceChargeable.toFixed(1)
                               } km
                             </Typography>
                           </Box>
@@ -781,7 +783,22 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                           </Typography>
                         </Box>
                       }
-                      <MyCustomButton fontSize={isMobile ? 14 : 16} iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick={() => setModalPromotionOpen(true)} content={t("booking.promotionCode")} variant='outlined' />
+                      <MyCustomButton fontSize={isMobile ? 14 : 16} iconPosition='left' icon={<Loyalty sx={{ color: "#8B4513" }} />} width='100%' onClick=
+                        {
+                          () => {
+                            // check role
+                            if (!UserService.isLoggedIn()) {
+                              setIsOpenLoginModal(true)
+                            } else {
+                              if (user?.role.roleName === "Customer") {
+                                setModalPromotionOpen(true)
+                              }
+                              else {
+                                ToastComponent(t("booking.notHavePermission"), "warning")
+                              }
+                            }
+                          }
+                        } content={t("booking.promotionCode")} variant='outlined' />
 
                     </Box>
                     {/* Line */}
@@ -800,27 +817,18 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     </Box>
                     {/* Line */}
                     <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
-
-                    {/* Button */}
-                    {/* {
-                      UserService.isLoggedIn() ?
-                        <MyCustomButton disabled={isProcessingBooking}
-                          width='100%' onClick={() => {
-                            setModalConfirmBookingOpen(true)
-                          }} content={t("booking.bookMotorbikeButton")} variant='contained' />
-                        :
-                        <a style={{ width: '100%' }} href={ROUTES.account.login}>
-                          <MyCustomButton fontSize={isMobile ? 14 : 16} disabled={isProcessingBooking}
-                            width='100%' content={t("booking.loginToContinue")} variant='contained' />
-                        </a>
-                    } */}
                     {
                       <MyCustomButton disabled={isProcessingBooking}
                         width='100%' onClick={() => {
                           if (!UserService.isLoggedIn()) {
                             setIsOpenLoginModal(true)
                           } else {
-                            setModalConfirmBookingOpen(true)
+                            if (user?.role.roleName === "Customer") {
+                              setModalConfirmBookingOpen(true)
+                            }
+                            else {
+                              ToastComponent(t("booking.notHavePermission"), "warning")
+                            }
                           }
                         }} content={t("booking.bookMotorbikeButton")} variant='contained' />
                     }
@@ -1092,25 +1100,34 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                   <RequireWhenRent />
                   <Divider sx={{ margin: isMobile ? "0px 0px 16px 0px" : "0px 0px 16px 0px", width: "100%" }} variant="fullWidth" />
 
-                  {/* Thông tin khác */}
-                  <Typography variant="h5" fontWeight="600">
-                    Rating & Feedback: {/* Thêm rating và feedback */}
-                  </Typography>
-                  <Box display={'flex'} flexDirection={'column'} gap={'8px'} width={'99.5%'} marginTop={'15px'}>
-                    <Box display="flex" flexDirection="column" justifyContent={"center"} gap={"8px"} p={'8px'} border={"1px solid #e0e0e0"} borderRadius={"8px"}
-                    >
-                      {listFeedback.length !== 0 ? listFeedback.map((item: Feedback, index: number) => (
-                        <FeedbackCard feedback={item} key={index}></FeedbackCard>
-                        ))
-                        :
-                        <Box>
-                          <Typography fontSize={'18px'}>
-                            {t("feedback.nonComment")}
-                          </Typography>
-                        </Box>
-                      }
+                  {/* Rating and comment */}
+                  <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"}>
+                    <Typography variant="h6" color={theme.palette.text.primary} fontWeight="700" fontSize={"16px"}>
+                      {t("postMotorbike.listform.rating_comment")}
+                    </Typography>
+                    <Box display={'flex'} flexDirection={'column'} gap={'8px'} width={'99.5%'} marginTop={'15px'}>
+                      <Box display="flex" flexDirection="column" justifyContent={"center"} gap={"8px"} p={'8px'} border={"1px solid #e0e0e0"} borderRadius={"8px"}
+                      >
+                        {listFeedback.length !== 0 ? listFeedback.map((item: Feedback, index: number) => (
+                          <FeedbackCard setReload={setReloadFeedback} setContentModal={setContentModal} closeModal={closeModal} feedback={item} key={index}></FeedbackCard>
+                          ))
+                          :
+                          <Box>
+                            <Typography sx={{
+                              backgroundColor: "rgba(140, 126, 126, 0.1)",
+                              borderRadius: "8px",
+                              padding: "8px",
+                              fontSize:isMobile ? "12px" : "14px",
+                              color:'black'
+                            }}>
+                              {t("feedback.nonComment")}
+                            </Typography>
+                          </Box>
+                        }
+                      </Box>
                     </Box>
                   </Box>
+
                 </Box>
 
 

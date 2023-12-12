@@ -12,6 +12,8 @@ import usei18next from "../../hooks/usei18next";
 import { LogoHeader } from "../../assets/images";
 import { getPreviousTimeRelative } from "../../utils/helper";
 import useThemePage from "../../hooks/useThemePage";
+import { Link } from "react-router-dom";
+import MyCustomButton from "../../components/common/MyButton";
 
 export const DetailNotification = ({ id }: { id: number }) => {
     const { closeModal } = useContext(ModalContext);
@@ -69,6 +71,10 @@ export const DetailNotification = ({ id }: { id: number }) => {
             >
                 <Typography variant="body1" fontWeight={'400'}
                     sx={{ textAlign: 'justify', pt: '1rem' }}>{notify?.detail}</Typography>
+                {
+                    notify?.referenceURL !== "" &&
+                    <a href={notify?.referenceURL}><MyCustomButton content={t("favourite.item.view")}/></a>
+                }
             </DialogContent>
         </Dialog>
     )

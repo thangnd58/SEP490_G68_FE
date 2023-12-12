@@ -172,7 +172,7 @@ const PromotionManagement = () => {
                     loading={listPromotions.length === 0}
                     rowHeight={48}
                     getRowId={(row) => row.id}
-                    checkboxSelection
+                    // checkboxSelection
                     disableRowSelectionOnClick
                     pagination
                     // slots={{ toolbar: GridToolbar }}

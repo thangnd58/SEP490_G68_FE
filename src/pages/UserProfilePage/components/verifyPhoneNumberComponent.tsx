@@ -14,6 +14,7 @@ import { useAppSelector } from '../../../hooks/useAction';
 import { getUserInfo } from '../../../redux/reducers/authReducer';
 import { useDispatch } from 'react-redux';
 import MyIcon from '../../../components/common/MyIcon';
+import ReactInputVerificationCode from 'react-input-verification-code';
 
 interface ChildComponentProps {
   setType: React.Dispatch<React.SetStateAction<string>>;
@@ -51,13 +52,11 @@ const VerifyPhoneNumberComponent: FunctionComponent<ChildComponentProps> = ({ se
             setTimeout(() => {
               setShowButtonsOtp1(true);
             }, 10000);
-        }else if(response.status === 409){
-          ToastComponent(t("toast.sendOtp.Conflict"), "warning");
-        } else {
+        }else {
           ToastComponent(t("toast.sendOtp.warning"), "warning");
         }
       } catch (error) {
-        ToastComponent(t("toast.sendOtp.error"), "error");
+        ToastComponent(t("toast.sendOtp.Conflict"), "warning");
       }
     }
     
@@ -84,7 +83,8 @@ const VerifyPhoneNumberComponent: FunctionComponent<ChildComponentProps> = ({ se
     errors,
     touched,
     handleChange,
-    handleSubmit
+    handleSubmit,
+    setFieldValue
   } = formik;
 
   return (
@@ -96,16 +96,15 @@ const VerifyPhoneNumberComponent: FunctionComponent<ChildComponentProps> = ({ se
           </Box>
           
 
-          <form onSubmit={handleSubmit} style={{ width: isMobile ? "100%" : "50%", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <form onSubmit={handleSubmit} style={{ width: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Box display={'flex'} justifyContent={'flex-end'} gap={'40px'} alignContent={'center'} alignItems={'center'}>
-              <TextField
-                style={{ marginBottom: '13px', width: '90%' }}
-                name="otpOld"
-                label="OTP"
-                variant="outlined"
-                margin="normal"
-                value={values.otpOld}
-                onChange={handleChange}
+              <ReactInputVerificationCode
+                length={6}
+                onChange={(value) => {
+                  setFieldValue("otpOld", value);
+                }}
+                autoFocus={true}
+                placeholder={"-"}
               />
               <Tooltip title={t("VerifyPhone.TooltipGetOTP")}>
                 <Box>
@@ -116,7 +115,7 @@ const VerifyPhoneNumberComponent: FunctionComponent<ChildComponentProps> = ({ se
                     content={t("ChangePhone.GetOTP")}
                     isWrap={false}
                     variant='outlined'
-                    onClick={() => getOTP(1)}
+                    onClick={() => getOTP(2)}
                     disabled={showButtonsOtp1 ? false : true}
                 ></MyCustomButton>
                 </Box>

@@ -120,9 +120,12 @@ const ReportManagement = () => {
             headerName: t("dashBoardManager.model.action"),
             width: 100,
             renderCell: (params: any) => (
-                <Box sx={{ cursor: 'pointer' }} display={'flex'}>
-                    <MyIcon icon={<EditIcon />} position='left' hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.manageReport}/${params.value}`)} />
-                </Box>
+                params.row.status === ReportStatus.PendingResponse ?
+                    <Box sx={{ cursor: 'pointer' }} display={'flex'}>
+                        <MyIcon icon={<EditIcon />} position='left' hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.manageReport}/${params.value}`)} />
+                    </Box>
+                :
+                null
             )
         },
     ];
@@ -159,7 +162,7 @@ const ReportManagement = () => {
                     columns={columns}
                     loading={listReport.length === 0}
                     rowHeight={48}
-                    checkboxSelection
+                    // checkboxSelection
                     disableRowSelectionOnClick
                     getRowId={(row) => row.reportId}
                     pagination

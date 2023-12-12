@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react"
 import { Booking, BookingResponse } from "../../utils/type"
 import { useNavigate, useParams } from "react-router-dom";
 import { BookingService } from "../../services/BookingService";
-import { Box, CircularProgress, Divider, FormControlLabel, IconButton, Radio, RadioGroup, Step, StepLabel, Stepper, styled, TextField, Tooltip, Typography } from "@mui/material";
+import { Box, CircularProgress, Divider, FormControlLabel, Avatar, Radio, RadioGroup, Step, StepLabel, Stepper, styled, TextField, Tooltip, Typography } from "@mui/material";
 import { ArrowRightIcon } from "@mui/x-date-pickers";
 import useThemePage from "../../hooks/useThemePage";
 import { CalendarImage, ClockImage, MotorbikeImage, MyWallet, VNPay } from "../../assets/images";
@@ -22,8 +22,9 @@ import { useAppDispatch, useAppSelector } from "../../hooks/useAction";
 import ToastComponent from "../../components/toast/ToastComponent";
 import { getUserInfo } from "../../redux/reducers/authReducer";
 import MyIcon from "../../components/common/MyIcon";
-import { ArrowBack, CheckCircle, CloseOutlined, Verified } from "@mui/icons-material";
+import { ArrowBack, CheckCircle, CloseOutlined, Edit, Verified } from "@mui/icons-material";
 import { ConfirmCompleteTripModal } from "./components/ConfirmCompleteTripModal";
+import UserInforModal from "../UserProfilePage/UserInforModal";
 interface Location {
     lat: number,
     lng: number,
@@ -57,16 +58,16 @@ export const BookingDetailPageOwner = () => {
         }
     }, [bookingId])
 
-    useEffect(() => {
-        try {
-            const intervalId = setInterval(() => {
-                getData(bookingId || "", reloadBooking)
-            }, 5000);
-            return () => clearInterval(intervalId);
-        } catch (error) {
-            navigate(ROUTES.other.pagenotfound)
-        }
-    }, [])
+    // useEffect(() => {
+    //     try {
+    //         const intervalId = setInterval(() => {
+    //             getData(bookingId || "", reloadBooking)
+    //         }, 5000);
+    //         return () => clearInterval(intervalId);
+    //     } catch (error) {
+    //         navigate(ROUTES.other.pagenotfound)
+    //     }
+    // }, [])
 
     const getData = (bookingId: string, reloadBooking: boolean) => {
         try {
@@ -363,7 +364,28 @@ export const BookingDetailPageOwner = () => {
                                         </Box>
                                     )
                                 }
-                                <Typography mt={'8px'} fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>{t("booking.timeRent")}</Typography>
+                                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} width={'100%'} sx={{ gap: '8px' }}>
+
+                                    <Typography mt={'8px'} fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>{t("booking.timeRent")}</Typography>
+                                    {/* Button change return address */}
+                                    {
+                                        // booking.status === "Delivered" &&
+                                        <MyIcon 
+                                        icon={<Edit
+                                            sx={{
+                                                color: theme.palette.common.black,
+                                                cursor: 'pointer',
+                                                '&:hover': {
+                                                    color: theme.palette.primary.main,
+                                                },
+                                            }}
+                                            />} 
+                                        hasTooltip 
+                                        tooltipText={t("booking.changeReturnAddressAndTime")} 
+                                        // onClick={() => setContentModal(<ConfirmCompleteTripModal bookingId={booking.bookingId} />)} 
+                                        position='bottom' />
+                                    }
+                                </Box>
                                 <Box display={'flex'} gap={isMobile ? '16px' : '32px'} justifyContent={isMobile ? 'space-between' : 'start'} flexDirection={isMobile ? 'column' : 'row'} mb={'16px'}>
                                     <Box display={'flex'} gap={'16px'} >
                                         <img src={CalendarImage} alt="calendar" width={isMobile ? 20 : 24} height={isMobile ? 20 : 24} />
@@ -403,7 +425,7 @@ export const BookingDetailPageOwner = () => {
                                     }} />
                                 <Box
                                     borderRadius={"10px"}
-                                    border={"3px solid"}
+                                    border={"3px solid #8b4513"}
                                     margin={"0px auto"}
                                     width={isMobile ? "98%" : "99%"}
                                     justifyContent={"center"}
@@ -430,6 +452,33 @@ export const BookingDetailPageOwner = () => {
                                 </Box>
                             </Box>
                             <Box width={isMobile ? '100%' : '45%'} sx={{ background: isMobile ? 'none' : 'rgba(139, 69, 19, 0.10)', borderRadius: '8px', padding: isMobile ? '4px' : '32px' }}>
+                                <Box
+                                    display={'flex'} flexDirection={'row'} alignItems={'center'} sx={{ cursor: 'pointer', gap: '8px', mb: '8px' }}
+                                >
+                                    <Avatar
+                                        sx={{
+                                            width: "50px",
+                                            height: "50px",
+                                            borderRadius: "50%",
+                                        }}
+                                        src={booking.user.avatarUrl}
+                                        onClick={() => setContentModal(<UserInforModal userId={booking.user.userId} />)}
+                                    />
+                                    <Box display={'flex'} flexDirection={'column'} alignItems={'start'} justifyContent={'center'} sx={{ gap: '0px' }}>
+                                        <Typography
+                                            color={theme.palette.text.primary}
+                                            sx={{ fontSize: '16px', fontWeight: "600", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                        >
+                                            {t("booking.userRent")}
+                                        </Typography>
+                                        <Typography
+                                            color={theme.palette.text.primary}
+                                            sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                        >
+                                            {booking.user.name}
+                                        </Typography>
+                                    </Box>
+                                </Box>
                                 <Typography fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'} mb={"16px"}>{t("booking.totalPriceRent")}</Typography>
                                 {/* Đơn giá */}
                                 <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>

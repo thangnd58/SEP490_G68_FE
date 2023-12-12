@@ -5,7 +5,7 @@ import { BookingService } from "../../services/BookingService";
 import { Box, Divider, FormControlLabel, IconButton, Radio, RadioGroup, Step, StepLabel, Stepper, styled, TextField, Tooltip, Typography } from "@mui/material";
 import { ArrowRightIcon } from "@mui/x-date-pickers";
 import useThemePage from "../../hooks/useThemePage";
-import { CalendarImage, ClockImage, MotorbikeImage, MyWallet, SuccessIcon, VNPay } from "../../assets/images";
+import { CalendarImage, ClockImage, MotorbikeImage, MyWallet, SuccessIconNew, VNPay } from "../../assets/images";
 import usei18next from "../../hooks/usei18next";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { MotorbikeBookingCard } from "./components/MotorbikeBookingCard";
@@ -22,7 +22,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/useAction";
 import ToastComponent from "../../components/toast/ToastComponent";
 import { getUserInfo } from "../../redux/reducers/authReducer";
 import MyIcon from "../../components/common/MyIcon";
-import { ArrowBack, CheckCircle, CloseOutlined, Feedback, Verified } from "@mui/icons-material";
+import { ArrowBack, CheckCircle, CloseOutlined, Edit, Feedback, HelpOutlineOutlined, Verified } from "@mui/icons-material";
 import { ConfirmCompleteTripModal } from "./components/ConfirmCompleteTripModal";
 import ModalStatus from "../WalletPage/component/ModalStatus";
 import { getBookingInfo } from "../../redux/reducers/bookingReducer";
@@ -57,18 +57,18 @@ export const BookingDetailPage = () => {
         } catch (error) {
             navigate(ROUTES.other.pagenotfound)
         }
-    }, [bookingId])
+    }, [bookingId, reloadBooking])
 
-    useEffect(() => {
-        try {
-            const intervalId = setInterval(() => {
-                getData(bookingId || "", reloadBooking)
-            }, 5000);
-            return () => clearInterval(intervalId);
-        } catch (error) {
-            navigate(ROUTES.other.pagenotfound)
-        }
-    }, [])
+    // useEffect(() => {
+    //     try {
+    //         const intervalId = setInterval(() => {
+    //             getData(bookingId || "", reloadBooking)
+    //         }, 5000);
+    //         return () => clearInterval(intervalId);
+    //     } catch (error) {
+    //         navigate(ROUTES.other.pagenotfound)
+    //     }
+    // }, [])
 
     const getData = (bookingId: string, reloadBooking: boolean) => {
         try {
@@ -166,7 +166,7 @@ export const BookingDetailPage = () => {
             try {
                 PaymentService.processPaymentDb(search).then((data) => {
                     dispatch(getUserInfo());
-                    setContentModal(<ModalStatus icon={SuccessIcon} title={t("Thanh toán thành công")} content={"Bạn đã thanh toán đơn đặt xe thành công. Hệ thống sẽ xử lý yêu cầu đặt xe của bạn sớm nhất"} handleConfirm={handleConfirmDeposit} />)
+                    setContentModal(<ModalStatus icon={SuccessIconNew} title={t("Thanh toán thành công")} content={"Bạn đã thanh toán đơn đặt xe thành công. Hệ thống sẽ xử lý yêu cầu đặt xe của bạn sớm nhất"} handleConfirm={handleConfirmDeposit} />)
                     setShowModal(true)
                 })
             } catch (error) {
@@ -394,7 +394,28 @@ export const BookingDetailPage = () => {
                                         </Box>
                                     )
                                 }
-                                <Typography mt={'8px'} fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>{t("booking.timeRent")}</Typography>
+                                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} width={'100%'} sx={{ gap: '8px' }}>
+
+                                    <Typography mt={'8px'} fontSize={isMobile ? 16 : 20} fontWeight={'700'} color={'common.black'}>{t("booking.timeRent")}</Typography>
+                                    {/* Button change return address */}
+                                    {
+                                        // booking.status === "Delivered" &&
+                                        <MyIcon
+                                            icon={<Edit
+                                                sx={{
+                                                    color: theme.palette.common.black,
+                                                    cursor: 'pointer',
+                                                    '&:hover': {
+                                                        color: theme.palette.primary.main,
+                                                    },
+                                                }}
+                                            />}
+                                            hasTooltip
+                                            tooltipText={t("booking.changeReturnAddressAndTime")}
+                                            // onClick={() => setContentModal(<ConfirmCompleteTripModal bookingId={booking.bookingId} />)} 
+                                            position='bottom' />
+                                    }
+                                </Box>
                                 <Box display={'flex'} gap={isMobile ? '16px' : '32px'} justifyContent={isMobile ? 'space-between' : 'start'} flexDirection={isMobile ? 'column' : 'row'} mb={'16px'}>
                                     <Box display={'flex'} gap={'16px'} >
                                         <img src={CalendarImage} alt="calendar" width={isMobile ? 20 : 24} height={isMobile ? 20 : 24} />
@@ -434,7 +455,7 @@ export const BookingDetailPage = () => {
                                     }} />
                                 <Box
                                     borderRadius={"10px"}
-                                    border={"3px solid"}
+                                    border={"3px solid #8b4513"}
                                     margin={"0px auto"}
                                     width={isMobile ? "98%" : "99%"}
                                     justifyContent={"center"}
@@ -491,13 +512,40 @@ export const BookingDetailPage = () => {
                                     </Box>
                                     {/* Phí dịch vụ */}
                                     <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
-                                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
-                                            {t("booking.totalPriceService")}
-                                        </Typography>
+                                        <Box display={'flex'} alignItems={'center'} gap={1}>
+                                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                                                {t("booking.totalPriceService")}
+                                            </Typography>
+                                            <MyIcon icon={
+                                                <HelpOutlineOutlined sx={{
+                                                    color: theme.palette.text.primary,
+                                                    width: "12px",
+                                                    height: "12px",
+                                                    cursor: "pointer"
+                                                }}
+                                                />
+                                            } hasTooltip tooltipText={
+                                                t("booking.totalPriceService_hint")
+                                            } onClick={() => {
+                                            }} position='right-start' />
+                                        </Box>
                                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                                             {formatMoneyNew(booking?.feeOfService)}
                                         </Typography>
                                     </Box>
+
+                                    {/* Phí giao xe */}
+                                    {/* <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
+                                        <Box display={'flex'} alignItems={'center'} gap={1}>
+                                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
+                                                {t("booking.deliveryFee")}
+                                            </Typography>
+                                        </Box>
+                                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                                        {`${booking && booking.motorbikes && formatMoneyNew(booking.motorbikes.reduce((total, mt) => total + mt.totalFeeOfDelivery, 0) || 0)}/${t("booking.perDay")}`} x  {booking && booking.motorbikes && booking.motorbikes.length} {t("booking.perMotorbike")}
+                                        </Typography>
+                                    </Box> */}
+
                                     {/* Mã khuyến mãi */}
                                     {
                                         booking?.promotion &&
@@ -569,7 +617,7 @@ export const BookingDetailPage = () => {
                                                     value={BookingPaymentType.UserBalance}
                                                     control={<Radio />}
                                                     label={
-                                                        <Box minWidth={'250px'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }} border={'2px solid #8b4513'} borderRadius={'8px'} padding={'8px'}>
+                                                        <Box minWidth={isMobile ? '250px' : '290px'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }} border={'2px solid #8b4513'} borderRadius={'8px'} padding={'8px'}>
                                                             <img alt="my-wallet" src={MyWallet} width={24} height={24} />
                                                             {
                                                                 `${t("booking.payWallet")} (${formatMoney(user!.balance || 0)})`
@@ -583,6 +631,7 @@ export const BookingDetailPage = () => {
                                                             fontWeight: '400',
                                                             color: theme.palette.text.primary,
                                                         },
+                                                        margin: "0px",
                                                         borderRadius: "10px",
                                                     }}
                                                 />
@@ -591,7 +640,7 @@ export const BookingDetailPage = () => {
                                                     value={BookingPaymentType.Card}
                                                     control={<Radio />}
                                                     label={
-                                                        <Box minWidth={'250px'}
+                                                        <Box minWidth={isMobile ? '250px' : '290px'}
                                                             display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }} border={'2px solid #8b4513'} borderRadius={'8px'} padding={'8px'}>
                                                             <img alt="my-wallet" src={VNPay} height={24} />
                                                             {
@@ -605,6 +654,7 @@ export const BookingDetailPage = () => {
                                                             fontWeight: '400',
                                                             color: theme.palette.text.primary,
                                                         },
+                                                        margin: "0px",
                                                         borderRadius: "10px",
                                                     }} />
                                             </RadioGroup>

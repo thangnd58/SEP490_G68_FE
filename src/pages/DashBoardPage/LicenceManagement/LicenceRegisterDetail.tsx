@@ -11,7 +11,7 @@ import theme from "../../../utils/theme";
 import useThemePage from "../../../hooks/useThemePage";
 import MyIcon from "../../../components/common/MyIcon";
 import { ArrowBack } from "@mui/icons-material";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper} from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 const LicenceRegisterDetail = () => {
     const { t } = usei18next()
@@ -20,6 +20,8 @@ const LicenceRegisterDetail = () => {
     const [statusChange, setStatusChange] = useState<Number>();
     const [licence, setLicence] = useState<Lisence>();
     const { isMobile, isIpad } = useThemePage();
+    const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("");
+    const [isRotate, setIsRotate] = useState<boolean>(false)
 
     useEffect(() => {
         getLicenseById(Number(id))
@@ -39,11 +41,45 @@ const LicenceRegisterDetail = () => {
             const response = await LicenceManagementService.getLicenceById(id);
             if (response) {
                 setLicence(response)
+                setImagePreviewUrl(response.licenceImageUrl)
+                formik.setFieldValue("statusComment", response.statusComment)
             }
         } catch (error) {
 
         }
     }
+
+    useEffect(() => {
+        const checkImageSize = () => {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.src = imagePreviewUrl;
+            img.onload = () => {
+                const { naturalWidth, naturalHeight } = img;
+                if (naturalWidth < naturalHeight) {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+
+                    if (ctx) {
+                        canvas.width = naturalHeight;
+                        canvas.height = naturalWidth;
+                        ctx.translate(naturalHeight, 0);
+                        ctx.rotate(Math.PI / 2);
+                        ctx.drawImage(img, 0, 0, naturalWidth, naturalHeight);
+                        setImagePreviewUrl(canvas.toDataURL());
+                        setIsRotate(true)
+                    }
+                } else {
+                    setIsRotate(false)
+                } 
+            };
+        };
+
+        if (imagePreviewUrl !== '') {
+            checkImageSize();
+        }
+    }, [imagePreviewUrl]);
+
     const changeStatus = async (status: number, statusComment: string) => {
         try {
             const response = await LicenceManagementService.changeStatus(Number(id), status, statusComment)
@@ -100,17 +136,18 @@ const LicenceRegisterDetail = () => {
                 padding: isMobile ? "16px 0px" : "32px",
                 gap: '16px',
             }}>
-                <Box sx={{ display: 'flex', width: isMobile ? '90%' : '30%', alignItems: isMobile ? 'center' : 'flex-start', justifyContent: 'center' }}
+                <Box sx={{ display: 'flex', width: isMobile ? '90%' : '30%', alignItems: isMobile ? 'center' : 'flex-start', justifyContent: 'center',rotate: isRotate ? '-90deg' : '0deg' }}
                     padding={isMobile ? "0px 16px" : "16px"}
+                    
                 >
                     <img
                         style={{
                             width: '100%',
                             borderRadius: '16px',
-                            objectFit: 'cover',
+                            objectFit: 'fill',
                             border: '3px solid #8B4513',
                         }}
-                        src={licence?.licenceImageUrl}
+                        src={imagePreviewUrl}
                         alt={'licence'} />
                 </Box>
                 <Box
@@ -128,8 +165,10 @@ const LicenceRegisterDetail = () => {
                                 {/* License Number */}
                                 <TableRow>
                                     <TableCell sx={{ border: '1px solid #e0e0e0', padding: '8px' }}>
-                                        <Typography variant="h5" sx={{ color: 'Black', fontSize: isMobile ? '16px' : '20px',
-                                            fontWeight: '600' }}>
+                                        <Typography variant="h5" sx={{
+                                            color: 'Black', fontSize: isMobile ? '16px' : '20px',
+                                            fontWeight: '600'
+                                        }}>
                                             {t("licenseInfo.NumberLicense")} :
                                         </Typography>
                                     </TableCell>
@@ -141,8 +180,10 @@ const LicenceRegisterDetail = () => {
                                 {/* Full Name */}
                                 <TableRow>
                                     <TableCell sx={{ border: '1px solid #e0e0e0', padding: '8px' }}>
-                                        <Typography variant="h5" sx={{ color: 'Black', fontSize: isMobile ? '16px' : '20px',
-                                            fontWeight: '600' }}>
+                                        <Typography variant="h5" sx={{
+                                            color: 'Black', fontSize: isMobile ? '16px' : '20px',
+                                            fontWeight: '600'
+                                        }}>
                                             {t("licenseInfo.Name")} :
                                         </Typography>
                                     </TableCell>
@@ -154,8 +195,10 @@ const LicenceRegisterDetail = () => {
                                 {/* Date of Birth */}
                                 <TableRow>
                                     <TableCell sx={{ border: '1px solid #e0e0e0', padding: '8px' }}>
-                                        <Typography variant="h5" sx={{ color: 'Black', fontSize: isMobile ? '16px' : '20px',
-                                            fontWeight: '600' }}>
+                                        <Typography variant="h5" sx={{
+                                            color: 'Black', fontSize: isMobile ? '16px' : '20px',
+                                            fontWeight: '600'
+                                        }}>
                                             {t("userProfile.DOB")} :
                                         </Typography>
                                     </TableCell>
@@ -192,24 +235,30 @@ const LicenceRegisterDetail = () => {
                                 fontFamily: 'Arial, sans-serif',
                                 fontSize: '16px'
                             }}
+                            InputProps={{
+                                readOnly: licence?.status === 1,
+                            }}
                         />
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: "16px", mt: "16px" }}>
-                            <MyCustomButton
-                                type="submit"
-                                borderRadius={8}
-                                fontSize={16}
-                                fontWeight={500}
-                                variant='outlined'
-                                content={t("licenseInfo.BtnReject")}
-                                onClick={() => setStatusChange(2)} />
-                            <MyCustomButton
-                                type="submit"
-                                borderRadius={8}
-                                fontSize={16}
-                                fontWeight={400}
-                                content={t("licenseInfo.BtnApprove")}
-                                onClick={() => setStatusChange(1)} />
-                        </Box>
+                        {
+                            licence?.status !== 1 &&
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: "16px", mt: "16px" }}>
+                                <MyCustomButton
+                                    type="submit"
+                                    borderRadius={8}
+                                    fontSize={16}
+                                    fontWeight={500}
+                                    variant='outlined'
+                                    content={t("licenseInfo.BtnReject")}
+                                    onClick={() => setStatusChange(2)} />
+                                <MyCustomButton
+                                    type="submit"
+                                    borderRadius={8}
+                                    fontSize={16}
+                                    fontWeight={400}
+                                    content={t("licenseInfo.BtnApprove")}
+                                    onClick={() => setStatusChange(1)} />
+                            </Box>
+                        }
                     </form>
                 </Box>
 

@@ -3,7 +3,7 @@ import UnitedKingDomFlag from "./language_uk.png";
 import NotificationIcon from "./notification.png";
 import LogoHeader from "./logo.png";
 import EmailIcon from '../icons/email-icon.svg';
-import SuccessIcon from './success.png';
+import SuccessIconNew from './success-new.png';
 import SettingIcon from './setting.png';
 import ErrorIcon from './error.png';
 import PageNoteFoundImage from './page-note-found.png';
@@ -61,7 +61,7 @@ export {
     UnitedKingDomFlag,
     LogoHeader,
     EmailIcon,
-    SuccessIcon,
+    SuccessIconNew,
     ErrorIcon,
     NotificationIcon,
     ImageSearchBox,

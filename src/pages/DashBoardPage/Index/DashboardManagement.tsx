@@ -38,7 +38,6 @@ export const DashboardManagement = () => {
     const [moneyFlow, setMoneyFlow] = useState<MoneyFlow[]>([])
     const { t, isVn } = usei18next()
     const { isMobile } = useThemePage();
-
     const today = dayjs();
     const sevenDaysBefore = today.subtract(7, 'day');
     const { RangePicker } = DatePicker;
@@ -95,7 +94,7 @@ export const DashboardManagement = () => {
         plugins: {
             title: {
                 display: true,
-                text: `Tổng tiền giao dịch: ${formatMoney(moneyFlow.reduce((total, m) => total + m.moneyIn, 0) + moneyFlow.reduce((total, m) => total + m.moneyOut, 0))}`,
+                text: `${t("dashBoardManager.dashboard.totalMoney")}: ${formatMoney(moneyFlow.reduce((total, m) => total + m.moneyIn, 0) + moneyFlow.reduce((total, m) => total + m.moneyOut, 0))}`,
                 font: {
                     size: 24,
                     weight: 'bold',
@@ -103,7 +102,7 @@ export const DashboardManagement = () => {
             },
             subtitle: {
                 display: true,
-                text: `Tổng tiền vào: ${formatMoney(moneyFlow.reduce((total, m) => total + m.moneyIn, 0))}    Tổng tiền ra: ${formatMoney(moneyFlow.reduce((total, m) => total + m.moneyOut, 0))}    Doanh thu: ${formatMoney(moneyFlow.reduce((total, m) => total + m.moneyIn, 0) - moneyFlow.reduce((total, m) => total + m.moneyOut, 0))}`,
+                text: `${t("dashBoardManager.dashboard.totalMoneyIn")}: ${formatMoney(moneyFlow.reduce((total, m) => total + m.moneyIn, 0))}    ${t("dashBoardManager.dashboard.totalMoneyOut")}: ${formatMoney(moneyFlow.reduce((total, m) => total + m.moneyOut, 0))}    ${t("dashBoardManager.dashboard.income")}: ${formatMoney(moneyFlow.reduce((total, m) => total + m.moneyIn, 0) - moneyFlow.reduce((total, m) => total + m.moneyOut, 0))}`,
                 font: {
                     size: 18,
                     weight: 'normal',
@@ -122,7 +121,7 @@ export const DashboardManagement = () => {
         plugins: {
             title: {
                 display: true,
-                text: 'Loại hình giao dịch',
+                text: t("dashBoardManager.dashboard.paymentType"),
                 font: {
                     size: 24,
                     weight: 'bold',
@@ -202,11 +201,11 @@ export const DashboardManagement = () => {
             }}>
                 <Box width={'100%'}>
                     <Box display={'flex'} flexDirection={isMobile ? 'column' : 'row'} gap={'8px'} justifyContent={'space-between'} color={'common.black'} alignItems={'start'}>
-                        <Typography width={isMobile ? '100%' : '50%'} fontWeight={'bold'} fontSize={isMobile ? '20px' : '24px'}>Thống kê giao dịch</Typography>
+                        <Typography width={isMobile ? '100%' : '50%'} fontWeight={'bold'} fontSize={isMobile ? '20px' : '24px'}>{t("dashBoardManager.dashboard.transactionStatistics")}</Typography>
                         <Box width={isMobile ? '100%' : '50%'}>
                             <Box display={'flex'} width={'100%'} pb={'8px'} >
-                                <Typography width={'50%'} fontWeight={'bold'} >Thời gian bắt đầu</Typography>
-                                <Typography width={'50%'} fontWeight={'bold'} >Thời gian kết thúc</Typography>
+                                <Typography width={'50%'} fontWeight={'bold'} >{t("dashBoardManager.dashboard.startDate")}</Typography>
+                                <Typography width={'50%'} fontWeight={'bold'} >{t("dashBoardManager.dashboard.endDate")}</Typography>
                             </Box>
                             <RangePicker
                                 className="custom-range-picker custom-table"

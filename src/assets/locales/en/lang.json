@@ -202,12 +202,15 @@
         "success": "Like motorbike successfully",
         "warning": "Like motorbike failed",
         "error_login": "Please login to like motorbike!",
-        "error": "Error when like motorbike"
+        "error": "Error when like motorbike",
+        "notHavePermission": "You don't have permission to like this motorbike"
       }
     },
     "uploadImage": {
       "success": "Upload image successfully",
-      "error": "Upload image failed"
+      "error": "Upload image failed",
+      "deleteSuccess": "Delete image successfully",
+      "deleteError": "Delete image failed"
     },
     "ShoppingCart": {
       "delete": {
@@ -218,8 +221,20 @@
       "add": {
         "success": "Add motorbike to cart successfully",
         "warning": "Add motorbike to cart failed",
-        "error": "Error when add motorbike to cart"
+        "error": "Error when add motorbike to cart",
+        "notHavePermission": "You don't have permission to add this motorbike to cart"
       }
+    },
+    "userProfile": {
+      "googleAccount": {
+        "linkSuccess": "Linked Google account successfully",
+        "linkError": "Failed to link Google account",
+        "unlinkSuccess": "Unlinked Google account successfully",
+        "unlinkError": "Failed to unlink Google account"
+      },
+      "btnUnlink": "Unlink",
+      "btnLink": "Link",
+      "confirmUnlink": "Do you want to remove the link from your google account?"
     }
   },
   "footer": {
@@ -252,10 +267,12 @@
     "ChangeProfile": "Change Profile",
     "InputProfile": "Please input Information",
     "BtnChange": "Change",
+    "BtnLink": "Link",
     "notYetVerify": "Waiting to verify",
     "Verified": "Verified",
     "AlertVerify": "Please verify your phone number",
-    "Role" : "Role"
+    "Role": "Role",
+    "Status": "Status"
   },
   "ChangePhone": {
     "Title": "Change Phone Number",
@@ -309,7 +326,9 @@
       "promotions": "Manage Promotions",
       "model": "Manage Model",
       "report": "Manage Report",
-      "user" : "Manage User"
+      "user": "Manage User",
+      "feedback" : "Manage Feedback",
+      "booking"  : "Manage Booking"
     },
     "License": "License",
     "Motobike": {
@@ -348,6 +367,7 @@
       "columnAccountName": "Account owner",
       "columnAccountNumber": "Account number",
       "columnAmount": "Amount",
+      "columnAmountCustomerGet": "Amount received by customer (Charged)",
       "columnViewQr": "QR CODE",
       "buttonConfirmProcess": "Confirm successful transfer",
       "buttonReject": "Refused due to incorrect information"
@@ -423,14 +443,47 @@
       "TitleAdd": "Add new model",
       "Title": "Model"
     },
-    "user":{
-      "confirmDelete": "Confirm Delete User",
-      "titleConfirmDelete": "Do you want to delete user : ",
+    "user": {
+      "confirmDelete": "Confirm Deactive User Account",
+      "titleConfirmDelete": "Do you want to deactive user account: ",
       "TitleChange": "Edit user",
       "chooseRole": "Choose role",
       "admin": "Admin",
-      "customer" : "Customer",
-      "staff" : "Staff"
+      "customer": "Customer",
+      "staff": "Staff",
+      "deactiveButton": "Deactive",
+      "active": "Active"
+    },
+    "feedback": {
+      "userName": "User Name",
+      "comment": "Comment",
+      "perfomer": "Perfomer",
+      "rating": "Rating",
+      "createDatetime": "Create Date"
+    },
+    "dashboard": {
+      "totalMoney": "Total transaction amount",
+      "totalMoneyOut": "Total money out",
+      "totalMoneyIn": "Total money in",
+      "income": "Income",
+      "paymentType": "Payment type",
+      "transactionStatistics": "Transaction statistics",
+      "startDate": "Start Date",
+      "endDate": "End Date"
+    },
+    "booking": {
+      "deliveryMode" : "Delivery Mode",
+      "address" : "Address",
+      "status": "Status",
+      "paymentType" : "Payment Type",
+      "rentalDays" : "Rental Days",
+      "createDatetime": "Create Date Time",
+      "DeliveryService" : "Delivery Service",
+      "Card" : "Card",
+      "UserBalance" : "User Balance",
+      "PendingReview" :"Pending Review",
+      "Finished" :"Finished",
+      "Cancelled" :"Cancelled"
     }
   },
   "component": {
@@ -447,8 +500,8 @@
     "listform": {
       "title": "List Motorbike",
       "status": "Status :",
-      "updateStatusSuccess" : "Update status successfully",
-      "updateStatusError" : "Update status failed",
+      "updateStatusSuccess": "Update status successfully",
+      "updateStatusError": "Update status failed",
       "all": "All",
       "table-cell-#": "#",
       "table-cell-image": "Image",
@@ -478,10 +531,11 @@
       "profit": "Profit",
       "miscellaneous": "Miscellaneous",
       "allmymotorbikes": "All your motorbikes",
-      "historyBooking" : "History booking",
-      "currentBooking" : "Current booking",
-      "bookingInHistory" : "Booking in history",
-      "myMotorbikeFeedback" : "My motorbike feedback"
+      "historyBooking": "History booking",
+      "currentBooking": "Current booking",
+      "bookingInHistory": "Booking in history",
+      "myMotorbikeFeedback": "My motorbike feedback",
+      "rating_comment": "Rating & Comment"
     },
     "registedForm": {
       "updateTitle": "Update Information",
@@ -643,6 +697,7 @@
     "startDate": "Start date",
     "endDate": "End date",
     "timeRent": "Time rental",
+    "changeReturnAddressAndTime": "Change return address and time",
     "addressGetMotorbike": "Motorbike delivery location",
     "paymentType": "Payment type",
     "payWallet": "Wallet balance",
@@ -656,6 +711,7 @@
     "promotionCode": "Promotion code",
     "totalPrice": "Total price",
     "bookMotorbikeButton": "Book",
+    "notHavePermission": "You don't have permission to book motorbike",
     "cancelBook": "Cancel",
     "buttonApplyPromotion": "Apply",
     "buttonApplyPromotionOk": "Applied",
@@ -676,7 +732,9 @@
     "confirmPaymentBooking": "Do you agree to pay or not?",
     "rating": "Rating",
     "comment": "Comment",
-    "completeBook": "{{count}} bookings"
+    "completeBook": "{{count}} bookings",
+    "userRent": "Renter",
+    "motorbikeOwner": "Motorbike Owner"
   },
   "policy": {
     "documentRental": "Motorbike rental documents",
@@ -740,7 +798,7 @@
   "myBooking": {
     "currentBooking": "Current booking",
     "historyBooking": "History booking",
-    "myfeedback" : "My feedback",
+    "myfeedback": "My feedback",
     "status": "Status",
     "startDate": "Start date",
     "endDate": "End date",
@@ -762,7 +820,7 @@
     "createError": "Evaluation failed",
     "editSuccess": "Upadate evaluate success",
     "nonComment": "No comments yet",
-    "reply" : "Reply"
+    "reply": "Reply"
   },
   "report": {
     "reason": "Reporting reason",

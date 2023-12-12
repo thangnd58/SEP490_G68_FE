@@ -105,7 +105,7 @@ const SetNewPassword = () => {
             const response = await UserService.setForgotPassword(resetObject);
             if (response.status === 200) {
                 ToastComponent(t("toast.changepassword.success"), "success")
-                navigate(`/${ROUTES.account.login}`);
+                navigate(`${ROUTES.account.login}`);
             } else {
                 ToastComponent(t("toast.changepassword.warning"), "warning")
             }

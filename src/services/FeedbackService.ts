@@ -23,5 +23,8 @@ export const FeedbackService = {
     putFeedback: async (id: string, req: FeedbackRequest) => {
         const response = await api.put(`${apiFeedback}/${id}`, req);
         return response.data;
-    },
+    },getAllFeedback: async (): Promise<Feedback[]> => {
+        const response = await api.get('/feedbacks')
+        return response.data
+    }
 }

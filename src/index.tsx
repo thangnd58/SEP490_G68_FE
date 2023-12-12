@@ -15,7 +15,7 @@ import ModalProvider, { ModalContext } from './contexts/ModalContext';
 import { getUserFavouriteInfo } from './redux/reducers/userFavouriteReducer';
 import { getUserNotificationInfo } from './redux/reducers/notificationReducer';
 
-const rootElement = document.getElementById('root') as HTMLElement;
+const rootElement = document.getElementById('fb-root') as HTMLElement;
 const root = ReactDOM.createRoot(rootElement);
 store.dispatch(getUserInfo());
 store.dispatch(getUserNotificationInfo())
@@ -25,17 +25,17 @@ root.render(
       <ModalProvider>
         <div className='rcs-container'>
           <BrowserRouter >
-            <ModalContext.Consumer>
-              {({ contentModal }) => {
-                return (
-                  <>
-                    {contentModal}
-                  </>
-                );
-              }}
-            </ModalContext.Consumer>
             <AuthProvider>
               <>
+              <ModalContext.Consumer>
+                {({ contentModal }) => {
+                  return (
+                    <>
+                      {contentModal}
+                    </>
+                  );
+                }}
+              </ModalContext.Consumer>
                 <ToastContainer
                   bodyStyle={{ color: theme.palette.text.primary }}
                   position="bottom-left"

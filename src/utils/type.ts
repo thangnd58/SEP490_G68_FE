@@ -12,6 +12,7 @@ export interface User {
     role: Role;
     phoneVerified: boolean;
     balance: number;
+    deleted: boolean;
     createDatetime: string;
     googleIdentity: string;
     motorbikes: Motorbike[];
@@ -38,6 +39,7 @@ export interface Lisence {
     licenceImage: string;
     licenceImageUrl: string;
     status: number;
+    statusComment: string,
     createDateTime: string;
 }
 
@@ -325,6 +327,11 @@ export interface Booking {
     promotion: Promotion,
     deposit: number,
     user: User,
+    returnAddress: string,
+    returnDatetime: string,
+    returnManager: string,
+    returnStatus: string,
+    returnStatusComment: string,
 }
 
 export interface Notification {
@@ -333,6 +340,7 @@ export interface Notification {
     title: string,
     detail: string,
     isRead: boolean,
+    referenceURL: string,
     createDatetime: string,
     updateDatetime: string,
     category: NotificationCategory

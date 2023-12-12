@@ -79,12 +79,12 @@ function CartPage() {
             newIsDeleting[index] = true;
             setIsDeleting(newIsDeleting);
 
-            if (linearProgressRef.current) {
-                alert("scroll");
-                linearProgressRef.current?.scrollIntoView({
-                    behavior: "smooth"
-                });
-            }
+            // if (linearProgressRef.current) {
+            //     alert("scroll");
+            //     linearProgressRef.current?.scrollIntoView({
+            //         behavior: "smooth"
+            //     });
+            // }
 
             const response = await BookingService.deleteMotorbikeInCart(motorbikeId, bookingCartId);
             if (response) {

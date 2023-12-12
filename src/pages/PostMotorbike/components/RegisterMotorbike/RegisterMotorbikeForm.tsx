@@ -568,6 +568,9 @@ const RegisterMotorbikeForm = () => {
                                     borderColor: theme.palette.primary.main,
                                 }
                             }}
+                            inputProps={
+                                { readOnly: id ? true : false, }
+                            }
                             name='licensePlate'
                             value={values.licensePlate}
                             onChange={handleChange}
@@ -585,7 +588,7 @@ const RegisterMotorbikeForm = () => {
                     secondTitle={t("postMotorbike.registedForm.imageSecondTitle")}
                     item={
                         <ImageList
-                            sx={{ borderRadius: '8px', border: '2px solid #E0E0E0', width: '100%', height: 300 }}
+                            sx={{ borderRadius: '8px', border: '2px solid #E0E0E0', width: '99%', height: 300 }}
                             cols={3}
                             variant="quilted"
                             rowHeight={165}
@@ -596,6 +599,9 @@ const RegisterMotorbikeForm = () => {
                                     key={index}
                                     cols={1}
                                     rows={1}
+                                    sx={{
+                                        cursor: 'pointer',
+                                    }}
                                 >
                                     <img
                                         onClick={() => openModal(index)}
@@ -605,7 +611,7 @@ const RegisterMotorbikeForm = () => {
                                         loading="lazy"
                                     />
                                     <Box
-                                        style={{
+                                        sx={{
                                             position: 'absolute',
                                             top: 0,
                                             right: 0,
@@ -613,6 +619,10 @@ const RegisterMotorbikeForm = () => {
                                             color: '#fff',
                                             padding: '4px',
                                             borderBottomLeftRadius: '4px',
+                                            '&:hover': {
+                                                transform: 'scale(1.1)',
+                                                transition: 'all 0.1s ease-in-out',
+                                            }
                                         }}
                                         onClick={() => handleRemoveImage(index)}
                                     >
@@ -824,12 +834,13 @@ const RegisterMotorbikeForm = () => {
                                                 sx={{
                                                     "& .MuiOutlinedInput-root fieldset": { borderRadius: "8px" },
                                                     "& .MuiOutlinedInput-root:hover fieldset": {
-                                                        borderColor: theme.palette.primary.main,
+                                                        border: "1px solid #8B4513",
                                                     },
                                                     "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-                                                        borderColor: theme.palette.primary.main,
+                                                        border: "1px solid #8B4513",
                                                     }
                                                 }}
+                                                inputProps={{ min: 0 }}
                                                 name='fuelConsumption'
                                                 value={values.fuelConsumption}
                                                 onChange={handleChange}
@@ -1060,12 +1071,13 @@ const RegisterMotorbikeForm = () => {
                                         sx={{
                                             "& .MuiOutlinedInput-root fieldset": { borderRadius: "8px" },
                                             "& .MuiOutlinedInput-root:hover fieldset": {
-                                                borderColor: theme.palette.primary.main,
+                                                border: "1px solid #8B4513",
                                             },
                                             "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-                                                borderColor: theme.palette.primary.main,
+                                                border: "1px solid #8B4513",
                                             }
                                         }}
+                                        inputProps={{ min: 0 }}
                                         name='defaultPrice'
                                         value={values.defaultPrice}
                                         onChange={handleChange}
@@ -1392,7 +1404,7 @@ const RegisterMotorbikeForm = () => {
                                                 borderRadius={"10px"}
                                                 border={"3px solid"}
                                                 margin={"0px auto"}
-                                                width={"100%"}
+                                                width={"99%"}
                                                 display={values.province === "" || values.district === "" || values.ward === "" || values.address === "" ? "none" : "flex"}
                                                 justifyContent={"center"}
                                                 alignItems={"center"}
@@ -1474,9 +1486,9 @@ const RegisterMotorbikeForm = () => {
                                                         )
                                                     }
                                                 </GoogleMap>
+                                                {/* Typography: Bạn có thể nháy đúp chuột vào màn hình để chọn vị trí */}
                                             </Box>
-                                            {/* Typography: Bạn có thể nháy đúp chuột vào màn hình để chọn vị trí */}
-                                            <Typography variant="caption" fontSize={"12px"} color={"red"} fontStyle={"italic"}>
+                                            <Typography display={values.province === "" || values.district === "" || values.ward === "" || values.address === "" ? "none" : "flex"} variant="caption" fontSize={"12px"} color={"red"} fontStyle={"italic"}>
                                                 {"* Nháy đúp chuột để chọn vị trí chính xác hơn"}
                                             </Typography>
                                         </>
@@ -1503,19 +1515,21 @@ const RegisterMotorbikeForm = () => {
                     </Box>
                 </Box>
             </Modal>
+            <ImageModal selectedImages={selectedImages} selectedImageIndex={selectedImageIndex} closeModal={closeModal} />
         </Box>
 
     );
 };
 
 interface ImageModalProps {
-    selectedImages: File[];
+    selectedImages: string[];
     selectedImageIndex: number | null;
     closeModal: () => void;
 }
 
 function ImageModal({ selectedImages, selectedImageIndex, closeModal }: ImageModalProps) {
-    return (<Modal open={selectedImageIndex !== null} onClose={closeModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description" sx={{
+    return (
+    <Modal open={selectedImageIndex !== null} onClose={closeModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description" sx={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -1526,7 +1540,7 @@ function ImageModal({ selectedImages, selectedImageIndex, closeModal }: ImageMod
             maxHeight: '100%',
             borderRadius: '8px',
             border: '3px solid #E0E0E0'
-        }} src={selectedImageIndex !== null ? URL.createObjectURL(selectedImages[selectedImageIndex]) : ''} alt="Selected Image" />
+        }} src={selectedImageIndex !== null ? selectedImages[selectedImageIndex] : ''} alt="Selected Image" />
     </Modal>);
 }
 export default RegisterMotorbikeForm;

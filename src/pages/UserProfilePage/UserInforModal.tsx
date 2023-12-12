@@ -24,7 +24,7 @@ import { ROUTES } from '../../utils/Constant';
 import MyCustomButton from '../../components/common/MyButton';
 import { FeedbackService } from '../../services/FeedbackService';
 
-export default function UserInforModal(props: { userId: number }) {
+export default function UserInforModal(props: { userId: number, isOpened?: boolean, closeModal?: () => void }) {
     const { userId } = props;
     const { t } = usei18next();
     const { closeModal } = useContext(ModalContext);
@@ -60,8 +60,8 @@ export default function UserInforModal(props: { userId: number }) {
         <>
             <Dialog
                 className='hiddenSroll'
-                open={true}
-                onClose={closeModal}
+                open={props.isOpened ? props.isOpened : true}
+                onClose={props.closeModal ? props.closeModal : closeModal}
                 TransitionComponent={Transition}
                 fullWidth
                 PaperProps={{
@@ -75,7 +75,7 @@ export default function UserInforModal(props: { userId: number }) {
             >
                 <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
                     <img style={{ cursor: 'pointer', }} alt="logo" src={LogoHeader} width={"150px"} />
-                    <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeModal} position='bottom' />
+                    <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={props.closeModal ? props.closeModal : closeModal} position='bottom' />
                 </Box>
                 <Box display={"flex"} flexDirection={isMobile ? "column" : "row"} justifyContent={"center"} alignItems={"start"} sx={{ padding: isMobile ? "16px 0px" : '32px 16px' }} gap={'32px'}>
                     {/* Thông tin người dùng */}
@@ -153,7 +153,7 @@ export default function UserInforModal(props: { userId: number }) {
                                 >
                                     {
                                         userInformation?.motorbikes.map((item: Motorbike, index: number) => (
-                                            <MotorbikeInforCard isInModal canClickDetailPage motorbike={item} isFavoritePage={false} isIntroduced={true} />
+                                            <MotorbikeInforCard isInModal motorbike={item} isFavoritePage={false} isIntroduced={true} />
                                         ))
                                     }
                                 </Box>
@@ -176,7 +176,7 @@ export default function UserInforModal(props: { userId: number }) {
                                 >
                                     {
                                         userInformation?.motorbikes.map((item: Motorbike, index: number) => (
-                                            <MotorbikeInforCard canClickDetailPage motorbike={item} isFavoritePage={false} isIntroduced={true} />
+                                            <MotorbikeInforCard motorbike={item} isFavoritePage={false} isIntroduced={true} />
                                         ))
                                     }
                                 </Box>

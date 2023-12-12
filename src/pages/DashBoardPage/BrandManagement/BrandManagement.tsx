@@ -28,7 +28,7 @@ const BrandManagement = () => {
         getAllBrand();
         
     },[]);
-    console.log(listBrand);
+    // console.log(listBrand);
     const getAllBrand = async () => {
         try {
             const response = await PostMotorbikeService.getAllBrand();
@@ -130,7 +130,7 @@ const BrandManagement = () => {
                     columns={columns}
                     loading={listBrand.length === 0}
                     rowHeight={48}
-                    checkboxSelection
+                    // checkboxSelection
                     disableRowSelectionOnClick
                     getRowId={(row) => row.id}
                     pagination

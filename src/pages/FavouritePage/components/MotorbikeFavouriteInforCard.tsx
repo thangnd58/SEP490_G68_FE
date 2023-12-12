@@ -14,6 +14,7 @@ import {
     BusinessCenterOutlined,
     ChangeCircleOutlined,
     CheckCircleOutline,
+    Edit,
     ErrorOutline,
     FavoriteBorder,
     FavoriteOutlined,
@@ -43,6 +44,7 @@ export default function MotorbikeFavouriteInforCard(props: {
     motorbike: Motorbike;
     isListForm?: boolean;
     openItemDetailModal?: () => void;
+    openUpdateInforPage?: () => void;
     setIsDeleting?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const { t } = usei18next();
@@ -54,6 +56,7 @@ export default function MotorbikeFavouriteInforCard(props: {
         setContentModal(<MotorbikeDetailModal motorbikeId={id.toString()} />);
         setShowModal(true);
     };
+    const [statusChange, setStatusChange] = useState<string>("");
 
     const deleteFavourite = async (id: number) => {
         try {
@@ -69,6 +72,74 @@ export default function MotorbikeFavouriteInforCard(props: {
             ToastComponent(t("toast.favourite.delete.error"), "error");
         }
     };
+
+    const chooseChip = (status: string) => {
+        switch (status) {
+            case "Processing":
+                return (
+                    <Chip
+                        sx={{
+                            "& .MuiChip-label": { fontSize: "14px" },
+                            height: "28px",
+                            fontWeight: "400",
+                        }}
+                        color="warning"
+                        icon={<WarningAmber />}
+                        label={t('postMotorbike.listform.status-processing')} />
+                )
+            case "Approved":
+                return (
+                    <Chip
+                        sx={{
+                            "& .MuiChip-label": { fontSize: "14px" },
+                            height: "28px",
+                            fontWeight: "400",
+                        }}
+                        color="success"
+                        icon={<CheckCircleOutline />}
+                        label={t('postMotorbike.listform.status-approved')} />
+                )
+            case "Rejected":
+                return (
+                    <Chip
+                        sx={{
+                            "& .MuiChip-label": { fontSize: "14px" },
+                            height: "28px",
+                            fontWeight: "400",
+                        }}
+                        color="error"
+                        icon={<ErrorOutline />}
+                        label={t('postMotorbike.listform.status-rejected')} />
+                )
+            case "OnHiatus":
+                return (
+                    <Chip
+                        sx={{
+                            "& .MuiChip-label": { fontSize: "14px" },
+                            height: "28px",
+                            fontWeight: "400",
+                        }}
+                        color="warning"
+                        icon={<StopCircleOutlined />}
+                        label={t('postMotorbike.listform.status-onhiatus')} />
+                )
+            case "InOperation":
+                return (
+                    <Chip
+                        sx={{
+                            "& .MuiChip-label": { fontSize: "14px" },
+                            height: "28px",
+                            fontWeight: "400",
+                        }}
+                        color="success"
+                        icon={<ChangeCircleOutlined />}
+                        label={t('postMotorbike.listform.status-inoporation')} />
+                )
+            default:
+                break;
+        }
+    }
+
     return (
         <Box
             sx={{
@@ -90,7 +161,9 @@ export default function MotorbikeFavouriteInforCard(props: {
                 <Avatar
                     src={props.motorbike.imageUrl[0]}
                     sx={{
-                        width: isMobile ? "280px" : "180px",
+                        width: "100%",
+                        // height: "100%",
+                        // width: isMobile ? "280px" : "180px",
                         height: isMobile ? "200px" : "150px",
                         borderRadius: "8px",
                         border: "1px solid #e0e0e0",
@@ -152,74 +225,48 @@ export default function MotorbikeFavouriteInforCard(props: {
                     {props.isListForm ? (
                         <>
                             {
-                                props.motorbike.status === "Processing" ? (
-                                    <Chip
-                                        sx={{
-                                            '& .MuiChip-label': { fontSize: "14px" },
-                                            height: "28px",
-                                            fontWeight: "400",
-                                        }}
-                                        color="warning"
-                                        icon={<WarningAmber />}
-                                        label={t('postMotorbike.listform.status-processing')} />)
-                                    : props.motorbike.status === "Approved" ? (
-                                        <Chip
-                                            sx={{
-                                                '& .MuiChip-label': { fontSize: "14px" },
-                                                height: "28px",
-                                                fontWeight: "400",
-                                            }}
-                                            color="success"
-                                            icon={<CheckCircleOutline />}
-                                            label={t('postMotorbike.listform.status-approved')} />)
-                                        : props.motorbike.status === "Rejected" ? (
-                                            <Chip
-                                                sx={{
-                                                    '& .MuiChip-label': { fontSize: "14px" },
-                                                    height: "28px",
-                                                    fontWeight: "400",
-                                                }}
-                                                color="error"
-                                                icon={<ErrorOutline />}
-                                                label={t('postMotorbike.listform.status-rejected')} />)
-                                            : props.motorbike.status === "On Hiatus" ? (
-                                                <Chip
-                                                    sx={{
-                                                        '& .MuiChip-label': { fontSize: "14px" },
-                                                        height: "28px",
-                                                        fontWeight: "400",
-                                                    }}
-                                                    color="warning"
-                                                    icon={<StopCircleOutlined />}
-                                                    label={t('postMotorbike.listform.status-onhiatus')} />)
-                                                : (
-                                                    <Chip
-                                                        sx={{
-                                                            '& .MuiChip-label': { fontSize: "14px" },
-                                                            height: "28px",
-                                                            fontWeight: "400",
-                                                        }}
-                                                        color="success"
-                                                        icon={<ChangeCircleOutlined />}
-                                                        label={t('postMotorbike.listform.status-inoporation')} />)
+                                statusChange !== "" ? chooseChip(statusChange) :
+                                    chooseChip(props.motorbike.status)
                             }
-                            {props.motorbike.status !== "Rejected" &&props.motorbike.status !== "Processing" && 
-                            <MyIcon
-                                icon={<ManageHistory sx={{ color: 'main' }} />}
-                                hasTooltip
-                                tooltipText={t("favourite.item.rent")}
-                                position="bottom"
-                                onClick={
-                                    () => setContentModal(<UpdateStatusFormModal motorbikeId={props.motorbike.id!} />)
-                                }
-                            />}
+                            {
+                                <Box display={"flex"} gap="4px" justifyContent={'center'} alignItems="center">
+                                    {
+                                        props.motorbike.status !== "Rejected" && props.motorbike.status !== "Processing" &&
+                                        <MyIcon
+                                            icon={<ManageHistory sx={{ color: 'main' }} />}
+                                            hasTooltip
+                                            tooltipText={t("favourite.item.rent")}
+                                            position="bottom"
+                                            onClick={
+                                                () => setContentModal(<UpdateStatusFormModal 
+                                                    setStatusChange={setStatusChange} 
+                                                    motorbikeStatus={statusChange !== "" ? statusChange : props.motorbike.status}
+                                                    motorbikeId={props.motorbike.id!} 
+                                                    />)
+                                            } />
+                                    }
+                                    <MyIcon
+                                        icon={<Edit sx={{
+                                            color: 'main',
+                                            width: "20px",
+                                            height: "20px",
+                                        }} />}
+                                        hasTooltip
+                                        tooltipText={t("favourite.item.rent")}
+                                        position="bottom"
+                                        onClick={
+                                            () => props.openUpdateInforPage && props.openUpdateInforPage()
+                                        } />
+                                </Box>
+                            }
                         </>
                     ) : (
-                        <>
+                        <Box display="flex" gap="4px">
                             <Chip
                                 sx={{
                                     "& .MuiChip-label": { fontSize: "12px" },
                                     height: "28px",
+                                    lineHeight: "28px",
                                     fontWeight: "400",
                                 }}
                                 color="success"
@@ -233,12 +280,13 @@ export default function MotorbikeFavouriteInforCard(props: {
                                 sx={{
                                     "& .MuiChip-label": { fontSize: "12px" },
                                     height: "28px",
+                                    lineHeight: "28px",
                                     fontWeight: "400",
                                 }}
                                 color="warning"
                                 label={t("favourite.item.ship")}
                             />
-                        </>)}
+                        </Box>)}
                 </Box>
                 {/* Brand Name and Model */}
                 <Box display="flex" flexDirection="column" gap="4px">
@@ -255,7 +303,7 @@ export default function MotorbikeFavouriteInforCard(props: {
                                 fontSize="20px"
                                 color={theme.palette.text.primary}
                             >
-                                {props.isListForm ? props.motorbike.model.brand.brandName + " " +  props.motorbike.model.modelName : props.motorbike.brandName + " " + props.motorbike.modelName}
+                                {props.isListForm ? props.motorbike.model.brand.brandName + " " + props.motorbike.model.modelName : props.motorbike.brandName + " " + props.motorbike.modelName}
                             </Typography>
                         </Tooltip>
                     </Box>
@@ -295,7 +343,7 @@ export default function MotorbikeFavouriteInforCard(props: {
                                 whiteSpace="nowrap"
                                 overflow="hidden"
                             >
-                                {/* {props.motorbike.ratingAverage.toFixed(1)} */}
+                                {props.motorbike.ratingAverage.toFixed(1)}
                             </Typography>
                             <BusinessCenterOutlined
                                 fontWeight={300}

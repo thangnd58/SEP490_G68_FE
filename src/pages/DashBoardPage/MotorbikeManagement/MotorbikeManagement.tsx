@@ -75,7 +75,7 @@ const MotorbikeManagement = () => {
                                 color="error"
                                 icon={<ErrorOutline />}
                                 label={t('postMotorbike.listform.status-rejected')} />)
-                            : params.value === "On Hiatus" ? (
+                            : params.value === "OnHiatus" ? (
                                 <Chip
                                     sx={{ '& .MuiChip-label': { fontSize: "14px" } }}
                                     color="warning"
@@ -92,9 +92,12 @@ const MotorbikeManagement = () => {
         {
             field: 'id', headerName: t("dashBoardManager.motorbikeRentalManager.columnAction"), width: 100,
             renderCell: (params: any) => (
-                <Box sx={{ cursor: 'pointer' }}>
-                    <MyIcon icon={<EditIcon />} hasTooltip position='right' tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.motorbikeregister}/${params.value}`)} />
-                </Box>
+                params.row.status === "Processing" ?
+                    <Box sx={{ cursor: 'pointer' }}>
+                        <MyIcon icon={<EditIcon />} hasTooltip position='right' tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.motorbikeregister}/${params.value}`)} />
+                    </Box>
+                :
+                null
             )
         },
     ];
@@ -131,12 +134,11 @@ const MotorbikeManagement = () => {
                     initialState={{
                         pagination: { paginationModel: { pageSize: 7 } },
                     }}
-
                     pageSizeOptions={[7, 10, 25]}
                     columns={columns}
                     loading={listMotorbike.length === 0}
                     rowHeight={48}
-                    checkboxSelection
+                    // checkboxSelection
                     disableRowSelectionOnClick
                     pagination
                     slots={{ toolbar: GridToolbar }}

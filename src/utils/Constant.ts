@@ -54,7 +54,9 @@ export const ROUTES = {
         managePromotion: "/manage-promotions",
         managerModel: "/manage-models",
         manageReport: "/manage-reports",
-        managerUser: "/manage-user"
+        managerUser: "/manage-user",
+        managerFeedback: "/manage-feedback",
+        managerBooking: "/manage-booking"
     },
     other: {
         pagenotfound: "/page-not-found",
@@ -143,6 +145,7 @@ export const dummyMotorbike: Motorbike = {
         avatar: "user_avatar.jpg",
         password: "hashed_password",
         avatarUrl: "user_avatar_url.jpg",
+        deleted: true,
         role: {
             roleId: 1,
             roleName: "User",

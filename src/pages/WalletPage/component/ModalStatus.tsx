@@ -9,7 +9,7 @@ import { ModalContext } from "../../../contexts/ModalContext";
 interface MyDialogProps {
     title: string;
     content: string;
-    icon: any;
+    icon: string;
     handleConfirm: () => void;
 }
 
