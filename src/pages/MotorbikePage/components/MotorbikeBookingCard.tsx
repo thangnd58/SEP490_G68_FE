@@ -355,7 +355,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                                         setIsEdit(false);
                                                         handleSubmit();
                                                     }}
-                                                    content={"Gửi"}
+                                                    content={t("editional.send")}
                                                 /> :
                                                 <MyCustomButton
                                                     height='30px'

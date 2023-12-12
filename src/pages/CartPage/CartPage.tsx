@@ -122,7 +122,7 @@ function CartPage() {
                 lineHeight={"60px"}
                 fontWeight={"600"}
                 sx={{ textAlign: 'center' }}>
-                Giỏ hàng của bạn
+                {t("editional.cart")}
             </Typography>
 
             {/* Check giỏ hàng trống */}
@@ -150,10 +150,10 @@ function CartPage() {
                                             lineHeight={"36px"}
                                             fontWeight={"600"}
                                             sx={{ textAlign: 'center' }}>
-                                            {index + 1}. Thông tin đơn hàng
+                                            {index + 1}. {t("editional.orderInfor")}
                                         </Typography>
                                         <MyCustomButton
-                                            content={"Đặt xe"}
+                                            content={t("editional.book")}
                                             onClick={() => { showModalBookingInfoMultipleMotorbike(item.motorbikes, item.address, item.startDatetime, item.endDatetime, item.bookingCartId) }}
                                             width="auto"
                                             height="36px"
@@ -168,7 +168,7 @@ function CartPage() {
                                             <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                                                 <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
                                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                        Địa điểm giao xe:
+                                                    {t("editional.delivery")}
                                                     </Typography>
                                                 </Box>
                                                 <Box
@@ -189,11 +189,11 @@ function CartPage() {
                                                 <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>
                                                     {/* start date */}
                                                     <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                        Ngày nhận xe:
+                                                        {t("editional.datePickUp")}
                                                     </Typography>
                                                     {/* end date */}
                                                     <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                        Ngày trả xe:
+                                                       {t("editional.dateDropOff")}
                                                     </Typography>
                                                 </Box>
                                                 <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>

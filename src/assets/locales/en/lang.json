@@ -836,6 +836,19 @@
   },
   "editional" :{
     "hotmotorbikes": "Hot motorbikes",
-    "booking":"Booking"
+    "booking":"Booking",
+    "findMotorbike":"Find",
+    "hotPlaces":"Hot places",
+    "listSearch":" Search motorbike list",
+    "cart":"Your cart",
+    "book":"Book",
+    "orderInfor":"Order information",
+    "delivery":"Delivery location:",
+    "datePickUp":"Pick-up date:",
+    "dateDropOff":"Drop-off date:",
+    "total":"Total:",
+    "reply":"Reply",
+    "owner":"Owner:",
+    "send":"Send"
   }
 }

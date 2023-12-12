@@ -343,7 +343,7 @@ function SearchingHotPlace() {
                             fontSize={16}
                             fontWeight={600}
                             onClick={handleSubmit}
-                            content={"Tìm xe"}
+                            content={t("editional.findMotorbike")}
                         />
                     </Box>
                 </Box>

@@ -838,6 +838,19 @@
 
   "editional" :{
     "hotmotorbikes": "Xe hot trong tháng",
-    "booking":"Lượt đặt"
+    "booking":"Lượt đặt",
+    "findMotorbike":"Tìm xe",
+    "hotPlaces":"Những địa điểm nổi bật",
+    "listSearch":" Danh sách xe tìm kiếm",
+    "cart":"Giỏ hàng của bạn",
+    "book":"Đặt xe",
+    "orderInfor":"Thông tin đơn hàng",
+    "delivery":"Địa điểm giao xe:",
+    "datePickUp":"Ngày nhận xe:",
+    "dateDropOff":"Ngày trả xe:",
+    "total":"Tổng tiền:",
+    "reply":"Trả lời",
+    "owner":"Chủ xe:",
+    "send":"Gửi"
   }
 }

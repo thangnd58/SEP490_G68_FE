@@ -173,7 +173,7 @@ export default function HotPlacesComponent() {
                     color: 'common.black',
                 }}
             >
-                Những địa điểm nổi bật
+                {t("editional.hotPlaces")}
             </Typography>
 
             {/* Content */}
