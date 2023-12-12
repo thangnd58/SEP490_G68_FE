@@ -206,7 +206,7 @@ export default function MotorbikeCartInfo(props: { motorbike: MotorbikeCart }) {
                                 whiteSpace="nowrap"
                                 overflow="hidden"
                             >
-                                5 lượt đặt
+                                 {t("booking.completeBook", { count: 5 })}
                             </Typography>
                         </Box>
                     </Box>

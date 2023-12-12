@@ -324,7 +324,8 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                             whiteSpace="nowrap"
                             overflow="hidden"
                         >
-                            {props.motorbike.countCompletedBooking} lượt đặt
+                            
+                            {t("booking.completeBook", { count: props.motorbike.countCompletedBooking })}
                         </Typography>
                         {props.motorbike.distance && (
                             <>
@@ -385,7 +386,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                     textOverflow="ellipsis"
                                     onClick={showMotorbikeDetailModal}
                                 >
-                                    Xem chi tiết
+                                    {t("favourite.item.view")}
                                 </Typography>
                             ) : (
                                 < MyIcon

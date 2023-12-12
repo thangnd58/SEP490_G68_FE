@@ -310,7 +310,7 @@ export default function MotorbikeFavouriteInforCard(props: {
                                 whiteSpace="nowrap"
                                 overflow="hidden"
                             >
-                                {props.motorbike.countCompletedBooking} lượt đặt
+                                 {t("booking.completeBook", { count:props.motorbike.countCompletedBooking  })}
                             </Typography>
                         </Box>)
                         : (
@@ -379,7 +379,7 @@ export default function MotorbikeFavouriteInforCard(props: {
                                 showMotorbikeDetailModal(props.motorbike.id!)
                         }
                     >
-                        Xem chi tiết
+                        {t("favourite.item.view")}
                     </Typography>
 
                     <Box

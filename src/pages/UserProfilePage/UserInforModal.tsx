@@ -105,7 +105,7 @@ export default function UserInforModal(props: { userId: number }) {
                             {/* Lượt đặt và lượt đánh giá */}
                             <Box display={"flex"} flexDirection={"row"} justifyContent={"center"} alignItems={"center"} width={"100%"} gap={'32px'}>
                                 <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
-                                    <Typography fontWeight={'500'} fontSize={'16px'}>Lượt đặt </Typography>
+                                    <Typography fontWeight={'500'} fontSize={'16px'}>{t("editional.booking")} </Typography>
                                     <Box display={"flex"} flexDirection={"row"} justifyContent={"center"} alignItems={"center"}>
                                         <Luggage sx={{ color: theme.palette.text.secondary }} />
                                         <Typography fontWeight={'400'} fontSize={'14px'} color={theme.palette.text.secondary}>{userInformation?.totalBooking}</Typography>
