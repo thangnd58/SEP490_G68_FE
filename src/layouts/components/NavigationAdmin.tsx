@@ -86,7 +86,7 @@ export default function NavigationAdmin() {
         <Box
             // className="hiddenSroll"
             role="presentation" sx={{
-                maxHeight: "60vh",
+                height: "50vh",
                 overflowY: "auto",
             }}>
             {/* <Box sx={{ display: 'flex', gap: '10px', my: 1, mx: 2 }}>

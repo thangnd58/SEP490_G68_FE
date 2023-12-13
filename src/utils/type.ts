@@ -332,6 +332,8 @@ export interface Booking {
     returnManager: string,
     returnStatus: string,
     returnStatusComment: string,
+    totalFeeOfDelivery: number,
+    deliveryDistanceChargeable: number
 }
 
 export interface Notification {
