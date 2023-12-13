@@ -714,7 +714,7 @@ export default function ListMotorbikesSearchedPage() {
                                 onClick={handleSubmit}
                                 icon={<SearchOutlined style={{ color: theme.palette.common.white, }} />}
                                 iconPosition='left'
-                                content={"Tìm xe"}
+                                content={t("editional.findMotorbike")}
                             />
                             {/* | */}
                             {!isMobile &&
@@ -831,7 +831,7 @@ export default function ListMotorbikesSearchedPage() {
                                 sx={{ gap: '8px' }}
                             >
                                 <Typography color={theme.palette.text.primary} sx={{ fontSize: '24px', fontWeight: "600" }}>
-                                    Danh sách xe tìm kiếm
+                                   {t("editional.listSearch")}
                                 </Typography>
                             </Box>
                             {/* list motorbikes */}

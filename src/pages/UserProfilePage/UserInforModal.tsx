@@ -105,7 +105,7 @@ export default function UserInforModal(props: { userId: number, isOpened?: boole
                             {/* Lượt đặt và lượt đánh giá */}
                             <Box display={"flex"} flexDirection={"row"} justifyContent={"center"} alignItems={"center"} width={"100%"} gap={'32px'}>
                                 <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
-                                    <Typography fontWeight={'500'} fontSize={'16px'}>Lượt đặt </Typography>
+                                    <Typography fontWeight={'500'} fontSize={'16px'}>{t("editional.booking")} </Typography>
                                     <Box display={"flex"} flexDirection={"row"} justifyContent={"center"} alignItems={"center"}>
                                         <Luggage sx={{ color: theme.palette.text.secondary }} />
                                         <Typography fontWeight={'400'} fontSize={'14px'} color={theme.palette.text.secondary}>{userInformation?.totalBooking}</Typography>
@@ -370,7 +370,7 @@ export function CommentItem(props: CommentItemProps) {
                         isReply ? (
                             <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={'8px'}>
 
-                                <Typography whiteSpace={'nowrap'} textAlign={'start'} fontWeight={'400'} fontSize={'14px'}>Chủ xe:</Typography>
+                                <Typography whiteSpace={'nowrap'} textAlign={'start'} fontWeight={'400'} fontSize={'14px'}>{t("editional.owner")}</Typography>
                                 <TextField
                                     fullWidth
                                     value={replyCommentTextField}
@@ -394,7 +394,7 @@ export function CommentItem(props: CommentItemProps) {
                                             color: 'common.black',
                                         }
                                     }}
-                                    placeholder='Trả lời...'
+                                    placeholder={t("editional.reply")} 
                                     inputProps={{
                                         readOnly: !isEdit,
                                     }}
@@ -411,7 +411,7 @@ export function CommentItem(props: CommentItemProps) {
                                                     onClick={() =>
                                                         handleReplyCommentSubmit()
                                                     }
-                                                    content={"Gửi"}
+                                                    content={t("editional.send")}
                                                 /> :
                                                 <MyCustomButton
                                                     height='30px'
@@ -439,13 +439,13 @@ export function CommentItem(props: CommentItemProps) {
                                         },
                                     }}
                                     onClick={() => setIsReply(true)}
-                                >Trả lời</Typography>
+                                >{t("editional.reply")}</Typography>
                             </Box>
                         )
                     ) : (
                         replyComment &&
                         <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={'8px'}>
-                            <Typography whiteSpace={'nowrap'} textAlign={'start'} fontWeight={'400'} fontSize={'14px'}>Chủ xe:</Typography>
+                            <Typography whiteSpace={'nowrap'} textAlign={'start'} fontWeight={'400'} fontSize={'14px'}>{t("editional.owner")}</Typography>
                             <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"flex-start"} alignItems={"center"} gap={'4px'}>
                                 <TextField
                                     fullWidth

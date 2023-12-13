@@ -251,7 +251,7 @@ function MyBookingItem(props: MyBookingItemProps) {
                                         <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
                                                 <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                    Địa điểm giao xe:
+                                                    {t("editional.delivery")}
                                                 </Typography>
                                             </Box>
                                             <Box
@@ -271,11 +271,11 @@ function MyBookingItem(props: MyBookingItemProps) {
                                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>
                                                 {/* start date */}
                                                 <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                    Ngày nhận xe:
+                                                    {t("editional.datePickUp")}
                                                 </Typography>
                                                 {/* end date */}
                                                 <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                    Ngày trả xe:
+                                                    {t("editional.dateDropOff")}
                                                 </Typography>
                                             </Box>
                                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>
@@ -346,7 +346,7 @@ function MyBookingItem(props: MyBookingItemProps) {
                                         <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
                                                 <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                    Tổng tiền:
+                                                    {t("editional.totaltrar")}
                                                 </Typography>
                                             </Box>
                                             <Box
