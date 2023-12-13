@@ -58,8 +58,13 @@ export default function MotorbikeFavouriteInforCard(props: {
     };
     const [statusChange, setStatusChange] = useState<string>("");
 
+    const [isDeleting, setIsDeleting] = useState<boolean>(false);
     const deleteFavourite = async (id: number) => {
         try {
+            if (isDeleting) {
+                return;
+            }
+            setIsDeleting(true);
             props.setIsDeleting && props.setIsDeleting(true);
             const response = await UserService.deleteFavourite(id);
             if (response.status === 200) {
@@ -70,6 +75,9 @@ export default function MotorbikeFavouriteInforCard(props: {
             }
         } catch (error) {
             ToastComponent(t("toast.favourite.delete.error"), "error");
+        } finally {
+            setIsDeleting(false);
+            props.setIsDeleting && props.setIsDeleting(false);
         }
     };
 

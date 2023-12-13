@@ -43,8 +43,13 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
         setShowModal(true)
     }
 
+    const [isDeleting, setIsDeleting] = useState<boolean>(false);
     const deleteFavourite = async (id: number) => {
         try {
+            if (isDeleting) {
+                return;
+            }
+            setIsDeleting(true);
             // Check login
             if (!UserService.isLoggedIn()) {
                 setIsOpenLoginModal(true);
@@ -60,11 +65,18 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
             }
         } catch (error) {
             ToastComponent(t("toast.favourite.delete.error"), "error");
+        } finally {
+            setIsDeleting(false);
         }
     }
 
+    const [isAddingFavorite, setIsAddingFavorite] = useState<boolean>(false);
     const addFavourite = async (id: number) => {
         try {
+            if (isAddingFavorite) {
+                return;
+            }
+            setIsAddingFavorite(true);
             // Check login
             if (!UserService.isLoggedIn()) {
                 setIsOpenLoginModal(true);
@@ -88,11 +100,18 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
             }
         } catch (error) {
             ToastComponent(t("toast.favourite.add.error"), "error");
+        } finally {
+            setIsAddingFavorite(false);
         }
     }
-
+ 
+    const [isAddingCart, setIsAddingCart] = useState<boolean>(false);
     const addCart = async (motorbikeId: number, startDatetime: string, endDatetime: string, address: string) => {
         try {
+            if (isAddingCart) {
+                return;
+            }
+            setIsAddingCart(true);
             // Check login
             if (!UserService.isLoggedIn()) {
                 setIsOpenLoginModal(true);
@@ -116,15 +135,12 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
         } catch (error) {
             ToastComponent(t("toast.ShoppingCart.add.error"), "error");
         }
+        finally {
+            setIsAddingCart(false);
+        }
     };
 
     const [loadingCard, setLoadingCard] = useState<string>();
-
-    // const handleDeleteClick = (cardId: string) => {
-    //     setLoadingCard(cardId);
-    //     props.deleteInCart(cardId);
-    //     // Đặt setLoadingCard(null) tại đây nếu cần
-    //   };
 
     return (
         <Box

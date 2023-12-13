@@ -56,7 +56,6 @@ export default function MyBooking() {
     const { t } = usei18next();
     const [listBooing, setListBooking] = useState<Booking[]>([]);
     const [listMotorbikeWithFeedback, setListMotorbikeWithFeedback] = useState<Motorbike[]>([]);
-    const [listFeedback, setListFeedback] = useState<Feedback[]>([]);
     const [isLoad, setIsLoad] = useState<boolean>(false);
     const { user } = useAppSelector((state) => state.userInfo);
     const dispatch = useAppDispatch();
@@ -76,21 +75,6 @@ export default function MyBooking() {
             const dataBooking = await BookingService.getListBookingCurrentUser();
             if (dataBooking) {
                 setListBooking(dataBooking);
-                const allFeedbacks = dataBooking
-                    .flatMap((booking) => booking.motorbikes)
-                    .flatMap((motorbike) => motorbike.feedbacks);
-
-
-                // Filter feedbacks based on the user's ID
-                const userFeedbacks = allFeedbacks.filter((feedback) => feedback.user.userId === user?.userId);
-                // Remove duplicates based on feedbackId
-                const uniqueFeedbackIds = Array.from(new Set(userFeedbacks.map((feedback) => feedback.feedbackId)));
-                // Filter out undefined values
-                const uniqueFeedback = uniqueFeedbackIds
-                    .map((feedbackId) => userFeedbacks.find((feedback) => feedback?.feedbackId === feedbackId))
-                    .filter((feedback) => feedback !== undefined) as Feedback[];
-                // Set the state with uniqueFeedback
-                setListFeedback(uniqueFeedback);
 
                 const filteredBookings = dataBooking.filter((booking) =>
                     booking.motorbikes.some((motorbike) =>
@@ -247,58 +231,60 @@ export default function MyBooking() {
                     {
                         listMotorbikeWithFeedback.length > 0 ?
                             (
-                                listMotorbikeWithFeedback.map((item: Motorbike, index1: number) => {
-                                    return (
-                                        <Box key={index1} sx={{
-                                            backgroundColor: "rgb(5, 69, 19, 0.1)",
-                                            borderRadius: '8px',
-                                            padding: '16px',
-                                            alignItems: 'start',
-                                            display: 'flex',
-                                            flexDirection: 'row',
-                                            justifyContent: 'center',
-                                            marginTop: index1 === 0 ? "0px" : "16px",
-                                        }}>
-                                            <Box>
-                                                <MotorbikeInforCard isInModal canClickDetailPage motorbike={item} isFavoritePage={false} isNotFavorite isIntroduced={true} />
-                                            </Box>
-                                            {/* motorbike card */}
-                                            {/* Box comment */}
-                                            <Box sx={{
+                                listMotorbikeWithFeedback.
+                                    map((item: Motorbike, index1: number) => {
+                                        return (
+                                            <Box key={index1} sx={{
+                                                backgroundColor: "rgb(5, 69, 19, 0.1)",
+                                                borderRadius: '8px',
+                                                padding: '16px',
+                                                alignItems: 'start',
                                                 display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'start',
-                                                alignItems: 'center',
-                                                marginLeft: '16px',
-                                                width: '100%',
+                                                flexDirection: 'row',
+                                                justifyContent: 'center',
+                                                marginTop: index1 === 0 ? "0px" : "16px",
                                             }}>
-                                                {
-                                                    item.feedbacks.length > 0 ?
-                                                        (
-                                                            item.feedbacks.map((feedback: Feedback, index2: number) => {
-                                                                return (
-                                                                    <Box key={index2} sx={{
-                                                                        width: '100%',
-                                                                        display: 'flex',
-                                                                        flexDirection: 'column',
-                                                                        justifyContent: 'start',
-                                                                        alignItems: 'center',
-                                                                        marginTop: index2 === 0 ? "0px" : "16px",
-                                                                    }}>
-                                                                        <CommentItem isDetail bookingId={feedback.bookingId} avatar={feedback.user.avatarUrl} dateComment={feedback.createDatetime} name={feedback.user.name} rating={feedback.rating} comment={feedback.comment}
-                                                                            replyComment={feedback.response ? feedback.response.comment : ""}
-                                                                            dateReplyComment={feedback.response ? feedback.response.createDatetime : ""}
-                                                                            isMobile={isMobile} />
-                                                                    </Box>
-                                                                )
+                                                <Box>
+                                                    <MotorbikeInforCard isInModal canClickDetailPage motorbike={item} isFavoritePage={false} isNotFavorite isIntroduced={true} />
+                                                </Box>
+                                                {/* motorbike card */}
+                                                {/* Box comment */}
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'start',
+                                                    alignItems: 'center',
+                                                    marginLeft: '16px',
+                                                    width: '100%',
+                                                }}>
+                                                    {
+                                                        item.feedbacks.length > 0 ?
+                                                            (
+                                                                item.feedbacks.map((feedback: Feedback, index2: number) => {
+                                                                    return (
+                                                                        user?.userId === feedback.user.userId &&
+                                                                        <Box key={index2} sx={{
+                                                                            width: '100%',
+                                                                            display: 'flex',
+                                                                            flexDirection: 'column',
+                                                                            justifyContent: 'start',
+                                                                            alignItems: 'center',
+                                                                            marginTop: index2 === 0 ? "0px" : "16px",
+                                                                        }}>
+                                                                            <CommentItem isDetail bookingId={feedback.bookingId} avatar={feedback.user.avatarUrl} dateComment={feedback.createDatetime} name={feedback.user.name} rating={feedback.rating} comment={feedback.comment}
+                                                                                replyComment={feedback.response ? feedback.response.comment : ""}
+                                                                                dateReplyComment={feedback.response ? feedback.response.createDatetime : ""}
+                                                                                isMobile={isMobile} />
+                                                                        </Box>
+                                                                    )
 
-                                                            })
-                                                        ) : (null)
-                                                }
+                                                                })
+                                                            ) : (null)
+                                                    }
+                                                </Box>
                                             </Box>
-                                        </Box>
-                                    )
-                                })
+                                        )
+                                    })
                             ) : (
                                 <Box display={"flex"} flexDirection={"column"} alignItems={"center"} justifyContent={"center"} width={"100%"} marginTop={2} gap={2}>
                                     <img src={NoDataImage} alt={"no-data"} width={"400px"} height={"400px"} />

@@ -228,7 +228,7 @@
       "add": {
         "success": "Add motorbike to cart successfully",
         "warning": "Add motorbike to cart failed",
-        "error": "Error when add motorbike to cart",
+        "error": "You can only add 1 motorbike to cart",
         "notHavePermission": "You don't have permission to add this motorbike to cart"
       }
     },
