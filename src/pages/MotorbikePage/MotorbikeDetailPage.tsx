@@ -32,6 +32,7 @@ import { FeedbackService } from '../../services/FeedbackService';
 import FeedbackCard from '../HomePage/components/FeedbackCard';
 import { PinImage } from '../../assets/images';
 import { useAppSelector } from '../../hooks/useAction';
+import ErrorMessage from '../../components/common/ErrorMessage';
 
 
 export default function MotorbikeDetailPage() {
@@ -138,8 +139,6 @@ export default function MotorbikeDetailPage() {
     }
   }, [motorbike])
 
-
-
   // FORM CONTROLLER
   const formik = useFormik({
     initialValues: {
@@ -204,7 +203,9 @@ export default function MotorbikeDetailPage() {
     }
     BookingService.getPreviewBooking(bookingPreview).then((data) => {
       setPreviewBookingData(data)
-      setIsProcessingBooking(data.motorbikes[0].status === "NotAvailable")
+      setIsProcessingBooking(data.motorbikes[0].status === "NotAvailable" || user?.phone === ""
+        // || user?.license === null
+      )
       if (data.promotion && data.promotion.status === "NotAvailable") {
         ToastComponent(isVn ? data.promotion.statusComment[0].vi : data.promotion.statusComment[0].en, "warning")
         setFieldValue("couponCode", "")
@@ -737,19 +738,27 @@ export default function MotorbikeDetailPage() {
 
                     {/* Button */}
                     {
-                      <MyCustomButton disabled={isProcessingBooking}
-                        width='100%' onClick={() => {
-                          if (!UserService.isLoggedIn()) {
-                            setIsOpenLoginModal(true)
-                          } else {
-                            if (user?.role.roleName === "Customer") {
-                              setModalConfirmBookingOpen(true)
+                      <>
+                        <MyCustomButton disabled={isProcessingBooking}
+                          width='100%' onClick={() => {
+                            if (!UserService.isLoggedIn()) {
+                              setIsOpenLoginModal(true)
+                            } else {
+                              if (user?.role.roleName === "Customer") {
+                                setModalConfirmBookingOpen(true)
+                              }
+                              else {
+                                ToastComponent(t("booking.notHavePermission"), "warning")
+                              }
                             }
-                            else {
-                              ToastComponent(t("booking.notHavePermission"), "warning")
-                            }
-                          }
-                        }} content={t("booking.bookMotorbikeButton")} variant='contained' />
+                          }} content={t("booking.bookMotorbikeButton")} variant='contained' />
+                        {
+                          user?.phone === "" && <ErrorMessage message={t("booking.notHavePhone")} />
+                        }
+                        {
+                          // user?.license === null && <ErrorMessage message={t("booking.notHaveLicense")} />
+                        }
+                      </>
                     }
                   </Box>
                 </Box>
@@ -990,7 +999,9 @@ export default function MotorbikeDetailPage() {
                       <Box display="flex" flexDirection="column" justifyContent={"center"} gap={"8px"} p={'8px'} border={"1px solid #e0e0e0"} borderRadius={"8px"}
                       >
                         {listFeedback.length !== 0 ? listFeedback.map((item: Feedback, index: number) => (
-                          <FeedbackCard setReload={setReloadFeedback} setContentModal={setContentModal} closeModal={closeModal} feedback={item} key={index}></FeedbackCard>
+                          <FeedbackCard
+                            motorbike={motorbike}
+                            setReload={setReloadFeedback} setContentModal={setContentModal} closeModal={closeModal} feedback={item} key={index}></FeedbackCard>
                         ))
                           :
                           <Box>
@@ -1222,7 +1233,7 @@ export default function MotorbikeDetailPage() {
                         </GoogleMap>
                       </Box>
                       <Typography variant="caption" fontSize={"12px"} color={"red"} fontStyle={"italic"}>
-                      {t("editional.noteMap")}
+                        {t("editional.noteMap")}
                       </Typography>
                     </>
                   )

@@ -20,6 +20,7 @@ import UserInforModal from "../../UserProfilePage/UserInforModal";
 
 export default function FeedbackCard(props: {
     feedback: Feedback;
+    motorbike: Motorbike | undefined;
     closeModal?: () => void;
     setContentModal?: (content: any) => void;
     setReload?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,27 +30,27 @@ export default function FeedbackCard(props: {
     const [isEdit, setIsEdit] = useState<boolean>(false);
     const { t } = usei18next();
     const { setContentModal } = useContext(ModalContext)
-    const [motorbike, setMotorbike] = useState<Motorbike>();
+    // const [motorbike, setMotorbike] = useState<Motorbike>();
     const { isMobile } = useThemePage()
 
     const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        dispatch(getUserInfo());
-        getMotobikeById(Number(props.feedback.motorbikeId));
-    }, []);
+    // useEffect(() => {
+    //     // dispatch(getUserInfo());
+    //     getMotobikeById(Number(props.feedback.motorbikeId));
+    // }, []);
 
 
-    const getMotobikeById = async (id: number) => {
-        try {
-            const response = await MotorbikeManagementService.getMotorbikesById(id);
-            if (response) {
-                setMotorbike(response)
-            }
-        } catch (error) {
+    // const getMotobikeById = async (id: number) => {
+    //     try {
+    //         const response = await MotorbikeManagementService.getMotorbikesById(id);
+    //         if (response) {
+    //             setMotorbike(response)
+    //         }
+    //     } catch (error) {
 
-        }
-    }
+    //     }
+    // }
 
     const formik = useFormik({
         initialValues: {
@@ -171,7 +172,7 @@ export default function FeedbackCard(props: {
                     </Box>
 
                     <Box display={'flex'} flexDirection={'row'} gap={2} alignItems={'center'} marginTop={'5px'}>
-                        {!props.feedback.response && motorbike?.user.userId === user?.userId && !isEdit ?
+                        {!props.feedback.response && props.motorbike?.user.userId === user?.userId && !isEdit ?
                             <Typography onClick={() => setIsEdit(true)} sx={{
                                 cursor: 'pointer',
                                 ':hover': {
@@ -189,7 +190,7 @@ export default function FeedbackCard(props: {
                     </Box>
                 </Box>
                 <Box width={'5%'}>
-                    {motorbike?.user.userId === user?.userId ?
+                    {props.motorbike?.user.userId === user?.userId ?
                         <Tooltip title={t("booking.toolTipReport")}>
                             <Info sx={{
                                 cursor: 'pointer',
@@ -253,7 +254,7 @@ export default function FeedbackCard(props: {
                             </Box>
 
                             <Box >
-                                {motorbike?.user.userId === user?.userId ?
+                                {props.motorbike?.user.userId === user?.userId ?
                                     <IconButton
                                         onClick={() => { setIsEdit(true) }}>
                                         <ModeEdit sx={{ color: "common.black" }} />
@@ -267,7 +268,7 @@ export default function FeedbackCard(props: {
                 </Box>
                 :
 
-                motorbike?.user.userId === user?.userId || isEdit ? // nếu chủ xe truy cập vào và chưa có comment trả lời
+                props.motorbike?.user.userId === user?.userId || isEdit ? // nếu chủ xe truy cập vào và chưa có comment trả lời
 
                     <Box display={'flex'} justifyContent={'flex-end'}>
                         <Box display={'flex'} flexDirection={'column'} width={'90%'}>

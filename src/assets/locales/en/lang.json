@@ -738,7 +738,9 @@
     "comment": "Comment",
     "completeBook": "{{count}} bookings",
     "userRent": "Renter",
-    "motorbikeOwner": "Motorbike Owner"
+    "motorbikeOwner": "Motorbike Owner",
+    "notHavePhone" : "You don't have phone number",
+    "notHaveLicense" : "You don't have driver's license"
   },
   "policy": {
     "documentRental": "Motorbike rental documents",

@@ -1070,7 +1070,9 @@ function ItemMotorbikeModal({ isMobile, isIpad, isItemModalOpen, closeItemModal,
                       <Box display="flex" flexDirection="column" justifyContent={"center"} gap={"8px"} p={'8px'} border={"1px solid #e0e0e0"} borderRadius={"8px"}
                       >
                         {listFeedback.length !== 0 ? listFeedback.map((item: Feedback, index: number) => (
-                          <FeedbackCard setReload={setReloadFeedback} setContentModal={setContentModal} closeModal={closeItemModal} feedback={item} key={index}></FeedbackCard>
+                          <FeedbackCard 
+                          motorbike={motorbike}
+                          setReload={setReloadFeedback} setContentModal={setContentModal} closeModal={closeItemModal} feedback={item} key={index}></FeedbackCard>
                           ))
                           :
                           <Box>

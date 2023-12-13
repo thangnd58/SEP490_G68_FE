@@ -17,9 +17,12 @@ const FavouritePage = () => {
     const [isLoad, setIsLoad] = useState<boolean>(true);
 
     useEffect(() => {
-        dispatch(getUserFavouriteInfo()).then(() => setIsLoad(false));
-        console.log(userFavourite);
-    }, [])
+        setIsLoad(true);
+        // wait 1s to show loading
+        setTimeout(() => {
+            setIsLoad(false);
+        }, 200);
+    }, []);
     const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
     return (

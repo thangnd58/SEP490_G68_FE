@@ -739,7 +739,9 @@
     "comment": "Bình luận",
     "completeBook": "{{count}} lượt đặt",
     "userRent": "Khách thuê",
-    "motorbikeOwner": "Chủ xe"
+    "motorbikeOwner": "Chủ xe",
+    "notHavePhone" : "Bạn chưa có số điện thoại",
+    "notHaveLicense" : "Bạn chưa có giấy phép lái xe"
   },
   "policy": {
     "documentRental": "Giấy tờ thuê xe",

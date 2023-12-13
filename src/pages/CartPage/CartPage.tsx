@@ -67,7 +67,6 @@ function CartPage() {
         setTimeout(() => {
             setIsLoad(false);
         }, 200);
-        dispatch(getCartInfo());
     }, []);
 
     const linearProgressRef = useRef<HTMLElement>(null);

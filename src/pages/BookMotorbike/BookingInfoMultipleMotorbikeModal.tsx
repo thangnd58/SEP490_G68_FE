@@ -25,6 +25,9 @@ import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocom
 import { PromotionModal } from '../MotorbikePage/components/PromotionModal';
 import { ConfirmMotorbikeBookingModal } from '../MotorbikePage/components/ConfirmMotorbikeBookingModal';
 import styled from '@emotion/styled';
+import ErrorMessage from '../../components/common/ErrorMessage';
+import { LoginModal } from '../AccountPage/LoginModal';
+import { useAppSelector } from '../../hooks/useAction';
 
 interface Location {
   lat: number,
@@ -55,6 +58,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
   const [isModalPromotionOpen, setModalPromotionOpen] = useState(false);
   const [isModalConfirmBookingOpen, setModalConfirmBookingOpen] = useState(false);
   const [openDetailDeliveryFee, setOpenDetailDeliveryFee] = useState(false);
+  const [isOpenLoginModal, setIsOpenLoginModal] = useState<boolean>(false);
 
   // format number * 1000 to type 1.000 VND/ngày
   const formatMoney = (money: number | undefined) => {
@@ -170,12 +174,19 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
         })
         setIsProcessingBooking(true)
       }
+      if (user?.phone === ""
+        // || user?.license === null
+      ) {
+        setIsProcessingBooking(true)
+      }
       if (data.promotion && data.promotion.status === "NotAvailable") {
         ToastComponent(isVn ? data.promotion.statusComment[0].vi : data.promotion.statusComment[0].en, "warning")
         setFieldValue("couponCode", "")
       }
     })
   }, [props?.motorbikes, values.address, values.startDate, values.endDate, values.couponCode])
+
+  const { user } = useAppSelector((state) => state.userInfo);
 
   // handle change address
   const {
@@ -686,16 +697,28 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
 
                         {/* Button */}
                         {
-                          UserService.isLoggedIn() ?
+                          <>
                             <MyCustomButton disabled={isProcessingBooking}
                               width='100%' onClick={() => {
-                                setModalConfirmBookingOpen(true)
+                                if (!UserService.isLoggedIn()) {
+                                  setIsOpenLoginModal(true)
+                                } else {
+                                  if (user?.role.roleName === "Customer") {
+                                    setModalConfirmBookingOpen(true)
+                                  }
+                                  else {
+                                    ToastComponent(t("booking.notHavePermission"), "warning")
+                                  }
+                                }
                               }} content={t("booking.bookMotorbikeButton")} variant='contained' />
-                            :
-                            <a style={{ width: '100%' }} href={ROUTES.account.login}>
-                              <MyCustomButton disabled={isProcessingBooking}
-                                width='100%' content={t("booking.loginToContinue")} variant='contained' />
-                            </a>
+                            {
+                              user?.phone === "" && <ErrorMessage message={t("booking.notHavePhone")} />
+                            }
+                            {
+                              // user?.license === null && <ErrorMessage message={t("booking.notHaveLicense")} />
+                            }
+                          </>
+
                         }
                       </Box>
                     </Box>
@@ -914,7 +937,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                       </Box>
                       <Typography variant="caption" fontSize={"12px"} color={"red"} fontStyle={"italic"}>
                         {t("editional.noteMap")}
-                        </Typography>
+                      </Typography>
                     </>
                   )
 
@@ -953,6 +976,8 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
         isProcessingBooking={isProcessingBooking}
         handleSubmit={handleSubmit}
       />
+      {/* modal login */}
+      <LoginModal isOpenLoginModal={isOpenLoginModal} setIsOpenLoginModal={setIsOpenLoginModal} isMobile={isMobile} />
     </>
   );
 }
