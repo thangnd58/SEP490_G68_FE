@@ -448,7 +448,7 @@ export default function MotorbikeFavouriteInforCard(props: {
                             <span
                                 style={{ fontWeight: "400", fontSize: "12px" }}
                             >
-                                {" / " + "Ngày"}
+                                 {t("editional.day")}
                             </span>
                         </Typography>
                     </Box>

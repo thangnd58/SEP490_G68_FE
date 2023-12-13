@@ -849,6 +849,25 @@
     "total":"Total:",
     "reply":"Reply",
     "owner":"Owner:",
-    "send":"Send"
+    "send":"Send",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "location":"Location",
+    "filter":"Filter",
+    "orderBy":"Order by",
+    "day":"/ Day",
+    "delete":"Delete",
+    "advanceFilter":"Advanced filters",
+    "options":"Options",
+    "deleteAll": "Delete all",
+    "priceOption":"Price",
+    "min":"Min:",
+    "max":"Max:",
+    "releaseYear":"Release Year",
+    "distance":"Distance",
+    "features":"Features",
+    "resetFilter":"Reset Filter",
+    "applyFilter":"Apply Filter",
+    "notPayment":"*Renter has not  made payment yet."
   }
 }

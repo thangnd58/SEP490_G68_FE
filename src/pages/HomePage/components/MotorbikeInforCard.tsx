@@ -380,7 +380,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                             <MyCustomButton
                                 icon={<Delete sx={{ color: 'main' }} />}
                                 iconPosition='left'
-                                content={"Xóa"}
+                                content={t("editional.delete")}
                                 onClick={props.deleteInCart!}
                                 width="auto"
                                 height='32px'
@@ -436,7 +436,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                             <span
                                 style={{ fontWeight: "400", fontSize: "12px" }}
                             >
-                                {" / " + "Ngày"}
+                                {t("editional.day")}
                             </span>
                         </Typography>
                     </Box>

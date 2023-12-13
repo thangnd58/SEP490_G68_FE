@@ -346,7 +346,7 @@ function MyBookingItem(props: MyBookingItemProps) {
                                         <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
                                                 <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                    {t("editional.totaltrar")}
+                                                    {t("editional.total")}
                                                 </Typography>
                                             </Box>
                                             <Box

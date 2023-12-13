@@ -577,7 +577,7 @@ export const BookingDetailPageOwner = () => {
                                                 fontStyle={'italic'}
                                                 textAlign={'start'}
                                             >
-                                                *Khách thuê chưa tiến hành thanh toán
+                                                {t("editional.notPayment")}
                                             </Typography>
                                         </Box>
                                     </Box>

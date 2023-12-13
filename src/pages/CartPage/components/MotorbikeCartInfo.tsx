@@ -224,7 +224,7 @@ export default function MotorbikeCartInfo(props: { motorbike: MotorbikeCart }) {
                                     fontSize: "12px",
                                 }}
                             >
-                                {" / " + "Ngày"}
+                                {t("editional.day")}
                             </span>
                         </Typography>
                     </Box>
