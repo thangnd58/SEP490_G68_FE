@@ -98,6 +98,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
     try {
       const response = await UserService.changeLicense(licenceNumber, fullName, dob, licenceImage);
       if (response.status === 200) {
+        if (fileLicence) {
         const params: ImageUpload = {
           tableName: 'licence',
           columnName: 'licenceImage',
@@ -110,7 +111,6 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
           return;
         }
         const urlUpload = responseUrl.data.uploadUrl;
-        if (fileLicence) {
           const responseUpload = await UploadImageService.uploadImage(urlUpload, fileLicence);
 
           if (responseUpload.status !== 200) {
