@@ -1486,10 +1486,9 @@ const RegisterMotorbikeForm = () => {
                                                         )
                                                     }
                                                 </GoogleMap>
-                                                {/* Typography: Bạn có thể nháy đúp chuột vào màn hình để chọn vị trí */}
                                             </Box>
                                             <Typography display={values.province === "" || values.district === "" || values.ward === "" || values.address === "" ? "none" : "flex"} variant="caption" fontSize={"12px"} color={"red"} fontStyle={"italic"}>
-                                                {"* Nháy đúp chuột để chọn vị trí chính xác hơn"}
+                                                {t("editional.noteMap")}
                                             </Typography>
                                         </>
                                     )
@@ -1529,18 +1528,18 @@ interface ImageModalProps {
 
 function ImageModal({ selectedImages, selectedImageIndex, closeModal }: ImageModalProps) {
     return (
-    <Modal open={selectedImageIndex !== null} onClose={closeModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description" sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        margin: '32px 32px'
-    }}>
-        <img style={{
-            maxWidth: '100%',
-            maxHeight: '100%',
-            borderRadius: '8px',
-            border: '3px solid #E0E0E0'
-        }} src={selectedImageIndex !== null ? selectedImages[selectedImageIndex] : ''} alt="Selected Image" />
-    </Modal>);
+        <Modal open={selectedImageIndex !== null} onClose={closeModal} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description" sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '32px 32px'
+        }}>
+            <img style={{
+                maxWidth: '100%',
+                maxHeight: '100%',
+                borderRadius: '8px',
+                border: '3px solid #E0E0E0'
+            }} src={selectedImageIndex !== null ? selectedImages[selectedImageIndex] : ''} alt="Selected Image" />
+        </Modal>);
 }
 export default RegisterMotorbikeForm;

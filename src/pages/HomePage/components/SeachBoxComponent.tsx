@@ -205,7 +205,7 @@ const SeachBoxComponent = () => {
                         fontSize={isMobile ? '40px' : '50px'}
                         color={(theme) => theme.palette.text.primary}
                     >
-                        Đồng hành cùng
+                        {t("editional.beWithYouOn")}
                     </Typography>
                     <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} width={'100%'} gap={'8px'}>
                         <Typography
@@ -214,7 +214,7 @@ const SeachBoxComponent = () => {
                             fontSize={isMobile ? '40px' : '50px'}
                             color={(theme) => theme.palette.text.primary}
                         >
-                            bạn
+                            {t("editional.theJourney")}
                         </Typography>
                         <Icon>
                             <OrnamentIcon style={{ width: '100%' }} />
@@ -542,9 +542,8 @@ const SeachBoxComponent = () => {
                                                     }
                                                 </GoogleMap>
                                             </Box>
-                                            {/* Typography: Bạn có thể nháy đúp chuột vào màn hình để chọn vị trí */}
                                             <Typography variant="caption" fontSize={"12px"} color={"red"} fontStyle={"italic"}>
-                                                {"* Nháy đúp chuột để chọn vị trí chính xác hơn"}
+                                            {t("editional.noteMap")}
                                             </Typography>
                                         </>
                                     )

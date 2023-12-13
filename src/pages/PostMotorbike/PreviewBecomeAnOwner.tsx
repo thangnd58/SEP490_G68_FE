@@ -65,7 +65,7 @@ export default function PreviewBecomeAnOwner() {
                             textAlign: 'center',
                         }}
                     >
-                        Đăng ký xe
+                        {t("editional.register_motorbike")}
                     </Typography>
                 </Box>
 
@@ -89,12 +89,12 @@ export default function PreviewBecomeAnOwner() {
                         {
                             isMobile ? (
                                 <Typography sx={{ color: 'common.black', fontWeight: '500', fontSize: isMobile ? 16 : 20, textAlign: 'center', width: "100%" }}>
-                                    Gia nhập cộng đồng Wandro ngay!
+                                    {t("editional.JoinWithUs")}
                                 </Typography>
                             ) : (
 
                                 <Typography sx={{ color: 'common.black', fontWeight: '500', fontSize: isMobile ? 16 : 20, textAlign: 'center', width: "100%" }}>
-                                    Gia nhập cộng đồng Wandro ngay!
+                                    {t("editional.JoinWithUs")}
                                 </Typography>
                             )
                         }
@@ -112,19 +112,19 @@ export default function PreviewBecomeAnOwner() {
 
                             {/* Bước 1 */}
                             <Typography sx={{ color: 'common.black', fontWeight: '400', fontSize: isMobile ? 12 : 14, textAlign: 'start', width: "100%" }}>
-                                Bước 1: Điền thông tin xe cho thuê
+                            {t("editional.step1_register")}
                             </Typography>
                             {/* Bước 2 */}
                             <Typography sx={{ color: 'common.black', fontWeight: '400', fontSize: isMobile ? 12 : 14, textAlign: 'start', width: "100%" }}>
-                                Bước 2: Tải hình ảnh xe lên để tăng tính xác thực
+                            {t("editional.step2_register")}
                             </Typography>
                             {/* Bước 3 */}
                             <Typography sx={{ color: 'common.black', fontWeight: '400', fontSize: isMobile ? 12 : 14, textAlign: 'start', width: "100%" }}>
-                                Bước 3: Wandro xác thực thông tin xe và phê duyệt
+                            {t("editional.step3_register")}
                             </Typography>
                             {/* Bước 4 */}
                             <Typography sx={{ color: 'common.black', fontWeight: '400', fontSize: isMobile ? 12 : 14, textAlign: 'start', width: "100%" }}>
-                                Bước 4: Tiến hành cho thuê xe
+                            {t("editional.step4_register")}
                             </Typography>
                         </Box>
                     </Box>

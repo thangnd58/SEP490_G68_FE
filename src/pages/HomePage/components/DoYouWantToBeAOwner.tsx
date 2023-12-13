@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 import useThemePage from '../../../hooks/useThemePage';
-import { BeAOwner } from '../../../assets/images';
+import { BeAOwner, BeAOwnerEN } from '../../../assets/images';
 import MyCustomButton from '../../../components/common/MyButton';
 import { Loyalty } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,7 @@ import { GuildlineType, ROUTES } from '../../../utils/Constant';
 export default function DoYouWantToBeAOwner() {
     const { isMobile } = useThemePage();
     const navigate = useNavigate();
-    const { t } = usei18next();
+    const { isVn, t } = usei18next();
 
     return (
 
@@ -27,7 +27,7 @@ export default function DoYouWantToBeAOwner() {
             >
                 {/* image */}
                 <Box display={'flex'} alignItems={'center'} justifyContent={'center'} width={isMobile ? '100%' : '50%'} height={'100%'}>
-                    <img src={BeAOwner} alt={'owner'} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={isVn ? BeAOwner : BeAOwnerEN} alt={'owner'} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </Box>
                 {/* content */}
                 <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} width={isMobile ? '100%' : '50%'} height={'100%'}>
@@ -55,8 +55,8 @@ export default function DoYouWantToBeAOwner() {
                             onClick={() =>
                                 navigate(`${ROUTES.other.guide.generalguide}/${GuildlineType.general}`)
                             }
-                        content={t("homepage.btn_viewmore")}
-                        variant="outlined"
+                            content={t("homepage.btn_viewmore")}
+                            variant="outlined"
                         />
                     </Box>
                 </Box>

@@ -234,7 +234,7 @@ function CartPage() {
                                             }
                                             position='bottom'
                                             hasTooltip
-                                            tooltipText={t("postMotorbike.registedForm.moreInfor")}
+                                            tooltipText={t("dashBoardManager.news.viewsMore")}
                                             onClick={() => {
                                                 const newOpenState = [...open];
                                                 newOpenState[index] = !newOpenState[index];

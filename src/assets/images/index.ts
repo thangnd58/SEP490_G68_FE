@@ -24,7 +24,9 @@ import MotorbikeImage from './motorbike.png'
 import VNPay from './vnpay.png'
 import MyWallet from './my-wallet.png'
 import BeAOwner from './beaowner.png'
+import BeAOwnerEN from './beaownerEN.png'
 import EsayToRentalMotorbike from './easyrentalmotorbike.png'
+import EsayToRentalMotorbikeEN from './easyrentalmotorbikeEN.png'
 import Tap from './tap (3).png'
 import Pay from './pay (1) 1.png'
 import Scooter from './scooter 1.png'
@@ -74,7 +76,9 @@ export {
     VNPay,
     MyWallet,
     BeAOwner,
+    BeAOwnerEN,
     EsayToRentalMotorbike,
+    EsayToRentalMotorbikeEN,
     Tap,
     Pay,
     Scooter,

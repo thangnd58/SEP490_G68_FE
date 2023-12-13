@@ -135,6 +135,18 @@ export default function MotorbikeFavouriteInforCard(props: {
                         icon={<ChangeCircleOutlined />}
                         label={t('postMotorbike.listform.status-inoporation')} />
                 )
+            case "CurrentlyRenting":
+                return (
+                    <Chip
+                        sx={{
+                            "& .MuiChip-label": { fontSize: "14px" },
+                            height: "28px",
+                            fontWeight: "400",
+                        }}
+                        color="warning"
+                        icon={<ChangeCircleOutlined />}
+                        label={t('postMotorbike.listform.status-currentlyrenting')} />
+                )
             default:
                 break;
         }
@@ -238,11 +250,11 @@ export default function MotorbikeFavouriteInforCard(props: {
                                             tooltipText={t("toast.favourite.item.rent")}
                                             position="bottom"
                                             onClick={
-                                                () => setContentModal(<UpdateStatusFormModal 
-                                                    setStatusChange={setStatusChange} 
+                                                () => setContentModal(<UpdateStatusFormModal
+                                                    setStatusChange={setStatusChange}
                                                     motorbikeStatus={statusChange !== "" ? statusChange : props.motorbike.status}
-                                                    motorbikeId={props.motorbike.id!} 
-                                                    />)
+                                                    motorbikeId={props.motorbike.id!}
+                                                />)
                                             } />
                                     }
                                     <MyIcon
@@ -358,7 +370,7 @@ export default function MotorbikeFavouriteInforCard(props: {
                                 whiteSpace="nowrap"
                                 overflow="hidden"
                             >
-                                 {t("booking.completeBook", { count:props.motorbike.countCompletedBooking  })}
+                                {t("booking.completeBook", { count: props.motorbike.countCompletedBooking })}
                             </Typography>
                         </Box>)
                         : (
@@ -448,7 +460,7 @@ export default function MotorbikeFavouriteInforCard(props: {
                             <span
                                 style={{ fontWeight: "400", fontSize: "12px" }}
                             >
-                                 {t("editional.day")}
+                                {t("editional.day")}
                             </span>
                         </Typography>
                     </Box>

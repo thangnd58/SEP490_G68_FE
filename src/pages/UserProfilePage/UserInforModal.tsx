@@ -423,7 +423,7 @@ export function CommentItem(props: CommentItemProps) {
                                                     onClick={() =>
                                                         setIsEdit(true)
                                                     }
-                                                    content={"Sửa"}
+                                                    content={t("editional.edit")}
                                                 />
                                         ),
                                     }}

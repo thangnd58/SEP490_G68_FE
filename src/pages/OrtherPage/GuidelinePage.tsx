@@ -41,6 +41,20 @@ const GuidelinePage = () => {
         return "16";
     }
   }
+  const selectTitleForGuideline = () => {
+    switch (guideName) {
+      case GuildlineType.general:
+        return t("editional.GeneralGuideline");
+      case GuildlineType.booking:
+        return t("editional.BookGuideline");
+      case GuildlineType.payment:
+        return t("editional.PaymentGuideline");
+      case GuildlineType.regulation:
+        return t("editional.RegulationGuideline");
+      default:
+        return t("editional.GeneralGuideline");
+    }
+  }
 
   useEffect(() => {
     if (guideName === GuildlineType.general) {
@@ -107,7 +121,7 @@ const GuidelinePage = () => {
             zIndex: 1, // Đảm bảo tiêu đề hiển thị trên lớp mờ
           }}
         >
-          {guideName === GuildlineType.general ? "General Guideline" : guideName === GuildlineType.booking ? "Book Guideline" : guideName === GuildlineType.payment ? "Payment Guideline" : "Regulation Guideline"}
+          {selectTitleForGuideline()}
         </Typography>
       </Box>
 
@@ -138,7 +152,7 @@ const GuidelinePage = () => {
                 borderLeft: guideName === GuildlineType.general ? '4px solid #8B4513' : 'none',
                 fontWeight: guideName === GuildlineType.general ? 700 : 400, paddingLeft: '8px',
 
-              }} primary="General Guideline" />
+              }} primary={t("editional.GeneralGuideline")} />
             </ListItem>
             <ListItem
               sx={{
@@ -162,7 +176,7 @@ const GuidelinePage = () => {
                 borderLeft: guideName === GuildlineType.booking ? '4px solid #8B4513' : 'none',
                 fontWeight: guideName === GuildlineType.booking ? 700 : 400,
                 paddingLeft: '8px',
-              }} primary="Book Guideline" />
+              }} primary={t("editional.BookGuideline")} />
             </ListItem>
             <ListItem
               sx={{
@@ -186,7 +200,7 @@ const GuidelinePage = () => {
                 borderLeft: guideName === GuildlineType.payment ? '4px solid #8B4513' : 'none',
                 fontWeight: guideName === GuildlineType.payment ? 700 : 400, paddingLeft: '8px',
 
-              }} primary="Payment Guideline" />
+              }} primary={t("editional.PaymentGuideline")} />
             </ListItem>
             <ListItem
               sx={{
@@ -209,7 +223,7 @@ const GuidelinePage = () => {
                 borderLeft: guideName === GuildlineType.regulation ? '4px solid #8B4513' : 'none',
                 fontWeight: guideName === GuildlineType.regulation ? 700 : 400, paddingLeft: '8px',
 
-              }} primary="Regulation Guideline" />
+              }} primary={t("editional.RegulationGuideline")} />
             </ListItem>
           </List>
         </Box>
@@ -225,13 +239,13 @@ const GuidelinePage = () => {
                     borderRadius: '16px 16px 0px 0px',
                     color: tabValue === 0 ? '#8B4513' : '#000',
                     fontWeight: tabValue === 0 ? 700 : 400,
-                  }} label="Chủ Xe" />
+                  }} label={t("editional.Owner")} />
                   <Tab sx={{
                     backgroundColor: tabValue === 1 ? 'rgb(139,69,13,0.05)' : 'none',
                     borderRadius: '16px 16px 0px 0px',
                     color: tabValue === 1 ? '#8B4513' : '#000',
                     fontWeight: tabValue === 1 ? 700 : 400,
-                  }} label="Khách Thuê Xe" />
+                  }} label={t("editional.Guest")} />
                 </Tabs>
               </>
             ) : (

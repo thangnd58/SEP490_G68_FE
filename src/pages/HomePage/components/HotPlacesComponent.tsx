@@ -210,10 +210,10 @@ export default function HotPlacesComponent() {
                                 color: 'common.black',
                                 textAlign: 'center'
                             }}
-                        >Giao xe tại <span style={{ color: '#8B4513', fontStyle: 'italic' }}>
-                                nhà ga
-                            </span> hoặc <span style={{ color: '#8B4513', fontStyle: 'italic' }}>
-                                bến tàu
+                        >{t("editional.deliveryAt")} <span style={{ color: '#8B4513', fontStyle: 'italic' }}>
+                                {t("editional.theBusStation")}
+                            </span> {t("editional.or")} <span style={{ color: '#8B4513', fontStyle: 'italic' }}>
+                            {t("editional.trainStation")}
                             </span>
                         </Typography>
                         <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>

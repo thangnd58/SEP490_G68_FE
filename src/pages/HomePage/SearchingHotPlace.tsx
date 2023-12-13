@@ -581,9 +581,8 @@ function SearchingHotPlace() {
                                                         }
                                                     </GoogleMap>
                                                 </Box>
-                                                {/* Typography: Bạn có thể nháy đúp chuột vào màn hình để chọn vị trí */}
                                                 <Typography variant="caption" fontSize={"12px"} color={"red"} fontStyle={"italic"}>
-                                                    {"* Nháy đúp chuột để chọn vị trí chính xác hơn"}
+                                                {t("editional.noteMap")}
                                                 </Typography>
                                             </>
                                         )

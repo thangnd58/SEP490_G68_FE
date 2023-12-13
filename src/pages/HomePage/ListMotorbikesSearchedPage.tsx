@@ -97,32 +97,32 @@ export default function ListMotorbikesSearchedPage() {
         // tất cả
         {
             key: '',
-            value: 'Tất cả'
+            value: t("editional.all")
         },
         // giá tăng dần
         {
             key: 'PRICERENTASC',
-            value: 'Giá tăng dần'
+            value: t("editional.priceRentAsc")
         },
         // giá giảm dần
         {
             key: 'PRICERENTDESC',
-            value: 'Giá giảm dần'
+            value: t("editional.priceRentDesc")
         },
         // đánh giá cao nhất
         {
             key: 'RATINGDESC',
-            value: 'Đánh giá cao nhất'
+            value: t("editional.ratingDesc")
         },
         // số lượt thuê nhiều nhất
         {
             key: 'COUNTCOMPLETEDBOOKINGDESC',
-            value: 'Số lượt thuê nhiều nhất'
+            value: t("editional.countCompletingBooking")
         },
         // khoảng cách gần nhất
         {
             key: 'DISTANCEASC',
-            value: 'Khoảng cách gần nhất'
+            value: t("editional.distanceAsc")
         },
     ]
 
@@ -285,17 +285,17 @@ export default function ListMotorbikesSearchedPage() {
     const selectOptions = [
         {
             key: 'all',
-            value: 'Chọn tất cả',
+            value: t("editional.chooseAll"),
             isChecked: values.maximumRating && values.electric
         },
         {
             key: '5star',
-            value: 'Xe đạt đánh giá 5 sao',
+            value: t("editional.5star"),
             isChecked: values.maximumRating
         },
         {
             key: 'electric',
-            value: 'Xe điện',
+            value: t("editional.electric"),
             isChecked: values.electric
         }
     ];
@@ -323,38 +323,38 @@ export default function ListMotorbikesSearchedPage() {
     const featureOptions = [
         {
             key: 'all',
-            value: 'Tất cả',
+            value: t("editional.chooseAll"),
             isChecked: values.Raincoat && values.Helmet && values.ReflectiveClothes && values.RepairKit && values.CaseTelephone && values.Bagage
         },
         {
             key: 'Raincoat',
-            value: 'Áo mưa',
+            value: t("editional.Raincoat"),
             isChecked: values.Raincoat
         },
         {
             key: 'Helmet',
-            value: 'Mũ bảo hiểm',
+            value: t("editional.Helmet"),
             isChecked: values.Helmet
         },
 
         {
             key: 'ReflectiveClothes',
-            value: 'Dây đeo phản quang',
+            value: t("editional.ReflectiveClothes"),
             isChecked: values.ReflectiveClothes
         },
         {
             key: 'RepairKit',
-            value: 'Bộ dụng cụ sửa chữa',
+            value: t("editional.RepairKit"),
             isChecked: values.RepairKit
         },
         {
             key: 'CaseTelephone',
-            value: 'Giá đỡ điện thoại',
+            value: t("editional.CaseTelephone"),
             isChecked: values.CaseTelephone
         },
         {
             key: 'Bagage',
-            value: 'Baga sau',
+            value: t("editional.Bagage"),
             isChecked: values.Bagage
         },
     ];
@@ -641,7 +641,7 @@ export default function ListMotorbikesSearchedPage() {
                     <Box width={isMobile ? "100%" : "auto"} display={'flex'} flexDirection={isMobile ? 'row' : 'column'} alignItems={'center'} justifyContent={isMobile ? 'space-between' : 'center'} sx={{ gap: '4px' }}>
                         <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
                             <Typography color={theme.palette.text.primary} sx={{ fontSize: isMobile ? '12px' : '12px', fontWeight: "600", fontStyle: "italic" }}>
-                            {t("editional.location")}
+                                {t("editional.location")}
                             </Typography>
                         </Box>
                         <Box
@@ -664,11 +664,11 @@ export default function ListMotorbikesSearchedPage() {
                         <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
                             {/* start date */}
                             <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                            {t("editional.startDate")}
+                                {t("editional.startDate")}
                             </Typography>
                             {/* end date */}
                             <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                               {t("editional.endDate")}
+                                {t("editional.endDate")}
                             </Typography>
                         </Box>
                         <RangePicker
@@ -831,7 +831,7 @@ export default function ListMotorbikesSearchedPage() {
                                 sx={{ gap: '8px' }}
                             >
                                 <Typography color={theme.palette.text.primary} sx={{ fontSize: '24px', fontWeight: "600" }}>
-                                   {t("editional.listSearch")}
+                                    {t("editional.listSearch")}
                                 </Typography>
                             </Box>
                             {/* list motorbikes */}
@@ -1069,10 +1069,6 @@ export default function ListMotorbikesSearchedPage() {
                                 {/* Hiển thị thông tin trong Popover */}
                             </GoogleMap>
                         </Box>
-                        {/* Typography: Bạn có thể nháy đúp chuột vào màn hình để chọn vị trí */}
-                        <Typography variant="caption" fontSize={"12px"} color={"red"} fontStyle={"italic"}>
-                            {"* Nháy đúp chuột để chọn vị trí chính xác hơn"}
-                        </Typography>
                     </>
                 )
             }
@@ -1280,9 +1276,8 @@ export default function ListMotorbikesSearchedPage() {
                                                     }
                                                 </GoogleMap>
                                             </Box>
-                                            {/* Typography: Bạn có thể nháy đúp chuột vào màn hình để chọn vị trí */}
                                             <Typography variant="caption" fontSize={"12px"} color={"red"} fontStyle={"italic"}>
-                                                {"* Nháy đúp chuột để chọn vị trí chính xác hơn"}
+                                            {t("editional.noteMap")}
                                             </Typography>
                                         </>
                                     )
@@ -1330,7 +1325,7 @@ export default function ListMotorbikesSearchedPage() {
                     <Box
                         top={16} width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} pb={"8px"} borderBottom={"1px solid #e0e0e0"}>
                         <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "20px" : "24px"} ml={isMobile ? "8px" : "0px"} fontWeight={600} textAlign={"start"}>
-                        {t("editional.advanceFilter")}
+                            {t("editional.advanceFilter")}
                         </Typography>
                         <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
                             <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeAdvancedFilterModal} position='bottom' />
@@ -1342,7 +1337,7 @@ export default function ListMotorbikesSearchedPage() {
                             <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
                                 {/* tilte */}
                                 <Typography variant='h2' color={theme.palette.text.primary} fontSize={"16px"} fontWeight={600} textAlign={"start"}>
-                                {t("editional.options")}
+                                    {t("editional.options")}
                                 </Typography>
                                 {/* action button */}
                                 <Box display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"} sx={{ gap: '8px' }}>
@@ -1471,7 +1466,7 @@ export default function ListMotorbikesSearchedPage() {
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                 {/* tilte */}
                                 <Typography variant='h2' color={theme.palette.text.primary} fontSize={"16px"} fontWeight={600} textAlign={"start"}>
-                                {t("editional.priceOption")}
+                                    {t("editional.priceOption")}
                                 </Typography>
                             </Box>
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
@@ -1492,7 +1487,7 @@ export default function ListMotorbikesSearchedPage() {
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                 <Box display={'flex'} flexDirection={isMobile ? 'column' : 'row'} alignItems={'start'} justifyContent={'space-between'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
-                                    {t("editional.min")}
+                                        {t("editional.min")}
                                     </Typography>
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
                                         {formatMoney(price[0])}
@@ -1500,7 +1495,7 @@ export default function ListMotorbikesSearchedPage() {
                                 </Box>
                                 <Box display={'flex'} flexDirection={isMobile ? 'column' : 'row'} alignItems={'start'} justifyContent={'space-between'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
-                                    {t("editional.max")}
+                                        {t("editional.max")}
                                     </Typography>
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
                                         {formatMoney(price[1])}
@@ -1513,7 +1508,7 @@ export default function ListMotorbikesSearchedPage() {
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                 {/* tilte */}
                                 <Typography variant='h2' color={theme.palette.text.primary} fontSize={"16px"} fontWeight={600} textAlign={"start"}>
-                                {t("postMotorbike.listform.release-year")}
+                                    {t("postMotorbike.listform.release-year")}
                                 </Typography>
                             </Box>
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
@@ -1532,7 +1527,7 @@ export default function ListMotorbikesSearchedPage() {
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                 <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
-                                    {t("editional.min")}
+                                        {t("editional.min")}
                                     </Typography>
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
                                         {releaseYear[0]}
@@ -1540,7 +1535,7 @@ export default function ListMotorbikesSearchedPage() {
                                 </Box>
                                 <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
-                                    {t("editional.max")}
+                                        {t("editional.max")}
                                     </Typography>
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
                                         {releaseYear[1]}
@@ -1553,7 +1548,7 @@ export default function ListMotorbikesSearchedPage() {
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                 {/* tilte */}
                                 <Typography variant='h2' color={theme.palette.text.primary} fontSize={"16px"} fontWeight={600} textAlign={"start"}>
-                                {t("postMotorbike.registedForm.fuelConsumption")}
+                                    {t("postMotorbike.registedForm.fuelConsumption")}
                                 </Typography>
                             </Box>
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
@@ -1572,7 +1567,7 @@ export default function ListMotorbikesSearchedPage() {
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                 <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
-                                    {t("editional.min")}
+                                        {t("editional.min")}
                                     </Typography>
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
                                         {fuelConsumption[0]}L/km
@@ -1580,7 +1575,7 @@ export default function ListMotorbikesSearchedPage() {
                                 </Box>
                                 <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
-                                    {t("editional.max")}
+                                        {t("editional.max")}
                                     </Typography>
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
                                         {fuelConsumption[1]}L/km
@@ -1593,7 +1588,7 @@ export default function ListMotorbikesSearchedPage() {
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                 {/* tilte */}
                                 <Typography variant='h2' color={theme.palette.text.primary} fontSize={"16px"} fontWeight={600} textAlign={"start"}>
-                                {t("editional.distance")}
+                                    {t("editional.distance")}
                                 </Typography>
                             </Box>
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
@@ -1612,7 +1607,7 @@ export default function ListMotorbikesSearchedPage() {
                             <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ gap: '8px' }}>
                                 <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
-                                    {t("editional.min")}
+                                        {t("editional.min")}
                                     </Typography>
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
                                         {maxDistance[0]}km
@@ -1620,7 +1615,7 @@ export default function ListMotorbikesSearchedPage() {
                                 </Box>
                                 <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }} border={'1px solid #e0e0e0'} borderRadius={'8px'} padding={'8px'} >
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
-                                    {t("editional.max")}
+                                        {t("editional.max")}
                                     </Typography>
                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '14px', fontWeight: "400" }}>
                                         {maxDistance[1]}km
@@ -1634,7 +1629,7 @@ export default function ListMotorbikesSearchedPage() {
                             <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
                                 {/* tilte */}
                                 <Typography variant='h2' color={theme.palette.text.primary} fontSize={"16px"} fontWeight={600} textAlign={"start"}>
-                                {t("editional.features")}
+                                    {t("editional.features")}
                                 </Typography>
                                 {/* action button */}
                                 <Box display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"} sx={{ gap: '8px' }}>

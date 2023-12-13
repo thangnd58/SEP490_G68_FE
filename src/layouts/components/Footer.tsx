@@ -34,11 +34,24 @@ function Footer() {
     });
   }, []);
 
+  const chooseTile = (title: string) => {
+    switch (title) {
+      case "Giải quyết tranh chấp":
+        return t("footer.disputeResolution");
+      case "Quy chế hoạt động":
+        return t("footer.operatingRegulations");
+      case "Chính sách và quy định":
+        return t("footer.policyAndRegulations");
+      default:
+        return t("footer.policyTitle");
+    }
+  }
+
   const footers = [
     {
       title: t("footer.policyTitle"),
       id: listNews.map((newsItem) => newsItem.newsId),
-      description: listNews.map((newsItem) => newsItem.title),
+      description: listNews.map((newsItem) => chooseTile(newsItem.title)),
     },
     {
       title: t("footer.learnMoreTitle"),
@@ -82,7 +95,7 @@ function Footer() {
           >
             <input
               disabled
-              value={"Gửi mail cho chúng tôi"}
+              value={t("editional.sendEmailForUs")}
               type="email"
               style={{ fontSize: '16px', border: 'none', outlineStyle: 'none', color: '#9A9EA5' }}
               placeholder={t("footer.footerEmailPlaceholder")}
@@ -110,9 +123,9 @@ function Footer() {
                 <Box sx={{ fontWeight: 'regular', cursor: 'pointer' }} onClick={
                   () => {
                     if (footer.title === t("footer.learnMoreTitle")) {
-                      index ===0 && navigate(`${ROUTES.other.guide.generalguide}/${GuildlineType.general}`);
-                      index ===1 && navigate(`${ROUTES.other.guide.generalguide}/${GuildlineType.booking}`);
-                      index ===2 && navigate(`${ROUTES.other.guide.generalguide}/${GuildlineType.payment}`);
+                      index === 0 && navigate(`${ROUTES.other.guide.generalguide}/${GuildlineType.general}`);
+                      index === 1 && navigate(`${ROUTES.other.guide.generalguide}/${GuildlineType.booking}`);
+                      index === 2 && navigate(`${ROUTES.other.guide.generalguide}/${GuildlineType.payment}`);
                     } else {
                       navigate(`${ROUTES.policy}/${footer.id?.find((i, idx) => idx === index)}`)
                     }

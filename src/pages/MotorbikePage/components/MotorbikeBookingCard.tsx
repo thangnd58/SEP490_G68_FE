@@ -367,7 +367,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                                     onClick={() =>
                                                         setIsEdit(true)
                                                     }
-                                                    content={"Sửa"}
+                                                    content={t("editional.edit")}
                                                 />
                                         }
                                     </Box>
