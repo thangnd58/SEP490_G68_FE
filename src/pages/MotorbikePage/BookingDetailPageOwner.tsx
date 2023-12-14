@@ -370,20 +370,20 @@ export const BookingDetailPageOwner = () => {
                                     {/* Button change return address */}
                                     {
                                         // booking.status === "Delivered" &&
-                                        <MyIcon 
-                                        icon={<Edit
-                                            sx={{
-                                                color: theme.palette.common.black,
-                                                cursor: 'pointer',
-                                                '&:hover': {
-                                                    color: theme.palette.primary.main,
-                                                },
-                                            }}
-                                            />} 
-                                        hasTooltip 
-                                        tooltipText={t("booking.changeReturnAddressAndTime")} 
-                                        // onClick={() => setContentModal(<ConfirmCompleteTripModal bookingId={booking.bookingId} />)} 
-                                        position='bottom' />
+                                        <MyIcon
+                                            icon={<Edit
+                                                sx={{
+                                                    color: theme.palette.common.black,
+                                                    cursor: 'pointer',
+                                                    '&:hover': {
+                                                        color: theme.palette.primary.main,
+                                                    },
+                                                }}
+                                            />}
+                                            hasTooltip
+                                            tooltipText={t("booking.changeReturnAddressAndTime")}
+                                            // onClick={() => setContentModal(<ConfirmCompleteTripModal bookingId={booking.bookingId} />)} 
+                                            position='bottom' />
                                     }
                                 </Box>
                                 <Box display={'flex'} gap={isMobile ? '16px' : '32px'} justifyContent={isMobile ? 'space-between' : 'start'} flexDirection={isMobile ? 'column' : 'row'} mb={'16px'}>
@@ -592,14 +592,15 @@ export const BookingDetailPageOwner = () => {
                                                         display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }} border={'2px solid #8b4513'} borderRadius={'8px'} padding={'8px'}>
                                                         <img alt="my-wallet" src={VNPay} height={24} />
                                                         {
-                                                            t("booking.payVnPay")
+                                                            <Typography fontSize={isMobile ? 14 : 16} fontWeight={'500'} color={'common.black'}>{t("booking.payVnPay")}</Typography>
+
                                                         }
                                                     </Box>
                                                 ) : (
                                                     <Box width={'90%'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }} border={'2px solid #8b4513'} borderRadius={'8px'} padding={'8px'}>
                                                         <img alt="my-wallet" src={MyWallet} width={24} height={24} />
                                                         {
-                                                            `${t("booking.payWallet")}`
+                                                            <Typography fontSize={isMobile ? 14 : 16} fontWeight={'400'} color={'common.black'} >{`${t("booking.payWallet")}`}</Typography>
                                                         }
                                                     </Box>
                                                 )

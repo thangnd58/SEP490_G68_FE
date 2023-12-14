@@ -31,7 +31,7 @@ export interface Location {
 export default function ListMotorbikesSearchedPage() {
     const { startDate, endDate, address } = useParams();
     const { RangePicker } = DatePicker;
-    const { t } = usei18next();
+    const { isVn, t } = usei18next();
     const navigate = useNavigate();
     const { isMobile } = useThemePage();
 
@@ -300,6 +300,8 @@ export default function ListMotorbikesSearchedPage() {
         }
     ];
 
+    
+
     // state for select options
     const [selectOptionsState, setSelectOptionsState] = useState(selectOptions);
 
@@ -379,9 +381,10 @@ export default function ListMotorbikesSearchedPage() {
         }));
     };
 
-    // Tạo hai mảng chứa dữ liệu của từng hàng
-    const featureOptionsRow1 = featureOptionsState.slice(0, Math.ceil(featureOptionsState.length / 2));
-    const featureOptionsRow2 = featureOptionsState.slice(Math.ceil(featureOptionsState.length / 2));
+    useEffect(() => {
+        setSelectOptionsState(selectOptions);
+        setFeatureOptionsState(featureOptions);
+    }, [isVn]);
 
     // ADDRESS MODAL CONTROLLER
     const openMapModal = () => {
@@ -1277,7 +1280,7 @@ export default function ListMotorbikesSearchedPage() {
                                                 </GoogleMap>
                                             </Box>
                                             <Typography variant="caption" fontSize={"12px"} color={"red"} fontStyle={"italic"}>
-                                            {t("editional.noteMap")}
+                                                {t("editional.noteMap")}
                                             </Typography>
                                         </>
                                     )
