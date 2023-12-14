@@ -60,11 +60,6 @@ export default function MotorbikeDetailPage() {
     lng: number,
   }
 
-  interface Location {
-    lat: number,
-    lng: number,
-  }
-
   useEffect(() => {
     BookingService.getLatLngByAddress("Quận Ba Đình, Hà Nội").then((data) => {
       const location = data.split(',');

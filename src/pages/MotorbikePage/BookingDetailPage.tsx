@@ -59,6 +59,7 @@ import {
 import { ConfirmCompleteTripModal } from "./components/ConfirmCompleteTripModal";
 import ModalStatus from "../WalletPage/component/ModalStatus";
 import { getBookingInfo } from "../../redux/reducers/bookingReducer";
+import RequestChangeAddressAndTime from "../BookMotorbike/components/RequestChangeAddressAndTime";
 interface Location {
   lat: number;
   lng: number;
@@ -86,6 +87,10 @@ export const BookingDetailPage = () => {
   const [endDate, setEndDate] = useState<string>("");
   const [countdown, setCountdown] = useState<string>("");
   const [location, setLocation] = useState<Location>({
+    lat: 21.028511,
+    lng: 105.804817,
+  });
+  const [locationReturn, setLocationReturn] = useState<Location>({
     lat: 21.028511,
     lng: 105.804817,
   });
@@ -141,6 +146,16 @@ export const BookingDetailPage = () => {
               lng: Number(location[1]),
             };
             setLocation(result);
+          });
+          BookingService.getLatLngByAddress(
+            data.returnAddress || "Quận Ba Đình, Hà Nội"
+          ).then((d) => {
+            const location = d.split(",");
+            const result: Location = {
+              lat: Number(location[0]),
+              lng: Number(location[1]),
+            };
+            setLocationReturn(result);
           });
         }
       });
@@ -607,8 +622,7 @@ export const BookingDetailPage = () => {
                     {t("booking.timeRent")}
                   </Typography>
                   {/* Button change return address */}
-                  {
-                    // booking.status === "Delivered" &&
+                  {booking.status === "Delivered" && (
                     <MyIcon
                       icon={
                         <Edit
@@ -623,10 +637,14 @@ export const BookingDetailPage = () => {
                       }
                       hasTooltip
                       tooltipText={t("booking.changeReturnAddressAndTime")}
-                      // onClick={() => setContentModal(<ConfirmCompleteTripModal bookingId={booking.bookingId} />)}
+                      onClick={() =>
+                        setContentModal(
+                          <RequestChangeAddressAndTime booking={booking} />
+                        )
+                      }
                       position="bottom"
                     />
-                  }
+                  )}
                 </Box>
                 <Box
                   display={"flex"}
@@ -687,7 +705,39 @@ export const BookingDetailPage = () => {
                         fontSize={isMobile ? 14 : 16}
                         color={theme.palette.text.primary}
                       >
-                        {dayjs(booking?.endDatetime).format("DD-MM-YYYY HH:mm")}
+                        {dayjs(booking?.endDatetime).format(
+                          "DD-MM-YYYY HH:mm"
+                        )}
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  <Box display={"flex"} gap={"16px"}>
+                    <img
+                      src={CalendarImage}
+                      alt="calendar"
+                      width={isMobile ? 20 : 24}
+                      height={isMobile ? 20 : 24}
+                    />
+                    <Box
+                      display={"flex"}
+                      flexDirection={"column"}
+                      gap={"4px"}
+                      justifyContent={"start"}
+                    >
+                      <Typography
+                        fontSize={isMobile ? 14 : 16}
+                        color={theme.palette.text.secondary}
+                      >
+                        {t("booking.returnDate")}
+                      </Typography>
+                      <Typography
+                        fontSize={isMobile ? 14 : 16}
+                        color={theme.palette.text.primary}
+                      >
+                        {dayjs(booking?.returnDatetime).format(
+                          "DD-MM-YYYY HH:mm"
+                        )}
                       </Typography>
                     </Box>
                   </Box>
@@ -720,6 +770,33 @@ export const BookingDetailPage = () => {
                     readOnly: true,
                   }}
                 />
+                <Typography
+                  fontSize={isMobile ? 16 : 20}
+                  fontWeight={"700"}
+                  color={"common.black"}
+                >
+                  {t("booking.addressReturn")}
+                </Typography>
+                <TextField
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderRadius: "8px",
+                        border: "1px solid #e0e0e0",
+                      },
+                      "&:hover fieldset": {
+                        border: "1px solid #8b4513",
+                      },
+                      "&.Mui-focused fieldset": {
+                        border: "1px solid #8b4513",
+                      },
+                    },
+                  }}
+                  value={booking?.returnAddress}
+                  inputProps={{
+                    readOnly: true,
+                  }}
+                />
                 <Box
                   borderRadius={"10px"}
                   border={"3px solid #8b4513"}
@@ -734,7 +811,7 @@ export const BookingDetailPage = () => {
                     booking.address &&
                     booking.address !== "" && (
                       <GoogleMap
-                        zoom={18}
+                        zoom={10}
                         center={{ lat: location.lat, lng: location.lng }}
                         mapContainerStyle={{
                           width: "100%",
@@ -743,13 +820,27 @@ export const BookingDetailPage = () => {
                         }}
                       >
                         {booking && (
-                          <Marker
-                            position={{ lat: location.lat, lng: location.lng }}
-                          />
+                          <>
+                            <Marker
+                              label={"Delivery location"}
+                              position={{
+                                lat: location.lat,
+                                lng: location.lng,
+                              }}
+                            />
+                            <Marker
+                              label={"Return location"}
+                              position={{
+                                lat: locationReturn.lat,
+                                lng: locationReturn.lng,
+                              }}
+                            />
+                          </>
                         )}
                       </GoogleMap>
                     )}
                 </Box>
+                
               </Box>
               <Box
                 width={isMobile ? "100%" : "45%"}

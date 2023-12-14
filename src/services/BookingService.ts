@@ -11,7 +11,6 @@ const apiGetPreviewBooking = "/preview-booking";
 const apiPostBooking = "/booking";
 const apiGetListBooking = "/user/booking";
 const apiGetListCart = "/booking-cart";
-const apiCancelBooking = '/booking';
 const apiGetListRentalBooking = '/rental-history';
 const apiGetLatLng = '/location/get-lat-lng-by-address';
 const apiGetAllBooking = '/bookings';
@@ -61,11 +60,15 @@ export const BookingService = {
         const response = await api.get(`${apiGetListRentalBooking}/${id}`)
         return response.data
     },
-    updateStatusBookingDetail: async (bookingId: number |undefined, motorbikeid: string |undefined, status: string |undefined) => { // status: 'accept' | 'reject' | 'cancel' | 'return'
+    updateStatusBookingDetail: async (bookingId: number | undefined, motorbikeid: string | undefined, status: string | undefined) => { // status: 'accept' | 'reject' | 'cancel' | 'return'
         return await api.put(`${apiPostBooking}/${bookingId}/${status}/${motorbikeid}`)
     },
     getLatLngByAddress: async (address: string) => {
         const res = await api.get(`${apiGetLatLng}/${encodeURIComponent(address)}`)
+        return res.data
+    },
+    updateReturnInfo: async (bookingId: number, info: { returnAddress: string, returnDatetime: string }) => {
+        const res = await api.put(`${apiPostBooking}/${bookingId}/return`, info);
         return res.data
     }
 }
