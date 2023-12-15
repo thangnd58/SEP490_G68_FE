@@ -7,7 +7,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { ModalContext } from "../../../contexts/ModalContext";
 import useThemePage from "../../../hooks/useThemePage";
 import theme from "../../../utils/theme";
@@ -34,9 +41,12 @@ interface Location {
   lng: number;
 }
 
-function RequestChangeAddressAndTime(props: { booking: Booking }) {
+function RequestChangeAddressAndTime(props: {
+  booking: Booking;
+  setReload: Dispatch<SetStateAction<boolean>>;
+}) {
   const { setContentModal } = useContext(ModalContext);
-  const { booking } = props;
+  const { booking, setReload } = props;
   const { isMobile } = useThemePage();
   const { t } = usei18next();
   const formik = useFormik({
@@ -56,11 +66,19 @@ function RequestChangeAddressAndTime(props: { booking: Booking }) {
     }),
     onSubmit: async (values) => {
       try {
-        BookingService.updateReturnInfo(booking.bookingId, {returnAddress: values.address, returnDatetime: values.returnDate}).then((result) => {
-            ToastComponent("Yeu cau thanh cong", "success");
-        })
+        BookingService.updateReturnInfo(booking.bookingId, {
+          returnAddress: values.address,
+          returnDatetime:
+            dayjs(values.returnDate).format("DD-MM-YYYY HH:mm") ===
+            "Invalid Date"
+              ? values.returnDate
+              : dayjs(values.returnDate).format("DD-MM-YYYY HH:mm"),
+        }).then((result) => {
+          ToastComponent(t("booking.toastResultChangeSuccess"), "success");
+          setReload((prev) => !prev);
+        });
       } catch (error) {
-        ToastComponent("Yeu cau that bai", "error");
+        ToastComponent(t("booking.toastResultChangError"), "error");
       }
     },
   });
@@ -144,7 +162,10 @@ function RequestChangeAddressAndTime(props: { booking: Booking }) {
   const disabledDate = (current: any) => {
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
-    return current && current.valueOf() < currentDate.valueOf();
+    const endDate = new Date(booking.endDatetime)
+    return (
+      (current && current.valueOf() < currentDate.valueOf()) || 
+      (endDate && current && current.valueOf() > endDate.valueOf()) );
   };
 
   return (

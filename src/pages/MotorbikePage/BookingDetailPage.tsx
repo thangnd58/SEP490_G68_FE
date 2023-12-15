@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { BookingService } from "../../services/BookingService";
 import {
   Box,
+  Chip,
   Divider,
   FormControlLabel,
   IconButton,
@@ -50,11 +51,14 @@ import MyIcon from "../../components/common/MyIcon";
 import {
   ArrowBack,
   CheckCircle,
+  CheckCircleOutline,
   CloseOutlined,
   Edit,
+  ErrorOutline,
   Feedback,
   HelpOutlineOutlined,
   Verified,
+  WarningAmber,
 } from "@mui/icons-material";
 import { ConfirmCompleteTripModal } from "./components/ConfirmCompleteTripModal";
 import ModalStatus from "../WalletPage/component/ModalStatus";
@@ -605,6 +609,44 @@ export const BookingDetailPage = () => {
                     </Box>
                   </Box>
                 )}
+                {booking.returnStatus !== "" && booking.status === BookingStatus.Delivered && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: "4px",
+                    }}
+                  >
+                    <Typography>
+                      {t("booking.titleChangeInfoReturn")}
+                    </Typography>
+                    {booking.returnStatus === "Processing" && (
+                      <Chip
+                        sx={{ "& .MuiChip-label": { fontSize: "14px" } }}
+                        color="warning"
+                        icon={<WarningAmber />}
+                        label={t("licenseInfo.Processing")}
+                      />
+                    )}
+                    {booking.returnStatus === "Approved" && (
+                      <Chip
+                        sx={{ "& .MuiChip-label": { fontSize: "14px" } }}
+                        color="success"
+                        icon={<CheckCircleOutline />}
+                        label={t("licenseInfo.Approve")}
+                      />
+                    )}
+                    {booking.returnStatus === "Rejected" && (
+                      <Chip
+                        sx={{ "& .MuiChip-label": { fontSize: "14px" } }}
+                        color="error"
+                        icon={<ErrorOutline />}
+                        label={t("licenseInfo.Reject")}
+                      />
+                    )}
+                  </Box>
+                )}
                 <Box
                   display={"flex"}
                   flexDirection={"row"}
@@ -639,13 +681,17 @@ export const BookingDetailPage = () => {
                       tooltipText={t("booking.changeReturnAddressAndTime")}
                       onClick={() =>
                         setContentModal(
-                          <RequestChangeAddressAndTime booking={booking} />
+                          <RequestChangeAddressAndTime
+                            booking={booking}
+                            setReload={setReloadBooking}
+                          />
                         )
                       }
                       position="bottom"
                     />
                   )}
                 </Box>
+
                 <Box
                   display={"flex"}
                   gap={isMobile ? "16px" : "32px"}
@@ -705,9 +751,7 @@ export const BookingDetailPage = () => {
                         fontSize={isMobile ? 14 : 16}
                         color={theme.palette.text.primary}
                       >
-                        {dayjs(booking?.endDatetime).format(
-                          "DD-MM-YYYY HH:mm"
-                        )}
+                        {dayjs(booking?.endDatetime).format("DD-MM-YYYY HH:mm")}
                       </Typography>
                     </Box>
                   </Box>
@@ -840,7 +884,6 @@ export const BookingDetailPage = () => {
                       </GoogleMap>
                     )}
                 </Box>
-                
               </Box>
               <Box
                 width={isMobile ? "100%" : "45%"}
