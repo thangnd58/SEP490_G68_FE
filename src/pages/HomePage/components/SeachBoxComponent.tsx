@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Icon, IconButton, MenuItem, Modal, Skeleton, TextField, Typography } from '@mui/material'
 import React, { useEffect, useMemo, useState } from 'react'
-import { ImageSearchBox } from '../../../assets/images'
+import { ImageSearchBox, Snow } from '../../../assets/images'
 import { OrnamentIcon } from '../../../assets/icons'
 import { DatePicker } from 'antd';
 import '../styles/CustomRangePicker.css';
@@ -191,6 +191,13 @@ const SeachBoxComponent = () => {
                 justifyContent={'center'}
                 minWidth={isMobile ? "90%" : "30%"}
                 width={isMobile ? "90%" : "30%"}
+                height={isMobile ? "auto" : "573.11px"}
+
+                sx={{
+                    backgroundImage: `url(${Snow})`,
+                    borderRadius : '8px',
+                    backgroundRepeat: 'no-repeat',
+                }}
             >
                 {/* Đồng hành cùng bạn ~ wandro box */}
                 <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'start'} width={'100%'}
@@ -246,7 +253,8 @@ const SeachBoxComponent = () => {
                             "& .MuiOutlinedInput-root.Mui-focused fieldset": {
                                 border: "1px solid #8b4513"
                             },
-                            animation: "fadeInRight 1s ease-out"
+                            animation: "fadeInRight 1s ease-out",
+                            backgroundColor: 'white',
                         }}
                         variant="outlined"
                         InputProps={

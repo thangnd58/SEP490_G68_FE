@@ -747,8 +747,8 @@
     "completeBook": "{{count}} lượt đặt",
     "userRent": "Khách thuê",
     "motorbikeOwner": "Chủ xe",
-    "notHavePhone" : "Bạn chưa có số điện thoại",
-    "notHaveLicense" : "Bạn chưa có giấy phép lái xe"
+    "notHavePhone": "Bạn chưa có số điện thoại",
+    "notHaveLicense": "Bạn chưa có giấy phép lái xe"
   },
   "policy": {
     "documentRental": "Giấy tờ thuê xe",
@@ -925,6 +925,10 @@
     "GeneralGuideline": "Hướng dẫn chung",
     "BookGuideline": "Hướng dẫn đặt xe",
     "PaymentGuideline": "Hướng dẫn thanh toán",
-    "RegulationGuideline": "Quy định sử dụng"
-  }
+    "RegulationGuideline": "Quy định sử dụng",
+    "notEnoughMinMoney": "Hóa đơn của bạn chưa đạt giá trị tối thiếu",
+    "codeUsing" : "Mã đang được bạn sử dụng",
+    "codeUsed" : "Bạn đã sử dụng mã này trước đó"
+  },
+  "booking.addressReturn": "Địa chỉ trả xe"
 }

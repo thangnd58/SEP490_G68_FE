@@ -923,7 +923,10 @@
     "GeneralGuideline": "General Guideline",
     "BookGuideline": "Booking Guideline",
     "PaymentGuideline": "Payment Guideline",
-    "RegulationGuideline": "Regulation Guideline"
+    "RegulationGuideline": "Regulation Guideline",
+    "notEnoughMinMoney": "Your order hasn't reached the minimum amount to use the promotion code",
+    "codeUsing" : "You are using this code",
+    "codeUsed" : "You have used this code"
   },
   "booking.addressReturn": "Motorbike return location"
 }

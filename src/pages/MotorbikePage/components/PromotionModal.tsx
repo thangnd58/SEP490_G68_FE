@@ -105,15 +105,15 @@ function PromotionItem({ promotion, promoApply, setPromoApply, setModalPromotion
                         {/* Thông báo lỗi nếu không thể áp mã giảm giá */}
                         {
                             promotion.code === promoApply &&
-                            <Typography fontSize={isMobile ? '10px' : '12px'} color={"red"}>{"Mã đang được bạn sử dụng"}</Typography>
+                            <Typography fontSize={isMobile ? '10px' : '12px'} color={"red"}>{t("editional.codeUsing")}</Typography>
                         }
                         {
                             (minValue < promotion.minValue) &&
-                            <Typography fontSize={isMobile ? '10px' : '12px'} color={"red"}>{"Hóa đơn của bạn chưa đạt giá trị tối thiếu"}</Typography>
+                            <Typography fontSize={isMobile ? '10px' : '12px'} color={"red"}>{t("editional.notEnoughMinMoney")}</Typography>
                         }
                         {
                             (promotion.statusUse === "Used") && 
-                            <Typography fontSize={isMobile ? '10px' : '12px'} color={"red"}>{"Bạn đã sử dụng mã này trước đó"}</Typography>
+                            <Typography fontSize={isMobile ? '10px' : '12px'} color={"red"}>{t("editional.codeUsed")}</Typography>
                         }
                     </Box>
                 </Box>

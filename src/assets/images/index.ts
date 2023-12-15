@@ -48,6 +48,7 @@ import GuildLineImage from './guildline.jpg'
 import PolicyImage from './policy.jpg'
 import PinImage from './pinMap.png'
 import SearchIcon from './search.png'
+import Snow from './Snow.jpg'
 
 export {
     MotorbikeImage,
@@ -99,5 +100,6 @@ export {
     GuildLineImage,
     PolicyImage,
     PinImage,
-    SearchIcon
+    SearchIcon,
+    Snow
 };
