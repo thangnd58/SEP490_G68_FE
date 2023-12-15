@@ -692,7 +692,7 @@
     "toolTipPaid": "Đã thanh toán",
     "toolTipReport": "Báo cáo",
     "perDay": "Ngày",
-    "booking": "Khoảng cách",
+    "distance": "Khoảng cách",
     "distance_hint": "Đây là khoảng cách từ địa chỉ nhận xe của bạn đến vị trí mặc định của xe.",
     "freeDeliveryDistance": "Khoảng cách giao xe miễn phí",
     "freeDeliveryDistance_hint": "Đây là khoảng cách miễn phí giao xe của chủ xe.",

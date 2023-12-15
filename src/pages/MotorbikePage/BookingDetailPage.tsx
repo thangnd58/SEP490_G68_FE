@@ -250,7 +250,7 @@ export const BookingDetailPage = () => {
           );
           setShowModal(true);
         });
-      } catch (error) {}
+      } catch (error) { }
     }
   }, []);
 
@@ -274,7 +274,7 @@ export const BookingDetailPage = () => {
           window.location.replace(res.data);
         }
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const [position, setPosition] = useState(0);
@@ -330,7 +330,7 @@ export const BookingDetailPage = () => {
       setTimeout(() => {
         navigate(ROUTES.homepage);
       }, 1000);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const showModalCancelBooking = (id: number) => {
@@ -505,10 +505,10 @@ export const BookingDetailPage = () => {
                       {activeStep === 0
                         ? t("booking.timeRemainingPay")
                         : booking.status === "PendingDelivery"
-                        ? t("booking.startUsingService")
-                        : booking.status === "Delivered"
-                        ? t("booking.startedUsingService")
-                        : ""}
+                          ? t("booking.startUsingService")
+                          : booking.status === "Delivered"
+                            ? t("booking.startedUsingService")
+                            : ""}
                     </Typography>
                     <Box
                       display={"flex"}
@@ -535,75 +535,75 @@ export const BookingDetailPage = () => {
                         >
                           {(booking.status === "PendingDelivery" ||
                             booking.status === "Delivered") && (
-                            <img
-                              src={MotorbikeImage}
-                              width={128}
-                              height={128}
-                              className="motorcycle-image"
-                              style={{
-                                transform: isMovingMotorbike
-                                  ? `translateX(-50%) translateX(${position}px)`
-                                  : "",
-                                transition: isMovingMotorbike
-                                  ? "transform 0.2s ease-in-out"
-                                  : "",
-                              }}
-                            />
-                          )}
+                              <img
+                                src={MotorbikeImage}
+                                width={128}
+                                height={128}
+                                className="motorcycle-image"
+                                style={{
+                                  transform: isMovingMotorbike
+                                    ? `translateX(-50%) translateX(${position}px)`
+                                    : "",
+                                  transition: isMovingMotorbike
+                                    ? "transform 0.2s ease-in-out"
+                                    : "",
+                                }}
+                              />
+                            )}
                           {(booking.status === "PendingReview" ||
                             booking.status === "Finished") && (
-                            <Box
-                              display={"flex"}
-                              flexDirection={"column"}
-                              alignItems={"center"}
-                              gap={"8px"}
-                              justifyContent={"center"}
-                            >
                               <Box
                                 display={"flex"}
-                                flexDirection={"row"}
+                                flexDirection={"column"}
                                 alignItems={"center"}
                                 gap={"8px"}
+                                justifyContent={"center"}
                               >
-                                <CheckCircle
-                                  sx={{
-                                    color: theme.palette.primary.main,
-                                    width: "56px",
-                                    height: "56px",
-                                  }}
-                                />
-                                <Typography color={"common.black"}>
-                                  Chuyến đi đã kết thúc
-                                </Typography>
-                              </Box>
-                              <MyCustomButton
-                                icon={
-                                  <Feedback
+                                <Box
+                                  display={"flex"}
+                                  flexDirection={"row"}
+                                  alignItems={"center"}
+                                  gap={"8px"}
+                                >
+                                  <CheckCircle
                                     sx={{
-                                      color: "main",
+                                      color: theme.palette.primary.main,
+                                      width: "56px",
+                                      height: "56px",
                                     }}
                                   />
-                                }
-                                iconPosition="left"
-                                width="auto"
-                                onClick={() =>
-                                  setContentModal(
-                                    <ConfirmCompleteTripModal
-                                      booking={booking}
-                                      isMobile={isMobile}
-                                      setReloadBooking={setReloadBooking}
+                                  <Typography color={"common.black"}>
+                                    Chuyến đi đã kết thúc
+                                  </Typography>
+                                </Box>
+                                <MyCustomButton
+                                  icon={
+                                    <Feedback
+                                      sx={{
+                                        color: "main",
+                                      }}
                                     />
-                                  )
-                                }
-                                content={
-                                  booking.status === "Finished"
-                                    ? t("booking.myfeedback")
-                                    : t("booking.commentandrating")
-                                }
-                                variant="outlined"
-                              />
-                            </Box>
-                          )}
+                                  }
+                                  iconPosition="left"
+                                  width="auto"
+                                  onClick={() =>
+                                    setContentModal(
+                                      <ConfirmCompleteTripModal
+                                        booking={booking}
+                                        isMobile={isMobile}
+                                        setReloadBooking={setReloadBooking}
+                                      />
+                                    )
+                                  }
+                                  content={
+                                    booking.status === "Finished"
+                                      ? t("booking.myfeedback")
+                                      : t("booking.commentandrating")
+                                  }
+                                  variant="outlined"
+                                />
+                              </Box>
+                            )}
                         </Box>
                       )}
                     </Box>
@@ -929,8 +929,7 @@ export const BookingDetailPage = () => {
                       color={theme.palette.text.primary}
                       sx={{ fontSize: "16px", fontWeight: "600" }}
                     >
-                      {`${
-                        booking &&
+                      {`${booking &&
                         booking.motorbikes &&
                         formatMoneyNew(
                           booking.motorbikes.reduce(
@@ -938,7 +937,7 @@ export const BookingDetailPage = () => {
                             0
                           ) || 0
                         )
-                      }/${t("booking.perDay")}`}{" "}
+                        }/${t("booking.perDay")}`}{" "}
                       x{" "}
                       {booking &&
                         booking.motorbikes &&
@@ -998,7 +997,7 @@ export const BookingDetailPage = () => {
                             0
                           ) || 0
                         )}`}
-                        onClick={() => {}}
+                        onClick={() => { }}
                         position="right-start"
                       />
                     </Box>
@@ -1006,8 +1005,7 @@ export const BookingDetailPage = () => {
                       color={theme.palette.text.primary}
                       sx={{ fontSize: "16px", fontWeight: "600" }}
                     >
-                      {`${
-                        booking &&
+                      {`${booking &&
                         booking.motorbikes &&
                         formatMoneyNew(
                           booking.motorbikes.reduce(
@@ -1015,7 +1013,7 @@ export const BookingDetailPage = () => {
                             0
                           ) || 0
                         )
-                      }/${t("booking.perDay")}`}{" "}
+                        }/${t("booking.perDay")}`}{" "}
                       x{" "}
                       {booking &&
                         booking.motorbikes &&
@@ -1075,7 +1073,7 @@ export const BookingDetailPage = () => {
                         }
                         hasTooltip
                         tooltipText={t("booking.totalPriceService_hint")}
-                        onClick={() => {}}
+                        onClick={() => { }}
                         position="right-start"
                       />
                     </Box>
@@ -1239,7 +1237,7 @@ export const BookingDetailPage = () => {
                       fontWeight: "600",
                       textDecoration:
                         booking.status !== BookingStatus.PendingPayment &&
-                        booking.status !== BookingStatus.PendingDelivery
+                          booking.status !== BookingStatus.PendingDelivery
                           ? "line-through"
                           : "none",
                     }}
@@ -1348,7 +1346,13 @@ export const BookingDetailPage = () => {
                               padding={"8px"}
                             >
                               <img alt="my-wallet" src={VNPay} height={24} />
-                              {t("booking.payVnPay")}
+                              <Typography
+                                fontSize={isMobile ? 14 : 16}
+                                fontWeight={"500"}
+                                color={"common.black"}
+                              >
+                                {t("booking.payVnPay")}
+                              </Typography>
                             </Box>
                           }
                           sx={{
@@ -1405,7 +1409,13 @@ export const BookingDetailPage = () => {
                           padding={"8px"}
                         >
                           <img alt="my-wallet" src={VNPay} height={24} />
-                          {t("booking.payVnPay")}
+                          <Typography
+                            fontSize={isMobile ? 14 : 16}
+                            fontWeight={"500"}
+                            color={"common.black"}
+                          >
+                            {t("booking.payVnPay")}
+                          </Typography>
                         </Box>
                       ) : (
                         <Box
@@ -1425,7 +1435,11 @@ export const BookingDetailPage = () => {
                             width={24}
                             height={24}
                           />
-                          {`${t("booking.payWallet")}`}
+                          <Typography
+                            fontSize={isMobile ? 14 : 16}
+                            fontWeight={"400"}
+                            color={"common.black"}
+                          >{`${t("booking.payWallet")}`}</Typography>
                         </Box>
                       )}
                     </Box>
