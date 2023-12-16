@@ -7,12 +7,16 @@ import UserService from "../../services/UserService";
 import { getUserNotificationInfo } from "./notificationReducer";
 
 export interface UserInfo {
-  user: null | User
+  user: null | User;
 }
 
 const storedUserInfo = localStorage.getItem("userInfo");
 const initialState: UserInfo = {
-  user: UserService.isLoggedIn() ? (storedUserInfo ? JSON.parse(storedUserInfo) : null) : null,
+  user: UserService.isLoggedIn()
+    ? storedUserInfo
+      ? JSON.parse(storedUserInfo)
+      : null
+    : null,
 };
 
 export const authReducer = createSlice({
@@ -20,11 +24,11 @@ export const authReducer = createSlice({
   initialState,
   reducers: {
     updateUser: (state, action) => {
-      state.user = action.payload
+      state.user = action.payload;
     },
     deleteUser: (state) => {
-      state.user = null
-    }
+      state.user = null;
+    },
   },
 });
 
@@ -33,15 +37,20 @@ export const getUserInfo = (): any => {
     try {
       if (UserService.isLoggedIn()) {
         const userInfo = await UserService.getUserInfo();
-        //@ts-ignore
-        dispatch(updateUser(userInfo.data))
-        dispatch(getUserNotificationInfo())
+        const licence = await UserService.getLisenceInfo();
+        const userNew: User = {
+          //@ts-ignore
+          ...userInfo.data,
+          licence: licence.data,
+        };
+        dispatch(updateUser(userNew));
+        dispatch(getUserNotificationInfo());
         //@ts-ignore
         localStorage.setItem("userInfo", JSON.stringify(userInfo.data));
       } else {
         localStorage.removeItem("userInfo");
       }
-    } catch (err) { }
+    } catch (err) {}
   };
 };
 
@@ -50,13 +59,11 @@ export const deleteUserInfor = (): any => {
     try {
       if (!UserService.isLoggedIn()) {
         //@ts-ignore
-        dispatch(deleteUser())
+        dispatch(deleteUser());
       }
-    } catch (err) { }
+    } catch (err) {}
   };
 };
-
-
 
 export const { updateUser, deleteUser } = authReducer.actions;
 export default authReducer.reducer;

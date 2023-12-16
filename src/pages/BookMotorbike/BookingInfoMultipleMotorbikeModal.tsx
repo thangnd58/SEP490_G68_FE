@@ -174,8 +174,8 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
         })
         setIsProcessingBooking(true)
       }
-      if (user?.phone === ""
-        // || user?.license === null
+      if (user?.phoneVerified === false
+        || user?.licence?.status !== 1 || user?.licence === null
       ) {
         setIsProcessingBooking(true)
       }
@@ -712,10 +712,10 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                                 }
                               }} content={t("booking.bookMotorbikeButton")} variant='contained' />
                             {
-                              user?.phone === "" && <ErrorMessage message={t("booking.notHavePhone")} />
+                              user?.phoneVerified === false && <ErrorMessage message={t("booking.notHavePhone")} />
                             }
                             {
-                              // user?.license === null && <ErrorMessage message={t("booking.notHaveLicense")} />
+                              (user?.licence?.status !== 1 || user?.licence === null) && <ErrorMessage message={t("booking.notHaveLicense")} />
                             }
                           </>
 

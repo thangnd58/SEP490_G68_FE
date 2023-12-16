@@ -207,8 +207,8 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
     }
     BookingService.getPreviewBooking(bookingPreview).then((data) => {
       setPreviewBookingData(data)
-      setIsProcessingBooking(data.motorbikes[0].status === "NotAvailable" || user?.phone === "" 
-      // || user?.license === null
+      setIsProcessingBooking(data.motorbikes[0].status === "NotAvailable" || user?.phoneVerified === false
+      || user?.licence?.status !== 1 || user?.licence === null
       )
       if (data.promotion && data.promotion.status === "NotAvailable") {
         ToastComponent(isVn ? data.promotion.statusComment[0].vi : data.promotion.statusComment[0].en, "warning")
@@ -835,10 +835,10 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                             }
                           }} content={t("booking.bookMotorbikeButton")} variant='contained' />
                         {
-                          user?.phone === "" && <ErrorMessage message={t("booking.notHavePhone")} />
+                          user?.phoneVerified === false && <ErrorMessage message={t("booking.notHavePhone")} />
                         }
                         {
-                          // user?.license === null && <ErrorMessage message={t("booking.notHaveLicense")} />
+                          (user?.licence?.status !== 1 || user?.licence === null) && <ErrorMessage message={t("booking.notHaveLicense")} />
                         }
                       </>
                     }

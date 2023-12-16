@@ -717,7 +717,7 @@
     "toastResultChangeSuccess": "Successfully created request to change address and return time",
     "toastResultChangeError": "Failed to create request to change address and return time",
     "toastResultSuccessReply": "Status update successful",
-     "toastResultErrorReply": "Status update failed",
+    "toastResultErrorReply": "Status update failed",
     "paymentType": "Payment type",
     "payWallet": "Wallet balance",
     "payVnPay": "VN Pay e-wallet",
@@ -754,8 +754,8 @@
     "completeBook": "{{count}} bookings",
     "userRent": "Renter",
     "motorbikeOwner": "Motorbike Owner",
-    "notHavePhone": "You don't have phone number",
-    "notHaveLicense": "You don't have driver's license"
+    "notHavePhone": "You have not verified your phone number",
+    "notHaveLicense": "You have not verified your driver's license"
   },
   "policy": {
     "documentRental": "Motorbike rental documents",
@@ -933,8 +933,8 @@
     "PaymentGuideline": "Payment Guideline",
     "RegulationGuideline": "Regulation Guideline",
     "notEnoughMinMoney": "Your order hasn't reached the minimum amount to use the promotion code",
-    "codeUsing" : "You are using this code",
-    "codeUsed" : "You have used this code"
+    "codeUsing": "You are using this code",
+    "codeUsed": "You have used this code"
   },
   "booking.addressReturn": "Motorbike return location"
 }

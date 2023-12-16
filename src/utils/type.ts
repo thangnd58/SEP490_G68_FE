@@ -18,6 +18,7 @@ export interface User {
     motorbikes: Motorbike[];
     totalBooking: number;
     averageRating: number;
+    licence?: Lisence
 }
 
 export interface Role {
