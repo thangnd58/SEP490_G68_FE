@@ -10,12 +10,13 @@ import MyIcon from "../../components/common/MyIcon";
 import { CloseOutlined } from "@mui/icons-material";
 import usei18next from "../../hooks/usei18next";
 import { LogoHeader, NewBooking } from "../../assets/images";
-import { getPreviousTimeRelative } from "../../utils/helper";
+import { formatMoneyNew, getPreviousTimeRelative } from "../../utils/helper";
 import useThemePage from "../../hooks/useThemePage";
 import { Link } from "react-router-dom";
 import MyCustomButton from "../../components/common/MyButton";
 import { Avatar } from "antd";
 import { BookingService } from "../../services/BookingService";
+import dayjs from "dayjs";
 
 export const DetailNotification = ({ id }: { id: number }) => {
     const { closeModal } = useContext(ModalContext);
@@ -28,22 +29,30 @@ export const DetailNotification = ({ id }: { id: number }) => {
         NotificationService.getNotification(id).then((data) => {
             //@ts-ignore
             setNotify(data.data)
-            dispatch(getUserNotificationInfo())
+            // dispatch(getUserNotificationInfo())
         })
     }, [id])
 
-    // useEffect(() => {
-    //     if (notify?.title === "Có đơn đặt xe mới") {
-    //         // split url to get booking id
-    //         const url = notify?.referenceURL;
-    //         const bookingId = url?.split("/")[url?.split("/").length - 1];
-    //         BookingService.getBookingById(bookingId).then((data) => {
-    //             //@ts-ignore
-    //             setBooking(data.data)
+    useEffect(() => {
+        if (notify?.title === "Có đơn đặt xe mới") {
+            // split url to get booking id
+            const url = notify?.referenceURL;
+            const bookingId = url?.split("/")[url?.split("/").length - 1];
+            BookingService.getRentalBookingDetail(bookingId).then((data) => {
+                //@ts-ignore
+                setBooking(data)
+            })
+        }
+    }, [notify])
 
-    //         })
-    //     }
-    // }, [notify])
+    // tính thời gian thuê xe( làm tròn đến nửa ngày)
+    const caculateTime = (start: string, end: string) => {
+        const startTime = dayjs(start);
+        const endTime = dayjs(end);
+        const timeInDays = endTime.diff(startTime, 'day', true);
+        const roundedTime = Math.round(timeInDays * 2) / 2;
+        return roundedTime;
+    }
 
     return (
         <>
@@ -87,18 +96,24 @@ export const DetailNotification = ({ id }: { id: number }) => {
                         >
                             {/* Thông tin user */}
                             <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} gap={'8px'}>
-                                <Avatar size={100} src={"https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-PNG-Image-File.png"} />
+                                <Avatar size={100} src={booking?.user.avatarUrl} />
                                 <Box display={'flex'} flexDirection={'column'} alignItems={'start'} justifyContent={'center'}>
-                                    <Typography variant="h6" fontWeight={'700'} fontSize={"16px"}>Nguyễn Văn A</Typography>
+                                    <Typography variant="h6" fontWeight={'700'} fontSize={"16px"}>{booking?.user.name}</Typography>
                                 </Box>
                             </Box>
                             {/* Thông tin đơn hàng */}
                             <Box display={'flex'} flexDirection={'column'} alignItems={'start'} justifyContent={'center'} gap={'8px'}>
-                                <Typography variant="h6" fontWeight={'400'} fontSize={"14px"}>{t("booking.startDate")}: <span style={{fontSize:"16px", fontWeight:"600"}}>12/10/2021</span></Typography>
-                                <Typography variant="h6" fontWeight={'400'} fontSize={"14px"}>{t("booking.endDate")}: <span style={{fontSize:"16px", fontWeight:"600"}}>15/10/2021</span></Typography>
-                                <Typography variant="h6" fontWeight={'400'} fontSize={"14px"}>{t("booking.timeRent")}: <span style={{fontSize:"16px", fontWeight:"600"}}>3</span></Typography>
-                                <Typography variant="h6" fontWeight={'400'} fontSize={"14px"}>{t("booking.numberMotorbike")}: <span style={{fontSize:"16px", fontWeight:"600"}}>2</span></Typography>
-                                <Typography variant="h6" fontWeight={'400'} fontSize={"14px"}>{t("booking.totalPrice")}: <span style={{fontSize:"16px", fontWeight:"600"}}>1.000.000 VNĐ</span></Typography>
+                                <Typography variant="h6" fontWeight={'400'} fontSize={"14px"}>{t("booking.startDate")}: <span style={{ fontSize: "16px", fontWeight: "600" }}>{dayjs(booking?.startDatetime).format("DD/MM/YYYY HH:mm")}</span></Typography>
+                                <Typography variant="h6" fontWeight={'400'} fontSize={"14px"}>{t("booking.endDate")}: <span style={{ fontSize: "16px", fontWeight: "600" }}>{dayjs(booking?.endDatetime).format("DD/MM/YYYY HH:mm")}</span></Typography>
+                                <Typography variant="h6" fontWeight={'400'} fontSize={"14px"}>{t("booking.timeRent")}: <span style={{ fontSize: "16px", fontWeight: "600" }}>
+                                    {caculateTime(booking?.startDatetime!, booking?.endDatetime!)}
+                                </span></Typography>
+                                <Typography variant="h6" fontWeight={'400'} fontSize={"14px"}>{t("booking.numberMotorbike")}: <span style={{ fontSize: "16px", fontWeight: "600" }}>
+                                    {booking?.motorbikes.length}
+                                </span></Typography>
+                                <Typography variant="h6" fontWeight={'400'} fontSize={"14px"}>{t("booking.totalPrice")}: <span style={{ fontSize: "16px", fontWeight: "600" }}>
+                                    {formatMoneyNew(booking?.totalAmount!)}
+                                </span></Typography>
                             </Box>
 
                         </DialogContent>
