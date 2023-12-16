@@ -21,6 +21,12 @@ import MyDialog from '../../../components/common/MyDialog';
 import { Image } from 'antd';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { ModalContext } from '../../../contexts/ModalContext';
+import {
+  HubConnectionBuilder,
+  HubConnectionState,
+  HubConnection,
+} from "@microsoft/signalr";
+import { SERVER_URL } from '../../../utils/Constant';
 
 interface ChildComponentProps {
   setType: React.Dispatch<React.SetStateAction<string>>;
@@ -40,9 +46,31 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
   const dispatch = useAppDispatch();
   const { isMobile } = useThemePage();
   const { setShowModal, setContentModal } = useContext(ModalContext);
+  const [reloadLicence, setReloadLicence] = useState<boolean>(false);
   useEffect(() => {
     getLisence();
   }, []);
+
+  useEffect(() => {
+    setUpSignalRConnection().then((con) => { });
+  }, []);
+
+  const setUpSignalRConnection = async () => {
+    const connection = new HubConnectionBuilder()
+      .withUrl(`${SERVER_URL}/customhub`)
+      .withAutomaticReconnect()
+      .build();
+    connection.on("IsReloadLicence", (reload: boolean) => {
+      setReloadLicence((prev) => !prev)
+    });
+
+    try {
+      await connection.start();
+    } catch (err) {
+      console.log(err);
+    }
+    return connection;
+  };
 
   const getLisence = async () => {
     try {
