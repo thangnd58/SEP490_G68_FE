@@ -13,12 +13,7 @@ import { Chip, Typography } from '@mui/material';
 import theme from '../../../utils/theme';
 import MyIcon from '../../../components/common/MyIcon';
 import EditIcon from '@mui/icons-material/Edit';
-import {
-    HubConnectionBuilder,
-    HubConnectionState,
-    HubConnection,
-} from "@microsoft/signalr";
-import { SERVER_URL } from '../../../utils/Constant';
+import { connection } from '../../../redux/reducers/signalRReducer';
 
 const MotorbikeManagement = () => {
 
@@ -29,28 +24,13 @@ const MotorbikeManagement = () => {
 
     useEffect(() => {
         getAllMotorbikes();
-    }, [])
+    }, [reload])
 
-    // useEffect(() => {
-    //     setUpSignalRConnection().then((con) => { });
-    // }, []);
-
-    // const setUpSignalRConnection = async () => {
-    //     const connection = new HubConnectionBuilder()
-    //         .withUrl(`${SERVER_URL}/customhub`)
-    //         .withAutomaticReconnect()
-    //         .build();
-    //     connection.on("IsReloadMotorbikes", (reload: boolean) => {
-    //         setReload((prev) => !prev)
-    //     });
-
-    //     try {
-    //         await connection.start();
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    //     return connection;
-    // };
+    useEffect(() => {
+        connection.on('IsReloadMotorbikes', () => {
+            setReload((prev) => !prev)
+        });
+    }, []);
 
     const getAllMotorbikes = async () => {
         try {

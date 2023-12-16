@@ -56,7 +56,7 @@ import {
   UnitedKingDomFlag,
   VietNamFlag,
 } from "../../assets/images";
-import { ROUTES, SERVER_URL } from "../../utils/Constant";
+import { ROUTES } from "../../utils/Constant";
 import MyIcon from "../../components/common/MyIcon";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAction";
 import MyCustomButton from "../../components/common/MyButton";
@@ -77,6 +77,7 @@ import {
   HubConnectionState,
   HubConnection,
 } from "@microsoft/signalr";
+import { connection } from "../../redux/reducers/signalRReducer";
 
 const LanguageBox = memo(() => {
   const { isVn, changeLang } = usei18next();
@@ -181,26 +182,10 @@ function Header() {
 
 
   useEffect(() => {
-    setUpSignalRConnection().then((con) => {});
-  }, []);
-
-  const setUpSignalRConnection = async () => {
-    const connection = new HubConnectionBuilder()
-      .withUrl(`${SERVER_URL}/customhub`)
-      .withAutomaticReconnect()
-      .build();
-    connection.on("IsReloadNotification", (reload: boolean) => {
-      dispatch(getUserNotificationInfo())
+    connection.on('IsReloadNotification', () => {
+      dispatch(getUserNotificationInfo());
     });
-
-    try {
-      await connection.start();
-    } catch (err) {
-      console.log(err);
-    }
-    return connection;
-  };
-  
+  }, []);
 
   useEffect(() => {
     dispatch(getCartInfo());

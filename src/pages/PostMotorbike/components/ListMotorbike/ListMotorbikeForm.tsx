@@ -6,7 +6,7 @@ import { Chip, CircularProgress, Divider, FormControl, Grid, Modal, Paper, Popov
 import { Box } from '@mui/system'
 import { ChangeCircleOutlined, CheckCircleOutline, CloseOutlined, EditOutlined, ErrorOutline, GasMeterOutlined, LocalDrinkOutlined, LocationOn, NewReleasesOutlined, StopCircleOutlined, WarningAmber } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES, SERVER_URL } from '../../../../utils/Constant';
+import { ROUTES } from '../../../../utils/Constant';
 import { DataGrid } from '@mui/x-data-grid';
 import { Booking, Feedback, Motorbike } from '../../../../utils/type';
 import { PostMotorbikeService } from '../../../../services/PostMotorbikeService';
@@ -29,11 +29,7 @@ import FeedbackCard from '../../../HomePage/components/FeedbackCard';
 import { RequireWhenRent } from '../../../MotorbikePage/components/RequireWhenRent';
 import { FeedbackService } from '../../../../services/FeedbackService';
 import { ModalContext } from '../../../../contexts/ModalContext';
-import {
-  HubConnectionBuilder,
-  HubConnectionState,
-  HubConnection,
-} from "@microsoft/signalr";
+import { connection } from '../../../../redux/reducers/signalRReducer';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -115,25 +111,10 @@ const ListMotorbikeForm = () => {
   }, [reload])
 
   useEffect(() => {
-    setUpSignalRConnection().then((con) => { });
-  }, []);
-
-  const setUpSignalRConnection = async () => {
-    const connection = new HubConnectionBuilder()
-      .withUrl(`${SERVER_URL}/customhub`)
-      .withAutomaticReconnect()
-      .build();
-    connection.on("IsReloadMotorbikes", (reload: boolean) => {
+    connection.on('IsReloadMotorbikes', () => {
       setReload((prev) => !prev)
     });
-
-    try {
-      await connection.start();
-    } catch (err) {
-      console.log(err);
-    }
-    return connection;
-  };
+  }, []);
 
   const getAllMotorbikesRegistered = async () => {
     try {

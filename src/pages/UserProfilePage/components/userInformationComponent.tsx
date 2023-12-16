@@ -21,12 +21,7 @@ import MyDialog from '../../../components/common/MyDialog';
 import { Image } from 'antd';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { ModalContext } from '../../../contexts/ModalContext';
-import {
-  HubConnectionBuilder,
-  HubConnectionState,
-  HubConnection,
-} from "@microsoft/signalr";
-import { SERVER_URL } from '../../../utils/Constant';
+import { connection } from '../../../redux/reducers/signalRReducer';
 
 interface ChildComponentProps {
   setType: React.Dispatch<React.SetStateAction<string>>;
@@ -52,25 +47,10 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
   }, [reloadLicence]);
 
   useEffect(() => {
-    setUpSignalRConnection().then((con) => { });
-  }, []);
-
-  const setUpSignalRConnection = async () => {
-    const connection = new HubConnectionBuilder()
-      .withUrl(`${SERVER_URL}/customhub`)
-      .withAutomaticReconnect()
-      .build();
-    connection.on("IsReloadLicence", (reload: boolean) => {
+    connection.on('IsReloadLicence', () => {
       setReloadLicence((prev) => !prev)
     });
-
-    try {
-      await connection.start();
-    } catch (err) {
-      console.log(err);
-    }
-    return connection;
-  };
+  }, []);
 
   const getLisence = async () => {
     try {
@@ -127,18 +107,18 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
       const response = await UserService.changeLicense(licenceNumber, fullName, dob, licenceImage);
       if (response.status === 200) {
         if (fileLicence) {
-        const params: ImageUpload = {
-          tableName: 'licence',
-          columnName: 'licenceImage',
-          code: response.data,
-          fileName: fileLicence!.name,
-        };
-        const responseUrl = await UploadImageService.generateUrlUpload(params);
-        if (responseUrl.status !== 200) {
-          ToastComponent(t('toast.uploadImage.error'), 'error');
-          return;
-        }
-        const urlUpload = responseUrl.data.uploadUrl;
+          const params: ImageUpload = {
+            tableName: 'licence',
+            columnName: 'licenceImage',
+            code: response.data,
+            fileName: fileLicence!.name,
+          };
+          const responseUrl = await UploadImageService.generateUrlUpload(params);
+          if (responseUrl.status !== 200) {
+            ToastComponent(t('toast.uploadImage.error'), 'error');
+            return;
+          }
+          const urlUpload = responseUrl.data.uploadUrl;
           const responseUpload = await UploadImageService.uploadImage(urlUpload, fileLicence);
 
           if (responseUpload.status !== 200) {
@@ -384,13 +364,13 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
                       {user.phone ? user.phone : t('userProfile.InputProfile')}
                     </Typography>
 
-                        <MyIcon icon={<EditIcon sx={{
-                          width: '16px',
-                          height: '16px',
-                        }} />} noPadding hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => {
-                          setType('changePhone');
-                          setShowButtons(false);
-                        }} />
+                    <MyIcon icon={<EditIcon sx={{
+                      width: '16px',
+                      height: '16px',
+                    }} />} noPadding hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => {
+                      setType('changePhone');
+                      setShowButtons(false);
+                    }} />
                   </Box>
                 </Box>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>

@@ -39,8 +39,7 @@ import dayjs from "dayjs";
 import {
   BookingPaymentType,
   BookingStatus,
-  ROUTES,
-  SERVER_URL,
+  ROUTES
 } from "../../utils/Constant";
 import MyCustomButton from "../../components/common/MyButton";
 import { ModalContext } from "../../contexts/ModalContext";
@@ -70,6 +69,7 @@ import {
   HubConnectionState,
   HubConnection,
 } from "@microsoft/signalr";
+import { connection } from "../../redux/reducers/signalRReducer";
 
 interface Location {
   lat: number;
@@ -105,25 +105,10 @@ export const BookingDetailPageOwner = () => {
   });
 
   useEffect(() => {
-    setUpSignalRConnection().then((con) => { });
-  }, []);
-
-  const setUpSignalRConnection = async () => {
-    const connection = new HubConnectionBuilder()
-      .withUrl(`${SERVER_URL}/customhub`)
-      .withAutomaticReconnect()
-      .build();
-    connection.on("IsReloadBooking", (reload: boolean) => {
+    connection.on('IsReloadBooking', () => {
       setReloadBooking((prev) => !prev)
     });
-
-    try {
-      await connection.start();
-    } catch (err) {
-      console.log(err);
-    }
-    return connection;
-  };
+  }, []);
 
   useEffect(() => {
     try {

@@ -13,12 +13,7 @@ import { Chip, Typography } from '@mui/material';
 import theme from '../../../utils/theme';
 import MyIcon from '../../../components/common/MyIcon';
 import EditIcon from '@mui/icons-material/Edit';
-import {
-    HubConnectionBuilder,
-    HubConnectionState,
-    HubConnection,
-  } from "@microsoft/signalr";
-  import { SERVER_URL } from '../../../utils/Constant';
+import { connection } from '../../../redux/reducers/signalRReducer';
 
 const LicenceManagement = () => {
     const [listLicences, setListLicences] = useState<Lisence[]>([]);
@@ -28,28 +23,13 @@ const LicenceManagement = () => {
 
     useEffect(() => {
         getAllLicences();
-    }, [])
+    }, [reloadLicence])
 
-    // useEffect(() => {
-    //     setUpSignalRConnection().then((con) => { });
-    // }, []);
-
-    // const setUpSignalRConnection = async () => {
-    //     const connection = new HubConnectionBuilder()
-    //         .withUrl(`${SERVER_URL}/customhub`)
-    //         .withAutomaticReconnect()
-    //         .build();
-    //     connection.on("IsReloadLicence", (reload: boolean) => {
-    //         setReloadLicence((prev) => !prev)
-    //     });
-
-    //     try {
-    //         await connection.start();
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    //     return connection;
-    // };
+    useEffect(() => {
+        connection.on('IsReloadLicence', () => {
+            setReloadLicence((prev) => !prev)
+        });
+    }, []);
 
     const getAllLicences = async () => {
         try {
