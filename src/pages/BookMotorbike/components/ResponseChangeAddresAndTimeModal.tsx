@@ -1,4 +1,4 @@
-import { Box, Modal, TextField, Typography } from "@mui/material";
+import { Box, Dialog, Modal, TextField, Typography } from "@mui/material";
 import React, { Dispatch, SetStateAction, useContext } from "react";
 import useThemePage from "../../../hooks/useThemePage";
 import usei18next from "../../../hooks/usei18next";
@@ -14,6 +14,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { BookingService } from "../../../services/BookingService";
 import ToastComponent from "../../../components/toast/ToastComponent";
+import { Transition } from "../../WalletPage/common/Transition";
 
 function ResponseChangeAddresAndTimeModal(props: {
   booking: Booking;
@@ -28,7 +29,7 @@ function ResponseChangeAddresAndTimeModal(props: {
     initialValues: {
       returnStatusComment: booking.returnStatusComment || "",
     },
-    onSubmit: async (values) => {},
+    onSubmit: async (values) => { },
   });
 
   const { values, errors, touched, handleChange, handleSubmit, setFieldValue } =
@@ -67,20 +68,22 @@ function ResponseChangeAddresAndTimeModal(props: {
   };
 
   return (
-    <Modal
+    <Dialog
+      className='hiddenSroll'
       open={true}
-      aria-labelledby="map-modal-title"
-      aria-describedby="map-modal-description"
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        overflowY: "auto",
-        zIndex: 10000,
+      onClose={() => setContentModal(<></>)}
+      TransitionComponent={Transition}
+      fullWidth
+      PaperProps={{
+        sx: {
+          borderRadius: "16px",
+          padding: '16px',
+          margin: isMobile ? '0px' : '32px',
+          maxWidth: isMobile ? '95%' : '50%',
+        }
       }}
     >
       <Box
-        width={isMobile ? "70%" : "50%"}
         height={"auto"}
         sx={{
           padding: "16px 32px",
@@ -153,8 +156,7 @@ function ResponseChangeAddresAndTimeModal(props: {
                   )}
                   fullWidth
                   value={dayjs(booking.endDatetime).format("DD-MM-YYYY HH:mm")}
-                  SelectProps={{
-                    native: true,
+                  InputProps={{
                     readOnly: true
                   }}
                 />
@@ -187,8 +189,7 @@ function ResponseChangeAddresAndTimeModal(props: {
                   value={dayjs(booking.returnDatetime).format(
                     "DD-MM-YYYY HH:mm"
                   )}
-                  SelectProps={{
-                    native: true,
+                  InputProps={{
                     readOnly: true
                   }}
                 />
@@ -219,8 +220,7 @@ function ResponseChangeAddresAndTimeModal(props: {
                   )}
                   fullWidth
                   value={booking.address}
-                  SelectProps={{
-                    native: true,
+                  InputProps={{
                     readOnly: true
                   }}
                 />
@@ -251,8 +251,7 @@ function ResponseChangeAddresAndTimeModal(props: {
                   )}
                   fullWidth
                   value={booking.returnAddress}
-                  SelectProps={{
-                    native: true,
+                  InputProps={{
                     readOnly: true
                   }}
                 />
@@ -302,17 +301,17 @@ function ResponseChangeAddresAndTimeModal(props: {
           >
             <MyCustomButton
               variant="outlined"
-              content={t("ChangePhone.BtnConfirm")}
-              onClick={handleApproved}
-            />
-            <MyCustomButton
               content={t("licenseInfo.Reject")}
               onClick={handleRejected}
+            />
+            <MyCustomButton
+              content={t("ChangePhone.BtnConfirm")}
+              onClick={handleApproved}
             />
           </Box>
         </Box>
       </Box>
-    </Modal>
+    </Dialog>
   );
 }
 
