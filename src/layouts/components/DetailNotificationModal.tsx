@@ -115,9 +115,10 @@ export const DetailNotification = ({ id }: { id: number }) => {
                                     {formatMoneyNew(booking?.totalAmount!)}
                                 </span></Typography>
                             </Box>
-                            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} gap={'8px'} sx={{ mt: '1rem' }}>
-                                <Link to={notify?.referenceURL}><MyCustomButton content={t("favourite.item.view")} /></Link>
-                            </Box>
+                            {
+                                notify?.referenceURL !== "" &&
+                                <a href={notify?.referenceURL}><MyCustomButton content={t("favourite.item.view")} /></a>
+                            }
                         </DialogContent>
                     </Dialog>
                 ) : (
