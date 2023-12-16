@@ -29,7 +29,7 @@ export const DetailNotification = ({ id }: { id: number }) => {
         NotificationService.getNotification(id).then((data) => {
             //@ts-ignore
             setNotify(data.data)
-            // dispatch(getUserNotificationInfo())
+            dispatch(getUserNotificationInfo())
         })
     }, [id])
 
@@ -115,10 +115,12 @@ export const DetailNotification = ({ id }: { id: number }) => {
                                     {formatMoneyNew(booking?.totalAmount!)}
                                 </span></Typography>
                             </Box>
-
                         </DialogContent>
-                        <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} gap={'8px'} sx={{ mt: '1rem' }}>
-                            <Link to={notify?.referenceURL}><MyCustomButton content={t("favourite.item.view")} /></Link>
+                        <Box display={'flex'} flexDirection={'row'} justifyContent={'center'} alignItems={'center'} gap={'8px'} sx={{ padding: '16px' }}>
+                            {
+                                notify?.referenceURL !== "" &&
+                                <a href={notify?.referenceURL}><MyCustomButton content={t("favourite.item.view")} /></a>
+                            }
                         </Box>
                     </Dialog>
                 ) : (
