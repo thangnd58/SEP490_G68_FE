@@ -13,15 +13,44 @@ import { Chip, Typography } from '@mui/material';
 import theme from '../../../utils/theme';
 import MyIcon from '../../../components/common/MyIcon';
 import EditIcon from '@mui/icons-material/Edit';
+import {
+    HubConnectionBuilder,
+    HubConnectionState,
+    HubConnection,
+} from "@microsoft/signalr";
+import { SERVER_URL } from '../../../utils/Constant';
 
 const MotorbikeManagement = () => {
 
     const [listMotorbike, setListMotorbike] = useState<Motorbike[]>([]);
     const navigate = useNavigate();
     const { t } = usei18next();
+    const [reload, setReload] = useState<boolean>(false);
+
     useEffect(() => {
         getAllMotorbikes();
     }, [])
+
+    // useEffect(() => {
+    //     setUpSignalRConnection().then((con) => { });
+    // }, []);
+
+    // const setUpSignalRConnection = async () => {
+    //     const connection = new HubConnectionBuilder()
+    //         .withUrl(`${SERVER_URL}/customhub`)
+    //         .withAutomaticReconnect()
+    //         .build();
+    //     connection.on("IsReloadMotorbikes", (reload: boolean) => {
+    //         setReload((prev) => !prev)
+    //     });
+
+    //     try {
+    //         await connection.start();
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    //     return connection;
+    // };
 
     const getAllMotorbikes = async () => {
         try {
@@ -96,8 +125,8 @@ const MotorbikeManagement = () => {
                     <Box sx={{ cursor: 'pointer' }}>
                         <MyIcon icon={<EditIcon />} hasTooltip position='right' tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.motorbikeregister}/${params.value}`)} />
                     </Box>
-                :
-                null
+                    :
+                    null
             )
         },
     ];

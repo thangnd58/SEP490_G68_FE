@@ -69,12 +69,12 @@ function ResponseChangeAddresAndTimeModal(props: {
 
   return (
     <Dialog
-      className='hiddenSroll'
       open={true}
       onClose={() => setContentModal(<></>)}
       TransitionComponent={Transition}
       fullWidth
       PaperProps={{
+        className: "hiddenSroll",
         sx: {
           borderRadius: "16px",
           padding: '16px',

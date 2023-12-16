@@ -49,7 +49,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
   const [reloadLicence, setReloadLicence] = useState<boolean>(false);
   useEffect(() => {
     getLisence();
-  }, []);
+  }, [reloadLicence]);
 
   useEffect(() => {
     setUpSignalRConnection().then((con) => { });

@@ -125,7 +125,7 @@ export const BookingDetailPage = () => {
   // }, [])
 
   useEffect(() => {
-    setUpSignalRConnection().then((con) => {});
+    setUpSignalRConnection().then((con) => { });
   }, []);
 
   const setUpSignalRConnection = async () => {
@@ -278,7 +278,7 @@ export const BookingDetailPage = () => {
           );
           setShowModal(true);
         });
-      } catch (error) {}
+      } catch (error) { }
     }
   }, []);
 
@@ -302,7 +302,7 @@ export const BookingDetailPage = () => {
           window.location.replace(res.data);
         }
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const [position, setPosition] = useState(0);
@@ -358,7 +358,7 @@ export const BookingDetailPage = () => {
       setTimeout(() => {
         navigate(ROUTES.homepage);
       }, 1000);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const showModalCancelBooking = (id: number) => {
@@ -533,10 +533,10 @@ export const BookingDetailPage = () => {
                       {activeStep === 0
                         ? t("booking.timeRemainingPay")
                         : booking.status === "PendingDelivery"
-                        ? t("booking.startUsingService")
-                        : booking.status === "Delivered"
-                        ? t("booking.startedUsingService")
-                        : ""}
+                          ? t("booking.startUsingService")
+                          : booking.status === "Delivered"
+                            ? t("booking.startedUsingService")
+                            : ""}
                     </Typography>
                     <Box
                       display={"flex"}
@@ -563,75 +563,75 @@ export const BookingDetailPage = () => {
                         >
                           {(booking.status === "PendingDelivery" ||
                             booking.status === "Delivered") && (
-                            <img
-                              src={MotorbikeImage}
-                              width={128}
-                              height={128}
-                              className="motorcycle-image"
-                              style={{
-                                transform: isMovingMotorbike
-                                  ? `translateX(-50%) translateX(${position}px)`
-                                  : "",
-                                transition: isMovingMotorbike
-                                  ? "transform 0.2s ease-in-out"
-                                  : "",
-                              }}
-                            />
-                          )}
+                              <img
+                                src={MotorbikeImage}
+                                width={128}
+                                height={128}
+                                className="motorcycle-image"
+                                style={{
+                                  transform: isMovingMotorbike
+                                    ? `translateX(-50%) translateX(${position}px)`
+                                    : "",
+                                  transition: isMovingMotorbike
+                                    ? "transform 0.2s ease-in-out"
+                                    : "",
+                                }}
+                              />
+                            )}
                           {(booking.status === "PendingReview" ||
                             booking.status === "Finished") && (
-                            <Box
-                              display={"flex"}
-                              flexDirection={"column"}
-                              alignItems={"center"}
-                              gap={"8px"}
-                              justifyContent={"center"}
-                            >
                               <Box
                                 display={"flex"}
-                                flexDirection={"row"}
+                                flexDirection={"column"}
                                 alignItems={"center"}
                                 gap={"8px"}
+                                justifyContent={"center"}
                               >
-                                <CheckCircle
-                                  sx={{
-                                    color: theme.palette.primary.main,
-                                    width: "56px",
-                                    height: "56px",
-                                  }}
-                                />
-                                <Typography color={"common.black"}>
-                                  Chuyến đi đã kết thúc
-                                </Typography>
-                              </Box>
-                              <MyCustomButton
-                                icon={
-                                  <Feedback
+                                <Box
+                                  display={"flex"}
+                                  flexDirection={"row"}
+                                  alignItems={"center"}
+                                  gap={"8px"}
+                                >
+                                  <CheckCircle
                                     sx={{
-                                      color: "main",
+                                      color: theme.palette.primary.main,
+                                      width: "56px",
+                                      height: "56px",
                                     }}
                                   />
-                                }
-                                iconPosition="left"
-                                width="auto"
-                                onClick={() =>
-                                  setContentModal(
-                                    <ConfirmCompleteTripModal
-                                      booking={booking}
-                                      isMobile={isMobile}
-                                      setReloadBooking={setReloadBooking}
+                                  <Typography color={"common.black"}>
+                                    Chuyến đi đã kết thúc
+                                  </Typography>
+                                </Box>
+                                <MyCustomButton
+                                  icon={
+                                    <Feedback
+                                      sx={{
+                                        color: "main",
+                                      }}
                                     />
-                                  )
-                                }
-                                content={
-                                  booking.status === "Finished"
-                                    ? t("booking.myfeedback")
-                                    : t("booking.commentandrating")
-                                }
-                                variant="outlined"
-                              />
-                            </Box>
-                          )}
+                                  }
+                                  iconPosition="left"
+                                  width="auto"
+                                  onClick={() =>
+                                    setContentModal(
+                                      <ConfirmCompleteTripModal
+                                        booking={booking}
+                                        isMobile={isMobile}
+                                        setReloadBooking={setReloadBooking}
+                                      />
+                                    )
+                                  }
+                                  content={
+                                    booking.status === "Finished"
+                                      ? t("booking.myfeedback")
+                                      : t("booking.commentandrating")
+                                  }
+                                  variant="outlined"
+                                />
+                              </Box>
+                            )}
                         </Box>
                       )}
                     </Box>
@@ -677,8 +677,8 @@ export const BookingDetailPage = () => {
                         )}
                       </Box>
                       {
-                        (booking.returnStatus === "Approved" || booking.returnStatus === "Rejected") && booking.returnStatusComment !== "" && 
-                        <Typography sx={{mt: '2px'}}>Note: {booking.returnStatusComment}</Typography>
+                        (booking.returnStatus === "Approved" || booking.returnStatus === "Rejected") && booking.returnStatusComment !== "" &&
+                        <Typography sx={{ mt: '2px' }}>Note: {booking.returnStatusComment}</Typography>
                       }
                     </Box>
                   )}
@@ -691,7 +691,6 @@ export const BookingDetailPage = () => {
                   sx={{ gap: "8px" }}
                 >
                   <Typography
-                    mt={"8px"}
                     fontSize={isMobile ? 16 : 20}
                     fontWeight={"700"}
                     color={"common.black"}
@@ -728,6 +727,7 @@ export const BookingDetailPage = () => {
 
                 <Box
                   display={"flex"}
+                  flexWrap={"wrap"}
                   gap={isMobile ? "16px" : "32px"}
                   justifyContent={isMobile ? "space-between" : "start"}
                   flexDirection={isMobile ? "column" : "row"}
@@ -963,8 +963,7 @@ export const BookingDetailPage = () => {
                       color={theme.palette.text.primary}
                       sx={{ fontSize: "16px", fontWeight: "600" }}
                     >
-                      {`${
-                        booking &&
+                      {`${booking &&
                         booking.motorbikes &&
                         formatMoneyNew(
                           booking.motorbikes.reduce(
@@ -972,7 +971,7 @@ export const BookingDetailPage = () => {
                             0
                           ) || 0
                         )
-                      }/${t("booking.perDay")}`}{" "}
+                        }/${t("booking.perDay")}`}{" "}
                       x{" "}
                       {booking &&
                         booking.motorbikes &&
@@ -1032,7 +1031,7 @@ export const BookingDetailPage = () => {
                             0
                           ) || 0
                         )}`}
-                        onClick={() => {}}
+                        onClick={() => { }}
                         position="right-start"
                       />
                     </Box>
@@ -1040,8 +1039,7 @@ export const BookingDetailPage = () => {
                       color={theme.palette.text.primary}
                       sx={{ fontSize: "16px", fontWeight: "600" }}
                     >
-                      {`${
-                        booking &&
+                      {`${booking &&
                         booking.motorbikes &&
                         formatMoneyNew(
                           booking.motorbikes.reduce(
@@ -1049,7 +1047,7 @@ export const BookingDetailPage = () => {
                             0
                           ) || 0
                         )
-                      }/${t("booking.perDay")}`}{" "}
+                        }/${t("booking.perDay")}`}{" "}
                       x{" "}
                       {booking &&
                         booking.motorbikes &&
@@ -1109,7 +1107,7 @@ export const BookingDetailPage = () => {
                         }
                         hasTooltip
                         tooltipText={t("booking.totalPriceService_hint")}
-                        onClick={() => {}}
+                        onClick={() => { }}
                         position="right-start"
                       />
                     </Box>
@@ -1273,7 +1271,7 @@ export const BookingDetailPage = () => {
                       fontWeight: "600",
                       textDecoration:
                         booking.status !== BookingStatus.PendingPayment &&
-                        booking.status !== BookingStatus.PendingDelivery
+                          booking.status !== BookingStatus.PendingDelivery
                           ? "line-through"
                           : "none",
                     }}

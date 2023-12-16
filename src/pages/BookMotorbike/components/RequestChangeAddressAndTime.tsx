@@ -1,6 +1,7 @@
 import {
   Box,
   CircularProgress,
+  Dialog,
   IconButton,
   MenuItem,
   Modal,
@@ -35,6 +36,7 @@ import { BookingService } from "../../../services/BookingService";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import ToastComponent from "../../../components/toast/ToastComponent";
+import { Transition } from "../../WalletPage/common/Transition";
 
 interface Location {
   lat: number;
@@ -169,20 +171,22 @@ function RequestChangeAddressAndTime(props: {
   };
 
   return (
-    <Modal
+    <Dialog
       open={true}
-      aria-labelledby="map-modal-title"
-      aria-describedby="map-modal-description"
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        overflowY: "auto",
-        zIndex: 10000,
+      onClose={() => setContentModal(<></>)}
+      TransitionComponent={Transition}
+      fullWidth
+      PaperProps={{
+        className: "hiddenSroll",
+        sx: {
+          borderRadius: "16px",
+          padding: '16px',
+          margin: isMobile ? '0px' : '32px',
+          maxWidth: isMobile ? '95%' : '50%',
+        }
       }}
     >
       <Box
-        width={isMobile ? "70%" : "50%"}
         height={"auto"}
         sx={{
           padding: "16px 32px",
@@ -233,6 +237,7 @@ function RequestChangeAddressAndTime(props: {
         >
           <RegisterMotorbikeItem
             isRequired={true}
+            hasMarginBottom
             fontSizeTitle="16px"
             title={t("booking.returnDate")}
             item={
@@ -262,6 +267,7 @@ function RequestChangeAddressAndTime(props: {
             fontSizeTitle="16px"
             title={t("postMotorbike.registedForm.address")}
             isRequired={true}
+            hasMarginBottom
             item={
               !isLoaded ? (
                 <Box
@@ -349,19 +355,19 @@ function RequestChangeAddressAndTime(props: {
                       onClick={handleGetLocationClick}
                     >
                       <MyLocation />
-                    </IconButton> */}
+                    </IconButton>
                     <Typography
                       variant="caption"
                       fontSize={"12px"}
                       color={theme.palette.text.secondary}
                     >
                       {"Lấy vị trí mặc định của xe"}
-                    </Typography>
+                    </Typography> */}
                   </Box>
 
                   <Box
                     borderRadius={"10px"}
-                    border={"3px solid"}
+                    border={"3px solid #8B4513"}
                     margin={"0px auto"}
                     width={"99%"}
                     justifyContent={"center"}
@@ -481,7 +487,7 @@ function RequestChangeAddressAndTime(props: {
           />
         </Box>
       </Box>
-    </Modal>
+    </Dialog>
   );
 }
 

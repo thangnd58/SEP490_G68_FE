@@ -59,12 +59,12 @@ export default function UserInforModal(props: { userId: number, isOpened?: boole
     return (
         <>
             <Dialog
-                className='hiddenSroll'
                 open={props.isOpened ? props.isOpened : true}
                 onClose={props.closeModal ? props.closeModal : closeModal}
                 TransitionComponent={Transition}
                 fullWidth
                 PaperProps={{
+                    className: "hiddenSroll",
                     sx: {
                         borderRadius: "16px",
                         padding: '16px',

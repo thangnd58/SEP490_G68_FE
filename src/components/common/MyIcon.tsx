@@ -14,6 +14,7 @@ interface MyIconProps {
     noPadding?: boolean;
     noCursor?: boolean;
     disabled?: boolean;
+    varient?: 'dot' | 'standard';
 }
 
 export default function MyIcon(props: MyIconProps) {
@@ -31,6 +32,7 @@ export default function MyIcon(props: MyIconProps) {
                         }}
                     >
                         <Badge
+                            variant={props.varient ? props.varient : 'standard'}
                             color={"primary"}
                             badgeContent={props.badgeContent}
                             invisible={!props.hasBagde}
@@ -49,6 +51,7 @@ export default function MyIcon(props: MyIconProps) {
                     }}
                 >
                     <Badge
+                        variant={props.varient ? props.varient : 'standard'}
                         color={"primary"}
                         badgeContent={props.badgeContent}
                         invisible={!props.hasBagde}

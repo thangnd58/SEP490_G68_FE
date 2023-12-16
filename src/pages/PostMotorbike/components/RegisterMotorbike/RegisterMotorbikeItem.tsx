@@ -20,6 +20,7 @@ interface CustomItemProps {
     myButton?: React.ReactNode,
     buttonPosition?: 'start' | 'end',
     moreInfo?: boolean,
+    hasMarginBottom?: boolean,
 }
 
 interface AnimatedBoxProps {
@@ -33,11 +34,11 @@ const AnimatedBox = styled(Box) <AnimatedBoxProps>`
     opacity: ${(props) => (props.isOpen ? '1' : '0')};
   `;
 
-const RegisterMotorbikeItem: React.FC<CustomItemProps> = ({ className, title, marginBottomTitle, fontSizeTitle, fontWeightTitle, secondTitle, fontSizeSecondTitle, fontWeightSecondTitle, isRequired, item, myButton, buttonPosition, moreInfo }) => {
+const RegisterMotorbikeItem: React.FC<CustomItemProps> = ({ className, title, marginBottomTitle, fontSizeTitle, fontWeightTitle, secondTitle, fontSizeSecondTitle, fontWeightSecondTitle, isRequired, item, myButton, buttonPosition, moreInfo,hasMarginBottom }) => {
     const [open, setOpen] = React.useState(moreInfo ? false : true);
     const { t } = usei18next();
     return (
-        <Box className={className} width={"100%"} display={"flex"} flexDirection={"column"} gap={"8px"} margin={"16px 0px"}>
+        <Box className={className} width={"100%"} display={"flex"} flexDirection={"column"} gap={"8px"} margin={hasMarginBottom ? "16px 0px 0px 0px":"16px 0px"}>
             <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"}>
                 <Typography
                     variant='h2'

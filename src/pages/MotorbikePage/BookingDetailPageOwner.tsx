@@ -105,7 +105,7 @@ export const BookingDetailPageOwner = () => {
   });
 
   useEffect(() => {
-    setUpSignalRConnection().then((con) => {});
+    setUpSignalRConnection().then((con) => { });
   }, []);
 
   const setUpSignalRConnection = async () => {
@@ -300,7 +300,7 @@ export const BookingDetailPageOwner = () => {
       setTimeout(() => {
         navigate(ROUTES.homepage);
       }, 1000);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const showModalCancelBooking = (id: number) => {
@@ -475,10 +475,10 @@ export const BookingDetailPageOwner = () => {
                       {activeStep === 0
                         ? t("booking.timeRemainingPay")
                         : booking.status === "PendingDelivery"
-                        ? t("booking.startUsingService")
-                        : booking.status === "Delivered"
-                        ? t("booking.startedUsingService")
-                        : ""}
+                          ? t("booking.startUsingService")
+                          : booking.status === "Delivered"
+                            ? t("booking.startedUsingService")
+                            : ""}
                     </Typography>
                     <Box
                       display={"flex"}
@@ -505,41 +505,41 @@ export const BookingDetailPageOwner = () => {
                         >
                           {(booking.status === "PendingDelivery" ||
                             booking.status === "Delivered") && (
-                            <img
-                              src={MotorbikeImage}
-                              width={128}
-                              height={128}
-                              className="motorcycle-image"
-                              style={{
-                                transform: isMovingMotorbike
-                                  ? `translateX(-50%) translateX(${position}px)`
-                                  : "",
-                                transition: isMovingMotorbike
-                                  ? "transform 0.2s ease-in-out"
-                                  : "",
-                              }}
-                            />
-                          )}
-                          {(booking.status === "PendingReview" ||
-                            booking.status === "Finished") && (
-                            <Box
-                              display={"flex"}
-                              flexDirection={"row"}
-                              alignItems={"center"}
-                              gap={"8px"}
-                            >
-                              <CheckCircle
-                                sx={{
-                                  color: theme.palette.primary.main,
-                                  width: "56px",
-                                  height: "56px",
+                              <img
+                                src={MotorbikeImage}
+                                width={128}
+                                height={128}
+                                className="motorcycle-image"
+                                style={{
+                                  transform: isMovingMotorbike
+                                    ? `translateX(-50%) translateX(${position}px)`
+                                    : "",
+                                  transition: isMovingMotorbike
+                                    ? "transform 0.2s ease-in-out"
+                                    : "",
                                 }}
                               />
-                              <Typography color={"common.black"}>
-                                Chuyến đi đã kết thúc
-                              </Typography>
-                            </Box>
-                          )}
+                            )}
+                          {(booking.status === "PendingReview" ||
+                            booking.status === "Finished") && (
+                              <Box
+                                display={"flex"}
+                                flexDirection={"row"}
+                                alignItems={"center"}
+                                gap={"8px"}
+                              >
+                                <CheckCircle
+                                  sx={{
+                                    color: theme.palette.primary.main,
+                                    width: "56px",
+                                    height: "56px",
+                                  }}
+                                />
+                                <Typography color={"common.black"}>
+                                  Chuyến đi đã kết thúc
+                                </Typography>
+                              </Box>
+                            )}
                           <>
                             {!isLoading &&
                               booking.status === "PendingDelivery" && (
@@ -628,16 +628,37 @@ export const BookingDetailPageOwner = () => {
                   sx={{ gap: "8px" }}
                 >
                   <Typography
-                    mt={"8px"}
                     fontSize={isMobile ? 16 : 20}
                     fontWeight={"700"}
                     color={"common.black"}
                   >
                     {t("booking.timeRent")}
                   </Typography>
+                  {
+                    booking.returnStatus === "Processing" &&
+                    <MyIcon
+                      icon={<Edit />}
+                      hasTooltip
+                      hasBagde
+                      badgeColor="main"
+                      badgeContent="!"
+                      // varient="dot"
+                      tooltipText={t("booking.titleChangeInfoReturnOwner")}
+                      onClick={() =>
+                        setContentModal(
+                          <ResponseChangeAddresAndTimeModal
+                            booking={booking}
+                            setReload={setReloadBooking}
+                          />
+                        )
+                      }
+                      position="bottom"
+                    />
+                  }
                 </Box>
                 <Box
                   display={"flex"}
+                  flexWrap={"wrap"}
                   gap={isMobile ? "16px" : "32px"}
                   justifyContent={isMobile ? "space-between" : "start"}
                   flexDirection={isMobile ? "column" : "row"}
@@ -699,7 +720,7 @@ export const BookingDetailPageOwner = () => {
                       </Typography>
                     </Box>
                   </Box>
-                  {booking.returnAddress !== booking.address && (
+                  {booking.returnStatus === "Approved" && (
                     <Box display={"flex"} gap={"16px"}>
                       <img
                         src={CalendarImage}
@@ -716,9 +737,7 @@ export const BookingDetailPageOwner = () => {
                         <Typography
                           fontSize={isMobile ? 14 : 16}
                           color={
-                            booking.returnStatus === "Processing"
-                              ? "warning.main"
-                              : booking.returnStatus === "Approved"
+                            booking.returnStatus === "Approved"
                               ? "success.main"
                               : "error.main"
                           }
@@ -728,9 +747,7 @@ export const BookingDetailPageOwner = () => {
                         <Typography
                           fontSize={isMobile ? 14 : 16}
                           color={
-                            booking.returnStatus === "Processing"
-                              ? "warning.main"
-                              : booking.returnStatus === "Approved"
+                            booking.returnStatus === "Approved"
                               ? "success.main"
                               : "error.main"
                           }
@@ -796,29 +813,6 @@ export const BookingDetailPageOwner = () => {
                   value={booking?.returnAddress}
                   inputProps={{
                     readOnly: true,
-                  }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        {booking.returnAddress !== booking.address && (
-                          <Tooltip 
-                          title={t("booking.titleChangeInfoReturnOwner")}
-                          onClick={() => setContentModal(<ResponseChangeAddresAndTimeModal booking={booking} setReload={setReloadBooking} />)}
-                          >
-                            <Circle
-                              sx={{ cursor: "pointer" }}
-                              color={
-                                booking.returnStatus === "Processing"
-                                  ? "warning"
-                                  : booking.returnStatus === "Approved"
-                                  ? "success"
-                                  : "error"
-                              }
-                            />
-                          </Tooltip>
-                        )}
-                      </InputAdornment>
-                    ),
                   }}
                 />
                 <Box
@@ -965,8 +959,7 @@ export const BookingDetailPageOwner = () => {
                       color={theme.palette.text.primary}
                       sx={{ fontSize: "16px", fontWeight: "600" }}
                     >
-                      {`${
-                        booking &&
+                      {`${booking &&
                         booking.motorbikes &&
                         formatMoneyNew(
                           booking.motorbikes.reduce(
@@ -974,7 +967,7 @@ export const BookingDetailPageOwner = () => {
                             0
                           ) || 0
                         )
-                      }/${t("booking.perDay")}`}{" "}
+                        }/${t("booking.perDay")}`}{" "}
                       x{" "}
                       {booking &&
                         booking.motorbikes &&
@@ -1176,7 +1169,7 @@ export const BookingDetailPageOwner = () => {
                       fontWeight: "600",
                       textDecoration:
                         booking.status !== BookingStatus.PendingPayment &&
-                        booking.status !== BookingStatus.PendingDelivery
+                          booking.status !== BookingStatus.PendingDelivery
                           ? "line-through"
                           : "none",
                     }}
