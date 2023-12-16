@@ -95,11 +95,11 @@ export default function UserInforModal(props: { userId: number, isOpened?: boole
                                 padding: '1rem 0px',
                             }}
                         >
-                            <Typography fontWeight={'600'} fontSize={'20px'}>Thông tin người dùng</Typography>
+                            <Typography fontWeight={'600'} fontSize={'20px'}>{t("userProfile.Title")}</Typography>
                             <Avatar size={100} src={userInformation?.avatarUrl} />
                             <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} width={"100%"} gap={'4px'}>
                                 <Typography fontWeight={'600'} fontSize={'20px'}>{userInformation?.name}</Typography>
-                                <Typography fontWeight={'400'} fontSize={'14px'} color={theme.palette.text.secondary}>Tham gia từ ngày {dayjs(userInformation?.createDatetime).format('DD/MM/YYYY')}
+                                <Typography fontWeight={'400'} fontSize={'14px'} color={theme.palette.text.secondary}> {t("userProfile.createAt") + " " +  dayjs(userInformation?.createDatetime).format('DD/MM/YYYY')}
                                 </Typography>
                             </Box>
                             {/* Lượt đặt và lượt đánh giá */}
@@ -112,7 +112,7 @@ export default function UserInforModal(props: { userId: number, isOpened?: boole
                                     </Box>
                                 </Box>
                                 <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
-                                    <Typography fontWeight={'500'} fontSize={'16px'}>Đánh giá </Typography>
+                                    <Typography fontWeight={'500'} fontSize={'16px'}>{t("dashBoardManager.feedback.rating")}</Typography>
                                     <Box display={"flex"} flexDirection={"row"} justifyContent={"center"} alignItems={"center"}>
                                         <Grade sx={{ color: theme.palette.text.secondary }} />
                                         <Typography fontWeight={'400'} fontSize={'14px'} color={theme.palette.text.secondary}>{userInformation?.averageRating.toFixed(1)}</Typography>
@@ -142,7 +142,7 @@ export default function UserInforModal(props: { userId: number, isOpened?: boole
                                         padding: '8px 1rem ',
                                     }}
                                 >
-                                    <Typography width={"100%"} textAlign={'start'} fontWeight={'600'} fontSize={'20px'}>Danh sách xe</Typography>
+                                    <Typography width={"100%"} textAlign={'start'} fontWeight={'600'} fontSize={'20px'}>{t("userProfile.ListMotorbike")}</Typography>
                                 </Box>
                                 <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-evenly"} flexWrap={'wrap'} alignItems={"center"}
                                     sx={{
@@ -167,7 +167,7 @@ export default function UserInforModal(props: { userId: number, isOpened?: boole
                                     padding: '1rem',
                                 }}
                             >
-                                <Typography width={"100%"} textAlign={'start'} fontWeight={'600'} fontSize={'20px'}>Danh sách xe</Typography>
+                                <Typography width={"100%"} textAlign={'start'} fontWeight={'600'} fontSize={'20px'}>{t("userProfile.ListMotorbike")}</Typography>
                                 <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-evenly"} flexWrap={'wrap'} alignItems={"start"}
                                     sx={{
                                         gap: '1rem',
@@ -195,12 +195,12 @@ export default function UserInforModal(props: { userId: number, isOpened?: boole
                                 }}
                             >
                                 <Box display={"flex"} flexDirection={isMobile ? 'column' : "row"} justifyContent={"space-between"} alignItems={isMobile ? 'start' : "center"} width={"100%"}>
-                                    <Typography textAlign={'start'} fontWeight={'600'} fontSize={'20px'}>Đánh giá</Typography>
+                                    <Typography textAlign={'start'} fontWeight={'600'} fontSize={'20px'}>{t("dashBoardManager.feedback.rating")}</Typography>
                                     <Box display={"flex"} flexDirection={"row"} justifyContent={"center"} alignItems={"center"} gap={'4px'}>
                                         <Grade sx={{ color: '#FFD700' }} />
                                         <Typography textAlign={'start'} fontWeight={'500'} fontSize={'16px'}>{userInformation?.averageRating.toFixed(1)}</Typography>
                                         <Divider type="vertical" />
-                                        <Typography textAlign={'start'} fontWeight={'500'} fontSize={'16px'}>{feedback.length} đánh giá</Typography>
+                                        <Typography textAlign={'start'} fontWeight={'500'} fontSize={'16px'}>{feedback.length} {t("dashBoardManager.feedback.rating")}</Typography>
                                     </Box>
                                 </Box>
                                 <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"}

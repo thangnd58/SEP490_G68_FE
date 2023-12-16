@@ -18,6 +18,7 @@ import {
   Tooltip,
   Typography,
   Chip,
+  InputAdornment,
 } from "@mui/material";
 import { ArrowRightIcon } from "@mui/x-date-pickers";
 import useThemePage from "../../hooks/useThemePage";
@@ -52,14 +53,17 @@ import {
   ArrowBack,
   CheckCircle,
   CheckCircleOutline,
+  Circle,
   CloseOutlined,
   Edit,
   ErrorOutline,
+  RequestQuoteOutlined,
   Verified,
   WarningAmber,
 } from "@mui/icons-material";
 import { ConfirmCompleteTripModal } from "./components/ConfirmCompleteTripModal";
 import UserInforModal from "../UserProfilePage/UserInforModal";
+import ResponseChangeAddresAndTimeModal from "../BookMotorbike/components/ResponseChangeAddresAndTimeModal";
 interface Location {
   lat: number;
   lng: number;
@@ -100,7 +104,7 @@ export const BookingDetailPageOwner = () => {
     } catch (error) {
       navigate(ROUTES.other.pagenotfound);
     }
-  }, [bookingId]);
+  }, [bookingId, reloadBooking]);
 
   // useEffect(() => {
   //     try {
@@ -158,7 +162,6 @@ export const BookingDetailPageOwner = () => {
             setLocationReturn(result);
           });
         }
-
       });
     } catch (error) {
       console.log(error);
@@ -550,7 +553,7 @@ export const BookingDetailPageOwner = () => {
                     )}
                   </Box>
                 )}
-                {booking.returnStatus !== "" && booking.status === BookingStatus.Delivered && (
+                {/* {booking.returnAddress !== booking.address && booking.status === BookingStatus.Delivered && (
                   <Box
                     sx={{
                       display: "flex",
@@ -587,7 +590,8 @@ export const BookingDetailPageOwner = () => {
                       />
                     )}
                   </Box>
-                )}
+                )} */}
+
                 <Box
                   display={"flex"}
                   flexDirection={"row"}
@@ -668,35 +672,49 @@ export const BookingDetailPageOwner = () => {
                       </Typography>
                     </Box>
                   </Box>
-                  <Box display={"flex"} gap={"16px"}>
-                    <img
-                      src={CalendarImage}
-                      alt="calendar"
-                      width={isMobile ? 20 : 24}
-                      height={isMobile ? 20 : 24}
-                    />
-                    <Box
-                      display={"flex"}
-                      flexDirection={"column"}
-                      gap={"4px"}
-                      justifyContent={"start"}
-                    >
-                      <Typography
-                        fontSize={isMobile ? 14 : 16}
-                        color={theme.palette.text.secondary}
+                  {booking.returnAddress !== booking.address && (
+                    <Box display={"flex"} gap={"16px"}>
+                      <img
+                        src={CalendarImage}
+                        alt="calendar"
+                        width={isMobile ? 20 : 24}
+                        height={isMobile ? 20 : 24}
+                      />
+                      <Box
+                        display={"flex"}
+                        flexDirection={"column"}
+                        gap={"4px"}
+                        justifyContent={"start"}
                       >
-                        {t("booking.returnDate")}
-                      </Typography>
-                      <Typography
-                        fontSize={isMobile ? 14 : 16}
-                        color={theme.palette.text.primary}
-                      >
-                        {dayjs(booking?.returnDatetime).format(
-                          "DD-MM-YYYY HH:mm"
-                        )}
-                      </Typography>
+                        <Typography
+                          fontSize={isMobile ? 14 : 16}
+                          color={
+                            booking.returnStatus === "Processing"
+                              ? "warning.main"
+                              : booking.returnStatus === "Approved"
+                              ? "success.main"
+                              : "error.main"
+                          }
+                        >
+                          {t("booking.returnDate")}
+                        </Typography>
+                        <Typography
+                          fontSize={isMobile ? 14 : 16}
+                          color={
+                            booking.returnStatus === "Processing"
+                              ? "warning.main"
+                              : booking.returnStatus === "Approved"
+                              ? "success.main"
+                              : "error.main"
+                          }
+                        >
+                          {dayjs(booking?.returnDatetime).format(
+                            "DD-MM-YYYY HH:mm"
+                          )}
+                        </Typography>
+                      </Box>
                     </Box>
-                  </Box>
+                  )}
                 </Box>
 
                 <Typography
@@ -752,6 +770,29 @@ export const BookingDetailPageOwner = () => {
                   inputProps={{
                     readOnly: true,
                   }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        {booking.returnAddress !== booking.address && (
+                          <Tooltip 
+                          title={t("booking.titleChangeInfoReturnOwner")}
+                          onClick={() => setContentModal(<ResponseChangeAddresAndTimeModal booking={booking} setReload={setReloadBooking} />)}
+                          >
+                            <Circle
+                              sx={{ cursor: "pointer" }}
+                              color={
+                                booking.returnStatus === "Processing"
+                                  ? "warning"
+                                  : booking.returnStatus === "Approved"
+                                  ? "success"
+                                  : "error"
+                              }
+                            />
+                          </Tooltip>
+                        )}
+                      </InputAdornment>
+                    ),
+                  }}
                 />
                 <Box
                   borderRadius={"10px"}
@@ -767,7 +808,7 @@ export const BookingDetailPageOwner = () => {
                     booking.address &&
                     booking.address !== "" && (
                       <GoogleMap
-                      zoom={10}
+                        zoom={10}
                         center={{ lat: location.lat, lng: location.lng }}
                         mapContainerStyle={{
                           width: "100%",
@@ -777,21 +818,21 @@ export const BookingDetailPageOwner = () => {
                       >
                         {booking && (
                           <>
-                          <Marker
-                            label={"Delivery location"}
-                            position={{
-                              lat: location.lat,
-                              lng: location.lng,
-                            }}
-                          />
-                          <Marker
-                            label={"Return location"}
-                            position={{
-                              lat: locationReturn.lat,
-                              lng: locationReturn.lng,
-                            }}
-                          />
-                        </>
+                            <Marker
+                              label={"Delivery location"}
+                              position={{
+                                lat: location.lat,
+                                lng: location.lng,
+                              }}
+                            />
+                            <Marker
+                              label={"Return location"}
+                              position={{
+                                lat: locationReturn.lat,
+                                lng: locationReturn.lng,
+                              }}
+                            />
+                          </>
                         )}
                       </GoogleMap>
                     )}

@@ -256,6 +256,7 @@
   },
   "userProfile": {
     "Title": "Thông tin người dùng",
+    "createAt": "Tham gia từ ngày",
     "ChangePassword": "Đổi mật khẩu",
     "Name": "Họ và tên",
     "Email": "Địa chỉ Email",
@@ -275,7 +276,8 @@
     "Verified": "Đã xác minh",
     "AlertVerify": "Hãy xác minh số điện thoại của bạn",
     "Role": "Vai trò",
-    "Status": "Trạng thái"
+    "Status": "Trạng thái",
+    "ListMotorbike": "Danh sách xe"
   },
   "ChangePhone": {
     "Title": "Thay đổi số điện thoại",
@@ -590,6 +592,7 @@
       "locationPlaceHolder": "Đây là vị trí mặc định giao nhận xe",
       "selectAddress": "Chọn địa chỉ",
       "changeReturnInfo": "Thay đổi thông tin trả xe",
+      "verifyReturnInfo": "Xác nhận thông tin trả xe",
       "selectProvince": "Chọn Tỉnh/Thành phố",
       "selectProvincePlaceHolder": "Chọn Tỉnh/Thành phố",
       "selectDistrict": "Chọn Quận/Huyện",
@@ -697,6 +700,9 @@
     "freeDeliveryDistance": "Khoảng cách giao xe miễn phí",
     "freeDeliveryDistance_hint": "Đây là khoảng cách miễn phí giao xe của chủ xe.",
     "perMotorbike": "xe",
+    "oldReturnAddress": "Vị trí trả xe cũ",
+    "newReturnAddress": "Vị trí trả xe mới",
+    "confirmNote": "Ghi chú",
     "startDate": "Ngày nhận xe",
     "endDate": "Ngày trả xe",
     "addressGetMotorbike": "Địa chỉ giao xe",
@@ -706,6 +712,8 @@
     "titleChangeInfoReturnOwner": "Khách đã yêu cầu đổi thông tin trả xe",
     "changeReturnAddressAndTime": "Thay đổi địa chỉ và thời gian trả xe",
     "toastResultChangeSuccess": "Tạo yêu cầu đổi địa chỉ và thời gian trả xe thành công",
+    "toastResultSuccessReply": "Cập nhật trạng thái thành công",
+    "toastResultErrorReply": "Cập nhật trạng thái thất bại",
     "toastResultChangeError": "Tạo yêu cầu đổi địa chỉ và thời gian trả xe thất bại",
     "paymentType": "Hình thức thanh toán",
     "payWallet": "Số dư ví",

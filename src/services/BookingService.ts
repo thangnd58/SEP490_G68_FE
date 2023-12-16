@@ -70,5 +70,9 @@ export const BookingService = {
     updateReturnInfo: async (bookingId: number, info: { returnAddress: string, returnDatetime: string }) => {
         const res = await api.put(`${apiPostBooking}/${bookingId}/return`, info);
         return res.data
+    },
+    updateStatusReturn: async (bookingId: number, info: { returnStatus: string, returnStatusComment: string }) => {
+        const res = await api.put(`${apiPostBooking}/${bookingId}/approve-return`, info);
+        return res.data
     }
 }

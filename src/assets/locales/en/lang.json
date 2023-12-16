@@ -260,6 +260,7 @@
   },
   "userProfile": {
     "Title": "User Profile",
+    "createAt": "Joined from",
     "ChangePassword": "Change Password",
     "Name": "Name",
     "Email": "Email",
@@ -279,7 +280,8 @@
     "Verified": "Verified",
     "AlertVerify": "Please verify your phone number",
     "Role": "Role",
-    "Status": "Status"
+    "Status": "Status",
+    "ListMotorbike": "List motorbikes"
   },
   "ChangePhone": {
     "Title": "Change Phone Number",
@@ -589,6 +591,7 @@
       "locationPlaceHolder": "Default vehicle delivery location",
       "selectAddress": "Select Address",
       "changeReturnInfo": "Change motorbike return information",
+      "verifyReturnInfo": "Confirm motorbike return information",
       "selectProvince": "Select Province/City",
       "selectProvincePlaceHolder": "Choose Province/City",
       "selectDistrict": "Select District",
@@ -699,6 +702,9 @@
     "freeDeliveryDistance": " Free delivery distance",
     "freeDeliveryDistance_hint": "This is the free delivery distance of the motorbike owner",
     "perMotorbike": "motorbike",
+    "oldReturnAddress": "Old return location",
+    "newReturnAddress": "New return location",
+    "confirmNote": "Note",
     "startDate": "Start date",
     "endDate": "End date",
     "timeRent": "Time rental",
@@ -710,6 +716,8 @@
     "returnDate": "Date of return",
     "toastResultChangeSuccess": "Successfully created request to change address and return time",
     "toastResultChangeError": "Failed to create request to change address and return time",
+    "toastResultSuccessReply": "Status update successful",
+     "toastResultErrorReply": "Status update failed",
     "paymentType": "Payment type",
     "payWallet": "Wallet balance",
     "payVnPay": "VN Pay e-wallet",
