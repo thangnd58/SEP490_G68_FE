@@ -29,7 +29,7 @@ export const DetailNotification = ({ id }: { id: number }) => {
         NotificationService.getNotification(id).then((data) => {
             //@ts-ignore
             setNotify(data.data)
-            // dispatch(getUserNotificationInfo())
+            dispatch(getUserNotificationInfo())
         })
     }, [id])
 
