@@ -130,7 +130,7 @@ export const BookingDetailPage = () => {
 
   const setUpSignalRConnection = async () => {
     const connection = new HubConnectionBuilder()
-      .withUrl(`${SERVER_URL}/bookinghub`)
+      .withUrl(`${SERVER_URL}/customhub`)
       .withAutomaticReconnect()
       .build();
     connection.on("IsReloadBooking", (reload: boolean) => {
