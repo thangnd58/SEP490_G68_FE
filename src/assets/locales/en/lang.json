@@ -689,6 +689,7 @@
       "cancelBookSuccess": "Cancel motorbike booking successfully",
       "paymentBookSuccess": "Payment success"
     },
+    "haveNewBooking": "You have a new booking",
     "depositMoney": "Deposit",
     "remainingAmount": "Pay upon receiving the motorbike",
     "toolTipPaid": "Paid",
@@ -708,6 +709,7 @@
     "startDate": "Start date",
     "endDate": "End date",
     "timeRent": "Time rental",
+    "numberMotorbike": "Number of motorbikes",
     "changeReturnAddressAndTime": "Change return address and time",
     "addressGetMotorbike": "Motorbike delivery location",
     "titleChangeInfoReturn": "Request to change vehicle return information",

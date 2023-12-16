@@ -19,7 +19,14 @@ export const userNotificationReducer = createSlice({
     reducers: {
       updateNotification: (state, action) => {
         state.userNotification = action.payload
-      }
+      },
+      showNewOrderDialog: (state) => {
+        // Add logic to show a dialog for new order here
+
+        // You can use a state variable to control the visibility of the dialog
+        // For example: state.isNewOrderDialogVisible = true;
+        // You can also store the information about the new order to display in the dialog
+      },
     },
   });
 

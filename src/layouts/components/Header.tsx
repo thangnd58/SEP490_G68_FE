@@ -167,6 +167,21 @@ function Header() {
     (state) => state.userNotificationInfo
   );
 
+  // useEffect(() => {
+  //   // Kiểm tra nếu có thông báo đầu tiên và title là "Có đơn đặt xe mới"
+  //   if (userNotification.length > 0 && userNotification[0].title === "Có đơn đặt xe mới") {
+  //     // Hiển thị Dialog
+  //     setContentModal(
+  //       <NewBookingNotificationModal
+  //         closeModal={() => {
+  //           setShowModal(false);
+  //         }}
+  //       />
+  //     );
+  //   }
+  // }, [userNotification]);
+
+
   useEffect(() => {
     setUpSignalRConnection().then((con) => {
       

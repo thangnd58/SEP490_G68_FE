@@ -49,6 +49,7 @@ import PolicyImage from './policy.jpg'
 import PinImage from './pinMap.png'
 import SearchIcon from './search.png'
 import Snow from './Snow.jpg'
+import NewBooking from './newOrder.png'
 
 export {
     MotorbikeImage,
@@ -101,5 +102,6 @@ export {
     PolicyImage,
     PinImage,
     SearchIcon,
-    Snow
+    Snow,
+    NewBooking
 };

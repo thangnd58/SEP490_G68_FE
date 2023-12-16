@@ -690,6 +690,7 @@
       "cancelBookSuccess": "Hủy đặt xe thành công",
       "paymentBookSuccess": "Thanh toán thành công"
     },
+    "haveNewBooking": "Bạn có đơn đặt xe mới",
     "depositMoney": "Tiền cọc",
     "remainingAmount": "Thanh toán khi nhận xe",
     "toolTipPaid": "Đã thanh toán",
@@ -705,6 +706,8 @@
     "confirmNote": "Ghi chú",
     "startDate": "Ngày nhận xe",
     "endDate": "Ngày trả xe",
+    "dayRental" : "Số ngày thuê",
+    "numberMotorbike": "Số lượng xe",
     "addressGetMotorbike": "Địa chỉ giao xe",
     "addressReturn": "Địa chỉ trả xe",
     "returnDate": "Ngày trả trước hạn",
