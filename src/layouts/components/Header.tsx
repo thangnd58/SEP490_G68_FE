@@ -186,7 +186,7 @@ function Header() {
 
   const setUpSignalRConnection = async () => {
     const connection = new HubConnectionBuilder()
-      .withUrl(`${SERVER_URL}/notificationhub`)
+      .withUrl(`${SERVER_URL}/customhub`)
       .withAutomaticReconnect()
       .build();
     connection.on("IsReloadNotification", (reload: boolean) => {
