@@ -1,6 +1,7 @@
 import { Motorbike } from "./type";
 
 export const BASE_URL = "https://hzuzmhgcmt.ap-southeast-1.awsapprunner.com/api";
+export const SERVER_URL = "https://hzuzmhgcmt.ap-southeast-1.awsapprunner.com"
 export const ROUTES = {
     homepage: "/",
     newspage: "/news",

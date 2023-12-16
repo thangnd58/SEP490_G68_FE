@@ -56,7 +56,7 @@ import {
   UnitedKingDomFlag,
   VietNamFlag,
 } from "../../assets/images";
-import { ROUTES } from "../../utils/Constant";
+import { ROUTES, SERVER_URL } from "../../utils/Constant";
 import MyIcon from "../../components/common/MyIcon";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAction";
 import MyCustomButton from "../../components/common/MyButton";
@@ -181,17 +181,15 @@ function Header() {
 
 
   useEffect(() => {
-    setUpSignalRConnection().then((con) => {
-      
-    });
+    setUpSignalRConnection().then((con) => {});
   }, []);
 
   const setUpSignalRConnection = async () => {
     const connection = new HubConnectionBuilder()
-      .withUrl("https://hzuzmhgcmt.ap-southeast-1.awsapprunner.com/notificationhub")
+      .withUrl(`${SERVER_URL}/notificationhub`)
       .withAutomaticReconnect()
       .build();
-    connection.on("IsReload", (reload: boolean) => {
+    connection.on("IsReloadNotification", (reload: boolean) => {
       dispatch(getUserNotificationInfo())
     });
 

@@ -40,6 +40,7 @@ import {
   BookingPaymentType,
   BookingStatus,
   ROUTES,
+  SERVER_URL,
 } from "../../utils/Constant";
 import MyCustomButton from "../../components/common/MyButton";
 import { ModalContext } from "../../contexts/ModalContext";
@@ -64,6 +65,12 @@ import {
 import { ConfirmCompleteTripModal } from "./components/ConfirmCompleteTripModal";
 import UserInforModal from "../UserProfilePage/UserInforModal";
 import ResponseChangeAddresAndTimeModal from "../BookMotorbike/components/ResponseChangeAddresAndTimeModal";
+import {
+  HubConnectionBuilder,
+  HubConnectionState,
+  HubConnection,
+} from "@microsoft/signalr";
+
 interface Location {
   lat: number;
   lng: number;
@@ -84,7 +91,6 @@ export const BookingDetailPageOwner = () => {
     BookingPaymentType.Card
   );
   const { user } = useAppSelector((state) => state.userInfo);
-  const { reloadStatus } = useAppSelector((state) => state.bookingInfo);
   const dispatch = useAppDispatch();
   const [reloadBooking, setReloadBooking] = useState<boolean>(false);
   const [endDate, setEndDate] = useState<string>("");
@@ -97,6 +103,27 @@ export const BookingDetailPageOwner = () => {
     lat: 21.028511,
     lng: 105.804817,
   });
+
+  useEffect(() => {
+    setUpSignalRConnection().then((con) => {});
+  }, []);
+
+  const setUpSignalRConnection = async () => {
+    const connection = new HubConnectionBuilder()
+      .withUrl(`${SERVER_URL}/bookinghub`)
+      .withAutomaticReconnect()
+      .build();
+    connection.on("IsReloadBooking", (reload: boolean) => {
+      setReloadBooking((prev) => !prev)
+    });
+
+    try {
+      await connection.start();
+    } catch (err) {
+      console.log(err);
+    }
+    return connection;
+  };
 
   useEffect(() => {
     try {
