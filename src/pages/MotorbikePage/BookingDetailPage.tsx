@@ -39,6 +39,7 @@ import {
   BookingPaymentType,
   BookingStatus,
   ROUTES,
+  SERVER_URL,
 } from "../../utils/Constant";
 import MyCustomButton from "../../components/common/MyButton";
 import { ModalContext } from "../../contexts/ModalContext";
@@ -64,6 +65,12 @@ import { ConfirmCompleteTripModal } from "./components/ConfirmCompleteTripModal"
 import ModalStatus from "../WalletPage/component/ModalStatus";
 import { getBookingInfo } from "../../redux/reducers/bookingReducer";
 import RequestChangeAddressAndTime from "../BookMotorbike/components/RequestChangeAddressAndTime";
+import {
+  HubConnectionBuilder,
+  HubConnectionState,
+  HubConnection,
+} from "@microsoft/signalr";
+
 interface Location {
   lat: number;
   lng: number;
@@ -116,6 +123,27 @@ export const BookingDetailPage = () => {
   //         navigate(ROUTES.other.pagenotfound)
   //     }
   // }, [])
+
+  useEffect(() => {
+    setUpSignalRConnection().then((con) => {});
+  }, []);
+
+  const setUpSignalRConnection = async () => {
+    const connection = new HubConnectionBuilder()
+      .withUrl(`${SERVER_URL}/bookinghub`)
+      .withAutomaticReconnect()
+      .build();
+    connection.on("IsReloadBooking", (reload: boolean) => {
+      setReloadBooking((prev) => !prev)
+    });
+
+    try {
+      await connection.start();
+    } catch (err) {
+      console.log(err);
+    }
+    return connection;
+  };
 
   const getData = (bookingId: string, reloadBooking: boolean) => {
     try {
