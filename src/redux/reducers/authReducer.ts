@@ -37,20 +37,25 @@ export const getUserInfo = (): any => {
     try {
       if (UserService.isLoggedIn()) {
         const userInfo = await UserService.getUserInfo();
-        const licence = await UserService.getLisenceInfo();
-        const userNew: User = {
+        try {
+          const licence = await UserService.getLisenceInfo();
+          const userNew: User = {
+            //@ts-ignore
+            ...userInfo.data,
+            licence: licence.data,
+          };
+          dispatch(updateUser(userNew));
+        } catch (error) {
           //@ts-ignore
-          ...userInfo.data,
-          licence: licence.data,
-        };
-        dispatch(updateUser(userNew));
+          dispatch(updateUser(userInfo.data));
+        }
         dispatch(getUserNotificationInfo());
         //@ts-ignore
         localStorage.setItem("userInfo", JSON.stringify(userInfo.data));
       } else {
         localStorage.removeItem("userInfo");
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 };
 
@@ -61,7 +66,7 @@ export const deleteUserInfor = (): any => {
         //@ts-ignore
         dispatch(deleteUser());
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 };
 
