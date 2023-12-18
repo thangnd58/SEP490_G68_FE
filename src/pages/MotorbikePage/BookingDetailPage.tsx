@@ -64,11 +64,6 @@ import { ConfirmCompleteTripModal } from "./components/ConfirmCompleteTripModal"
 import ModalStatus from "../WalletPage/component/ModalStatus";
 import { getBookingInfo } from "../../redux/reducers/bookingReducer";
 import RequestChangeAddressAndTime from "../BookMotorbike/components/RequestChangeAddressAndTime";
-import {
-  HubConnectionBuilder,
-  HubConnectionState,
-  HubConnection,
-} from "@microsoft/signalr";
 import { connection } from "../../redux/reducers/signalRReducer";
 
 interface Location {

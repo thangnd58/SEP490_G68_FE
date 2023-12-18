@@ -545,3 +545,10 @@ export interface FeedbackResponse{
     createDatetime: string,
     updateDatetime: string,
 }
+
+export interface IncomeFromMotorbike {
+    motorbike: Motorbike,
+    bookings: Booking[],
+    totalBooking: number,
+    totalRevenue: number
+}

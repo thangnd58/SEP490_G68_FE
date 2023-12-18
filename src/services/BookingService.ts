@@ -4,6 +4,7 @@ import {
     BookingRequest,
     BookingResponse,
     CartInforResponse,
+    IncomeFromMotorbike,
     ShoppingCart,
 } from "../utils/type";
 
@@ -73,6 +74,10 @@ export const BookingService = {
     },
     updateStatusReturn: async (bookingId: number, info: { returnStatus: string, returnStatusComment: string }) => {
         const res = await api.put(`${apiPostBooking}/${bookingId}/approve-return`, info);
-        return res.data
+        return res.data;
+    },
+    getIncomeFromMotorbike: async (motorbikeId?: number, fromDate?: string, toDate?: string): Promise<IncomeFromMotorbike[]> => {
+        const res = await api.get(`/motorbikes/booking-statistic?MotorbikeId=${motorbikeId || ""}&From=${fromDate || ""}&To=${toDate || ""}`);
+        return res.data;
     }
 }
