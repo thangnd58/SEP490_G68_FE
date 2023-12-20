@@ -29,18 +29,16 @@ import { number } from 'yup';
 export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavoritePage: boolean, startDate?: string, endDate?: string, searchedAddress?: string, isInCart?: boolean, isIntroduced?: boolean, deleteInCart?: () => void, isNotFavorite?: boolean, canClickDetailPage?: boolean, isInModal?: boolean, isLoadDelete?: boolean, isHorizontal?: boolean }) {
     const { t } = usei18next();
     const { user } = useAppSelector((state) => state.userInfo);
-    const { setContentModal, setShowModal } = useContext(ModalContext);
-    const { isLogin, logout } = useAuth();
+    const { openModal } = useContext(ModalContext);
     const [isOpenLoginModal, setIsOpenLoginModal] = useState<boolean>(false);
     const dispatch = useAppDispatch();
     const [isFavorite, setIsFavorite] = React.useState<boolean>(props.motorbike.isFavourite);
     const navigate = useNavigate();
     const { isMobile } = useThemePage();
     const showMotorbikeDetailModal = () => {
-        setContentModal(
+        openModal(
             <MotorbikeDetailModal motorbikeId={props.motorbike.id?.toString()} startDate={props.startDate} endDate={props.endDate} searchedAddress={props.searchedAddress} />
         )
-        setShowModal(true)
     }
 
     const [isDeleting, setIsDeleting] = useState<boolean>(false);
@@ -199,7 +197,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                 borderRadius: "50%",
                             }}
                             src={props.motorbike.user.avatarUrl}
-                            onClick={() => setContentModal(<UserInforModal userId={props.motorbike.user.userId!} />)}
+                            onClick={() => openModal(<UserInforModal userId={props.motorbike.user.userId!} />)}
                         />
                     </Tooltip>
                 }

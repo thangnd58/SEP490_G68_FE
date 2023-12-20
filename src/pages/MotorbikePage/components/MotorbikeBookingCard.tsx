@@ -22,7 +22,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
     const [expanded, setExpanded] = useState(true);
     const [value, setValue] = useState<number>(5);
     const [isEdit, setIsEdit] = useState<boolean>(props.onlyView ? false : true);
-    const { setContentModal } = useContext(ModalContext)
+    const { openModal } = useContext(ModalContext)
     const [feedback, setFeedback] = useState<Feedback | null>(null);
     const [listComment, setListComment] = useState<string[]>([
         "Xe chạy rất êm và tiết kiệm nhiên liệu",
@@ -165,7 +165,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                     height: '40px',
                                     borderRadius: '50%',
                                 }} src={props.motorbike.user.avatarUrl}
-                                    onClick={() => setContentModal(<UserInforModal userId={props.motorbike.user.userId} />)}
+                                    onClick={() => openModal(<UserInforModal userId={props.motorbike.user.userId} />)}
                                 />
                             </Tooltip>
                         </Box>
@@ -196,7 +196,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                                 transform: "scale(1.1)",
                                                 transition: "transform 0.1s ease-in-out",
                                             },
-                                        }} onClick={() => setContentModal(<ReportFormModal />)} />
+                                        }} onClick={() => openModal(<ReportFormModal />)} />
                                     </Tooltip>
                                 </Box>
                                 <Box display="flex" alignItems="center" gap="8px">

@@ -18,7 +18,7 @@ import ToastComponent from '../../../components/toast/ToastComponent';
 import { PromotionService } from '../../../services/PromotionService';
 
 const PromotionManagement = () => {
-    const { setContentModal } = useContext(ModalContext)
+    const { openModal } = useContext(ModalContext)
     const [listPromotions, setListPromotions] = useState<Promotion[]>([]);
     const navigate = useNavigate();
     const { t } = usei18next();
@@ -119,7 +119,7 @@ const PromotionManagement = () => {
                 <Box sx={{ cursor: 'pointer', display: 'flex' }}>
                     <MyIcon icon={<EditIcon />} hasTooltip position='right' tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.managePromotion}/${params.value}`)} />
                     <MyIcon icon={<DisabledByDefault />} hasTooltip position='right' tooltipText={t("dashBoardManager.promotions.buttonEnd")} onClick={() => {
-                        setContentModal(
+                        openModal(
                             <MyDialog
                                 icon={<Delete sx={{ width: '72px', height: '72px' }} />}
                                 title={t("dashBoardManager.promotions.deletePromotionTitle")}

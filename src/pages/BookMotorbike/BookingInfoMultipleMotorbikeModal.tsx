@@ -48,7 +48,7 @@ const AnimatedBox = styled(Box) <AnimatedBoxProps>`
 
 export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike[]; address: string; startDate: string; endDate: string; bookingCartId: number }) => {
   const { isMobile, isIpad } = useThemePage();
-  const { closeModal, setContentModal, setShowModal } = useContext(ModalContext);
+  const { closeModal, openModal } = useContext(ModalContext);
   const { t, isVn } = usei18next();
   const { RangePicker } = DatePicker;
   const [isProcessingBooking, setIsProcessingBooking] = useState(false);

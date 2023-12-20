@@ -18,6 +18,7 @@ import { CommentItem } from '../UserProfilePage/UserInforModal';
 import useThemePage from '../../hooks/useThemePage';
 import MotorbikeInforCard from '../HomePage/components/MotorbikeInforCard';
 import { NoDataImage } from '../../assets/images';
+import { useNavigate } from 'react-router-dom';
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -58,8 +59,8 @@ export default function MyBooking() {
     const [listMotorbikeWithFeedback, setListMotorbikeWithFeedback] = useState<Motorbike[]>([]);
     const [isLoad, setIsLoad] = useState<boolean>(false);
     const { user } = useAppSelector((state) => state.userInfo);
-    const dispatch = useAppDispatch();
     const { isMobile } = useThemePage();
+    const navigate = useNavigate();
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);

@@ -21,7 +21,7 @@ import ModelManagementService from "../../../services/ModelManagementService";
 import UserService from "../../../services/UserService";
 const UserManagement = () => {
     const { t } = usei18next();
-    const { closeModal, setShowModal, setContentModal } = useContext(ModalContext);
+    const { openModal } = useContext(ModalContext);
     const [reload, setReload] = useState<boolean>(false);
     const [listUser, setListUser] = useState<User[]>([]);
     const navigate = useNavigate();
@@ -155,7 +155,7 @@ const UserManagement = () => {
                     <MyIcon icon={<EditIcon />} position='left' hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.managerUser}/${params.value}`)}/>
                     <MyIcon icon={<DisabledByDefault />} position='right' hasTooltip tooltipText={t("dashBoardManager.user.deactiveButton")} 
                     onClick={() => {
-                        setContentModal(<MyDialog onClickAgree={() => deleteUser(params.value)} title={t("dashBoardManager.user.confirmDelete")}  content={t("dashBoardManager.user.titleConfirmDelete") + (params.row.email || 'No information')}  hasAgreeButton={true} hasCancelButton={true}/>)
+                        openModal(<MyDialog onClickAgree={() => deleteUser(params.value)} title={t("dashBoardManager.user.confirmDelete")}  content={t("dashBoardManager.user.titleConfirmDelete") + (params.row.email || 'No information')}  hasAgreeButton={true} hasCancelButton={true}/>)
                     }}/>
                 </Box>
                 :

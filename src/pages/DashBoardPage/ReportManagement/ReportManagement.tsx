@@ -22,7 +22,7 @@ import { ReportService } from "../../../services/ReportService";
 import { ReportFormModal } from "../../ReportComponent/ReportFormModal";
 const ReportManagement = () => {
     const { t } = usei18next();
-    const { closeModal, setShowModal, setContentModal } = useContext(ModalContext);
+    const { closeModal, openModal } = useContext(ModalContext);
     const [reload, setReload] = useState<boolean>(false);
     const [listReport, setListReport] = useState<Report[]>([]);
     const navigate = useNavigate();
@@ -40,20 +40,6 @@ const ReportManagement = () => {
 
         }
     }
-
-    // const callAPIdelete = async (id: number) => {
-    //     try {
-    //         const response = await ModelManagementService.deleteModel(id);
-    //         if (response.status === 200) {
-    //             ToastComponent(t('toast.ModelManager.Delete.success'), 'success');
-    //             getAllReport();
-    //         } else {
-    //             ToastComponent(t('toast.ModelManager.Delete.warning'), 'warning');
-    //         }
-    //     } catch (error) {
-    //         ToastComponent(t('toast.ModelManager.Delete.error'), 'error');
-    //     }
-    // }
 
     const getSelectedRowsToExport = ({
         apiRef,
@@ -182,7 +168,7 @@ const ReportManagement = () => {
                                         mt: '4px'
                                     }}
                                     startIcon={<InfoOutlined color='primary' />}
-                                    onClick={() => setContentModal(<ReportFormModal />)}
+                                    onClick={() => openModal(<ReportFormModal />)}
                                 >
                                     Add
                                 </Button>
