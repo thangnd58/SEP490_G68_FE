@@ -46,13 +46,14 @@ export const PolicyPage = () => {
 
 
     return (
-        <Box display={'flex'} flexDirection={'column'} gap={'8px'} p={isMobile ? '32px 16px' : '32px 128px'} color={'text.primary'}>
+        <Box display={'flex'} flexDirection={'column'} gap={'8px'} p={isMobile ? '8px 16px' : '32px 128px'} color={'text.primary'}>
             <Box display={'flex'} flexDirection={'row'} gap={'4px'} alignItems={'center'}>
                 <MyIcon icon={<ArrowBack style={{ color: theme.palette.common.black }} />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-back")} onClick={() => navigate(-1)} position='bottom' />
                 <Typography variant="h4" fontSize={isMobile ? '20px' : '32px'} fontWeight={'700'} textAlign={'center'}>{selectedNews?.title}</Typography>
             </Box>
             <Box sx={{
-                    position: 'relative', margin: '24px 0px', }} height={isMobile ? "" : "70vh"} >
+                position: 'relative', margin: isMobile?'0px 0px 24px 0px' :'24px 0px',
+            }} height={isMobile ? "" : "70vh"} >
                 <img src={PolicyImage} width={'100%'} height={'100%'} alt={"banner"}
                     style={{
                         borderRadius: '8px',
@@ -86,51 +87,49 @@ export const PolicyPage = () => {
                     Policy
                 </Typography>
             </Box>
-            <Box>
-                <BottomNavigation
-                    sx={{
-                        '& .MuiBottomNavigationAction-root': {
-                            minWidth: 'unset',
-                            maxWidth: 'unset',
-                            padding: '0px',
-                            margin: '0px',
-                            height: isMobile ? 'auto' : 'unset',
-                        },
-                        display: 'flex',
-                        flexDirection: isMobile ? 'column' : 'row',
-                    }}
-                    showLabels
-                    value={selectedNews?.newsId}
-                    onChange={(event, newValue) => {
-                        setSelectedNews(listNews.find((n) => n.newsId === newValue));
-                    }}
-                >
-                    {
-                        listNews && listNews.length > 0 &&
-                        listNews.map((n, index) => {
-                            return (
-                                <BottomNavigationAction sx={{
-                                    borderRadius: '8px',
-                                    backgroundColor: selectedNews?.newsId === n.newsId ? "rgb(139,69,13,0.1)" : theme.palette.common.white,
-                                    minHeight: isMobile ? '48px' : 'unset',
-                                    '& .MuiBottomNavigationAction-label': {
-                                        fontSize: '16px',
-                                        fontWeight: selectedNews?.newsId === n.newsId ? 'bold' : 'normal',
-                                        color: selectedNews?.newsId === n.newsId ? theme.palette.primary.main : theme.palette.text.primary,
-                                        whiteSpace: 'nowrap',
-                                        '&:hover': {
-                                            transition: 'all 0.3s ease',
-                                            color: theme.palette.primary.main,
-                                            fontWeight: 'bold',
-                                            transform: 'scale(1.1)'
-                                        }
-                                    },
-                                }} key={index} label={n.title} value={n.newsId} />
-                            )
-                        })
-                    }
-                </BottomNavigation>
-            </Box>
+            <BottomNavigation
+                sx={{
+                    '& .MuiBottomNavigationAction-root': {
+                        minWidth: 'unset',
+                        maxWidth: 'unset',
+                        padding: '0px',
+                        margin: '0px',
+                        minHeight: isMobile ? '32px' : 'unset',
+                    },
+                    display: 'flex',
+                    flexDirection: isMobile ? 'column' : 'row',
+                }}
+                showLabels
+                value={selectedNews?.newsId}
+                onChange={(event, newValue) => {
+                    setSelectedNews(listNews.find((n) => n.newsId === newValue));
+                }}
+            >
+                {
+                    listNews && listNews.length > 0 &&
+                    listNews.map((n, index) => {
+                        return (
+                            <BottomNavigationAction sx={{
+                                borderRadius: '8px',
+                                backgroundColor: selectedNews?.newsId === n.newsId ? "rgb(139,69,13,0.1)" : theme.palette.common.white,
+                                minHeight: isMobile ? '48px' : 'unset',
+                                '& .MuiBottomNavigationAction-label': {
+                                    fontSize: '16px',
+                                    fontWeight: selectedNews?.newsId === n.newsId ? 'bold' : 'normal',
+                                    color: selectedNews?.newsId === n.newsId ? theme.palette.primary.main : theme.palette.text.primary,
+                                    whiteSpace: 'nowrap',
+                                    '&:hover': {
+                                        transition: 'all 0.3s ease',
+                                        color: theme.palette.primary.main,
+                                        fontWeight: 'bold',
+                                        transform: 'scale(1.1)'
+                                    }
+                                },
+                            }} key={index} label={n.title} value={n.newsId} />
+                        )
+                    })
+                }
+            </BottomNavigation>
             <Typography>
                 <div style={{ textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: selectedNews?.detail || "" }}></div>
             </Typography>

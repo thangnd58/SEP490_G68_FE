@@ -22,10 +22,12 @@ import theme from '../../utils/theme';
 import { News } from '../../utils/type';
 import NewsManagementService from '../../services/NewsManagementService';
 import { CategoryNews, GuildlineType, ROUTES } from '../../utils/Constant';
+import useThemePage from '../../hooks/useThemePage';
 
 function Footer() {
   const { t } = usei18next();
   const [listNews, setListNews] = useState<News[]>([]);
+  const { isMobile } = useThemePage();
 
   useEffect(() => {
     NewsManagementService.getAllNews().then((data) => {
@@ -73,7 +75,11 @@ function Footer() {
   };
 
   return (
-    <Container fixed component="footer">
+    <Container
+      sx={{
+        padding: isMobile ? "0px 32px" : "auto",
+      }}
+      fixed component="footer">
       <Grid
         container
         justifyContent="space-between"
@@ -146,7 +152,7 @@ function Footer() {
           py: [3, 3],
         }}
       >
-        <Typography style={{ margin: '8px 0px 0px 8px' }} gutterBottom color="text.secondary">
+        <Typography gutterBottom color="text.secondary">
           <Box>{t("footer.footerCopyright")}</Box>
         </Typography>
         <Box display={'flex'} justifyContent={'end'}>

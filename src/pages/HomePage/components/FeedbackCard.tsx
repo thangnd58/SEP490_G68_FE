@@ -144,7 +144,7 @@ export default function FeedbackCard(props: {
                             <Typography
                                 fontWeight="600"
                                 marginLeft={'4px'}
-                                fontSize={isMobile ? "12px" : "14px"}
+                                fontSize={"14px"}
                                 color={theme.palette.text.primary}
                             >{props.feedback.user.name}</Typography>
                             <Typography fontWeight={'400'} marginLeft={'7px'} marginTop={'1px'} color={'black'} fontSize={'10px'}>{getPreviousTimeRelative(props.feedback.updateDatetime || "", t)}</Typography>
@@ -165,7 +165,7 @@ export default function FeedbackCard(props: {
                         <Typography
                             marginLeft={'4px'}
                             marginTop={'6px'}
-                            fontSize={isMobile ? "12px" : "14px"}
+                            fontSize={"14px"}
                             color={theme.palette.text.primary}
                         >{props.feedback.comment}</Typography>
 
@@ -189,22 +189,20 @@ export default function FeedbackCard(props: {
                         {/* <Typography sx={{cursor : 'pointer'}}>Báo cáo</Typography> */}
                     </Box>
                 </Box>
-                <Box width={'5%'}>
-                    {props.motorbike?.user.userId === user?.userId ?
-                        <Tooltip title={t("booking.toolTipReport")}>
-                            <Info sx={{
-                                cursor: 'pointer',
-                                color: '#8B4513',
-                                '&:hover': {
-                                    transform: "scale(1.1)",
-                                    transition: "transform 0.1s ease-in-out",
-                                },
-                            }} onClick={() => setContentModal(<ReportFormModal />)} />
-                        </Tooltip>
-                        :
-                        null
-                    }
-                </Box>
+                {props.motorbike?.user.userId === user?.userId ?
+                    <Tooltip title={t("booking.toolTipReport")}>
+                        <Info sx={{
+                            cursor: 'pointer',
+                            color: '#8B4513',
+                            '&:hover': {
+                                transform: "scale(1.1)",
+                                transition: "transform 0.1s ease-in-out",
+                            },
+                        }} onClick={() => setContentModal(<ReportFormModal />)} />
+                    </Tooltip>
+                    :
+                    null
+                }
             </Box>
 
             {props.feedback.response && !isEdit ? // nếu có comment trả lời
@@ -238,7 +236,7 @@ export default function FeedbackCard(props: {
                                     <Typography
                                         fontWeight="600"
                                         marginLeft={'4px'}
-                                        fontSize={isMobile ? "12px" : "14px"}
+                                        fontSize={"14px"}
                                         color={theme.palette.text.primary}
                                     >{props.feedback.response.user.name}</Typography>
                                     <Typography fontWeight={'400'} marginLeft={'7px'} marginTop={'1px'} color={'black'} fontSize={'10px'}>{getPreviousTimeRelative(props.feedback.response.updateDatetime || "", t)}</Typography>
@@ -247,7 +245,7 @@ export default function FeedbackCard(props: {
                                     <Typography
                                         marginLeft={'4px'}
                                         marginTop={'6px'}
-                                        fontSize={isMobile ? "12px" : "14px"}
+                                        fontSize={"14px"}
                                         color={theme.palette.text.primary}
                                     >{props.feedback.response.comment}</Typography>
                                 </Box>
@@ -307,7 +305,7 @@ export default function FeedbackCard(props: {
                                         inputProps={{
                                             readOnly: !isEdit,
                                             style: {
-                                                fontSize: isMobile ? "12px" : "14px",
+                                                fontSize: "14px",
                                                 height: isMobile ? "14px" : "18px"
                                             }
                                         }}

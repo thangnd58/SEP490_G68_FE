@@ -24,16 +24,22 @@ export const LoginModal = (props: { isOpenLoginModal: boolean, setIsOpenLoginMod
             onClose={() => setIsOpenLoginModal(false)}
             TransitionComponent={Transition}
             sx={{
-                width :'100%'
+                width: '100%',
             }}
-            PaperProps={{ sx: { borderRadius: "16px", padding: '1rem 1.5rem' } }}
+            PaperProps={{
+                sx: {
+                    borderRadius: "16px",
+                    padding: isMobile ? '1rem 0.5rem' : '1rem 1.5rem',
+                    margin: '8px',
+                }
+            }}
         >
             <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
                 <img style={{ cursor: 'pointer', }} alt="logo" src={LogoHeader} width={"150px"} />
                 <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={() => setIsOpenLoginModal(false)} position='bottom' />
             </Box>
             <DialogTitle
-            
+
             >
                 <LoginForm isModal={true} isMobileModal={isMobile} setIsOpenLoginModal={setIsOpenLoginModal} />
             </DialogTitle>

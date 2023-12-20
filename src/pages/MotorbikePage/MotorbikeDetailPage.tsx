@@ -330,7 +330,7 @@ export default function MotorbikeDetailPage() {
           }}
         >
           <Box
-            margin={isMobile ? "8px 32px" : "32px 64px"}
+            margin={isMobile ? "8px 16px" : "32px 64px"}
             height={"100%"}
             display={"flex"}
             flexDirection={"column"}
@@ -427,7 +427,7 @@ export default function MotorbikeDetailPage() {
                     minHeight: "300px",
                   }}
                   margin={isIpad || isMobile ? "16px 0px" : "0px 0px"}
-                  width={isIpad || isMobile ? "100%" : "35%"}
+                  width={isIpad || isMobile ? "auto" : "35%"}
                   display="flex"
                   flexDirection="column"
                   alignItems="start"
@@ -495,7 +495,7 @@ export default function MotorbikeDetailPage() {
                         }} />
                         <Typography
                           color={theme.palette.text.primary}
-                          sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "400", minWidth: '100px', width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                          sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "400", minWidth: '100px',maxWidth: '270px', width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
                           padding={'11px 0px'}
                           onChange={handleChange}
                         >
