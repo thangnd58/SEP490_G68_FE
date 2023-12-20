@@ -32,14 +32,14 @@ const FavouritePage = () => {
                 <Box
                     alignContent={'center'}
                     display={"flex"}
-                    padding={isMobile ? "32px 0px" : "32px"}
+                    padding={isMobile ? "8px 0px" : "32px"}
                     flexDirection={"column"}>
                     {/* Title */}
                     <Typography
                         variant='h1'
                         color={theme.palette.text.primary}
                         fontSize={isMobile ? "24px" : "32px"}
-                        lineHeight={"40px"}
+                        lineHeight={isMobile ? "48px" : "60px"}
                         fontWeight={"600"}
                         sx={{ textAlign: 'center' }}>
                         {t("favourite.title")}

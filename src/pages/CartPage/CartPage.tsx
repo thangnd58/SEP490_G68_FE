@@ -111,15 +111,15 @@ function CartPage() {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                margin: '32px 0px',
-                gap: '32px'
+                margin: isMobile ? "16px 0px" : '32px 0px',
+                gap: isMobile ? "16px" : '32px'
             }}
         >
             <Typography
                 variant='h1'
                 color={theme.palette.text.primary}
-                fontSize={"32px"}
-                lineHeight={"60px"}
+                fontSize={isMobile ? "24px" : "32px"}
+                lineHeight={isMobile ? "48px" : "60px"}
                 fontWeight={"600"}
                 sx={{ textAlign: 'center' }}>
                 {t("editional.cart")}
@@ -138,15 +138,15 @@ function CartPage() {
                     ) : (
                         shoppingCart.slice().reverse().map((item: CartInforResponse, index: number) => (
                             <Paper key={index} elevation={2} sx={{
-                                width: '80%', bgcolor: 'background.paper',
+                                width: isMobile ? "90%" : '80%', bgcolor: 'background.paper',
                                 animation: "fadeInDown 1s ease-out"
                             }}>
-                                <Box display={"flex"} flexDirection={"column"} gap={"16px"} p={3}>
+                                <Box display={"flex"} flexDirection={"column"} gap={isMobile ? "8px" : "16px"} p={isMobile ? 1 : 3}>
                                     <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"}>
                                         <Typography
                                             variant='h2'
                                             color={theme.palette.text.primary}
-                                            fontSize={"24px"}
+                                            fontSize={isMobile ? "20px" : "24px"}
                                             lineHeight={"36px"}
                                             fontWeight={"600"}
                                             sx={{ textAlign: 'center' }}>
@@ -156,49 +156,61 @@ function CartPage() {
                                             content={t("editional.book")}
                                             onClick={() => { showModalBookingInfoMultipleMotorbike(item.motorbikes, item.address, item.startDatetime, item.endDatetime, item.bookingCartId) }}
                                             width="auto"
-                                            height="36px"
-                                            fontSize={16}
+                                            height={isMobile ? "28px" : "36px"}
+                                            fontSize={isMobile ? 14 : 16}
                                             fontWeight={400}
                                             borderRadius={8}
                                         />
                                     </Box>
                                     <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
-                                        <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '32px' }}>
+                                        <Box display={'flex'} flexDirection={isMobile ? "column" : 'row'} alignItems={'start'} justifyContent={'center'} sx={{ gap: isMobile ? "8px" : '32px' }}>
                                             {/* location */}
-                                            <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
-                                                <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
-                                                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                        {t("editional.delivery")}
-                                                    </Typography>
-                                                </Box>
-                                                <Box
-                                                    className="custom-search-box"
-                                                    display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ cursor: 'pointer', gap: '4px' }} padding={"4px 0px"}
-                                                >
-                                                    <LocationOnOutlined sx={{ color: theme.palette.action.disabled }} />
-                                                    <Typography
-                                                        color={theme.palette.text.primary}
-                                                        sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ width: "100%" }} >
+                                                <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                                                    <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
+                                                        <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                                                            {t("editional.delivery")}
+                                                        </Typography>
+                                                    </Box>
+                                                    <Box
+                                                        className="custom-search-box"
+                                                        display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ cursor: 'pointer', gap: '4px' }} padding={"4px 0px"}
                                                     >
-                                                        {item.address}
-                                                    </Typography>
+                                                        <LocationOnOutlined sx={{ color: theme.palette.action.disabled }} />
+                                                        <Typography
+                                                            color={theme.palette.text.primary}
+                                                            sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                                        >
+                                                            {item.address}
+                                                        </Typography>
+                                                    </Box>
                                                 </Box>
+                                                {
+                                                    isMobile && <MyIcon
+                                                        icon={
+                                                            open[index] ? <KeyboardArrowUp /> :
+                                                                <KeyboardArrowDown />
+                                                        }
+                                                        position='bottom'
+                                                        hasTooltip
+                                                        tooltipText={t("dashBoardManager.news.viewsMore")}
+                                                        onClick={() => {
+                                                            const newOpenState = [...open];
+                                                            newOpenState[index] = !newOpenState[index];
+                                                            setOpen(newOpenState);
+                                                        }}
+                                                    />
+                                                }
                                             </Box>
                                             {/* time */}
-                                            <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
-                                                <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>
+                                            <Box display={'flex'} flexDirection={isMobile ? "row" : 'row'} alignItems={'start'} justifyContent={'center'} sx={{ gap: isMobile ? "8px" : '4px' }}>
+                                                <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
                                                     {/* start date */}
-                                                    <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                                                    <Typography width={"100%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
                                                         {t("editional.datePickUp")}
                                                     </Typography>
-                                                    {/* end date */}
-                                                    <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                        {t("editional.dateDropOff")}
-                                                    </Typography>
-                                                </Box>
-                                                <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>
                                                     {/* start date */}
-                                                    <Box width={"50%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                                                    <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '4px' }}>
                                                         {/* icon calendar */}
                                                         <CalendarTodayOutlined sx={{ color: theme.palette.action.disabled }} />
                                                         {/* box typography */}
@@ -210,8 +222,14 @@ function CartPage() {
                                                             {item.startDatetime}
                                                         </Typography>
                                                     </Box>
+                                                </Box>
+                                                <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                                                    {/* end date */}
+                                                    <Typography width={"100%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                                                        {t("editional.dateDropOff")}
+                                                    </Typography>
                                                     {/* start date */}
-                                                    <Box width={"50%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}
+                                                    <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '4px' }}
                                                         padding={"4px 0px"}>
                                                         {/* icon calendar */}
                                                         <CalendarTodayOutlined sx={{ color: theme.palette.action.disabled }} />
@@ -227,20 +245,23 @@ function CartPage() {
                                                 </Box>
                                             </Box>
                                         </Box>
-                                        <MyIcon
-                                            icon={
-                                                open[index] ? <KeyboardArrowUp /> :
-                                                    <KeyboardArrowDown />
-                                            }
-                                            position='bottom'
-                                            hasTooltip
-                                            tooltipText={t("dashBoardManager.news.viewsMore")}
-                                            onClick={() => {
-                                                const newOpenState = [...open];
-                                                newOpenState[index] = !newOpenState[index];
-                                                setOpen(newOpenState);
-                                            }}
-                                        />
+                                        {
+                                            !isMobile && <MyIcon
+                                                icon={
+                                                    open[index] ? <KeyboardArrowUp /> :
+                                                        <KeyboardArrowDown />
+                                                }
+                                                position='bottom'
+                                                hasTooltip
+                                                tooltipText={t("dashBoardManager.news.viewsMore")}
+                                                onClick={() => {
+                                                    const newOpenState = [...open];
+                                                    newOpenState[index] = !newOpenState[index];
+                                                    setOpen(newOpenState);
+                                                }}
+                                            />
+                                        }
+
                                     </Box>
                                     <Divider />
                                     <AnimatedBox sx={{
@@ -256,7 +277,7 @@ function CartPage() {
                                         isOpen={open[index]}
                                     >
                                         {item.motorbikes.map((motorbike: Motorbike, index1: number) => (
-                                            <Box key={index1} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>
+                                            <Box width={"100%"} key={index1} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>
                                                 <MotorbikeInforCard key={index1} motorbike={motorbike} isInCart={true} isFavoritePage={false} startDate={item.startDatetime} endDate={item.endDatetime} searchedAddress={item.address} deleteInCart={
                                                     () => {
                                                         deleteMotorbikeInCart(index, motorbike.id!, item.bookingCartId)
