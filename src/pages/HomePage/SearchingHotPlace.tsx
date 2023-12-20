@@ -388,9 +388,8 @@ function SearchingHotPlace() {
                         alignItems: 'center',
                         justifyContent: 'center',
                         margin: '32px 0px',
-                        overflowY: 'auto',
                     }}>
-                    <Box width={isMobile ? "70%" : "50%"} height={"auto"} sx={{
+                    <Box width={isMobile ? "80%" : "50%"} height={"auto"} sx={{
                         padding: "16px 32px",
                         backgroundColor: 'white',
                         borderRadius: '8px',
@@ -498,7 +497,7 @@ function SearchingHotPlace() {
                                                     borderRadius={"10px"}
                                                     border={"3px solid"}
                                                     margin={"0px auto"}
-                                                    width={"99%"}
+                                                    width={"97%"}
                                                     justifyContent={"center"}
                                                     alignItems={"center"}
                                                     flexDirection={"column"}

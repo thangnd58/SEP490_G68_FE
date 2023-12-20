@@ -25,7 +25,7 @@ export const ReportFormModal = () => {
     const { t } = usei18next();
     const { closeModal } = useContext(ModalContext);
     const [selectedCategory, setSelectedCategory] = useState<ReportCategory>();
-
+    const {isMobile} = useThemePage();
     useEffect(() => {
         try {
             ReportService.getAllReportCategory().then((data) => {
@@ -76,7 +76,7 @@ export const ReportFormModal = () => {
                 TransitionComponent={Transition}
                 fullWidth
                 sx={{zIndex: 9999}}
-                PaperProps={{ sx: { borderRadius: "16px", padding: '1rem 1.5rem'} }}
+                PaperProps={{ sx: { borderRadius: "16px", padding: isMobile ? '8px' : '1rem 1.5rem'} }}
             >
                 <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
                     <img style={{ cursor: 'pointer', }} alt="logo" src={LogoHeader} width={"150px"} />
@@ -92,7 +92,7 @@ export const ReportFormModal = () => {
                     </Box>
                 </DialogTitle>
                 <DialogContent sx={{
-                    margin: '0px 16px',
+                    margin:  isMobile ? '0px' : '0px 16px',
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '1rem',

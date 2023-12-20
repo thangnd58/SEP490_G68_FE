@@ -63,11 +63,10 @@ export const DetailPromotion = (props: { id: string }) => {
                     </Box>
                 </DialogTitle>
                 <DialogContent sx={{
-                    margin: '0px 16px',
+                    margin: isMobile ? '0px 0px' : '0px 16px',
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '1rem',
-                    // alignItems: 'center',
                     borderRadius: '16px',
                     border: '1px solid #E0E0E0',
                 }}

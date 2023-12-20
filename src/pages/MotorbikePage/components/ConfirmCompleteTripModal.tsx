@@ -67,7 +67,6 @@ export const ConfirmCompleteTripModal = (props: { booking: Booking, isMobile: bo
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                overflowY: 'auto',
                 zIndex: 10000
             }}
         >

@@ -1033,11 +1033,10 @@ export default function MotorbikeDetailPage() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          overflowY: 'auto',
           zIndex: 10000
         }}
       >
-        <Box width={isMobile ? "70%" : "50%"} height={"auto"} sx={{
+        <Box width={isMobile ? "80%" : "50%"} height={"auto"} sx={{
           padding: "16px 32px",
           backgroundColor: 'white',
           borderRadius: '8px',

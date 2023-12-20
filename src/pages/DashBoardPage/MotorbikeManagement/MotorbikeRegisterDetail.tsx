@@ -244,11 +244,11 @@ const MotorbikeRegisterDetail = () => {
                                 fontSize: '16px'
                             }}
                             InputProps={{
-                                readOnly: motorbike?.status === "Approved",
+                                readOnly: motorbike?.status === "Approved" || motorbike?.status === "CurrentlyRenting",
                             }}
                         />
                         {
-                            motorbike?.status !== "Approved"
+                            motorbike?.status !== "Approved" && motorbike?.status !== "CurrentlyRenting"
                             &&
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: "16px", mt: "16px" }}>
                                 <MyCustomButton

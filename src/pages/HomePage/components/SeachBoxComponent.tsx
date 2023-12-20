@@ -182,7 +182,8 @@ const SeachBoxComponent = () => {
         <Box display={'flex'} alignItems={'center'} justifyContent={'center'}
             padding={isMobile ? '16px 0px' : '32px 64px'}
             gap={isMobile ? '16px' : '32px'}
-            flexDirection={isMobile ? 'column' : 'row'} width={'100%'}>
+            flexDirection={isMobile ? 'column' : 'row'} width={'100%'}
+            >
             {/* search box input */}
             <Box
                 display={'flex'}
@@ -292,6 +293,7 @@ const SeachBoxComponent = () => {
                             dayjs(values.startDate, "DD-MM-YYYY HH:mm"),
                             dayjs(values.endDate, "DD-MM-YYYY HH:mm"),
                         ]}
+                        
                         onChange={(dates, dateStrings) => {
                             if (dates && dates.length === 2) {
                                 setFieldValue('startDate', dateStrings[0]);
@@ -358,9 +360,8 @@ const SeachBoxComponent = () => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     margin: '32px 0px',
-                    overflowY: 'auto',
                 }}>
-                <Box width={isMobile ? "70%" : "50%"} height={"auto"} sx={{
+                <Box width={isMobile ? "80%" : "50%"} height={"auto"} sx={{
                     padding: "16px 32px",
                     backgroundColor: 'white',
                     borderRadius: '8px',
@@ -373,7 +374,7 @@ const SeachBoxComponent = () => {
                             <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeMapModal} position='bottom' />
                         </Box>
                     </Box>
-                    <Box width={"100%"} height={"80%"} display={"flex"} flexDirection={"column"} justifyContent={"start"} alignItems={"center"}>
+                    <Box width={"100%"} height={"90%"} display={"flex"} flexDirection={"column"} justifyContent={"start"} alignItems={"center"}>
                         <RegisterMotorbikeItem
                             fontSizeTitle='16px'
                             title={t("postMotorbike.registedForm.address")}
@@ -468,7 +469,7 @@ const SeachBoxComponent = () => {
                                                 borderRadius={"10px"}
                                                 border={"3px solid"}
                                                 margin={"0px auto"}
-                                                width={"99%"}
+                                                width={"97%"}
                                                 justifyContent={"center"}
                                                 alignItems={"center"}
                                                 flexDirection={"column"}
