@@ -57,7 +57,8 @@ export const RequireWhenRent = () => {
                         display: 'list-item',
                         textAlign: 'justify',
                         fontSize: "14px",
-                        padding: '4px 0px'
+                        padding: '4px 0px',
+                        fontFamily: 'Inter'
                     }}
                     >{t("policy.requireYearOld")}</ListItem>
                     <ListItem sx={{
@@ -65,14 +66,16 @@ export const RequireWhenRent = () => {
                         display: 'list-item',
                         textAlign: 'justify',
                         fontSize: "14px",
-                        padding: '4px 0px'
+                        padding: '4px 0px',
+                        fontFamily: 'Inter'
                     }}>{t("policy.requireLicence")}</ListItem>
                     <ListItem sx={{
                         color: '#000',
                         display: 'list-item',
                         textAlign: 'justify',
                         fontSize: "14px",
-                        padding: '4px 0px'
+                        padding: '4px 0px',
+                        fontFamily: 'Inter'
                     }}>{t("policy.requireReadPolicy")}</ListItem>
                 </List>
             </Box>
@@ -148,21 +151,24 @@ export const RequireWhenRent = () => {
                             display: 'list-item',
                             textAlign: 'justify',
                             fontSize: "12px",
-                            padding: '4px 0px'
+                            padding: '4px 0px',
+                            fontFamily: 'Inter'
                         }}>{t("policy.freeCancel1hour")}</ListItem>
                         <ListItem sx={{
                             color: '#000',
                             display: 'list-item',
                             textAlign: 'justify',
                             fontSize: "12px",
-                            padding: '4px 0px'
+                            padding: '4px 0px',
+                            fontFamily: 'Inter'
                         }}>{t("policy.customerNotGetMotorbike")}</ListItem>
                         <ListItem sx={{
                             color: '#000',
                             display: 'list-item',
                             textAlign: 'justify',
                             fontSize: "12px",
-                            padding: '4px 0px'
+                            padding: '4px 0px',
+                            fontFamily: 'Inter'
                         }} >{t("policy.moneyReturn")}</ListItem>
                     </List>
                 </Box>

@@ -12,7 +12,7 @@ interface CreateFadeEffectImageProps {
     transitionDuration?: number;
     indicators?: boolean;
     arrows?: boolean;
-    isMobile ?: boolean;
+    isMobile?: boolean;
 }
 
 export default function MySlideShowImage(props: CreateFadeEffectImageProps) {
@@ -23,22 +23,21 @@ export default function MySlideShowImage(props: CreateFadeEffectImageProps) {
                 duration={3000}
                 canSwipe={true}
                 pauseOnHover={true}
-                transitionDuration={500}
-                
             >
                 {props.images.map((item) => (
-                    <Box key={item} 
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',                        
-                    }}>
+                    <Box key={item}
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}>
                         <img
                             style={{
                                 borderRadius: '8px',
                                 alignContent: 'center',
                                 justifyContent: 'center',
-                                width: props.isMobile?'100%': '60%',
+                                height: props.isMobile ? '300px' : '468px',
+                                width: props.isMobile ? '100%' : '60%',
                                 objectFit: 'cover',
                             }}
                             src={item}

@@ -80,9 +80,9 @@ const GuidelinePage = () => {
 
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" p={"64px 0px"} gap={"32px"}>
+    <Box display="flex" flexDirection="column" alignItems="center" p={isMobile ? '16px 0px' : "64px 0px"} gap={isMobile ? '0px' : "32px"}>
       {/* Phần thứ nhất - Hình ảnh và tiêu đề */}
-      <Box sx={{ position: 'relative', width: '80%', borderRadius: '8px' }}>
+      <Box sx={{ position: 'relative', width: isMobile ? '90%' : '80%', borderRadius: '8px' }}>
         <div
           style={{
             position: 'absolute',
@@ -98,7 +98,7 @@ const GuidelinePage = () => {
           onLoad={handleImageLoad}
           src={GuildLineImage} // Thay thế bằng đường dẫn đến hình ảnh của bạn
           alt="General Guideline"
-          style={{ width: '100%', height: '70vh', borderRadius: '8px' }}
+          style={{ width: '100%', height: isMobile ? '25vh' : '70vh', borderRadius: '8px' }}
         />
         {!imageLoaded && (
           <Skeleton
@@ -111,7 +111,7 @@ const GuidelinePage = () => {
           variant="h5"
           align="center"
           fontWeight="bold"
-          fontSize={"48px"}
+          fontSize={isMobile ? '32px' : "48px"}
           style={{
             position: 'absolute',
             top: '50%',
@@ -126,9 +126,9 @@ const GuidelinePage = () => {
       </Box>
 
       {/* Phần thứ hai - Hướng dẫn và nội dung */}
-      <Box display="flex" flexDirection="row" justifyContent="space-between" width="80%">
+      <Box display="flex" flexDirection={isMobile ? "column" : "row"} justifyContent="space-between" width={isMobile ? '90%' : '80%'}>
         {/* Phần thứ nhất - List hướng dẫn */}
-        <Box width={"20%"} sx={{ overflowY: 'auto' }} maxHeight={"300px"}>
+        <Box width={isMobile ? '100%' : "20%"} sx={{ overflowY: 'auto' }} maxHeight={"300px"}>
           <List>
             <ListItem
               sx={{
@@ -229,7 +229,7 @@ const GuidelinePage = () => {
         </Box>
 
         {/* Phần thứ hai - Nội dung Guideline */}
-        <Box width="75%">
+        <Box width={isMobile ? '100%' : '75%'}>
           {
             guideName === GuildlineType.general ? (
               <>
@@ -285,7 +285,7 @@ const GuidelinePage = () => {
           </Box>
         </Box>
       </Box>
-    </Box>
+    </Box >
   );
 };
 

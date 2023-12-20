@@ -124,11 +124,11 @@ const FormStyleModal = styled('form')(({ theme }) => ({
     },
   },
   '& .MuiPaper-root': {
+    margin: '0px 8px',
     padding: "16px",
     borderRadius: '20px',
   },
   '& .login': {
-    fontSize: '30px',
     textAlign: 'center',
     fontWeight: '600',
     marginBottom: '1.5rem',
@@ -268,7 +268,7 @@ const LoginForm = (props: { isModal?: boolean, isMobileModal?: boolean, setIsOpe
           <Paper elevation={3} sx={{
             width: isModal && isMobileModal ? "100%" : (isModal && !isMobileModal) ? "70%" : isMobile ? '75%' : '30%',
           }}>
-            <Typography className='login'>
+            <Typography className='login' fontSize={isMobile ? "24px" : "30px"}>
               {t("form.login")}
             </Typography>
             <Box className='login-form'>

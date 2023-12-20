@@ -380,7 +380,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
             flexDirection={"row"}
             justifyContent={"space-between"}
             alignItems={"center"}
-            padding={"32px"}
+            padding={isMobile ? "16px" :"32px"}
             position={"sticky"}
             top={0}
             zIndex={1000}
@@ -393,7 +393,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
             </Box>
           </Box>
           <Box
-            margin={isMobile ? "8px 32px" : "32px 64px"}
+            margin={isMobile ? "8px 16px" : "32px 64px"}
             height={"100%"}
             display={"flex"}
             flexDirection={"column"}
@@ -490,7 +490,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                     minHeight: "300px",
                   }}
                   margin={isIpad || isMobile ? "16px 0px" : "0px 0px"}
-                  width={isIpad || isMobile ? "100%" : "35%"}
+                  width={isIpad || isMobile ? "auto" : "35%"}
                   display="flex"
                   flexDirection="column"
                   alignItems="start"
@@ -558,7 +558,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                         }} />
                         <Typography
                           color={theme.palette.text.primary}
-                          sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "400", minWidth: '100px', width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                          sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "400", minWidth: '100px',maxWidth: '250px', width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
                           padding={'11px 0px'}
                           onChange={handleChange}
                         >
@@ -1079,7 +1079,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                   <Divider sx={{ margin: isMobile ? "16px 0px 16px 0px" : "16px 0px", width: "100%" }} variant="fullWidth" />
                   {/* Mô tả */}
                   <Box display="flex" flexDirection="column" alignItems="start" width={"100%"} justifyContent={"space-between"} >
-                    <Typography variant="h5" color={theme.palette.text.primary} fontWeight="700" fontSize={"16px"}>
+                    <Typography fontWeight={'700'} color={'common.black'} >
                       {t("postMotorbike.listform.description")}
                     </Typography>
                     <Box width={"100%"}>

@@ -137,7 +137,7 @@ interface AnimatedBoxProps {
 }
 
 const AnimatedBox = styled(Box)<AnimatedBoxProps>`
-  transition: all 2s ease;
+  transition: all 1s ease;
   overflow-y: auto;
   height: ${(props) => (props.isOpen ? "200px" : "0")};
   opacity: ${(props) => (props.isOpen ? "1" : "0")};
@@ -154,7 +154,7 @@ function Header() {
   const [drawerOpenNoti, setDrawerOpenNoti] = useState(false);
   const [isAvatarClicked, setIsAvatarClicked] = useState(false);
   const { setContentModal, setShowModal } = useContext(ModalContext);
-  const [isShowMore, setIsShowMore] = useState(false);
+  const [isShowMore, setIsShowMore] = useState(true);
   const dispatch = useAppDispatch();
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
