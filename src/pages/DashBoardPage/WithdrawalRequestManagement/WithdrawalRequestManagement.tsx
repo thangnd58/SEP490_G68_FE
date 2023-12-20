@@ -19,7 +19,7 @@ const WithdrawalRequestManagement = () => {
 
     const [listWithdrawal, setListWithdrawal] = useState<ResponseWithDrawal[]>([]);
     const { t } = usei18next();
-    const { closeModal, setShowModal, setContentModal } = useContext(ModalContext);
+    const { openModal } = useContext(ModalContext);
     const [reload, setReload] = useState<boolean>(false);
     const { isMobile } = useThemePage();
     useEffect(() => {
@@ -87,7 +87,7 @@ const WithdrawalRequestManagement = () => {
                 params.row.status === "Processing" ?
                 <Box sx={{ cursor: 'pointer' }}>
                     <MyIcon icon={<Visibility />} hasTooltip position='right' tooltipText={t("favourite.item.view")} onClick={() => {
-                        setContentModal(<ModalQrCode setReload={setReload} withdrawal={params.row} />)
+                        openModal(<ModalQrCode setReload={setReload} withdrawal={params.row} />)
                     }} />
                 </Box> : <></>
             )

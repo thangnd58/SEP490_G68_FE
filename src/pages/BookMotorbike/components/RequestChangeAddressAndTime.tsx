@@ -47,7 +47,7 @@ function RequestChangeAddressAndTime(props: {
   booking: Booking;
   setReload: Dispatch<SetStateAction<boolean>>;
 }) {
-  const { setContentModal } = useContext(ModalContext);
+  const { openModal, closeModal } = useContext(ModalContext);
   const { booking, setReload } = props;
   const { isMobile } = useThemePage();
   const { t } = usei18next();
@@ -173,7 +173,7 @@ function RequestChangeAddressAndTime(props: {
   return (
     <Dialog
       open={true}
-      onClose={() => setContentModal(<></>)}
+      onClose={() => closeModal()}
       TransitionComponent={Transition}
       fullWidth
       PaperProps={{
@@ -222,7 +222,7 @@ function RequestChangeAddressAndTime(props: {
               icon={<CloseOutlined />}
               hasTooltip
               tooltipText={t("postMotorbike.registedForm.badge-close")}
-              onClick={() => setContentModal(<></>)}
+              onClick={() => closeModal()}
               position="bottom"
             />
           </Box>
@@ -479,7 +479,7 @@ function RequestChangeAddressAndTime(props: {
                   content={t("postMotorbike.registedForm.btnConfirm")}
                   onClick={() => {
                     handleSubmit();
-                    setContentModal(<></>);
+                    closeModal();
                   }}
                 />
               </Box>

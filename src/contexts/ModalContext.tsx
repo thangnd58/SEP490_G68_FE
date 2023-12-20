@@ -9,25 +9,33 @@ type Props = {
   canCloseModal?: boolean;
 };
 
-const ModalProvider: React.FC<Props> = ({ children,canCloseModal }) => {
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [contentModal, setContentModal] = useState<JSX.Element>(<></>);
+const ModalProvider: React.FC<Props> = ({ children, canCloseModal }) => {
+  const [contentModal, setContentModal] = useState<JSX.Element[]>([]);
   let backdropRef = useRef();
   const closeModal = () => {
-    setContentModal(<></>);
-    setShowModal(false);
+    setContentModal((prevModals) => prevModals.slice(0, prevModals.length - 1));
+  };
+  const clearModals = () => {
+    setContentModal([]);
+  };
+  const openModal = (content: JSX.Element) => {
+    setContentModal((prevModals) => [...prevModals, content]);
   };
   const valueContext = {
-    showModal,
-    setShowModal,
     contentModal,
-    setContentModal,
     closeModal,
     backdropRef,
+    clearModals,
+    openModal
   }; 
   return (
     <ModalContext.Provider value={valueContext}>
         {children}
+        {contentModal.map((modal, index) => (
+        <Modal key={index} open onClose={closeModal}>
+          {modal}
+        </Modal>
+      ))}
     </ModalContext.Provider>
   );
 };

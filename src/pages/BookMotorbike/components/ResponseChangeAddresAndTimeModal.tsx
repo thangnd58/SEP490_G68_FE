@@ -22,7 +22,7 @@ function ResponseChangeAddresAndTimeModal(props: {
 }) {
   const { isMobile } = useThemePage();
   const { t } = usei18next();
-  const { setContentModal } = useContext(ModalContext);
+  const { closeModal } = useContext(ModalContext);
   const { booking, setReload } = props;
 
   const formik = useFormik({
@@ -47,7 +47,7 @@ function ResponseChangeAddresAndTimeModal(props: {
     } catch (error) {
       ToastComponent(t("booking.toastResultErrorReply"), "error");
     } finally {
-      setContentModal(<></>);
+      closeModal();
     }
   };
 
@@ -63,14 +63,14 @@ function ResponseChangeAddresAndTimeModal(props: {
     } catch (error) {
       ToastComponent(t("booking.toastResultErrorReply"), "error");
     } finally {
-      setContentModal(<></>);
+      closeModal();
     }
   };
 
   return (
     <Dialog
       open={true}
-      onClose={() => setContentModal(<></>)}
+      onClose={() => closeModal()}
       TransitionComponent={Transition}
       fullWidth
       PaperProps={{
@@ -119,7 +119,7 @@ function ResponseChangeAddresAndTimeModal(props: {
               icon={<CloseOutlined />}
               hasTooltip
               tooltipText={t("postMotorbike.registedForm.badge-close")}
-              onClick={() => setContentModal(<></>)}
+              onClick={() => closeModal()}
               position="bottom"
             />
           </Box>

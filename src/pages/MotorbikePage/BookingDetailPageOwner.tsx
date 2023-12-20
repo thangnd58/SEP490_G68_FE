@@ -81,7 +81,7 @@ export const BookingDetailPageOwner = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const { isMobile } = useThemePage();
   const { t } = usei18next();
-  const { setContentModal, setShowModal } = useContext(ModalContext);
+  const { openModal, setShowModal } = useContext(ModalContext);
   const steps = [
     t("booking.paymentCol"),
     t("booking.startUsingService"),
@@ -289,7 +289,7 @@ export const BookingDetailPageOwner = () => {
   };
 
   const showModalCancelBooking = (id: number) => {
-    setContentModal(
+    openModal(
       <MyDialog
         style={{
           zIndex: 10000,
@@ -630,7 +630,7 @@ export const BookingDetailPageOwner = () => {
                       // varient="dot"
                       tooltipText={t("booking.titleChangeInfoReturnOwner")}
                       onClick={() =>
-                        setContentModal(
+                        openModal(
                           <ResponseChangeAddresAndTimeModal
                             booking={booking}
                             setReload={setReloadBooking}
@@ -866,7 +866,7 @@ export const BookingDetailPageOwner = () => {
                     }}
                     src={booking.user.avatarUrl}
                     onClick={() =>
-                      setContentModal(
+                      openModal(
                         <UserInforModal userId={booking.user.userId} />
                       )
                     }

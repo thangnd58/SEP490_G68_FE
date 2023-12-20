@@ -17,7 +17,7 @@ export default function PromotionComponent() {
   const navigate = useNavigate();
   const { t } = usei18next();
   const [promotions, setPromotions] = useState<Promotion[]>([])
-  const { setContentModal, setShowModal } = useContext(ModalContext);
+  const { openModal } = useContext(ModalContext);
 
   useEffect(() => {
     try {
@@ -122,7 +122,7 @@ export default function PromotionComponent() {
             }>
             <Slider ref={sliderPlaceRef} {...placeSettings}>
               {promotions.map((promotion) => (
-                <Box key={promotion.id} onClick={() => setContentModal(<DetailPromotion id={promotion.id.toString()} />)}>
+                <Box key={promotion.id} onClick={() => openModal(<DetailPromotion id={promotion.id.toString()} />)}>
                   <HotPlaceItem promotion={promotion} isMobile={isMobile} />
                 </Box>
               ))}

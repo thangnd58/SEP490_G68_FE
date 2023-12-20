@@ -24,7 +24,7 @@ interface MyDialogProps {
 }
 
 const ModalWithdrawalMoney = (props: MyDialogProps) => {
-    const { closeModal, setContentModal, setShowModal } = useContext(ModalContext);
+    const { closeModal, openModal } = useContext(ModalContext);
     const { t } = usei18next();
     const [banks, setBanks] = useState<Bank[]>([]);
     const [selectedBank, setSelectedBank] = useState<Bank>();
@@ -58,11 +58,10 @@ const ModalWithdrawalMoney = (props: MyDialogProps) => {
     }, []);
 
     const showModalStatus = () => {
-        setContentModal(<ModalStatus icon={SuccessIconNew} title={t("wallet.title_create_request_withdrawal")} content={t("wallet.content_create_request_withdrawal")} handleConfirm={() => {
+        openModal(<ModalStatus icon={SuccessIconNew} title={t("wallet.title_create_request_withdrawal")} content={t("wallet.content_create_request_withdrawal")} handleConfirm={() => {
             dispatch(getUserInfo());
             closeModal();
         }} />)
-        setShowModal(true)
     }
 
     const formik = useFormik({

@@ -300,7 +300,7 @@ const ListMotorbikeForm = () => {
     "& .MuiTableCell-root": {
       borderTop: "none",
       borderLeft: "none",
-      borderRight: "none"
+      borderRight: "none",
     },
   }));
 
@@ -771,7 +771,7 @@ function ItemMotorbikeModal({
   const [motorbike, setMotorbike] = useState<Motorbike>();
   const [listFeedback, setlistFeedback] = useState<Feedback[]>([]);
   const [reloadFeedback, setReloadFeedback] = useState<boolean>(false);
-  const { setContentModal } = useContext(ModalContext);
+  const { openModal } = useContext(ModalContext);
 
   const getFeedbackById = async (id: string) => {
     try {
@@ -1627,7 +1627,7 @@ function ItemMotorbikeModal({
                           <FeedbackCard
                             motorbike={motorbike}
                             setReload={setReloadFeedback}
-                            setContentModal={setContentModal}
+                            setContentModal={openModal}
                             closeModal={closeItemModal}
                             feedback={item}
                             key={index}
@@ -1780,19 +1780,25 @@ function RowIncome(props: { row: IncomeFromMotorbike; index: number }) {
               <Typography>{index}</Typography>
             </Grid>
             <Grid item xs={1}>
-              <Avatar src={row.motorbike.imageUrl[0]}/>
+              <Avatar src={row.motorbike.imageUrl[0]} />
             </Grid>
             <Grid item xs={2}>
               <Typography>{`${row.motorbike.model.brand.brandName} ${row.motorbike.model.modelName}`}</Typography>
             </Grid>
             <Grid item xs={3}>
-              <Typography>{`${t("dashBoardManager.motorbikeRentalManager.columnLicensePlate")}: ${row.motorbike.licensePlate}`}</Typography>
+              <Typography>{`${t(
+                "dashBoardManager.motorbikeRentalManager.columnLicensePlate"
+              )}: ${row.motorbike.licensePlate}`}</Typography>
             </Grid>
             <Grid item xs={2}>
-              <Typography>{`${t("booking.completeBook", {count: row.totalBooking})}`}</Typography>
+              <Typography>{`${t("booking.completeBook", {
+                count: row.totalBooking,
+              })}`}</Typography>
             </Grid>
             <Grid item xs={3}>
-              <Typography>{`${t("dashBoardManager.dashboard.income")}: ${formatMoneyNew(row.totalRevenue)}`}</Typography>
+              <Typography>{`${t(
+                "dashBoardManager.dashboard.income"
+              )}: ${formatMoneyNew(row.totalRevenue)}`}</Typography>
             </Grid>
           </Grid>
         </TableCell>

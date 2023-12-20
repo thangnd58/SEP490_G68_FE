@@ -40,7 +40,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
   const [fileLicence, setFileLicence] = useState<File>();
   const dispatch = useAppDispatch();
   const { isMobile } = useThemePage();
-  const { setShowModal, setContentModal } = useContext(ModalContext);
+  const { openModal } = useContext(ModalContext);
   const [reloadLicence, setReloadLicence] = useState<boolean>(false);
   useEffect(() => {
     getLisence();
@@ -242,7 +242,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
   };
 
   const handleConfirmUnlink = () => {
-    setContentModal(<MyDialog content={t("toast.userProfile.confirmUnlink")} title={t("toast.userProfile.btnUnlink")} hasAgreeButton={true} hasCancelButton={true} onClickAgree={() => handleUnlinkGoogle()} />);
+    openModal(<MyDialog content={t("toast.userProfile.confirmUnlink")} title={t("toast.userProfile.btnUnlink")} hasAgreeButton={true} hasCancelButton={true} onClickAgree={() => handleUnlinkGoogle()} />);
   }
 
   const handleUnlinkGoogle = async () => {

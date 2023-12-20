@@ -77,7 +77,7 @@ export const BookingDetailPage = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const { isMobile } = useThemePage();
   const { t } = usei18next();
-  const { setContentModal, setShowModal } = useContext(ModalContext);
+  const { openModal } = useContext(ModalContext);
   const steps = [
     t("booking.paymentCol"),
     t("booking.startUsingService"),
@@ -246,7 +246,7 @@ export const BookingDetailPage = () => {
       try {
         PaymentService.processPaymentDb(search).then((data) => {
           dispatch(getUserInfo());
-          setContentModal(
+          openModal(
             <ModalStatus
               icon={SuccessIconNew}
               title={t("Thanh toán thành công")}
@@ -256,7 +256,6 @@ export const BookingDetailPage = () => {
               handleConfirm={handleConfirmDeposit}
             />
           );
-          setShowModal(true);
         });
       } catch (error) { }
     }
@@ -342,7 +341,7 @@ export const BookingDetailPage = () => {
   };
 
   const showModalCancelBooking = (id: number) => {
-    setContentModal(
+    openModal(
       <MyDialog
         style={{
           zIndex: 10000,
@@ -354,7 +353,6 @@ export const BookingDetailPage = () => {
         onClickAgree={() => handleCancelBooking(id)}
       />
     );
-    setShowModal(true);
   };
 
   // MAP CONTROLLER
@@ -595,7 +593,7 @@ export const BookingDetailPage = () => {
                                   iconPosition="left"
                                   width="auto"
                                   onClick={() =>
-                                    setContentModal(
+                                    openModal(
                                       <ConfirmCompleteTripModal
                                         booking={booking}
                                         isMobile={isMobile}
@@ -693,7 +691,7 @@ export const BookingDetailPage = () => {
                       hasTooltip
                       tooltipText={t("booking.changeReturnAddressAndTime")}
                       onClick={() =>
-                        setContentModal(
+                        openModal(
                           <RequestChangeAddressAndTime
                             booking={booking}
                             setReload={setReloadBooking}
@@ -1474,7 +1472,7 @@ export const BookingDetailPage = () => {
                       disabled={false}
                       width="100%"
                       onClick={() => {
-                        setContentModal(
+                        openModal(
                           <MyDialog
                             title={t("booking.paymentBooking")}
                             content={t("booking.confirmPaymentBooking")}

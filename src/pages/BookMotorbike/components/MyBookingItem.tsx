@@ -56,7 +56,7 @@ function MyBookingItem(props: MyBookingItemProps) {
     const { t } = usei18next();
     const navigate = useNavigate();
     const [open, setOpen] = useState(Array(bookings.length).fill(true));
-    const { setContentModal, setShowModal } = useContext(ModalContext);
+    const { openModal } = useContext(ModalContext);
 
     // choose chip for status
     const chooseChip = (status: string) => {
@@ -215,7 +215,7 @@ function MyBookingItem(props: MyBookingItemProps) {
                                                     src={
                                                         isOwner ? booking.user.avatarUrl : booking.motorbikes[0].user.avatarUrl
                                                     }
-                                                    onClick={() => setContentModal(<UserInforModal userId={isOwner ? booking.user.userId : booking.motorbikes[0].user.userId} />)}
+                                                    onClick={() => openModal(<UserInforModal userId={isOwner ? booking.user.userId : booking.motorbikes[0].user.userId} />)}
                                                 />
                                                 <Box display={'flex'} flexDirection={'column'} alignItems={'start'} justifyContent={'center'} sx={{ gap: '0px' }}>
                                                     <Typography
@@ -376,7 +376,7 @@ function MyBookingItem(props: MyBookingItemProps) {
                                     isOpen={open[index]}
                                 >
                                     {booking.motorbikes.map((motorbike: Motorbike, index: number) => (
-                                        <MotorbikeInforCard key={index} motorbike={motorbike} isIntroduced={true} isFavoritePage={false} startDate={dayjs(booking.startDatetime).format("DD/MM/YYYY HH:mm")} endDate={dayjs(booking.endDatetime).format("DD/MM/YYYY HH:mm")} searchedAddress={booking.address} isNotFavorite />
+                                        <MotorbikeInforCard  key={index} motorbike={motorbike} isIntroduced={true} isFavoritePage={false} startDate={dayjs(booking.startDatetime).format("DD/MM/YYYY HH:mm")} endDate={dayjs(booking.endDatetime).format("DD/MM/YYYY HH:mm")} searchedAddress={booking.address} isNotFavorite />
                                     ))}
                                 </AnimatedBox>
                             </Box>

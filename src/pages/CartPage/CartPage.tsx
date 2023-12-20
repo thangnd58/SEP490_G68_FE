@@ -27,6 +27,7 @@ import { BookingInfoMultipleMotorbikeModal } from "../BookMotorbike/BookingInfoM
 import { BookingService } from "../../services/BookingService";
 import { NoDataImage } from "../../assets/images";
 import { getCartInfo } from "../../redux/reducers/cartReducer";
+import { useNavigate } from "react-router-dom";
 
 interface AnimatedBoxProps {
     isOpen: boolean;
@@ -44,13 +45,14 @@ function CartPage() {
     const { t } = usei18next();
     const { shoppingCart } = useAppSelector((state) => state.shoppingCartInfo);
     const dispatch = useAppDispatch();
-    const { setContentModal, setShowModal } = useContext(ModalContext);
+    const { openModal } = useContext(ModalContext);
     const [open, setOpen] = useState(Array(shoppingCart?.length).fill(true));
     const [isDeleting, setIsDeleting] = useState(Array(shoppingCart?.length).fill(false));
     const [isLoad, setIsLoad] = useState(false);
+    const navigate = useNavigate();
 
     const showModalBookingInfoMultipleMotorbike = (motorbikes: Motorbike[], address: string, startDate: string, endDate: string, bookingCartId: number) => {
-        setContentModal(
+        openModal(
             <BookingInfoMultipleMotorbikeModal
                 motorbikes={motorbikes}
                 address={address}
@@ -59,7 +61,6 @@ function CartPage() {
                 bookingCartId={bookingCartId}
             />
         )
-        setShowModal(true)
     }
     useEffect(() => {
         setIsLoad(true);

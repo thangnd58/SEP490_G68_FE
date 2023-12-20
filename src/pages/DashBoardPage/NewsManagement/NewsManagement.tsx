@@ -19,7 +19,7 @@ import MyDialog from '../../../components/common/MyDialog';
 import ToastComponent from '../../../components/toast/ToastComponent';
 
 const NewsManagement = () => {
-    const { setContentModal } = useContext(ModalContext)
+    const { openModal } = useContext(ModalContext)
     const [listNews, setListNews] = useState<News[]>([]);
     const navigate = useNavigate();
     const { t } = usei18next();
@@ -79,7 +79,7 @@ const NewsManagement = () => {
                 <Box sx={{ cursor: 'pointer', display: 'flex' }}>
                     <MyIcon icon={<EditIcon />} hasTooltip position='right' tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.manageNews}/${params.value}`)} />
                     <MyIcon icon={<Delete />} hasTooltip position='right' tooltipText={t("dashBoardManager.news.buttonDelete")} onClick={() => {
-                        setContentModal(
+                        openModal(
                             <MyDialog
                                 icon={<Delete sx={{ width: '72px', height: '72px' }} />}
                                 title={t("dashBoardManager.news.deleteNewsTitle")}
