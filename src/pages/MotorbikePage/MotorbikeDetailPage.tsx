@@ -41,7 +41,7 @@ export default function MotorbikeDetailPage() {
   const { t, isVn } = usei18next();
   const [equipmentList, setEquipmentList] = useState<string[]>([]);
   const [location, setLocation] = useState<Location>();
-  const { closeModal, setContentModal, setShowModal } = useContext(ModalContext);
+  const { closeModal, openModal } = useContext(ModalContext);
   const { RangePicker } = DatePicker;
   const [isMapModalOpen, setMapModalOpen] = useState(false);
   const [isModalPromotionOpen, setModalPromotionOpen] = useState(false);
@@ -297,7 +297,7 @@ export default function MotorbikeDetailPage() {
   };
 
   const showModalPromotion = () => {
-    setContentModal(
+    openModal(
       <MyDialog
         style={{
           zIndex: 10000
@@ -309,7 +309,6 @@ export default function MotorbikeDetailPage() {
         onClickAgree={() => { }}
       />
     )
-    setShowModal(true)
   }
 
   return (
@@ -996,7 +995,7 @@ export default function MotorbikeDetailPage() {
                         {listFeedback.length !== 0 ? listFeedback.map((item: Feedback, index: number) => (
                           <FeedbackCard
                             motorbike={motorbike}
-                            setReload={setReloadFeedback} setContentModal={setContentModal} closeModal={closeModal} feedback={item} key={index}></FeedbackCard>
+                            setReload={setReloadFeedback} setContentModal={openModal} closeModal={closeModal} feedback={item} key={index}></FeedbackCard>
                         ))
                           :
                           <Box>

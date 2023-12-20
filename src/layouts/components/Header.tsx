@@ -155,6 +155,7 @@ function Header() {
   const [isAvatarClicked, setIsAvatarClicked] = useState(false);
   const { setContentModal, setShowModal } = useContext(ModalContext);
   const [isShowMore, setIsShowMore] = useState(true);
+  const { openModal } = useContext(ModalContext);
   const dispatch = useAppDispatch();
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -172,7 +173,7 @@ function Header() {
     // Kiểm tra nếu có thông báo đầu tiên và title là "Có đơn đặt xe mới"
     if (userNotification.length > 0 && userNotification[0].title === "Có đơn đặt xe mới" && userNotification[0].isRead === false) {
       // Hiển thị Dialog
-      setContentModal(
+      openModal(
         <DetailNotification
           id={userNotification[0].notificationId}
         />
@@ -339,7 +340,7 @@ function Header() {
                                 }}
                                 key={`NOTIFI${notifi.notificationId}`}
                                 onClick={() => {
-                                  setContentModal(
+                                  openModal(
                                     <DetailNotification
                                       id={notifi.notificationId}
                                     />
@@ -1047,7 +1048,7 @@ function Header() {
                   }}
                   key={`NOTIFI${notifi.notificationId}`}
                   onClick={() => {
-                    setContentModal(
+                    openModal(
                       <DetailNotification id={notifi.notificationId} />
                     );
                   }}

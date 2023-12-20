@@ -22,9 +22,10 @@ store.dispatch(getUserNotificationInfo())
 root.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
+    <BrowserRouter >
+
       <ModalProvider>
         <div className='rcs-container'>
-          <BrowserRouter >
             <AuthProvider>
               <>
               <ModalContext.Consumer>
@@ -54,9 +55,9 @@ root.render(
                 <AppRoute />
               </>
             </AuthProvider>
-          </BrowserRouter>
         </div>
       </ModalProvider>
+      </BrowserRouter>
     </ThemeProvider>
   </Provider>
 );

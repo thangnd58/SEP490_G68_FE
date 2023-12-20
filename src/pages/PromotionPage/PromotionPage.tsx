@@ -20,7 +20,7 @@ export const PromotionPage = () => {
     const { t } = usei18next();
     const { isMobile } = useThemePage();
     const navigate = useNavigate();
-    const {setContentModal} = useContext(ModalContext);
+    const {openModal} = useContext(ModalContext);
 
     useEffect(() => {
         PromotionService.getAllPromotionValid().then((data) => {
@@ -56,14 +56,14 @@ export const PromotionPage = () => {
                         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
                         height: '100%', // Đặt chiều cao của hình ảnh là 100%
                     }}
-                onClick={() => setContentModal(<DetailPromotion id={promotion.id.toString()}/>)}
+                onClick={() => openModal(<DetailPromotion id={promotion.id.toString()}/>)}
                 />
                 {/* news */}
                 <Box display={'flex'} flexDirection={'column'} gap={'8px'} width={'80%'} justifyContent={'space-between'} height={'100%'} alignSelf={'stretch'} alignItems={'flex-start'}>
                     {/* information */}
                     <Box display={'flex'} flexDirection={'column'} alignItems={'start'} width={'100%'} justifyContent={'space-between'}>
                         <Typography noWrap={true} maxWidth={isMobile ? '250px' : '100%'} variant="h5" fontWeight={'700'} fontSize={isMobile ? 14 : 24} color={'common.black'} sx={{ cursor: 'pointer' }}
-                        onClick={() => setContentModal(<DetailPromotion id={promotion.id.toString()}/>)}
+                        onClick={() => openModal(<DetailPromotion id={promotion.id.toString()}/>)}
                         >
                             {promotion.title}
                         </Typography>

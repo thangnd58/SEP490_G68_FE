@@ -29,28 +29,8 @@ export default function FeedbackCard(props: {
     const [showEditComment, setShowEditComment] = useState<boolean>(false);
     const [isEdit, setIsEdit] = useState<boolean>(false);
     const { t } = usei18next();
-    const { setContentModal } = useContext(ModalContext)
-    // const [motorbike, setMotorbike] = useState<Motorbike>();
+    const { openModal } = useContext(ModalContext)
     const { isMobile } = useThemePage()
-
-    const dispatch = useAppDispatch();
-
-    // useEffect(() => {
-    //     // dispatch(getUserInfo());
-    //     getMotobikeById(Number(props.feedback.motorbikeId));
-    // }, []);
-
-
-    // const getMotobikeById = async (id: number) => {
-    //     try {
-    //         const response = await MotorbikeManagementService.getMotorbikesById(id);
-    //         if (response) {
-    //             setMotorbike(response)
-    //         }
-    //     } catch (error) {
-
-    //     }
-    // }
 
     const formik = useFormik({
         initialValues: {
@@ -126,20 +106,10 @@ export default function FeedbackCard(props: {
                             borderRadius: "50%",
                         }}
                         src={props.feedback.user.avatarUrl}
-                    // onClick={() =>
-                    //     props.setContentModal
-                    //         ? props.setContentModal(<UserInforModal userId={props.feedback.user.userId} isOpened closeModal={props.closeModal} />)
-                    //         : setContentModal(<UserInforModal userId={props.feedback.user.userId} isOpened closeModal={props.closeModal} />)}
                     />
                 </Box>
                 <Box width={'90%'}>
                     <Box display={'flex'} flexDirection={'column'} gap={'8px'} alignItems={'start'}>
-                        {/* <Typography
-                                        fontWeight="bold"
-                                        marginLeft={'4px'}
-                                        fontSize="16px"
-                                        color={theme.palette.text.primary}
-                                    >{props.feedback.user.name}</Typography> */}
                         <Box display={'flex'} alignItems={'center'}>
                             <Typography
                                 fontWeight="600"
@@ -155,10 +125,6 @@ export default function FeedbackCard(props: {
                             value={props.feedback.rating}
                             size='medium'
                             readOnly={true}
-                        // disabled={!isEdit}
-                        // onChange={(event, newValue) => {
-                        //     setValue(newValue!);
-                        // }}
                         />
                     </Box>
                     <Box display={'flex'} flexDirection={'column'} gap={'8px'} alignItems={'start'}>
@@ -183,26 +149,28 @@ export default function FeedbackCard(props: {
                                 fontStyle: 'italic',
                             }} >{t("feedback.reply")} </Typography>
                             :
-                            // <Typography color={'#FFFFFF'}>Phản hồi</Typography>
                             null
                         }
-                        {/* <Typography sx={{cursor : 'pointer'}}>Báo cáo</Typography> */}
                     </Box>
                 </Box>
-                {props.motorbike?.user.userId === user?.userId ?
-                    <Tooltip title={t("booking.toolTipReport")}>
-                        <Info sx={{
-                            cursor: 'pointer',
-                            color: '#8B4513',
-                            '&:hover': {
-                                transform: "scale(1.1)",
-                                transition: "transform 0.1s ease-in-out",
-                            },
-                        }} onClick={() => setContentModal(<ReportFormModal />)} />
-                    </Tooltip>
-                    :
-                    null
-                }
+                <Box width={'5%'}>
+                    {props.motorbike?.user.userId === user?.userId ?
+                        <Tooltip title={t("booking.toolTipReport")}>
+                            <Info sx={{
+                                cursor: 'pointer',
+                                color: '#8B4513',
+                                '&:hover': {
+                                    transform: "scale(1.1)",
+                                    transition: "transform 0.1s ease-in-out",
+                                },
+                            }} 
+                            onClick={() => openModal(<ReportFormModal />)} 
+                            />
+                        </Tooltip>
+                        :
+                        null
+                    }
+                </Box>
             </Box>
 
             {props.feedback.response && !isEdit ? // nếu có comment trả lời
@@ -321,41 +289,6 @@ export default function FeedbackCard(props: {
                                             ),
                                         }}
                                     />
-
-                                    {/* {errors.comment && touched.comment && (
-                                    <ErrorMessage message={errors.comment} />
-                                )} */}
-                                    {/* <Box width={'50px'}>
-                                        <Avatar
-                                            sx={{
-                                                marginLeft : "5px",
-                                                marginTop : "3px",
-                                                width: "40px",
-                                                height: "40px",
-                                                borderRadius: "50%",
-                                            }}
-                                            // src={props.feedback.response.user.avatarUrl}
-                                        />
-                                    </Box>
-                                    <Box>
-                                    <Box display={'flex'} flexDirection={'column'} gap={'8px'} alignItems={'start'}>
-                                            <Typography
-                                                fontWeight="bold"
-                                                marginLeft={'4px'}
-                                                fontSize="16px"
-                                                color={theme.palette.text.primary}
-                                            >{props.feedback.user.avatarUrl}</Typography>
-                                        </Box>
-                                        <Box display={'flex'} flexDirection={'column'} gap={'8px'} alignItems={'start'}>
-                                            <Typography
-                                                marginLeft={'4px'}
-                                                marginTop={'6px'}
-                                                fontSize="16px"
-                                                color={theme.palette.text.primary}
-                                            >{props.feedback.comment}</Typography>
-                
-                                        </Box>
-                                    </Box> */}
                                 </Box>
                                 :
                                 null

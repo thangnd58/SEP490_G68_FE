@@ -39,7 +39,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
   const { t, isVn } = usei18next();
   const [equipmentList, setEquipmentList] = useState<string[]>([]);
   const [location, setLocation] = useState<Location>();
-  const { closeModal, setContentModal, setShowModal } = useContext(ModalContext);
+  const { closeModal, openModal } = useContext(ModalContext);
   const { RangePicker } = DatePicker;
   const [isMapModalOpen, setMapModalOpen] = useState(false);
   const [isModalPromotionOpen, setModalPromotionOpen] = useState(false);
@@ -193,8 +193,6 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
       setFieldValue("address", "Quận Ba Đình, Hà Nội");
     }
   }, [])
-  console.log("user?.phone",user?.phone)
-  console.log("isProcessingBooking",isProcessingBooking)
 
   useEffect(() => {
     const bookingPreview: BookingRequest = {
@@ -305,28 +303,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
     setShowMenu(false);
   };
 
-  const showModalPromotion = () => {
-    setContentModal(
-      <MyDialog
-        style={{
-          zIndex: 10000
-        }}
-        title="Thông báo"
-        content="Bạn có muốn áp dụng mã giảm giá không?"
-        hasAgreeButton
-        hasCancelButton
-        onClickAgree={() => { }}
-      />
-    )
-    setShowModal(true)
-  }
-
   const [anchorEl, setAnchorEl] = useState<any>(null);
-
-  const handleMarkerClick = (event: google.maps.MapMouseEvent) => {
-    // Hiển thị Popover khi click vào Marker
-    setAnchorEl(event.domEvent.currentTarget);
-  };
 
   const handleClosePopover = () => {
     // Đóng Popover khi click bên ngoài
@@ -1119,7 +1096,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                       <Box display="flex" flexDirection="column" justifyContent={"center"} gap={"8px"} p={'8px'} border={"1px solid #e0e0e0"} borderRadius={"8px"}
                       >
                         {listFeedback.length !== 0 ? listFeedback.map((item: Feedback, index: number) => (
-                          <FeedbackCard motorbike={motorbike} setReload={setReloadFeedback} setContentModal={setContentModal} closeModal={closeModal} feedback={item} key={index}></FeedbackCard>
+                          <FeedbackCard motorbike={motorbike} setReload={setReloadFeedback} setContentModal={openModal} closeModal={closeModal} feedback={item} key={index}></FeedbackCard>
                         ))
                           :
                           <Box>

@@ -31,7 +31,7 @@ export default function UserInforModal(props: { userId: number, isOpened?: boole
     const { isMobile } = useThemePage();
     const [userInformation, setUserInformation] = useState<User>();
     const [feedback, setFeedback] = useState<Feedback[]>();
-
+    const navigate = useNavigate();
     useEffect(() => {
         getData();
     }, []);

@@ -19,7 +19,7 @@ import { ROUTES } from "../../../utils/Constant";
 import MyCustomButton from "../../../components/common/MyButton";
 const BrandManagement = () => {
     const { t } = usei18next();
-    const { closeModal, setShowModal, setContentModal } = useContext(ModalContext);
+    const { openModal } = useContext(ModalContext);
     const [reload, setReload] = useState<boolean>(false);
     const [listBrand, setListBrand] = useState<Brand[]>([]);
     const navigate = useNavigate();
@@ -95,7 +95,7 @@ const BrandManagement = () => {
                     <MyIcon icon={<EditIcon />} position='left' hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.managerBrand}/${params.value}`)}/>
                     <MyIcon icon={<DeleteIcon />} position='right' hasTooltip tooltipText={t("dashBoardManager.brand.delete")} 
                     onClick={() => {
-                        setContentModal(<MyDialog icon={<DeleteIcon/>} onClickAgree={() => deleteBrand(params.id)} title={t("dashBoardManager.brand.confirmDelete")}  content={t("dashBoardManager.brand.titleConfirmDelete") + params.row.brandName}  hasAgreeButton={true} hasCancelButton={true}/>)
+                        openModal(<MyDialog icon={<DeleteIcon/>} onClickAgree={() => deleteBrand(params.id)} title={t("dashBoardManager.brand.confirmDelete")}  content={t("dashBoardManager.brand.titleConfirmDelete") + params.row.brandName}  hasAgreeButton={true} hasCancelButton={true}/>)
                     }}/>
                 </Box>
             )

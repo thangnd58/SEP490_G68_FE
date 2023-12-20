@@ -75,7 +75,8 @@ export const ReportFormModal = () => {
                 onClose={closeModal}
                 TransitionComponent={Transition}
                 fullWidth
-                PaperProps={{ sx: { borderRadius: "16px", padding: '1rem 1.5rem' } }}
+                sx={{zIndex: 9999}}
+                PaperProps={{ sx: { borderRadius: "16px", padding: '1rem 1.5rem'} }}
             >
                 <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
                     <img style={{ cursor: 'pointer', }} alt="logo" src={LogoHeader} width={"150px"} />

@@ -55,7 +55,7 @@ const Wallet = () => {
     const { t } = usei18next();
     const currentDate = dayjs();
     const { isMobile } = useThemePage();
-    const { setContentModal, setShowModal } = useContext(ModalContext);
+    const { openModal } = useContext(ModalContext);
     const { user } = useAppSelector((state) => state.userInfo);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -68,13 +68,11 @@ const Wallet = () => {
     };
 
     const showModalDeposite = () => {
-        setContentModal(<ModalDepositMoney title={t("wallet.title_dialog_deposite")} />)
-        setShowModal(true)
+        openModal(<ModalDepositMoney title={t("wallet.title_dialog_deposite")} />)
     }
 
     const showModalWithdrawal = () => {
-        setContentModal(<ModalWithdrawalMoney setReload={setReload} title={t("wallet.title_dialog_withdrawal")} />)
-        setShowModal(true)
+        openModal(<ModalWithdrawalMoney setReload={setReload} title={t("wallet.title_dialog_withdrawal")} />)
     }
 
     const handleConfirmDeposit = () => {
@@ -96,14 +94,8 @@ const Wallet = () => {
             try {
                 WalletService.updateMoneyToDb(search).then((data) => {
                     dispatch(getUserInfo());
-                    setContentModal(<ModalStatus icon={SuccessIconNew} title={t("wallet.title_status_deposite_success")} content={t("wallet.content_status_deposite_success")} handleConfirm={handleConfirmDeposit} />)
-                    setShowModal(true)
+                    openModal(<ModalStatus icon={SuccessIconNew} title={t("wallet.title_status_deposite_success")} content={t("wallet.content_status_deposite_success")} handleConfirm={handleConfirmDeposit} />)
                 })
-                // PaymentService.processPaymentDb(search).then((data) => {
-                //     dispatch(getUserInfo());
-                //     setContentModal(<ModalStatus icon={<CheckCircle  sx={{width:"128px",height:"128px",color:'primary.main'}}/>} title={t("Thanh toán thành công")} content={"Bạn đã thanh toán đơn đặt xe thành công. Hệ thống sẽ xử lý yêu cầu đặt xe của bạn sớm nhất"} handleConfirm={handleConfirmDeposit} />)
-                //     setShowModal(true)
-                // })
             } catch (error) {
 
             }
@@ -131,7 +123,7 @@ const Wallet = () => {
                     <Box display={'flex'} alignItems={'center'} gap={'4px'}>
                         <Typography variant='h6'>{t('wallet.title_summary_transaction')}</Typography>
                         <Tooltip title={t("booking.toolTipReport")}>
-                            <Info onClick={() => setContentModal(<ReportFormModal />)} />
+                            <Info onClick={() => openModal(<ReportFormModal />)} />
                         </Tooltip>
                     </Box>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>

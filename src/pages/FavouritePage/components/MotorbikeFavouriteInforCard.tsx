@@ -49,12 +49,11 @@ export default function MotorbikeFavouriteInforCard(props: {
 }) {
     const { t } = usei18next();
     const { isMobile } = useThemePage();
-    const { setContentModal, setShowModal } = useContext(ModalContext);
+    const { openModal } = useContext(ModalContext);
     const dispatch = useAppDispatch();
 
     const showMotorbikeDetailModal = (id: number) => {
-        setContentModal(<MotorbikeDetailModal motorbikeId={id.toString()} />);
-        setShowModal(true);
+        openModal(<MotorbikeDetailModal motorbikeId={id.toString()} />);
     };
     const [statusChange, setStatusChange] = useState<string>("");
 
@@ -211,7 +210,7 @@ export default function MotorbikeFavouriteInforCard(props: {
                                 borderRadius: "50%",
                             }}
                             src={props.motorbike.user.avatarUrl}
-                            onClick={() => setContentModal(<UserInforModal userId={props.motorbike.user.userId} />)}
+                            onClick={() => openModal(<UserInforModal userId={props.motorbike.user.userId} />)}
                         />
                     </Tooltip>
                 }
@@ -258,7 +257,7 @@ export default function MotorbikeFavouriteInforCard(props: {
                                             tooltipText={t("toast.favourite.item.rent")}
                                             position="bottom"
                                             onClick={
-                                                () => setContentModal(<UpdateStatusFormModal
+                                                () => openModal(<UpdateStatusFormModal
                                                     setStatusChange={setStatusChange}
                                                     motorbikeStatus={statusChange !== "" ? statusChange : props.motorbike.status}
                                                     motorbikeId={props.motorbike.id!}

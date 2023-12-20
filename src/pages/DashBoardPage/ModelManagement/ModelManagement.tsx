@@ -20,7 +20,7 @@ import MyCustomButton from "../../../components/common/MyButton";
 import ModelManagementService from "../../../services/ModelManagementService";
 const ModelManagement = () => {
     const { t } = usei18next();
-    const { closeModal, setShowModal, setContentModal } = useContext(ModalContext);
+    const { openModal } = useContext(ModalContext);
     const [reload, setReload] = useState<boolean>(false);
     const [listModel, setListModel] = useState<Model[]>([]);
     const navigate = useNavigate();
@@ -102,7 +102,7 @@ const ModelManagement = () => {
                     <MyIcon icon={<EditIcon />} position='left' hasTooltip tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.managerModel}/${params.value}`)}/>
                     <MyIcon icon={<DeleteIcon />} position='right' hasTooltip tooltipText={t("dashBoardManager.model.delete")} 
                     onClick={() => {
-                        setContentModal(<MyDialog icon={<DeleteIcon/>} onClickAgree={() => deleteModel(params.id)} title={t("dashBoardManager.model.confirmDelete")}  content={t("dashBoardManager.model.titleConfirmDelete") + params.row.modelName}  hasAgreeButton={true} hasCancelButton={true}/>)
+                        openModal(<MyDialog icon={<DeleteIcon/>} onClickAgree={() => deleteModel(params.id)} title={t("dashBoardManager.model.confirmDelete")}  content={t("dashBoardManager.model.titleConfirmDelete") + params.row.modelName}  hasAgreeButton={true} hasCancelButton={true}/>)
                     }}/>
                 </Box>
             )

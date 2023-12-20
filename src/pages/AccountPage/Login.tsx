@@ -12,10 +12,10 @@ function Login() {
   const { user } = useAppSelector((state) => state.userInfo);
   const navigate = useNavigate();
 
-  const { setContentModal, setShowModal, showModal } = useContext(ModalContext);
+  const { openModal } = useContext(ModalContext);
 
   const showModalIsLoggedin = () => {
-    setContentModal(
+    openModal(
       <MyDialog
         title="Thông báo"
         content="Bạn đã đăng nhập, mời bạn quay trở lại trang chủ"
@@ -25,7 +25,6 @@ function Login() {
         }}
       />
     )
-    setShowModal(true)
   }
 
   useEffect(() => {
