@@ -49,7 +49,7 @@ const FavouritePage = () => {
                     <Box display={'flex'} flexDirection={"row"} flexWrap={'wrap'} justifyContent={'space-evenly'} >
                         {
                             isDeleting &&
-                            <LinearProgress sx={{ marginTop: isMobile ?"16px":"32px", width: isMobile ? '100%' : '70%' }} />
+                            <LinearProgress sx={{ marginTop: isMobile ? "16px" : "32px", width: isMobile ? '100%' : '70%' }} />
                         }
                         {/* check rỗng */}
                         {isLoad ? (
@@ -60,7 +60,7 @@ const FavouritePage = () => {
 
                             userFavourite.length === 0 ? (
                                 <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
-                                    <img src={NoDataImage} alt="image" style={{ width: '400px', height: '400px' }} />
+                                    <img src={NoDataImage} alt={"no-data"} width={isMobile ? "200px" : "400px"} height={isMobile ? "200px" : "400px"} />
                                 </Box>
                             ) : (
                                 userFavourite.map((item: UserFavourite) => (

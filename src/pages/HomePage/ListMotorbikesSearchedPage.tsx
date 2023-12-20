@@ -1,8 +1,8 @@
-import { Box, CircularProgress, Grid, Icon, IconButton, LinearProgress, MenuItem, Modal, Popover, Select, SelectChangeEvent, Slider, TextField, Typography, styled } from '@mui/material';
+import { Box, CircularProgress, Grid, Icon, IconButton, LinearProgress, MenuItem, Modal, Popover, Select, SelectChangeEvent, Slider, SpeedDial, SpeedDialAction, SpeedDialIcon, TextField, Typography, styled } from '@mui/material';
 import React, { ReactNode, useEffect, useMemo, useState } from 'react'
 import usei18next from '../../hooks/usei18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AutoGraph, CheckBox, CheckBoxOutlineBlank, CloseOutlined, ElectricBike, FilterAltOutlined, FormatListBulletedOutlined, LocalGasStation, LocationOnOutlined, MapOutlined, MyLocation, RestartAltOutlined, SearchOutlined } from '@mui/icons-material';
+import { AutoGraph, CheckBox, CheckBoxOutlineBlank, CloseOutlined, ElectricBike, FilterAltOutlined, FormatListBulletedOutlined, LocalGasStation, LocationOnOutlined, MapOutlined, MyLocation, RestartAltOutlined, SearchOutlined, ShoppingCart, ShoppingCartCheckout } from '@mui/icons-material';
 import theme from '../../utils/theme';
 import { Avatar, DatePicker } from 'antd';
 import dayjs from 'dayjs';
@@ -22,6 +22,10 @@ import MotorbikeInforCard from './components/MotorbikeInforCard';
 import { NoDataImage, PageNoteFoundImage, PinImage, SearchIcon } from '../../assets/images';
 import { PostMotorbikeService } from '../../services/PostMotorbikeService';
 import { BookingService } from '../../services/BookingService';
+import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import PrintIcon from '@mui/icons-material/Print';
+import ShareIcon from '@mui/icons-material/Share';
 
 export interface Location {
     lat: number;
@@ -300,7 +304,7 @@ export default function ListMotorbikesSearchedPage() {
         }
     ];
 
-    
+
 
     // state for select options
     const [selectOptionsState, setSelectOptionsState] = useState(selectOptions);
@@ -616,6 +620,18 @@ export default function ListMotorbikesSearchedPage() {
     }
     const [hoveredMarkerId, setHoveredMarkerId] = useState<number | null>(null);
 
+    const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+
+    const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handlePopoverClose = () => {
+        setAnchorEl(null);
+    };
+
+    const openPopover = Boolean(anchorEl);
+
     return (
         <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} height={modeMap ? "100vh" : "auto"}>
             {/* filter motorbikes */}
@@ -869,12 +885,7 @@ export default function ListMotorbikesSearchedPage() {
                                         </Box>
                                     ) : (
                                         <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
-                                            <Avatar
-                                                src={NoDataImage}
-                                                style={{ width: '400px', height: '400px' }}
-                                                shape='square'
-                                                alt="image"
-                                            />
+                                            <img src={NoDataImage} alt={"no-data"} width={isMobile ? "350px" : "400px"} height={isMobile ? "350px" : "400px"} />
                                         </Box>
                                     )
                                 )
@@ -1800,6 +1811,69 @@ export default function ListMotorbikesSearchedPage() {
                     </Box>
                 </Box>
             </Modal>
+            <Box
+                position="fixed"
+                bottom={0}
+                left={0}
+                p={2}
+                zIndex={1}
+            >
+                {/* <MyIcon
+                    backgroundColor='#8B4513'
+                    icon={<ShoppingCartCheckout sx={{
+                        color: "#fff",
+                        "&:hover": {
+                            color: "#8B4513",
+                        }
+                    }} fontSize="large" />}
+                    onHover={
+                        () => {
+                            setHovered(true);
+                        }
+                    }
+                    hasTooltip tooltipText={t("header.cart")}
+                    onClick={closeMapModal}
+                    position='bottom' /> */}
+                <IconButton
+                    sx={{
+                        backgroundColor: "#8B4513",
+                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                    }}
+                    aria-owns={openPopover ? 'mouse-over-popover' : undefined}
+                    aria-haspopup="true"
+                    onMouseEnter={handlePopoverOpen}
+                    onMouseLeave={handlePopoverClose}
+                    onClick={() => navigate(ROUTES.cart)}
+                    >
+                    <ShoppingCartCheckout sx={{
+                        color: "#fff",
+                        "&:hover": {
+                            color: "#8B4513",
+                        }
+                    }} fontSize="large" />
+                </IconButton>
+
+            </Box>
+            <Popover
+                id="mouse-over-popover"
+                sx={{
+                    pointerEvents: 'none',
+                }}
+                open={openPopover}
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+                onClose={handlePopoverClose}
+                disableRestoreFocus
+            >
+                {/* <Typography sx={{ p: 1 }}>I use Popover.</Typography> */}
+            </Popover>
         </Box >
     )
 }

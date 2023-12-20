@@ -133,7 +133,7 @@ function CartPage() {
                 shoppingCart.length === 0 ?
                     (
                         <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
-                            <img src={NoDataImage} alt="image" style={{ width: '400px', height: '400px' }} />
+                            <img src={NoDataImage} alt={"no-data"} width={isMobile ? "200px" : "400px"} height={isMobile ? "200px" : "400px"} />
                         </Box>
                     ) : (
                         shoppingCart.slice().reverse().map((item: CartInforResponse, index: number) => (
@@ -168,7 +168,7 @@ function CartPage() {
                                             <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                                                 <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
                                                     <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                    {t("editional.delivery")}
+                                                        {t("editional.delivery")}
                                                     </Typography>
                                                 </Box>
                                                 <Box
@@ -193,7 +193,7 @@ function CartPage() {
                                                     </Typography>
                                                     {/* end date */}
                                                     <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                       {t("editional.dateDropOff")}
+                                                        {t("editional.dateDropOff")}
                                                     </Typography>
                                                 </Box>
                                                 <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>

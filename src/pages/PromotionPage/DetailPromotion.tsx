@@ -35,8 +35,14 @@ export const DetailPromotion = (props: { id: string }) => {
                 open={true}
                 onClose={closeModal}
                 TransitionComponent={Transition}
-                fullWidth
-                PaperProps={{ sx: { borderRadius: "16px", padding: '1rem 1.5rem' } }}
+                sx={{
+                    margin: '0px',
+                }}
+                PaperProps={{
+                    sx: {
+                        borderRadius: "16px", padding: isMobile ? '0.5rem 0.5rem' : '1rem 1.5rem', margin: '0px 16px',
+                    }
+                }}
             >
                 <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
                     <img style={{ cursor: 'pointer', }} alt="logo" src={LogoHeader} width={"150px"} />

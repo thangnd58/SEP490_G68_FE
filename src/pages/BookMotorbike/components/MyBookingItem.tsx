@@ -183,14 +183,14 @@ function MyBookingItem(props: MyBookingItemProps) {
             ) : (
                 bookings.length === 0 ? (
                     <Box display={"flex"} flexDirection={"column"} alignItems={"center"} justifyContent={"center"} width={"100%"} marginTop={2} gap={2}>
-                        <img src={NoDataImage} alt={"no-data"} width={"400px"} height={"400px"} />
+                        <img src={NoDataImage} alt={"no-data"} width={isMobile ? "200px" : "400px"} height={isMobile ? "200px" : "400px"} />
                     </Box>
                 ) : (
                     // map item
                     bookings.map((booking: Booking, index: number) => (
                         <Paper key={index} elevation={2} sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                            <Box display={"flex"} flexDirection={"column"} gap={"16px"} p={3}>
-                                <Box display={"flex"} flexDirection={"row"} alignItems={"center"} justifyContent={"space-between"}
+                            <Box display={"flex"} flexDirection={"column"} gap={"16px"} p={isMobile ? 1.5 : 3}>
+                                <Box display={"flex"} flexDirection={isMobile ? "column" : "row"} alignItems={isMobile ? "start" : "center"} justifyContent={"space-between"}
                                     sx={{
                                         backgroundColor:
                                             booking.status === BookingStatus.Cancelled ? "rgba(148, 20, 20, 0.05)" :
@@ -235,7 +235,7 @@ function MyBookingItem(props: MyBookingItemProps) {
                                         </Box>
                                     }
                                     {
-                                        <Box display={'flex'} flexDirection={'column'} alignItems={'end'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                                        <Box display={'flex'} flexDirection={isMobile ? "row" : "column"} alignItems={isMobile ? "center" : 'end'} justifyContent={'center'} sx={{ gap: '4px' }}>
                                             {chooseChip(booking.status)}
                                             {/* Thời gian đặt xe */}
                                             <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "400", fontStyle: "italic", mr: "8px" }}>
@@ -245,124 +245,260 @@ function MyBookingItem(props: MyBookingItemProps) {
                                         </Box>
                                     }
                                 </Box>
-                                <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
-                                    <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '32px' }}>
-                                        {/* location */}
-                                        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
-                                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
-                                                <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                    {t("editional.delivery")}
-                                                </Typography>
-                                            </Box>
-                                            <Box
-                                                display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} padding={"4px 0px"}
-                                            >
-                                                <LocationOnOutlined sx={{ color: theme.palette.action.disabled }} />
-                                                <Typography
-                                                    color={theme.palette.text.primary}
-                                                    sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
-                                                >
-                                                    {booking.address}
-                                                </Typography>
-                                            </Box>
-                                        </Box>
-                                        {/* time */}
-                                        <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
-                                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>
-                                                {/* start date */}
-                                                <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                    {t("editional.datePickUp")}
-                                                </Typography>
-                                                {/* end date */}
-                                                <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                    {t("editional.dateDropOff")}
-                                                </Typography>
-                                            </Box>
-                                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>
-                                                {/* start date */}
-                                                <Box width={"50%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
-                                                    {/* icon calendar */}
-                                                    <CalendarTodayOutlined sx={{ color: theme.palette.action.disabled }} />
-                                                    {/* box typography */}
-                                                    <Typography
-                                                        color={theme.palette.text.primary}
-                                                        sx={{ fontSize: '16px', fontWeight: "400" }}
-                                                        noWrap
-                                                    >
-                                                        {dayjs(booking.startDatetime).format("DD/MM/YYYY HH:mm")}
-                                                    </Typography>
+                                {
+                                    isMobile ?
+                                        <>
+                                            <Box sx={{ gap: '8px' }} display={"flex"} flexDirection={"column"} justifyContent={"space-between"} alignItems={"start"}>
+                                                <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
+                                                    <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '32px' }}>
+                                                        {/* tổng tiền */}
+                                                        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                                                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
+                                                                <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                                                                    {t("editional.delivery")}
+                                                                </Typography>
+                                                            </Box>
+                                                            <Box
+                                                                display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} padding={"4px 0px"}
+                                                            >
+                                                                <LocationOnOutlined sx={{ color: theme.palette.action.disabled }} />
+                                                                <Typography
+                                                                    color={theme.palette.text.primary}
+                                                                    sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                                                >
+                                                                    {booking.address}
+                                                                </Typography>
+                                                            </Box>
+                                                        </Box>
+                                                    </Box>
                                                 </Box>
-                                                {/* start date */}
-                                                <Box width={"50%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}
-                                                    padding={"4px 0px"}>
-                                                    {/* icon calendar */}
-                                                    <CalendarTodayOutlined sx={{ color: theme.palette.action.disabled }} />
-                                                    {/* box typography */}
-                                                    <Typography
-                                                        color={theme.palette.text.primary}
-                                                        sx={{ fontSize: '16px', fontWeight: "400" }}
-                                                        noWrap
-                                                    >
-                                                        {dayjs(booking.endDatetime).format("DD/MM/YYYY HH:mm")}
-                                                    </Typography>
+                                                <Box sx={{ gap: '16px' }} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
+                                                    <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '32px' }}>
+                                                        {/* tổng tiền */}
+                                                        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                                                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
+                                                                <Typography width={"100%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                                                                    {t("editional.datePickUp")}
+                                                                </Typography>
+                                                            </Box>
+                                                            <Box
+                                                                display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} padding={"4px 0px"}
+                                                            >
+                                                                {/* icon calendar */}
+                                                                <CalendarTodayOutlined sx={{ color: theme.palette.action.disabled }} />
+                                                                {/* box typography */}
+                                                                <Typography
+                                                                    color={theme.palette.text.primary}
+                                                                    sx={{ fontSize: '16px', fontWeight: "400" }}
+                                                                    noWrap
+                                                                >
+                                                                    {dayjs(booking.startDatetime).format("DD/MM/YYYY HH:mm")}
+                                                                </Typography>
+                                                            </Box>
+                                                        </Box>
+                                                    </Box>
+                                                    <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '32px' }}>
+                                                        {/* tổng tiền */}
+                                                        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                                                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
+                                                                <Typography width={"100%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                                                                    {t("editional.dateDropOff")}
+                                                                </Typography>
+                                                            </Box>
+                                                            <Box
+                                                                display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} padding={"4px 0px"}
+                                                            >
+                                                                {/* icon calendar */}
+                                                                <CalendarTodayOutlined sx={{ color: theme.palette.action.disabled }} />
+                                                                {/* box typography */}
+                                                                <Typography
+                                                                    color={theme.palette.text.primary}
+                                                                    sx={{ fontSize: '16px', fontWeight: "400" }}
+                                                                    noWrap
+                                                                >
+                                                                    {dayjs(booking.endDatetime).format("DD/MM/YYYY HH:mm")}
+                                                                </Typography>
+                                                            </Box>
+                                                        </Box>
+                                                    </Box>
+                                                </Box>
+                                                <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"start"}>
+                                                    <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '32px' }}>
+                                                        {/* tổng tiền */}
+                                                        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                                                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
+                                                                <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                                                                    {t("editional.total")}
+                                                                </Typography>
+                                                            </Box>
+                                                            <Box
+                                                                display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} padding={"4px 0px"}
+                                                            >
+                                                                <PriceCheckOutlined sx={{ color: theme.palette.primary.main }} />
+                                                                <Typography
+                                                                    color={theme.palette.text.primary}
+                                                                    sx={{ fontSize: '16px', fontWeight: "600", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                                                >
+                                                                    {formatMoneyNew(booking.totalAmount)}
+                                                                </Typography>
+                                                            </Box>
+                                                        </Box>
+                                                    </Box>
+                                                    <Box display={'flex'} flexDirection={'row'} alignItems={'start'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                                                        <MyIcon
+                                                            icon={
+                                                                <ReadMore />
+                                                            }
+                                                            position='bottom'
+                                                            hasTooltip
+                                                            tooltipText={t("favourite.item.view")}
+                                                            onClick={() => {
+
+                                                                isOwner ?
+                                                                    navigate(`/${ROUTES.booking.detail_owner}/${booking.bookingId}`) :
+                                                                    navigate(`/${ROUTES.booking.detail}/${booking.bookingId}`)
+
+                                                            }}
+                                                        />
+                                                        <MyIcon
+                                                            icon={
+                                                                open[index] ? <KeyboardArrowUp /> : <KeyboardArrowDown />
+                                                            }
+                                                            position='bottom'
+                                                            hasTooltip
+                                                            tooltipText={t("dashBoardManager.news.viewsMore")}
+                                                            onClick={() => {
+                                                                const newOpen = [...open];
+                                                                newOpen[index] = !newOpen[index];
+                                                                setOpen(newOpen);
+                                                            }}
+                                                        />
+                                                    </Box>
+                                                </Box>
+
+                                            </Box>
+
+                                        </> : <>
+                                            <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
+                                                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '32px' }}>
+                                                    {/* location */}
+                                                    <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                                                        <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
+                                                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                                                                {t("editional.delivery")}
+                                                            </Typography>
+                                                        </Box>
+                                                        <Box
+                                                            display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} padding={"4px 0px"}
+                                                        >
+                                                            <LocationOnOutlined sx={{ color: theme.palette.action.disabled }} />
+                                                            <Typography
+                                                                color={theme.palette.text.primary}
+                                                                sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                                            >
+                                                                {booking.address}
+                                                            </Typography>
+                                                        </Box>
+                                                    </Box>
+                                                    {/* time */}
+                                                    <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                                                        <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>
+                                                            {/* start date */}
+                                                            <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                                                                {t("editional.datePickUp")}
+                                                            </Typography>
+                                                            {/* end date */}
+                                                            <Typography width={"50%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                                                                {t("editional.dateDropOff")}
+                                                            </Typography>
+                                                        </Box>
+                                                        <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>
+                                                            {/* start date */}
+                                                            <Box width={"50%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                                                                {/* icon calendar */}
+                                                                <CalendarTodayOutlined sx={{ color: theme.palette.action.disabled }} />
+                                                                {/* box typography */}
+                                                                <Typography
+                                                                    color={theme.palette.text.primary}
+                                                                    sx={{ fontSize: '16px', fontWeight: "400" }}
+                                                                    noWrap
+                                                                >
+                                                                    {dayjs(booking.startDatetime).format("DD/MM/YYYY HH:mm")}
+                                                                </Typography>
+                                                            </Box>
+                                                            {/* start date */}
+                                                            <Box width={"50%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}
+                                                                padding={"4px 0px"}>
+                                                                {/* icon calendar */}
+                                                                <CalendarTodayOutlined sx={{ color: theme.palette.action.disabled }} />
+                                                                {/* box typography */}
+                                                                <Typography
+                                                                    color={theme.palette.text.primary}
+                                                                    sx={{ fontSize: '16px', fontWeight: "400" }}
+                                                                    noWrap
+                                                                >
+                                                                    {dayjs(booking.endDatetime).format("DD/MM/YYYY HH:mm")}
+                                                                </Typography>
+                                                            </Box>
+                                                        </Box>
+                                                    </Box>
+                                                </Box>
+                                                <Box display={'flex'} flexDirection={'row'} alignItems={'start'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                                                    <MyIcon
+                                                        icon={
+                                                            <ReadMore />
+                                                        }
+                                                        position='bottom'
+                                                        hasTooltip
+                                                        tooltipText={t("favourite.item.view")}
+                                                        onClick={() => {
+
+                                                            isOwner ?
+                                                                navigate(`/${ROUTES.booking.detail_owner}/${booking.bookingId}`) :
+                                                                navigate(`/${ROUTES.booking.detail}/${booking.bookingId}`)
+
+                                                        }}
+                                                    />
+                                                    <MyIcon
+                                                        icon={
+                                                            open[index] ? <KeyboardArrowUp /> : <KeyboardArrowDown />
+                                                        }
+                                                        position='bottom'
+                                                        hasTooltip
+                                                        tooltipText={t("dashBoardManager.news.viewsMore")}
+                                                        onClick={() => {
+                                                            const newOpen = [...open];
+                                                            newOpen[index] = !newOpen[index];
+                                                            setOpen(newOpen);
+                                                        }}
+                                                    />
                                                 </Box>
                                             </Box>
-                                        </Box>
-                                    </Box>
-                                    <Box display={'flex'} flexDirection={'row'} alignItems={'start'} justifyContent={'center'} sx={{ gap: '4px' }}>
-                                        <MyIcon
-                                            icon={
-                                                <ReadMore />
-                                            }
-                                            position='bottom'
-                                            hasTooltip
-                                            tooltipText={t("favourite.item.view")}
-                                            onClick={() => {
-
-                                                isOwner ?
-                                                    navigate(`/${ROUTES.booking.detail_owner}/${booking.bookingId}`) :
-                                                    navigate(`/${ROUTES.booking.detail}/${booking.bookingId}`)
-
-                                            }}
-                                        />
-                                        <MyIcon
-                                            icon={
-                                                open[index] ? <KeyboardArrowUp /> : <KeyboardArrowDown />
-                                            }
-                                            position='bottom'
-                                            hasTooltip
-                                            tooltipText={t("dashBoardManager.news.viewsMore")}
-                                            onClick={() => {
-                                                const newOpen = [...open];
-                                                newOpen[index] = !newOpen[index];
-                                                setOpen(newOpen);
-                                            }}
-                                        />
-                                    </Box>
-                                </Box>
-                                <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
-                                    <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '32px' }}>
-                                        {/* tổng tiền */}
-                                        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
-                                            <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
-                                                <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
-                                                    {t("editional.total")}
-                                                </Typography>
+                                            <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
+                                                <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '32px' }}>
+                                                    {/* tổng tiền */}
+                                                    <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
+                                                        <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
+                                                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
+                                                                {t("editional.total")}
+                                                            </Typography>
+                                                        </Box>
+                                                        <Box
+                                                            display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} padding={"4px 0px"}
+                                                        >
+                                                            <PriceCheckOutlined sx={{ color: theme.palette.primary.main }} />
+                                                            <Typography
+                                                                color={theme.palette.text.primary}
+                                                                sx={{ fontSize: '16px', fontWeight: "600", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                                            >
+                                                                {formatMoneyNew(booking.totalAmount)}
+                                                            </Typography>
+                                                        </Box>
+                                                    </Box>
+                                                </Box>
                                             </Box>
-                                            <Box
-                                                display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }} padding={"4px 0px"}
-                                            >
-                                                <PriceCheckOutlined sx={{ color: theme.palette.primary.main }} />
-                                                <Typography
-                                                    color={theme.palette.text.primary}
-                                                    sx={{ fontSize: '16px', fontWeight: "600", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
-                                                >
-                                                    {formatMoneyNew(booking.totalAmount)}
-                                                </Typography>
-                                            </Box>
-                                        </Box>
-                                    </Box>
-                                </Box>
+                                        </>
+                                }
                                 <Divider />
                                 <AnimatedBox sx={{
                                     width: '100%',
@@ -376,7 +512,7 @@ function MyBookingItem(props: MyBookingItemProps) {
                                     isOpen={open[index]}
                                 >
                                     {booking.motorbikes.map((motorbike: Motorbike, index: number) => (
-                                        <MotorbikeInforCard  key={index} motorbike={motorbike} isIntroduced={true} isFavoritePage={false} startDate={dayjs(booking.startDatetime).format("DD/MM/YYYY HH:mm")} endDate={dayjs(booking.endDatetime).format("DD/MM/YYYY HH:mm")} searchedAddress={booking.address} isNotFavorite />
+                                        <MotorbikeInforCard key={index} motorbike={motorbike} isIntroduced={true} isFavoritePage={false} startDate={dayjs(booking.startDatetime).format("DD/MM/YYYY HH:mm")} endDate={dayjs(booking.endDatetime).format("DD/MM/YYYY HH:mm")} searchedAddress={booking.address} isNotFavorite />
                                     ))}
                                 </AnimatedBox>
                             </Box>

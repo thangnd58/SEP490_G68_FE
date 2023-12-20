@@ -102,7 +102,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
             setIsAddingFavorite(false);
         }
     }
- 
+
     const [isAddingCart, setIsAddingCart] = useState<boolean>(false);
     const addCart = async (motorbikeId: number, startDatetime: string, endDatetime: string, address: string) => {
         try {
@@ -357,7 +357,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                             whiteSpace="nowrap"
                             overflow="hidden"
                         >
-                            
+
                             {t("booking.completeBook", { count: props.motorbike.countCompletedBooking })}
                         </Typography>
                         {props.motorbike.distance && (
@@ -423,7 +423,9 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                                 </Typography>
                             ) : (
                                 < MyIcon
-                                    icon={<AddShoppingCart />}
+                                    icon={<AddShoppingCart
+                                        color='primary'
+                                    />}
                                     hasTooltip
                                     position="right"
                                     tooltipText={t("favourite.item.addToCart")}

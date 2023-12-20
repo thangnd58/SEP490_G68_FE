@@ -27,7 +27,7 @@ interface TabPanelProps {
 
 function CustomTabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
-
+    const { isMobile } = useThemePage();
     return (
         <div
             role="tabpanel"
@@ -37,7 +37,7 @@ function CustomTabPanel(props: TabPanelProps) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
+                <Box sx={{ p: isMobile ? 0 : 3 }}>
                     <Typography>{children}</Typography>
                 </Box>
             )}
@@ -121,22 +121,23 @@ export default function MyBooking() {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                margin: '32px 0px',
-                gap: '32px'
+                margin: isMobile ? "16px 0px" : "32px 0px",
+                gap: isMobile ? "16px" : '32px'
             }}
         >
             <Typography
                 variant='h1'
                 color={theme.palette.text.primary}
-                fontSize={"32px"}
-                lineHeight={"60px"}
+                fontSize={isMobile ? "24px" : "32px"}
+                lineHeight={isMobile ? "48px" : "60px"}
                 fontWeight={"600"}
                 sx={{ textAlign: 'center' }}>
                 {t("header.my_booking")}
             </Typography>
-            <Paper elevation={2} sx={{ width: '80%', bgcolor: 'background.paper' }}>
+            <Paper elevation={2} sx={{ width: isMobile ? "92.5%" : '80%', bgcolor: 'background.paper' }}>
                 <Box sx={{ borderRadius: '8px 8px 0px 0px', borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                    <Tabs variant="scrollable"
+                        scrollButtons="auto" value={value} onChange={handleChange} aria-label="basic tabs example">
                         <Tab
                             sx={{
                                 textTransform: 'none',
@@ -241,11 +242,13 @@ export default function MyBooking() {
                                                 padding: '16px',
                                                 alignItems: 'start',
                                                 display: 'flex',
-                                                flexDirection: 'row',
+                                                flexDirection: isMobile ? "column" : "row",
                                                 justifyContent: 'center',
                                                 marginTop: index1 === 0 ? "0px" : "16px",
+                                                gap: isMobile ? "16px" : "0px",
+
                                             }}>
-                                                <Box>
+                                                <Box display={"flex"} flexDirection={"column"} width={isMobile ? "100%" : "auto"} alignItems={"center"} justifyContent={"center"}>
                                                     <MotorbikeInforCard isInModal canClickDetailPage motorbike={item} isFavoritePage={false} isNotFavorite isIntroduced={true} />
                                                 </Box>
                                                 {/* motorbike card */}
@@ -255,7 +258,7 @@ export default function MyBooking() {
                                                     flexDirection: 'column',
                                                     justifyContent: 'start',
                                                     alignItems: 'center',
-                                                    marginLeft: '16px',
+                                                    marginLeft: isMobile ? "0px" : "16px",
                                                     width: '100%',
                                                 }}>
                                                     {
@@ -288,7 +291,7 @@ export default function MyBooking() {
                                     })
                             ) : (
                                 <Box display={"flex"} flexDirection={"column"} alignItems={"center"} justifyContent={"center"} width={"100%"} marginTop={2} gap={2}>
-                                    <img src={NoDataImage} alt={"no-data"} width={"400px"} height={"400px"} />
+                                    <img src={NoDataImage} alt={"no-data"} width={isMobile ? "200px" : "400px"} height={isMobile ? "200px" : "400px"} />
                                 </Box>
                             )
                     }

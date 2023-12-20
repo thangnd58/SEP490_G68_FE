@@ -99,7 +99,7 @@ export default function UserInforModal(props: { userId: number, isOpened?: boole
                             <Avatar size={100} src={userInformation?.avatarUrl} />
                             <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} width={"100%"} gap={'4px'}>
                                 <Typography fontWeight={'600'} fontSize={'20px'}>{userInformation?.name}</Typography>
-                                <Typography fontWeight={'400'} fontSize={'14px'} color={theme.palette.text.secondary}> {t("userProfile.createAt") + " " +  dayjs(userInformation?.createDatetime).format('DD/MM/YYYY')}
+                                <Typography fontWeight={'400'} fontSize={'14px'} color={theme.palette.text.secondary}> {t("userProfile.createAt") + " " + dayjs(userInformation?.createDatetime).format('DD/MM/YYYY')}
                                 </Typography>
                             </Box>
                             {/* Lượt đặt và lượt đánh giá */}
@@ -312,179 +312,360 @@ export function CommentItem(props: CommentItemProps) {
         padding: '16px'
     }}>
         <Box width={"100%"} display={"flex"} flexDirection={isMobile ? 'column' : "row"} justifyContent={"flex-start"} alignItems={"start"} gap={'8px'}>
-            <Avatar size={100} src={avatar} />
-            <Box width={isMobile ? "100%" : "90%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"} gap={'8px'}>
-                <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"start"} gap={'4px'}>
-                    <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"} gap={'4px'}>
-                        <Typography textAlign={'start'} fontWeight={'500'} fontSize={'16px'}>{name}</Typography>
-                        {
-                            /* Rating */
-                        }
-                        <Rating name="read-only" value={rating} readOnly />
-                    </Box>
-                    <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"end"} gap={'4px'}>
-                        {
-                            /* Thời gian đăng */
-                        }
-                        <Typography textAlign={'start'} fontWeight={'400'} fontSize={'12px'}>{getPreviousTimeRelative(dateComment || "", t)}</Typography>                        {
-                            /* Read more */
-                        }
-                        {props.isDetail &&
-                            <MyIcon
-                                icon={
-                                    <ReadMore />
-                                }
-                                position='bottom'
-                                hasTooltip
-                                tooltipText={t("favourite.item.view")}
-                                onClick={() => {
+            {
+                isMobile ?
+                    <>
+                        <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"start"} gap={'4px'}>
+                            <Avatar size={60} src={avatar} />
+                            <Box width={"90%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"start"} gap={'4px'}>
+                                <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"} gap={'4px'}>
+                                    <Typography textAlign={'start'} fontWeight={'500'} fontSize={'16px'}>{name}</Typography>
+                                    {
+                                        /* Rating */
+                                    }
+                                    <Rating name="read-only" value={rating} readOnly />
+                                </Box>
+                                <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"end"} gap={'4px'}>
+                                    {
+                                        /* Thời gian đăng */
+                                    }
+                                    <Typography textAlign={'start'} fontWeight={'400'} fontSize={'12px'}>{getPreviousTimeRelative(dateComment || "", t)}</Typography>                        {
+                                        /* Read more */
+                                    }
+                                    {props.isDetail &&
+                                        <MyIcon
+                                            icon={
+                                                <ReadMore />
+                                            }
+                                            position='bottom'
+                                            hasTooltip
+                                            tooltipText={t("favourite.item.view")}
+                                            onClick={() => {
 
-                                    props.isOwner ?
-                                        navigate(`/${ROUTES.booking.detail_owner}/${props.bookingId}`) :
-                                        navigate(`/${ROUTES.booking.detail}/${props.bookingId}`)
+                                                props.isOwner ?
+                                                    navigate(`/${ROUTES.booking.detail_owner}/${props.bookingId}`) :
+                                                    navigate(`/${ROUTES.booking.detail}/${props.bookingId}`)
 
-                                }}
-                            />}
+                                            }}
+                                        />}
 
-                    </Box>
-
-                </Box>
-                {
-                    /* Comment */
-                }
-                <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={'8px'}>
-                    <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"} gap={'4px'} sx={{
-                        borderRadius: '8px',
-                        border: '1px solid #E0E0E0',
-                        padding: '6px' // Adjust padding as needed
-                    }}>
-                        <Typography textAlign={'start'} fontWeight={'400'} fontSize={'14px'}>{comment}</Typography>
-                    </Box>
-                </Box>
-                {
-                    /* Reply Comment */
-                }
-                {/* {replyComment && */}
-                {
-                    props.isOwner ? (
-                        isReply ? (
-                            <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={'8px'}>
-
-                                <Typography whiteSpace={'nowrap'} textAlign={'start'} fontWeight={'400'} fontSize={'14px'}>{t("editional.owner")}</Typography>
-                                <TextField
-                                    fullWidth
-                                    value={replyCommentTextField}
-                                    onChange={handleReplyCommentChange}
-                                    size='medium'
-                                    sx={{
-                                        '& .MuiOutlinedInput-root': {
-                                            '& fieldset': {
-                                                borderRadius: "8px",
-                                                border: "1px solid #e0e0e0",
-                                            },
-                                            '&:hover fieldset': {
-                                                border: "1px solid #e0e0e0"
-                                            },
-                                            '&.Mui-focused fieldset': {
-                                                border: "1px solid #e0e0e0"
-                                            },
-                                        },
-                                        '& .MuiInputBase-input': {
-                                            fontSize: '14px',
-                                            color: 'common.black',
-                                        }
-                                    }}
-                                    placeholder={t("editional.reply")} 
-                                    inputProps={{
-                                        readOnly: !isEdit,
-                                    }}
-                                    InputProps={{
-                                        endAdornment: (
-                                            isEdit ?
-                                                <MyCustomButton
-                                                    height='30px'
-                                                    backgroundColor={"rgb(5, 69, 19, 0.5)"}
-                                                    borderColor='rgb(5, 69, 19, 0.1)'
-                                                    fontColor='#fff'
-                                                    borderWeight={0.5}
-                                                    fontSize={14}
-                                                    onClick={() =>
-                                                        handleReplyCommentSubmit()
-                                                    }
-                                                    content={t("editional.send")}
-                                                /> :
-                                                <MyCustomButton
-                                                    height='30px'
-                                                    backgroundColor={"rgb(139, 69, 19,0.1)"}
-                                                    borderColor='rgb(139, 69, 19,0.1)'
-                                                    fontColor='primary.main'
-                                                    borderWeight={0.5}
-                                                    fontSize={14}
-                                                    onClick={() =>
-                                                        setIsEdit(true)
-                                                    }
-                                                    content={t("editional.edit")}
-                                                />
-                                        ),
-                                    }}
-                                />
-                            </Box>
-                        ) : (
-                            <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={'8px'}>
-                                <Typography whiteSpace={'nowrap'} fontStyle={"italic"} textAlign={'start'} fontWeight={'400'} fontSize={'12px'}
-                                    sx={{
-                                        cursor: 'pointer',
-                                        '&:hover': {
-                                            textDecoration: 'underline',
-                                        },
-                                    }}
-                                    onClick={() => setIsReply(true)}
-                                >{t("editional.reply")}</Typography>
-                            </Box>
-                        )
-                    ) : (
-                        replyComment &&
-                        <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={'8px'}>
-                            <Typography whiteSpace={'nowrap'} textAlign={'start'} fontWeight={'400'} fontSize={'14px'}>{t("editional.owner")}</Typography>
-                            <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"flex-start"} alignItems={"center"} gap={'4px'}>
-                                <TextField
-                                    fullWidth
-                                    value={replyCommentTextField}
-                                    onChange={handleReplyCommentChange}
-                                    size='small'
-                                    sx={{
-                                        '& .MuiOutlinedInput-root': {
-                                            '& fieldset': {
-                                                borderRadius: "8px",
-                                                border: "1px solid #e0e0e0",
-                                            },
-                                            '&:hover fieldset': {
-                                                border: "1px solid #e0e0e0"
-                                            },
-                                            '&.Mui-focused fieldset': {
-                                                border: "1px solid #e0e0e0"
-                                            },
-                                        },
-                                        '& .MuiInputBase-input': {
-                                            fontSize: '14px',
-                                            color: 'common.black',
-                                        }
-                                    }}
-                                    inputProps={{
-                                        readOnly: true,
-                                    }}
-                                />
-                                {/* thời gian bình luận */}
+                                </Box>
                             </Box>
                         </Box>
-                    )
+                        <Box width={isMobile ? "100%" : "90%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"} gap={'8px'}>
 
-                }
-                {
-                    replyComment &&
-                    <Typography textAlign={'end'} width={"100%"} fontWeight={'400'} fontStyle={"italic"} fontSize={'12px'}>{getPreviousTimeRelative(props.dateReplyComment || "", t)}</Typography>
-                }
-            </Box>
+                            {
+                                /* Comment */
+                            }
+                            <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={'8px'}>
+                                <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"} gap={'4px'} sx={{
+                                    borderRadius: '8px',
+                                    border: '1px solid #E0E0E0',
+                                    padding: '6px' // Adjust padding as needed
+                                }}>
+                                    <Typography textAlign={'start'} fontWeight={'400'} fontSize={'14px'}>{comment}</Typography>
+                                </Box>
+                            </Box>
+                            {
+                                /* Reply Comment */
+                            }
+                            {/* {replyComment && */}
+                            {
+                                props.isOwner ? (
+                                    isReply ? (
+                                        <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={'8px'}>
+
+                                            <Typography whiteSpace={'nowrap'} textAlign={'start'} fontWeight={'400'} fontSize={'14px'}>{t("editional.owner")}</Typography>
+                                            <TextField
+                                                fullWidth
+                                                value={replyCommentTextField}
+                                                onChange={handleReplyCommentChange}
+                                                size='medium'
+                                                sx={{
+                                                    '& .MuiOutlinedInput-root': {
+                                                        '& fieldset': {
+                                                            borderRadius: "8px",
+                                                            border: "1px solid #e0e0e0",
+                                                        },
+                                                        '&:hover fieldset': {
+                                                            border: "1px solid #e0e0e0"
+                                                        },
+                                                        '&.Mui-focused fieldset': {
+                                                            border: "1px solid #e0e0e0"
+                                                        },
+                                                    },
+                                                    '& .MuiInputBase-input': {
+                                                        fontSize: '14px',
+                                                        color: 'common.black',
+                                                    }
+                                                }}
+                                                placeholder={t("editional.reply")}
+                                                inputProps={{
+                                                    readOnly: !isEdit,
+                                                }}
+                                                InputProps={{
+                                                    endAdornment: (
+                                                        isEdit ?
+                                                            <MyCustomButton
+                                                                height='30px'
+                                                                backgroundColor={"rgb(5, 69, 19, 0.5)"}
+                                                                borderColor='rgb(5, 69, 19, 0.1)'
+                                                                fontColor='#fff'
+                                                                borderWeight={0.5}
+                                                                fontSize={14}
+                                                                onClick={() =>
+                                                                    handleReplyCommentSubmit()
+                                                                }
+                                                                content={t("editional.send")}
+                                                            /> :
+                                                            <MyCustomButton
+                                                                height='30px'
+                                                                backgroundColor={"rgb(139, 69, 19,0.1)"}
+                                                                borderColor='rgb(139, 69, 19,0.1)'
+                                                                fontColor='primary.main'
+                                                                borderWeight={0.5}
+                                                                fontSize={14}
+                                                                onClick={() =>
+                                                                    setIsEdit(true)
+                                                                }
+                                                                content={t("editional.edit")}
+                                                            />
+                                                    ),
+                                                }}
+                                            />
+                                        </Box>
+                                    ) : (
+                                        <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={'8px'}>
+                                            <Typography whiteSpace={'nowrap'} fontStyle={"italic"} textAlign={'start'} fontWeight={'400'} fontSize={'12px'}
+                                                sx={{
+                                                    cursor: 'pointer',
+                                                    '&:hover': {
+                                                        textDecoration: 'underline',
+                                                    },
+                                                }}
+                                                onClick={() => setIsReply(true)}
+                                            >{t("editional.reply")}</Typography>
+                                        </Box>
+                                    )
+                                ) : (
+                                    replyComment &&
+                                    <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={'8px'}>
+                                        <Typography whiteSpace={'nowrap'} textAlign={'start'} fontWeight={'400'} fontSize={'14px'}>{t("editional.owner")}</Typography>
+                                        <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"flex-start"} alignItems={"center"} gap={'4px'}>
+                                            <TextField
+                                                fullWidth
+                                                value={replyCommentTextField}
+                                                onChange={handleReplyCommentChange}
+                                                size='small'
+                                                sx={{
+                                                    '& .MuiOutlinedInput-root': {
+                                                        '& fieldset': {
+                                                            borderRadius: "8px",
+                                                            border: "1px solid #e0e0e0",
+                                                        },
+                                                        '&:hover fieldset': {
+                                                            border: "1px solid #e0e0e0"
+                                                        },
+                                                        '&.Mui-focused fieldset': {
+                                                            border: "1px solid #e0e0e0"
+                                                        },
+                                                    },
+                                                    '& .MuiInputBase-input': {
+                                                        fontSize: '14px',
+                                                        color: 'common.black',
+                                                    }
+                                                }}
+                                                inputProps={{
+                                                    readOnly: true,
+                                                }}
+                                            />
+                                            {/* thời gian bình luận */}
+                                        </Box>
+                                    </Box>
+                                )
+
+                            }
+                            {
+                                replyComment &&
+                                <Typography textAlign={'end'} width={"100%"} fontWeight={'400'} fontStyle={"italic"} fontSize={'12px'}>{getPreviousTimeRelative(props.dateReplyComment || "", t)}</Typography>
+                            }
+                        </Box>
+                    </> : <>
+                        <Box width={isMobile ? "100%" : "90%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"} gap={'8px'}>
+                            <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"start"} gap={'4px'}>
+                                <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"} gap={'4px'}>
+                                    <Typography textAlign={'start'} fontWeight={'500'} fontSize={'16px'}>{name}</Typography>
+                                    {
+                                        /* Rating */
+                                    }
+                                    <Rating name="read-only" value={rating} readOnly />
+                                </Box>
+                                <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"end"} gap={'4px'}>
+                                    {
+                                        /* Thời gian đăng */
+                                    }
+                                    <Typography textAlign={'start'} fontWeight={'400'} fontSize={'12px'}>{getPreviousTimeRelative(dateComment || "", t)}</Typography>                        {
+                                        /* Read more */
+                                    }
+                                    {props.isDetail &&
+                                        <MyIcon
+                                            icon={
+                                                <ReadMore />
+                                            }
+                                            position='bottom'
+                                            hasTooltip
+                                            tooltipText={t("favourite.item.view")}
+                                            onClick={() => {
+
+                                                props.isOwner ?
+                                                    navigate(`/${ROUTES.booking.detail_owner}/${props.bookingId}`) :
+                                                    navigate(`/${ROUTES.booking.detail}/${props.bookingId}`)
+
+                                            }}
+                                        />}
+
+                                </Box>
+
+                            </Box>
+                            {
+                                /* Comment */
+                            }
+                            <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={'8px'}>
+                                <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"} gap={'4px'} sx={{
+                                    borderRadius: '8px',
+                                    border: '1px solid #E0E0E0',
+                                    padding: '6px' // Adjust padding as needed
+                                }}>
+                                    <Typography textAlign={'start'} fontWeight={'400'} fontSize={'14px'}>{comment}</Typography>
+                                </Box>
+                            </Box>
+                            {
+                                /* Reply Comment */
+                            }
+                            {/* {replyComment && */}
+                            {
+                                props.isOwner ? (
+                                    isReply ? (
+                                        <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={'8px'}>
+
+                                            <Typography whiteSpace={'nowrap'} textAlign={'start'} fontWeight={'400'} fontSize={'14px'}>{t("editional.owner")}</Typography>
+                                            <TextField
+                                                fullWidth
+                                                value={replyCommentTextField}
+                                                onChange={handleReplyCommentChange}
+                                                size='medium'
+                                                sx={{
+                                                    '& .MuiOutlinedInput-root': {
+                                                        '& fieldset': {
+                                                            borderRadius: "8px",
+                                                            border: "1px solid #e0e0e0",
+                                                        },
+                                                        '&:hover fieldset': {
+                                                            border: "1px solid #e0e0e0"
+                                                        },
+                                                        '&.Mui-focused fieldset': {
+                                                            border: "1px solid #e0e0e0"
+                                                        },
+                                                    },
+                                                    '& .MuiInputBase-input': {
+                                                        fontSize: '14px',
+                                                        color: 'common.black',
+                                                    }
+                                                }}
+                                                placeholder={t("editional.reply")}
+                                                inputProps={{
+                                                    readOnly: !isEdit,
+                                                }}
+                                                InputProps={{
+                                                    endAdornment: (
+                                                        isEdit ?
+                                                            <MyCustomButton
+                                                                height='30px'
+                                                                backgroundColor={"rgb(5, 69, 19, 0.5)"}
+                                                                borderColor='rgb(5, 69, 19, 0.1)'
+                                                                fontColor='#fff'
+                                                                borderWeight={0.5}
+                                                                fontSize={14}
+                                                                onClick={() =>
+                                                                    handleReplyCommentSubmit()
+                                                                }
+                                                                content={t("editional.send")}
+                                                            /> :
+                                                            <MyCustomButton
+                                                                height='30px'
+                                                                backgroundColor={"rgb(139, 69, 19,0.1)"}
+                                                                borderColor='rgb(139, 69, 19,0.1)'
+                                                                fontColor='primary.main'
+                                                                borderWeight={0.5}
+                                                                fontSize={14}
+                                                                onClick={() =>
+                                                                    setIsEdit(true)
+                                                                }
+                                                                content={t("editional.edit")}
+                                                            />
+                                                    ),
+                                                }}
+                                            />
+                                        </Box>
+                                    ) : (
+                                        <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={'8px'}>
+                                            <Typography whiteSpace={'nowrap'} fontStyle={"italic"} textAlign={'start'} fontWeight={'400'} fontSize={'12px'}
+                                                sx={{
+                                                    cursor: 'pointer',
+                                                    '&:hover': {
+                                                        textDecoration: 'underline',
+                                                    },
+                                                }}
+                                                onClick={() => setIsReply(true)}
+                                            >{t("editional.reply")}</Typography>
+                                        </Box>
+                                    )
+                                ) : (
+                                    replyComment &&
+                                    <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={'8px'}>
+                                        <Typography whiteSpace={'nowrap'} textAlign={'start'} fontWeight={'400'} fontSize={'14px'}>{t("editional.owner")}</Typography>
+                                        <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"flex-start"} alignItems={"center"} gap={'4px'}>
+                                            <TextField
+                                                fullWidth
+                                                value={replyCommentTextField}
+                                                onChange={handleReplyCommentChange}
+                                                size='small'
+                                                sx={{
+                                                    '& .MuiOutlinedInput-root': {
+                                                        '& fieldset': {
+                                                            borderRadius: "8px",
+                                                            border: "1px solid #e0e0e0",
+                                                        },
+                                                        '&:hover fieldset': {
+                                                            border: "1px solid #e0e0e0"
+                                                        },
+                                                        '&.Mui-focused fieldset': {
+                                                            border: "1px solid #e0e0e0"
+                                                        },
+                                                    },
+                                                    '& .MuiInputBase-input': {
+                                                        fontSize: '14px',
+                                                        color: 'common.black',
+                                                    }
+                                                }}
+                                                inputProps={{
+                                                    readOnly: true,
+                                                }}
+                                            />
+                                            {/* thời gian bình luận */}
+                                        </Box>
+                                    </Box>
+                                )
+
+                            }
+                            {
+                                replyComment &&
+                                <Typography textAlign={'end'} width={"100%"} fontWeight={'400'} fontStyle={"italic"} fontSize={'12px'}>{getPreviousTimeRelative(props.dateReplyComment || "", t)}</Typography>
+                            }
+                        </Box>
+                    </>
+            }
         </Box>
-    </Box>);
+    </Box>
+    );
 }

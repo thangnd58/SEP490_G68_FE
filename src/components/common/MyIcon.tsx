@@ -15,6 +15,9 @@ interface MyIconProps {
     noCursor?: boolean;
     disabled?: boolean;
     varient?: 'dot' | 'standard';
+    backgroundColor?: string;
+    color?: string;
+    onHover?: () => void;
 }
 
 export default function MyIcon(props: MyIconProps) {
@@ -25,10 +28,13 @@ export default function MyIcon(props: MyIconProps) {
                     <IconButton
                         disabled={props.disabled ? props.disabled : false}
                         onClick={props.onClick}
+                        onAbort={props.onHover}
                         sx={{
                             cursor: props.noCursor ? 'default' : 'pointer',
                             padding: props.noPadding ? '4px' : '8px',
-                            margin: '0px'
+                            margin: '0px',
+                            backgroundColor: props.backgroundColor ? props.backgroundColor : 'transparent',
+                            color: props.color ? props.color : 'inherit'
                         }}
                     >
                         <Badge
@@ -47,7 +53,9 @@ export default function MyIcon(props: MyIconProps) {
                     onClick={props.onClick}
                     style={{
                         cursor: props.noCursor ? 'default' : 'pointer',
-                        padding: '0px', margin: '0px'
+                        padding: '0px', margin: '0px',
+                        backgroundColor: props.backgroundColor ? props.backgroundColor : 'transparent',
+                        color: props.color ? props.color : 'inherit'
                     }}
                 >
                     <Badge
