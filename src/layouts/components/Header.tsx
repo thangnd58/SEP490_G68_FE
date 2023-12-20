@@ -831,14 +831,6 @@ function Header() {
                       content={t("header.wallet")}
                       variant="outlined"
                     />
-                    <MyCustomButton
-                      iconPosition="left"
-                      icon={<Loyalty sx={{ color: "#8B4513" }} />}
-                      width="100%"
-                      onClick={() => navigate(ROUTES.user.listmotorbike)}
-                      content={t("header.btn_promotion")}
-                      variant="outlined"
-                    />
                   </AnimatedBox>
                 )}
                 <Box
