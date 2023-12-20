@@ -176,7 +176,7 @@ export default function UserInforModal(props: { userId: number, isOpened?: boole
                                 >
                                     {
                                         userInformation?.motorbikes.map((item: Motorbike, index: number) => (
-                                            <MotorbikeInforCard motorbike={item} isFavoritePage={false} isIntroduced={true} />
+                                            <MotorbikeInforCard key={`${item.id}_${index}`} motorbike={item} isFavoritePage={false} isIntroduced={true} />
                                         ))
                                     }
                                 </Box>

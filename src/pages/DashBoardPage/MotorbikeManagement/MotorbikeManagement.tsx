@@ -4,7 +4,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Motorbike } from '../../../utils/type';
 import React, { useState, useEffect } from 'react';
 import MotorbikeManagementService from '../../../services/MotorbikeManagementService';
-import { ChangeCircleOutlined, CheckCircleOutline, ErrorOutline, StopCircleOutlined, VisibilityOutlined, WarningAmber } from '@mui/icons-material';
+import { ChangeCircleOutlined, CheckCircleOutline, ErrorOutline, StopCircleOutlined, Visibility, VisibilityOffOutlined, VisibilityOutlined, WarningAmber } from '@mui/icons-material';
 import { GridPrintGetRowsToExportParams, GridRowId, GridToolbar, gridFilteredSortedRowIdsSelector, selectedGridRowsSelector } from '@mui/x-data-grid';
 import { ROUTES } from '../../../utils/Constant';
 import { useNavigate } from 'react-router-dom';
@@ -101,12 +101,9 @@ const MotorbikeManagement = () => {
         {
             field: 'id', headerName: t("dashBoardManager.motorbikeRentalManager.columnAction"), width: 100,
             renderCell: (params: any) => (
-                params.row.status === "Processing" ?
                     <Box sx={{ cursor: 'pointer' }}>
-                        <MyIcon icon={<EditIcon />} hasTooltip position='right' tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.motorbikeregister}/${params.value}`)} />
+                        <MyIcon icon={params.row.status === "Approved" || params.row.status === "CurrentlyRenting" ? <Visibility/> : <EditIcon />} hasTooltip position='right' tooltipText={t("userProfile.BtnChange")} onClick={() => navigate(`${ROUTES.admin.motorbikeregister}/${params.value}`)} />
                     </Box>
-                    :
-                    null
             )
         },
     ];
