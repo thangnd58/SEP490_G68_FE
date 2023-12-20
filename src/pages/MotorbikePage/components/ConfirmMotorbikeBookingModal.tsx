@@ -40,7 +40,6 @@ export const ConfirmMotorbikeBookingModal = (props: { isModalConfirmBookingOpen:
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                overflowY: 'auto',
                 zIndex: 9998
             }}
         >
