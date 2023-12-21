@@ -1,3 +1,4 @@
+import { daDK } from "@mui/material/locale";
 import { Motorbike } from "./type";
 
 export const BASE_URL = "https://hzuzmhgcmt.ap-southeast-1.awsapprunner.com/api";
@@ -45,6 +46,11 @@ export const ROUTES = {
 
     admin: {
         dashboard: "/dashboard",
+        dashboardStatistic: {
+            moneyInDetail : "/dashboard/statistic/money-in-detail",
+            moneyOutDetail : "/dashboard/statistic/money-out-detail",
+            revenueDetail : "/dashboard/statistic/revenue-detail",
+        },
         managemotorbikes: "/manage-motorbikes",
         managelicences: "/manage-licences",
         licenceregister: "/manage-licences/licence-detail",

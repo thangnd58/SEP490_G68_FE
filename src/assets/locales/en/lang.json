@@ -476,9 +476,12 @@
       "totalMoneyIn": "Total money in",
       "income": "Income",
       "paymentType": "Payment type",
-      "transactionStatistics": "Transaction statistics",
+      "transactionStatistics": "Total Balance",
       "startDate": "Start Date",
-      "endDate": "End Date"
+      "endDate": "End Date",
+      "moneyIn" : "Money In",
+      "moneyOut" : "Money Out",
+      "revenue" : "Income"
     },
     "booking": {
       "deliveryMode": "Delivery Mode",

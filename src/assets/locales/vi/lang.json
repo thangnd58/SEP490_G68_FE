@@ -473,9 +473,12 @@
       "totalMoneyIn": "Tổng tiền vào",
       "income": "Doanh thu",
       "paymentType": "Loại hình thanh toán",
-      "transactionStatistics": "Thống kê giao dịch",
+      "transactionStatistics": "Tổng số dư tài khoản",
       "startDate": "Thời gian bắt đầu",
-      "endDate": "Thời gian kết thúc"
+      "endDate": "Thời gian kết thúc",
+      "moneyIn" : "Tiền vào",
+      "moneyOut" : "Tiền ra",
+      "revenue" : "Doanh thu"
     },
     "booking": {
       "deliveryMode": "Phương thức giao xe",

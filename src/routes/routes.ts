@@ -56,6 +56,9 @@ import { PolicyPage } from '../pages/OrtherPage/PolicyPage';
 import GuidelinePage from '../pages/OrtherPage/GuidelinePage';
 import FeedbackManagement from '../pages/DashBoardPage/FeedbackManagement/FeedbackManagement';
 import BookingManagement from '../pages/DashBoardPage/BookingManagement/BookingManagement';
+import TotalMoneyInDetail from '../pages/DashBoardPage/Index/TotalMoneyInDetail';
+import TotalMoneyOutDetail from '../pages/DashBoardPage/Index/TotalMoneyOutDetail';
+import RevenueDetail from '../pages/DashBoardPage/Index/RevenueDetail';
 
 export type Route = {
     path: string;
@@ -108,6 +111,9 @@ export const routes: Route[] = [
 
     // Admin Page
     { path: `${ROUTES.admin.dashboard}`, component: DashboardManagement, layout: LayoutAdmin, role: ["Admin"] },
+    { path: `${ROUTES.admin.dashboardStatistic.moneyInDetail}`, component: TotalMoneyInDetail, layout: LayoutAdmin, role: ["Admin"] },
+    { path: `${ROUTES.admin.dashboardStatistic.moneyOutDetail}`, component: TotalMoneyOutDetail, layout: LayoutAdmin, role: ["Admin"] },
+    { path: `${ROUTES.admin.dashboardStatistic.revenueDetail}`, component: RevenueDetail, layout: LayoutAdmin, role: ["Admin"] },
     { path: `${ROUTES.admin.managemotorbikes}`, component: MotorbikeManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managerequestwithdraw}`, component: WithdrawalRequestManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managelicences}`, component: LicenceManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },

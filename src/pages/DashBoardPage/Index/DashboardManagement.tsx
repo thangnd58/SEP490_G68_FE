@@ -12,16 +12,18 @@ import {
 import { Line, Pie } from 'react-chartjs-2';
 import { MoneyFlow } from '../../../utils/type';
 import StatisticService from '../../../services/StatisticService';
-import { Box, Typography } from "@mui/material"
+import { Box, Checkbox, Typography } from "@mui/material"
 import theme from '../../../utils/theme';
 import usei18next from '../../../hooks/usei18next';
 import useThemePage from '../../../hooks/useThemePage';
-import RegisterMotorbikeItem from '../../PostMotorbike/components/RegisterMotorbike/RegisterMotorbikeItem';
 import dayjs from 'dayjs';
 import { DatePicker } from 'antd';
 import { useFormik } from 'formik';
 import * as Yup from "yup";
-import { formatMoney } from '../../../utils/helper';
+import { formatMoney, formatMoneyNew } from '../../../utils/helper';
+import MyCustomButton from '../../../components/common/MyButton';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../../utils/Constant';
 
 ChartJS.register(
     CategoryScale,
@@ -41,6 +43,7 @@ export const DashboardManagement = () => {
     const today = dayjs();
     const sevenDaysBefore = today.subtract(7, 'day');
     const { RangePicker } = DatePicker;
+    const navigate = useNavigate();
 
     const groupDataByDate = (data: any) => {
         return data.reduce((acc: any, item: any) => {
@@ -148,8 +151,8 @@ export const DashboardManagement = () => {
             label: isVn ? 'Số lượng' : 'Number',
             data: paymentTypeData,
             backgroundColor: [
-                'rgba(255, 99, 132, 0.8)',
-                'rgba(54, 162, 235, 0.8)',
+                '#af6633',
+                '#74BDE6',
             ],
             borderWidth: 1,
         }],
@@ -183,6 +186,24 @@ export const DashboardManagement = () => {
         })
     }, [values.endDate, values.startDate])
 
+    const [accoutBalance, setAccoutBalance] = useState<number>(0);
+
+    const getAccountBalance = async () => {
+        try {
+            const data = await StatisticService.adminBalance();
+            setAccoutBalance(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getAccountBalance();
+    }, [])
+    const [getAllData, setGetAllData] = useState<boolean>(false);
+
+    console.log(accoutBalance);
+
     return (
         <Box height={"700px"}>
             <Box sx={{ backgroundColor: "#8B4513" }}>
@@ -200,12 +221,30 @@ export const DashboardManagement = () => {
                 flexDirection: isMobile ? 'column' : 'row'
             }}>
                 <Box width={'100%'}>
-                    <Box display={'flex'} flexDirection={isMobile ? 'column' : 'row'} gap={'8px'} justifyContent={'space-between'} color={'common.black'} alignItems={'start'}>
-                        <Typography width={isMobile ? '100%' : '50%'} fontWeight={'bold'} fontSize={isMobile ? '20px' : '24px'}>{t("dashBoardManager.dashboard.transactionStatistics")}</Typography>
-                        <Box width={isMobile ? '100%' : '50%'}>
+                    <Box display={'flex'} flexDirection={isMobile ? 'column' : 'row'} gap={'8px'} justifyContent={'space-between'} color={'common.black'} alignItems={'stretch'}>
+                        {/* Part 1 */}
+                        <Box width={isMobile ? '100%' : '70%'} display={'flex'} flexDirection={isMobile ? 'column' : 'row'} gap={'8px'} justifyContent={'space-between'} alignItems={'stretch'} sx={{
+                            borderRadius: "8px",
+                            border: "2px solid #8B4513",
+                        }}>
+                            <Typography
+                                width={'100%'}
+                                fontWeight={'bold'}
+                                alignSelf={'center'}
+                                textAlign={"center"}
+                                color={"#666666"}
+                                fontSize={isMobile ? '20px' : '24px'}>
+                                {t("dashBoardManager.dashboard.transactionStatistics") + ": "}
+                                <span style={{ color: theme.palette.primary.main }}>
+                                    {formatMoney(accoutBalance)}
+                                </span>
+                            </Typography>
+                        </Box>
+                        {/* Part 2 */}
+                        <Box width={isMobile ? '100%' : '27%'}>
                             <Box display={'flex'} width={'100%'} pb={'8px'} >
-                                <Typography width={'50%'} fontWeight={'bold'} >{t("dashBoardManager.dashboard.startDate")}</Typography>
-                                <Typography width={'50%'} fontWeight={'bold'} >{t("dashBoardManager.dashboard.endDate")}</Typography>
+                                <Typography color={"#666666"} width={'50%'} fontWeight={'bold'} >{t("dashBoardManager.dashboard.startDate")}</Typography>
+                                <Typography color={"#666666"} width={'50%'} fontWeight={'bold'} >{t("dashBoardManager.dashboard.endDate")}</Typography>
                             </Box>
                             <RangePicker
                                 className="custom-range-picker custom-table"
@@ -213,8 +252,10 @@ export const DashboardManagement = () => {
                                     fontFamily: 'Inter',
                                     fontStyle: 'normal',
                                     fontSize: '20px',
+                                    height: isMobile ? '32px' : 'auto',
+                                    color: "#666666"
                                 }}
-                                size='large'
+                                size={isMobile ? 'middle' : 'large'}
                                 format="YYYY-MM-DD"
                                 placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
                                 value={[
@@ -225,12 +266,70 @@ export const DashboardManagement = () => {
                                     setFieldValue('startDate', dateStrings[0]);
                                     setFieldValue('endDate', dateStrings[1]);
                                 }}
+                                disabled={getAllData}
                                 allowClear={false}
                             />
                         </Box>
+                        <Checkbox
+                            onClick={() => setGetAllData(!getAllData)}
+                            checked={getAllData}
+                            sx={{
+                                color: theme.palette.primary.main,
+                                '&.Mui-checked': {
+                                    color: theme.palette.primary.main,
+                                },
+                                // none background hover
+                                '&:hover': {
+                                    backgroundColor: 'transparent',
+                                },
+                            }}
+                        />
+
                     </Box>
                     <Box width={'100%'} marginTop={'32px'} sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row' }}>
                         <Box width={isMobile ? '100%' : '70%'} >
+                            <Box display={'flex'} width={'100%'} pb={'8px'} justifyContent={'space-between'}>
+                                <MyCustomButton
+                                    content={t('dashBoardManager.dashboard.moneyIn')}
+                                    onClick={() => navigate(ROUTES.admin.dashboardStatistic.moneyInDetail)}
+                                    width="30%"
+                                    variant='outlined'
+                                    borderColor='rgba(75,192,192,1)'
+                                    backgroundColor='rgba(75,192,192,1)'
+                                    fontColor='#fff'
+                                    height="32px"
+                                    fontSize={14}
+                                    fontWeight={500}
+                                    uppercase
+                                    borderRadius={8} />
+                                <MyCustomButton
+                                    content={t('dashBoardManager.dashboard.moneyOut')}
+                                    onClick={() => navigate(ROUTES.admin.dashboardStatistic.moneyOutDetail)}
+                                    width="30%"
+                                    variant='outlined'
+                                    borderColor='#bb3bbb'
+                                    backgroundColor='#bb3bbb'
+                                    fontColor='#fff'
+                                    height="32px"
+                                    fontSize={14}
+                                    fontWeight={500}
+                                    uppercase
+                                    borderRadius={8} />
+                                <MyCustomButton
+                                    content={t('dashBoardManager.dashboard.revenue')}
+                                    onClick={() => navigate(ROUTES.admin.dashboardStatistic.revenueDetail)}
+                                    width="30%"
+                                    variant='outlined'
+                                    borderColor='#42a753'
+                                    backgroundColor='#42a753'
+                                    fontColor='#fff'
+                                    height="32px"
+                                    fontSize={14}
+                                    fontWeight={500}
+                                    uppercase
+                                    borderRadius={8} />
+
+                            </Box>
                             <Line data={chartData} options={chartOptions} />
                         </Box>
                         <Box width={isMobile ? '100%' : '30%'}>

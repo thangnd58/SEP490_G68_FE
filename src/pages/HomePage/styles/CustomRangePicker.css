@@ -70,36 +70,40 @@
   border-collapse: none !important;
 }
 
-.ant-picker-cell, th {
+.ant-picker-cell,
+th {
   border: 0px solid black;
   padding: 4px 8px;
 }
 
 .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner {
-  background-color: #A26A42 !important;
+  background-color: #a26a42 !important;
 }
 
 .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
-  background-color: #A26A42 !important;
+  background-color: #a26a42 !important;
 }
 
-.ant-picker-cell-in-view.ant-picker-cell-today
-  .ant-picker-cell-inner::before {
-  border-color: #A26A42 !important;
+.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+  border-color: #a26a42 !important;
 }
 
-.ant-picker-cell-in-view.ant-picker-cell-range-start:not(.ant-picker-cell-range-start-single)::before,
+.ant-picker-cell-in-view.ant-picker-cell-range-start:not(
+    .ant-picker-cell-range-start-single
+  )::before,
 .ant-picker-cell-in-view.ant-picker-cell-in-range::before,
-.ant-picker-cell-in-view.ant-picker-cell-range-end:not(.ant-picker-cell-range-end-single)::before,
+.ant-picker-cell-in-view.ant-picker-cell-range-end:not(
+    .ant-picker-cell-range-end-single
+  )::before,
 .ant-picker-time-panel-column
   > li.ant-picker-time-panel-cell-selected
   .ant-picker-time-panel-cell-inner {
-  background: #e6ffe8 !important;
+  background: #8b451355 !important;
 }
 
 .ant-btn-primary {
-background-color: #A26A42 !important;
-border-color: #A26A42 !important;
+  background-color: #a26a42 !important;
+  border-color: #a26a42 !important;
 }
 
 .ant-picker-footer {
