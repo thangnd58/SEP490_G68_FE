@@ -181,7 +181,7 @@ const ListMotorbikeForm = () => {
         setListRegisterMotorbike(response);
         setDefaultListRegisterMotorbike(response);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   // get unique status into 2D array has key is status and value is status using i18next
@@ -278,7 +278,7 @@ const ListMotorbikeForm = () => {
         setIcomeData(dataIncome);
       }
       setIsLoad(false);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   type StatusOrder = {
@@ -515,7 +515,7 @@ const ListMotorbikeForm = () => {
               alignContent={"center"}
             >
               <Typography
-                fontSize={isMobile ? '14px' : '16px'}
+                fontSize={isMobile ? "14px" : "16px"}
                 fontWeight={"400"}
                 margin={"auto 8px"}
               >
@@ -523,11 +523,11 @@ const ListMotorbikeForm = () => {
               </Typography>
               <FormControl sx={{ minWidth: 120 }} size="small">
                 <Select
-                sx={{
-                  // borderRadius
-                  borderRadius: '8px',
-                  fontSize: isMobile ? '14px' : '16px',
-                }}
+                  sx={{
+                    // borderRadius
+                    borderRadius: "8px",
+                    fontSize: isMobile ? "14px" : "16px",
+                  }}
                   labelId="demo-select-small-label"
                   id="demo-select-small"
                   value={selectedStatus}
@@ -564,7 +564,12 @@ const ListMotorbikeForm = () => {
                 marginTop={2}
                 gap={2}
               >
-                <img src={NoDataImage} alt={"no-data"} width={isMobile ? "200px" : "400px"} height={isMobile ? "200px" : "400px"} />
+                <img
+                  src={NoDataImage}
+                  alt={"no-data"}
+                  width={isMobile ? "200px" : "400px"}
+                  height={isMobile ? "200px" : "400px"}
+                />
               </Box>
             ) : (
               listRegisterMotorbike
@@ -605,7 +610,13 @@ const ListMotorbikeForm = () => {
                     gap: isMobile ? "16px" : "0px",
                   }}
                 >
-                  <Box display={"flex"} flexDirection={"column"} width={isMobile ? "100%" : "auto"} alignItems={"center"} justifyContent={"center"}>
+                  <Box
+                    display={"flex"}
+                    flexDirection={"column"}
+                    width={isMobile ? "100%" : "auto"}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                  >
                     <MotorbikeInforCard
                       isInModal
                       canClickDetailPage
@@ -629,52 +640,52 @@ const ListMotorbikeForm = () => {
                   >
                     {item.feedbacks.length > 0
                       ? item.feedbacks.map(
-                        (feedback: Feedback, index2: number) => {
-                          return (
-                            <Box
-                              key={index2}
-                              sx={{
-                                width: "100%",
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "start",
-                                alignItems: "center",
-                                marginTop: index2 === 0 ? "0px" : "16px",
-                              }}
-                            >
-                              <CommentItem
-                                isOwner
-                                isDetail
-                                bookingId={feedback.bookingId}
-                                avatar={feedback.user.avatarUrl}
-                                dateComment={feedback.createDatetime}
-                                name={feedback.user.name}
-                                rating={feedback.rating}
-                                comment={feedback.comment}
-                                // replyComment={"Cảm ơn bạn"}
-                                replyComment={
-                                  feedback.response
-                                    ? feedback.response.comment
-                                    : ""
-                                }
-                                motorbikeId={item.id}
-                                feedbackId={
-                                  feedback.response
-                                    ? feedback.response.feedbackId
-                                    : 0
-                                }
-                                dateReplyComment={
-                                  feedback.response
-                                    ? feedback.response.createDatetime
-                                    : ""
-                                }
-                                reload={reloadPage}
-                                isMobile={isMobile}
-                              />
-                            </Box>
-                          );
-                        }
-                      )
+                          (feedback: Feedback, index2: number) => {
+                            return (
+                              <Box
+                                key={index2}
+                                sx={{
+                                  width: "100%",
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  justifyContent: "start",
+                                  alignItems: "center",
+                                  marginTop: index2 === 0 ? "0px" : "16px",
+                                }}
+                              >
+                                <CommentItem
+                                  isOwner
+                                  isDetail
+                                  bookingId={feedback.bookingId}
+                                  avatar={feedback.user.avatarUrl}
+                                  dateComment={feedback.createDatetime}
+                                  name={feedback.user.name}
+                                  rating={feedback.rating}
+                                  comment={feedback.comment}
+                                  // replyComment={"Cảm ơn bạn"}
+                                  replyComment={
+                                    feedback.response
+                                      ? feedback.response.comment
+                                      : ""
+                                  }
+                                  motorbikeId={item.id}
+                                  feedbackId={
+                                    feedback.response
+                                      ? feedback.response.feedbackId
+                                      : 0
+                                  }
+                                  dateReplyComment={
+                                    feedback.response
+                                      ? feedback.response.createDatetime
+                                      : ""
+                                  }
+                                  reload={reloadPage}
+                                  isMobile={isMobile}
+                                />
+                              </Box>
+                            );
+                          }
+                        )
                       : null}
                   </Box>
                 </Box>
@@ -690,7 +701,12 @@ const ListMotorbikeForm = () => {
               marginTop={2}
               gap={2}
             >
-              <img src={NoDataImage} alt={"no-data"} width={isMobile ? "200px" : "400px"} height={isMobile ? "200px" : "400px"} />
+              <img
+                src={NoDataImage}
+                alt={"no-data"}
+                width={isMobile ? "200px" : "400px"}
+                height={isMobile ? "200px" : "400px"}
+              />
             </Box>
           )}
         </CustomTabPanel1>
@@ -703,6 +719,7 @@ const ListMotorbikeForm = () => {
                     {incomeData.map((income, index) => {
                       return (
                         <RowIncome
+                        openItemModal={() => openItemModal(income.motorbike, income.motorbike.imageUrl)}
                           row={income}
                           index={index + 1}
                           key={`income_${index}`}
@@ -723,7 +740,12 @@ const ListMotorbikeForm = () => {
               marginTop={2}
               gap={2}
             >
-              <img src={NoDataImage} alt={"no-data"} width={isMobile ? "200px" : "400px"} height={isMobile ? "200px" : "400px"} />
+              <img
+                src={NoDataImage}
+                alt={"no-data"}
+                width={isMobile ? "200px" : "400px"}
+                height={isMobile ? "200px" : "400px"}
+              />
             </Box>
           )}
         </CustomTabPanel1>
@@ -824,24 +846,13 @@ function ItemMotorbikeModal({
 
   const [anchorEl, setAnchorEl] = useState<any>(null);
 
-  const handleMarkerClick = (event: google.maps.MapMouseEvent) => {
-    // Hiển thị Popover khi click vào Marker
-    setAnchorEl(event.domEvent.currentTarget);
-  };
-
   const handleClosePopover = () => {
-    // Đóng Popover khi click bên ngoài
     setAnchorEl(null);
-  };
-
-  const handleDragMap = () => {
-    // không cho nguời dùng kéo map
   };
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
-  // auto close modal if user click back button on webrowser
   useEffect(() => {
     window.onpopstate = () => {
       closeItemModal();
@@ -863,7 +874,7 @@ function ItemMotorbikeModal({
       }}
     >
       <Box
-        width={"90%"}
+        width={isMobile? "97%" : "90%"}
         height={"auto"}
         sx={{
           backgroundColor: "#fff",
@@ -981,7 +992,7 @@ function ItemMotorbikeModal({
                   icon={<LocationOn />}
                   hasTooltip
                   tooltipText={t("postMotorbike.listform.badge-location")}
-                  onClick={() => { }}
+                  onClick={() => {}}
                   position="left"
                 />
                 <Typography
@@ -1285,64 +1296,64 @@ function ItemMotorbikeModal({
                       >
                         {equipmentList.filter((item) => item === "Raincoat")
                           .length > 0 && (
-                            <Grid item xs={isMobile ? 12 : 4}>
-                              <EquipmentItem
-                                icon={<RainCoatIcon />}
-                                label={t("postMotorbike.registedForm.raincoat")}
-                              />
-                            </Grid>
-                          )}
+                          <Grid item xs={isMobile ? 12 : 4}>
+                            <EquipmentItem
+                              icon={<RainCoatIcon />}
+                              label={t("postMotorbike.registedForm.raincoat")}
+                            />
+                          </Grid>
+                        )}
                         {equipmentList.filter((item) => item === "Helmet")
                           .length > 0 && (
-                            <Grid item xs={isMobile ? 12 : 4}>
-                              <EquipmentItem
-                                icon={<HelmetIcon />}
-                                label={t("postMotorbike.registedForm.helmet")}
-                              />
-                            </Grid>
-                          )}
+                          <Grid item xs={isMobile ? 12 : 4}>
+                            <EquipmentItem
+                              icon={<HelmetIcon />}
+                              label={t("postMotorbike.registedForm.helmet")}
+                            />
+                          </Grid>
+                        )}
                         {equipmentList.filter(
                           (item) => item === "ReflectiveClothes"
                         ).length > 0 && (
-                            <Grid item xs={isMobile ? 12 : 4}>
-                              <EquipmentItem
-                                icon={<ProtectClothesIcon />}
-                                label={t(
-                                  "postMotorbike.registedForm.reflectiveClothes"
-                                )}
-                              />
-                            </Grid>
-                          )}
+                          <Grid item xs={isMobile ? 12 : 4}>
+                            <EquipmentItem
+                              icon={<ProtectClothesIcon />}
+                              label={t(
+                                "postMotorbike.registedForm.reflectiveClothes"
+                              )}
+                            />
+                          </Grid>
+                        )}
                         {equipmentList.filter((item) => item === "RepairKit")
                           .length > 0 && (
-                            <Grid item xs={isMobile ? 12 : 4}>
-                              <EquipmentItem
-                                icon={<RepairIcon />}
-                                label={t("postMotorbike.registedForm.repairKit")}
-                              />
-                            </Grid>
-                          )}
+                          <Grid item xs={isMobile ? 12 : 4}>
+                            <EquipmentItem
+                              icon={<RepairIcon />}
+                              label={t("postMotorbike.registedForm.repairKit")}
+                            />
+                          </Grid>
+                        )}
                         {equipmentList.filter((item) => item === "Bagage")
                           .length > 0 && (
-                            <Grid item xs={isMobile ? 12 : 4}>
-                              <EquipmentItem
-                                icon={<CartIcon />}
-                                label={t("postMotorbike.registedForm.bagage")}
-                              />
-                            </Grid>
-                          )}
+                          <Grid item xs={isMobile ? 12 : 4}>
+                            <EquipmentItem
+                              icon={<CartIcon />}
+                              label={t("postMotorbike.registedForm.bagage")}
+                            />
+                          </Grid>
+                        )}
                         {equipmentList.filter(
                           (item) => item === "CaseTelephone"
                         ).length > 0 && (
-                            <Grid item xs={isMobile ? 12 : 4}>
-                              <EquipmentItem
-                                icon={<TelephoneIcon />}
-                                label={t(
-                                  "postMotorbike.registedForm.caseTelephone"
-                                )}
-                              />
-                            </Grid>
-                          )}
+                          <Grid item xs={isMobile ? 12 : 4}>
+                            <EquipmentItem
+                              icon={<TelephoneIcon />}
+                              label={t(
+                                "postMotorbike.registedForm.caseTelephone"
+                              )}
+                            />
+                          </Grid>
+                        )}
                       </Grid>
                     </Box>
                   </Box>
@@ -1719,12 +1730,12 @@ function EquipmentItem({ icon, label }: any) {
   );
 }
 
-function RowIncome(props: { row: IncomeFromMotorbike; index: number }) {
-  const { row, index } = props;
+function RowIncome(props: { row: IncomeFromMotorbike; index: number, openItemModal: any }) {
+  const { row, index, openItemModal } = props;
   const [open, setOpen] = React.useState(false);
   const { t } = usei18next();
   const { isMobile } = useThemePage();
-
+  const navigate = useNavigate();
   const columnsBooking = [
     {
       field: "bookingId",
@@ -1766,13 +1777,13 @@ function RowIncome(props: { row: IncomeFromMotorbike; index: number }) {
       >
         <TableCell scope="row">
           <Grid
-          sx={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "start",
-            alignItems: "center",
-          }}
+            sx={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "start",
+              alignItems: "center",
+            }}
             container
             rowSpacing={1}
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
@@ -1781,22 +1792,28 @@ function RowIncome(props: { row: IncomeFromMotorbike; index: number }) {
               <Typography>{index}</Typography>
             </Grid>
             <Grid item xs={1}>
-              <Avatar src={row.motorbike.imageUrl[0]} />
+              <Box onClick={openItemModal}>
+                <Avatar src={row.motorbike.imageUrl[0]} />
+              </Box>
             </Grid>
-            <Grid item xs={2}>
-              <Typography>{`${row.motorbike.model.brand.brandName} ${row.motorbike.model.modelName}`}</Typography>
-            </Grid>
-            <Grid item xs={3}>
-              <Typography>{`${t(
-                "dashBoardManager.motorbikeRentalManager.columnLicensePlate"
-              )}: ${row.motorbike.licensePlate}`}</Typography>
-            </Grid>
-            <Grid item xs={2}>
+            {!isMobile && (
+              <>
+                <Grid item xs={2}>
+                  <Typography>{`${row.motorbike.model.brand.brandName} ${row.motorbike.model.modelName}`}</Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography>{`${t(
+                    "dashBoardManager.motorbikeRentalManager.columnLicensePlate"
+                  )}: ${row.motorbike.licensePlate}`}</Typography>
+                </Grid>
+              </>
+            )}
+            <Grid item xs={isMobile ? 12 : 2}>
               <Typography>{`${t("booking.completeBook", {
                 count: row.totalBooking,
               })}`}</Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={isMobile ? 12 : 3}>
               <Typography>{`${t(
                 "dashBoardManager.dashboard.income"
               )}: ${formatMoneyNew(row.totalRevenue)}`}</Typography>
@@ -1845,13 +1862,11 @@ function RowIncome(props: { row: IncomeFromMotorbike; index: number }) {
                   rowHeight={48}
                   disableRowSelectionOnClick
                   pagination
-                // onRowClick={(event) => {
-                //   if (event.row.status !== BookingStatus.Cancelled) {
-                //     navigate(
-                //       `/${ROUTES.booking.detail}/${event.row.bookingId}`
-                //     );
-                //   }
-                // }}
+                  onRowClick={(event) => {
+                    navigate(
+                      `/${ROUTES.booking.detail_owner}/${event.row.bookingId}`
+                    );
+                  }}
                 />
               )}
             </Box>
