@@ -28,6 +28,7 @@ import { BookingService } from "../../services/BookingService";
 import { NoDataImage } from "../../assets/images";
 import { getCartInfo } from "../../redux/reducers/cartReducer";
 import { useNavigate } from "react-router-dom";
+import UserInforModal from "../UserProfilePage/UserInforModal";
 
 interface AnimatedBoxProps {
     isOpen: boolean;
@@ -141,17 +142,37 @@ function CartPage() {
                                 width: isMobile ? "90%" : '80%', bgcolor: 'background.paper',
                                 animation: "fadeInDown 1s ease-out"
                             }}>
-                                <Box display={"flex"} flexDirection={"column"} gap={isMobile ? "8px" : "16px"} p={isMobile ? 1 : 3}>
-                                    <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"}>
-                                        <Typography
-                                            variant='h2'
-                                            color={theme.palette.text.primary}
-                                            fontSize={isMobile ? "20px" : "24px"}
-                                            lineHeight={"36px"}
-                                            fontWeight={"600"}
-                                            sx={{ textAlign: 'center' }}>
-                                            {index + 1}. {t("editional.orderInfor")}
-                                        </Typography>
+                                <Box display={"flex"} flexDirection={"column"} gap={isMobile ? "8px" : "16px"} p={isMobile ? 1.5 : 3}>
+                                    <Box display={"flex"} alignItems={"center"} flexDirection={"row"} justifyContent={"space-between"}>
+                                        <Box
+                                            display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'center'} sx={{ cursor: 'pointer', gap: '8px' }} padding={"4px 0px"}
+                                        >
+                                            <Avatar
+                                                sx={{
+                                                    width: "50px",
+                                                    height: "50px",
+                                                    borderRadius: "50%",
+                                                }}
+                                                src={
+                                                    item.motorbikes[0].user.avatarUrl
+                                                }
+                                                onClick={() => openModal(<UserInforModal userId={item.motorbikes[0].user.userId} />)}
+                                            />
+                                            <Box display={'flex'} flexDirection={'column'} alignItems={'start'} justifyContent={'center'} sx={{ gap: '0px' }}>
+                                                <Typography
+                                                    color={theme.palette.text.primary}
+                                                    sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "600", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                                >
+                                                    {t("booking.motorbikeOwner")}
+                                                </Typography>
+                                                <Typography
+                                                    color={theme.palette.text.primary}
+                                                    sx={{ fontSize: isMobile ? "14px" : '16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                                >
+                                                    {item.motorbikes[0].user.name}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
                                         <MyCustomButton
                                             content={t("editional.book")}
                                             onClick={() => { showModalBookingInfoMultipleMotorbike(item.motorbikes, item.address, item.startDatetime, item.endDatetime, item.bookingCartId) }}
@@ -162,8 +183,8 @@ function CartPage() {
                                             borderRadius={8}
                                         />
                                     </Box>
-                                    <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
-                                        <Box display={'flex'} flexDirection={isMobile ? "column" : 'row'} alignItems={'start'} justifyContent={'center'} sx={{ gap: isMobile ? "8px" : '32px' }}>
+                                    <Box  display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
+                                        <Box width={"100%"} display={'flex'} flexDirection={isMobile ? "column" : 'row'} alignItems={'start'} justifyContent={'center'} sx={{ gap: isMobile ? "8px" : '32px' }}>
                                             {/* location */}
                                             <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ width: "100%" }} >
                                                 <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
@@ -179,7 +200,7 @@ function CartPage() {
                                                         <LocationOnOutlined sx={{ color: theme.palette.action.disabled }} />
                                                         <Typography
                                                             color={theme.palette.text.primary}
-                                                            sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                                            sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
                                                         >
                                                             {item.address}
                                                         </Typography>
@@ -203,7 +224,7 @@ function CartPage() {
                                                 }
                                             </Box>
                                             {/* time */}
-                                            <Box display={'flex'} flexDirection={isMobile ? "row" : 'row'} alignItems={'start'} justifyContent={'center'} sx={{ gap: isMobile ? "8px" : '4px' }}>
+                                            <Box display={'flex'} flexDirection={isMobile ? "row" : 'row'} alignItems={'start'} justifyContent={'center'} sx={{ gap: isMobile ? "16px" : '4px' }}>
                                                 <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
                                                     {/* start date */}
                                                     <Typography width={"100%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
@@ -216,7 +237,7 @@ function CartPage() {
                                                         {/* box typography */}
                                                         <Typography
                                                             color={theme.palette.text.primary}
-                                                            sx={{ fontSize: '16px', fontWeight: "400" }}
+                                                            sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: "400" }}
                                                             noWrap
                                                         >
                                                             {item.startDatetime}
@@ -236,7 +257,7 @@ function CartPage() {
                                                         {/* box typography */}
                                                         <Typography
                                                             color={theme.palette.text.primary}
-                                                            sx={{ fontSize: '16px', fontWeight: "400" }}
+                                                            sx={{ fontSize: isMobile ? '14px' : '16px', fontWeight: "400" }}
                                                             noWrap
                                                         >
                                                             {item.endDatetime}
@@ -277,7 +298,7 @@ function CartPage() {
                                         isOpen={open[index]}
                                     >
                                         {item.motorbikes.map((motorbike: Motorbike, index1: number) => (
-                                            <Box width={"100%"} key={index1} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>
+                                            <Box maxWidth={"350px"} key={index1} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '16px' }}>
                                                 <MotorbikeInforCard key={index1} motorbike={motorbike} isInCart={true} isFavoritePage={false} startDate={item.startDatetime} endDate={item.endDatetime} searchedAddress={item.address} deleteInCart={
                                                     () => {
                                                         deleteMotorbikeInCart(index, motorbike.id!, item.bookingCartId)

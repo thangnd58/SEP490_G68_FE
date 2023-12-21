@@ -24,7 +24,7 @@ export const DetailNotification = ({ id }: { id: number }) => {
     const [notify, setNotify] = useState<Notification>();
     const [booking, setBooking] = useState<Booking>();
     const dispatch = useAppDispatch();
-    const { t } = usei18next();
+    const { t, isVn } = usei18next();
     useEffect(() => {
         NotificationService.getNotification(id).then((data) => {
             //@ts-ignore

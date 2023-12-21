@@ -145,8 +145,9 @@ export const RequireWhenRent = () => {
                             </Table>
                         </TableStyle>
                     </TableContainer>
-                    <List sx={{ listStyleType: 'disc', pl: '22px', width: '100%' }} >
+                    <List sx={{width: '100%' }} >
                         <ListItem sx={{
+                            
                             color: '#000',
                             display: 'list-item',
                             textAlign: 'justify',
@@ -160,7 +161,7 @@ export const RequireWhenRent = () => {
                             textAlign: 'justify',
                             fontSize: "12px",
                             padding: '4px 0px',
-                            fontFamily: 'Inter'
+                            fontFamily: 'Inter',
                         }}>{t("policy.customerNotGetMotorbike")}</ListItem>
                         <ListItem sx={{
                             color: '#000',

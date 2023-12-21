@@ -23,6 +23,7 @@ export const userFavouriteReducer = createSlice({
 export const getUserFavouriteInfo = (): any => {
   return async (dispatch: AppDispatch, getState: RootState) => {
     try {
+      if (!UserService.isLoggedIn()) return;
       const userFavouriteInfo = await UserService.getUserFavourite();
       //@ts-ignore
       dispatch(updateFavourite(userFavouriteInfo.data))

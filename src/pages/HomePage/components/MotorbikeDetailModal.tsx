@@ -1245,7 +1245,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
                         borderRadius={"10px"}
                         border={"3px solid"}
                         margin={"0px auto"}
-                        width={"99%"}
+                        width={"98%"}
                         justifyContent={"center"}
                         alignItems={"center"}
                         flexDirection={"column"}

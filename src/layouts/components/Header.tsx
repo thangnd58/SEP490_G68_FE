@@ -78,6 +78,7 @@ import {
   HubConnection,
 } from "@microsoft/signalr";
 import { connection } from "../../redux/reducers/signalRReducer";
+import { getUserFavouriteInfo } from "../../redux/reducers/userFavouriteReducer";
 
 const LanguageBox = memo(() => {
   const { isVn, changeLang } = usei18next();
@@ -190,6 +191,7 @@ function Header() {
 
   useEffect(() => {
     dispatch(getCartInfo());
+    dispatch(getUserFavouriteInfo());
   }, []);
 
   //avatar zone

@@ -93,7 +93,6 @@ export const UpdateStatusFormModal = (props: {
                     </Box>
                 </DialogTitle>
                 <DialogContent sx={{
-                    margin: '0px 16px',
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '1rem',
