@@ -357,7 +357,11 @@
       "columnAction": "Action",
       "statusPending": "Pending Approval",
       "statusVerified": "Verified",
-      "statusCancelled": "Cancelled"
+      "statusCancelled": "Cancelled",
+      "statusFPTOk": "Driver's licence information is correct",
+      "statusFPTInvalid": "Driver's licence information is incorrect",
+      "statusFPTPending": "Waiting for verification",
+      "buttonVerify": "Verified via FPT AI"
     },
     "motorbikeRentalManager": {
       "columnUserName": "User Name",

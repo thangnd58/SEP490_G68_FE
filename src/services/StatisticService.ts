@@ -7,8 +7,8 @@ const moneyFlow = '/MoneyFlow'
 const adminBalance = '/moneyflow/balance'
 
 const StatisticService = {
-    moneyFlow: async (startDate: string, endDate: string): Promise<MoneyFlow[]> => {
-        const res = await api.get(`${moneyFlow}?startDate=${startDate}&endDate=${endDate}`);
+    moneyFlow: async (startDate: string, endDate: string, allTime: boolean): Promise<MoneyFlow[]> => {
+        const res = await api.get(`${moneyFlow}?startDate=${startDate}&endDate=${endDate}&isGetAll=${allTime}`);
         return res.data;
     },
     adminBalance: async (): Promise<number> => {

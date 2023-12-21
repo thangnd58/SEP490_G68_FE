@@ -9,14 +9,16 @@ import { Chip, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import theme from '../../../utils/theme';
 import usei18next from '../../../hooks/usei18next';
+import MyIcon from '../../../components/common/MyIcon';
+import { ROUTES } from '../../../utils/Constant';
+import { useNavigate } from 'react-router-dom';
 
 const BookingManagement = () => {
     const [listBooking, setListBooking] = useState<Booking[]>([]);
     const { t } = usei18next();
-
+    const navigate = useNavigate();
     useEffect(() => {
         getAllBooking();
-        
     },[]);
     const getAllBooking = async () => {
         try {
@@ -97,7 +99,25 @@ const BookingManagement = () => {
                     {new Date(params.value).toLocaleString()}
                 </Box>
             ),
-        }
+        },
+        {
+            field: "bookingId",
+            headerName: t("dashBoardManager.licenseManager.columnAction"),
+            width: 100,
+            renderCell: (params: any) => (
+              <Box sx={{ cursor: "pointer" }}>
+                <MyIcon
+                  icon={<Visibility />}
+                  position="right"
+                  hasTooltip
+                  tooltipText={t("userProfile.BtnChange")}
+                  onClick={() =>
+                    navigate(`${ROUTES.admin.managerBooking}/${params.value}`)
+                  }
+                />
+              </Box>
+            ),
+          },
     ];
 
     return (

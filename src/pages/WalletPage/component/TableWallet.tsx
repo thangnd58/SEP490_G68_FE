@@ -365,9 +365,11 @@ const TableStyle = styled("form")(({ theme }) => ({
 export default function CollapsibleTable({
   reload,
   selectedDate,
+  allTime,
 }: {
   reload: boolean;
   selectedDate: dayjs.Dayjs;
+  allTime: boolean;
 }) {
   const [deposites, setDeposites] = React.useState<WalletHistory[]>([]);
   const [withdrawals, setWithdrawals] = React.useState<WalletHistory[]>([]);
@@ -375,11 +377,11 @@ export default function CollapsibleTable({
   const { t } = usei18next();
   React.useEffect(() => {
     try {
-      WalletService.depositeList(selectedDate).then((data) => {
+      WalletService.depositeList(selectedDate, allTime).then((data) => {
         //@ts-ignore
         setDeposites(data.data);
       });
-      WalletService.withdrawList(selectedDate).then((data) => {
+      WalletService.withdrawList(selectedDate, allTime).then((data) => {
         //@ts-ignore
         setWithdrawals(data.data);
       });
@@ -397,7 +399,7 @@ export default function CollapsibleTable({
         setBookings(bookingsThisMonthYear);
       });
     } catch (error) {}
-  }, [reload, selectedDate]);
+  }, [reload, selectedDate, allTime]);
 
   //@ts-ignore
   const totalDeposits = deposites.reduce((total, it) => total + it.deposit, 0);

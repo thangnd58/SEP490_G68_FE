@@ -70,7 +70,7 @@ const ModelManagement = () => {
         {
             field: 'numberOfMotorbike',
             headerName: t("dashBoardManager.model.status"),
-            width: 250
+            width: 150
         },
         {
             field: 'createdDate',

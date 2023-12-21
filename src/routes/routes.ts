@@ -59,6 +59,7 @@ import BookingManagement from '../pages/DashBoardPage/BookingManagement/BookingM
 import TotalMoneyInDetail from '../pages/DashBoardPage/Index/TotalMoneyInDetail';
 import TotalMoneyOutDetail from '../pages/DashBoardPage/Index/TotalMoneyOutDetail';
 import RevenueDetail from '../pages/DashBoardPage/Index/RevenueDetail';
+import { BookingDetail } from '../pages/DashBoardPage/BookingManagement/BookingDetail';
 
 export type Route = {
     path: string;
@@ -124,6 +125,7 @@ export const routes: Route[] = [
     { path: `${ROUTES.admin.manageNews}`, component: NewsManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.licenceregister}/:id`, component: LicenceRegisterDetail, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.motorbikeregister}/:id`, component: MotorbikeRegisterDetail, layout: LayoutAdmin, role: ["Admin", "Staff"] },
+    { path: `${ROUTES.admin.managerBooking}/:id`, component: BookingDetail, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.manageNews}/:id`, component: NewsManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managePromotion}`, component: PromotionManagement, layout: LayoutAdmin, role: ["Admin", "Staff"] },
     { path: `${ROUTES.admin.managePromotion}/:id`, component: PromotionManagementForm, layout: LayoutAdmin, role: ["Admin", "Staff"] },

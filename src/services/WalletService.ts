@@ -19,11 +19,11 @@ const WalletService = {
     updateMoneyToDb: async (queryString: string) => {
         return await api.post(`${updateMoney}${queryString}`);
     },
-    depositeList: async (selectedDate: dayjs.Dayjs): Promise<WalletHistory[]> => {
-        return await api.get(`${historyDeposite}/${selectedDate.month() + 1}/${selectedDate.year()}`)
+    depositeList: async (selectedDate: dayjs.Dayjs, allTime: boolean): Promise<WalletHistory[]> => {
+        return await api.get(`${historyDeposite}/${selectedDate.month() + 1}/${selectedDate.year()}?isGetAll=${allTime}`)
     },
-    withdrawList: async (selectedDate: dayjs.Dayjs): Promise<WalletHistory[]> => {
-        return await api.get(`${historyWithdrawal}/${selectedDate.month() + 1}/${selectedDate.year()}`)
+    withdrawList: async (selectedDate: dayjs.Dayjs, allTime: boolean): Promise<WalletHistory[]> => {
+        return await api.get(`${historyWithdrawal}/${selectedDate.month() + 1}/${selectedDate.year()}?isGetAll=${allTime}`)
     },
     requesWithdrawal: async (requestData: RequestWithDrawal) => {
         return await api.post(requestWithdrawal, requestData)

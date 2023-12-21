@@ -26,16 +26,16 @@ const ModalProvider: React.FC<Props> = ({ children, canCloseModal }) => {
     closeModal,
     backdropRef,
     clearModals,
-    openModal
-  }; 
+    openModal,
+  };
   return (
     <ModalContext.Provider value={valueContext}>
-        {children}
-        {contentModal.map((modal, index) => (
+      {/* {contentModal.map((modal, index) => (
         <Modal key={index} open onClose={closeModal}>
           {modal}
         </Modal>
-      ))}
+      ))} */}
+      {children}
     </ModalContext.Provider>
   );
 };

@@ -44,7 +44,7 @@ const FeedbackManagement = () => {
             field: 'user.name', headerName: t("dashBoardManager.feedback.userName"), width: 200, valueGetter: ({ row }: any) => row.user.name 
         },
         {
-            field: 'comment', headerName: t("dashBoardManager.feedback.comment"), width: 200
+            field: 'comment', headerName: t("dashBoardManager.feedback.comment"), width: 350
         },
         {
             field: 'perfomer', headerName: t("dashBoardManager.feedback.perfomer"), width: 200

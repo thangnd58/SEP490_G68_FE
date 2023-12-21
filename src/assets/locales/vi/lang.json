@@ -353,7 +353,11 @@
       "columnAction": "Chỉnh sửa",
       "statusPending": "Chờ phê duyệt",
       "statusVerified": "Đã xác thực",
-      "statusCancelled": "Đã hủy"
+      "statusCancelled": "Đã hủy",
+      "statusFPTOk": "Bằng lái đúng thông tin",
+      "statusFPTInvalid": "Bằng lái sai thông tin",
+      "statusFPTPending": "Chờ xác minh",
+      "buttonVerify": "Xác minh qua FPT AI"
     },
     "motorbikeRentalManager": {
       "columnUserName": "Người đăng ký",
