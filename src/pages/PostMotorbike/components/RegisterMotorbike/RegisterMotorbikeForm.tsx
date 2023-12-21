@@ -1192,6 +1192,7 @@ const RegisterMotorbikeForm = () => {
                 alignItems: 'start',
                 justifyContent: 'center',
                 margin: '32px 0px',
+                overflowY: 'auto'
             }}>
                 <Box width={isMobile ? "80%" : "50%"} height={"auto"} sx={{
                     padding: "16px 32px",

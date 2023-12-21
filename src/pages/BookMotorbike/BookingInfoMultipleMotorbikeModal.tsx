@@ -738,7 +738,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          zIndex: 10000
+          zIndex: 9998
         }}
       >
         <Box width={isMobile ? "80%" : "50%"} height={"auto"} sx={{

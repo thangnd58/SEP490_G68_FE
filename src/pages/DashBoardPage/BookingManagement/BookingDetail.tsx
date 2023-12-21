@@ -75,7 +75,7 @@ export const BookingDetail = () => {
           fontSize={24}
           fontWeight={700}
         >
-          {t("dashBoardManager.Navigation.licenseManager")}
+          {t("dashBoardManager.Navigation.booking")}
         </Typography>
       </Box>
 

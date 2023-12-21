@@ -67,7 +67,7 @@ export const ConfirmCompleteTripModal = (props: { booking: Booking, isMobile: bo
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                zIndex: 10000
+                zIndex: 9998
             }}
         >
             <Box
