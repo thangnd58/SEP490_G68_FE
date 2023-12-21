@@ -515,7 +515,7 @@ const ListMotorbikeForm = () => {
               alignContent={"center"}
             >
               <Typography
-                fontSize={"18px"}
+                fontSize={isMobile ? '14px' : '16px'}
                 fontWeight={"400"}
                 margin={"auto 8px"}
               >
@@ -523,6 +523,11 @@ const ListMotorbikeForm = () => {
               </Typography>
               <FormControl sx={{ minWidth: 120 }} size="small">
                 <Select
+                sx={{
+                  // borderRadius
+                  borderRadius: '8px',
+                  fontSize: isMobile ? '14px' : '16px',
+                }}
                   labelId="demo-select-small-label"
                   id="demo-select-small"
                   value={selectedStatus}

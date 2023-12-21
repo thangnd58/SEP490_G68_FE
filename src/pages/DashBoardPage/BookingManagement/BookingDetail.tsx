@@ -481,7 +481,7 @@ export const BookingDetail = () => {
                         fontWeight: "600",
                       }}
                     >
-                      Loại thanh toán
+                      {t("wallet.title_type_payment")}
                     </Typography>
                   </TableCell>
                   <TableCell

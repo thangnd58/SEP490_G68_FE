@@ -253,6 +253,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
   return (
     <>
       <Modal
+        onClose={closeModal}
         open={true}
         aria-labelledby="map-modal-title"
         aria-describedby="map-modal-description"
@@ -284,13 +285,11 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
             flexDirection={"row"}
             justifyContent={"space-between"}
             alignItems={"center"}
-            padding={"32px"}
-            position={"sticky"}
-            top={0}
+            padding={isMobile ? '16px' : '32px'}
             zIndex={1000}
           >
             <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "24px" : "32px"} fontWeight={600} textAlign={"start"}>
-              Thông tin đặt xe
+            {t("booking.confirmInforBookshort")}
             </Typography>
             <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
               <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeModal} position='bottom' />
@@ -307,10 +306,10 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
             flexDirection={"row"}
             justifyContent={"space-between"}
             alignItems={"center"}
-            padding={"32px 64px"}
+            padding={isMobile ? '0px' : "32px 64px"}
           >
             <Paper elevation={2} sx={{ width: '100%', bgcolor: "#fff" }}>
-              <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} padding={"32px"} gap={"32px"} >
+              <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} padding={isMobile ? '8px' : "32px"} gap={isMobile ? "8px" : "32px"} >
                 <Box width={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} gap={"16px"} >
 
                   {
@@ -324,15 +323,12 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                 </Box>
                 <Divider sx={{ width: "100%" }} variant="fullWidth" />
 
-                <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"center"} alignItems={"start"} gap={"16px"} >
-                  <Box width={"60%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} gap={"16px"} >
+                <Box width={"100%"} display={"flex"} flexDirection={isMobile ? "column-reverse" : "row"} justifyContent={"center"} alignItems={"start"} gap={"16px"} >
+                  <Box width={isMobile ? '100%' : "60%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} gap={"16px"} >
                     <RequireWhenRent />
                   </Box>
                   {/* Hóa đơn thanh toán */}
-                  <Box width={"40%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"} gap={"8px"} >
-                    <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "700", }}>
-                      Thanh Toán
-                    </Typography>
+                  <Box width={isMobile ? '100%' : "40%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"} gap={"8px"} >
                     <Box
                       sx={{
                         backgroundColor: "rgba(139, 69, 19, 0.05)",
@@ -459,7 +455,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                             <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
                               {t("booking.pricePerday")}
                             </Typography>
-                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                            <Typography textAlign={"end"} color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                               {`${formatMoneyNew(props.motorbikes.reduce((total, mt) => {
                                 if (mt && mt.priceRent !== undefined) {
                                   return total + mt.priceRent;
@@ -629,7 +625,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                             <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "400", }}>
                               {t("booking.totalPriceRent")}
                             </Typography>
-                            <Typography color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
+                            <Typography textAlign={"end"} color={theme.palette.text.primary} sx={{ fontSize: '16px', fontWeight: "600", }}>
                               {formatMoney(previewBookingData?.totalAmountTemp)} x {previewBookingData?.rentalDays} {t("booking.perDay")}
                             </Typography>
                           </Box>
@@ -852,7 +848,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                         borderRadius={"10px"}
                         border={"3px solid"}
                         margin={"0px auto"}
-                        width={"99%"}
+                        width={"98%"}
                         justifyContent={"center"}
                         alignItems={"center"}
                         flexDirection={"column"}

@@ -264,7 +264,7 @@ function MyBookingItem(props: MyBookingItemProps) {
                                                                 <LocationOnOutlined sx={{ color: theme.palette.action.disabled }} />
                                                                 <Typography
                                                                     color={theme.palette.text.primary}
-                                                                    sx={{ fontSize: '16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                                                    sx={{ fontSize: isMobile?'14px':'16px', fontWeight: "400", minWidth: '100px', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
                                                                 >
                                                                     {booking.address}
                                                                 </Typography>
@@ -289,7 +289,7 @@ function MyBookingItem(props: MyBookingItemProps) {
                                                                 {/* box typography */}
                                                                 <Typography
                                                                     color={theme.palette.text.primary}
-                                                                    sx={{ fontSize: '16px', fontWeight: "400" }}
+                                                                    sx={{ fontSize: isMobile?'14px':'16px', fontWeight: "400" }}
                                                                     noWrap
                                                                 >
                                                                     {dayjs(booking.startDatetime).format("DD/MM/YYYY HH:mm")}
@@ -313,7 +313,7 @@ function MyBookingItem(props: MyBookingItemProps) {
                                                                 {/* box typography */}
                                                                 <Typography
                                                                     color={theme.palette.text.primary}
-                                                                    sx={{ fontSize: '16px', fontWeight: "400" }}
+                                                                    sx={{ fontSize: isMobile?'14px':'16px', fontWeight: "400" }}
                                                                     noWrap
                                                                 >
                                                                     {dayjs(booking.endDatetime).format("DD/MM/YYYY HH:mm")}

@@ -173,7 +173,7 @@ export default function MotorbikeFavouriteInforCard(props: {
             justifyContent={"space-between"}
             alignItems={"start"}
             gap={"16px"}
-            marginTop={"25px"}
+            marginTop={isMobile ? '8px' :"16px"}
         >
             {/* Image */}
             <Box width={isMobile ? "100%" : "40%"} sx={{ cursor: "pointer", position: "relative" }}>
