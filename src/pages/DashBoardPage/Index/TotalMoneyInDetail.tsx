@@ -13,6 +13,7 @@ import StatisticService from "../../../services/StatisticService";
 import { useFormik } from "formik";
 import dayjs from "dayjs";
 import { DatePicker } from "antd";
+import { MoneyFlowType } from "../../../utils/Constant";
 
 export default function TotalMoneyInDetail() {
   const { t, isVn } = usei18next();
@@ -36,7 +37,17 @@ export default function TotalMoneyInDetail() {
       values.endDate,
       getAllData
     ).then((data) => {
-      setMoneyFlow(data.filter((d) => d.moneyIn !== null));
+      setMoneyFlow(
+        data.filter(
+          (d) =>
+            d.moneyIn !== null &&
+            (d.description === MoneyFlowType.ToDeposite ||
+              d.description === MoneyFlowType.ToPayDepositWithVNPay ||
+              d.description === MoneyFlowType.ToPayDepositWithWallet ||
+              d.description === MoneyFlowType.ToPayServiceFeeWithVNPay ||
+              d.description === MoneyFlowType.ToPayServiceFeeWithWallet)
+        )
+      );
     });
   }, [values.endDate, values.startDate, getAllData]);
   const columnsDeposite = [
@@ -48,7 +59,7 @@ export default function TotalMoneyInDetail() {
     },
     {
       field: "createDate",
-      headerName: t("wallet.title_date_deposit"),
+      headerName: t("wallet.title_request_date"),
       flex: 1,
       renderCell: (params: any) => (
         <Box>{new Date(params.value).toLocaleString()}</Box>
@@ -56,7 +67,7 @@ export default function TotalMoneyInDetail() {
     },
     {
       field: "moneyIn",
-      headerName: t("wallet.title_change_balance"),
+      headerName: t("wallet.title_amount"),
       flex: 1,
       renderCell: (params: any) => (
         <Box>+ {formatMoney(params.value || 0)}</Box>
@@ -64,22 +75,22 @@ export default function TotalMoneyInDetail() {
     },
     {
       field: "type",
-      headerName: t("wallet.title_change_balance"),
+      headerName: t("wallet.title_type_payment"),
       flex: 1,
       renderCell: (params: any) => <Box>{params.value}</Box>,
     },
     {
-        field: "description",
-        headerName: t("wallet.title_change_balance"),
-        flex: 1,
-        renderCell: (params: any) => <Box>{params.value}</Box>,
-      },
+      field: "description",
+      headerName: t("postMotorbike.listform.description"),
+      flex: 1,
+      renderCell: (params: any) => <Box>{params.value}</Box>,
+    },
   ];
 
   const { RangePicker } = DatePicker;
 
   return (
-    <Box width={'100%'}>
+    <Box width={"100%"}>
       <Box sx={{ backgroundColor: "#8B4513" }} display={"flex"} gap={"4px"}>
         <MyIcon
           noPadding
