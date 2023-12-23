@@ -491,14 +491,17 @@ export function CommentItem(props: CommentItemProps) {
                             }
                         </Box>
                     </> : <>
-                        <Box width={isMobile ? "100%" : "90%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"} gap={'8px'}>
+                        <Box width={isMobile ? "100%" : "100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"} gap={'8px'}>
                             <Box width={"100%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"start"} gap={'4px'}>
-                                <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"} gap={'4px'}>
-                                    <Typography textAlign={'start'} fontWeight={'500'} fontSize={'16px'}>{name}</Typography>
-                                    {
-                                        /* Rating */
-                                    }
-                                    <Rating name="read-only" value={rating} readOnly />
+                                <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"start"} gap={'4px'}>
+                                    <Avatar size={60} src={avatar} />
+                                    <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"start"} gap={'4px'}>
+                                        <Typography textAlign={'start'} fontWeight={'500'} fontSize={'16px'}>{name}</Typography>
+                                        {
+                                            /* Rating */
+                                        }
+                                        <Rating name="read-only" value={rating} readOnly />
+                                    </Box>
                                 </Box>
                                 <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"end"} gap={'4px'}>
                                     {

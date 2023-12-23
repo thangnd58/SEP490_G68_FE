@@ -949,7 +949,10 @@
     "notEnoughMinMoney": "Hóa đơn của bạn chưa đạt giá trị tối thiếu",
     "codeUsing" : "Mã đang được bạn sử dụng",
     "codeUsed" : "Bạn đã sử dụng mã này trước đó",
-    "bookingCancel": "Đơn đặt xe đã bị hủy"
+    "bookingCancel": "Đơn đặt xe đã bị hủy",
+    "returnLocation" : "Địa chỉ trả xe",
+    "deliveryLocation" : "Địa chỉ giao xe",
+    "deliveryandpickupLocation": "Địa chỉ giao nhận xe"
   },
   "booking.addressReturn": "Địa chỉ trả xe"
 }

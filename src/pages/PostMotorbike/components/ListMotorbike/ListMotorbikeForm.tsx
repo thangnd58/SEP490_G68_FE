@@ -317,7 +317,7 @@ const ListMotorbikeForm = () => {
       <Paper elevation={2} sx={{ width: "100%", bgcolor: "background.paper" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
-            variant="scrollable"
+            variant={isMobile ? "scrollable" : "standard"}
             scrollButtons="auto"
             value={value1}
             onChange={handleChange1}

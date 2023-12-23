@@ -136,8 +136,10 @@ export default function MyBooking() {
             </Typography>
             <Paper elevation={2} sx={{ width: isMobile ? "92.5%" : '80%', bgcolor: 'background.paper' }}>
                 <Box sx={{ borderRadius: '8px 8px 0px 0px', borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs variant="scrollable"
-                        scrollButtons="auto" value={value} onChange={handleChange} aria-label="basic tabs example">
+                    <Tabs
+                        variant={isMobile ? "scrollable" : "standard"}
+                        scrollButtons="auto"
+                        value={value} onChange={handleChange} aria-label="basic tabs example">
                         <Tab
                             sx={{
                                 textTransform: 'none',

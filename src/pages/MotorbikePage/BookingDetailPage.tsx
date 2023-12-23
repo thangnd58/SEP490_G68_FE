@@ -27,9 +27,11 @@ import {
   MyWallet,
   SuccessIconNew,
   VNPay,
+  motorbikeDropOff,
+  motorbikePickup,
 } from "../../assets/images";
 import usei18next from "../../hooks/usei18next";
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, InfoWindow, Marker, useLoadScript } from "@react-google-maps/api";
 import { MotorbikeBookingCard } from "./components/MotorbikeBookingCard";
 import { RequireWhenRent } from "./components/RequireWhenRent";
 import theme from "../../utils/theme";
@@ -767,36 +769,38 @@ export const BookingDetailPage = () => {
                       </Typography>
                     </Box>
                   </Box>
-
-                  <Box display={"flex"} gap={"16px"}>
-                    <img
-                      src={CalendarImage}
-                      alt="calendar"
-                      width={isMobile ? 20 : 24}
-                      height={isMobile ? 20 : 24}
-                    />
-                    <Box
-                      display={"flex"}
-                      flexDirection={"column"}
-                      gap={"4px"}
-                      justifyContent={"start"}
-                    >
-                      <Typography
-                        fontSize={isMobile ? 14 : 16}
-                        color={theme.palette.text.secondary}
+                  {
+                    location !== locationReturn && booking.status === BookingStatus.Delivered &&
+                    <Box display={"flex"} gap={"16px"}>
+                      <img
+                        src={CalendarImage}
+                        alt="calendar"
+                        width={isMobile ? 20 : 24}
+                        height={isMobile ? 20 : 24}
+                      />
+                      <Box
+                        display={"flex"}
+                        flexDirection={"column"}
+                        gap={"4px"}
+                        justifyContent={"start"}
                       >
-                        {t("booking.returnDate")}
-                      </Typography>
-                      <Typography
-                        fontSize={isMobile ? 14 : 16}
-                        color={theme.palette.text.primary}
-                      >
-                        {dayjs(booking?.returnDatetime).format(
-                          "DD-MM-YYYY HH:mm"
-                        )}
-                      </Typography>
+                        <Typography
+                          fontSize={isMobile ? 14 : 16}
+                          color={theme.palette.text.secondary}
+                        >
+                          {t("booking.returnDate")}
+                        </Typography>
+                        <Typography
+                          fontSize={isMobile ? 14 : 16}
+                          color={theme.palette.text.primary}
+                        >
+                          {dayjs(booking?.returnDatetime).format(
+                            "DD-MM-YYYY HH:mm"
+                          )}
+                        </Typography>
+                      </Box>
                     </Box>
-                  </Box>
+                  }
                 </Box>
 
                 <Typography
@@ -867,8 +871,13 @@ export const BookingDetailPage = () => {
                     booking.address &&
                     booking.address !== "" && (
                       <GoogleMap
-                        zoom={10}
-                        center={{ lat: location.lat, lng: location.lng }}
+                        zoom={12}
+                        center={
+                          {
+                            lat: (location.lat + locationReturn.lat) / 2 + 0.012,
+                            lng: (location.lng + locationReturn.lng) / 2,
+                          } as any
+                        }
                         mapContainerStyle={{
                           width: "100%",
                           height: "40vh",
@@ -877,20 +886,102 @@ export const BookingDetailPage = () => {
                       >
                         {booking && (
                           <>
+                            {
+                              location !== locationReturn && booking.returnStatus === "Approved" && (
+                                <>
+                                  <Marker
+                                    icon={{
+                                      url: motorbikePickup,
+                                      scaledSize: new window.google.maps.Size(40, 40)
+                                    }}
+                                    position={{
+                                      lat: location.lat,
+                                      lng: location.lng,
+                                    }}
+                                  >
+                                    <InfoWindow
+                                      position={
+                                        {
+                                          lat: location.lat,
+                                          lng: location.lng,
+                                        }}
+                                      options={{
+                                        pixelOffset: new window.google.maps.Size(0, -25), // Điều chỉnh độ lệch theo nhu cầu của bạn
+                                        zIndex: 1,
+                                      }}
+                                    >
+                                      <Typography variant="subtitle2"
+                                        sx={{
+                                          fontWeight: "700",
+                                          color: "#000"
+                                        }}>
+                                        {t("editional.deliveryLocation")}
+                                      </Typography>
+                                    </InfoWindow>
+                                  </Marker>
+                                  <Marker
+                                    icon={{
+                                      url: motorbikeDropOff,
+                                      scaledSize: new window.google.maps.Size(48, 48)
+                                    }}
+                                    position={{
+                                      lat: locationReturn.lat,
+                                      lng: locationReturn.lng,
+                                    }}
+                                  >
+                                    <InfoWindow
+                                      position={
+                                        {
+                                          lat: locationReturn.lat,
+                                          lng: locationReturn.lng,
+                                        }}
+                                      options={{
+                                        pixelOffset: new window.google.maps.Size(6, -30), // Điều chỉnh độ lệch theo nhu cầu của bạn
+                                        zIndex: 1,
+                                      }}
+                                    >
+                                      <Typography variant="subtitle2"
+                                        sx={{
+                                          fontWeight: "700",
+                                          color: "#000"
+                                        }}>
+                                        {t("editional.returnLocation")}
+                                      </Typography>
+                                    </InfoWindow>
+                                  </Marker>
+                                </>
+                              )
+                            }
                             <Marker
-                              label={"Delivery location"}
+                              icon={{
+                                url: motorbikePickup,
+                                scaledSize: new window.google.maps.Size(40, 40)
+                              }}
                               position={{
                                 lat: location.lat,
                                 lng: location.lng,
                               }}
-                            />
-                            <Marker
-                              label={"Return location"}
-                              position={{
-                                lat: locationReturn.lat,
-                                lng: locationReturn.lng,
-                              }}
-                            />
+                            >
+                              <InfoWindow
+                                position={
+                                  {
+                                    lat: location.lat,
+                                    lng: location.lng,
+                                  }}
+                                options={{
+                                  pixelOffset: new window.google.maps.Size(0, -25), // Điều chỉnh độ lệch theo nhu cầu của bạn
+                                  zIndex: 1,
+                                }}
+                              >
+                                <Typography variant="subtitle2"
+                                  sx={{
+                                    fontWeight: "700",
+                                    color: "#000"
+                                  }}>
+                                  {t("editional.deliveryandpickupLocation")}
+                                </Typography>
+                              </InfoWindow>
+                            </Marker>
                           </>
                         )}
                       </GoogleMap>

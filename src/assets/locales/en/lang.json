@@ -483,9 +483,9 @@
       "transactionStatistics": "Total Balance",
       "startDate": "Start Date",
       "endDate": "End Date",
-      "moneyIn" : "Money In",
-      "moneyOut" : "Money Out",
-      "revenue" : "Income"
+      "moneyIn": "Money In",
+      "moneyOut": "Money Out",
+      "revenue": "Income"
     },
     "booking": {
       "deliveryMode": "Delivery Mode",
@@ -946,7 +946,10 @@
     "notEnoughMinMoney": "Your order hasn't reached the minimum amount to use the promotion code",
     "codeUsing": "You are using this code",
     "codeUsed": "You have used this code",
-    "bookingCancel": "Your booking has been canceled"
+    "bookingCancel": "Your booking has been canceled",
+    "returnLocation": "Return location",
+    "deliveryLocation": "Delivery location",
+    "deliveryandpickupLocation": "Delivery and return location"
   },
   "booking.addressReturn": "Motorbike return location"
 }

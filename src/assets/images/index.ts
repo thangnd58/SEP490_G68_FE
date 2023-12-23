@@ -50,6 +50,8 @@ import PinImage from './pinMap.png'
 import SearchIcon from './search.png'
 import Snow from './Snow.jpg'
 import NewBooking from './newOrder.png'
+import motorbikePickup from './motorbikePickup.png'
+import motorbikeDropOff from './motorbikeReturn.png'
 
 export {
     MotorbikeImage,
@@ -103,5 +105,7 @@ export {
     PinImage,
     SearchIcon,
     Snow,
-    NewBooking
+    NewBooking,
+    motorbikePickup,
+    motorbikeDropOff
 };

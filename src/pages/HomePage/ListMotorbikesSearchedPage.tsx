@@ -898,7 +898,7 @@ export default function ListMotorbikesSearchedPage() {
                         < Box
                             flex={1} position="relative"
                             borderRadius={"10px"}
-                            border={"3px solid"}
+                            border={"3px solid #8b4513"}
                             margin={"0px auto"}
                             width={"90%"}
                             justifyContent={"center"}
@@ -1205,7 +1205,7 @@ export default function ListMotorbikesSearchedPage() {
 
                                             <Box
                                                 borderRadius={"10px"}
-                                                border={"3px solid"}
+                                                border={"3px solid #8b4513"}
                                                 margin={"0px auto"}
                                                 width={"97%"}
                                                 justifyContent={"center"}
@@ -1810,14 +1810,16 @@ export default function ListMotorbikesSearchedPage() {
                     </Box>
                 </Box>
             </Modal>
-            <Box
-                position="fixed"
-                bottom={0}
-                left={0}
-                p={2}
-                zIndex={1}
-            >
-                {/* <MyIcon
+            {
+                isMobile &&
+                <Box
+                    position="fixed"
+                    bottom={0}
+                    left={0}
+                    p={2}
+                    zIndex={1}
+                >
+                    {/* <MyIcon
                     backgroundColor='#8B4513'
                     icon={<ShoppingCartCheckout sx={{
                         color: "#fff",
@@ -1833,26 +1835,27 @@ export default function ListMotorbikesSearchedPage() {
                     hasTooltip tooltipText={t("header.cart")}
                     onClick={closeMapModal}
                     position='bottom' /> */}
-                <IconButton
-                    sx={{
-                        backgroundColor: "#8B4513",
-                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                    }}
-                    aria-owns={openPopover ? 'mouse-over-popover' : undefined}
-                    aria-haspopup="true"
-                    onMouseEnter={handlePopoverOpen}
-                    onMouseLeave={handlePopoverClose}
-                    onClick={() => navigate(ROUTES.cart)}
+                    <IconButton
+                        sx={{
+                            backgroundColor: "#8B4513",
+                            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                        }}
+                        aria-owns={openPopover ? 'mouse-over-popover' : undefined}
+                        aria-haspopup="true"
+                        onMouseEnter={handlePopoverOpen}
+                        onMouseLeave={handlePopoverClose}
+                        onClick={() => navigate(ROUTES.cart)}
                     >
-                    <ShoppingCartCheckout sx={{
-                        color: "#fff",
-                        "&:hover": {
-                            color: "#8B4513",
-                        }
-                    }} fontSize="large" />
-                </IconButton>
+                        <ShoppingCartCheckout sx={{
+                            color: "#fff",
+                            "&:hover": {
+                                color: "#8B4513",
+                            }
+                        }} fontSize="large" />
+                    </IconButton>
 
-            </Box>
+                </Box>
+            }
             <Popover
                 id="mouse-over-popover"
                 sx={{

@@ -183,10 +183,10 @@ function CartPage() {
                                             borderRadius={8}
                                         />
                                     </Box>
-                                    <Box  display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
-                                        <Box width={"100%"} display={'flex'} flexDirection={isMobile ? "column" : 'row'} alignItems={'start'} justifyContent={'center'} sx={{ gap: isMobile ? "8px" : '32px' }}>
+                                    <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
+                                        <Box width={"100%"} display={'flex'} flexDirection={isMobile ? "column" : 'row'} alignItems={'start'} justifyContent={isMobile ? 'center' : 'start'} sx={{ gap: isMobile ? "8px" : '32px' }}>
                                             {/* location */}
-                                            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ width: "100%" }} >
+                                            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'} sx={{ width: isMobile ? "100%" : "auto" }} >
                                                 <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '4px' }}>
                                                     <Box width={"100%"} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'} sx={{ gap: '8px' }}>
                                                         <Typography color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
@@ -224,7 +224,7 @@ function CartPage() {
                                                 }
                                             </Box>
                                             {/* time */}
-                                            <Box display={'flex'} flexDirection={isMobile ? "row" : 'row'} alignItems={'start'} justifyContent={'center'} sx={{ gap: isMobile ? "16px" : '4px' }}>
+                                            <Box display={'flex'} flexDirection={'row'} alignItems={'start'} justifyContent={'center'} sx={{ gap: isMobile ? "16px" : '4px' }}>
                                                 <Box width={"100%"} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} sx={{ gap: '8px' }}>
                                                     {/* start date */}
                                                     <Typography width={"100%"} color={theme.palette.text.primary} sx={{ fontSize: '12px', fontWeight: "600", fontStyle: "italic" }}>
