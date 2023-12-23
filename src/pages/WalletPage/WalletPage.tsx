@@ -121,7 +121,7 @@ const Wallet = () => {
             />
           );
         });
-      } catch (error) {}
+      } catch (error) { }
     }
   }, []);
 
@@ -129,7 +129,7 @@ const Wallet = () => {
   const [checked, setChecked] = useState(true);
 
   const handleCheckboxChange = (event: any) => {
-    setChecked(event.target.checked); 
+    setChecked(event.target.checked);
   };
 
   return (
@@ -143,7 +143,7 @@ const Wallet = () => {
       >
         <Typography
           variant="h4"
-          fontSize={"32px"}
+          fontSize={isMobile ? "24px" : "32px"}
           fontWeight={"600"}
           color={"text.primary"}
         >
@@ -170,10 +170,10 @@ const Wallet = () => {
               <Info onClick={() => openModal(<ReportFormModal />)} />
             </Tooltip>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: 'wrap', alignItems: "center", gap: "4px", py: '2px' }}>
+          <Box sx={{ display: "flex", flexDirection: isMobile ? 'column-reverse' : 'row', alignItems: "center", gap: "4px", py: '2px' }}>
             <FormGroup>
               <FormControlLabel
-                sx={{ gap: "4px" }}
+                sx={{ gap: "4px", margin: checked ? "7px" : "0px" }}
                 control={
                   <Checkbox
                     sx={{
@@ -231,11 +231,13 @@ const Wallet = () => {
           <MyCustomButton
             onClick={() => showModalDeposite()}
             content={t("wallet.title_button_deposit")}
+            isWrap
           />
           <MyCustomButton
             onClick={() => showModalWithdrawal()}
             content={t("wallet.title_button_request_withdrawal")}
             variant="outlined"
+            isWrap
           />
         </Box>
       </Box>

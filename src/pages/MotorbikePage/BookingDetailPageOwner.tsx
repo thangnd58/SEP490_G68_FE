@@ -328,9 +328,9 @@ export const BookingDetailPageOwner = () => {
             display={"flex"}
             justifyContent={"start"}
             alignItems={"center"}
-            width={isMobile ? "100%" : "70%"}
+            width={isMobile ? "95%" : "70%"}
             position={"relative"}
-            mb={"16px"}
+            mb={isMobile ? "0px" : "16px"}
           >
             <MyIcon
               icon={<ArrowBack style={{ color: theme.palette.common.black }} />}
@@ -342,7 +342,7 @@ export const BookingDetailPageOwner = () => {
             <Typography
               sx={{
                 color: "#000",
-                fontSize: isMobile ? "24px" : "32px",
+                fontSize: isMobile ? "20px" : "32px",
                 fontWeight: "600",
                 textAlign: "center",
                 position: "absolute",
@@ -365,14 +365,14 @@ export const BookingDetailPageOwner = () => {
                   flexDirection: "column",
                   alignItems: "center",
                 }}
-                width={isMobile ? "80%" : "60%"}
+                width={isMobile ? "75%" : "65%"}
               >
                 <Typography
                   fontWeight={600}
                   fontSize={isMobile ? "16px" : "20px"}
                   color={"common.black"}
                 >
-                  Chuyến xe đã bị hủy
+                  {t("editional.bookingCancel")}
                 </Typography>
               </Box>
             </>
@@ -943,6 +943,7 @@ export const BookingDetailPageOwner = () => {
                     <Typography
                       color={theme.palette.text.primary}
                       sx={{ fontSize: "16px", fontWeight: "600" }}
+                      textAlign={'end'}
                     >
                       {`${booking &&
                         booking.motorbikes &&
@@ -992,6 +993,7 @@ export const BookingDetailPageOwner = () => {
                       {t("booking.totalPriceRent")}
                     </Typography>
                     <Typography
+                      textAlign={'end'}
                       color={theme.palette.text.primary}
                       sx={{ fontSize: "16px", fontWeight: "600" }}
                     >
@@ -1172,11 +1174,11 @@ export const BookingDetailPageOwner = () => {
                     sx={{
                       backgroundColor: isMobile ? "none" : "#FFFFFF",
                       borderRadius: "8px",
-                      padding: "8px 16px",
+                      padding: isMobile ? "0px" : "8px 16px",
                     }}
                   >
                     <Typography
-                      fontSize={isMobile ? 14 : 16}
+                      fontSize={16}
                       fontWeight={"700"}
                       color={"common.black"}
                       marginBottom={"8px"}
@@ -1212,11 +1214,11 @@ export const BookingDetailPageOwner = () => {
                     sx={{
                       backgroundColor: isMobile ? "none" : "#FFFFFF",
                       borderRadius: "8px",
-                      padding: "8px 16px",
+                      padding: isMobile ? "0px" : "8px 16px",
                     }}
                   >
                     <Typography
-                      fontSize={isMobile ? 14 : 16}
+                      fontSize={16}
                       fontWeight={"700"}
                       color={"common.black"}
                       marginBottom={"8px"}

@@ -64,7 +64,10 @@ const ModalDepositMoney = (props: MyDialogProps) => {
             onClose={closeModal}
             TransitionComponent={Transition}
             fullWidth
-            PaperProps={{ sx: { borderRadius: "16px", padding: '1rem 1.5rem' } }}
+            PaperProps={{ sx: { 
+                margin: isMobile ? '0px' : '32px',
+                maxWidth: isMobile ? '100%' : '40%',
+                borderRadius: "16px", padding: isMobile ? '0rem' :'1rem 1.5rem' } }}
         >
             <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

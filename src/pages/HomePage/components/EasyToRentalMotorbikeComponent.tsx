@@ -25,7 +25,7 @@ export default function EasyToRentalMotorbikeComponent() {
                 >
                     <Typography
                         variant={'h4'}
-                        sx={{ color: 'common.black', fontWeight: 'bold', fontSize: isMobile ? 32 : 48, textAlign: isMobile ? 'center' : 'start' }}
+                        sx={{ color: 'common.black', fontWeight: 'bold', fontSize: isMobile ? 24 : 48, textAlign: isMobile ? 'center' : 'start' }}
                     >
                         {t('editional.easyToRental')}
                     </Typography>

@@ -702,7 +702,7 @@
     "remainingAmount": "Pay upon receiving the motorbike",
     "toolTipPaid": "Paid",
     "toolTipReport": "Report",
-    "detailTitle": "Motorbike booking details",
+    "detailTitle": "Booking details",
     "detailBooking": "Detail booking",
     "myfeedback": "My feedback",
     "perDay": "day",
@@ -819,7 +819,7 @@
   "homepage": {
     "news": "News",
     "promotion": "Promotion",
-    "hotPromotion": "Hot promotion of the month",
+    "hotPromotion": "Hot promotions",
     "btn_registernow": "Register now",
     "btn_viewmore": "View more"
   },
@@ -945,7 +945,8 @@
     "RegulationGuideline": "Regulation Guideline",
     "notEnoughMinMoney": "Your order hasn't reached the minimum amount to use the promotion code",
     "codeUsing": "You are using this code",
-    "codeUsed": "You have used this code"
+    "codeUsed": "You have used this code",
+    "bookingCancel": "Your booking has been canceled"
   },
   "booking.addressReturn": "Motorbike return location"
 }

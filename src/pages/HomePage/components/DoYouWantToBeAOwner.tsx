@@ -31,7 +31,7 @@ export default function DoYouWantToBeAOwner() {
                 </Box>
                 {/* content */}
                 <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} width={isMobile ? '100%' : '50%'} height={'100%'}>
-                    <Typography sx={{ color: 'common.black', fontWeight: 'bold', fontSize: isMobile ? 32 : 48, textAlign: 'center' }}>
+                    <Typography sx={{ color: 'common.black', fontWeight: 'bold', fontSize: isMobile ? 24 : 48, textAlign: 'center' }}>
                         {t("header.be_a_owner")}
                     </Typography>
                     <Typography sx={{ color: 'common.black', fontSize: isMobile ? 14 : 16, textAlign: 'center' }}>
@@ -41,7 +41,7 @@ export default function DoYouWantToBeAOwner() {
                     <Box display={'flex'} alignItems={'center'} justifyContent={'center'} width={'100%'} height={'100%'} marginTop={isMobile ? 2 : 4} gap={2}>
                         <MyCustomButton
                             width={'auto'}
-                            fontWeight={600}
+                            fontWeight={isMobile ? 500 : 600}
                             onClick={() =>
                                 navigate(
                                     ROUTES.user.previewbecomeanowner
@@ -51,7 +51,7 @@ export default function DoYouWantToBeAOwner() {
                         />
                         <MyCustomButton
                             width={'auto'}
-                            fontWeight={600}
+                            fontWeight={isMobile ? 500 : 600}
                             onClick={() =>
                                 navigate(`${ROUTES.other.guide.generalguide}/${GuildlineType.general}`)
                             }
