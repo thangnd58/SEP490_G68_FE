@@ -242,7 +242,9 @@ const ReportManagementForm = () => {
                       fontWeight={400}
                       variant="h5"
                     >
-                      {report?.detail}
+                      <div dangerouslySetInnerHTML={{__html: report?.detail || ""}}>
+
+                      </div>
                     </Typography>
                   </TableCell>
                 </TableRow>

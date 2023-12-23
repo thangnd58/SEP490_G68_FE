@@ -132,6 +132,12 @@ export const MoneyFlowType = {
   ToWithdraw: "ToWithdraw",
 };
 
+export const ReportType = {
+  Money: "Money",
+  Feedback: "Feedback",
+  Booking: "Booking",
+}
+
 export const dummyMotorbike: Motorbike = {
   id: 1,
   licensePlate: "ABC123",

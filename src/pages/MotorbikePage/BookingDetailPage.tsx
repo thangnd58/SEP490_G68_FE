@@ -1602,6 +1602,7 @@ export const BookingDetailPage = () => {
                     key={`${index}_motor`}
                     motorbike={motor}
                     isMobile={isMobile}
+                    bookingId={Number(bookingId)}
                   />
                 );
               })}

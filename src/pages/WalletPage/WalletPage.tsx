@@ -22,7 +22,7 @@ import ModalDepositMoney from "./component/ModalDepositMoney";
 import { useNavigate } from "react-router-dom";
 import WalletService from "../../services/WalletService";
 import { useAppSelector } from "../../hooks/useAction";
-import { ROUTES } from "../../utils/Constant";
+import { ROUTES, ReportType } from "../../utils/Constant";
 import { useDispatch } from "react-redux";
 import { getUserInfo } from "../../redux/reducers/authReducer";
 import ModalStatus from "./component/ModalStatus";
@@ -167,7 +167,7 @@ const Wallet = () => {
               {t("wallet.title_summary_transaction")}
             </Typography>
             <Tooltip title={t("booking.toolTipReport")}>
-              <Info onClick={() => openModal(<ReportFormModal />)} />
+              <Info onClick={() => openModal(<ReportFormModal type={ReportType.Money} />)} />
             </Tooltip>
           </Box>
           <Box sx={{ display: "flex", flexDirection: isMobile ? 'column-reverse' : 'row', alignItems: "center", gap: "4px", py: '2px' }}>

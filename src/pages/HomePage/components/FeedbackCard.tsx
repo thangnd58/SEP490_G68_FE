@@ -16,6 +16,7 @@ import { getPreviousTimeRelative } from "../../../utils/helper";
 import MotorbikeManagementService from "../../../services/MotorbikeManagementService";
 import useThemePage from "../../../hooks/useThemePage";
 import UserInforModal from "../../UserProfilePage/UserInforModal";
+import { ReportType } from "../../../utils/Constant";
 
 
 export default function FeedbackCard(props: {
@@ -164,7 +165,7 @@ export default function FeedbackCard(props: {
                                     transition: "transform 0.1s ease-in-out",
                                 },
                             }} 
-                            onClick={() => openModal(<ReportFormModal />)} 
+                            onClick={() => openModal(<ReportFormModal type={ReportType.Feedback} feedback={props.feedback} />)} 
                             />
                         </Tooltip>
                         :
