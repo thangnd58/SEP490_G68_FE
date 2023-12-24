@@ -1419,6 +1419,7 @@ export const BookingDetailPageOwner = () => {
                       key={`${index}_motor`}
                       motorbike={motor}
                       isMobile={isMobile}
+                      bookingId={Number(bookingId)}
                     />
                   );
                 })}

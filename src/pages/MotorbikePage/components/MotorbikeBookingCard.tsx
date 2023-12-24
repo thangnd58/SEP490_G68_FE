@@ -15,6 +15,7 @@ import ToastComponent from "../../../components/toast/ToastComponent";
 import { ModalContext } from "../../../contexts/ModalContext";
 import { ReportFormModal } from "../../ReportComponent/ReportFormModal";
 import UserInforModal from "../../UserProfilePage/UserInforModal";
+import { ReportType } from "../../../utils/Constant";
 
 
 export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: boolean, canFeedback?: boolean, bookingId?: number, onlyView?: boolean, setReload?: Dispatch<SetStateAction<boolean>>, reload?: boolean }) => {
@@ -196,7 +197,7 @@ export const MotorbikeBookingCard = (props: { motorbike: Motorbike, isMobile: bo
                                                 transform: "scale(1.1)",
                                                 transition: "transform 0.1s ease-in-out",
                                             },
-                                        }} onClick={() => openModal(<ReportFormModal />)} />
+                                        }} onClick={() => openModal(<ReportFormModal type={ReportType.Booking} motorbike={props.motorbike} bookingId={props.bookingId || 0} />)} />
                                     </Tooltip>
                                 </Box>
                                 <Box display="flex" alignItems="center" gap="8px">

@@ -28,7 +28,7 @@ import { Model, Report } from "../../../utils/type";
 import { PostMotorbikeService } from "../../../services/PostMotorbikeService";
 import ToastComponent from "../../../components/toast/ToastComponent";
 import { useNavigate } from "react-router-dom";
-import { ROUTES, ReportStatus } from "../../../utils/Constant";
+import { ROUTES, ReportStatus, ReportType } from "../../../utils/Constant";
 import MyCustomButton from "../../../components/common/MyButton";
 import ModelManagementService from "../../../services/ModelManagementService";
 import { ReportService } from "../../../services/ReportService";
@@ -79,7 +79,14 @@ const ReportManagement = () => {
         </Box>
       ),
     },
-    { field: "detail", headerName: t("report.detailReport"), width: 200 },
+    {
+      field: "detail",
+      headerName: t("report.detailReport"),
+      width: 200,
+      renderCell: (params: any) => (
+        <div dangerouslySetInnerHTML={{ __html: params.value }}></div>
+      ),
+    },
     {
       field: "responder.name",
       headerName: t("report.responder"),
@@ -214,7 +221,7 @@ const ReportManagement = () => {
                     mt: "4px",
                   }}
                   startIcon={<InfoOutlined color="primary" />}
-                  onClick={() => openModal(<ReportFormModal />)}
+                  // onClick={() => openModal(<ReportFormModal type={ReportType.ReportFeedback}/>)}
                 >
                   Add
                 </Button>
