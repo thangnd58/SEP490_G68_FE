@@ -313,6 +313,8 @@ export const BookingDetailPageOwner = () => {
     libraries: libraries as any,
   });
 
+  console.log(location, "location")
+  console.log(locationReturn, "locationReturn")
   return (
     <>
       {booking && (
@@ -831,7 +833,9 @@ export const BookingDetailPageOwner = () => {
                         {booking && (
                           <>
                             {
-                              location !== locationReturn && booking.returnStatus === "Approved" && (
+                              (location.lat !== locationReturn.lat ||
+                                location.lng !== locationReturn.lng)
+                              && booking.returnStatus === "Approved" && (
                                 <>
                                   <Marker
                                     icon={{
@@ -896,36 +900,40 @@ export const BookingDetailPageOwner = () => {
                                 </>
                               )
                             }
-                            <Marker
-                              icon={{
-                                url: motorbikePickup,
-                                scaledSize: new window.google.maps.Size(40, 40)
-                              }}
-                              position={{
-                                lat: location.lat,
-                                lng: location.lng,
-                              }}
-                            >
-                              <InfoWindow
-                                position={
-                                  {
-                                    lat: location.lat,
-                                    lng: location.lng,
-                                  }}
-                                options={{
-                                  pixelOffset: new window.google.maps.Size(0, -25), // Điều chỉnh độ lệch theo nhu cầu của bạn
-                                  zIndex: 1,
+                            {
+                              location.lat === locationReturn.lat &&
+                                location.lng === locationReturn.lng &&
+                              <Marker
+                                icon={{
+                                  url: motorbikePickup,
+                                  scaledSize: new window.google.maps.Size(40, 40)
+                                }}
+                                position={{
+                                  lat: location.lat,
+                                  lng: location.lng,
                                 }}
                               >
-                                <Typography variant="subtitle2"
-                                  sx={{
-                                    fontWeight: "700",
-                                    color: "#000"
-                                  }}>
-                                  {t("editional.deliveryandpickupLocation")}
-                                </Typography>
-                              </InfoWindow>
-                            </Marker>
+                                <InfoWindow
+                                  position={
+                                    {
+                                      lat: location.lat,
+                                      lng: location.lng,
+                                    }}
+                                  options={{
+                                    pixelOffset: new window.google.maps.Size(0, -25), // Điều chỉnh độ lệch theo nhu cầu của bạn
+                                    zIndex: 1,
+                                  }}
+                                >
+                                  <Typography variant="subtitle2"
+                                    sx={{
+                                      fontWeight: "700",
+                                      color: "#000"
+                                    }}>
+                                    {t("editional.deliveryandpickupLocation")}
+                                  </Typography>
+                                </InfoWindow>
+                              </Marker>
+                            }
                           </>
                         )}
                       </GoogleMap>
