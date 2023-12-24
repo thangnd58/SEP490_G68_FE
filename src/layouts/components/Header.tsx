@@ -172,7 +172,7 @@ function Header() {
 
   useEffect(() => {
     // Kiểm tra nếu có thông báo đầu tiên và title là "Có đơn đặt xe mới"
-    if (userNotification.length > 0 && userNotification[0].title === "Có đơn đặt xe mới" && userNotification[0].isRead === false) {
+    if (userNotification.length > 0 && (userNotification[0].title === "Có đơn đặt xe mới"||userNotification[0].title === "Kết thúc chuyến đi") && userNotification[0].isRead === false) {
       // Hiển thị Dialog
       openModal(
         <DetailNotification

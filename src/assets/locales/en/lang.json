@@ -759,6 +759,7 @@
     "startUsingService": "Start your trip",
     "startedUsingService": "Started your trip",
     "endUsingService": "End your trip",
+    "endBooking": "Booking ended",
     "paymentCol": "Deposit payment",
     "confirmCancelBook": "Confirm cancellation",
     "contentConfirmCancelBook": "Do you want to cancel this trip?",

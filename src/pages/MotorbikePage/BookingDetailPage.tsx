@@ -581,7 +581,7 @@ export const BookingDetailPage = () => {
                                     }}
                                   />
                                   <Typography color={"common.black"}>
-                                    Chuyến đi đã kết thúc
+                                    {t("booking.endBooking")}
                                   </Typography>
                                 </Box>
                                 <MyCustomButton

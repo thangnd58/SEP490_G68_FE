@@ -757,6 +757,7 @@
     "startUsingService": "Bắt đầu chuyến đi",
     "startedUsingService": "Đã bắt đầu chuyến đi",
     "endUsingService": "Kết thúc chuyến đi",
+    "endBooking": "Chuyến đi đã kết thúc",
     "paymentCol": "Thanh toán cọc",
     "confirmCancelBook": "Xác nhận hủy chuyến",
     "contentConfirmCancelBook": "Bạn có muốn hủy chuyến này không?",
