@@ -961,7 +961,7 @@ export const BookingDetailPageOwner = () => {
                       height: "50px",
                       borderRadius: "50%",
                     }}
-                    // src={booking.user.avatarUrl}
+                    src={booking.user.avatarUrl}
                     onClick={() =>
                       openModal(
                         <UserInforModal userId={booking.user.userId} />
@@ -1001,7 +1001,7 @@ export const BookingDetailPageOwner = () => {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {/* {booking.user.name} */}
+                      {booking.user.name}
                     </Typography>
                   </Box>
                 </Box>
@@ -1159,7 +1159,7 @@ export const BookingDetailPageOwner = () => {
                       {booking?.rentalDays} {t("booking.perDay")}
                     </Typography>
                   </Box>
-                  {/* Phí dịch vụ */}
+                  {/* Phí dịch vụ
                   <Box
                     width={"100%"}
                     display={"flex"}
@@ -1198,7 +1198,7 @@ export const BookingDetailPageOwner = () => {
                     >
                       {formatMoneyNew(booking?.feeOfService)}
                     </Typography>
-                  </Box>
+                  </Box> */}
 
                   {/* Mã khuyến mãi */}
                   {booking?.promotion && (
@@ -1258,7 +1258,7 @@ export const BookingDetailPageOwner = () => {
                     color={theme.palette.text.primary}
                     sx={{ fontSize: "16px", fontWeight: "600" }}
                   >
-                    {formatMoneyNew(booking?.totalAmount)}
+                    {formatMoneyNew(booking?.totalAmount-booking?.feeOfService)}
                   </Typography>
                 </Box>
 
@@ -1306,7 +1306,7 @@ export const BookingDetailPageOwner = () => {
                           : "none",
                     }}
                   >
-                    {formatMoneyNew(booking?.deposit)}
+                    {formatMoneyNew(booking?.deposit-booking?.feeOfService)}
                   </Typography>
                 </Box>
 
@@ -1357,7 +1357,7 @@ export const BookingDetailPageOwner = () => {
                           : "none",
                     }}
                   >
-                    {formatMoneyNew(booking?.totalAmount - booking?.deposit)}
+                    {formatMoneyNew(booking?.totalAmount - booking?.deposit-booking?.feeOfService)}
                   </Typography>
                 </Box>
 
