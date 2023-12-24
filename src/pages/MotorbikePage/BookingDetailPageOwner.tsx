@@ -59,6 +59,7 @@ import {
   CloseOutlined,
   Edit,
   ErrorOutline,
+  HelpOutlineOutlined,
   RequestQuoteOutlined,
   Verified,
   WarningAmber,
@@ -313,8 +314,6 @@ export const BookingDetailPageOwner = () => {
     libraries: libraries as any,
   });
 
-  console.log(location, "location")
-  console.log(locationReturn, "locationReturn")
   return (
     <>
       {booking && (
@@ -838,6 +837,7 @@ export const BookingDetailPageOwner = () => {
                               && booking.returnStatus === "Approved" && (
                                 <>
                                   <Marker
+                                    key={1}
                                     icon={{
                                       url: motorbikePickup,
                                       scaledSize: new window.google.maps.Size(40, 40)
@@ -848,11 +848,10 @@ export const BookingDetailPageOwner = () => {
                                     }}
                                   >
                                     <InfoWindow
-                                      position={
-                                        {
-                                          lat: location.lat,
-                                          lng: location.lng,
-                                        }}
+                                      position={{
+                                        lat: location.lat,
+                                        lng: location.lng,
+                                      }}
                                       options={{
                                         pixelOffset: new window.google.maps.Size(0, -25), // Điều chỉnh độ lệch theo nhu cầu của bạn
                                         zIndex: 1,
@@ -868,6 +867,7 @@ export const BookingDetailPageOwner = () => {
                                     </InfoWindow>
                                   </Marker>
                                   <Marker
+                                    key={2}
                                     icon={{
                                       url: motorbikeDropOff,
                                       scaledSize: new window.google.maps.Size(48, 48)
@@ -902,8 +902,9 @@ export const BookingDetailPageOwner = () => {
                             }
                             {
                               location.lat === locationReturn.lat &&
-                                location.lng === locationReturn.lng &&
+                              location.lng === locationReturn.lng &&
                               <Marker
+                                key={0}
                                 icon={{
                                   url: motorbikePickup,
                                   scaledSize: new window.google.maps.Size(40, 40)
@@ -960,7 +961,7 @@ export const BookingDetailPageOwner = () => {
                       height: "50px",
                       borderRadius: "50%",
                     }}
-                    src={booking.user.avatarUrl}
+                    // src={booking.user.avatarUrl}
                     onClick={() =>
                       openModal(
                         <UserInforModal userId={booking.user.userId} />
@@ -1000,7 +1001,7 @@ export const BookingDetailPageOwner = () => {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {booking.user.name}
+                      {/* {booking.user.name} */}
                     </Typography>
                   </Box>
                 </Box>
@@ -1073,6 +1074,67 @@ export const BookingDetailPageOwner = () => {
                   justifyContent={"center"}
                   sx={{ gap: "8px" }}
                 >
+                  {/* Phí giao xe */}
+                  <Box
+                    width={"100%"}
+                    display={"flex"}
+                    flexDirection={"row"}
+                    alignItems={"center"}
+                    justifyContent={"space-between"}
+                    sx={{ gap: "8px" }}
+                  >
+                    <Box display={"flex"} alignItems={"center"} gap={1}>
+                      <Typography
+                        color={theme.palette.text.primary}
+                        sx={{ fontSize: "16px", fontWeight: "400" }}
+                      >
+                        {t("booking.deliveryFee")}
+                      </Typography>
+                      <MyIcon
+                        icon={
+                          <HelpOutlineOutlined
+                            sx={{
+                              color: theme.palette.text.primary,
+                              width: "12px",
+                              height: "12px",
+                              cursor: "pointer",
+                            }}
+                          />
+                        }
+                        hasTooltip
+                        tooltipText={`${t(
+                          "booking.deliveryFee_hint"
+                        )} ${formatMoneyNew(
+                          booking.motorbikes.reduce(
+                            (total, mt) => total + mt.totalFeeOfDelivery,
+                            0
+                          ) || 0
+                        )}`}
+                        onClick={() => { }}
+                        position="right-start"
+                      />
+                    </Box>
+                    <Typography
+                      color={theme.palette.text.primary}
+                      sx={{ fontSize: "16px", fontWeight: "600" }}
+                      textAlign={'end'}
+                    >
+                      {`${booking &&
+                        booking.motorbikes &&
+                        formatMoneyNew(
+                          booking.motorbikes.reduce(
+                            (total, mt) => total + mt.totalFeeOfDelivery,
+                            0
+                          ) || 0
+                        )
+                        }/${t("booking.perDay")}`}{" "}
+                      x{" "}
+                      {booking &&
+                        booking.motorbikes &&
+                        booking.motorbikes.length}{" "}
+                      {t("booking.perMotorbike")}
+                    </Typography>
+                  </Box>
                   {/* Tổng tiền */}
                   <Box
                     width={"100%"}
@@ -1089,14 +1151,55 @@ export const BookingDetailPageOwner = () => {
                       {t("booking.totalPriceRent")}
                     </Typography>
                     <Typography
-                      textAlign={'end'}
                       color={theme.palette.text.primary}
                       sx={{ fontSize: "16px", fontWeight: "600" }}
+                      textAlign={'end'}
                     >
                       {formatMoneyNew(booking?.totalAmountTemp)} x{" "}
                       {booking?.rentalDays} {t("booking.perDay")}
                     </Typography>
                   </Box>
+                  {/* Phí dịch vụ */}
+                  <Box
+                    width={"100%"}
+                    display={"flex"}
+                    flexDirection={"row"}
+                    alignItems={"center"}
+                    justifyContent={"space-between"}
+                    sx={{ gap: "8px" }}
+                  >
+                    <Box display={"flex"} alignItems={"center"} gap={1}>
+                      <Typography
+                        color={theme.palette.text.primary}
+                        sx={{ fontSize: "16px", fontWeight: "400" }}
+                      >
+                        {t("booking.totalPriceService")}
+                      </Typography>
+                      <MyIcon
+                        icon={
+                          <HelpOutlineOutlined
+                            sx={{
+                              color: theme.palette.text.primary,
+                              width: "12px",
+                              height: "12px",
+                              cursor: "pointer",
+                            }}
+                          />
+                        }
+                        hasTooltip
+                        tooltipText={t("booking.totalPriceService_hint")}
+                        onClick={() => { }}
+                        position="right-start"
+                      />
+                    </Box>
+                    <Typography
+                      color={theme.palette.text.primary}
+                      sx={{ fontSize: "16px", fontWeight: "600" }}
+                    >
+                      {formatMoneyNew(booking?.feeOfService)}
+                    </Typography>
+                  </Box>
+
                   {/* Mã khuyến mãi */}
                   {booking?.promotion && (
                     <Box
@@ -1126,7 +1229,7 @@ export const BookingDetailPageOwner = () => {
                         sx={{ fontSize: "16px", fontWeight: "600" }}
                       >
                         {/* {formatMoneyNew(booking?.couponPrice)} */}
-                        {formatMoneyNew(booking.reducedAmount)}
+                        -{formatMoneyNew(booking.reducedAmount)}
                       </Typography>
                     </Box>
                   )}
@@ -1172,14 +1275,11 @@ export const BookingDetailPageOwner = () => {
                     display={"flex"}
                     flexDirection={"row"}
                     alignItems={"center"}
-                    gap={"2px"}
+                    gap={"4px"}
                   >
                     <Typography
                       color={theme.palette.text.primary}
-                      sx={{
-                        fontSize: "16px",
-                        fontWeight: "600",
-                      }}
+                      sx={{ fontSize: "16px", fontWeight: "600" }}
                     >
                       {t("booking.depositMoney")}
                     </Typography>
@@ -1223,7 +1323,7 @@ export const BookingDetailPageOwner = () => {
                     display={"flex"}
                     flexDirection={"row"}
                     alignItems={"center"}
-                    gap={"2px"}
+                    gap={"4px"}
                   >
                     <Typography
                       color={theme.palette.text.primary}

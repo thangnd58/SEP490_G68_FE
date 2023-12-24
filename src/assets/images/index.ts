@@ -52,6 +52,7 @@ import Snow from './Snow.jpg'
 import NewBooking from './newOrder.png'
 import motorbikePickup from './motorbikePickup.png'
 import motorbikeDropOff from './motorbikeReturn.png'
+import returnMoney from './salary.png'
 
 export {
     MotorbikeImage,
@@ -107,5 +108,6 @@ export {
     Snow,
     NewBooking,
     motorbikePickup,
-    motorbikeDropOff
+    motorbikeDropOff,
+    returnMoney
 };

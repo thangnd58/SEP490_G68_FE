@@ -698,7 +698,11 @@
       "paymentBookSuccess": "Payment success"
     },
     "haveNewBooking": "You have a new booking",
+    "returnMoney": "You have received a refund from the booking",
+    "returnMoneyFromPromotion": "Money refunded from promotion",
+    "totalReturnMoney": "Total refund amount",
     "depositMoney": "Deposit",
+    "depositMoneyFromCustomer": "Deposit from customer",
     "remainingAmount": "Pay upon receiving the motorbike",
     "toolTipPaid": "Paid",
     "toolTipReport": "Report",

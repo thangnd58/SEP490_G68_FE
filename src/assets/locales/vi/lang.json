@@ -699,7 +699,11 @@
       "paymentBookSuccess": "Thanh toán thành công"
     },
     "haveNewBooking": "Bạn có đơn đặt xe mới",
+    "returnMoney": "Bạn đã được hoàn tiền cọc từ đơn đặt xe",
+    "returnMoneyFromPromotion": "Tiền từ mã giảm giá",
+    "totalReturnMoney": "Tổng tiền hoàn trả",
     "depositMoney": "Tiền cọc",
+    "depositMoneyFromCustomer": "Tiền cọc từ khách hàng",
     "remainingAmount": "Thanh toán khi nhận xe",
     "toolTipPaid": "Đã thanh toán",
     "toolTipReport": "Báo cáo",

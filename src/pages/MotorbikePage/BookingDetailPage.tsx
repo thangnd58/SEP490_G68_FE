@@ -1226,7 +1226,7 @@ export const BookingDetailPage = () => {
                         sx={{ fontSize: "16px", fontWeight: "600" }}
                       >
                         {/* {formatMoneyNew(booking?.couponPrice)} */}
-                        {formatMoneyNew(booking.reducedAmount)}
+                        -{formatMoneyNew(booking.reducedAmount)}
                       </Typography>
                     </Box>
                   )}

@@ -1,4 +1,4 @@
-import { Box, Dialog, DialogContent, DialogTitle, Typography } from "@mui/material"
+import { Box, Dialog, DialogContent, DialogTitle, Divider, Typography } from "@mui/material"
 import React, { useContext, useState, useEffect } from 'react'
 import { ModalContext } from "../../contexts/ModalContext";
 import { Transition } from "../../pages/WalletPage/common/Transition";
@@ -9,7 +9,7 @@ import { getUserNotificationInfo } from "../../redux/reducers/notificationReduce
 import MyIcon from "../../components/common/MyIcon";
 import { CloseOutlined } from "@mui/icons-material";
 import usei18next from "../../hooks/usei18next";
-import { LogoHeader, NewBooking } from "../../assets/images";
+import { LogoHeader, NewBooking, returnMoney } from "../../assets/images";
 import { formatMoneyNew, getPreviousTimeRelative } from "../../utils/helper";
 import useThemePage from "../../hooks/useThemePage";
 import { Link } from "react-router-dom";
@@ -35,6 +35,15 @@ export const DetailNotification = ({ id }: { id: number }) => {
 
     useEffect(() => {
         if (notify?.title === "Có đơn đặt xe mới") {
+            // split url to get booking id
+            const url = notify?.referenceURL;
+            const bookingId = url?.split("/")[url?.split("/").length - 1];
+            BookingService.getRentalBookingDetail(bookingId).then((data) => {
+                //@ts-ignore
+                setBooking(data)
+            })
+        }
+        if (notify?.title === "Kết thúc chuyến đi") {
             // split url to get booking id
             const url = notify?.referenceURL;
             const bookingId = url?.split("/")[url?.split("/").length - 1];
@@ -122,6 +131,68 @@ export const DetailNotification = ({ id }: { id: number }) => {
                                 <a href={notify?.referenceURL}><MyCustomButton content={t("favourite.item.view")} /></a>
                             }
                         </Box>
+                    </Dialog>
+                ) : notify?.title === "Kết thúc chuyến đi" ? (
+                    <Dialog
+                        open={true}
+                        onClose={closeModal}
+                        TransitionComponent={Transition}
+                        fullWidth
+                        PaperProps={{ sx: { borderRadius: "16px", padding: '1rem 1.5rem' } }}
+                    >
+                        <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
+                            <img style={{ cursor: 'pointer', }} alt="logo" src={LogoHeader} width={"150px"} />
+                            <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeModal} position='bottom' />
+                        </Box>
+                        <DialogTitle
+                            sx={{
+                                padding: '16px',
+                            }}
+                        >
+                            <Box width={"100%"} sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                                <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: 'center', justifyContent: 'center', gap: '16px' }}>
+                                    <img style={{ cursor: 'pointer', }} alt="logo" src={returnMoney} width={"50px"} />
+                                    <Typography variant="h6" fontWeight={'600'} fontSize={"20px"}>{t("booking.returnMoney")}</Typography>
+                                </Box>
+                                <Typography variant="body1" fontStyle={'italic'} fontSize={'12px'} fontWeight={'400'}>{notify?.createDatetime ? getPreviousTimeRelative(notify?.createDatetime, t) : ""}</Typography>
+                            </Box>
+                        </DialogTitle>
+                        <DialogContent sx={{
+                            margin: '0px 16px',
+                            padding: '16px 0px !important',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: isMobile ? "8px" : '2rem',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderRadius: '16px',
+                            border: '1px solid #E0E0E0',
+                        }}
+                        >
+                            {/* Thông tin đơn hàng */}
+                            <Box display={'flex'} flexDirection={'column'} alignItems={'start'} justifyContent={'center'} gap={'8px'}>
+                                <Typography variant="h6" fontWeight={'400'} fontSize={"14px"}>{t("booking.depositMoneyFromCustomer")}: <span style={{ fontSize: "16px", fontWeight: "600" }}>
+                                    {formatMoneyNew(booking?.deposit! - booking?.feeOfService!)}
+                                </span></Typography>
+                                <Typography variant="h6" fontWeight={'400'} fontSize={"14px"}>{t("booking.totalPriceService")}: <span style={{ fontSize: "16px", fontWeight: "600" }}>
+                                    -{formatMoneyNew((booking?.deposit! - booking?.feeOfService!) / 3)}
+                                </span></Typography>
+                                {
+                                    booking?.promotion &&
+                                    <Typography variant="h6" fontWeight={'400'} fontSize={"14px"}>{t("booking.returnMoneyFromPromotion")}: <span style={{ fontSize: "16px", fontWeight: "600" }}>
+                                        {formatMoneyNew(booking?.reducedAmount!)}
+                                    </span></Typography>
+                                }
+                                {/* Divider */}
+                                <Divider
+                                    sx={{ width: "100%" }}
+                                    variant="fullWidth"
+                                />
+                                <Typography variant="h6" fontWeight={'600'} fontSize={"14px"}>{t("booking.totalReturnMoney")}: <span style={{ fontSize: "16px", fontWeight: "600" }}>
+                                    {formatMoneyNew((booking?.deposit! - booking?.feeOfService!) * 2 / 3 + booking?.reducedAmount!)}
+                                </span></Typography>
+                            </Box>
+                        </DialogContent>
                     </Dialog>
                 ) : (
                     <Dialog
