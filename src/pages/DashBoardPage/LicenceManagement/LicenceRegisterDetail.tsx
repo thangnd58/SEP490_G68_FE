@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Chip,
+  CircularProgress,
   TextField,
   TextareaAutosize,
   Typography,
@@ -57,6 +58,8 @@ const LicenceRegisterDetail = () => {
     },
   });
 
+  const [loading, setLoading] = useState<boolean>(true);
+
   const getLicenseById = async (id: number) => {
     try {
       const response = await LicenceManagementService.getLicenceById(id);
@@ -64,8 +67,9 @@ const LicenceRegisterDetail = () => {
         setLicence(response);
         setImagePreviewUrl(response.licenceImageUrl);
         formik.setFieldValue("statusComment", response.statusComment);
+        setLoading(false);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const changeStatus = async (status: number, statusComment: string) => {
@@ -108,9 +112,11 @@ const LicenceRegisterDetail = () => {
   const { values, handleChange, handleSubmit } = formik;
 
   const [statusDriverLicene, setStatusDriverLicence] = useState<number>(1);
+  const [loadingVerify, setLoadingVerify] = useState<boolean>(false);
 
   const verifyDriverLicenceByFPTAI = async (imageUrl: string) => {
     try {
+      setLoadingVerify(true);
       const imageResponse = await fetch(imageUrl);
       if (!imageResponse.ok) {
         throw new Error("Failed to fetch the image");
@@ -128,7 +134,11 @@ const LicenceRegisterDetail = () => {
       });
       const data = await response.json();
       setStatusDriverLicence(data.errorCode);
-    } catch (error) {}
+
+    } catch (error) { }
+    finally {
+      setLoadingVerify(false);
+    }
   };
 
   return (
@@ -302,46 +312,50 @@ const LicenceRegisterDetail = () => {
             </Table>
           </TableContainer>
           {
-            licence?.status !== 1
-            &&
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "8px",
-                alignItems: "center",
-              }}
-            >
-              <MyCustomButton
-                content={t("dashBoardManager.licenseManager.buttonVerify")}
-                onClick={() =>
-                  verifyDriverLicenceByFPTAI(licence?.licenceImageUrl || "")
+            licence?.status === 1 || loading ? null : (
+
+              <Box
+                display={licence?.status === 1 ? "none" : "flex"}
+                sx={{
+                  flexWrap: "wrap",
+                  gap: "8px",
+                  alignItems: "center",
+                }}
+              >
+                <MyCustomButton
+                  content={t("dashBoardManager.licenseManager.buttonVerify")}
+                  onClick={() =>
+                    verifyDriverLicenceByFPTAI(licence?.licenceImageUrl || "")
+                  }
+                  disabled={statusDriverLicene === 0 || loadingVerify}
+                />
+                {
+                  loadingVerify && <CircularProgress size={24} />
                 }
-              />
-              {statusDriverLicene === 1 ? (
-                <Chip
-                  sx={{ "& .MuiChip-label": { fontSize: "14px" } }}
-                  color="warning"
-                  icon={<WarningAmber />}
-                  label={t("dashBoardManager.licenseManager.statusFPTPending")}
-                />
-              ) : statusDriverLicene === 0 ? (
-                <Chip
-                  sx={{ "& .MuiChip-label": { fontSize: "14px" } }}
-                  color="success"
-                  icon={<CheckCircleOutline />}
-                  label={t("dashBoardManager.licenseManager.statusFPTOk")}
-                />
-              ) : (
-                <Chip
-                  sx={{ "& .MuiChip-label": { fontSize: "14px" } }}
-                  color="error"
-                  icon={<ErrorOutline />}
-                  label={t("dashBoardManager.licenseManager.statusFPTInvalid")}
-                />
-              )}
-            </Box>
-          }
+                {statusDriverLicene === 1 ? (
+                  <Chip
+                    sx={{ "& .MuiChip-label": { fontSize: "14px" } }}
+                    color="warning"
+                    icon={<WarningAmber />}
+                    label={t("dashBoardManager.licenseManager.statusFPTPending")}
+                  />
+                ) : statusDriverLicene === 0 ? (
+                  <Chip
+                    sx={{ "& .MuiChip-label": { fontSize: "14px" } }}
+                    color="success"
+                    icon={<CheckCircleOutline />}
+                    label={t("dashBoardManager.licenseManager.statusFPTOk")}
+                  />
+                ) : (
+                  <Chip
+                    sx={{ "& .MuiChip-label": { fontSize: "14px" } }}
+                    color="error"
+                    icon={<ErrorOutline />}
+                    label={t("dashBoardManager.licenseManager.statusFPTInvalid")}
+                  />
+                )}
+              </Box>
+            )}
           <form onSubmit={handleSubmit}>
             <TextField
               name="statusComment"
@@ -372,7 +386,8 @@ const LicenceRegisterDetail = () => {
                 readOnly: licence?.status === 1,
               }}
             />
-            {licence?.status !== 1 && (
+            {/* Kiểm tra nếu license status khác 1 hoặc đang tải dữ liệu thì không hiện Box */}
+            {licence?.status === 1 || loading ? null : (
               <Box
                 sx={{
                   display: "flex",
@@ -382,15 +397,17 @@ const LicenceRegisterDetail = () => {
                 }}
               >
                 <MyCustomButton
+                  disabled={statusDriverLicene != 0}
                   type="submit"
                   borderRadius={8}
                   fontSize={16}
                   fontWeight={500}
-                  variant="outlined"
+                  variant={statusDriverLicene == 0 ? "outlined" : "text"}
                   content={t("licenseInfo.BtnReject")}
                   onClick={() => setStatusChange(2)}
                 />
                 <MyCustomButton
+                  disabled={statusDriverLicene != 0}
                   type="submit"
                   borderRadius={8}
                   fontSize={16}

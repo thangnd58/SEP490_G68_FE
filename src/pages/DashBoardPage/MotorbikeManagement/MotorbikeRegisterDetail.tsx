@@ -43,6 +43,7 @@ const MotorbikeRegisterDetail = () => {
         handleSubmit,
     } = formik;
 
+    const [loading, setLoading] = useState<boolean>(true)
     const getMotobikeById = async (id: number) => {
         try {
             const response = await MotorbikeManagementService.getMotorbikesById(id);
@@ -52,6 +53,9 @@ const MotorbikeRegisterDetail = () => {
             }
         } catch (error) {
 
+        }
+        finally {
+            setLoading(false)
         }
     }
 
@@ -249,7 +253,7 @@ const MotorbikeRegisterDetail = () => {
                         />
                         {
                             motorbike?.status !== "Approved" && motorbike?.status !== "CurrentlyRenting"
-                            &&
+                            && loading == false &&
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: "16px", mt: "16px" }}>
                                 <MyCustomButton
                                     type="submit"

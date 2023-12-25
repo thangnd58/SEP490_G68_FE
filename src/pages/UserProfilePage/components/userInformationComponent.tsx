@@ -79,7 +79,7 @@ const UserInformationComponent: FunctionComponent<ChildComponentProps> = ({ setT
       dob: Yup.date().required(t('form.required')).max(new Date(), t('form.validateDOB')),
     }),
     onSubmit: values => {
-      changeLisence(values.licenceNumber, values.fullName, values.dob, values.licenceImage);
+      changeLisence(values.licenceNumber, values.fullName.toUpperCase(), values.dob, values.licenceImage);
     },
   });
 
