@@ -40,7 +40,7 @@ export default function RevenueDetail() {
       setMoneyFlow(
         data.filter(
           (d) =>
-            d.moneyIn !== null &&
+            (d.moneyIn !== null || d.moneyOut !== null) && 
             (d.description !== MoneyFlowType.ToWithdraw && d.description !== MoneyFlowType.ToDeposite && d.description !== MoneyFlowType.ToPayDepositWithVNPay)
         )
       );

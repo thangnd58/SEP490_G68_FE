@@ -112,8 +112,7 @@ export const DashboardManagement = () => {
         )}    ${t("dashBoardManager.dashboard.totalMoneyOut")}: ${formatMoney(
           moneyFlow.filter(d => d.description === MoneyFlowType.ToWithdraw).reduce((total, m) => total + m.moneyOut, 0)
         )}    ${t("dashBoardManager.dashboard.income")}: ${formatMoney(
-          moneyFlow.reduce((total, m) => total + m.moneyIn, 0) -
-            moneyFlow.filter(d => d.description !== MoneyFlowType.ToWithdraw && d.description !== MoneyFlowType.ToDeposite && d.description !== MoneyFlowType.ToPayDepositWithVNPay).reduce((total, m) => total + m.moneyOut, 0)
+            moneyFlow.filter(d => d.description !== MoneyFlowType.ToWithdraw && d.description !== MoneyFlowType.ToDeposite && d.description !== MoneyFlowType.ToPayDepositWithVNPay).reduce((total, m) => total + m.moneyOut + m.moneyIn, 0)
         )}`,
         font: {
           size: 18,
