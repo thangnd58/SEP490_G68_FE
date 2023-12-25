@@ -25,6 +25,7 @@ export const LoginModal = (props: { isOpenLoginModal: boolean, setIsOpenLoginMod
             TransitionComponent={Transition}
             sx={{
                 width: '100%',
+                zIndex: 9999
             }}
             PaperProps={{
                 sx: {
