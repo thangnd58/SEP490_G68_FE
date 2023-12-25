@@ -61,7 +61,7 @@ export default function RevenueDetail() {
       money.description === MoneyFlowType.ToPayServiceFeeWithVNPay ||
       money.description === MoneyFlowType.ToPayDepositWithWallet) {
         return `+ ${formatMoney(money.moneyOut || 0)}`
-    } else {
+    } else  {
       return `- ${formatMoney(money.moneyOut || 0)}`
     }
   }

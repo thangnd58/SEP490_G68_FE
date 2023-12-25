@@ -100,7 +100,9 @@ export const DashboardManagement = () => {
         m.description === MoneyFlowType.ToPayServiceFeeWithVNPay ||
         m.description === MoneyFlowType.ToPayDepositWithWallet) {
         revenue += m.moneyOut
-      } else {
+      }
+      if (m.description === MoneyFlowType.ToPayDepositForMotorbikeOwner ||
+        m.description === MoneyFlowType.ToPayReduceAmountForMotorbikeOwner) {
         revenue -= m.moneyOut
       }
     })
