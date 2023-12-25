@@ -709,7 +709,9 @@ export const BookingDetailPageOwner = () => {
                     </Box>
                   </Box>
                   {
-                    location !== locationReturn && booking.status === BookingStatus.Delivered && (
+                    (location.lat !== locationReturn.lat ||
+                      location.lng !== locationReturn.lng)
+                    && booking.returnStatus === "Approved" && (
                       <Box display={"flex"} gap={"16px"}>
                         <img
                           src={CalendarImage}

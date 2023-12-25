@@ -770,7 +770,9 @@ export const BookingDetailPage = () => {
                     </Box>
                   </Box>
                   {
-                    location !== locationReturn && booking.status === BookingStatus.Delivered &&
+                    (location.lat !== locationReturn.lat ||
+                      location.lng !== locationReturn.lng)
+                    && booking.returnStatus === "Approved" && 
                     <Box display={"flex"} gap={"16px"}>
                       <img
                         src={CalendarImage}
@@ -792,7 +794,13 @@ export const BookingDetailPage = () => {
                         </Typography>
                         <Typography
                           fontSize={isMobile ? 14 : 16}
-                          color={theme.palette.text.primary}
+                          color={
+                            booking.returnStatus === "Approved"
+                              ? "success.main"
+                              : booking.returnStatus === "Processing"
+                                ? "warning.main"
+                                : "error.main"
+                          }
                         >
                           {dayjs(booking?.returnDatetime).format(
                             "DD-MM-YYYY HH:mm"
