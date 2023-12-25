@@ -41,9 +41,7 @@ export default function TotalMoneyOutDetail() {
         data.filter(
           (d) =>
             d.moneyOut !== null &&
-            (d.description === MoneyFlowType.ToWithdraw ||
-              d.description === MoneyFlowType.RefundWhenCancelBooking ||
-              d.description === MoneyFlowType.ToPayDepositForMotorbikeOwner)
+            (d.description === MoneyFlowType.ToWithdraw)
         )
       );
     });

@@ -41,8 +41,7 @@ export default function RevenueDetail() {
         data.filter(
           (d) =>
             d.moneyIn !== null &&
-            (d.description === MoneyFlowType.BookingPaymentByUserBalance ||
-              d.description === MoneyFlowType.BookingPaymentByVNPay)
+            (d.description !== MoneyFlowType.ToWithdraw && d.description !== MoneyFlowType.ToDeposite && d.description !== MoneyFlowType.ToPayDepositWithVNPay)
         )
       );
     });

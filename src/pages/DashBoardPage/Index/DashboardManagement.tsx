@@ -23,7 +23,7 @@ import * as Yup from "yup";
 import { formatMoney, formatMoneyNew } from "../../../utils/helper";
 import MyCustomButton from "../../../components/common/MyButton";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../../utils/Constant";
+import { MoneyFlowType, ROUTES } from "../../../utils/Constant";
 
 ChartJS.register(
   CategoryScale,
@@ -108,12 +108,12 @@ export const DashboardManagement = () => {
       subtitle: {
         display: true,
         text: `${t("dashBoardManager.dashboard.totalMoneyIn")}: ${formatMoney(
-          moneyFlow.reduce((total, m) => total + m.moneyIn, 0)
+          moneyFlow.filter(d => d.description === MoneyFlowType.ToDeposite || d.description === MoneyFlowType.ToPayDepositWithVNPay).reduce((total, m) => total + m.moneyIn, 0)
         )}    ${t("dashBoardManager.dashboard.totalMoneyOut")}: ${formatMoney(
-          moneyFlow.reduce((total, m) => total + m.moneyOut, 0)
+          moneyFlow.filter(d => d.description === MoneyFlowType.ToWithdraw).reduce((total, m) => total + m.moneyOut, 0)
         )}    ${t("dashBoardManager.dashboard.income")}: ${formatMoney(
           moneyFlow.reduce((total, m) => total + m.moneyIn, 0) -
-            moneyFlow.reduce((total, m) => total + m.moneyOut, 0)
+            moneyFlow.filter(d => d.description !== MoneyFlowType.ToWithdraw && d.description !== MoneyFlowType.ToDeposite && d.description !== MoneyFlowType.ToPayDepositWithVNPay).reduce((total, m) => total + m.moneyOut, 0)
         )}`,
         font: {
           size: 18,

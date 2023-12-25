@@ -42,10 +42,7 @@ export default function TotalMoneyInDetail() {
           (d) =>
             d.moneyIn !== null &&
             (d.description === MoneyFlowType.ToDeposite ||
-              d.description === MoneyFlowType.ToPayDepositWithVNPay ||
-              d.description === MoneyFlowType.ToPayDepositWithWallet ||
-              d.description === MoneyFlowType.ToPayServiceFeeWithVNPay ||
-              d.description === MoneyFlowType.ToPayServiceFeeWithWallet)
+              d.description === MoneyFlowType.ToPayDepositWithVNPay)
         )
       );
     });
