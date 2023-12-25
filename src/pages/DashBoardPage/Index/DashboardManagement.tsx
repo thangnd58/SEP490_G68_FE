@@ -212,7 +212,7 @@ export const DashboardManagement = () => {
   }, []);
 
   return (
-    <Box height={"700px"}>
+    <Box>
       <Box sx={{ backgroundColor: "#8B4513" }}>
         <Typography
           color={theme.palette.common.white}
