@@ -44,6 +44,7 @@ export const PromotionModal = (props: { isModalPromotionOpen: boolean, setModalP
                 overflowY: 'auto',
                 margin: "64px 0px",
                 borderRadius: '8px',
+                zIndex: 9999
             }}
         >
             <Box width={isMobile ? "90%" : "40%"} height={"auto"} sx={{

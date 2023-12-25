@@ -7,7 +7,7 @@ function UserProfilePage() {
   return (
     <Box>
       <CssBaseline />
-      <Paper elevation={2} style={{ margin: '32px auto', width: isMobile ? "90%" : "60%", borderRadius: "8px" }}>
+      <Paper elevation={2} style={{ margin: '32px auto', width: isMobile ? "90%" : "60%", borderRadius: "8px"}}>
         <UserProfileComponent />
       </Paper>
     </Box>

@@ -338,6 +338,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
           justifyContent: 'center',
           margin: isMobile ? "8px 0px" : '32px 0px',
           overflowY: 'auto',
+          zIndex: 9998
         }}>
         <Box width={isMobile ? "95%" : "90%"} height={"auto"}
           sx={{
@@ -360,7 +361,6 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
             padding={isMobile ? "16px" :"32px"}
             position={"sticky"}
             top={0}
-            zIndex={1000}
           >
             <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "24px" : "32px"} fontWeight={600} textAlign={"start"}>
               {t("postMotorbike.listform.motorbikeInfo")}

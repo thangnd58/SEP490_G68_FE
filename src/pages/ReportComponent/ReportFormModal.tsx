@@ -94,9 +94,15 @@ export const ReportFormModal = (props: {
 
   useEffect(() => {
     if (type === ReportType.Booking) {
-      setFieldValue(
-        "categoryDetail", `${motorbike?.model.brand.brandName} ${motorbike?.model.modelName}`
-      );
+      try{
+        setFieldValue(
+          "categoryDetail", `${motorbike?.model.brand.brandName} ${motorbike?.model.modelName}`
+        );
+      } catch(error){
+        setFieldValue(
+          "categoryDetail", ``
+        );
+      }
       setFieldValue("subDetail", `<a href="https://wandro.io.vn/manage-booking/${bookingId}" target="_blank">[bookingId: ${bookingId}, motorbikeId: ${motorbike?.id}]:</a>`)
     } else if (type === ReportType.Feedback) {
       setFieldValue("categoryDetail", `${feedback?.comment}`);
@@ -213,7 +219,7 @@ export const ReportFormModal = (props: {
             <ErrorMessage message={errors.categoryId} />
           )}
           {
-            type !== ReportType.Money
+            type !== ReportType.Money && values.categoryDetail !== ""
             && 
             <TextField
             sx={{
@@ -232,7 +238,6 @@ export const ReportFormModal = (props: {
             }}
             name="categoryDetail"
             value={values.categoryDetail}
-            placeholder={t("report.detailReport")}
             InputProps={{
               readOnly: true
             }}

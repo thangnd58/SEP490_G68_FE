@@ -72,6 +72,9 @@ export default function UserInforModal(props: { userId: number, isOpened?: boole
                         maxWidth: isMobile ? '95%' : '75%',
                     }
                 }}
+                sx={{
+                    zIndex: 9998
+                }}
             >
                 <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
                     <img style={{ cursor: 'pointer', }} alt="logo" src={LogoHeader} width={"150px"} />
