@@ -214,7 +214,23 @@ export default function UserInforModal(props: { userId: number, isOpened?: boole
                                 >
                                     {
                                         feedback.map((item: Feedback) => (
-                                            <CommentItem replyComment='' isMobile={isMobile} rating={item.rating} avatar={item.user.avatarUrl} name={item.user.name} comment={item.comment} dateComment={item.createDatetime} />
+                                            <CommentItem 
+                                            replyComment={
+                                                item.response
+                                                  ? item.response.comment
+                                                  : ""
+                                              }
+                                            dateReplyComment={
+                                                item.response
+                                                  ? item.response.createDatetime
+                                                  : ""
+                                              }
+                                            isMobile={isMobile} 
+                                            rating={item.rating} 
+                                            avatar={item.user.avatarUrl} 
+                                            name={item.user.name} 
+                                            comment={item.comment}  
+                                            dateComment={item.createDatetime} />
                                         ))
                                     }
                                 </Box>
@@ -233,7 +249,7 @@ export default function UserInforModal(props: { userId: number, isOpened?: boole
                                         <Typography textAlign={'start'} fontWeight={'600'} fontSize={'20px'}>Đánh giá</Typography>
                                         <Box display={"flex"} flexDirection={"row"} justifyContent={"center"} alignItems={"center"} gap={'4px'}>
                                             <Typography textAlign={'start'} fontWeight={'500'} fontSize={'16px'}>
-                                                Chưa có đánh giá
+                                                {t("feedback.nonComment")}
                                             </Typography>
                                         </Box>
                                     </Box>
