@@ -27,7 +27,7 @@ export default function RevenueDetail() {
       startDate: sevenDaysBefore.format("YYYY-MM-DD"),
       endDate: today.format("YYYY-MM-DD"),
     },
-    onSubmit: async (values, actions) => {},
+    onSubmit: async (values, actions) => { },
   });
   const { values, setFieldValue } = formik;
   const [getAllData, setGetAllData] = useState<boolean>(false);
@@ -40,12 +40,32 @@ export default function RevenueDetail() {
       setMoneyFlow(
         data.filter(
           (d) =>
-            (d.moneyIn !== null || d.moneyOut !== null) && 
-            (d.description !== MoneyFlowType.ToWithdraw && d.description !== MoneyFlowType.ToDeposite && d.description !== MoneyFlowType.ToPayDepositWithVNPay)
+            (d.moneyIn !== null || d.moneyOut !== null) &&
+            (
+              d.description === MoneyFlowType.ToPayDepositWithWallet ||
+              d.description === MoneyFlowType.ToPayDepositWithVNPay ||
+              d.description === MoneyFlowType.ToPayServiceFeeWithVNPay ||
+              d.description === MoneyFlowType.ToPayDepositWithWallet ||
+              d.description === MoneyFlowType.ToPayDepositForMotorbikeOwner ||
+              d.description === MoneyFlowType.ToPayReduceAmountForMotorbikeOwner
+            )
         )
       );
     });
   }, [values.endDate, values.startDate, getAllData]);
+
+  const caculateMoneyCell = (id: number) => {
+    const money: any = moneyFlow.find(m => m.id === id);
+    if (money.description === MoneyFlowType.ToPayDepositWithWallet ||
+      money.description === MoneyFlowType.ToPayDepositWithVNPay ||
+      money.description === MoneyFlowType.ToPayServiceFeeWithVNPay ||
+      money.description === MoneyFlowType.ToPayDepositWithWallet) {
+        return `+ ${formatMoney(money.moneyOut || 0)}`
+    } else {
+      return `- ${formatMoney(money.moneyOut || 0)}`
+    }
+  }
+
   const columnsDeposite = [
     {
       field: "id",
@@ -62,11 +82,12 @@ export default function RevenueDetail() {
       ),
     },
     {
-      field: "moneyIn",
+      field: "amount",
       headerName: t("wallet.title_amount"),
       flex: 1,
+      valueGetter: ({ row }: any) => row.id,
       renderCell: (params: any) => (
-        <Box>+ {formatMoney(params.value || 0)}</Box>
+        <Box>{caculateMoneyCell(params.value)}</Box>
       ),
     },
     {

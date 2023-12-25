@@ -27,7 +27,7 @@ export default function TotalMoneyInDetail() {
       startDate: sevenDaysBefore.format("YYYY-MM-DD"),
       endDate: today.format("YYYY-MM-DD"),
     },
-    onSubmit: async (values, actions) => {},
+    onSubmit: async (values, actions) => { },
   });
   const { values, setFieldValue } = formik;
   const [getAllData, setGetAllData] = useState<boolean>(false);
@@ -42,7 +42,8 @@ export default function TotalMoneyInDetail() {
           (d) =>
             d.moneyIn !== null &&
             (d.description === MoneyFlowType.ToDeposite ||
-              d.description === MoneyFlowType.ToPayDepositWithVNPay)
+              d.description === MoneyFlowType.ToPayDepositWithVNPay ||
+              d.description === MoneyFlowType.ToPayServiceFeeWithVNPay)
         )
       );
     });
