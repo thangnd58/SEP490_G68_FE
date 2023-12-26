@@ -1260,7 +1260,7 @@ export const BookingDetailPageOwner = () => {
                     color={theme.palette.text.primary}
                     sx={{ fontSize: "16px", fontWeight: "600" }}
                   >
-                    {formatMoneyNew(booking?.totalAmount-booking?.feeOfService)}
+                    {formatMoneyNew(booking?.totalAmount - booking?.feeOfService)}
                   </Typography>
                 </Box>
 
@@ -1308,7 +1308,7 @@ export const BookingDetailPageOwner = () => {
                           : "none",
                     }}
                   >
-                    {formatMoneyNew(booking?.deposit-booking?.feeOfService)}
+                    {formatMoneyNew(booking?.deposit - booking?.feeOfService)}
                   </Typography>
                 </Box>
 
@@ -1359,7 +1359,7 @@ export const BookingDetailPageOwner = () => {
                           : "none",
                     }}
                   >
-                    {formatMoneyNew(booking?.totalAmount - booking?.deposit-booking?.feeOfService)}
+                    {formatMoneyNew(booking?.totalAmount - booking?.deposit)}
                   </Typography>
                 </Box>
 

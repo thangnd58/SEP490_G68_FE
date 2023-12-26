@@ -284,7 +284,7 @@ export default function MotorbikeInforCard(props: { motorbike: Motorbike, isFavo
                     <Box>
                         <Tooltip
                             placement="bottom"
-                            title={"HONDA WAVE ALPHA HONDA WAVE ALPHA"}
+                            title={props.motorbike.model ? props.motorbike.model.brand.brandName + " " + props.motorbike.model.modelName : props.motorbike.brandName + " " + props.motorbike.modelName}
                         >
                             <Typography
                                 textOverflow="ellipsis"
