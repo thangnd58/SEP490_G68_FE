@@ -47,7 +47,8 @@ export default function RevenueDetail() {
               d.description === MoneyFlowType.ToPayServiceFeeWithVNPay ||
               d.description === MoneyFlowType.ToPayDepositWithWallet ||
               d.description === MoneyFlowType.ToPayDepositForMotorbikeOwner ||
-              d.description === MoneyFlowType.ToPayReduceAmountForMotorbikeOwner
+              d.description === MoneyFlowType.ToPayReduceAmountForMotorbikeOwner ||
+              d.description === MoneyFlowType.ToPayFeeOfWithdraw
             )
         )
       );
@@ -59,9 +60,9 @@ export default function RevenueDetail() {
     if (money.description === MoneyFlowType.ToPayDepositWithWallet ||
       money.description === MoneyFlowType.ToPayDepositWithVNPay ||
       money.description === MoneyFlowType.ToPayServiceFeeWithVNPay ||
-      money.description === MoneyFlowType.ToPayDepositWithWallet) {
-        return `+ ${formatMoney(money.moneyOut || 0)}`
-    } else  {
+      money.description === MoneyFlowType.ToPayDepositWithWallet || money.description === MoneyFlowType.ToPayFeeOfWithdraw) {
+      return `+ ${formatMoney((money.moneyOut === null ? money.moneyIn : money.moneyOut) || 0)}`
+    } else {
       return `- ${formatMoney(money.moneyOut || 0)}`
     }
   }

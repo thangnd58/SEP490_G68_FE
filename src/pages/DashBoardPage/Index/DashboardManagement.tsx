@@ -98,8 +98,10 @@ export const DashboardManagement = () => {
       if (m.description === MoneyFlowType.ToPayDepositWithWallet ||
         m.description === MoneyFlowType.ToPayDepositWithVNPay ||
         m.description === MoneyFlowType.ToPayServiceFeeWithVNPay ||
-        m.description === MoneyFlowType.ToPayDepositWithWallet) {
-        revenue += m.moneyOut
+        m.description === MoneyFlowType.ToPayDepositWithWallet ||
+        m.description === MoneyFlowType.ToPayFeeOfWithdraw 
+        ) {
+        revenue += (m.moneyOut + m.moneyIn)
       }
       if (m.description === MoneyFlowType.ToPayDepositForMotorbikeOwner ||
         m.description === MoneyFlowType.ToPayReduceAmountForMotorbikeOwner) {
