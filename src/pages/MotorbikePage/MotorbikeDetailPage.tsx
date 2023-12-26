@@ -206,7 +206,7 @@ export default function MotorbikeDetailPage() {
         setFieldValue("couponCode", "")
       }
     })
-  }, [motorbikeId, values.address, values.startDate, values.endDate, values.couponCode])
+  }, [motorbikeId, values.address, values.startDate, values.endDate, values.couponCode, user])
 
   // MAP CONTROLLER
   const { isLoaded } = useLoadScript({
@@ -731,19 +731,15 @@ export default function MotorbikeDetailPage() {
                     <Divider sx={{ margin: "16px 0px", width: "100%" }} variant="fullWidth" />
 
                     {/* Button */}
-                    {
+                    {UserService.isLoggedIn() ?
                       <>
                         <MyCustomButton disabled={isProcessingBooking}
                           width='100%' onClick={() => {
-                            if (!UserService.isLoggedIn()) {
-                              setIsOpenLoginModal(true)
-                            } else {
-                              if (user?.role.roleName === "Customer") {
-                                setModalConfirmBookingOpen(true)
-                              }
-                              else {
-                                ToastComponent(t("booking.notHavePermission"), "warning")
-                              }
+                            if (user?.role.roleName === "Customer") {
+                              setModalConfirmBookingOpen(true)
+                            }
+                            else {
+                              ToastComponent(t("booking.notHavePermission"), "warning")
                             }
                           }} content={t("booking.bookMotorbikeButton")} variant='contained' />
                         {
@@ -752,6 +748,13 @@ export default function MotorbikeDetailPage() {
                         {
                           (user?.licence?.status !== 1 || user?.licence === null) && <ErrorMessage message={t("booking.notHaveLicense")} />
                         }
+                      </>
+                      :
+                      <>
+                        <MyCustomButton
+                          width='100%' onClick={() => {
+                            setIsOpenLoginModal(true)
+                          }} content={t("booking.bookMotorbikeButton")} variant='contained' />
                       </>
                     }
                   </Box>
