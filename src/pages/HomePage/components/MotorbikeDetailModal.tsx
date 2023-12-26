@@ -361,7 +361,7 @@ export default function MotorbikeDetailModal(props: { motorbikeId: string | unde
             padding={isMobile ? "16px" : "32px"}
             position={"sticky"}
             top={0}
-            zIndex={9999}
+            zIndex={9998}
           >
             <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "24px" : "32px"} fontWeight={600} textAlign={"start"}>
               {t("postMotorbike.listform.motorbikeInfo")}
