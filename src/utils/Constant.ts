@@ -130,7 +130,8 @@ export const MoneyFlowType = {
   ToPayServiceFeeWithVNPay: "ToPayServiceFeeWithVNPay",
   ToPayServiceFeeWithWallet: "ToPayServiceFeeWithWallet",
   ToWithdraw: "ToWithdraw",
-  ToPayReduceAmountForMotorbikeOwner: "ToPayReduceAmountForMotorbikeOwner"
+  ToPayReduceAmountForMotorbikeOwner: "ToPayReduceAmountForMotorbikeOwner",
+  ToPayFeeOfWithdraw:"ToPayFeeOfWithdraw"
 };
 
 export const ReportType = {
