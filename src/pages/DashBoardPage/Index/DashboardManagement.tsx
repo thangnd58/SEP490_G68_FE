@@ -23,7 +23,7 @@ import * as Yup from "yup";
 import { formatMoney, formatMoneyNew } from "../../../utils/helper";
 import MyCustomButton from "../../../components/common/MyButton";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../../utils/Constant";
+import { MoneyFlowType, ROUTES } from "../../../utils/Constant";
 
 ChartJS.register(
   CategoryScale,
@@ -92,29 +92,43 @@ export const DashboardManagement = () => {
     ],
   };
 
+  const caculateRevenue = () => {
+    let revenue = 0;
+    moneyFlow.map((m) => {
+      if (m.description === MoneyFlowType.ToPayDepositWithWallet ||
+        m.description === MoneyFlowType.ToPayDepositWithVNPay ||
+        m.description === MoneyFlowType.ToPayServiceFeeWithVNPay ||
+        m.description === MoneyFlowType.ToPayDepositWithWallet) {
+        revenue += m.moneyOut
+      }
+      if (m.description === MoneyFlowType.ToPayDepositForMotorbikeOwner ||
+        m.description === MoneyFlowType.ToPayReduceAmountForMotorbikeOwner) {
+        revenue -= m.moneyOut
+      }
+    })
+    return formatMoney(revenue);
+  }
+
   const chartOptions: any = {
     plugins: {
-      title: {
-        display: true,
-        text: `${t("dashBoardManager.dashboard.totalMoney")}: ${formatMoney(
-          moneyFlow.reduce((total, m) => total + m.moneyIn, 0) +
-            moneyFlow.reduce((total, m) => total + m.moneyOut, 0)
-        )}`,
-        font: {
-          size: 24,
-          weight: "bold",
-        },
-      },
+      // title: {
+      //   display: true,
+      //   // text: `${t("dashBoardManager.dashboard.totalMoney")}: ${formatMoney(
+      //   //   moneyFlow.reduce((total, m) => total + m.moneyIn, 0) +
+      //   //   moneyFlow.reduce((total, m) => total + m.moneyOut, 0)
+      //   // )}`,
+      //   font: {
+      //     size: 24,
+      //     weight: "bold",
+      //   },
+      // },
       subtitle: {
         display: true,
         text: `${t("dashBoardManager.dashboard.totalMoneyIn")}: ${formatMoney(
-          moneyFlow.reduce((total, m) => total + m.moneyIn, 0)
+          moneyFlow.filter(d => d.description === MoneyFlowType.ToDeposite || d.description === MoneyFlowType.ToPayDepositWithVNPay || d.description === MoneyFlowType.ToPayServiceFeeWithVNPay).reduce((total, m) => total + m.moneyIn, 0)
         )}    ${t("dashBoardManager.dashboard.totalMoneyOut")}: ${formatMoney(
-          moneyFlow.reduce((total, m) => total + m.moneyOut, 0)
-        )}    ${t("dashBoardManager.dashboard.income")}: ${formatMoney(
-          moneyFlow.reduce((total, m) => total + m.moneyIn, 0) -
-            moneyFlow.reduce((total, m) => total + m.moneyOut, 0)
-        )}`,
+          moneyFlow.filter(d => d.description === MoneyFlowType.ToWithdraw).reduce((total, m) => total + m.moneyOut, 0)
+        )}    ${t("dashBoardManager.dashboard.income")}: ${caculateRevenue()}`,
         font: {
           size: 18,
           weight: "normal",
@@ -180,7 +194,7 @@ export const DashboardManagement = () => {
       ),
     }),
 
-    onSubmit: async (values, actions) => {},
+    onSubmit: async (values, actions) => { },
   });
 
   const { values, setFieldValue } = formik;

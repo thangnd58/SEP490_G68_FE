@@ -39,7 +39,10 @@ const WithdrawalRequestManagement = () => {
 
     const columns = [
         {
-            field: 'nameInBank', headerName: t("dashBoardManager.withdrawalRequest.columnAccountName"), width: 200
+            field: 'nameInBank', headerName: t("dashBoardManager.withdrawalRequest.columnAccountName"), width: 200,
+            renderCell: (params: any) => {
+                return params.value.toUpperCase()
+            }
         },
         {
             field: 'bankNumber', headerName: t("dashBoardManager.withdrawalRequest.columnAccountNumber"), width: 200
