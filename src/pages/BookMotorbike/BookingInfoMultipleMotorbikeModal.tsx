@@ -168,6 +168,12 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
     }
     BookingService.getPreviewBooking(bookingPreview).then((data) => {
       setPreviewBookingData(data)
+      if (data.motorbikes.filter((m) => m.status === "Available").length > 0) {
+        data.motorbikes.filter((m) => m.status === "Available").map((m1) => {
+          ToastComponent(isVn ? m1.statusComment.vi : m1.statusComment.en, "warning")
+        })
+        setIsProcessingBooking(false)
+      }
       if (data.motorbikes.filter((m) => m.status === "NotAvailable").length > 0) {
         data.motorbikes.filter((m) => m.status === "NotAvailable").map((m1) => {
           ToastComponent(isVn ? m1.statusComment.vi : m1.statusComment.en, "warning")
@@ -289,7 +295,7 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
             zIndex={1000}
           >
             <Typography variant='h2' color={theme.palette.text.primary} fontSize={isMobile ? "24px" : "32px"} fontWeight={600} textAlign={"start"}>
-            {t("booking.confirmInforBookshort")}
+              {t("booking.confirmInforBookshort")}
             </Typography>
             <Box height={"10%"} display={"flex"} flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"}>
               <MyIcon icon={<CloseOutlined />} hasTooltip tooltipText={t("postMotorbike.registedForm.badge-close")} onClick={closeModal} position='bottom' />
