@@ -834,14 +834,14 @@ export const BookingInfoMultipleMotorbikeModal = (props: { motorbikes: Motorbike
                         flexDirection={"row"}
                         margin={"8px auto"}
                       >
-                        <IconButton
+                        {/* <IconButton
                           size="small"
                           color="primary"
                           onClick={handleGetLocationClick}
                         >
                           <MyLocation />
                         </IconButton>
-                        <Typography variant="caption" fontSize={"12px"} color={theme.palette.text.secondary}>{"Lấy vị trí mặc định của xe"}</Typography>
+                        <Typography variant="caption" fontSize={"12px"} color={theme.palette.text.secondary}>{"Lấy vị trí mặc định của xe"}</Typography> */}
                       </Box>
 
                       <Box
